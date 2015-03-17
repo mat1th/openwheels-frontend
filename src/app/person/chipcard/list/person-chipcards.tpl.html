@@ -1,0 +1,29 @@
+<div class="card">
+  <div class="card-heading">
+    <h2 class="card-title">
+      {{ 'MY_CHIPCARDS' | translate }} ({{ chipcards.length }})
+    </h2>
+  </div>
+
+  <div class="card-body">
+    <div class="alert alert-warning" ng-show="!chipcards.length">
+      {{ 'PERSON.CHIPCARD.LIST.NO_ITEMS' | translate }}
+    </div>
+
+    <ul class="list-group" ng-show="chipcards.length">
+      <li class="list-group-item" ng-repeat="chipcard in chipcards">
+
+        <div class="pull-right">
+          <button class="btn btn-primary" ng-click="editChipcard(chipcard)">{{ 'PERSON.CHIPCARD.LIST.EDIT_BUTTON' | translate }}</button>
+          <button class="btn btn-default" ng-click="blockChipcard(chipcard)">{{ 'PERSON.CHIPCARD.LIST.BLOCK_BUTTON' | translate }}</button>
+        </div>
+        <div>
+          <h4>{{ chipcard.description }}&nbsp;</h4>
+          {{ 'CHIPCARD.PROP.ID' | translate }}: {{ chipcard.mifareUid }}
+          <input type="checkbox" ng-disabled="true" ng-checked="chipcard.isOvfietsEnabled" /> {{ 'CHIPCARD.PROP.OVFIETS' | translate }}
+        </div>
+      </li>
+    </ul>
+
+  </div>
+</div>

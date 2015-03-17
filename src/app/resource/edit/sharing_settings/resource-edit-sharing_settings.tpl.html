@@ -1,0 +1,171 @@
+<div ng-controller="ResourceEditSharingSettingsController">
+
+  <form name="editResourceForm" ng-submit="save(resource)">
+
+    <div class="form-group" id="resource_advertisement">
+      <label for="advertisement">{{ 'ADVERTISEMENT' | translate }}
+        <info-icon tooltip-html="'INFO_RESOURCE_ADVERTISEMENT' | translate"></info-icon>
+      </label>
+      <textarea rows="3" id="advertisement" name="advertisement" class="form-control" ng-model="resource.advertisement"></textarea>
+    </div>
+
+    <div class="form-group" id="resource_notes">
+      <label for="notes">{{ 'NOTES' | translate }}
+        <info-icon tooltip-html="'INFO_RESOURCE_NOTES' | translate"></info-icon>
+      </label>
+      <textarea rows="3" id="notes" name="notes" class="form-control" ng-model="resource.notes"></textarea>
+    </div>
+
+    <div class="form-group" id="resource_usageMnual">
+      <label for="usageManual">{{ 'USAGE_MANUAL' | translate }}
+        <info-icon tooltip-html="'INFO_RESOURCE_USAGE_MANUAL' | translate"></info-icon>
+      </label>
+      <textarea rows="3" id="usageManual" name="usageManual" class="form-control" ng-model="resource.usageManual"></textarea>
+    </div>
+
+    <div class="form-group" id="resource_roadAssistance">
+      <label for="roadAssistance">{{ 'ROAD_ASSISTANCE' | translate }}
+        <info-icon tooltip-html="'INFO_RESOURCE_ROAD_ASSISTENCE' | translate"></info-icon>
+      </label>
+      <textarea rows="3" id="roadAssistance" name="roadAssistance" class="form-control" ng-model="resource.roadAssistance"></textarea>
+    </div>
+
+    <div form-group label="Toegestaan gebied" id="resource_allowed_area">
+      <select id="allowedArea" name="allowedArea" class="form-control" ng-model="resource.allowedArea" null-if-empty
+              ng-options="o.value as o.label for o in allowedAreaOptions">
+      </select>
+    </div>
+
+    <div form-group label="Minimum leeftijd bestuurder" id="resource_minimum_age">
+      <select id="minumumAge" name="minimumAge" class="form-control" ng-model="resource.minimumAge" null-if-empty
+              ng-options="o.value as o.label for o in minimumAgeOptions">
+      </select>
+    </div>
+
+    <hr>
+
+    <!-- NOTE: MAY BE HIDDEN IN BRANDING CSS -->
+    <div id="insurance">
+
+      <h3>{{'INSURANCE' | translate }}</h3>
+
+      <div form-group label="{{ 'INSURANCE_POLICY' | translate }}" id="resource_insurancePolicy">
+        <select id="insurancePolicy" name="insurancePolicy" class="form-control" ng-model="resource.insurancePolicy"
+                ng-options="o.value as o.label for o in insurancePolicyOptions" ng-disabled="true">
+        </select>
+      </div>
+
+      <div form-group label="{{ 'KNOWN_DAMAGE' | translate }}" id="resource_knownDamage">
+        <textarea rows="3" id="knownDamage" name="knownDamage" class="form-control" ng-model="resource.knownDamage"></textarea>
+      </div>
+
+      <hr>
+    </div>
+
+    <div id="availability">
+      <h3>{{ 'AVAILABILITY' | translate }}</h3>
+      <div class="checkbox" id="resource_isActive" ng-if="resource.isActive === false">
+        <label>
+          <input type="checkbox" name="isActive" ng-model="resource.isActive" disabled> {{ 'RESOURCE_ACTIVE' | translate }}
+        </label>
+      </div>
+
+      <div class="checkbox" id="resource_multiple" ng-if="resource.multipe === true">
+        <label>
+          <input type="checkbox" name="multiple" ng-model="resource.multiple" disabled> {{ 'RESOURCE_MULTIPLE' | translate }}
+          <small>{{ 'RESOURCE_MULTIPLE_EXPLANATION'}}</small>
+        </label>
+      </div>
+
+      <div>
+        <label class="checkbox-inline" id="resource_isAvailableFriends"><!-- TODO: Input group met confirmation -->
+          <input type="checkbox" name="isAvailableFriends" ng-model="resource.isAvailableFriends"> {{ 'AVAILABLE_FOR_FRIENDS' | translate }}
+        </label>
+        <label class="checkbox-inline" id="resource_isConfirmationRequiredFriends" ng-show="resource.isAvailableFriends">
+          <input type="checkbox" name="isConfirmationRequiredFriends" ng-model="resource.isConfirmationRequiredFriends"> {{ 'CONFIRMATION_REQUIRED_FOR_FRIENDS' | translate }}
+        </label>
+      </div>
+
+      <div >
+        <label class="checkbox-inline" id="resource_isAvailableOthers">
+          <input type="checkbox" name="isAvailableOthers" ng-model="resource.isAvailableOthers"> {{ 'AVAILABLE_FOR_OTHERS' | translate }}
+        </label>
+        <label class="checkbox-inline" id="resource_isConfirmationRequiredOthers" ng-show="resource.isAvailableOthers">
+          <input type="checkbox" name="isConfirmationRequiredOthers" ng-model="resource.isConfirmationRequiredOthers"> {{ 'CONFIRMATION_REQUIRED_FOR_ORDERS' | translate }}
+        </label>
+      </div>
+
+      <hr>
+    </div>
+
+    <!-- NOTE: MAY BE HIDDEN IN BRANDING CSS -->
+    <div id="price">
+      <h3>{{ 'PRICE' | translate }}</h3>
+
+      <div id="resource_settings_price_per_day" form-group label="{{ 'PRICE_PER_DAY' | translate }}">
+        <div class="input-group">
+          <span class="input-group-addon">€</span>
+          <input type="text" smart-float id="dayRateTotal" name="dayRateTotal" class="form-control"
+                 ng-model="resource.dayRateTotal" placeholder="per day">
+          <span class="input-group-addon"><input type="checkbox" id="kmFree" name="kmFree" ng-model="resource.kmFree" class="ng-pristine ng-valid"> {{ 'INCLUDING_100_KM_FREE' | translate }}</span>
+        </div>
+        <div class="help-block" ng-bind-html="'PRICE_PER_DAY_INFO_HTML' | translate">
+        </div>
+      </div>
+
+      <div id="resource_settings_price_per_hour" form-group label="{{ 'PRICE_PER_HOUR' | translate }}">
+        <div class="input-group">
+          <span class="input-group-addon">€</span>
+          <input type="text" smart-float id="hourRate" name="hourRate" class="form-control"
+                 ng-model="resource.hourRate" placeholder="per day">
+        </div>
+      </div>
+
+      <div id="resource_settings_price_per_km"  form-group label="{{ 'PRICE_PER_KM' | translate }}">
+        <div class="input-group">
+          <span class="input-group-addon">€</span>
+          <input type="text" smart-float id="kilometerRate" name="kilometerRate" class="form-control"
+                 ng-model="resource.kilometerRate" placeholder="per km">
+        </div>
+      </div>
+
+      <!-- may be hidden by branding css -->
+      <div id="resource_settings_fuel">
+        <div form-group label="Brandstof">
+          <div class="input-group">
+            <span class="input-group-addon">
+              <input type="checkbox" ng-model="resource.refuelByRenter" name="refuelByRenter" id="refuelByRenter">
+            </span>
+            <input class="form-control" readonly value="Zelf tanken" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label ng-class="{ 'text-muted': resource.refuelByRenter }">{{ 'FUEL_PRICE_PER_KM' | translate }}</label>
+          <div class="input-group">
+            <span class="input-group-addon">€</span>
+            <input type="text" smart-float id="fuelPerKilometer" name="fuelPerKilometer" class="form-control"
+                   ng-model="resource.fuelPerKilometer" ng-disabled="resource.refuelByRenter">
+          </div>
+        </div>
+      </div>
+
+      <!--<div form-group label="{{ 'INSURANCE_PRICE' | translate }}">-->
+        <!--<div class="input-group">-->
+          <!--<div class="checkbox">-->
+            <!--<label id="insuranceRate">-->
+              <!--{{ resource.price.insuranceRate | currency }}-->
+            <!--</label>-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
+      <hr/>
+    </div><!--/ price -->
+
+    <div class="form-group">
+      <button id="clear" type="button" class="btn btn-default" ng-disabled="editResourceForm.$pristine" ng-click="cancel()">{{ 'CANCEL' | translate }}</button>
+      <button id="submitForm" type="submit" class="btn btn-primary" ng-disabled="editResourceForm.$pristine">{{ 'SUBMIT' | translate }}</button>
+    </div>
+
+  </form>
+</div>

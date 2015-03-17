@@ -1,0 +1,34 @@
+<div class="card">
+  <div class="card-heading">
+    <h2 class="card-title">
+      Upload je rijbewijs
+    </h2>
+  </div>
+
+  <div class="card-body">
+    <form>
+
+      <div class="form-group">
+        <label>Voorkant</label>
+        <input id="licenseFrontFile" type="file" />
+      </div>
+
+      <div class="form-group">
+        <label>Achterkant</label>
+        <input id="licenseBackFile" type="file" />
+      </div>
+
+      <hr/>
+
+      <button type="button" class="btn btn-primary" ng-click="startUpload()" ng-disabled="!(images.front && images.back) || isBusy">
+          <span class="fa fa-upload"></span> Upload
+      </button>
+
+      <p class="help-block" style="margin-top:15px">
+        <i class="fa fa-info-circle text-primary"></i>
+        <span ng-bind-html="'LICENSEUPLOAD_INFO' | translate | trustAsHtml"></span>
+      </p>
+
+    </form>
+  </div>
+</div>

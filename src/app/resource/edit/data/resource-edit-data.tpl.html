@@ -1,0 +1,60 @@
+<div ng-controller="ResourceEditDataController">
+
+  <form name="editResourceForm" ng-submit="save(resource)">
+
+    <div id="resource_alias" class="form-group">
+      <label for="alias">{{ 'ALIAS' | translate }}
+        <info-icon tooltip-html="'INFO_RESOURCE_ALIAS' | translate"></info-icon>
+      </label>
+      <input type="text" id="alias" name="alias" class="form-control" ng-model="resource.alias">
+    </div>
+
+    <div id="resource_registration_plate" form-group label="{{ 'REGISTRATION_PLATE' | translate }}">
+      <input type="text" id="registrationPlate" name="registrationPlate" class="form-control" ng-model="resource.registrationPlate" ng-disabled="disabledFields.registrationPlate">
+    </div>
+
+    <div id="resource_brand" form-group label="{{ 'BRAND' | translate }}">
+      <input type="text" id="brand" name="brand" class="form-control" ng-model="resource.brand" ng-disabled="disabledFields.brand">
+    </div>
+
+    <div id="resource_model" form-group label="{{ 'MODEL' | translate }}">
+      <input type="text" id="model" name="model" class="form-control" ng-model="resource.model" ng-disabled="disabledFields.model">
+    </div>
+
+    <div id="resource_color" form-group label="{{ 'COLOR' | translate }}">
+      <input type="text" id="color" name="color" class="form-control" ng-model="resource.color" ng-disabled="disabledFields.color">
+    </div>
+
+    <div id="resource_number_of_seats" form-group label="{{ 'NUMBER_OF_SEATS' | translate }}">
+      <select id="numberOfSeats" name="numberOfSeats" class="form-control" ng-model="resource.numberOfSeats"
+        ng-options="option.value as option.label for option in numberOfSeatsOptions"  ng-disabled="disabledFields.numberOfSeats">
+      </select>
+    </div>
+
+    <div id="resource_fuel_type" form-group label="{{ 'FUEL_TYPE' | translate }}">
+      <select id="fuelType" name="fuelType" class="form-control" ng-model="resource.fuelType"
+              ng-options="o.value as o.label for o in fuelTypeOptions" ng-disabled="disabledFields.fuelType">
+      </select>
+    </div>
+
+    <div id="resource_type" form-group label="{{ 'RESOURCE_TYPE' | translate }}">
+      <select id="resourceType" name="resourceType" class="form-control" ng-model="resource.resourceType"
+              ng-options="o.value as o.label for o in resourceTypeOptions" ng-disabled="disabledFields.resourceType"></select>
+    </div>
+
+    <div class="form-group">
+      <label>{{ 'RESOURCE_PROPERTIES' | translate }}</label>
+      <div class="checkbox" ng-repeat="option in resourcePropertyOptions">
+        <label>
+          <input type="checkbox" ng-model="resourceProperties[option.value]" id="{{ option.value }}" />{{ option.label }}
+        </label>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <button id="clear" type="button" class="btn btn-default" ng-disabled="editResourceForm.$pristine" ng-click="cancel()">{{ 'CANCEL' | translate }}</button>
+      <button id="submitForm" type="submit" class="btn btn-primary" ng-disabled="editResourceForm.$pristine">{{ 'SUBMIT' | translate }}</button>
+    </div>
+
+  </form>
+</div>

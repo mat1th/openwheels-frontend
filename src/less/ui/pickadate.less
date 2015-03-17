@@ -1,0 +1,20 @@
+.picker {
+  z-index: 9999;
+}
+.pickadate-input[readonly] {
+    cursor: pointer;
+    background: @input-bg;
+}
+
+.pickadate-input[disabled] {
+    cursor: not-allowed;
+    background-color: @input-bg-disabled;
+}
+.picker__holder {
+  transform: translate3d(0, 0, 0);
+  transition-duration: 0;
+  background: none !important;
+}
+.picker__frame {
+  transition-duration: 0
+}

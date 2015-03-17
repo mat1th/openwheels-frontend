@@ -1,0 +1,16 @@
+<div class="card--media panel">
+  <div class="panel-heading">
+    <h1>{{  'INVOICE_GROUP_PAYMENT_HEADER' | translate  }}</h1>
+  </div>
+  <div class="panel-body">
+    <p>{{ 'INVOICE_GROUP_PAYMENT_EXPLANATION' | translate }}</p>
+    <table class="table">
+      <tr><th>{{ 'AMOUNT' | translate }}</th><td>{{ paymentData.form_fields.amount / 100 | currency }}</td></tr>
+      <tr><th>{{ 'DESCRIPTION' | translate }}</th><td>{{ paymentData.form_fields.description }}</td></tr>
+    </table>
+    <form action="https://ideal.rabobank.nl/ideal/mpiPayInitRabo.do" method="post">
+      <input ng-repeat="(fieldName, value) in paymentData.form_fields" type="hidden" name="{{fieldName}}" value="{{value}}">
+      <input type="submit" value="{{ 'START_IDEAL_PAYMENT' | translate }}">
+    </form>
+  </div>
+</div>

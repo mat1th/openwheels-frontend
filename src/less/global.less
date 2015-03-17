@@ -1,0 +1,89 @@
+body {
+  background-color: @gray-lighter;
+}
+
+h1, h2, h3 {
+  margin: 0 0 15px 0;
+}
+
+h4, h5, h6 {
+  margin: 0 0 10px 0;
+}
+
+ul {
+  margin-bottom: 0;
+}
+
+.page {
+  margin-top: @navbar-height;
+  padding-top: 15px;
+}
+
+.page, .wrap {
+  background-color: @gray-lighter;
+}
+
+.inverted {
+  color: #fff;
+  .btn-link, .btn-link:hover, a, a:hover, h1, h2, h3, h4, h5, h6 {
+    color: #fff;
+  }
+  .btn-link:hover {
+    text-decoration: underline;
+  }
+}
+
+.below-toolbar {
+  margin-top: -15px;
+}
+
+.section {
+  padding-top: 30px;
+
+  .col {
+    margin-bottom: 40px;
+  }
+
+  h2 {
+    margin-bottom: 30px;
+  }
+  h3 {
+    font-size: 24px;
+    margin: 20px 0 10px 0;
+  }
+  p {
+    margin: 0 0 20px 0;
+  }
+}
+
+.nav, .pagination, .carousel a { cursor: pointer; }
+
+.footer {
+  color:#888;
+  font-family: @headings-font-family;
+  margin-bottom: 20px;
+}
+#language-switch {
+  margin-bottom: 20px;
+}
+
+span.action-button a.btn {
+  margin-bottom: 10px;
+}
+
+span.action-button:last-child a.btn {
+  margin-bottom: 0;
+}
+
+/* password-strengh */
+input[password-strength] + .progress {
+  background: #ddd;
+}
+ul.error-list {
+  margin-top: -10px;
+  list-style: none;
+  padding: 0;
+}
+/* /password-strengh */
+
+

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title ng-bind="pageTitle"></title>
+  <base href="">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta property="og:title" content="Huur voordelig een auto" />
+  <link rel="shortcut icon" type="image/x-icon" href="branding/img/favicon.ico">
+  <link href='//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css' rel='stylesheet' type='text/css'>
+  <% styles.forEach( function ( file ) { %>
+  <link rel="stylesheet" type="text/css" href="<%= file %>" /><% }); %>
+  <link rel="stylesheet" type="text/css" href="branding/style.css">
+</head>
+
+<body class="waiting-for-angular">
+  <div ng-include="'alert/alert.tpl.html'"></div>
+  <div class="snap-container">
+    <div class="" ui-view="navigation">
+      <div class="text-center loading" ng-show="loader" type="loader.type"><i class="fa fa-spin fa-2x fa-fw fa-spinner"></i></div>
+    </div>
+    <div class="wrap"  snap-content snap-close>
+      <div class="page">
+        <div class="container-full">
+          <div ui-view="main-full"></div>
+        </div>
+        <div class="container">
+          <div ui-view="main"></div>
+          <div ui-view="footer"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <% scripts.forEach(function (file) { %>
+    <script type="text/javascript" src="<%= file %>"></script>
+  <% }); %>
+</body>
+</html>

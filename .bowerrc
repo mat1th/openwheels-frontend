@@ -1,0 +1,9 @@
+{
+  "directory": "vendor",
+  "json": "bower.json",
+  "tmp": ".bower-tmp",
+  "storage" : {
+    "packages" : ".bower-cache",
+    "registry" : ".bower-registry"
+  }
+}

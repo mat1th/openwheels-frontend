@@ -1,0 +1,74 @@
+@import 'colors.less';
+@brand-primary : @mywheels-blue;
+@brand-success : @mywheels-green;
+@brand-info    : #5bc0de;
+@brand-warning : @mywheels-orange;
+@brand-danger  : @mywheels-red;
+@font          : "OmnesMedium", Arial, Helvetica, sans-serif;
+
+/*
+ * LOADER
+ */
+
+.global-spinner {
+  background: @brand-primary;
+  color: #fff;
+}
+
+/*
+ * NAVBAR, total height 50px
+ */
+.navbar-brand {
+  padding-top: 10px;
+  img {
+    height: 30px;
+  }
+}
+li.navbar-tab a {
+  font-family: @font !important;
+  font-weight: normal;
+}
+
+/*
+ * SIDEBAR MENU
+ */
+ul.nav--side {
+  li {
+    a {
+      font-family: @font !important;
+    }
+  }
+  li.active {
+    a, a:hover {
+      background-color: @brand-primary;
+      background-image: linear-gradient(to bottom, lighten(@brand-primary, 5%), darken(@brand-primary, 15%));
+      color: #fff;
+    }
+  }
+}
+
+
+/*
+ * BUTTONS
+ */
+
+.btn-primary {
+  background: @brand-primary;
+}
+
+.btn-success {
+  background: @brand-success;
+}
+
+.btn-info {
+  background: @brand-info;
+}
+
+.btn-warning {
+  background: @brand-warning;
+}
+
+.btn-danger {
+  background: @brand-danger;
+}
+

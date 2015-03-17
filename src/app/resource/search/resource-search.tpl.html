@@ -1,0 +1,66 @@
+<div class="container" ng-class="{ 'container-transitional': features.filtersSidebar }">
+  <div class="row">
+
+    <div ng-if="features.filtersSidebar && isWindowSizeMD" class="col-md-4 hidden-xs hidden-sm">
+      <div class="card">
+        <div class="card-heading">
+          <h3><i class="fa fa-filter"></i> {{ 'FILTER' | translate }}</h3>
+        </div>
+        <div class="card-body">
+          <div resource-filter on-change="sidebarFiltersChanged" props="filters.props" filters="filters.filters" options="filters.options"></div>
+        </div>
+      </div>
+    </div>
+
+    <div ng-class="{ 'col-md-8 col-xs-12' : features.filtersSidebar }">
+
+      <div style="margin-bottom:15px">
+        <form class="resource-search">
+          <div class="input-group">
+
+            <span ng-if="!features.filtersSidebar || !isWindowSizeMD" class="input-group-btn">
+              <button class="btn btn-default" type="button" ng-click="setFilters()">
+                <i class="fa fa-filter"></i> <span class="hidden-sm hidden-xs"> {{ 'FILTER' | translate }}</span>
+              </button>
+            </span>
+
+            <input type="text" class="form-control" placeholder="{{ 'FIND_AVAILABLE_PLACEHOLDER' | translate }}"
+                   ng-model="place" ng-autocomplete details="placeDetails" options="completePlacesOptions">
+
+            <span class="input-group-btn">
+              <button class="btn btn-default" type="button" ng-click="selectTimeframe()" title="Datum/tijd">
+                <i class="fa fa-clock-o"></i> <span class="hidden-sm hidden-xs"> {{ 'DATE_TIME' | translate }}</span>
+              </button>
+
+            </span>
+          </div>
+        </form>
+      </div>
+
+      <alert type="info" close="removeTimeframe()" ng-if="booking.beginRequested && booking.endRequested"><i class="fa fa-clock-o"></i> Beschikbare auto's voor <span class="text-success">{{ booking.beginRequested | amCalendar }}</span> tot <span class="text-success">{{ booking.endRequested  | amCalendar }}</span></alert>
+
+      <div class="card" ng-if="!searching && !(resources.length >= 1)">
+        <div class="card-body">
+          Er zijn geen beschikbare auto's gevonden
+        </div>
+      </div>
+
+      <div ng-if="!searching && (resources.length >= 1)">
+        <div class="card">
+          <div class="card-heading text-center">
+            <button type="button" class="btn btn-link" ng-click="toggleMap()" ng-if="! $state.includes('owm.resource.search.map')">
+              <i class="fa fa-map-marker"></i> {{ 'SHOW_ON_MAP' | translate }}
+            </button>
+            <button type="button" class="btn btn-link" ng-click="toggleMap()" ng-if="$state.includes('owm.resource.search.map')">
+              <i class="fa fa-th-list"></i> {{ 'SHOW_AS_LIST' | translate }}
+            </button>
+          </div>
+        </div>
+
+        <ui-view />
+      </div>
+
+    </div><!-- /col -->
+  </div><!-- /row -->
+
+</div>

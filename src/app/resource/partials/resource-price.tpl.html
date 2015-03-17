@@ -1,0 +1,43 @@
+<div id="resource-price" class="text-center">
+
+  <ul class="resource__price-list list-inline">
+    <li ng-if="!showPricePerHour">
+      {{ resource.price.dayRateTotal | currency }}
+      <div class="resource_price-list__unit">{{ 'PER_DAY' | translate }}</div>
+    </li>
+    <li ng-show="showPricePerHour">
+      {{ resource.price.hourRate | currency }}
+      <div class="resource_price-list__unit">{{ 'PER_HOUR' | translate }}</div>
+    </li>
+
+    <li ng-hide="resource.refuelByRenter"><i class="fa fa-plus fa-lg text-muted"></i></li>
+    <li ng-hide="resource.refuelByRenter">
+      {{ resource.price.fuelPerKilometer | currency }}
+      <div class="resource_price-list__unit">
+        <span class="hidden-md">{{ 'PER_FUEL' | translate }}</span>
+        <span class="visible-md">brandstof/km</span>
+      </div>
+    </li>
+
+    <li><i class="fa fa-plus fa-lg text-muted"></i></li>
+    <li>
+      {{ resource.price.kilometerRate | currency }}
+      <div class="resource_price-list__unit">{{ 'PER_KM' | translate }}</div>
+    </li>
+  </ul>
+
+  <div ng-show="resource.price.kmFree" class="text-success">
+    <span ng-if="!showPricePerHour">{{ 'FREE_KM_DAY' | translate }}</span>
+    <span ng-if="showPricePerHour">{{ 'FREE_KM_HOUR' | translate }}</span>
+  </div>
+
+  <div ng-if="resource.refuelByRenter" class="text-success">
+    <span ng-bind="'RESOURCE_REFUEL_BY_RENTER' | translate"></span>
+  </div>
+
+  <!-- may be hidden by branding css: resource_price_per_hour_button -->
+  <div id="resource_price_per_hour_button">
+    <button type="button" class="btn btn-sm btn-link" ng-click="showPricePerHour = !showPricePerHour">{{ 'SHOW_PRICE' | translate }} {{ !showPricePerHour ? ('PER_HOUR' | translate) : ('PER_DAY' | translate) }}</button>
+  </div>
+  <br/>
+</div>

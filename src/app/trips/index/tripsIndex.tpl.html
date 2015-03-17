@@ -1,0 +1,106 @@
+<div class="card">
+  <div class="card-heading">
+    <h2 class="card-title">
+      {{ 'MY_TRIPS' | translate }}
+    </h2>
+  </div>
+
+  <div class="card-body">
+
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="form-group">
+          <select class="form-control" ng-options="year for year in years" ng-model="selectedYear"></select>
+        </div>
+      </div>
+    </div>
+
+    <div class="row" ng-if="!bookings.forOwner.data.length && !bookings.forRenter.data.length">
+      <div class="col-xs-12">
+        <h3 ng-if="bookings.forOwner.isLoading || bookings.forRenter.isLoading" class="no-margin"><i class="fa fa-spinner fa-spin fa-fw text-primary"></i></h3>
+        <span ng-if="!(bookings.forOwner.isLoading || bookings.forRenter.isLoading)">Geen ritten gevonden</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+<div class="card" ng-if="bookings.forRenter.data.length">
+  <div class="card-heading">
+    <h3 class="card-title">
+      <a href="" ng-click="bookings.forRenter.isCollapsed = !bookings.forRenter.isCollapsed">
+        <i class="fa fa-fw" ng-class="{ 'fa-chevron-right': bookings.forRenter.isCollapsed, 'fa-chevron-down': !bookings.forRenter.isCollapsed }">
+      </i>
+      {{ 'TRIPS_BOOKINGS_FOR_RENTER' | translate }}
+      </a>
+    </h3>
+  </div>
+
+  <div collapse="bookings.forRenter.isCollapsed">
+    <div class="card-body">
+
+      <table class="table">
+        <thead>
+          <tr>
+            <th>{{ 'DATE' | translate }}</th>
+            <th>{{ 'RESOURCE' | translate }}</th>
+            <th>{{ 'DISTANCE' | translate }}</th>
+            <th></th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="booking in bookings.forRenter.data | orderBy : 'beginBooking' : true">
+            <td>{{ booking.beginBooking | amDateFormat:'DD-MM-YYYY' }}</td>
+            <td>{{ booking.resource.alias}}</td>
+            <td>{{ booking.trip.odoEnd - booking.trip.odoBegin }}</td>
+            <td><span booking-approval-icon="booking"></span></td>
+            <td class="text-right"><a target="_blank" ng-href="{{ createTripDetailsLink(booking) }}"><i class="fa fa-fw fa-external-link-square"></i>Details</a></td>
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+</div>
+
+<div class="card" ng-if="bookings.forOwner.data.length">
+  <div class="card-heading">
+    <h3 class="card-title">
+      <a href="" ng-click="bookings.forOwner.isCollapsed = !bookings.forOwner.isCollapsed">
+        <i class="fa fa-fw" ng-class="{ 'fa-chevron-right': bookings.forOwner.isCollapsed, 'fa-chevron-down': !bookings.forOwner.isCollapsed }">
+      </i>
+      {{ 'TRIPS_BOOKINGS_FOR_OWNER' | translate }}
+      </a>
+    </h3>
+  </div>
+
+  <div collapse="bookings.forOwner.isCollapsed">
+    <div class="card-body">
+
+      <table class="table">
+        <thead>
+          <tr>
+            <th>{{ 'DATE' | translate }}</th>
+            <th>{{ 'RESOURCE' | translate }}</th>
+            <th>{{ 'DISTANCE' | translate }}</th>
+            <th></th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="booking in bookings.forOwner.data | orderBy: 'beginBooking' : true">
+            <td>{{ booking.beginBooking | amDateFormat:'DD-MM-YYYY' }}</td>
+            <td>{{ booking.resource.alias}}</td>
+            <td>{{ booking.trip.odoEnd - booking.trip.odoBegin }}</td>
+            <td><span booking-approval-icon="booking"></span></td>
+            <td class="text-right"><a target="_blank" ng-href="{{ createTripDetailsLink(booking) }}"><i class="fa fa-fw fa-external-link-square"></i>Details</a></td>
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+</div>
+

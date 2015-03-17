@@ -1,0 +1,49 @@
+<div ng-controller="ResourceEditMembersController">
+
+  <div ng-bind="'RESOURCE_MEMBERS_INTRO' | translate"></div>
+  <br/>
+
+  <form name="form">
+    <div class="form-group">
+      <label for="email">{{ 'RESOURCE_MEMBERS_ADD_LABEL' | translate }}</label>
+      <div class="input-group">
+        <span class="input-group-addon">@</span>
+        <input id="email" type="email" class="form-control typeahead" placeholder="{{ 'PERSON_EMAIL_PLACEHOLDER' | translate }}" ng-model="email" required>
+      </div>
+    </div>
+    <div class="form-group">
+      <button type="button" ng-click="addOrInviteMember()" ng-disabled="!form.$valid" class="btn btn-primary">{{ 'ADD' | translate }}</button>
+    </div>
+  </form>
+
+  <ul class="list-unstyled list-row" ng-if="members">
+    <li ng-repeat="p in members">
+      <div class="media media--small">
+
+        <a class="pull-left">
+          <img class="media-object img-user-small" person-profile-image="{ person: p, size: 'square' }" />
+        </a>
+
+        <div class="pull-left">
+          <button ng-click="removeMember(p.id)" class="btn btn-link"><i class="fa fa-lg fa-trash-o"></i></button>
+        </div>
+
+        <div class="media-body">
+          <div>
+            <span ng-if="p.firstName || p.surname">{{ p | fullname }}</span>
+            <span ng-if="!(p.firstName || p.surname) && p.id">
+              Lidnummer {{ p.id }} <span ng-if="p.created" class="text-muted">(uitgenodigd op {{ p.created | amDateFormat:'DD-MM-YYYY' }})</span>
+            </span>
+          </div>
+
+          <button ng-if="p.id" type="button" class="btn btn-link" ng-click="openChat(p)">
+            <i class="fa fa-comment fa-fw"></i>
+            Stuur een bericht
+          </button>
+
+        </div>
+      </div>
+    </li>
+  </ul>
+
+</div>

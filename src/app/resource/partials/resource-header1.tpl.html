@@ -1,0 +1,35 @@
+<div class="media">
+  <img class="media-object img-resource-small pull-left" ng-src="{{ resource.pictures[0] | resourceAvatar:'small' }}">
+  <div class="media-body">
+
+    <div class="pull-right" ng-if="$state.includes('owm.resource.search.list')" style="margin: 20px 0 0 8px">
+      <i class="fa fa-fw fa-chevron-right"></i>
+    </div>
+
+    <div ng-if="!resource.price.kmFree" class="pull-right text-right" style="margin-top:20px">
+      {{ resource.dayRateTotal | currency }}
+    </div>
+    <div ng-if="resource.price.kmFree" class="pull-right text-right" style="margin-top:9px">
+      {{ resource.dayRateTotal | currency }}<br/>
+      <span class="text-success"><small>{{ 'FREE_KM_DAY' | translate }}</small></span>
+    </div>
+
+    <div class="truncate">
+      <i ng-if="resource.label === 'favorite'" class="fa fa-fw fa-star text-warning"></i>
+      <a href="" class="resource__alias">{{ resource.alias || ('RESOURCE_NO_NAME' | translate) }}</a>
+      <span ng-if="resource.brand || resource.model">
+        - {{ (resource.brand + ' ' + resource.model) | toTitleCase }}
+      </span>
+    </div>
+
+    <div>
+      <i class="fa fa-map-marker fa-fw"></i> {{ resource.location }} {{ resource.city }}<span ng-if="resource.distance_to"> ({{ resource.distance_to | number:2 }} km)</span>
+    </div>
+
+    <div class="truncate">
+      <i class="fa fa-user fa-fw"></i> {{ resource.owner.firstName }}</a>
+      <span rating-thumb="{ value : resource.rating.satisfaction, senders : resource.rating.senders }"></span>
+    </div>
+
+  </div>
+</div>

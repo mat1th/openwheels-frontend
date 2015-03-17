@@ -1,0 +1,53 @@
+<div class="home">
+
+  <div ng-if="features.homeCarousel" class="hero-container">
+
+    <div class="searchbar-container">
+      <div class="container">
+        <div class="searchbar">
+          <div ng-include="'home/searchBar.tpl.html'"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="logo-container">
+      <img src="branding/img/home-logo.png" />
+    </div>
+
+    <carousel interval="6000">
+      <slide>
+        <div class="slide-container" ng-style="imageStyle1">
+          <h1 class="tagline" id="tagline" translate="{{ 'TAGLINE_HOME_1' | translate }}"></h1>
+        </div>
+      </slide>
+      <slide>
+        <div class="slide-container" ng-style="imageStyle2">
+          <h1 class="tagline" id="tagline" translate="{{ 'TAGLINE_HOME_2' | translate }}"></h1>
+        </div>
+      </slide>
+      <slide>
+        <div class="slide-container" ng-style="imageStyle3">
+          <h1 class="tagline" id="tagline" translate="{{ 'TAGLINE_HOME_3' | translate }}"></h1>
+        </div>
+      </slide>
+    </carousel>
+  </div>
+
+
+  <div ng-if="!features.homeCarousel" class="hero inverted text-center">
+    <div class="container">
+      <div class="intro">
+        <h1 id="tagline" translate="{{ 'TAGLINE_HOME' | translate }}"></h1>
+
+        <div class="cta" id="home_buttons">
+          <div ng-include="'home/searchBar.tpl.html'"></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div ng-if="lang" ng-include="'branding/home-content-' + lang + '.html'"></div>
+
+</div>
+

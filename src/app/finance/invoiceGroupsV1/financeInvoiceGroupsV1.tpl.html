@@ -1,0 +1,46 @@
+<div class="card">
+
+  <div class="card-heading">
+    <h2 class="card-title">
+      Mijn facturen
+    </h2>
+  </div>
+
+  <div class="card-body">
+    <div ng-if="invoiceGroups">
+
+      <div ng-if="!(invoiceGroups.length >= 1)">
+        {{ 'NO_INVOICES_AVAILABLE' | translate }}
+      </div>
+
+      <div ng-if="invoiceGroups.length >= 1">
+        <table class="table table-responsive table-condensed">
+          <thead>
+          <tr>
+            <th>{{ 'DATE' | translate }}</th>
+            <th>Verzamelfactuur</th>
+            <th>{{ 'AMOUNT' | translate }}</th>
+            <th>{{ 'PAID' | translate }}</th>
+            <th>&nbsp;</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr ng-repeat="invoiceGroup in invoiceGroups">
+            <td ng-if="invoiceGroup.due">{{invoiceGroup.due | amDateFormat:'DD-MM-YYYY' }}</td>
+            <td ng-if="!invoiceGroup.due">{{ 'CONCEPT' | translate }}</td>
+            <td>{{invoiceGroup.id}}</td>
+            <td>{{invoiceGroup.total | currency}}</td>
+            <td>{{invoiceGroup.paid | currency }}</td>
+            <td>
+              <a target="_BLANK" ng-href="{{ createInvoiceGroupPdfLink(invoiceGroup) }}">
+                <i class="fa fa-file-pdf-o"></i>&nbsp;Pdf
+              </a>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+</div>

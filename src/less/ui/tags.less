@@ -1,0 +1,37 @@
+.tag {
+  display: inline-block;
+  background: #888;
+  border: 1px solid darken(#888, 15%);
+  color:white;
+  font-size: 75%;
+  font-weight: bold;
+  padding: 0 3px;
+  margin-right: 5px;
+  white-space: nowrap;
+  .border-radius(3px);
+  text-align: center;
+}
+
+.tag-success,
+.tag-accepted {
+  background: @brand-success;
+  border-color: @brand-success;
+  text-transform: uppercase;
+}
+
+.tag-warning,
+.tag-requested {
+  background: #fff;
+  color: @brand-warning;
+  border-color: @brand-warning;
+  text-transform: uppercase;
+}
+
+.tag-danger,
+.tag-canceled,
+.tag-cancelled,
+.tag-rejected {
+  background: @brand-danger;
+  border-color: @brand-danger;
+  text-transform: uppercase;
+}

@@ -1,0 +1,89 @@
+<div class="card" ng-if="resources.length">
+  <div class="card-heading" id="resource-info">
+    <h3 class="card-title">
+      <a href="" ng-init="isMyResourcesCollapsed = !!(!resources.length)" ng-click="isMyResourcesCollapsed = !isMyResourcesCollapsed">
+        <i class="fa fa-fw" ng-class="{ 'fa-chevron-right': isMyResourcesCollapsed, 'fa-chevron-down': !isMyResourcesCollapsed }">
+      </i>
+      {{ 'MY_RESOURCES' | translate }} ({{ resources.length }})
+      </a>
+    </h3>
+  </div>
+
+  <div collapse="isMyResourcesCollapsed">
+    <div class="card-body">
+      <ul class="list-unstyled list-row">
+        <li ng-repeat="resource in resources" >
+
+          <div class="media">
+            <img ui-sref="owm.resource.show({ resourceId: resource.id })"
+              class="media-object img-resource-small pull-left"
+              ng-src="{{ resource.pictures[0] | resourceAvatar:'small' }}">
+
+            <div class="media-body">
+
+              <button ui-sref="owm.resource.edit({ resourceId: resource.id })" type="button" class="btn btn-link pull-right">
+                <i class="fa fa-cog"></i> {{ 'EDIT_RESOURCE' | translate }}
+              </button>
+
+              <div class="resource__alias truncate" ui-sref="owm.resource.show({ resourceId: resource.id })">
+                {{ resource.alias }} {{ resource.registrationPlate | surroundWith : '(' : ')' }}
+              </div>
+
+              <div class="truncate">
+                <i class="fa fa-map-marker"></i>&nbsp;{{ resource.location }} {{ resource.city }}
+              </div>
+
+              <div ng-if="!resource.isActive" class="text-danger">
+                <i class="fa fa-exclamation-circle fa-fw"></i>{{ 'RESOURCE_INACTIVE_WARNING' | translate }}
+              </div>
+
+            </div>
+          </div>
+
+
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-heading">
+    <h2 class="card-title" ng-show="!resources.length">
+      {{ 'CREATE_RESOURCE_TITLE' | translate }}
+    </h2>
+
+    <h3 class="card-title" ng-show="resources.length">
+      <a href="" ng-init="isCreateCollapsed = !!(resources.length)" ng-click="isCreateCollapsed = !isCreateCollapsed">
+        <i class="fa fa-fw" ng-class="{ 'fa-chevron-right': isCreateCollapsed, 'fa-chevron-down': !isCreateCollapsed }">
+      </i>
+      {{ 'CREATE_RESOURCE_TITLE' | translate }}
+      </a>
+    </h3>
+  </div>
+
+  <div collapse="isCreateCollapsed">
+    <div class="card-body">
+      <p>{{ 'CREATE_RESOURCE_ADVERTISEMENT1' | translate }}</p>
+
+      <form ng-if="me.city && me.streetName" ng-submit="save(resource)" name="createResourceForm">
+        <div class="form-group">
+          <label for="registrationPlate">{{'REGISTRATION_PLATE' | translate}}</label>
+          <input class="form-control" type="text" id="registrationPlate" name="registrationPlate" ng-model="resource.registrationPlate" required />
+        </div>
+
+        <div class="form-group">
+          <button id="submitForm" type="submit" class="btn btn-primary" ng-disabled="createResourceForm.$pristine">{{ 'SUBMIT' | translate }}</button>
+        </div>
+      </form>
+
+      <div ng-if="!me.city || !me.streetName" class="alert alert-warning">
+        <i class="text-danger fa fa-exclamation-triangle"></i>
+          &nbsp;{{ 'CREATE_RESOURCE_MISSING_ADDRESS' | translate }}&nbsp;<a ui-sref="owm.person.profile">{{ 'MY_PROFILE' | translate }} »</a>
+      </div>
+
+      <p class="text-muted" ng-bind-html="'CREATE_RESOURCE_INFO_HTML' | translate"></p>
+    </div>
+  </div>
+
+</div>

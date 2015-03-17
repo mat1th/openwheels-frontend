@@ -1,0 +1,127 @@
+@chat-toolbar-height: 50px;
+@chat-footer-height: 140px;
+
+.modal-chat {
+
+  .modal-dialog {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    overflow: auto;
+
+    .modal-content {
+      background: #eee;
+      border: none;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+
+      .modal-title {
+        line-height: 1em;
+      }
+    }
+
+    .chat-header {
+      z-index:1;
+      position: absolute;
+      width: 100%;
+      background: #fff;
+      padding: 15px;
+      .box-shadow(0 4px 8px rgba(0, 0, 0, 0.15));
+    }
+
+    .chat-content {
+      position: absolute;
+      overflow: auto;
+      top: @chat-toolbar-height;
+      bottom: @chat-footer-height;
+      left: 0;
+      right: 0;
+      padding: 24px 8px 16px 8px;
+    }
+
+    .chat-row {
+      &-left, &-right {
+        margin-bottom: 8px;
+        width: 75%;
+
+        /* Both left & right */
+        .chat-message {
+          background: white;
+          padding: 8px 16px;
+          margin: 0 8px 8px 8px;
+          .box-shadow(2px 2px 4px rgba(0, 0, 0, 0.1));
+        }
+
+        /* Both left & right */
+        .chat-avatar {
+          width: 50px;
+          height: 50px;
+          background: #aaa;
+          .border-radius(50%);
+        }
+
+      }
+
+      &-left {
+        float: left;
+      }
+
+      &-right {
+        float: right;
+      }
+
+      &-left .chat-avatar {
+        float: left;
+        margin-right: 8px;
+      }
+
+      &-left .chat-message {
+        .border-radius(0 16px 16px 16px);
+      }
+
+      &-right .chat-avatar {
+        float: right;
+        margin-left: 8px;
+      }
+
+      &-right .chat-message {
+        .border-radius(16px 0 16px 16px);
+      }
+
+    }
+
+  }
+
+  .chat-footer {
+    position: absolute;
+    background: white;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: @chat-footer-height;
+
+    .chat-input {
+      position: absolute;
+      padding: 8px;
+      left: 0;
+      width: 100%;
+      top: 0;
+      bottom: @chat-toolbar-height;
+    }
+
+    .chat-send-button {
+      position: absolute;
+      background: @mywheels-blue;
+      left: 0;
+      width: 100%;
+      height: @chat-toolbar-height;
+      bottom: 0;
+      .border-radius(0);
+    }
+  }
+}

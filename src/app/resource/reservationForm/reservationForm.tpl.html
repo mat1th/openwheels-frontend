@@ -1,0 +1,72 @@
+<div ng-if="showPrice" ng-include="'resource/partials/resource-price.tpl.html'"></div>
+
+<form class="booking" name="createBookingForm" timeframe begin="booking.beginRequested" end="booking.endRequested">
+
+  <div class="form-group">
+    <label for="beginRequested">
+      {{ 'DATE_START' | translate }}
+      <button id="resource_now_button" type="button" class="btn btn-warning btn-xs" ng-click="setTimeframe(0)">{{ 'NOW' | translate }}</button>
+    </label>
+    <div class="row">
+      <div class="col-xs-7">
+        <input id="beginRequested" type="text" placeholder="{{ 'DATE' | translate }}" class="form-control pickadate-input" ng-model="booking.beginRequested" ng-change="onBeginDateChange()" pickadate="dateConfig">
+      </div>
+      <div class="col-xs-5">
+        <input id="endBequested" type="text" placeholder="{{ 'TIME' | translate }}" class="form-control pickadate-input" ng-model="booking.beginRequested" pickatime="timeConfig">
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="endTrip">{{ 'DATE_END' | translate }}</label>
+    <div class="row">
+      <div class="col-xs-7">
+        <input type="text" placeholder="{{ 'DATE' | translate }}" class="form-control pickadate-input" ng-model="booking.endRequested" ng-change="onEndDateChange()" pickadate="dateConfig">
+      </div>
+      <div class="col-xs-5">
+        <input type="text" placeholder="{{ 'TIME' | translate }}" class="form-control pickadate-input" ng-model="booking.endRequested" pickatime="timeConfig">
+      </div>
+    </div>
+  </div>
+
+  <div form-group label="Contract" ng-if="contractOptions.length > 1">
+    <select id="contract" name="contract" class="form-control" ng-model="booking.contract" ng-options="c.id as (c.type.name + ' - ' + c.contractor.firstName) for c in contractOptions">
+      <option value="">-- {{ 'PICK_A_CONTRACT' | translate }} --</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label ng-bind="'BOOKING.REMARK_REQUESTER_LABEL' | translate"></label>
+    <textarea rows="3" id="remarkRequester" name="remarkRequester" class="form-control" ng-model="booking.remarkRequester"></textarea>
+  </div>
+
+  <!-- availability & price -->
+  <div class="form-group" ng-if="price || isPriceLoading || availability || isAvailabilityLoading">
+    <div class="text-center">
+      <h4 ng-if="availability.available==='no'"><i class="fa fa-times text-danger" ></i> Niet beschikbaar</h4>
+      <h4 ng-if="availability.available==='yes'"><i class="fa fa-check text-success" ></i> Beschikbaar</h4>
+      <h4 ng-if="availability.available==='yes' && price">
+        Kosten:
+        <span>{{ price.total | currency }}</span>
+        <info-icon tooltip-html="priceHtml(price)"></info-icon>
+        {{ 'RESOURCE_PRICE_DISCLAIMER' | translate }}
+      </h4>
+      <h4 ng-if="isPriceLoading || isAvailabilityLoading">
+        <i class="fa fa-spinner fa-spin"></i>
+      </h4>
+    </div>
+  </div>
+
+  <div class="text-center">
+    <p>
+      <button class="btn btn-success" ng-disabled="!availability || availability.available=='no'"
+        ng-click="createBooking(booking)">
+        {{ 'CREATE_BOOKING' | translate }}
+      </button>
+      <a class="btn btn-default" ui-sref="owm.resource.calendar({resourceId: resource.id})">
+        <i class="fa fa-calendar"></i> {{ 'CALENDAR_BUTTON' | translate }}
+      </a>
+    </p>
+  </div>
+
+</form>

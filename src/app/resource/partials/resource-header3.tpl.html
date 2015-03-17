@@ -1,0 +1,21 @@
+<!-- display to owner -->
+
+<div class="media" ui-sref="owm.resource.show({ resourceId: resource.id })">
+  <img class="media-object img-resource-small pull-left" ng-src="{{ resource.pictures[0] | resourceAvatar:'small' }}">
+
+  <div class="media-body">
+
+    <div class="resource__alias truncate">
+      {{ resource.alias }} {{ resource.registrationPlate | surroundWith : '(' : ')' }}
+    </div>
+
+    <div class="truncate">
+      <i class="fa fa-map-marker"></i>&nbsp;{{ resource.location }} {{ resource.city }}
+    </div>
+
+    <div ng-if="!resource.isActive" class="text-danger">
+      <i class="fa fa-exclamation-circle fa-fw"></i>{{ 'RESOURCE_INACTIVE_WARNING' | translate }}
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,75 @@
+<div class="card">
+  <div class="card-heading">
+    <h2 class="card-title" ng-bind="'BOOKING.ADMINISTER.PAGE_TITLE' | translate"></h2>
+  </div>
+
+  <div class="card-body">
+
+    <!-- resource -->
+    <div ng-include="'booking/partials/booking-header.tpl.html'"></div>
+    <hr/>
+
+    <!-- renter -->
+    <div class="media">
+      <img class="media-object pull-left img-user-small" person-profile-image="{ person: resource.owner, size: 'small' }" />
+      <div class="media-body text-left">
+        <b>{{ 'RENTER' | translate }}</b><br/>
+        <span ng-bind="booking.person | fullname"></span>
+      </div>
+    </div>
+
+    <hr/>
+
+    <!-- times -->
+    <ul class="list-inline">
+      <li>
+        <div class="booking__timeframe booking__timeframe--accepted" ng-if="booking.beginBooking">
+          <datetime datetime="{{ booking.beginBooking }}"></datetime>
+          <datetime datetime="{{ booking.endBooking }}"></datetime>
+        </div>
+        <div class="booking__timeframe booking__timeframe--requested" ng-if="booking.beginRequested">
+          <datetime datetime="{{ booking.beginRequested }}"></datetime>
+          <datetime datetime="{{ booking.endRequested }}"></datetime>
+        </div>
+      </li>
+    </ul>
+
+    <hr/>
+
+    <div ng-if="alreadyFilled" class="alert alert-info">
+      <i class="fa fa-info-circle"></i>&nbsp;{{ 'BOOKING.ADMINISTER.ALREADY_FILLED' | translate }}
+    </div>
+
+    <!-- form -->
+    <form name="form">
+
+      <div class="row">
+        <div class="col col-sm-6">
+          <div class="form-group">
+            <label>{{ 'BOOKING.ADMINISTER.ODOBEGIN_LABEL' | translate }}</label>
+            <div class="input-group">
+              <input name="odoBegin" type="number" class="form-control" ng-model="trip.odoBegin" required ng-disabled="alreadyFilled" />
+              <span class="input-group-addon">km</span>
+            </div>
+            <div class="help-block" ng-show="form.odoBegin.$error.required"><span class="text-danger">{{ 'REQUIRED' | translate }}</span></div>
+          </div>
+        </div>
+
+        <div class="col col-sm-6">
+          <div class="form-group">
+            <label>{{ 'BOOKING.ADMINISTER.ODOEND_LABEL' | translate }}</label>
+            <div class="input-group">
+              <input name="odoEnd" type="number" class="form-control" ng-model="trip.odoEnd" required ng-disabled="alreadyFilled" />
+              <span class="input-group-addon">km</span>
+            </div>
+            <div class="help-block" ng-show="form.odoEnd.$error.required"><span class="text-danger">{{ 'REQUIRED' | translate }}</span></div>
+          </div>
+        </div>
+      </div>
+
+      <button ng-if="!alreadyFilled" type="button" class="btn btn-primary" ng-disabled="form.$pristine || form.$error.required"
+        ng-click="submit()" ng-bind="'SAVE' | translate"></button>
+    </form>
+
+  </div>
+</div>

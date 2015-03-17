@@ -1,0 +1,96 @@
+<div ng-if="hasPermission">
+<div class="card">
+  <div class="card-heading">
+    <h2 class="card-title">Mijn auto</h2>
+  </div>
+  <div class="card-body">
+    <div ng-include="'resource/partials/resource-header3.tpl.html'"></div>
+  </div>
+</div>
+
+<!-- photos -->
+<div class="card">
+  <div class="card-heading">
+    <h3 class="card-title">
+      <a href="" ng-init="isPhotosCollapsed = true" ng-click="isPhotosCollapsed = !isPhotosCollapsed">
+        <i class="fa fa-fw" ng-class="{ 'fa-chevron-right': isPhotosCollapsed, 'fa-chevron-down': !isPhotosCollapsed }"></i>
+        {{ 'RESOURCE_PICTURES' | translate }}
+      </a>
+    </h3>
+  </div>
+  <div collapse="isPhotosCollapsed">
+    <div class="card-body">
+      <div ng-include="'resource/edit/pictures/resource-edit-pictures.tpl.html'"></div>
+<!--       <div resource-photo-uploader="photoUploaderOptions"></div> -->
+    </div>
+  </div>
+</div>
+
+<!-- location -->
+<div class="card">
+  <div class="card-heading">
+    <h3 class="card-title">
+      <a href="" ng-click="toggleLocation()">
+        <i class="fa fa-fw" ng-class="{ 'fa-chevron-right': isLocationCollapsed, 'fa-chevron-down': !isLocationCollapsed }"></i>
+        {{ 'LOCATION' | translate }}
+      </a>
+    </h3>
+  </div>
+  <div collapse="isLocationCollapsed">
+    <div class="card-body">
+      <div ng-include="'resource/edit/location/resource-edit-location.tpl.html'"></div>
+    </div>
+  </div>
+</div>
+
+<!-- sharing settings -->
+<div class="card">
+  <div class="card-heading">
+    <h3 class="card-title">
+      <a href="" ng-init="isSharingSettingsCollapsed = true" ng-click="isSharingSettingsCollapsed =!isSharingSettingsCollapsed">
+        <i class="fa fa-fw" ng-class="{ 'fa-chevron-right': isSharingSettingsCollapsed, 'fa-chevron-down': !isSharingSettingsCollapsed }"></i>
+        {{ 'SHARING_SETTINGS' | translate }}
+      </a>
+    </h3>
+  </div>
+  <div collapse="isSharingSettingsCollapsed">
+    <div class="card-body">
+      <div ng-include="'resource/edit/sharing_settings/resource-edit-sharing_settings.tpl.html'"></div>
+    </div>
+  </div>
+</div>
+
+<!-- members -->
+<div class="card">
+  <div class="card-heading">
+    <h3 class="card-title">
+      <a href="" ng-init="isMembersCollapsed = true" ng-click="isMembersCollapsed = !isMembersCollapsed">
+        <i class="fa fa-fw" ng-class="{ 'fa-chevron-right': isMembersCollapsed, 'fa-chevron-down': !isMembersCollapsed }"></i>
+        {{ 'RESOURCE_MEMBERS' | translate }}
+      </a>
+    </h3>
+  </div>
+  <div collapse="isMembersCollapsed">
+    <div class="card-body">
+      <div ng-include="'resource/edit/members/resource-edit-members.tpl.html'"></div>
+    </div>
+  </div>
+</div>
+
+<!-- data -->
+<div class="card">
+  <div class="card-heading">
+    <h3 class="card-title">
+      <a href="" ng-init="isDataCollapsed = true" ng-click="isDataCollapsed = !isDataCollapsed">
+        <i class="fa fa-fw" ng-class="{ 'fa-chevron-right': isDataCollapsed, 'fa-chevron-down': !isDataCollapsed }"></i>
+        {{ 'DATA' | translate }}
+      </a>
+    </h3>
+  </div>
+  <div collapse="isDataCollapsed">
+    <div class="card-body">
+      <div ng-include="'resource/edit/data/resource-edit-data.tpl.html'"></div>
+    </div>
+  </div>
+</div>
+</div><!-- /hasPermission -->

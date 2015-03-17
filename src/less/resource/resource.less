@@ -1,0 +1,49 @@
+.resource__thumb {
+  height: 72px;
+}
+
+.resource__thumb--small {
+  height: 50px;
+}
+
+.resource__alias {
+    font-size: floor(@font-size-base * 1.10);
+    font-family: @headings-font-family;
+}
+
+.resource__price {
+  color: @gray-light;
+  font-size: floor(@font-size-base * 1);
+}
+
+.truncate {
+    overflow: hidden; /* to hide anything that doesn't fit in the containing element. */
+    white-space: nowrap; /* to make sure the line doesn't break when it is longer than the containing div. */
+    text-overflow: ellipsis; /* to do what you want. */
+}
+
+.resource__price-list {
+    > li {
+        text-align: center;
+    }
+}
+.resource_price-list__unit {
+    font-size: 12px;
+    color: @gray-light;
+}
+
+.resource-search {
+  .resource-search__location{
+    margin-left: 20px;
+  }
+}
+
+.resource-property-list {
+  li {
+    margin-bottom: 5px;
+  }
+}
+
+#resource-calendar .fc-event-time {
+  display: none;
+}

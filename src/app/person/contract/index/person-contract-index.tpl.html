@@ -1,0 +1,65 @@
+<div class="card" ng-show="!isLoadingContracts">
+  <div class="card-heading">
+    <h2 class="card-title">{{ 'MY_CONTRACTS' | translate }}</h2>
+  </div>
+
+  <div class="card-body">
+
+    <!-- own contracts -->
+
+    <div class="alert alert-warning" ng-show="!ownContracts.length">
+      {{ 'PERSON.CONTRACT.LIST.NO_OWN_CONTRACTS' | translate }}
+    </div>
+
+    <div class="well" ng-show="ownContracts.length" ng-repeat="contract in ownContracts">
+      <!-- MAY BE HIDDEN BY BRANDING CSS: edit_contract_button -->
+      <div class="pull-right" id="edit_contract_button">
+        <button class="btn btn-primary" ng-click="editContract(contract)">{{ 'EDIT' | translate }}</button>
+      </div>
+      <div>
+        <h4>{{ contract.type.name }}&nbsp; {{ getOwnRiskWaiverDescription(contract.ownRiskWaiver) }}</h4>
+
+        <p><b>{{ 'PERSON.CONTRACT.OTHER_CONTRACTS_PERSONS' | translate }}:</b></p>
+        <ul class="list-group">
+          <!-- persons -->
+          <li class="list-group-item" ng-repeat="person in getContractPersons(contract)">
+            <a href="" class="pull-right" ng-if="person.id" ng-click="removePerson(contract, person)">{{ 'REMOVE' | translate }}</a>
+            <div>
+              {{ person.firstName }} {{ person.preposition }} {{ person.surname }} &lt;{{ person.email }}&gt;
+            </div>
+          </li>
+        </ul>
+
+        <form name="form">
+          <div class="input-group" ng-class="{ 'has-error' : form.email.$error.email }">
+            <input type="email" required name="email" class="form-control" placeholder="{{ 'EMAIL' | translate }}" ng-model="contract.emailToAdd" />
+            <div class="input-group-btn">
+              <button class="btn btn-default"
+                ng-disabled="form.email.$error.required || form.email.$error.email"
+                ng-click="addPerson($index)">{{ 'ADD' | translate }}</button>
+            </div>
+          </div>
+        </form>
+
+
+      </div>
+    </div>
+
+    <!-- other contracts -->
+
+    <div ng-show="otherContracts.length">
+      <h2>{{ 'PERSON.CONTRACT.OTHER_CONTRACTS' | translate }}</h2>
+
+      <ul class="list-group">
+        <li class="list-group-item" ng-repeat="contract in otherContracts">
+          <h4>{{ contract.type.name }} <small>({{ contract.id }})</small></h4>
+          <b>
+            {{ contract.contractor.firstName }}
+            {{ contract.contractor.preposition }}
+            {{ contract.contractor.surname }}</b>&nbsp;&lt;{{ contract.contractor.email }}&gt;
+        </li>
+      </ul>
+    </div>
+
+  </div>
+</div>

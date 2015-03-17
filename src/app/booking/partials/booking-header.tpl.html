@@ -1,0 +1,19 @@
+<div class="media media--small">
+  <a class="pull-left" ui-sref="owm.resource.show({ resourceId: resource.id })">
+    <img class="media-object img-resource-small" ng-src="{{ resource.pictures[0] | resourceAvatar:'small' }}">
+  </a>
+  <div class="media-body card--media__body">
+    <div class="resource__alias truncate">
+      <a ui-sref="owm.resource.show({ resourceId: resource.id })">{{ resource.alias }} {{ resource.registrationPlate | surroundWith : '(' : ')' }}</a>
+    </div>
+
+    <div class="truncate">
+      <i class="fa fa-map-marker fa-fw"></i> {{ resource.location }} {{ resource.city }}
+    </div>
+
+    <div class="truncate">
+      <i class="fa fa-user fa-fw"></i> {{ resource.owner.firstName }}</a>
+    </div>
+
+  </div>
+</div>

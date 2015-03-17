@@ -1,0 +1,32 @@
+/**
+ * Meant as a transitional/temporary replacement for <div class="container"></div>, so we
+ * can keep using the "old" container sizes (720px + 800px), and work towards bootstrap-standard
+ * sizes on a page-by-page basis.
+ *
+ * USAGE (inside a full-width parent): <div class="container container-transitional"></div>;
+ */
+
+.container-transitional {
+  padding-right: 8px;
+  padding-left: 8px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+@media (min-width: 768px) {
+  .container-transitional {
+    width: 750px;
+  }
+}
+
+@media (min-width: 992px) {
+  .container-transitional {
+    width: 970px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .container-transitional {
+    width: 1170px;
+  }
+}

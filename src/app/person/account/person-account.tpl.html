@@ -1,0 +1,28 @@
+<form name="accountForm" ng-controller="PersonAccountController">
+  <div class="row" ng-if="isAccountLoaded">
+    <div class="col-xs-12">
+
+      <p ng-bind="'PROFILE_IBAN_INTRO' | translate"></p>
+      <div class="form-group">
+        <label>
+          {{ 'IBAN_NUMBER' | translate }}
+          <info-icon ng-if="isIbanBlocked" tooltip-html="'INFO_ACCOUNT_IBAN' | translate"></info-icon>
+        </label>
+        <input type="text" class="form-control" name="iban" ng-model="account.iban" ng-disabled="isIbanBlocked" />
+      </div>
+
+      <button type="button" class="btn btn-primary" ng-click="save(account)"
+        ng-disabled="isAccountSaving || accountForm.$pristine">{{ 'SAVE' | translate }}</button>
+      &nbsp;
+      <i class="fa fa-spinner fa-spin" ng-if="isAccountSaving"></i>
+      <i class="fa fa-check text-success" ng-if="isAccountSaved"></i>
+
+    </div>
+  </div>
+  <div ng-if="!isAccountLoaded">
+    <i class="fa fa-spinner fa-spin" ng-if="isAccountLoading"></i>
+    <span ng-if="!isAccountLoading">
+      Deze gegevens zijn tijdelijk niet beschikbaar
+    </span>
+  </div>
+</form>

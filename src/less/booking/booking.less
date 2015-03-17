@@ -1,0 +1,72 @@
+.booking__date--fw-calendar {
+  width: 200px;
+}
+
+.booking__timeframe {
+  width: 125px;
+  text-align: left;
+
+  .tag {
+    width: 100px; /* should fit "geaccepteerd" */
+  }
+
+  &.booking__timeframe--accepted {
+    /*padding-left: 5px;*/
+    /*border-left: 1px solid @brand-success;*/
+  }
+  &.booking__timeframe--requested {
+    /*padding-left: 5px;*/
+    /*border-left: 1px solid @brand-warning;*/
+  }
+  .booking__timeframe__title {
+    margin-bottom: 15px;
+    padding-bottom: 5px;
+    border: 2px solid transparent;
+    display: inline-block;
+  }
+}
+
+&.request--isActive {
+  border-bottom-color: @brand-success;
+}
+
+&.booking--isActive {
+
+  border-bottom-color: @brand-primary;
+}
+
+&.trip--isActive {
+  border-bottom-color: @brand-warning;
+}
+
+.booking-form {
+  text-align: left;
+}
+
+.booking__status,
+.booking__status--accepted,
+.booking__status--requested {
+  text-transform: uppercase;
+  /*line-height: @line-height-computed;
+  &.booking__status--accepted {
+    color: @brand-success;
+  }
+  &.booking__status--requested {
+    color: @brand-warning;
+  }*/
+}
+
+.booking__resource__owner, .booking__resource__location {
+  color: @gray-light;
+  line-height: @line-height-computed;
+}
+
+.booking__info {
+  margin-bottom: 5px;
+}
+
+.booking-list {
+  .booking__actions {
+    padding-top: 20px;
+  }
+}

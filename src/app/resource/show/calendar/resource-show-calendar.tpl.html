@@ -1,0 +1,25 @@
+<div class="card card-navigation">
+  <a class="btn btn-link" ui-sref="owm.resource.show({ resourceId: resource.id })">
+    <i class="fa fa-arrow-left" ></i>
+    {{ 'GO_TO_SHOW_RESOURCE' | translate }}
+  </a>
+</div>
+
+<div class="card">
+  <div ng-include="'resource/partials/resource-header2.tpl.html'"></div>
+</div>
+
+<div class="card">
+  <div class="card-body" id="resource-calendar">
+
+    <div ng-if="me && (resource.owner.id === me.id || resource.contactPerson.id === me.id)">
+      {{ 'RESOURCE_CAL_INFO_FOR_OWNER' | translateOrDefault }}
+    </div>
+
+    <div class="btn-group" style="margin-bottom: -40px;">
+      <button class="btn btn-sm" ng-class="{active: view === 'agendaWeek'}" ng-click="changeView('agendaWeek')">Week</button>
+      <button class="btn btn-sm" ng-class="{active: view === 'month'}" ng-click="changeView('month')">Month</button>
+    </div>
+    <div class="calendar" ui-calendar="calendarConfig" ng-model="eventSources" calendar="calendar"></div>
+  </div><!--/ card-body -->
+</div><!--/ card -->

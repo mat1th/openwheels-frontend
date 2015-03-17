@@ -1,0 +1,51 @@
+<div class="card">
+  <div class="card-heading">
+    <h2 class="card-title">
+      Mijn berichten
+    </h2>
+  </div>
+
+  <div class="card-body" >
+    <div ng-if="!(conversations.length > 0)">
+      Je hebt geen berichten
+    </div>
+
+    <div ng-if="conversations.length > 0">
+      <ul class="list-row">
+        <li ng-repeat="conversation in conversations | orderBy:'date':true" ng-click="selectConversation(conversation)">
+
+          <div class="media">
+            <img ng-if="conversation.sender.id === me.id"
+              class="media-object img-user-small pull-left" person-profile-image="{ person: conversation.recipient, size: 'small' }" />
+            <img ng-if="conversation.sender.id !== me.id"
+              class="media-object img-user-small pull-left" person-profile-image="{ person: conversation.sender, size: 'small' }" />
+
+            <div class="media-body">
+              <span>
+                {{ conversation.text }}
+              </span>
+              <div class="text-muted">
+                <small>
+
+                  <span ng-if="conversation.sender.id === me.id">
+                    Verstuurd aan {{ conversation.recipient | fullname }}
+                  </span>
+                  <span ng-if="conversation.sender.id !== me.id">
+                    Ontvangen van {{ conversation.sender | fullname }}
+                  </span>
+
+                  <i class="fa fa-circle"></i>&nbsp;<span am-time-ago="conversation.date"></span>
+                </small>
+              </div>
+            </div>
+          </div>
+
+
+        </li>
+      </ul>
+
+    </div>
+
+  </div>
+
+</div><!-- /card -->

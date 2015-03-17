@@ -1,0 +1,227 @@
+<div class="container" ng-class="{ 'container-transitional': features.resourceSidebar }">
+  <div class="row">
+    <div ng-class="{ 'col-md-8 col-xs-12' : features.resourceSidebar }">
+
+      <!-- edit -->
+      <div class="card card-navigation clearfix">
+
+        <div ng-if="me" class="text-warning pull-right" style="padding-top: 3px;">
+          <i class="fa fa-star-o fa-spin fa-2x text-muted" ng-if="!isFavoriteResolved"></i>
+          <i class="fa fa-star fa-2x" ng-if="isFavoriteResolved && isFavorite" ng-click="toggleFavorite(false)"></i>
+          <i class="fa fa-star-o fa-2x" ng-if="isFavoriteResolved && !isFavorite" ng-click="toggleFavorite(true)"></i>
+        </div>
+
+        <button type="button" class="btn btn-link" ui-sref="owm.resource.search.list">
+          <i class="fa fa-arrow-left"></i> {{ 'RESOURCE_BACK_TO_LIST' | translate }}
+        </button>
+
+        <button ng-if="me && (resource.owner.id === me.id || resource.contactPerson.id === me.id)"
+          ui-sref="owm.resource.edit({ resourceId: resource.id })" type="button" class="btn btn-link">
+          <i class="fa fa-cog"></i> {{ 'EDIT_RESOURCE' | translate }}
+        </button>
+      </div>
+
+      <div ng-if="resource.isActive && features.social && me && (resource.owner.id === me.id || resource.contactPerson.id === me.id)" class="card card-notice">
+        <div class="card-body">
+          {{ 'SOCIAL_SHARE_RESOURCE' | translateOrDefault }}<br/>
+          <div share-buttons share-path="$state.href('owm.resource.show', { resourceId: resource.id })"></div>
+        </div>
+      </div>
+
+      <!-- header -->
+      <div class="card">
+        <div ng-if="!isWindowSizeSM" ng-include="'resource/partials/resource-header2.tpl.html'"></div>
+
+        <div ng-if="isWindowSizeSM">
+          <div class="card-heading">
+            <h2 class="card-title">
+              {{ resource.alias || ('RESOURCE_NO_NAME' | translate) }} <span ng-if="resource.registrationPlate"> <small>{{ resource.registrationPlate }}</small></span>
+            </h2>
+          </div>
+
+          <div class="media" style="margin:0">
+            <div class="media-object img-width50p pull-left" resource-carousel="resource"></div>
+
+            <div class="media-body">
+              <h3>
+                {{ resource.brand || 'Onbekend merk'}} <span ng-if="resource.model">, {{ resource.model }}</span>
+                &nbsp;<span rating-thumb="{ value : resource.rating.satisfaction, senders : resource.rating.senders }"></span>
+              </h3>
+              <ul class="list-unstyled list-spaced fa-ul">
+                <li><i class="text-success fa fa-li fa-users"></i> {{ resource.numberOfSeats }} {{ 'SEATS' | translate }}</li>
+                <li><i class="text-success fa fa-li fa-gear"></i> <span ng-if="resource.fuelType">{{  resource.fuelType | translate }}</span> <span ng-if="!resource.fuelType">{{ 'UNKNOWN_FUELTYPE' | translate }}</span></li>
+                <li><i class="text-success fa fa-li fa-key"></i> <span ng-if="resource.locktype">{{  ('LOCKTYPE.' + resource.locktype) | translateOrDefault : resource.locktype }}</span> <span ng-if="!resource.locktype">{{ 'UKNOWN_LOCKTYPE' | translate }}</span></li>
+                <li ng-if="resource.response_accept"><i class="text-success fa fa-li fa-check"></i> {{ resource.response_accept | percentage : 0 }} {{ 'ACCEPTED_REQUESTS' | translate}}</li>
+                <li ng-if="resource.properties.length >= 1">
+                  <i class="text-success fa fa-li fa-th"></i>
+                  <span ng-repeat="prop in resource.properties">{{ prop.id | toSentenceCase }}<span ng-if="$index !== resource.properties.length - 1">, </span></span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- board computer -->
+      <div class="card" ng-if="me && resource.locktypes.indexOf('smartphone') >= 0 && (resource.owner.id === me.id || resource.contactPerson.id === me.id)">
+        <div class="card-body">
+          <div class="text-center">
+            <ul class="list-inline">
+              <li>
+                <button  ng-click="openDoor(resource)" class="btn btn-lg btn-default btn-success"><i class="fa fa-unlock fa-fw fa-lg"></i></button>
+              </li>
+              <li>
+                <button  ng-click="closeDoor(resource)" class="btn btn-lg btn-default btn-danger"><i class="fa fa-lock fa-fw fa-lg"></i></button>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" ng-if="!features.resourceSidebar || !isWindowSizeMD" >
+        <div class="card-body">
+
+          <!-- price -->
+          <div ng-include="'resource/partials/resource-price.tpl.html'"></div>
+
+          <!-- booking form -->
+          <div class="text-center" ng-if="showBookingFormToggle">
+            <p>
+              <button class="btn btn-success" ng-click="toggleBookingForm()">
+                {{ 'CREATE_BOOKING' | translate }}
+              </button>
+              <a class="btn btn-default" ui-sref="owm.resource.calendar({resourceId: resource.id})">
+                <i class="fa fa-calendar"></i> {{ 'CALENDAR_BUTTON' | translate }}
+              </a>
+            </p>
+          </div>
+          <div id="createBookingContainer" collapse="!showBookingForm">
+            <reservation-form resource="resource" booking="booking" contract-options="me.contracts" show-price="false"></reservation-form>
+          </div>
+          <!--/ booking form -->
+
+          <div class="text-center">
+            <p>
+              <a class="btn btn-link btn-sm" ng-show="showBookingForm" ng-click="toggleBookingForm()">
+                <i class="fa fa-chevron-up"></i>
+              </a>
+            </p>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- resource information -->
+
+      <div class="card" ng-if="!isWindowSizeSM">
+        <div class="card-body">
+
+          <!-- features -->
+          <div class="truncate">
+            <h4>{{ resource.brand || 'Onbekend merk'}} <span ng-if="resource.model">, {{ resource.model }}</span></h4>
+          </div>
+
+          <div class="text-left">
+            <ul class="list-unstyled list-block list-spaced fa-ul">
+              <!--<li ng-if="resource.response_time"><i class="fa fa-li fa-reply"></i><span translate="AVERAGE_RESPONSE_DURATION {{duration | amDurationFormat: 'minutes'}}" translate-values="{ duration: resource.response_time }"></span></li>-->
+              <li><i class="text-success fa fa-li fa-users"></i>{{ resource.numberOfSeats }} {{ 'SEATS' | translate }}</li>
+              <li><i class="text-success fa fa-li fa-gear"></i><span ng-if="resource.fuelType">{{  resource.fuelType | translate }}</span> <span ng-if="!resource.fuelType">{{ 'UNKNOWN_FUELTYPE' | translate }}</span></li>
+              <li><i class="text-success fa fa-li fa-key"></i><span ng-if="resource.locktype">{{  ('LOCKTYPE.' + resource.locktype) | translateOrDefault : resource.locktype }}</span> <span ng-if="!resource.locktype">{{ 'UKNOWN_LOCKTYPE' | translate }}</span></li>
+              <li ng-if="resource.response_accept"><i class="text-success fa fa-li fa-check"></i>{{ resource.response_accept | percentage : 0 }} {{ 'ACCEPTED_REQUESTS' | translate}}</li>
+              <li ng-if="resource.properties.length >= 1">
+                <i class="text-success fa fa-li fa-th"></i>
+                <span ng-repeat="prop in resource.properties">{{ prop.id | toSentenceCase }}<span ng-if="$index !== resource.properties.length - 1">, </span></span>
+              </li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- owner -->
+
+      <div class="card">
+        <div class="media">
+          <a class="pull-left">
+            <img class="media-object img-user-small" person-profile-image="{ person: resource.owner, size: 'small' }" />
+          </a>
+          <div class="media-body">
+            <h4 class="media-heading">{{ (resource.owner | fullname) || 'Eigenaar'}}</h4>
+            <div><small>{{ 'MEMBER_SINCE' | translate }} <span am-time-ago="resource.owner.created"></span></small></div>
+            <div><span badge-list="resource.owner.badges"></span></div>
+
+            <button ng-if="me" type="button" class="btn btn-link" ng-click="openChat()">
+              <i class="fa fa-comment fa-fw"></i>
+              Stuur een bericht
+            </button>
+
+          </div>
+        </div>
+        <div class="card-body">
+          <h5>{{ 'ABOUT_CAR' | translate}}</h5>
+          <p>{{ resource.advertisement }}</p>
+          <hr>
+          <h5>{{ 'ABOUT_ME' | translate }}</h5>
+          <p>{{ resource.owner.about}}</p>
+        </div>
+      </div>
+
+      <!-- ratings -->
+
+      <div class="card">
+        <div class="card-heading">
+          <h3 class="card-title">
+            <span ng-bind="'RATINGS' | translate"></span>
+            &nbsp;<span ng-if="resource.ratings.length >= 1">({{ resource.ratings.length }})</span>
+          </h3>
+        </div>
+        <div class="card-body">
+          <div ng-include="'resource/partials/resource-rating-summary.tpl.html'"></div>
+          <div ng-if="resource.ratings.length">
+            <br/>
+            <div ng-include="'resource/partials/resource-rating-reviews.tpl.html'"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- location -->
+
+      <div class="card">
+        <div class="card-heading">
+          <h3 class="card-title">{{ resource.location }} <small>{{ resource.city }}</small></h3>
+        </div>
+        <ui-gmap-google-map  class="google-map"
+             center="map.center"
+             zoom="map.zoom"
+             draggable="false"
+             dragging="map.dragging"
+             bounds="map.bounds"
+             events="map.events"
+             options="map.options">
+             <!-- prefedined markers -->
+              <!-- rendering via ng-repear, HIGH OVERHEAD via DOM Manipulation -->
+              <ui-gmap-marker idKey="$index" ng-repeat="m in map.markers" coords="m" icon="m.icon" click="onMarkerClicked(m)">
+                  <ui-gmap-window show="m.showWindow" closeClick="m.closeClick()">
+                      <p>This is an info window at {{ m.latitude | number:4 }}, {{ m.longitude | number:4 }}!</p>
+                      <p class="muted">My marker will stay open when the window is popped up!</p>
+                  </ui-gmap-window>
+              </ui-gmap-marker>
+        </ui-gmap-google-map >
+      </div>
+
+    </div><!-- /col -->
+
+    <div ng-if="features.resourceSidebar && isWindowSizeMD" class="col-md-4 hidden-xs hidden-sm">
+      <div class="card">
+        <div class="card-heading">
+          <h3 class="card-title"><i class="fa fa-fw fa-pencil"></i> Reserveer deze auto</h3>
+        </div>
+        <div class="card-body">
+          <reservation-form resource="resource" booking="booking" contract-options="me.contracts" show-price="true"></reservation-form>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /row -->
+</div>

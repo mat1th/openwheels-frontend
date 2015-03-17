@@ -1,0 +1,50 @@
+<div class="modal-content">
+
+  <div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+    <h4 class="modal-title">{{ 'PERSON.CONTRACT.EDIT.PAGE_TITLE' | translate }}</h4>
+  </div>
+
+  <div class="modal-body">
+
+    <form name="$parent.form">
+
+      <div class="form-group">
+        <label>{{ 'CONTRACT.PROP.TYPE' | translate }}</label>
+        <div class="form-control-static">{{ contract.type.name }}</div>
+      </div>
+
+      <div class="form-group">
+        <label>{{ 'CONTRACT.PROP.OWNRISKWAIVER' | translate }}</label>
+
+        <div class="radio">
+          <label>
+          <input type="radio" value="not" ng-model="contract.ownRiskWaiver" />
+            {{ 'CONTRACT.PROP.OWNRISKWAIVER.NOT' | translate }}<br/>
+            {{ 'CONTRACT.PROP.OWNRISKWAIVER.NOT.DESC' | translate }}<br/>
+          </label>
+        </div>
+
+        <div class="radio">
+          <label>
+          <input type="radio" value="booking" ng-model="contract.ownRiskWaiver" />
+            {{ 'CONTRACT.PROP.OWNRISKWAIVER.BOOKING' | translate }}<br/>
+            {{ 'CONTRACT.PROP.OWNRISKWAIVER.BOOKING.DESC' | translate }}<br/>
+          </label>
+        </div>
+
+      </div>
+
+      <div class="form-group">
+        <label>{{ 'CONTRACT_END_CAPTION' | translate }}</label>
+        <div class="form-control-static"><button class="btn btn-danger" ng-click="endContract(contract)">{{ 'CONTRACT_END_ACTION' | translate }}</button></div>
+      </div>
+      
+    </form>
+  </div>
+
+  <div class="modal-footer">
+    <button class="btn btn-link" ng-click="cancel()">{{ 'CANCEL' | translate }}</button>
+    <button class="btn btn-primary" ng-click="save()" ng-disabled="busy || form.$pristine">{{ 'SAVE' | translate }}</button>
+  </div>
+</div>

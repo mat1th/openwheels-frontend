@@ -1,0 +1,12 @@
+<div class="row">
+    <a ui-sref="owm.resource.show({ resourceId: parameter.resource.id })">
+        <div class="col-xs-12  map__window">
+            <h4 >{{ parameter.resource.brand }} {{ parameter.resource.model }}</h4>
+            <h5 >{{ parameter.resource.alias }}</h5>
+            <img ng-src="{{ parameter.imgUrl }}" />
+            <p>
+                {{ 'PRICE_PER_DAY' | translate }} {{ parameter.resource.price.dayRateTotal | currency }}
+            </p>
+        </div>
+    </a>
+</div>

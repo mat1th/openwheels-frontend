@@ -1,0 +1,53 @@
+<div class="modal-content">
+
+  <div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+    <h4 ng-if="blocking.id" class="modal-title">{{ 'EDIT_BLOCKING' | translate }}</h4>
+    <h4 ng-if="!blocking.id" class="modal-title">{{ 'CREATE_BLOCKING' | translate }}</h4>
+  </div>
+
+  <div class="modal-body">
+
+    <div class="form-group">
+      <label for="beginDateBlocking">
+        {{ 'DATE_START' | translate }}
+      </label>
+      <div class="row">
+        <div class="col-xs-7">
+          <input id="beginDateBlocking" type="text" placeholder="{{ 'DATE' | translate }}" class="form-control pickadate-input" ng-model="blocking.start" pickadate="dateConfig">
+        </div>
+        <div class="col-xs-5">
+          <input ng-disabled="blocking.allDay" id="startTimeBlocking" type="text" placeholder="{{ 'TIME' | translate }}" class="form-control pickadate-input" ng-model="blocking.start" pickatime="timeConfig">
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="endDateBlocking">
+        {{ 'DATE_END' | translate }}
+      </label>
+      <div class="row">
+        <div class="col-xs-7">
+          <input id="endDateBlocking" type="text" placeholder="{{ 'DATE' | translate }}" class="form-control pickadate-input" ng-model="blocking.until" pickadate="dateConfig">
+        </div>
+        <div class="col-xs-5">
+          <input  ng-disabled="blocking.allDay"  id="endTimeBlocking" type="text" placeholder="{{ 'TIME' | translate }}" class="form-control pickadate-input" ng-model="blocking.until" pickatime="timeConfig">
+        </div>
+      </div>
+    </div>
+
+    <label for="allDay"><input type="checkbox" id="allDay" ng-model="blocking.allDay"> {{ 'ALL_DAY' | translate }}</label>
+    <label ng-if="!blocking.id" for="repeat"><input type="checkbox" id="repeat" ng-model="blocking.repeat"> {{ 'REPEAT_BLOCKING' | translate }}</label>
+
+  </div>
+
+  <div class="modal-footer">
+
+    <button class="btn btn-danger pull-left" ng-if="blocking.id" ng-click="remove()">{{ 'REMOVE' | translate }}</button>
+
+    <button class="btn btn-primary" ng-click="save()">{{ 'OK' | translate }}</button>
+    <button class="btn" ng-click="cancel()">{{ 'CANCEL' | translate }}</button>
+
+  </div>
+
+</div>

@@ -1,0 +1,16 @@
+*.sw*
+*~
+.bower-cache
+.bower-registry
+.bower-tmp
+.DS_Store
+.idea
+.sublime/*.sublime-workspace
+.tmp
+bin
+build
+config
+node_modules
+sandbox
+test/coverage
+vendor

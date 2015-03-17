@@ -1,0 +1,25 @@
+<ui-gmap-google-map center="map.center"
+                    class="google-map"
+                    zoom="map.zoom"
+                    draggable="false"
+                    dragging="map.dragging"
+                    bounds="map.bounds"
+                    events="map.events"
+                    options="map.options"
+                    control="map.control">
+    <ui-gmap-markers
+            models="map.markers"
+            idKey="'id'"
+            coords="'coords'"
+            click="'onClick'"
+            fit="map.fitMarkers"
+            >
+
+    </ui-gmap-markers>
+    <ui-gmap-window coords="selectedMarker.coords" show="selectedMarker.showWindow" closeClick="closeWindow()" templateUrl="'resource/search/map/resource-marker-window.tpl.html'"
+                    templateParameter="selectedMarker"
+            >
+
+    </ui-gmap-window>
+
+</ui-gmap-google-map>

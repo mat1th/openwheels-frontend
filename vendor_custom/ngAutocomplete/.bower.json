@@ -1,0 +1,18 @@
+{
+  "name": "angular-googleplaces-autocomplete",
+  "version": "1.1.1",
+  "main": "src/ngAutocomplete.js",
+  "dependencies": {
+    "angular": ">=1.2.0"
+  },
+  "homepage": "https://github.com/TimWithers/angular-googleplaces-autocomplete",
+  "_release": "1.1.1",
+  "_resolution": {
+    "type": "version",
+    "tag": "1.1.1",
+    "commit": "e53f649200f80628e2fc368ba39b81adc9f1ece2"
+  },
+  "_source": "https://github.com/TimWithers/angular-googleplaces-autocomplete.git",
+  "_target": "*",
+  "_originalSource": "https://github.com/TimWithers/angular-googleplaces-autocomplete.git"
+}

@@ -1,0 +1,41 @@
+@font-face {
+  font-family: 'OmnesMedium';
+  src: url('fonts/omnes-medium-webfont.eot');
+  src: url('fonts/omnes-medium-webfont.eot?#iefix') format('embedded-opentype'),
+       url('fonts/omnes-medium-webfont.woff') format('woff'),
+       url('fonts/omnes-medium-webfont.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'OmnesRegular';
+  src: url('fonts/omnes-regular-webfont.eot');
+  src: url('fonts/omnes-regular-webfont.eot?#iefix') format('embedded-opentype'),
+       url('fonts/omnes-regular-webfont.woff') format('woff'),
+       url('fonts/omnes-regular-webfont.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+hr {
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+
+[ng-click],
+[data-ng-click],
+[x-ng-click],
+[ui-sref],
+[data-ui-sref],
+[x-ui-sref] {
+  cursor: pointer;
+}
+
+.modal {
+  &[ng-click],
+  &[data-ng-click],
+  &[x-ng-click] {
+    cursor: auto;
+  }
+}

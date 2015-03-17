@@ -1,0 +1,25 @@
+<div class="card">
+  <div class="card-heading">
+    <h2 class="card-title" ng-bind="'ANWBID.PAGE_TITLE' | translate"></h2>
+  </div>
+
+  <div class="card-body">
+    <p ng-bind="'ANWBID.INTRO' | translate"></p>
+
+    <form name="form" ng-show="showForm">
+      <div class="form-group">
+        <label ng-bind="'ANWBID.LABEL' | translate"></label>
+        <input class="form-control" ng-model="anwbId" required />
+      </div>
+      <button type="button" class="btn btn-primary" ng-disabled="!form.$valid || isBusy" ng-click="submit()" ng-bind="'SAVE' | translate"></button>
+    </form>
+
+    <div ng-if="!showForm">
+      <div class="alert alert-info">
+        <i class="fa fa-info-circle"></i>&nbsp;Je staat al geregistreerd als lid van de ANWB
+      </div>
+      <a class="btn btn-primary" ui-sref="owm.person.dashboard">Terug naar dashboard</a>
+    </div>
+
+  </div>
+</div>

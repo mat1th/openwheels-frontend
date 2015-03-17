@@ -1,0 +1,17 @@
+.table-invoice {
+  .table-invoice__quantity, .table-invoice__price {
+    text-align: right;
+  }
+  .table-invoice__total {
+    font-weight: bold;
+    border-top: 2px solid @gray-light;
+  }
+  .table-invoice__price {
+    &.table-invoice__price--positive {
+      color: @brand-danger;
+    }
+    &.table-invoice__price--negative {
+      color: @brand-success;
+    }
+  }
+};

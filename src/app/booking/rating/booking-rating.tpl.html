@@ -1,0 +1,121 @@
+<div class="card">
+  <div class="card-heading">
+    <h2 class="card-title" ng-bind="'BOOKING.RATING.RENTER.PAGE_TITLE' | translate" ng-if="userPerspective==='renter'"></h2>
+    <h2 class="card-title" ng-bind="'BOOKING.RATING.OWNER.PAGE_TITLE' | translate" ng-if="userPerspective==='owner'"></h2>
+  </div>
+  <div class="card-body">
+
+    <!-- header -->
+    <div ng-include="'booking/partials/booking-header.tpl.html'"></div>
+    <hr/>
+
+    <!-- times -->
+    <ul class="list-inline">
+      <li>
+        <div class="booking__timeframe booking__timeframe--accepted" ng-if="booking.beginBooking">
+          <datetime datetime="{{ booking.beginBooking }}"></datetime>
+          <datetime datetime="{{ booking.endBooking }}"></datetime>
+        </div>
+<!--         <div class="booking__timeframe booking__timeframe--requested" ng-if="booking.beginRequested">
+          <datetime datetime="{{ booking.beginRequested }}"></datetime>
+          <datetime datetime="{{ booking.endRequested }}"></datetime>
+        </div> -->
+      </li>
+    </ul>
+    <hr/>
+
+    <!-- OWNER? show renter -->
+    <div class="media" ng-if="userPerspective==='owner'">
+      <a class="pull-left">
+        <img class="media-object img-user-small" person-profile-image="{ person: booking.person, size: 'small' }">
+      </a>
+      <div class="media-body">
+        <h4 class="media-heading">{{ booking.person | fullname }}</h4>
+        <div>{{ 'MEMBER_SINCE' | translate }} <span am-time-ago="booking.person.created"></span></div>
+        <div><span badge-list="booking.person.badges"></span></div>
+      </div>
+    </div>
+
+    <!-- RENTER? show owner -->
+    <div class="media" ng-if="userPerspective==='renter'">
+      <a class="pull-left">
+        <img class="media-object img-user-small" person-profile-image="{ person: resource.owner, size: 'small' }">
+      </a>
+      <div class="media-body">
+        <h4 class="media-heading">{{ resource.owner | fullname }}</h4>
+        <div><small>{{ 'MEMBER_SINCE' | translate }} <span am-time-ago="resource.owner.created"></span></small></div>
+        <div><span badge-list="resource.owner.badges"></span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-body">
+
+    <div ng-if="rating.id" class="alert alert-info">
+      <i class="fa fa-info-circle"></i>&nbsp;Je hebt deze review al eerder gegeven. Als er iets is veranderd aan je oordeel kun je de review wijzigen. Anders kun je de review direct opslaan
+    </div>
+
+    <!-- form -->
+    <form>
+
+      <div class="form-group">
+        <label ng-bind="'BOOKING.RATING.SATISFACTION_LABEL_RENTER' | translate" ng-if="userPerspective === 'renter'"></label>
+        <label ng-bind="'BOOKING.RATING.SATISFACTION_LABEL_OWNER' | translate" ng-if="userPerspective === 'owner'"></label>
+        <div class="form-control-static">
+          <i style="cursor:pointer" class="fa fa-2x fa-thumbs-up fa-rotate-180"
+            ng-click="rating.satisfaction = false"
+            ng-class="{'text-danger': rating.satisfaction === false, 'text-muted': rating.satisfaction !== false }">
+          </i>
+          <i style="cursor:pointer"  class="btn-thumb fa fa-2x fa-thumbs-up fa-rotate-90"
+            ng-click="rating.satisfaction = null"
+            ng-class="{'text-warning': rating.satisfaction === null, 'text-muted': rating.satisfaction !== null  }">
+          </i>
+          <i style="cursor:pointer"  class="btn-thumb fa fa-2x fa-thumbs-up"
+            ng-click="rating.satisfaction = true"
+            ng-class="{'text-success': rating.satisfaction === true, 'text-muted': rating.satisfaction !== true  }">
+          </i>
+          <span ng-bind="satisfactionText()"></span>
+        </div>
+      </div>
+      <hr/>
+
+      <div class="form-group" ng-if="userPerspective === 'renter'">
+        <label ng-bind="'BOOKING.RATING.QUALITY_LABEL' | translate"></label>
+        <div class="form-control-static">
+          <i style="cursor:pointer; margin-right: 3px;"
+            class="{{ starClass('quality', starValue) }}"
+            ng-click="rating.quality = (rating.quality === 1 && starValue === 1) ? 0 : starValue"
+            ng-repeat="starValue in starValues"></i>
+          <span ng-bind="qualityText()"></span>
+        </div>
+        <hr/>
+      </div>
+
+      <div class="form-group" ng-if="userPerspective === 'renter'">
+        <label ng-bind="'BOOKING.RATING.CLEANLINESS_LABEL' | translate"></label>
+        <div class="form-control-static">
+          <i style="cursor:pointer; margin-right: 3px;"
+            class="{{ starClass('cleanliness', starValue) }}"
+            ng-click="rating.cleanliness = (rating.cleanliness === 1 && starValue === 1) ? 0 : starValue"
+            ng-repeat="starValue in starValues"></i>
+          <span ng-bind="cleanlinessText()"></span>
+        </div>
+        <hr/>
+      </div>
+
+      <div class="form-group">
+        <label ng-bind="'BOOKING.RATING.REVIEW_LABEL' | translate"></label>
+        <textarea rows="3" class="form-control" ng-model="rating.review" placeholder="{{ 'BOOKING.RATING.REVIEW_PLACEHOLDER' | translate }}"></textarea>
+      </div>
+      <hr/>
+      <button type="button" class="btn btn-primary" ng-click="submit()" ng-bind="'SUBMIT' | translate"></button>
+    </form>
+    <hr/>
+
+    <span ng-bind="'BOOKING.RATING.FOOTER_TEXT' | translate"></span>
+
+
+  </div>
+</div>

@@ -1,0 +1,49 @@
+<div ng-controller="FinanceInvoiceGroupsController">
+
+  <div class="card">
+    <div class="card-heading">
+      <h3 class="card-title">
+        <a href="" ng-click="isInvoiceGroupsCollapsed = !isInvoiceGroupsCollapsed">
+          <i ng-if="isLoading" class="fa fa-fw fa-spinner fa-spin"></i>
+          <i ng-if="!isLoading" class="fa fa-fw" ng-class="{ 'fa-chevron-right': isInvoiceGroupsCollapsed, 'fa-chevron-down': !isInvoiceGroupsCollapsed }">
+        </i>
+        Mijn rekeningen
+        </a>
+      </h3>
+    </div>
+
+    <div collapse="isInvoiceGroupsCollapsed">
+      <div class="card-body" ng-if="invoiceGroups.length > 0">
+
+        <ul class="list-unstyled list-row">
+          <li ng-repeat="invoiceGroup in invoiceGroups">
+
+            <div class="row">
+              <div class="col-xs-12">
+                <b>Datum: {{ invoiceGroup.expirationDate | amDateFormat:'DD-MM-YYYY'}}</b>
+<!--                 <button type="button" class="btn btn-primary pull-right">Betalen</button> -->
+              </div>
+            </div>
+
+            <div ng-repeat="invoice in invoiceGroup.recipientInvoices">
+              <div ng-repeat="line in invoice.invoiceLines" class="row">
+
+                <div class="col-xs-6">
+                  {{ line.description }}
+                </div>
+                <div class="col-xs-6">
+                  {{ line.quantity }} x {{ line.price }} ({{ line.taxRate }}% btw)
+                </div>
+
+              </div>
+
+            </div>
+
+          </li><!-- /invoiceGroup -->
+        </ul>
+
+      </div>
+    </div>
+  </div><!-- /card -->
+
+</div>

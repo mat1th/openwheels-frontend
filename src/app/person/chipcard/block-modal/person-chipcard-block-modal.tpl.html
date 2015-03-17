@@ -1,0 +1,19 @@
+<div class="modal-content">
+
+  <div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+    <h4 class="modal-title">{{ 'PERSON.CHIPCARD.BLOCK.PAGE_TITLE' | translate }}</h4>
+  </div>
+
+  <div class="modal-body">
+    <b>{{ 'PERSON.CHIPCARD.BLOCK.ARE_YOU_SURE' | translate }}</b><br/>
+    <br/>
+    {{ 'CHIPCARD.PROP.ID' | translate }}: {{ chipcard.mifareUid }}<br/>
+    {{ 'CHIPCARD.PROP.DESCRIPTION' | translate }}: {{ chipcard.description }}<br/>
+  </div>
+
+  <div class="modal-footer">
+    <button class="btn btn-primary" ng-click="ok()">OK</button>
+    <button class="btn btn-default" ng-click="cancel()">Cancel</button>
+  </div>
+</div>

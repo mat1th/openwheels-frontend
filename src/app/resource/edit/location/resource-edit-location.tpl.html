@@ -1,0 +1,49 @@
+<div ng-controller="ResourceEditLocationController">
+
+  <label>{{ 'RESOURCE_LOCATION_INTRO' | translate }}</label>
+
+  <ui-gmap-google-map
+       center="map.center"
+       control="map.control"
+       zoom="map.zoom"
+       draggable="true"
+       dragging="map.dragging"
+       bounds="map.bounds"
+       events="map.events"
+       options="map.options">
+    <!-- prefedined markers -->
+    <ui-gmap-marker coords="map.resourceMarker" idKey="1"></ui-gmap-marker>
+    <!-- marker for clicked position -->
+    <!-- can not put google.map.animations.BOUNCE , since it is not initiaized yet -->
+    <div ng-init="opts = {animation:1}">
+      <ui-gmap-marker coords="map.clickedMarker" idKey="1" options="opts" click="map.clickedMarker.onClicked"></ui-gmap-marker>
+    </div>
+  </ui-gmap-google-map>
+
+  <br/>
+
+  <form name="form">
+    <div class="row">
+      <div class="col-xs-7">
+        <label>{{ 'RESOURCE_LOCATION_ADDRESS_LABEL' | translate }}&nbsp;<info-icon tooltip-html="'RESOURCE_LOCATION_ADDRESS_TOOLTIP' | translate" /></label>
+        <div class="form-group">
+          <input class="form-control" id="location" name="location" ng-model="resource.location" />
+        </div>
+      </div>
+      <div class="col-xs-5">
+        <label>{{ 'RESOURCE_LOCATION_CITY_LABEL' | translate }}</label>
+        <div class="form-group">
+          <input class="form-control" id="city" name="city" ng-model="resource.city" />
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <button type="button" class="btn btn-default" ng-disabled="form.$pristine" ng-click="reset()">{{ 'CANCEL' | translate }}</button>
+      <button type="submit" class="btn btn-primary" ng-disabled="form.$pristine" ng-click="submit()">{{ 'SUBMIT' | translate }}</button>
+    </div>
+
+  </form>
+
+
+</div>

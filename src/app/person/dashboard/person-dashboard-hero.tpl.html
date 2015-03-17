@@ -1,0 +1,12 @@
+<div class="dashboard-hero">
+  <div class="container">
+
+    <!-- warning: may be hidden in branding -->
+    <ul id="dashboard-blog-items" class="dashboard-blog-items list-unstyled">
+      <li ng-repeat="item in blogItems">
+        <a target="BLANK" href="{{ item.url }}" ng-bind="item.title"></a>
+      </li>
+    </ul>
+
+  </div>
+</div>

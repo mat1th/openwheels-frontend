@@ -1,0 +1,24 @@
+<div>
+  <ul class="list-row">
+    <li ng-repeat="rating in resource.ratings">
+
+      <div class="media">
+        <img class="media-object img-user-small pull-left" person-profile-image="{ person: rating.sender, size: 'small' }" />
+
+        <div class="media-body">
+          <span rating-thumb-binary="{ value : rating.satisfaction }"></span>&nbsp;
+          <span>{{ rating.review}}</span>
+          <div class="text-muted">
+            <small>
+              <span ng-bind="rating.sender | fullname"></span>&nbsp;
+              <i class="fa fa-circle"></i>&nbsp;
+              <span am-time-ago="rating.created"></span>
+            </small>
+          </div>
+        </div>
+
+      </div>
+
+    </li>
+  </ul>
+</div>

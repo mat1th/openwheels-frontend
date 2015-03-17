@@ -1,0 +1,16 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <h3><i class="fa fa-filter"></i> {{ 'FILTER' | translate }}</h3>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-sm-6">
+        <div ng-include="'resource/filter/resource-filter-form.tpl.html'"></div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-primary" ng-click="ok()">OK</button>
+    <button class="btn btn-default" ng-click="cancel()">Cancel</button>
+  </div>
+</div>

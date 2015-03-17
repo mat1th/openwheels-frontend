@@ -1,0 +1,16 @@
+<form>
+  <div class="input-group" style="box-shadow: 4px 6px 8px rgba(0,0,0, 0.35)">
+    <input type="text" ow-geocoder="{ onDetails: doSearch }" ng-model="place" class="form-control" placeholder="Waar wil je lenen?" style="font-weight: normal;" />
+    <div class="input-group-btn">
+      <button type="button" class="btn btn-success" ng-click="doSearch()">Zoek een auto</button>
+    </div>
+  </div>
+
+  <div class="text-right">
+    <a ng-if="!features.verhuurTussenscherm" ng-href="{{ 'NAVBAR.LIST_YOUR_CAR_URL' | translate }}" class="btn btn-primary"
+      style="margin-top:20px; box-shadow: 4px 6px 8px rgba(0,0,0, 0.35)">{{ 'LIST_YOUR_CAR' | translate }}</a>
+    <a ng-if="features.verhuurTussenscherm" ui-sref="list-your-car" class="btn btn-primary"
+      style="margin-top:20px; box-shadow: 4px 6px 8px rgba(0,0,0, 0.35)">{{ 'LIST_YOUR_CAR' | translate }}</a>
+  </div>
+
+</form>
