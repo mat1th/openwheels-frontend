@@ -1,0 +1,61 @@
+<div class="card">
+  <div class="card-heading">
+    <h2 class="card-title">{{ person | fullname }}</h2>
+  </div>
+  <div class="card-body">
+
+    <div class="media">
+      <img class="media-object pull-left img-user-normal" person-profile-image="{ person: person, size: 'normal' }" />
+      <div class="media-body text-left">
+        <p>
+          <span ng-if="person.about">{{ person.about }}</span>
+          <span ng-if="!person.about">{{ person.firstName | toTitleCase }} heeft nog geen introductie over zichzelf geschreven.</span>
+        <p>
+        <div ng-if="person.created" class="text-muted"><small>{{ 'MEMBER_SINCE' | translate }} <span am-time-ago="person.created"></span></small></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-body">
+    <h3>Contact</h3>
+
+    <ul class="list-unstyled list-block list-spaced fa-ul">
+      <li><a href="" ng-click="openChatWith(person)"><i class="fa fa-li fa-comment"></i> Stuur een bericht</a></li>
+      <li><i class="fa fa-li fa-map-marker"></i> {{ person.streetName }} {{ person.streetNumber }} {{ person.city }}&nbsp;</li>
+      <li><i class="fa fa-li fa-envelope"></i> {{ person.email }}&nbsp;</li>
+      <li><i class="fa fa-li fa-phone"></i> {{ person.phoneNumbers[0].number }}&nbsp;</li>
+      <li><i class="fa fa-li fa-facebook"></i>
+        <a ng-if="person.facebookUid" target="_blank" ng-href="https://facebook.com/{{ person.facebookUid }}">Facebook profiel</a>
+        <span ng-if="!person.facebookUid" class="text-muted">Niet verbonden via Facebook</span>&nbsp;
+      </li>
+      <li><i class="fa fa-li fa-twitter"></i>
+        <a ng-if="person.twitterUid" target="_blank" ng-href="https://twitter.com/{{ person.twitterUid }}">Twitter profiel</a>
+        <span ng-if="!person.twitterUid" class="text-muted">Niet verbonden via Twitter</span>&nbsp;
+      </li>
+    </ul>
+
+  </div>
+</div>
+
+<div class="card" ng-if="person.resources.length >= 1">
+  <div class="card-body">
+    <h3>Auto</h3>
+
+    <div ng-repeat="resource in person.resources" class="media">
+      <div class="media-object img-width50p pull-left" resource-carousel="resource"></div>
+      <div class="media-body">
+        <h3>
+          {{ resource.brand || 'Onbekend merk'}} <span ng-if="resource.model">, {{ resource.model }}</span>
+          &nbsp;<span rating-thumb="{ value : resource.rating.satisfaction, senders : resource.rating.senders }"></span>
+        </h3>
+        <a ui-sref="owm.resource.show({ resourceId: resource.id })" class="btn btn-link">
+          Bekijk auto <i class="fa fa-arrow-right"></i>
+        </a>
+      </div>
+    </div>
+
+  </div>
+</div>

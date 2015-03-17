@@ -1,7 +1,8 @@
 'use strict';
 angular.module('owm.pages', [
   'owm.pages.list-your-car',
-  'owm.pages.list-your-car-login'
+  'owm.pages.list-your-car-login',
+  'owm.pages.member',
 ])
 
 .config(function ($stateProvider) {
@@ -51,6 +52,22 @@ angular.module('owm.pages', [
     },
     data: {
       access: { feature: 'verhuurTussenscherm' }
+    }
+  })
+
+  .state('member', {
+    parent: 'owm.pages',
+    url: '/lid/:personId',
+    views: {
+      'main@': {
+        templateUrl: 'pages/member/member.tpl.html',
+        controller: 'MemberController'
+      }
+    },
+    resolve: {
+      member: ['$stateParams', 'personService', function ($stateParams, personService) {
+        return personService.get({ person: $stateParams.personId });
+      }]
     }
   })
   ;
