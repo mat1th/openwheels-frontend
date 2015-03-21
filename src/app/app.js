@@ -75,6 +75,7 @@ angular.module('openwheels', [
 
   // FILTERS
   'filters.textUtil',
+  'filters.dateUtil',
   'filters.getByPropertyFilter',
   'filters.fullname',
   'filters.avatar',

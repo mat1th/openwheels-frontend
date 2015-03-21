@@ -1,61 +1,106 @@
-<div class="card">
-  <div class="card-heading">
-    <h2 class="card-title">{{ person | fullname }}</h2>
-  </div>
-  <div class="card-body">
+<div class="container container-transitional">
+  <div class="row">
+    <div ng-class="{ 'col-md-8': showSidebar, 'col-xs-12': !showSidebar }">
 
-    <div class="media">
-      <img class="media-object pull-left img-user-normal" person-profile-image="{ person: person, size: 'normal' }" />
-      <div class="media-body text-left">
-        <p>
-          <span ng-if="person.about">{{ person.about }}</span>
-          <span ng-if="!person.about">{{ person.firstName | toTitleCase }} heeft nog geen introductie over zichzelf geschreven.</span>
-        <p>
-        <div ng-if="person.created" class="text-muted"><small>{{ 'MEMBER_SINCE' | translate }} <span am-time-ago="person.created"></span></small></div>
+      <!-- about -->
+
+      <div class="card">
+        <div class="card-heading">
+          <h2 class="card-title">{{ person | fullname }}</h2>
+        </div>
+        <div class="card-body">
+
+          <div class="media">
+            <img class="media-object pull-left img-user-normal" person-profile-image="{ person: person, size: 'normal' }" />
+            <div class="media-body text-left">
+              <p>
+                <span ng-if="person.about">{{ person.about }}</span>
+                <span ng-if="!person.about">{{ person.firstName | toTitleCase }} heeft nog geen introductie over zichzelf geschreven.</span>
+              </p>
+              <span ng-if="person.dateOfBirth" class="text-muted">
+                <small>{{ 'AGE' | translate }}: {{ person.dateOfBirth | personAge }}</small>
+                <i ng-if="person.created" class="fa fa-fw fa-circle"></i>
+              </span>
+              <small ng-if="person.created" class="text-muted">{{ 'MEMBER_SINCE' | translate }} <span am-time-ago="person.created"></span></small>
+              <div ng-if="person.badges"><span badge-list="person.badges"></span></div>
+            </div>
+          </div>
+
+        </div>
       </div>
+
+      <!-- ratings -->
+
+      <div class="card" ng-if="person.ratings.length >= 1">
+        <div class="card-heading">
+          <h3 class="card-title">{{ 'RATINGS' | translate }}</h3>
+        </div>
+        <div class="card-body">
+          <div ng-include="'person/partials/person-rating-summary.tpl.html'"></div>
+          <div ng-include="'person/partials/person-rating-reviews.tpl.html'"></div>
+        </div>
+      </div>
+
     </div>
 
-  </div>
-</div>
+    <div ng-if="showSidebar" class="col-md-4">
 
-<div class="card">
-  <div class="card-body">
-    <h3>Contact</h3>
+      <div class="card" ng-if="showContactInfo">
+        <div class="card-body">
+          <h3>Contact</h3>
 
-    <ul class="list-unstyled list-block list-spaced fa-ul">
-      <li><a href="" ng-click="openChatWith(person)"><i class="fa fa-li fa-comment"></i> Stuur een bericht</a></li>
-      <li><i class="fa fa-li fa-map-marker"></i> {{ person.streetName }} {{ person.streetNumber }} {{ person.city }}&nbsp;</li>
-      <li><i class="fa fa-li fa-envelope"></i> {{ person.email }}&nbsp;</li>
-      <li><i class="fa fa-li fa-phone"></i> {{ person.phoneNumbers[0].number }}&nbsp;</li>
-      <li><i class="fa fa-li fa-facebook"></i>
-        <a ng-if="person.facebookUid" target="_blank" ng-href="https://facebook.com/{{ person.facebookUid }}">Facebook profiel</a>
-        <span ng-if="!person.facebookUid" class="text-muted">Niet verbonden via Facebook</span>&nbsp;
-      </li>
-      <li><i class="fa fa-li fa-twitter"></i>
-        <a ng-if="person.twitterUid" target="_blank" ng-href="https://twitter.com/{{ person.twitterUid }}">Twitter profiel</a>
-        <span ng-if="!person.twitterUid" class="text-muted">Niet verbonden via Twitter</span>&nbsp;
-      </li>
-    </ul>
+          <p ng-if="user.isAuthenticated">
+            <button ng-if="user.isAuthenticated" ng-click="openChatWith(person)" type="button" class="btn btn-block btn-primary">
+              <i class="fa fa-comment"></i> Stuur een bericht
+            </button>
+          </p>
+          <ul class="list-unstyled list-block list-spaced fa-ul">
+            <li ng-if="person.city"><i class="fa fa-li fa-map-marker"></i> {{ person.city }}</li>
+            <li ng-if="person.email"><i class="fa fa-li fa-envelope"></i> {{ person.email }}</li>
+            <li ng-if="person.phoneNumbers.length >= 1"><i class="fa fa-li fa-phone"></i> {{ person.phoneNumbers[0].number }}</li>
 
-  </div>
-</div>
+            <li ng-if="person.facebookUid"><i class="fa fa-li fa-facebook"></i>
+              <a target="_blank" ng-href="https://facebook.com/{{ person.facebookUid }}">Facebook</a>
+            </li>
+            <li ng-if="person.twitterUid"><i class="fa fa-li fa-twitter"></i>
+              <a target="_blank" ng-href="https://twitter.com/{{ person.twitterUid }}">Twitter</a>
+            </li>
+            <li ng-if="person.linkedinUid"><i class="fa fa-li fa-linkedin"></i>
+              <a target="_blank" ng-href="https://www.linkedin.com/profile/view?id={{ person.linkedinUid }}">LinkedIn</a>
+            </li>
+          </ul>
 
-<div class="card" ng-if="person.resources.length >= 1">
-  <div class="card-body">
-    <h3>Auto</h3>
-
-    <div ng-repeat="resource in person.resources" class="media">
-      <div class="media-object img-width50p pull-left" resource-carousel="resource"></div>
-      <div class="media-body">
-        <h3>
-          {{ resource.brand || 'Onbekend merk'}} <span ng-if="resource.model">, {{ resource.model }}</span>
-          &nbsp;<span rating-thumb="{ value : resource.rating.satisfaction, senders : resource.rating.senders }"></span>
-        </h3>
-        <a ui-sref="owm.resource.show({ resourceId: resource.id })" class="btn btn-link">
-          Bekijk auto <i class="fa fa-arrow-right"></i>
-        </a>
+        </div>
       </div>
-    </div>
 
+      <div class="card" ng-if="person.resources.length >= 1">
+        <div class="card-body">
+          <h3>Auto</h3>
+
+          <!-- left-column version -->
+          <div ng-if="!isWindowSizeMD" ng-repeat="resource in person.resources" class="media">
+            <div ui-sref="owm.resource.show({ resourceId: resource.id })" ng-include="'resource/partials/resource-header1.tpl.html'"></div>
+          </div>
+
+          <!-- side bar version -->
+          <ul ng-if="isWindowSizeMD" class="list-unstyled">
+            <li ng-repeat="resource in person.resources">
+              <p>
+                <a ui-sref="owm.resource.show({ resourceId: resource.id })">
+                  <h4>
+                    {{ resource.brand || 'Onbekend merk'}} <span ng-if="resource.model">, {{ resource.model }}</span>
+                    &nbsp;<span rating-thumb="{ value : resource.rating.satisfaction, senders : resource.rating.senders }"></span>
+                  </h4>
+                  <img ng-src="{{ resource.pictures[0] | resourceAvatar: 'large' }}" class="img-scale" />
+                </a>
+              </p>
+            </li>
+          </ul>
+
+        </div>
+      </div>
+
+    </div>
   </div>
 </div>
+

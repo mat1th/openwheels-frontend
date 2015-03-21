@@ -59,7 +59,7 @@ angular.module('owm.pages', [
     parent: 'owm.pages',
     url: '/lid/:personId',
     views: {
-      'main@': {
+      'main-full@': {
         templateUrl: 'pages/member/member.tpl.html',
         controller: 'MemberController'
       }
