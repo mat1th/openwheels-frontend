@@ -1,0 +1,20 @@
+<div ng-if="person.ratings.length">
+  <div class="row">
+
+    <div class="col-xs-4 text-center">
+      <strong>{{ 'RATING.SATISFACTION' | translate }}</strong><br/>
+      <span rating-thumb="{ value : person.rating_totals.satisfaction, senders: person.ratings.length }"></span>
+    </div>
+
+    <div class="col-xs-4 text-center">
+      <strong>{{ 'RATING.QUALITY' | translate }}</strong><br/>
+      <span ng-bind-html="person.rating_totals.quality | ratingStars">-</span>
+    </div>
+
+    <div class="col-xs-4 text-center">
+      <strong>{{ 'RATING.CLEANLINESS' | translate }}</strong><br/>
+      <span ng-bind-html="person.rating_totals.cleanliness | ratingStars">-</span>
+    </div>
+
+  </div>
+</div>

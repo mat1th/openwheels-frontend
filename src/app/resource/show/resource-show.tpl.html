@@ -147,8 +147,8 @@
             <img class="media-object img-user-small" person-profile-image="{ person: resource.owner, size: 'small' }" />
           </a>
           <div class="media-body">
-            <h4 class="media-heading">{{ (resource.owner | fullname) || 'Eigenaar'}}</h4>
-            <div><small>{{ 'MEMBER_SINCE' | translate }} <span am-time-ago="resource.owner.created"></span></small></div>
+            <h4 class="media-heading"><a ui-sref="member({ personId: resource.owner.id })">{{ (resource.owner | fullname) || 'Eigenaar'}}</a></h4>
+            <div class="text-muted"><small>{{ 'MEMBER_SINCE' | translate }} <span am-time-ago="resource.owner.created"></span></small></div>
             <div><span badge-list="resource.owner.badges"></span></div>
 
             <button ng-if="me" type="button" class="btn btn-link" ng-click="openChat()">
