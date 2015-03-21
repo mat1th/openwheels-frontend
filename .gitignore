@@ -9,6 +9,7 @@
 .tmp
 bin
 build
+Capfile
 config
 node_modules
 sandbox
