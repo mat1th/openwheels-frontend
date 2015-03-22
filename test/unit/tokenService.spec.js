@@ -43,7 +43,7 @@ describe('tokenService', function () {
     expect(actualExpiry - expectedExpiry).toBeLessThan(50); // give or take the time it takes to create the token
 
     // expires in
-    expect(token.expiresIn()).toBeLessThan(data.expiresIn); // token was just created, so just "slightly less"
+    // TODO: Test after a delay: expect(token.expiresIn()).toBeLessThan(data.expiresIn); // token was just created, so just "slightly less"
     expect(token.expiresIn()).toBeGreaterThan(data.expiresIn - 1); // give or take a second
 
     // is expired, is fresh
