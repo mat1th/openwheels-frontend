@@ -59,7 +59,9 @@ angular.module('authService', [])
     user.isAuthenticated = false;
     user.identity = null;
     user.isPending = false;
-    if (asyncUser) { asyncUser.resolve(user); }
+
+    asyncUser = null; // make sure it never gets resolved;
+    window.location.reload();
   });
 
   this.notifyAnonymous = function () {
@@ -169,9 +171,9 @@ angular.module('authService', [])
     .catch(function (err) {
       $log.debug('<!! got identity error');
       user.isPending = false;
+      user.isAuthenticated = false;
+      user.identity = null;
       if (asyncUser) {
-        user.isAuthenticated = false;
-        user.identity = null;
         asyncUser.reject(err);
       }
     });

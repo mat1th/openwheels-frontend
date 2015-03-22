@@ -8,10 +8,10 @@ angular.module('api', [])
 
 .service('apiErrorInterceptor', function ($log, $injector, $q) {
 
-  // try http replay, otherwise reject with original error
   this.responseError = function (originalError) {
     var api = $injector.get('api');
     if (originalError.status === 401 && api.canReplay(originalError.config)) {
+      // try http replay, otherwise reject with original error
       $log.debug('<!! HTTP 401, refresh token & replay');
       return api.replay(originalError.config).catch(function (replayError) {
         return $q.reject(originalError);
@@ -34,6 +34,9 @@ angular.module('api', [])
     }
   };
 
+  var requestSerialId = 0;
+  var outstandingRequestsMap = {};
+
   var api = {};
 
   api.createRpcMethod = function (rpcMethod, isAnonymousMethod) {
@@ -50,7 +53,7 @@ angular.module('api', [])
     config.method = 'POST';
     config.data = {
       jsonrpc: '2.0',
-      id     : 0,
+      id     : requestSerialId++,
       method : rpcMethod
     };
 
@@ -66,6 +69,8 @@ angular.module('api', [])
       config.headers[AUTH_HEADER] = createAuthHeader(token);
     }
 
+    outstandingRequestsMap['request_' + config.data.id] = config;
+
     http = $http(config).then(handleRpcResponse);
     http.catch(catchAll);
     return http;
@@ -78,10 +83,12 @@ angular.module('api', [])
 
   // refresh token & replay http request
   api.replay = function (config) {
+
     var token = tokenService.getToken();
     if (!token) {
       return $q.reject('no token');
     }
+
     return token.refresh().then(function (freshToken) {
       var replayConfig = angular.copy(config);
       replayConfig.isReplay = true;
@@ -97,13 +104,12 @@ angular.module('api', [])
     if (res.data.jsonrpc === '2.0' && res.data.error) {
 
       rpcError = new Error();
-      rpcError.originalError = res.data.error;
       rpcError.message = res.data.error.message;
       rpcError.level = ['danger', 'info', 'warning'].indexOf(res.data.error.level) >= 0 ? res.data.error.level : 'danger';
       rpcError.status = res.status;
+      rpcError.config = res.config;
 
       if (!res.config.isAnonymousMethod && (!res.config.headers[AUTH_HEADER] || (res.data.authenticated===false)) && res.data.error.code === -32104) {
-
         // simulate http 401 (to be caught by error handler)
         $log.debug('<!! JSON-RPC UNAUTHENTICATED ' + res.config.data.method);
         rpcError.status = 401;
@@ -125,15 +131,23 @@ angular.module('api', [])
     }
 
     // is ok response
+    delete outstandingRequestsMap['request_' + res.config.data.id];
     return res.data.result;
   }
 
   // catch errors after any replay attempts
   function catchAll (err) {
+
+    delete outstandingRequestsMap['request_' + err.config.data.id];
+    var numOutstanding = Object.keys(outstandingRequestsMap).length;
+
     $log.debug('api error, status=' + err.status, err.message);
+
     if (err.status === 401) {
-      $log.debug('fatal 401');
-      $rootScope.$broadcast('openwheels:fatal-401', err);
+      $log.debug('fatal 401 (' + numOutstanding + ' outstanding)');
+      if (numOutstanding === 0) {
+        $rootScope.$broadcast('openwheels:fatal-401', err);
+      }
     }
   }
 

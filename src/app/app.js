@@ -185,13 +185,13 @@ angular.module('openwheels', [
     });
   });
 
-  // show an error on state change error
-  $rootScope.$on('$stateChangeError', function (event, toState, toParams, fromState, fromParams, error) {
-    alertService.loaded();
-    $log.debug('State change error', error);
-    alertService.closeAll();
-    alertService.add('danger', 'De opgevraagde pagina is niet beschikbaar', 5000);
-  });
+  // // show an error on state change error
+  // $rootScope.$on('$stateChangeError', function (event, toState, toParams, fromState, fromParams, error) {
+  //   alertService.loaded();
+  //   $log.debug('State change error', error);
+  //   alertService.closeAll();
+  //   alertService.add('danger', 'De opgevraagde pagina is niet beschikbaar', 5000);
+  // });
 })
 ;
 
