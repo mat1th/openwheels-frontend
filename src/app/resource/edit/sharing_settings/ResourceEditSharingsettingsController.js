@@ -67,7 +67,7 @@ angular.module('owm.resource.edit.sharing_settings', [])
 
   $scope.save = function () {
     alertService.load();
-    var newProps = $filter('returnDirtyItems')( angular.copy($scope.resource), $scope.editResourceForm, ['location', 'city', 'latitude', 'longitude']);
+    var newProps = $filter('returnDirtyItems')( angular.copy($scope.resource), $scope.editResourceForm);
     resourceService.alter({
       id: masterResource.id,
       newProps: newProps
