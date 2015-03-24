@@ -12,12 +12,18 @@ angular.module('owm.booking.administer', [])
 
   $scope.submit = function () {
     alertService.load();
-    bookingService.setTrip({
+
+    var params = {
       booking : $scope.booking.id,
-      odoBegin: $scope.trip.odoBegin,
-      odoEnd  : $scope.trip.odoEnd
-    })
-    .then(function (booking) {
+      odoBegin: $scope.trip.odoBegin
+    };
+
+    // End is NOT required
+    if ($scope.trip.odoEnd) {
+      params.odoEnd = $scope.trip.odoEnd;
+    }
+
+    bookingService.setTrip(params).then(function (booking) {
       alertService.add('success', $translate.instant('BOOKING.ADMINISTER.SAVE_SUCCESS'), 5000);
       $state.go('owm.person.dashboard');
     })

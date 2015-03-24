@@ -59,10 +59,9 @@
           <div class="form-group">
             <label>{{ 'BOOKING.ADMINISTER.ODOEND_LABEL' | translate }}</label>
             <div class="input-group">
-              <input name="odoEnd" type="number" class="form-control" ng-model="trip.odoEnd" required ng-disabled="alreadyFilled" />
+              <input name="odoEnd" type="number" class="form-control" ng-model="trip.odoEnd" ng-disabled="alreadyFilled" />
               <span class="input-group-addon">km</span>
             </div>
-            <div class="help-block" ng-show="form.odoEnd.$error.required"><span class="text-danger">{{ 'REQUIRED' | translate }}</span></div>
           </div>
         </div>
       </div>
