@@ -3,7 +3,8 @@
 angular.module( 'owm.auth', [
   'owm.auth.signup',
   'owm.auth.forgotPassword',
-  'owm.auth.resetPassword'
+  'owm.auth.resetPassword',
+  'owm.auth.alterPassword'
 ])
 
 .config(function config($stateProvider) {
@@ -43,6 +44,11 @@ angular.module( 'owm.auth', [
     }
   })
 
+  /**
+   * RE-SET YOUR PASSWORD USING A CODE
+   * Users receive a link to this page by email
+   * No authentication required.
+   */
   .state('owm.auth.resetPassword', {
     url: '/reset-password/:code',
     views: {
@@ -50,6 +56,33 @@ angular.module( 'owm.auth', [
         templateUrl: 'auth/resetPassword/resetPassword.tpl.html',
         controller : 'ResetPasswordController'
       }
+    },
+    resolve: {
+      code: ['$stateParams', function ($stateParams) {
+        return $stateParams.code;
+      }],
+    }
+  })
+
+  /**
+   * CHOOSE A NEW PASSWORD
+   * Authentication required
+   */
+  .state('owm.auth.changePassword', {
+    url: '/change-password',
+    views: {
+      'main@': {
+        templateUrl: 'auth/alterPassword/alterPassword.tpl.html',
+        controller : 'AlterPasswordController'
+      }
+    },
+    data: {
+      access: { deny : { anonymous : true } }
+    },
+    resolve: {
+      me: ['authService', function (authService) {
+        return authService.authenticatedUser();
+      }]
     }
   })
 

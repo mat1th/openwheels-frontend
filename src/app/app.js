@@ -6,6 +6,7 @@ angular.module('openwheels', [
   'ui.bootstrap',
   'ui.calendar',
   'ui.sortable', // bower install ng-sortable
+  'validation.match', // see vendor_custom
 
   'angularMoment',
   'uiGmapgoogle-maps',

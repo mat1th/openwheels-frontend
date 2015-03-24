@@ -1,6 +1,10 @@
 {
     "EMAIL": "E-mail",
     "PASSWORD": "Wachtwoord",
+    "OLD_PASSWORD": "Huidig wachtwoord",
+    "NEW_PASSWORD": "Nieuw wachtwoord",
+    "REPEAT_PASSWORD": "Herhaal nieuw wachtwoord",
+    "PASSWORD_NO_MATCH": "Het wachtwoord komt niet overeen",
     "LOGIN": "Log in",
     "LOGIN_SHORT": "Inloggen",
     "CREATE_ACCOUNT": "Gratis aanmelden",
@@ -407,7 +411,7 @@
     "AUTH.RESET_PASSWORD_TEXT": "Vul het e-mailadres in waarmee je bent aangemeld voor autodelen. Je ontvangt dan per e-mail een link om een nieuw wachtwoord in te stellen.",
     "AUTH.RESET_PASSWORD_FOOTER_HTML": "Heb je geen mail ontvangen, of weet je niet meer met welk e-mailadres je bent aangemeld? Neem dan <a href=\"https://mywheels.nl/autodelen/community/contact\">contact</a> met ons op.",
 
-    "AUTH_CHANGE_PWD_PAGE_TITLE": "Wachtwoord herstel",
+    "AUTH_CHANGE_PWD_PAGE_TITLE": "Wachtwoord wijzigen",
     "AUTH_CHANGE_PWD_INTRO": "Je kunt hier een nieuw wachtwoord kiezen",
     "AUTH_CHANGE_PWD_SUCCESS": "Je nieuwe wachtwoord is opgeslagen",
 

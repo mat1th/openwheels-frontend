@@ -2,13 +2,11 @@
 
 angular.module('owm.auth.resetPassword', [])
 
-.controller('ResetPasswordController', function ($state, $stateParams, $translate, $scope, alertService, personService) {
+.controller('ResetPasswordController', function ($state, $stateParams, $translate, $scope, alertService, personService, code) {
 
   $scope.isBusy   = false;
   $scope.password = '';
   $scope.submit   = savePassword;
-
-  var code = $stateParams.code;
 
   function savePassword () {
     var params = {

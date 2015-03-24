@@ -51,7 +51,7 @@ angular.module('passwordStrengthDirective', [])
 
       var common = {
         minChar: 6,
-        debug: true
+        debug: false
       };
 
       var ui = {
