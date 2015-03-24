@@ -361,13 +361,11 @@
     "BOOKING.RATING.OWNER.PAGE_TITLE": "Beoordeel je verhuur",
     "BOOKING.RATING.FOOTER_TEXT": "Mail de eigenaar of contact MyWheels voor overige zaken zonder ze publiekelijk op internet te zetten. Bijvoorbeeld een berichtje dat de ruitenvloeistof bijgevuld moet worden of als je iets vergeten bent mee te nemen uit de auto.",
     "BOOKING.RATING.SAVE_SUCCESS": "Bedankt voor het sturen van je beoordeling!",
-
     "BOOKING.RATING.SATISFACTION_LABEL_RENTER": "Ben je tevreden over de rit met deze auto en het contact met de verhuurder?",
     "BOOKING.RATING.SATISFACTION_LABEL_OWNER": "Ben je tevreden over de verhuur van je auto en het contact met de huurder?",
     "BOOKING.RATING.SATISFACTION.0": "Ontevreden",
     "BOOKING.RATING.SATISFACTION.NULL": "Neutraal",
     "BOOKING.RATING.SATISFACTION.1": "Tevreden",
-
     "BOOKING.RATING.QUALITY_LABEL": "Wat vind je van de kwaliteit van de auto? (optioneel)",
     "BOOKING.RATING.QUALITY.0": "",
     "BOOKING.RATING.QUALITY.1": "De auto reed onprettig",
@@ -375,7 +373,6 @@
     "BOOKING.RATING.QUALITY.3": "De auto reed goed genoeg",
     "BOOKING.RATING.QUALITY.4": "De auto reed prettig",
     "BOOKING.RATING.QUALITY.5": "De auto reed super!",
-
     "BOOKING.RATING.CLEANLINESS_LABEL": "Wat vind je van de netheid van de auto? (optioneel)",
     "BOOKING.RATING.CLEANLINESS.0": "",
     "BOOKING.RATING.CLEANLINESS.1": "De auto was erg vies",
@@ -383,26 +380,22 @@
     "BOOKING.RATING.CLEANLINESS.3": "De auto was schoon genoeg voor mij",
     "BOOKING.RATING.CLEANLINESS.4": "De auto was behoorlijk schoon, dat vond ik prettig",
     "BOOKING.RATING.CLEANLINESS.5": "De auto was heerlijk schoon, super!",
-
     "BOOKING.ADMINISTER.PAGE_TITLE": "Rit administreren",
     "BOOKING.ADMINISTER.ODOBEGIN_LABEL": "Beginstand",
     "BOOKING.ADMINISTER.ODOEND_LABEL": "Eindstand",
     "BOOKING.ADMINISTER.SAVE_SUCCESS": "Bedankt voor het doorgeven van de kilometerstanden",
     "BOOKING.ADMINISTER.ALREADY_FILLED": "De kilometerstanden zijn al doorgegeven",
-    "BOOKING_ACCEPTED_OWNER_CAR": "heeft jouw auto gehuurd",
-    "BOOKING_ACCEPTED_OWNER_CABRIO": "heeft jouw cabrio gehuurd",
-    "BOOKING_ACCEPTED_OWNER_CAMPER": "heeft jouw camper gehuurd",
-    "BOOKING_ACCEPTED_OWNER_VAN": "heeft jouw bus gehuurd",
-    "BOOKING_REQUESTED_OWNER_CAR": "wil jouw auto huren",
-    "BOOKING_REQUESTED_OWNER_CABRIO": "wil jouw cabrio huren",
-    "BOOKING_REQUESTED_OWNER_CAMPER": "wil jouw camper huren",
-    "BOOKING_REQUESTED_OWNER_VAN": "wil jouw bus huren",
     "BOOKING_ACCEPTED_RENTER": "Mijn reservering",
     "BOOKING_REQUESTED_RENTER": "Mijn reservering",
+    "BOOKING_TITLE_WANTS_TO_CHANGE": "wil de reservering wijzigen",
+    "BOOKING_TITLE_HAS_RENTED_PREFIX": "heeft jouw",
+    "BOOKING_TITLE_HAS_RENTED_SUFFIX": "gehuurd",
+    "BOOKING_TITLE_WANTS_TO_RENT_PREFIX": "wil jouw",
+    "BOOKING_TITLE_WANTS_TO_RENT_SUFFIX": "huren",
     "BOOKING_AMEND_DISCLAIMER": "Let op, als je al hebt betaald kun je de reservering niet verlengen en krijg je geen geld terug bij verkorten.",
-
     "BOOKING.RATING.REVIEW_LABEL": "Jouw ervaring",
     "BOOKING.RATING.REVIEW_PLACEHOLDER": "Bij MyWheels willen we elkaar graag helpen. Hier kun je jouw tevredenheid toelichten.",
+
     "BLOG_URL": "https://www.googleapis.com/blogger/v3/blogs/6542680713381713598/posts?key=AIzaSyCnLRNdIY_aU0atiyI-uSdbXQzv7imWyLA",
 
     "NAVBAR.HOW_IT_WORKS": "Hoe autodelen werkt",
@@ -432,6 +425,7 @@
     "INFO_RESOURCE_ALIAS": "Kies een leuke bijnaam voor je auto. Je kunt bijvoorbeeld kiezen voor je voornaam +'s wheels. Eronder vermelden we het merk en het type, dat hoeft dus niet in de bijnaam",
     "INFO_ACCOUNT_IBAN": "Neem contact op met support als je je IBAN nummer wilt wijzigen",
     "INFO_PROFILE_LICENSE_RESTRICT": "Omdat je persoonsgegevens zijn gecontroleerd aan de hand van je rijbewijs kun je deze niet zelf wijzigen. Neem contact op met support.",
+    "INFO_BOOKING_CHANGE_REQUEST": "De huurder kan een verzoek doen om een bestaande reservering te verlengen of verkorten. Als de verhuurder dit verzoek accepteert gelden de gewijzigde tijden. Als de verhuurder de wijiging weigert dan blijven de oude tijden gelden",
 
     "FAVORITE_RESOURCES": "Favorieten",
     "SHOW_MORE_RESOURCES": "Zoek meer auto's",

@@ -2,28 +2,29 @@
 
 angular.module('filters.booking', [])
 
-.filter('bookingRequestedOwner', ['$translate', function ($translate) {
-  var keys = {
-    car   : 'BOOKING_REQUESTED_OWNER_CAR',
-    cabrio: 'BOOKING_REQUESTED_OWNER_CABRIO',
-    camper: 'BOOKING_REQUESTED_OWNER_CAMPER',
-    van   : 'BOOKING_REQUESTED_OWNER_VAN'
+.filter('wantsToChangeBooking', function ($translate) {
+  return function (name) {
+    return name + ' ' + $translate.instant('BOOKING_TITLE_WANTS_TO_CHANGE');
   };
-  return function (booking) {
-    var key = keys[booking.resource.type] || keys.car;
-    return $translate.instant(key).toLowerCase();
-  };
-}])
+})
 
-.filter('bookingAcceptedOwner', ['$translate', function ($translate) {
-  var keys = {
-    car   : 'BOOKING_ACCEPTED_OWNER_CAR',
-    cabrio: 'BOOKING_ACCEPTED_OWNER_CABRIO',
-    camper: 'BOOKING_ACCEPTED_OWNER_CAMPER',
-    van   : 'BOOKING_ACCEPTED_OWNER_VAN'
+.filter('hasRented', function ($filter, $translate) {
+  return function (name, resource) {
+    var fallbackType = 'car';
+    var resourceType = $filter('translateOrDefault')('RESOURCE_TYPE.' + (resource.type || '').toUpperCase(), fallbackType);
+    var prefix = $translate.instant('BOOKING_TITLE_HAS_RENTED_PREFIX');
+    var suffix = $translate.instant('BOOKING_TITLE_HAS_RENTED_SUFFIX');
+    return [name, prefix, resourceType.toLowerCase(), suffix].join(' ');
   };
-  return function (booking) {
-    var key = keys[booking.resource.type] || keys.car;
-    return $translate.instant(key).toLowerCase();
+})
+
+.filter('wantsToRent', function ($filter, $translate) {
+  return function (name, resource) {
+    var fallbackType = 'car';
+    var resourceType = $filter('translateOrDefault')('RESOURCE_TYPE.' + (resource.type || '').toUpperCase(), fallbackType);
+    var prefix = $translate.instant('BOOKING_TITLE_WANTS_TO_RENT_PREFIX');
+    var suffix = $translate.instant('BOOKING_TITLE_WANTS_TO_RENT_SUFFIX');
+    return [name, prefix, resourceType.toLowerCase(), suffix].join(' ');
   };
-}]);
+})
+;

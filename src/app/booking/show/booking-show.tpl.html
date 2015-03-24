@@ -8,10 +8,13 @@
 
     <h2 class="card-title">
       <span ng-if="userPerspective==='owner' && !hasAcceptedTimeframe(booking)">
-        {{ booking.person.firstName }} {{ booking | bookingRequestedOwner }}
+        {{ booking.person.firstName | wantsToRent : booking.resource }}
       </span>
-      <span ng-if="userPerspective==='owner' && hasAcceptedTimeframe(booking)">
-        {{ booking.person.firstName }} {{ booking | bookingAcceptedOwner }}
+      <span ng-if="userPerspective==='owner' && hasAcceptedTimeframe(booking) && !hasRequestedTimeframe(booking)">
+        {{ booking.person.firstName | hasRented : booking.resource }}
+      </span>
+      <span ng-if="userPerspective==='owner' && hasAcceptedTimeframe(booking) && hasRequestedTimeframe(booking)">
+        {{ booking.person.firstName | wantsToChangeBooking }}
       </span>
       <span ng-if="userPerspective==='renter' && !hasAcceptedTimeframe(booking)">
         {{ 'BOOKING_REQUESTED_RENTER' | translate }}
