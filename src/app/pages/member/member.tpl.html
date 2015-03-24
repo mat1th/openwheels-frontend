@@ -2,6 +2,15 @@
   <div class="row">
     <div ng-class="{ 'col-md-8': showSidebar, 'col-xs-12': !showSidebar }">
 
+      <!-- suggest login -->
+      <div ng-if="!user.isAuthenticated" class="card">
+        <div class="card-body">
+          <p><i class="fa fa-fw fa-info-circle text-info"></i>{{ 'MEMBER_SUGGEST_LOGIN' | translate }}</p>
+          <button ui-sref="signup" type="button" class="btn btn-warning">{{ 'SIGNUP_SHORT' | translate }}</button>
+          <button ng-click="login()" type="button" class="btn btn-warning">{{ 'LOGIN_SHORT' | translate }}</button>
+        </div>
+      </div>
+
       <!-- about -->
 
       <div class="card">

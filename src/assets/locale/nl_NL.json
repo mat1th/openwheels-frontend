@@ -2,6 +2,7 @@
     "EMAIL": "E-mail",
     "PASSWORD": "Wachtwoord",
     "LOGIN": "Log in",
+    "LOGIN_SHORT": "Inloggen",
     "CREATE_ACCOUNT": "Gratis aanmelden",
     "LOGIN_TROUBLE": "Problemen met inloggen?",
     "LOGIN_TROUBLE_URL": "https://mywheels.nl/autodelen/help",
@@ -12,6 +13,7 @@
     "FIRST_NAME": "Voornaam",
     "USER_PREFERENCE_LABEL": "Ik wil auto's...",
     "SIGNUP": "Word gratis lid",
+    "SIGNUP_SHORT": "Aanmelden",
     "ALREADY_MEMBER": "Ben je al lid?",
     "SIGNUP_TROUBLE": "Problemen met aanmelden?",
     "SIGNUP_TROUBLE_URL": "https://mywheels.nl/autodelen/community/contact",
@@ -452,5 +454,6 @@
     "SOCIAL_SHARE_RESOURCE": "Breng nu je vrienden op de hoogte dat je jouw auto verhuurt.",
     "SOCIAL_SHARE_FACEBOOK": "Deel op Facebook",
     "SOCIAL_SHARE_TWITTER": "Tweet",
-    "SOCIAL_SHARE_GOOGLE_PLUS": "Deel op Google+"
+    "SOCIAL_SHARE_GOOGLE_PLUS": "Deel op Google+",
+    "MEMBER_SUGGEST_LOGIN": "Login of meld je aan om meer informatie te zien"
 }

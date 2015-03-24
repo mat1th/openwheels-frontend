@@ -1,23 +1,47 @@
 'use strict';
 angular.module('owm.pages.member',[])
 
-.controller('MemberController', function ($filter, $scope, chatPopupService, user, member) {
+.controller('MemberController', function ($window, $filter, $scope, alertService, authService, personService, chatPopupService, user, member) {
 
   $scope.user = user;
   $scope.person = member;
+  $scope.showContactInfo = false;
+  $scope.showSidebar = false;
+
   $scope.openChatWith = openChatWith;
+  $scope.login = login;
 
-  $scope.showContactInfo = (
-    user.isAuthenticated,
-    member.city ||
-    member.email ||
-    (member.phoneNumbers && member.phoneNumbers.length) ||
-    member.facebookUid ||
-    member.twitterUid ||
-    member.linkedinUid
-  );
+  init();
 
-  $scope.showSidebar = $scope.showContactInfo || (member.resources && member.resources.length);
+  function init () {
+    $scope.showContactInfo = (
+      user.isAuthenticated,
+      member.city ||
+      member.email ||
+      (member.phoneNumbers && member.phoneNumbers.length) ||
+      member.facebookUid ||
+      member.twitterUid ||
+      member.linkedinUid
+    );
+    $scope.showSidebar = $scope.showContactInfo || (member.resources && member.resources.length);
+  }
+
+  function login () {
+    authService.loginPopup().then(function () {
+      alertService.load();
+      personService.get({ person: member.id })
+      .then(function (member) {
+        $scope.person = member;
+        init();
+      })
+      .catch(function (err) {
+        alertService.showError(err);
+      })
+      .finally(function () {
+        alertService.loaded();
+      });
+    });
+  }
 
   function openChatWith (otherPerson) {
     var otherPersonName = $filter('fullname')(otherPerson);
