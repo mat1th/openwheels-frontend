@@ -3,6 +3,7 @@
 angular.module('owm.resource.edit', [
   'owm.resource.edit.data',
   'owm.resource.edit.sharing_settings',
+  'owm.resource.edit.price',
   'owm.resource.edit.members',
   'owm.resource.edit.location',
   'owm.resource.edit.pictures'
