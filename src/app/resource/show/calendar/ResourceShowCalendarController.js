@@ -8,6 +8,7 @@ angular.module('owm.resource.show.calendar', [
 ])
 
   .controller('ResourceShowCalendarController', function ($location, $scope, $state, $stateParams, $filter, $modal, $translate, me, calendarService, bookings, resource, blockings, BlockingEvent, BookingEvent, API_DATE_FORMAT) {
+    $scope.me = me;
     $scope.resource = resource;
     $scope.view = $stateParams.view || 'agendaWeek';
 

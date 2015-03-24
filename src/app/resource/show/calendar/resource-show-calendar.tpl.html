@@ -13,7 +13,7 @@
   <div class="card-body" id="resource-calendar">
 
     <div ng-if="me && (resource.owner.id === me.id || resource.contactPerson.id === me.id)">
-      {{ 'RESOURCE_CAL_INFO_FOR_OWNER' | translateOrDefault }}
+      <i class="fa fa-fw fa-info-circle text-info"></i>{{ 'RESOURCE_CAL_INFO_FOR_OWNER' | translateOrDefault }}
     </div>
 
     <div class="btn-group" style="margin-bottom: -40px;">
