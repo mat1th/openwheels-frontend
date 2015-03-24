@@ -115,6 +115,9 @@
     <div class="card-heading"><h2 class="card-title">Reservering wijzigen</h2></div>
     <div class="card-body">
 
+      <!-- price -->
+      <div ng-include="'resource/partials/resource-price.tpl.html'"></div>
+
       <div class="booking-form">
         <form class="booking" timeframe begin="bookingRequest.beginRequested" end="bookingRequest.endRequested">
           <div class="form-group">
@@ -192,6 +195,11 @@
                 ng-click="stopBooking(booking)">
                 {{ 'STOP_BOOKING' | translate }}
               </button>
+
+              <a target="_blank" ng-href="{{ $state.href('owm.resource.calendar', {resourceId: resource.id}) }}" class="btn btn-default">
+                <i class="fa fa-calendar"></i> {{ 'CALENDAR_BUTTON' | translate }}
+              </a>
+
             </p>
           </div>
 

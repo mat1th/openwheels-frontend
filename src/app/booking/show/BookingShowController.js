@@ -8,6 +8,17 @@ angular.module('owm.booking.show', [])
   authService, boardcomputerService, chatPopupService,
   booking, me) {
 
+  /**
+   * HACK
+   * see issue MW-1206 "booking.resource.price not implemented"
+   */
+  if (!booking.resource.price) {
+    booking.resource.price = {};
+    ['hourRate', 'dayRateTotal', 'fuelPerKilometer', 'kilometerRate', 'kmFree'].forEach(function (prop) {
+      booking.resource.price[prop] = booking.resource[prop];
+    });
+  }
+
   $scope.bookingRequest = angular.copy(booking);
   $scope.bookingRequest.beginRequested = booking.beginRequested ? booking.beginRequested : booking.beginBooking;
   $scope.bookingRequest.endRequested= booking.endRequested ? booking.endRequested : booking.endBooking;
