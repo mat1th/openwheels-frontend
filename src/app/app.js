@@ -149,7 +149,7 @@ angular.module('openwheels', [
 
 .run(function (windowSizeService, oAuth2MessageListener, stateAuthorizer, authService, featuresService) {})
 
-.run(function ($window, $log, $translate, $state, $stateParams, $rootScope, alertService) {
+.run(function ($window, $log, $translate, $state, $stateParams, $rootScope, alertService, featuresService) {
   $rootScope.$state = $state;
   $rootScope.$stateParams = $stateParams;
   $rootScope.showAsideMenu = false;
@@ -183,6 +183,17 @@ angular.module('openwheels', [
         $rootScope.pageTitle = siteName;
       }
     });
+
+    /**
+     * Use new bootstrap container width on certain pages
+     * (can be removed when implemented everywhere)
+     */
+    $rootScope.containerTransitional = (
+      (featuresService.get('filtersSidebar')  && $state.includes('owm.resource.search')) ||
+      (featuresService.get('resourceSidebar') && $state.includes('owm.resource.show')) ||
+      $state.includes('member')
+    );
+
   });
 
   // show an error on state change error
