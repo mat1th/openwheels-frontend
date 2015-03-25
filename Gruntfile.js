@@ -437,9 +437,10 @@ module.exports = function (grunt) {
 
       config: {
         files: [
-          'config/localhost.js'
+          'config/local.js',
+          'config/branding.js'
         ],
-        tasks: [ 'configure:localhost' ]
+        tasks: [ 'configure' ]
       },
 
       assets: {
@@ -561,7 +562,7 @@ module.exports = function (grunt) {
   // run local server
   grunt.registerTask('server', [
     'build-common',
-    'configure:localhost',
+    'configure',
     'ngconstant:development',
     'index:build',
     'connect:livereload',
@@ -586,7 +587,8 @@ module.exports = function (grunt) {
   grunt.registerTask('locale', ['synclocale:nl_en']);
 
   // deploy
-  grunt.registerTask('dist', ['initWithCacheBuster', 'build-common', 'ngconstant:production' , 'compile']);
+  grunt.registerTask('dist-dev', ['initWithCacheBuster', 'build-common', 'ngconstant:development' , 'compile']);
+  grunt.registerTask('dist'    , ['initWithCacheBuster', 'build-common', 'ngconstant:production'  , 'compile']);
 
   grunt.registerTask('initWithCacheBuster', function () {
     grunt.initConfig(grunt.util._.extend(gruntConfig, buildConfig, {
@@ -626,10 +628,12 @@ module.exports = function (grunt) {
     });
   });
 
-  // write config.json
-  grunt.registerTask('configure', function (target) {
-    var config = require('./config/' + target + '.js');
-    grunt.file.write(grunt.config('build_dir') + '/config.json', JSON.stringify(config, null, 2));
+  // write config
+  grunt.registerTask('configure', function () {
+    var config = require('./config/config.js');
+    var features = require('./config/features.js');
+    grunt.file.write(grunt.config('build_dir') + '/branding/config.json', JSON.stringify(config, null, 2));
+    grunt.file.write(grunt.config('build_dir') + '/branding/features.json', JSON.stringify(features, null, 2));
   });
 
   /**

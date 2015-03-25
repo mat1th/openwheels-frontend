@@ -227,13 +227,14 @@ angular.module('openwheels', [
         new FastClick(document);
       }, false);
 
-      // load config & bootstrap
+      // merge configs + bootstrap
       angular.element($window.document).ready(function () {
-        $q.all([baseConfig(), brandConfig()]).then(function (configs) {
+        $q.all([configFile(), featuresFile()]).then(function (configs) {
           var config = angular.extend(configs[0], configs[1]);
-          $log.debug('app running at ' + config.app_url);
           var ok = bootstrap(config);
-          if (!ok) {
+          if (ok) {
+            $log.debug('app running at ' + config.app_url);
+          } else {
             console.log('Invalid configuration');
           }
         });
@@ -261,20 +262,20 @@ angular.module('openwheels', [
     return false;
   }
 
-  function baseConfig () {
+  function configFile () {
     var dfd = $q.defer();
-    $http.get('config.json').then(function (base) {
-      dfd.resolve(base.data);
+    $http.get('branding/config.json').then(function (response) {
+      dfd.resolve(response.data);
     }).catch(function () {
       dfd.resolve({});
     });
     return dfd.promise;
   }
 
-  function brandConfig () {
+  function featuresFile () {
     var dfd = $q.defer();
-    $http.get('branding/config.json').then(function (brand) {
-      dfd.resolve(brand.data);
+    $http.get('branding/features.json').then(function (response) {
+      dfd.resolve(response.data);
     }).catch(function () {
       dfd.resolve({});
     });
