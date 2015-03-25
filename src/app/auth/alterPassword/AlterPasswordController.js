@@ -14,8 +14,8 @@ angular.module('owm.auth.alterPassword', [])
     var params = {
       person: me.id,
       newProps: {
-        // oldPassword: $scope.oldPassword (not supported yet)
-        password: $scope.newPassword
+        oldPassword: $scope.oldPassword,
+        password   : $scope.newPassword
       }
     };
 
