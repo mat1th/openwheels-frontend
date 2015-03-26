@@ -1,5 +1,6 @@
 <div class="media">
-  <img class="media-object img-resource-small pull-left" ng-src="{{ resource.pictures[0] | resourceAvatar:'small' }}">
+  <img ng-if="!isWindowSizeLG" class="media-object img-resource-small pull-left" ng-src="{{ resource.pictures[0] | resourceAvatar:'small' }}">
+  <img ng-if="isWindowSizeLG" class="media-object img-resource-normal pull-left" ng-src="{{ resource.pictures[0] | resourceAvatar:'normal' }}">
   <div class="media-body">
 
     <div class="pull-right" ng-if="$state.includes('owm.resource.search.list')" style="margin: 20px 0 0 8px">
