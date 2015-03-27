@@ -8,7 +8,7 @@ angular.module('geocoderDirective', [])
     // scope: {},
     link: function (scope, elm, attrs) {
       var options = scope.$eval(attrs.owGeocoder);
-      var onDetailsCallback = options.onDetails || angular.noop();
+      var onDetailsCallback = options.onDetails || angular.noop;
 
       scope.placeDetails = null;
 

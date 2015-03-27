@@ -15,11 +15,11 @@ angular.module('owm.home', [])
   $scope.howToRent = 'https://mywheels.nl/autodelen/hoe-huren-werkt';
   $scope.howToLet = 'https://mywheels.nl/autodelen/hoe-verhuren-werkt';
   $scope.howToCarsharing = 'https://mywheels.nl/autodelen';
-  $scope.place = '';
+  $scope.search = { text: '' };
 
   $scope.doSearch = function (placeDetails) {
     if (placeDetails) {
-      resourceQueryService.setText($scope.place);
+      resourceQueryService.setText($scope.search.text);
       resourceQueryService.setLocation({
         latitude : placeDetails.geometry.location.lat(),
         longitude: placeDetails.geometry.location.lng()
