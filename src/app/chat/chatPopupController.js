@@ -116,6 +116,7 @@ angular.module('owm.chat.controller', [])
 
     messageService.sendMessageTo(params)
     .then(function () {
+      $scope.message = '';
       return getNewerMessages();
     })
     .catch(function (err) {
@@ -123,7 +124,6 @@ angular.module('owm.chat.controller', [])
     })
     .finally(function () {
       $scope.isLoading = false;
-      $scope.message = '';
 
       chatPopupService.scrollToBottom();
       chatPopupService.focusInput();
