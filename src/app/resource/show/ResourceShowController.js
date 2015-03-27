@@ -16,16 +16,16 @@ angular.module('owm.resource.show', [])
   $scope.showBookingForm = false;
   $scope.showBookingFormToggle = true;
 
-  $scope.openChat = openChat;
+  $scope.openChatWith = openChatWith;
   $scope.isFavoriteResolved = false;
   $scope.toggleFavorite = toggleFavorite;
 
   loadSearchState();
   if (me) { loadFavorite(); } else { $scope.isFavoriteResolved = true; }
 
-  function openChat () {
-    var otherPersonName = $filter('fullname')(resource.owner);
-    chatPopupService.openPopup(otherPersonName, resource.owner.id, resource.id, null);
+  function openChatWith (otherPerson) {
+    var otherPersonName = $filter('fullname')(otherPerson);
+    chatPopupService.openPopup(otherPersonName, otherPerson.id, resource.id, null);
   }
 
   function loadSearchState () {

@@ -142,28 +142,62 @@
       <!-- owner -->
 
       <div class="card">
-        <div class="media">
-          <a class="pull-left">
-            <img class="media-object img-user-small" person-profile-image="{ person: resource.owner, size: 'small' }" />
-          </a>
-          <div class="media-body">
-            <h4 class="media-heading"><a ui-sref="member({ personId: resource.owner.id })">{{ (resource.owner | fullname) || 'Eigenaar'}}</a></h4>
-            <div class="text-muted"><small>{{ 'MEMBER_SINCE' | translate }} <span am-time-ago="resource.owner.created"></span></small></div>
-            <div><span badge-list="resource.owner.badges"></span></div>
+        <div class="card-heading">
+          <h3 class="card-title">{{ 'OWNER' | translate }}</h3>
+          <div class="media">
+            <img class="media-object pull-left img-user-small" person-profile-image="{ person: resource.owner, size: 'small' }" />
+            <div class="media-body">
+              <h4 class="media-heading"><a ui-sref="member({ personId: resource.owner.id })">{{ resource.owner | fullname }}</a></h4>
+              <div ng-if="resource.owner.created" class="text-muted">
+                <small>{{ 'MEMBER_SINCE' | translate }} <span am-time-ago="resource.owner.created"></span></small>
+              </div>
+              <div><span badge-list="resource.owner.badges"></span></div>
 
-            <button ng-if="me" type="button" class="btn btn-link" ng-click="openChat()">
-              <i class="fa fa-comment fa-fw"></i>
-              Stuur een bericht
-            </button>
-
+              <button ng-if="me" type="button" class="btn btn-link" ng-click="openChatWith(resource.owner)">
+                <i class="fa fa-comment fa-fw"></i>
+                Stuur een bericht
+              </button>
+            </div>
           </div>
         </div>
         <div class="card-body">
-          <h5>{{ 'ABOUT_CAR' | translate}}</h5>
-          <p>{{ resource.advertisement }}</p>
-          <hr>
-          <h5>{{ 'ABOUT_ME' | translate }}</h5>
-          <p>{{ resource.owner.about}}</p>
+          <div ng-if="resource.advertisement">
+            <h5>{{ 'ABOUT_CAR' | translate}}</h5>
+            <p>{{ resource.advertisement }}</p>
+          </div>
+          <div ng-if="resource.owner.about">
+            <h5>{{ 'ABOUT_ME' | translate }}</h5>
+            <p>{{ resource.owner.about}}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- contact person -->
+
+      <div class="card" ng-if="resource.contactPerson && (resource.contactPerson.id !== resource.owner.id)">
+        <div class="card-heading">
+          <h3 class="card-title">{{ 'CONTACT_PERSON' | translate }}</h3>
+          <div class="media">
+            <img class="media-object pull-left img-user-small" person-profile-image="{ person: resource.contactPerson, size: 'small' }" />
+            <div class="media-body">
+              <h4 class="media-heading"><a ui-sref="member({ personId: resource.contactPerson.id })">{{ resource.contactPerson | fullname }}</a></h4>
+              <div ng-if="resource.contactPerson.created" class="text-muted">
+                <small>{{ 'MEMBER_SINCE' | translate }} <span am-time-ago="resource.contactPerson.created"></span></small>
+              </div>
+              <div><span badge-list="resource.contactPerson.badges"></span></div>
+
+              <button ng-if="me" type="button" class="btn btn-link" ng-click="openChatWith(resource.contactPerson)">
+                <i class="fa fa-comment fa-fw"></i>
+                Stuur een bericht
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div ng-if="resource.contactPerson.about">
+            <h5>{{ 'ABOUT_ME' | translate }}</h5>
+            <p>{{ resource.contactPerson.about}}</p>
+          </div>
         </div>
       </div>
 
