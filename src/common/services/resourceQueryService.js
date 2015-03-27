@@ -5,91 +5,158 @@ angular.module('owm.resourceQueryService', [])
 .factory('resourceQueryService', function (API_DATE_FORMAT) {
 
   var URL_DATE_TIME_FORMAT = 'YYMMDDHHmm';
-  var text      = '';
-  var location  = null;
-  var timeFrame = null;
-  var radius    = null;
 
-  function getText () { return text; }
-  function setText (_text) {
-    if (_text) {
-      text = _text;
-    } else {
-      text = '';
+  var data = {
+    text     : '',
+    location : null,
+    timeFrame: null,
+    radius   : null,
+    options  : null,
+    filters  : null
+  };
+
+  var optionApi2Url = {};
+  var optionUrl2Api = {};
+  (function () {
+    var url = ['airco','fietsendrager','winderbanden','kinderzitje','navigatie','trekhaak','automaat','mp3','rolstoel'];
+    var api = [
+      'airconditioning',
+      'fietsendrager',
+      'winterbanden',
+      'kinderzitje',
+      'navigatie',
+      'trekhaak',
+      'automaat',
+      'mp3-aansluiting',
+      'rolstoelvriendelijk'
+    ];
+    for (var i=0; i < url.length; i++) {
+      optionApi2Url[api[i]] = url[i];
+      optionUrl2Api[url[i]] = api[i];
     }
+  }());
+
+  var filterApi2Url = {};
+  var filterUrl2Api = {};
+  (function () {
+    var url = ['fuel','lock','seats','type'];
+    var api = [
+      'fuelType',
+      'locktype', // FIXME: apparently needs lowercase
+      'minSeats',
+      'resourceType'
+    ];
+    for (var i=0; i < url.length; i++) {
+      filterApi2Url[api[i]] = url[i];
+      filterUrl2Api[url[i]] = api[i];
+    }
+  }());
+
+  function setText (text) {
+    data.text = text || '';
   }
 
-  function getRadius () { return radius; }
-  function setRadius (_radius) {
+  function setRadius (radius) {
     try {
-      radius = parseInt(_radius);
+      data.radius = parseInt(radius);
     } catch (e) {
-      radius = null;
+      data.radius = null;
     }
   }
 
-  function getLocation () { return location; }
-  function setLocation (_location) {
-    if (_location && _location.latitude && _location.longitude) {
-      location = {
-        latitude : _location.latitude,
-        longitude: _location.longitude
+  function setLocation (location) {
+    if (location && location.latitude && location.longitude) {
+      data.location = {
+        latitude : location.latitude,
+        longitude: location.longitude
       };
     } else {
-      location = null;
+      data.location = null;
     }
   }
-
-  function getTimeFrame () { return timeFrame; }
 
   /**
    * Expects API-date-formatted strings
    */
-  function setTimeFrame (_timeFrame) {
-    var d1 = _timeFrame ? _timeFrame.startDate : null;
-    var d2 = _timeFrame ? _timeFrame.endDate   : null;
+  function setTimeFrame (timeFrame) {
+    var d1 = timeFrame ? timeFrame.startDate : null;
+    var d2 = timeFrame ? timeFrame.endDate   : null;
     if ( d1 && d2 && moment(d1).isValid() && moment(d2).isValid() ) {
-      timeFrame = {
+      data.timeFrame = {
         startDate: d1,
         endDate  : d2
       };
     } else {
-      timeFrame = null;
+      data.timeFrame = null;
     }
+  }
+
+  function setOptions (optionsArray) {
+    data.options = optionsArray && optionsArray.length ? optionsArray : null;
+  }
+
+  function setFilters (filtersObject) {
+    data.filters = null;
+    angular.forEach(filtersObject, function (value, key) {
+      if (!value) { return; }
+      if (key === 'minSeats') {
+        try {
+          data.filters = data.filters || {};
+          data.filters[key] = parseInt(value);
+        } catch (e) {
+        }
+      } else {
+        data.filters = data.filters || {};
+        data.filters[key] = value;
+      }
+    });
   }
 
   function createStateParams () {
     var stateParams = {};
-    if (location) {
-      stateParams.lat = location.latitude;
-      stateParams.lng = location.longitude;
+    if (data.location) {
+      stateParams.lat = data.location.latitude;
+      stateParams.lng = data.location.longitude;
     }
-    if (timeFrame) {
-      stateParams.dtstart = moment(timeFrame.startDate).format(URL_DATE_TIME_FORMAT);
-      stateParams.dtend   = moment(timeFrame.endDate  ).format(URL_DATE_TIME_FORMAT);
+    if (data.timeFrame) {
+      stateParams.start = moment(data.timeFrame.startDate).format(URL_DATE_TIME_FORMAT);
+      stateParams.end   = moment(data.timeFrame.endDate  ).format(URL_DATE_TIME_FORMAT);
     }
-    if (text) {
-      stateParams.q = text;
+    if (data.text) {
+      stateParams.text = data.text;
     }
-    if (radius) {
-      stateParams.r = radius;
+    if (data.radius) {
+      stateParams.radius = data.radius;
     }
+
+    if (data.options) {
+      stateParams.options = data.options.map(function (option) {
+        return optionApi2Url[option];
+      }).join(',');
+    }
+
+    if (data.filters) {
+      Object.keys(data.filters).forEach(function (key) {
+        stateParams[filterApi2Url[key]] = data.filters[key];
+      });
+    }
+
     return stateParams;
   }
 
   function parseStateParams (stateParams) {
     if (!stateParams) { return; }
 
-    setText(stateParams.q);
+    setText(stateParams.text);
 
     setLocation({
       latitude : stateParams.lat,
       longitude: stateParams.lng
     });
 
-    if (stateParams.dtstart && stateParams.dtend) {
-      var momStart = moment(stateParams.dtstart, URL_DATE_TIME_FORMAT, !!'strict');
-      var momEnd   = moment(stateParams.dtend  , URL_DATE_TIME_FORMAT, !!'strict');
+    if (stateParams.start && stateParams.end) {
+      var momStart = moment(stateParams.start, URL_DATE_TIME_FORMAT, !!'strict');
+      var momEnd   = moment(stateParams.end  , URL_DATE_TIME_FORMAT, !!'strict');
       if (momStart.isValid() && momEnd.isValid()) {
         setTimeFrame({
           startDate: momStart.format(API_DATE_FORMAT),
@@ -98,18 +165,36 @@ angular.module('owm.resourceQueryService', [])
       }
     }
 
-    setRadius(stateParams.r);
+    setRadius(stateParams.radius);
+
+    var options = [];
+    try {
+      stateParams.options.split(',').forEach(function (option) {
+        if (optionUrl2Api[option]) {
+          options.push(optionUrl2Api[option]);
+        }
+      });
+    } catch (e) {
+    }
+    setOptions(options);
+
+    var filters = {};
+    Object.keys(filterUrl2Api).forEach(function (key) {
+      if (stateParams[key]) {
+        filters[filterUrl2Api[key]] = stateParams[key];
+      }
+    });
+    setFilters(filters);
   }
 
   return {
-    getText          : getText,
+    data             : data,
     setText          : setText,
-    getRadius        : getRadius,
     setRadius        : setRadius,
-    getLocation      : getLocation,
-    getTimeFrame     : getTimeFrame,
     setLocation      : setLocation,
     setTimeFrame     : setTimeFrame,
+    setOptions       : setOptions,
+    setFilters       : setFilters,
     createStateParams: createStateParams,
     parseStateParams : parseStateParams
   };

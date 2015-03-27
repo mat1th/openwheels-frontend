@@ -29,11 +29,7 @@ angular.module('owm.resource.search', [
       longitude: 5.117778000000044
     };
 
-    var query = {
-      text     : null,
-      location : null,
-      timeFrame: null
-    };
+    var query = resourceQueryService.data;
 
     $scope.booking = {};
     $scope.resources = [];
@@ -48,33 +44,23 @@ angular.module('owm.resource.search', [
       props: {
         radius: undefined
       },
-      filters: {
-        minSeats: $stateParams.minseats || -1,
-        locktype: $stateParams.locktype || '',
-        fuelType: $stateParams.fueltype || '',
-        resourceType: $stateParams.resourcetype || ''
-      },
+      filters: {},
       options: {
-        'airconditioning': $stateParams.airconditioning || false,
-        'fietsendrager': $stateParams.fietsendrager || false,
-        'winterbanden': $stateParams.winterbanden || false,
-        'kinderzitje': $stateParams.kinderzitje || false,
-        'navigatie': $stateParams.navigatie || false,
-        'trekhaak': $stateParams.trekhaak || false,
-        'automaat': $stateParams.automaat || false,
-        'mp3-aansluiting': $stateParams.mp3 || false,
-        'rolstoelvriendelijk': $stateParams.rolstoelvriendelijk || false
+        'airconditioning'    : false,
+        'fietsendrager'      : false,
+        'winterbanden'       : false,
+        'kinderzitje'        : false,
+        'navigatie'          : false,
+        'trekhaak'           : false,
+        'automaat'           : false,
+        'mp3-aansluiting'    : false,
+        'rolstoelvriendelijk': false
       }
     };
 
     init();
 
     function init () {
-      query.text      = resourceQueryService.getText();
-      query.location  = resourceQueryService.getLocation();
-      query.timeFrame = resourceQueryService.getTimeFrame();
-      query.radius    = resourceQueryService.getRadius();
-
       if (query.timeFrame) {
         $scope.booking.beginRequested = query.timeFrame.startDate;
         $scope.booking.endRequested   = query.timeFrame.endDate;
@@ -84,28 +70,48 @@ angular.module('owm.resource.search', [
         $scope.filters.props.radius = query.radius;
       }
 
+      if (query.options) {
+        query.options.forEach(function (key) {
+          $scope.filters.options[key] = true;
+        });
+      }
+
+      if (query.filters) {
+        $scope.filters.filters = query.filters;
+      }
+
       $scope.place = query.text;
 
       doSearch();
     }
 
     function doSearch () {
-      if ($scope.booking.beginRequested && $scope.booking.endRequested) {
-        query.timeFrame = {
-          startDate: $scope.booking.beginRequested,
-          endDate  : $scope.booking.endRequested
-        };
-      } else {
-        query.timeFrame = null;
-      }
-      query.radius = $scope.filters.props.radius;
+      // time frame
+      resourceQueryService.setTimeFrame({
+        startDate: $scope.booking.beginRequested,
+        endDate  : $scope.booking.endRequested
+      });
 
-      saveQuery();
+      // radius
+      resourceQueryService.setRadius($scope.filters.props.radius);
 
+      // options
+      var optionsArray = Object.keys($scope.filters.options).filter(function(e) { return $scope.filters.options[e]; });
+      resourceQueryService.setOptions(optionsArray);
+
+      // filters
+      var filtersObject = $scope.filters.filters;
+      resourceQueryService.setFilters(filtersObject);
+
+      updateUrl();
+
+      // construct api call
       var params = {};
-      if (query.location) { params.location = query.location;  }
+      if (query.location)  { params.location  = query.location;  }
       if (query.timeFrame) { params.timeFrame = query.timeFrame; }
-      if (query.radius) { params.radius = query.radius; }
+      if (query.radius)    { params.radius    = query.radius; }
+      if (query.options)   { params.options   = query.options; }
+      if (query.filters)   { params.filters   = query.filters; }
 
       if (!params.location) {
         if (user.isAuthenticated) {
@@ -114,8 +120,6 @@ angular.module('owm.resource.search', [
           params.location = DEFAULT_LOCATION;
         }
       }
-      params.options = Object.keys($scope.filters.options).filter(function(e) { return $scope.filters.options[e]; });
-      params.filters = $scope.filters.filters;
 
       alertService.load();
       $scope.searching = true;
@@ -186,11 +190,11 @@ angular.module('owm.resource.search', [
       if (!newVal || (newVal === oldVal)) {
         return;
       }
-      query.location = {
+      resourceQueryService.setLocation({
         latitude : newVal.geometry.location.lat(),
         longitude: newVal.geometry.location.lng()
-      };
-      query.text = newVal.formatted_address;
+      });
+      resourceQueryService.setText(newVal.formatted_address);
       return doSearch();
     });
 
@@ -200,19 +204,15 @@ angular.module('owm.resource.search', [
       return doSearch();
     };
 
-    function saveQuery () {
-      resourceQueryService.setText(query.text);
-      resourceQueryService.setLocation(query.location);
-      resourceQueryService.setTimeFrame(query.timeFrame);
-      resourceQueryService.setRadius(query.radius);
+    function updateUrl () {
       $location.search(resourceQueryService.createStateParams());
     }
 
     $scope.toggleMap = function toggleMap(){
       if(! $state.includes('^.map')){
-        $state.go('^.map').then(saveQuery);
+        $state.go('^.map').then(updateUrl);
       }else{
-        $state.go('^.list').then(saveQuery);
+        $state.go('^.list').then(updateUrl);
       }
     };
 

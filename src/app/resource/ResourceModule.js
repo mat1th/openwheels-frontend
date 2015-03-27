@@ -16,14 +16,7 @@ angular.module('owm.resource', [
 
     $stateProvider.state('owm.resource', {
       abstract: true,
-      /**
-       * URL PARAMETERS:
-       * lat = latitude
-       * lng = longitude
-       * q   = query
-       * r   = radius
-       */
-      url: '/resource?lat&lng&dtstart&dtend&q&r',
+      url: '/resource?lat&lng&start&end&text&radius&options&fuel&lock&seats&type',
       views: {
         'main@': {
           template: '<div ui-view></div>'

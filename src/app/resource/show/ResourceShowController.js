@@ -29,7 +29,7 @@ angular.module('owm.resource.show', [])
   }
 
   function loadSearchState () {
-    var timeFrame = resourceQueryService.getTimeFrame();
+    var timeFrame = resourceQueryService.data.timeFrame;
     if (timeFrame) {
       $scope.booking.beginRequested = timeFrame.startDate;
       $scope.booking.endRequested   = timeFrame.endDate;
