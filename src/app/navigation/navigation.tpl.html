@@ -74,11 +74,11 @@
     </li>
 
     <li ng-if="features.invoiceModuleV1" ng-class="{ active: $state.includes('owm.financeV1') }">
-      <a href="" ui-sref="owm.financeV1" snap-close>Mijn facturen</a>
+      <a href="" ui-sref="owm.financeV1.index" snap-close>Mijn facturen</a>
     </li>
 
     <li id="menu-item-financial" ng-if="features.invoiceModuleV2" ng-class="{ active: $state.includes('owm.finance') }">
-      <a href="" ui-sref="owm.finance" snap-close>{{ 'MY_FINANCIALS' | translate }}</a>
+      <a href="" ui-sref="owm.finance.index" snap-close>{{ 'MY_FINANCIALS' | translate }}</a>
     </li>
 
     <li id="menu-item-trips" ng-class="{ active: $state.includes('owm.trips') }">

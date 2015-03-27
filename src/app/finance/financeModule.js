@@ -10,25 +10,16 @@ angular.module('owm.finance', [
 
   $stateProvider
 
-  .state('owm.finance', {
-    url: '/finance',
-    views: {
-      'main@': {
-        templateUrl: 'finance/index/financeIndex.tpl.html',
-        controller: 'FinanceIndexController'
-      }
-    },
-    data: {
-      access: { deny: { anonymous: true } }
-    },
-    resolve: {
-      me: ['authService', function (authService) {
-        return authService.me();
-      }]
-    }
-  })
+  /**
+   * OLD VERSION
+   * kept for compatibility
+   */
 
   .state('owm.financeV1', {
+    abstract: true
+  })
+
+  .state('owm.financeV1.index', {
     url: '/finance/v1',
     views: {
       'main@': {
@@ -47,6 +38,38 @@ angular.module('owm.finance', [
         return authService.me();
       }]
     }
+  })
+
+  /**
+   * LATEST VERSION
+   */
+
+  .state('owm.finance', {
+    abstract: true
+  })
+
+  .state('owm.finance.index', {
+    url: '/finance',
+    views: {
+      'main@': {
+        templateUrl: 'finance/index/financeIndex.tpl.html',
+        controller: 'FinanceIndexController'
+      }
+    },
+    data: {
+      access: { deny: { anonymous: true } }
+    },
+    resolve: {
+      me: ['authService', function (authService) {
+        return authService.me();
+      }]
+    }
+  })
+
+  .state('owm.finance.deposit', {
+    onEnter: ['$window', 'appConfig', function ($window, appConfig) {
+      $window.location.href = appConfig.serverUrl + '/dashboard/borg';
+    }]
   });
 
 });
