@@ -2,12 +2,12 @@
 
 angular.module('socialDirectives', [])
 
-.directive('shareButtons', function ($rootScope, appConfig, twitter) {
+.directive('shareButtons', function ($rootScope, twitter) {
   return {
     restrict: 'A',
     scope   : {
-      sharePath: '=',
-      text     : '='
+      url : '=',
+      text: '='
     },
     template: '<table style="margin-top:10px"><tr>' +
                 '<td><a ng-if="features.facebook" ng-click="shareFb()"><i class="fa fa-fw fa-facebook-square"></i>{{ "SOCIAL_SHARE_FACEBOOK" | translateOrDefault }}</a></td>' +
@@ -17,7 +17,6 @@ angular.module('socialDirectives', [])
     link: function (scope, elm) {
       var FB = window.FB;
 
-      scope.url = appConfig.appUrl + '/' + scope.sharePath;
       scope.features = $rootScope.features;
 
       scope.shareFb = function () {

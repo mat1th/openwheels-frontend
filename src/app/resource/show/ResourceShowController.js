@@ -4,7 +4,7 @@ angular.module('owm.resource.show', [])
 
 .controller('ResourceShowController', function ($q, $timeout, $location, $scope, $state, $filter,
   authService, resourceService, bookingService, invoice2Service, boardcomputerService, alertService, chatPopupService, API_DATE_FORMAT,
-  resource, me, resourceQueryService, $stateParams) {
+  resource, me, resourceQueryService, $stateParams, appConfig) {
 
   /**
    * Warning: 'me' will be null for anonymous users
@@ -19,6 +19,7 @@ angular.module('owm.resource.show', [])
   $scope.openChatWith = openChatWith;
   $scope.isFavoriteResolved = false;
   $scope.toggleFavorite = toggleFavorite;
+  $scope.shareUrl = (appConfig.serverUrl + '/auto-huren/' + resource.city + '/' + resource.id).toLowerCase();
 
   loadSearchState();
   if (me) { loadFavorite(); } else { $scope.isFavoriteResolved = true; }
