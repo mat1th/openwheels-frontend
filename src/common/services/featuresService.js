@@ -14,6 +14,7 @@ angular.module('owm.featuresService', [])
   var enabledFeatures = {
     homeCarousel       : false,
     verhuurTussenscherm: false,
+    serverSideSignup   : false,
     invoiceModuleV1    : false,
     invoiceModuleV2    : true,
     filtersSidebar     : false,

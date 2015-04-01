@@ -437,8 +437,7 @@ module.exports = function (grunt) {
 
       config: {
         files: [
-          'config/local.js',
-          'config/branding.js'
+          'config/**',
         ],
         tasks: [ 'configure' ]
       },
