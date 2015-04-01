@@ -30,22 +30,19 @@ angular.module('owm.person.license', [])
     $scope.isBusy = true;
     alertService.load();
 
+    var multiPartParams = {};
+    if (images.front) { multiPartParams.frontImage = images.front; }
+    if (images.back)  { multiPartParams.backImage  = images.back; }
+
     personService.addLicenseImages({
       person: me.id
-    }, {
-      frontImage: images.front,
-      backImage : images.back
-    })
+    }, multiPartParams)
     .then(function () {
       alertService.add('success', 'Bedankt voor het uploaden van je rijbewijs', 5000);
       $state.go('owm.person.dashboard');
     })
     .catch(function (err) {
-      if (err && err.level && err.message) {
-        alertService.add(err.level, err.message, 5000);
-      } else {
-        alertService.addGenericError();
-      }
+      alertService.addError(err);
     })
     .finally(function () {
       alertService.loaded();
