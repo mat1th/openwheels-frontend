@@ -32,7 +32,7 @@ angular.module('owm.person')
     contractService.alter({
       id: $scope.contract.id,
       newProps: {
-        status: 'ended'
+        status: 'blocked'
       }
     })
     .then(function (newContract) {
