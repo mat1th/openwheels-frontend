@@ -54,7 +54,8 @@
           </ul>
 
           <div ng-if="b.approved==='TO_BE_PAID'">
-            <span class="text-danger"><i class="fa fa-eur"></i> Nog te betalen</span>
+            <a ng-if="features.invoiceModuleV2" ui-sref="owm.finance.index" class="text-danger"><i class="fa fa-eur"></i> Nog te betalen</a>
+            <a ng-if="!features.invoiceModuleV2 && features.invoiceModuleV1" ui-sref="owm.financeV1.index" class="text-danger"><i class="fa fa-eur"></i> Nog te betalen</a>
           </div>
 
         </div>
