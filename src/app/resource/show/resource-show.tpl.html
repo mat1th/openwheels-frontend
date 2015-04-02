@@ -21,7 +21,7 @@
         </button>
       </div>
 
-      <div class="card card-notice">
+      <div ng-if="resource.isActive && features.social && me && (resource.owner.id === me.id || resource.contactPerson.id === me.id)" class="card card-notice">
         <div class="card-body">
           {{ 'SOCIAL_SHARE_RESOURCE' | translateOrDefault }}<br/>
           <div share-buttons url="shareUrl"></div>
