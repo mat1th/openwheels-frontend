@@ -4,7 +4,7 @@ angular.module('owm.resource.show', [])
 
 .controller('ResourceShowController', function ($window, $log, $q, $timeout, $location, $scope, $state, $filter,
   authService, resourceService, bookingService, invoice2Service, boardcomputerService, alertService, chatPopupService, API_DATE_FORMAT,
-  resource, me, resourceQueryService, featuresService, $stateParams, appConfig) {
+  resource, me, resourceQueryService, featuresService, $stateParams, linksService) {
 
   /**
    * Warning: 'me' will be null for anonymous users
@@ -20,8 +20,7 @@ angular.module('owm.resource.show', [])
   $scope.isFavoriteResolved = false;
   $scope.toggleFavorite = toggleFavorite;
 
-  $scope.shareUrl = featuresService.get('serverSideShare') ?
-    (appConfig.serverUrl + '/auto-huren/' + resource.city + '/' + resource.id).toLowerCase() : $window.location.href;
+  $scope.shareUrl = featuresService.get('serverSideShare') ? linksService.resourceUrl(resource.id, resource.city) : $window.location.href;
   $log.debug('Share url = ' + $scope.shareUrl);
 
   loadSearchState();

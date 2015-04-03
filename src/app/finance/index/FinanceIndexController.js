@@ -2,7 +2,7 @@
 
 angular.module('owm.finance.index', [])
 
-.controller('FinanceIndexController', function ($window, $q, $location, $scope, $modal, appConfig, alertService, invoice2Service, paymentService, me) {
+.controller('FinanceIndexController', function ($window, $q, $location, $scope, $modal, appConfig, alertService, invoice2Service, paymentService, me, linksService) {
   $scope.me = me;
 
   // invoices
@@ -27,7 +27,7 @@ angular.module('owm.finance.index', [])
   });
 
   $scope.createInvoiceGroupPdfLink = function (invoiceGroup) {
-    return appConfig.serverUrl + '/verzamelfactuur/' + invoiceGroup.id + '.pdf';
+    return linksService.invoiceGroupPdf(invoiceGroup.id);
   };
 
   // verzamel en betaal openstaande facturen

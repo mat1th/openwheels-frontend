@@ -67,8 +67,8 @@ angular.module('owm.finance', [
   })
 
   .state('owm.finance.deposit', {
-    onEnter: ['$window', 'appConfig', function ($window, appConfig) {
-      $window.location.href = appConfig.serverUrl + '/dashboard/borg';
+    onEnter: ['$window', 'linksService', function ($window, linksService) {
+      $window.location.href = linksService.depositUrl();
     }]
   });
 

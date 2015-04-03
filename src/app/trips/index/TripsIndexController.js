@@ -2,7 +2,7 @@
 
 angular.module('owm.trips.index', [])
 
-.controller('TripsIndexController', function ($log, $timeout, $q, API_DATE_FORMAT, alertService, bookingService, me, $scope, appConfig) {
+.controller('TripsIndexController', function ($log, $timeout, $q, API_DATE_FORMAT, alertService, bookingService, me, $scope, linksService) {
 
   // keys
   var FOR_OWNER = 'forOwner';
@@ -83,7 +83,7 @@ angular.module('owm.trips.index', [])
   }
 
   $scope.createTripDetailsLink = function (booking) {
-    return appConfig.serverUrl + '/dashboard/ritten/' + booking.id;
+    return linksService.tripDetailsUrl(booking.id);
   };
 
 })

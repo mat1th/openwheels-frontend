@@ -5,7 +5,7 @@ angular.module('owm.booking.show', [])
 .controller('BookingShowController', function (
   $q, $timeout, $log, $scope, $location, $filter, $translate, $state, appConfig, API_DATE_FORMAT,
   bookingService, resourceService, invoice2Service, alertService, dialogService,
-  authService, boardcomputerService, chatPopupService,
+  authService, boardcomputerService, chatPopupService, linksService,
   booking, me) {
 
   /**
@@ -39,7 +39,7 @@ angular.module('owm.booking.show', [])
   initPermissions();
 
   if ($scope.allowOvereenkomst) {
-    $scope.overeenkomstUrl = appConfig.serverUrl + '/dashboard/reservering/' + booking.id + '/overeenkomst.pdf';
+    $scope.overeenkomstUrl = linksService.bookingAgreementPdf(booking.id);
   }
 
   function initPermissions () {

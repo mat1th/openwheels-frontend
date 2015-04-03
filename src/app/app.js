@@ -53,6 +53,7 @@ angular.module('openwheels', [
   'TimeFrameService',
   'windowSizeService',
   'owm.geoPositionService',
+  'owm.linksService',
 
   // DIRECTIVES
 
@@ -150,12 +151,12 @@ angular.module('openwheels', [
 
 .run(function (windowSizeService, oAuth2MessageListener, stateAuthorizer, authService, featuresService) {})
 
-.run(function ($window, $log, $translate, $state, $stateParams, $rootScope, alertService, featuresService, appConfig) {
+.run(function ($window, $log, $translate, $state, $stateParams, $rootScope, alertService, featuresService, appConfig, linksService) {
   $rootScope.$state = $state;
   $rootScope.$stateParams = $stateParams;
   $rootScope.showAsideMenu = false;
   $rootScope.isLanguageLoaded = false;
-  $rootScope.signupUrl = featuresService.get('serverSideSignup') ? appConfig.serverUrl + '/aanmelden' : $state.href('signup');
+  $rootScope.signupUrl = featuresService.get('serverSideSignup') ? linksService.signupUrl() : $state.href('signup');
 
   // wait for async language file (angular-translate)
   $translate('SITE_NAME').then(function (siteName) {
