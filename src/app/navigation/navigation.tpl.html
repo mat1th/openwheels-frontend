@@ -52,6 +52,9 @@
     <li id="menu-item-dashboard" ng-class="{ active: $state.includes('owm.message') }">
       <a href="" ui-sref="owm.message" snap-close>{{ 'MY_MESSAGES' | translate }}</a>
     </li>
+    <li id="menu-item-dashboard" ng-class="{ active: $state.is('member', { personId: user.identity.id }) }">
+      <a href="" ui-sref="member({ personId: user.identity.id })" snap-close>{{ 'MY_MEMBER_PAGE' | translate }}</a>
+    </li>
     <li class="divider"></li>
   </ul>
 
