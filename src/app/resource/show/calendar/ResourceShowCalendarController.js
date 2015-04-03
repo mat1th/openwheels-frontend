@@ -60,7 +60,7 @@ angular.module('owm.resource.show.calendar', [
             }
             if (blocking.calender_id) {
               newProps = {
-                dayOfweek: moment(blocking.start).lang('nl').format('dddd').toLowerCase()
+                dayOfWeek: moment(blocking.start).lang('nl').format('dddd').toLowerCase()
               };
               if (blocking.allDay) {
                 newProps.start = null;
@@ -156,7 +156,7 @@ angular.module('owm.resource.show.calendar', [
                 otherProps.until = blocking.until;
               }
 
-              otherProps.dayOfweek = moment(blocking.start).lang('nl').format('dddd').toLowerCase();
+              otherProps.dayOfWeek = moment(blocking.start).lang('nl').format('dddd').toLowerCase();
 
               calendarService.createPeriodic({
                 resource: resource.id,
