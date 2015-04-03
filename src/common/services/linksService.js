@@ -27,6 +27,9 @@ angular.module('owm.linksService', [])
     resourceUrl: function (resourceId, city) {
       return process(appConfig.serverUrl + '/auto-huren/' + (city || 'nederland').toLowerCase() + '/' + resourceId);
     },
+    flyerPdf: function (resourceId, city) {
+      return process(appConfig.serverUrl + '/auto-huren/' + (city || 'nederland').toLowerCase() + '/' + resourceId + '/flyer.pdf');
+    },
     tripDetailsUrl: function (bookingId) {
       return process(appConfig.serverUrl + '/dashboard/ritten/' + bookingId, true);
     }
@@ -36,15 +39,17 @@ angular.module('owm.linksService', [])
     var out = link;
     var token;
 
-    if (useToken) {
-      token = tokenService.getToken();
-      if (token && token.accessToken) {
-        $log.info('generate external link', link);
-        out = out + '?access_token=' + token.accessToken;
-      } else {
-        $log.warn('external link: token not available', link);
-      }
-    }
+    // TODO(Jorrit): Uncomment as soon as API supports this:
+    // if (useToken) {
+    //   token = tokenService.getToken();
+    //   if (token && token.accessToken) {
+    //     $log.info('generate external link', link);
+    //     out = out + '?access_token=' + token.accessToken;
+    //   } else {
+    //     $log.warn('external link: token not available', link);
+    //   }
+    // }
+
     return out;
   }
 
