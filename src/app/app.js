@@ -252,7 +252,6 @@ angular.module('openwheels', [
         serverUrl     : config.server_url,
         authEndpoint  : config.auth_endpoint,
         tokenEndpoint : config.token_endpoint,
-        placesCountry : config.places_country || 'nl', // google places: default to nl
         gtmContainerId: config.gtm_container_id || null,
         fbAppId       : config.fb_app_id || null,
         features      : config.features || {}

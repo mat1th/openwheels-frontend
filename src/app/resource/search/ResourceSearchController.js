@@ -11,7 +11,6 @@ angular.module('owm.resource.search', [
       $state,
       $stateParams,
       $modal,
-      $translate,
       $filter,
       appConfig,
       Geocoder,
@@ -36,7 +35,7 @@ angular.module('owm.resource.search', [
     $scope.place = '';
 
     $scope.completePlacesOptions = {
-      country: appConfig.placesCountry,
+      country: $filter('translateOrDefault')('SEARCH_COUNTRY', 'nl'),
       watchEnter: true
     };
 

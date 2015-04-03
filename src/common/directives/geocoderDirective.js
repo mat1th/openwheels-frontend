@@ -2,10 +2,9 @@
 
 angular.module('geocoderDirective', [])
 
-.directive('owGeocoder', function ($compile, appConfig) {
+.directive('owGeocoder', function ($compile, $filter) {
   return {
     restrict: 'A',
-    // scope: {},
     link: function (scope, elm, attrs) {
       var options = scope.$eval(attrs.owGeocoder);
       var onDetailsCallback = options.onDetails || angular.noop;
@@ -13,7 +12,7 @@ angular.module('geocoderDirective', [])
       scope.placeDetails = null;
 
       scope.completePlacesOptions = {
-        country   : appConfig.placesCountry,
+        country   : $filter('translateOrDefault')('SEARCH_COUNTRY', 'nl'),
         watchEnter: true
       };
 
