@@ -66,8 +66,9 @@
           <ul class="list-unstyled list-block list-spaced fa-ul">
             <li ng-if="person.city"><i class="fa fa-li fa-map-marker"></i> {{ person.city }}</li>
             <li ng-if="person.email"><i class="fa fa-li fa-envelope"></i> {{ person.email }}</li>
-            <li ng-if="person.phoneNumbers.length >= 1"><i class="fa fa-li fa-phone"></i> {{ person.phoneNumbers[0].number }}</li>
-
+            <li ng-repeat="phoneNumber in person.phoneNumbers">
+              <i class="fa fa-li fa-phone"></i> {{ phoneNumber.number }}
+            </li>
             <li ng-if="person.facebookUid"><i class="fa fa-li fa-facebook"></i>
               <a target="_blank" ng-href="https://facebook.com/{{ person.facebookUid }}">Facebook</a>
             </li>
