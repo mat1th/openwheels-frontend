@@ -29,15 +29,16 @@
     </div>
   </div>
 
-  <div form-group label="Contract" ng-if="contractOptions.length > 1">
-    <select id="contract" name="contract" class="form-control" ng-model="booking.contract" ng-options="c.id as (c.type.name + ' - ' + c.contractor.firstName) for c in contractOptions">
-      <option value="">-- {{ 'PICK_A_CONTRACT' | translate }} --</option>
-    </select>
-  </div>
-
   <div class="form-group">
     <label ng-bind="'BOOKING.REMARK_REQUESTER_LABEL' | translate"></label>
     <textarea rows="3" id="remarkRequester" name="remarkRequester" class="form-control" ng-model="booking.remarkRequester"></textarea>
+  </div>
+
+  <div class="form-group" ng-if="contractOptions && contractOptions.length > 1">
+    <label for="contract">Contract</label>
+    <select id="contract" name="contract" class="form-control" ng-model="booking.contract" ng-options="c.id as (c.type.name + ' - ' + c.contractor.firstName) for c in contractOptions">
+      <option value="">-- {{ 'PICK_A_CONTRACT' | translate }} --</option>
+    </select>
   </div>
 
   <!-- availability & price -->
