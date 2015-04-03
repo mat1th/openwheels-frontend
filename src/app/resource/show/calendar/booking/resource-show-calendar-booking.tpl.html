@@ -19,7 +19,7 @@
             </tr>
             <tr>
                 <th>{{ 'FIRST_NAME' | translate }}</th>
-                <td>{{ booking.person.firstName }}</td>
+                <td><a ng-click="goMember(booking.person.id)">{{ booking.person.firstName }}</a></td>
             </tr>
         </table>
 
