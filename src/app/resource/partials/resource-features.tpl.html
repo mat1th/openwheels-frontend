@@ -1,0 +1,11 @@
+<ul class="list-unstyled list-spaced fa-ul">
+  <li ng-if="resource.fuelCardCode" class="text-danger"><i class="fa fa-li fa-lock"></i> {{ 'FUEL_CARD_CODE' | translate}}: {{ resource.fuelCardCode }}</li>
+  <li><i class="text-success fa fa-li fa-users"></i> {{ resource.numberOfSeats }} {{ 'SEATS' | translate }}</li>
+  <li><i class="text-success fa fa-li fa-gear"></i> <span ng-if="resource.fuelType">{{  resource.fuelType | translate }}</span> <span ng-if="!resource.fuelType">{{ 'UNKNOWN_FUELTYPE' | translate }}</span></li>
+  <li><i class="text-success fa fa-li fa-key"></i> <span ng-if="resource.locktype">{{  ('LOCKTYPE.' + resource.locktype) | translateOrDefault : resource.locktype }}</span> <span ng-if="!resource.locktype">{{ 'UKNOWN_LOCKTYPE' | translate }}</span></li>
+  <li ng-if="resource.response_accept"><i class="text-success fa fa-li fa-check"></i> {{ resource.response_accept | percentage : 0 }} {{ 'ACCEPTED_REQUESTS' | translate}}</li>
+  <li ng-if="resource.properties.length >= 1">
+    <i class="text-success fa fa-li fa-th"></i>
+    <span ng-repeat="prop in resource.properties">{{ prop.id | toSentenceCase }}<span ng-if="$index !== resource.properties.length - 1">, </span></span>
+  </li>
+</ul>

@@ -47,16 +47,7 @@
                 {{ resource.brand || 'Onbekend merk'}} <span ng-if="resource.model">, {{ resource.model }}</span>
                 &nbsp;<span rating-thumb="{ value : resource.rating.satisfaction, senders : resource.rating.senders }"></span>
               </h3>
-              <ul class="list-unstyled list-spaced fa-ul">
-                <li><i class="text-success fa fa-li fa-users"></i> {{ resource.numberOfSeats }} {{ 'SEATS' | translate }}</li>
-                <li><i class="text-success fa fa-li fa-gear"></i> <span ng-if="resource.fuelType">{{  resource.fuelType | translate }}</span> <span ng-if="!resource.fuelType">{{ 'UNKNOWN_FUELTYPE' | translate }}</span></li>
-                <li><i class="text-success fa fa-li fa-key"></i> <span ng-if="resource.locktype">{{  ('LOCKTYPE.' + resource.locktype) | translateOrDefault : resource.locktype }}</span> <span ng-if="!resource.locktype">{{ 'UKNOWN_LOCKTYPE' | translate }}</span></li>
-                <li ng-if="resource.response_accept"><i class="text-success fa fa-li fa-check"></i> {{ resource.response_accept | percentage : 0 }} {{ 'ACCEPTED_REQUESTS' | translate}}</li>
-                <li ng-if="resource.properties.length >= 1">
-                  <i class="text-success fa fa-li fa-th"></i>
-                  <span ng-repeat="prop in resource.properties">{{ prop.id | toSentenceCase }}<span ng-if="$index !== resource.properties.length - 1">, </span></span>
-                </li>
-              </ul>
+              <div ng-include="'resource/partials/resource-features.tpl.html'"></div>
             </div>
           </div>
 
@@ -121,20 +112,7 @@
           <div class="truncate">
             <h4>{{ resource.brand || 'Onbekend merk'}} <span ng-if="resource.model">, {{ resource.model }}</span></h4>
           </div>
-
-          <div class="text-left">
-            <ul class="list-unstyled list-block list-spaced fa-ul">
-              <!--<li ng-if="resource.response_time"><i class="fa fa-li fa-reply"></i><span translate="AVERAGE_RESPONSE_DURATION {{duration | amDurationFormat: 'minutes'}}" translate-values="{ duration: resource.response_time }"></span></li>-->
-              <li><i class="text-success fa fa-li fa-users"></i>{{ resource.numberOfSeats }} {{ 'SEATS' | translate }}</li>
-              <li><i class="text-success fa fa-li fa-gear"></i><span ng-if="resource.fuelType">{{  resource.fuelType | translate }}</span> <span ng-if="!resource.fuelType">{{ 'UNKNOWN_FUELTYPE' | translate }}</span></li>
-              <li><i class="text-success fa fa-li fa-key"></i><span ng-if="resource.locktype">{{  ('LOCKTYPE.' + resource.locktype) | translateOrDefault : resource.locktype }}</span> <span ng-if="!resource.locktype">{{ 'UKNOWN_LOCKTYPE' | translate }}</span></li>
-              <li ng-if="resource.response_accept"><i class="text-success fa fa-li fa-check"></i>{{ resource.response_accept | percentage : 0 }} {{ 'ACCEPTED_REQUESTS' | translate}}</li>
-              <li ng-if="resource.properties.length >= 1">
-                <i class="text-success fa fa-li fa-th"></i>
-                <span ng-repeat="prop in resource.properties">{{ prop.id | toSentenceCase }}<span ng-if="$index !== resource.properties.length - 1">, </span></span>
-              </li>
-            </ul>
-          </div>
+          <div ng-include="'resource/partials/resource-features.tpl.html'"></div>
 
         </div>
       </div>

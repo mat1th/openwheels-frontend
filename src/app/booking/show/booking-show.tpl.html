@@ -452,6 +452,18 @@
 </div>
  -->
 
+<!-- resource features -->
+<div class="card">
+  <div class="card-heading">
+    <h3 class="card-title">
+      {{ resource.brand || 'Onbekend merk'}} <span ng-if="resource.model">, {{ resource.model }}</span>
+    </h3>
+  </div>
+  <div class="card-body">
+    <div ng-include="'resource/partials/resource-features.tpl.html'"></div>
+  </div>
+</div>
+
 <!-- map -->
 <div class="card" ng-if="allowMap">
   <div class="card-heading" ng-if="resource.location || resource.city">

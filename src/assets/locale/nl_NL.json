@@ -184,6 +184,7 @@
     "COLOR": "Kleur",
     "NUMBER_OF_SEATS": "Aantal zitplaatsen",
     "FUEL_TYPE": "Brandstoftype",
+    "FUEL_CARD_CODE": "Tankcode",
     "SELECT_FUEL_TYPE": "Selecteer brandstoftype",
     "RESOURCE_TYPE": "Type vervoermiddel",
     "RESOURCE_PROPERTIES": "Accessoires",
