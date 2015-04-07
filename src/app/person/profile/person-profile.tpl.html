@@ -118,7 +118,7 @@
         </div>
 
         <button id="submitFormPersonal" type="button" class="btn btn-primary"
-          ng-disabled="personalDataForm.$pristine"
+          ng-disabled="personalDataForm.$pristine || !personalDataForm.$valid"
           ng-click="submitPersonalDataForm()"
           ng-if="allowLicenseRelated">
           {{ 'SUBMIT' | translate }}
@@ -237,7 +237,7 @@
         </div>
 
         <button id="submitForm" type="button" class="btn btn-primary"
-          ng-disabled="contactDataForm.$pristine"
+          ng-disabled="contactDataForm.$pristine || !contactDataForm.$valid"
           ng-click="submitContactDataForm()">
           {{ 'SUBMIT' | translate }}
         </button>
@@ -375,7 +375,7 @@
         </div>
 
         <button id="submitForm" type="button" class="btn btn-primary"
-          ng-disabled="settingsForm.$pristine"
+          ng-disabled="settingsForm.$pristine || !settingsForm.$valid"
           ng-click="submitSettingsForm()">
           {{ 'SUBMIT' | translate }}
         </button>
