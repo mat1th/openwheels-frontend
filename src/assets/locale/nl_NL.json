@@ -246,7 +246,7 @@
     "UNKNOWN_FUELTYPE": "Brandstoftype onbekend",
     "UKNOWN_LOCKTYPE": "Wijze van openen onbekend",
     "MAP": "Kaart",
-    "CALENDAR": "Kalender",
+    "RESOURCE_EDIT_CALENDAR": "Pas beschikbaarheid aan",
     "SITE_NAME": "Openwheels",
     "USER_PREFERENCE_RENTER": "huren",
     "USER_PREFERENCE_OWNER": "verhuren",
