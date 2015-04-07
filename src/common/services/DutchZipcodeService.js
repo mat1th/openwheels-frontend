@@ -9,6 +9,9 @@ angular.module('DutchZipcodeService', [])
   // Trigger on '5408xb' and on '5408 XB'
   var NL_SIXPP_REGEX = /[0-9]{4,4}\s?[a-zA-Z]{2,2}/;
   var NL_STREETNUMBER_REGEX = /[0-9]+/;
+
+  var BE_FOURPP_REGEX = /^\s*[0-9]{4,4}\s*$/;
+  var BE_STREETNUMBER_REGEX = /[0-9]+/;
   var pro6pp_cache = {};
 
   function getApiBaseUrl() {
@@ -43,17 +46,33 @@ angular.module('DutchZipcodeService', [])
 
   zipcodeService.autocomplete = function(obj) {
     var deferred = $q.defer();
+    var country = obj.country || 'nl';
     var zipcode = obj.zipcode;
     var streetnumber = obj.streetNumber;
     // Streetnumber is only required when there's an input field defined for it.
     // There may be use-cases where the streetnumber is not required.
-    if (NL_SIXPP_REGEX.test(zipcode) && (!angular.isDefined(streetnumber) || NL_STREETNUMBER_REGEX.test(streetnumber))) {
+
+    var params;
+
+    if (country === 'nl' && NL_SIXPP_REGEX.test(zipcode)) {
+      params = {};
+      params.nl_sixpp = zipcode;
+      if (angular.isDefined(streetnumber) && NL_STREETNUMBER_REGEX.test(streetnumber)) {
+        params.streetnumber = streetnumber;
+      }
+    }
+
+    if (country === 'be' && BE_FOURPP_REGEX.test(zipcode)) {
+      params = {};
+      params.be_fourpp = zipcode;
+      if (angular.isDefined(streetnumber) && BE_STREETNUMBER_REGEX.test(streetnumber)) {
+        params.streetnumber = streetnumber;
+      }
+    }
+
+    if (params) {
       var url = getApiBaseUrl() + '/autocomplete';
-      var params = {
-        auth_key: pro6pp_auth_key,
-        nl_sixpp: zipcode,
-        streetnumber: streetnumber
-      };
+      params.auth_key = pro6pp_auth_key;
       pro6pp_cached_get(obj, url, params)
       .then(function(data) {
         if(data.error) {
