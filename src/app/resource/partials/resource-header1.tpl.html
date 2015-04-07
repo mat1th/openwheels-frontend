@@ -16,7 +16,7 @@
     </div>
 
     <div class="truncate">
-      <i ng-if="resource.label === 'favorite'" class="fa fa-fw fa-star text-warning"></i>
+      <resource-favorite-star resource="resource"></resource-favorite-star>
       <a href="" class="resource__alias">{{ resource.alias || ('RESOURCE_NO_NAME' | translate) }}</a>
       <span ng-if="resource.brand || resource.model">
         - {{ (resource.brand + ' ' + resource.model) | toTitleCase }}

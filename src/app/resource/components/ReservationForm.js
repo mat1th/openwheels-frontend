@@ -11,7 +11,7 @@ angular.module('owm.resource.reservationForm', [])
       booking: '=', // { beginRequested, endRequested, remarkRequester, contract }
       showPrice: '='
     },
-    templateUrl: 'resource/reservationForm/reservationForm.tpl.html',
+    templateUrl: 'resource/components/reservationForm.tpl.html',
     controller: 'ReservationFormController'
   };
 })
