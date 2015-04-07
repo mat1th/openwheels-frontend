@@ -139,7 +139,7 @@ module.exports = function (grunt) {
       compileApp: {
         files: [
           {
-            src: [ 'favicon.ico' ],
+            src: [ 'favicon.ico', '.htaccess' ],
             dest: '<%= compile_dir %>/',
             cwd: '<%= src_dir %>/',
             expand: true
