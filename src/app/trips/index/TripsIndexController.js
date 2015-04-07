@@ -83,7 +83,7 @@ angular.module('owm.trips.index', [])
   }
 
   $scope.createTripDetailsLink = function (booking) {
-    return linksService.tripDetailsUrl(booking.id);
+    return linksService.tripDetailsPdf(booking.id);
   };
 
 })

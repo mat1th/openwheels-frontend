@@ -31,7 +31,10 @@ angular.module('owm.linksService', [])
       return process(appConfig.serverUrl + '/auto-huren/' + (city || 'nederland').toLowerCase() + '/' + resourceId + '/flyer.pdf', true);
     },
     tripDetailsUrl: function (bookingId) {
-      return process(appConfig.serverUrl + '/dashboard/ritten/' + bookingId, true);
+      return process(appConfig.serverUrl + '/dashboard/ritten/' + bookingId);
+    },
+    tripDetailsPdf: function (bookingId) {
+      return process(appConfig.serverUrl + '/dashboard/ritten/' + bookingId + '/print.pdf', true);
     }
   };
 
