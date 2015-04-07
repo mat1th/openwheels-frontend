@@ -6,7 +6,7 @@ angular.module('owm.linksService', [])
  * Central registry for external links
  * Appends access token to urls if applicable
  */
-.factory('linksService', function ($log, appConfig, tokenService) {
+.factory('linksService', function ($log, appConfig, tokenService, featuresService) {
 
   return {
     signupUrl: function () {
@@ -28,7 +28,7 @@ angular.module('owm.linksService', [])
       return process(appConfig.serverUrl + '/auto-huren/' + (city || 'nederland').toLowerCase() + '/' + resourceId);
     },
     flyerPdf: function (resourceId, city) {
-      return process(appConfig.serverUrl + '/auto-huren/' + (city || 'nederland').toLowerCase() + '/' + resourceId + '/flyer.pdf');
+      return process(appConfig.serverUrl + '/auto-huren/' + (city || 'nederland').toLowerCase() + '/' + resourceId + '/flyer.pdf', true);
     },
     tripDetailsUrl: function (bookingId) {
       return process(appConfig.serverUrl + '/dashboard/ritten/' + bookingId, true);
@@ -39,16 +39,17 @@ angular.module('owm.linksService', [])
     var out = link;
     var token;
 
-    // TODO(Jorrit): Uncomment as soon as API supports this:
-    // if (useToken) {
-    //   token = tokenService.getToken();
-    //   if (token && token.accessToken) {
-    //     $log.info('generate external link', link);
-    //     out = out + '?access_token=' + token.accessToken;
-    //   } else {
-    //     $log.warn('external link: token not available', link);
-    //   }
-    // }
+    if (useToken && featuresService.get('linkWithAccessToken')) {
+      token = tokenService.getToken();
+      if (token && token.accessToken) {
+        $log.info('external link + access token', link);
+        out = out + '?access_token=' + token.accessToken;
+      } else {
+        $log.warn('external link: token not available', link);
+      }
+    } else {
+      $log.info('external link', link);
+    }
 
     return out;
   }
