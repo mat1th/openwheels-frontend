@@ -42,7 +42,7 @@ angular.module('owm.linksService', [])
     var out = link;
     var token;
 
-    if (useToken && featuresService.get('linkWithAccessToken')) {
+    if (useToken) {
       token = tokenService.getToken();
       if (token && token.accessToken) {
         $log.info('external link + access token', link);
