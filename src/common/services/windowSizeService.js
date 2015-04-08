@@ -16,7 +16,7 @@ angular.module('windowSizeService', [])
   var DEBOUNCE_MS = 100;
   var debounceTimer;
 
-  // use the same crossovers as bootstrap CSS
+  var XS = 480;
   var SM = 768;
   var MD = 992;
   var LG = 1200;
@@ -33,23 +33,24 @@ angular.module('windowSizeService', [])
   function update () {
     var w = $window.innerWidth;
 
-    $rootScope.windowSize = 'XS';
+    $rootScope.isWindowSizeXS = false;
     $rootScope.isWindowSizeSM = false;
     $rootScope.isWindowSizeMD = false;
     $rootScope.isWindowSizeLG = false;
 
+    if (w >= XS) {
+      $rootScope.isWindowSizeXS = true;
+    }
+
     if (w >= SM) {
-      $rootScope.windowSize = 'SM';
       $rootScope.isWindowSizeSM = true;
     }
 
     if (w >= MD) {
-      $rootScope.windowSize = 'MD';
       $rootScope.isWindowSizeMD = true;
     }
 
     if (w >= LG) {
-      $rootScope.windowSize = 'LG';
       $rootScope.isWindowSizeLG = true;
     }
   }

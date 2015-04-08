@@ -58,6 +58,7 @@
     "PER_FUEL": "brandstof per km",
     "PER_KM": "per km",
     "FREE_KM_DAY": "100 km gratis per dag",
+    "FREE_KM_DAY_SHORT": "100 km",
     "FREE_KM_HOUR": "10 km gratis per uur",
     "SHOW_PRICE": "Toon prijs",
     "DATE_START": "Begin",
