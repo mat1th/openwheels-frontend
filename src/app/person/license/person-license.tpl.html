@@ -13,9 +13,14 @@
         <input id="licenseFrontFile" type="file" />
       </div>
 
+      <div class="form-group">
+        <label>Achterkant</label>
+        <input id="licenseBackFile" type="file" />
+      </div>
+
       <hr/>
 
-      <button type="button" class="btn btn-primary" ng-click="startUpload()" ng-disabled="!images.front || isBusy">
+      <button type="button" class="btn btn-primary" ng-click="startUpload()" ng-disabled="!(images.front || images.back) || isBusy">
           <span class="fa fa-upload"></span> Upload
       </button>
 
