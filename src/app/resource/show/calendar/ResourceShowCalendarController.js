@@ -220,7 +220,7 @@ angular.module('owm.resource.show.calendar', [
       columnFormat: 'ddd d-M',
       titleFormat: {
         month: 'MMMM yyyy',
-        week: 'd [MMM][ yyyy]{ - d MMM yyyy}',
+        week: 'd [MMM][ \'&#39;\'yy]{ - d MMM \'&#39;\'yy}',
       },
 
       height: 650,
