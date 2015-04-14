@@ -209,23 +209,35 @@ angular.module('owm.person.profile', [])
   }
 
   $scope.$watch('[person.zipcode, person.streetNumber]', function( newValue, oldValue ){
+    var country;
 
     if( newValue !== oldValue ){
       if( !( newValue[0] && newValue[1] )) {
         return;
       }
-      if( $scope.person.country !== 'Nederland'){
-        return;
+
+      switch (($scope.person.country || '').toLowerCase()) {
+        case 'nl':
+        case 'nederland':
+          country = 'nl';
+          break;
+        case 'be':
+        case 'belgie':
+        case 'belgië':
+          country = 'be';
+          break;
+        default:
+          country = 'nl';
       }
 
       $scope.zipcodeAutocompleting = true;
       dutchZipcodeService.autocomplete({
+        country: country,
         zipcode: stripWhitespace(newValue[0]),
         streetNumber: newValue[1]
       })
       .then(function(data) {
         /*jshint sub: true */
-        $scope.person.zipcode = data[0].nl_sixpp;
         $scope.person.city = data[0].city;
         $scope.person.streetName = data[0].street;
         $scope.person.latitude = data[0].lat;

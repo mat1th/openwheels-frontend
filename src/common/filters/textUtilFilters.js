@@ -27,6 +27,16 @@ angular.module('filters.textUtil', [])
   };
 })
 
+.filter('formatKilometers', function ($filter) {
+  return function (km) {
+    if (km >= 1) {
+      return $filter('number')(km, 1) + ' km';
+    } else {
+      return Math.round(km * 1000) + ' m';
+    }
+  };
+})
+
 .filter('trustAsHtml', ['$sce', function ($sce) {
   return function (text) {
     return $sce.trustAsHtml(text);

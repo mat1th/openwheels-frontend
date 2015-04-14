@@ -14,7 +14,7 @@ angular.module('owm.resource.edit', [
   // PERMISSION CHECK
   // Redirect if not owner or contactperson
   $scope.hasPermission = false;
-  if (resource.owner.id !== me.id || resource.contactPerson.id !== me.id) {
+  if (resource.owner.id !== me.id && resource.contactPerson.id !== me.id) {
     $state.go('owm.resource.show', { resourceId: resource.id });
   } else {
     $scope.hasPermission = true;
