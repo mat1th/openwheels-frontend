@@ -34,8 +34,8 @@
     <textarea rows="3" id="remarkRequester" name="remarkRequester" class="form-control" ng-model="booking.remarkRequester"></textarea>
   </div>
 
-  <p>
-    <div class="text-center">
+  <div class="text-center" ng-if="resource.response_accept !== null">
+    <p>
       <small>
         <i class="text-success fa fa-fw fa-check"></i>
         {{ resource.owner.firstName }}
@@ -43,8 +43,8 @@
         {{ resource.response_accept | percentage : 0 }}
         {{ 'ACCEPTED_REQUESTS_SUFFIX' | translate}}
       </small>
-    </div>
-  </p>
+    </p>
+  </div>
 
   <div class="form-group" ng-if="contractOptions && contractOptions.length > 1">
     <label for="contract">Contract</label>
