@@ -61,6 +61,8 @@ angular.module('owm.person')
       search: email
     }).then(function(results) {
       if (results && results.length) {
+        // HACK: put email address (missing in api response)
+        results[0].email = email;
         return results[0];
       } else {
         return $q.reject();

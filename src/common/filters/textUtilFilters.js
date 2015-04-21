@@ -11,7 +11,7 @@ angular.module('filters.textUtil', [])
 
 .filter('toTitleCase', function () {
   return function (text) {
-    var words = text.split(' ');
+    var words = (text || '').split(' ');
     var word;
     for (var i=0; i < words.length; i++) {
       word = words[i];
