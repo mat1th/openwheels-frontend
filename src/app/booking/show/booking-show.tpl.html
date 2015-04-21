@@ -100,8 +100,12 @@
 
           <!-- ACCEPT / REJECT -->
           <div ng-if="allowAcceptReject">
-              <button type="button" class="btn btn-success" ng-click="acceptBooking(booking)">Accepteren</button>
-              <button type="button" class="btn btn-danger" ng-click="rejectBooking(booking)">Weigeren</button>
+            <div class="form-group">
+              <label>{{ 'BOOKING.REMARK_AUTHORIZER_LABEL' | translate }}</label>
+              <textarea class="form-control" ng-model="userInput.acceptRejectRemark" />
+            </div>
+            <button type="button" class="btn btn-success" ng-click="acceptBooking(booking)">Accepteren</button>
+            <button type="button" class="btn btn-danger" ng-click="rejectBooking(booking)">Weigeren</button>
           </div>
         </div>
       </div>
@@ -244,6 +248,7 @@
         {{ booking.remarkRequester }}
       </div>
       <div class="booking__remarks__remark" ng-if="booking.remarkAuthorizer">
+        <hr/>
         <h4>{{ booking.resource.owner | fullname }}:</h4>
         {{ booking.remarkAuthorizer }}
       </div>
