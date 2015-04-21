@@ -103,18 +103,18 @@
         </div>
       </div>
 
-      <div class="card" ng-if="person.resources.length >= 1">
+      <div class="card" ng-if="activeResources.length >= 1">
         <div class="card-body">
           <h3>Auto</h3>
 
           <!-- left-column version -->
-          <div ng-if="!isWindowSizeMD" ng-repeat="resource in person.resources" class="media">
+          <div ng-if="!isWindowSizeMD" ng-repeat="resource in activeResources" class="media">
             <div ui-sref="owm.resource.show({ resourceId: resource.id })" ng-include="'resource/partials/resource-header1.tpl.html'"></div>
           </div>
 
           <!-- side bar version -->
           <ul ng-if="isWindowSizeMD" class="list-unstyled">
-            <li ng-repeat="resource in person.resources">
+            <li ng-repeat="resource in activeResources">
               <p>
                 <a ui-sref="owm.resource.show({ resourceId: resource.id })">
                   <h4>
