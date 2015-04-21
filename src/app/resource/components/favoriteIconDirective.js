@@ -1,13 +1,13 @@
 'use strict';
 
-angular.module('owm.resource.favoriteStar', [])
+angular.module('owm.resource.favoriteIcon', [])
 
-.directive('resourceFavoriteStar', function ($compile, resourceService, alertService) {
+.directive('resourceFavoriteIcon', function ($compile, resourceService, alertService) {
 
   var tpl = '' +
-    '<i ng-click="toggle(false, $event)" ng-if="!busy && isFavorite" class="fa fa-fw fa-star text-warning"></i>' +
-    '<i ng-click="toggle(true, $event)" ng-if="!busy && !isFavorite" class="fa fa-fw fa-star-o text-warning"></i>' +
-    '<i ng-if="busy" class="fa fa-fw fa-star-o fa-spin text-mutes"></i>';
+    '<i ng-click="toggle(false, $event)" ng-if="!busy && isFavorite" class="fa fa-fw fa-heart text-warning"></i>' +
+    '<i ng-click="toggle(true, $event)" ng-if="!busy && !isFavorite" class="fa fa-fw fa-heart-o text-warning"></i>' +
+    '<i ng-if="busy" class="fa fa-fw fa-heart-o fa-spin text-mutes"></i>';
 
   return {
     restrict: 'E',
