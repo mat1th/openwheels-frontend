@@ -11,7 +11,7 @@
       </a>
       <div class="media-body">
         <h4 class="media-heading">{{ person | fullname }}</h4>
-        <div><small>{{ 'MEMBER_SINCE' | translate }} <span am-time-ago="person.created"></span></small></div>
+        <div><small>{{ person.created | memberSince }}</small></div>
         <div><span badge-list="person.badges"></span></div>
       </div>
     </div>

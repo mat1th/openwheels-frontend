@@ -30,7 +30,7 @@
                 <small>{{ 'AGE' | translate }}: {{ person.dateOfBirth | personAge }}</small>
                 <i ng-if="person.created" class="fa fa-fw fa-circle"></i>
               </span>
-              <small ng-if="person.created" class="text-muted">{{ 'MEMBER_SINCE' | translate }} <span am-time-ago="person.created"></span></small>
+              <small ng-if="person.created" class="text-muted">{{ person.created | memberSince }}</small>
               <div ng-if="person.badges"><span badge-list="person.badges"></span></div>
             </div>
           </div>

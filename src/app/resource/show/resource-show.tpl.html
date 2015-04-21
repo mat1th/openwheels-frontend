@@ -137,7 +137,7 @@
             <div class="media-body">
               <h4 class="media-heading"><a ui-sref="member({ personId: resource.owner.id })">{{ resource.owner | fullname }}</a></h4>
               <div ng-if="resource.owner.created" class="text-muted">
-                <small>{{ 'MEMBER_SINCE' | translate }} <span am-time-ago="resource.owner.created"></span></small>
+                <small>{{ resource.owner.created | memberSince }}</small>
               </div>
               <div><span badge-list="resource.owner.badges"></span></div>
 
@@ -170,7 +170,7 @@
             <div class="media-body">
               <h4 class="media-heading"><a ui-sref="member({ personId: resource.contactPerson.id })">{{ resource.contactPerson | fullname }}</a></h4>
               <div ng-if="resource.contactPerson.created" class="text-muted">
-                <small>{{ 'MEMBER_SINCE' | translate }} <span am-time-ago="resource.contactPerson.created"></span></small>
+                <small>{{ resource.contactPerson.created | memberSince }}</small>
               </div>
               <div><span badge-list="resource.contactPerson.badges"></span></div>
 
