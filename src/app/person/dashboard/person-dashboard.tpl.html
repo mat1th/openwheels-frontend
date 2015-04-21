@@ -27,14 +27,11 @@
 <div id="dashboard_buttons" class="card">
 
   <div class="card-heading" ng-if="favoriteResources.length >= 1">
-    <h2 class="card-title">{{ 'FAVORITE_RESOURCES' | translate }}</h2>
+    <h2 class="card-title">{{ 'FAVORITE_RESOURCES' | translate }}<info-icon tooltip-html="'INFO_FAVORITES' | translate"></info-icon></h2>
   </div>
 
   <div class="card-body">
     <div ng-if="favoriteResources.length >= 1">
-      <p>
-        <i class="fa fa-fw fa-info-circle text-info"></i>{{ 'INFO_FAVORITES' | translate }}
-      </p>
       <ul class="list-row">
         <li ng-repeat="resource in favoriteResources" ng-click="selectFavoriteResource(resource)">
           <div ng-include="'resource/partials/resource-header1.tpl.html'"></div>
