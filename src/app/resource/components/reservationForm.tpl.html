@@ -34,6 +34,18 @@
     <textarea rows="3" id="remarkRequester" name="remarkRequester" class="form-control" ng-model="booking.remarkRequester"></textarea>
   </div>
 
+  <p>
+    <div class="text-center">
+      <small>
+        <i class="text-success fa fa-fw fa-check"></i>
+        {{ resource.owner.firstName }}
+        {{ 'ACCEPTED_REQUESTS_PREFIX' | translate }}
+        {{ resource.response_accept | percentage : 0 }}
+        {{ 'ACCEPTED_REQUESTS_SUFFIX' | translate}}
+      </small>
+    </div>
+  </p>
+
   <div class="form-group" ng-if="contractOptions && contractOptions.length > 1">
     <label for="contract">Contract</label>
     <select id="contract" name="contract" class="form-control" ng-model="booking.contract" ng-options="c.id as (c.type.name + ' - ' + c.contractor.firstName) for c in contractOptions">

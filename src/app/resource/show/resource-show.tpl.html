@@ -85,6 +85,17 @@
                 <i class="fa fa-calendar"></i> {{ 'CALENDAR_BUTTON' | translate }}
               </a>
             </p>
+            <p>
+              <div class="text-center">
+                <small>
+                  <i class="text-success fa fa-fw fa-check"></i>
+                  {{ resource.owner.firstName }}
+                  {{ 'ACCEPTED_REQUESTS_PREFIX' | translate }}
+                  {{ resource.response_accept | percentage : 0 }}
+                  {{ 'ACCEPTED_REQUESTS_SUFFIX' | translate}}
+                </small>
+              </div>
+            </p>
           </div>
           <div id="createBookingContainer" collapse="!showBookingForm">
             <reservation-form person="me" resource="resource" booking="booking" show-price="false"></reservation-form>

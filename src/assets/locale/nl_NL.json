@@ -243,6 +243,8 @@
     "CREATE_BOOKING": "Maak reservering",
     "CALENDAR_BUTTON": "Kalender",
     "ACCEPTED_REQUESTS": "geaccepteerde verzoeken",
+    "ACCEPTED_REQUESTS_PREFIX": "accepteerde",
+    "ACCEPTED_REQUESTS_SUFFIX": "van de verzoeken",
     "SEATS": "zitplaatsen",
     "UNKNOWN_FUELTYPE": "Brandstoftype onbekend",
     "UKNOWN_LOCKTYPE": "Wijze van openen onbekend",
