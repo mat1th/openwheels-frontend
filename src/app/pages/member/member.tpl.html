@@ -1,4 +1,19 @@
 <div class="container container-transitional">
+
+  <!-- self profile -->
+
+  <div class="card card-notice" ng-if="user.identity.id === person.id">
+    <div class="card-body">
+      <p>
+        {{ 'MEMBER_PROFILE_INTRO' | translate }}
+        <info-icon tooltip-html="'INFO_SELF_PROFILE' | translate" tooltip-placement="bottom"><info-icon>
+      </p>
+      <a ui-sref="owm.person.profile">
+        <i class="fa fa-fw fa-cog"></i>{{ 'EDIT_PROFILE' | translate }}
+      </a>
+    </div>
+  </div>
+
   <div class="row">
     <div ng-class="{ 'col-md-8': showSidebar, 'col-xs-12': !showSidebar }">
 
