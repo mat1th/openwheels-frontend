@@ -441,6 +441,8 @@
     "INFO_PROFILE_LICENSE_RESTRICT": "Omdat je persoonsgegevens zijn gecontroleerd aan de hand van je rijbewijs kun je deze niet zelf wijzigen. Neem contact op met support.",
     "INFO_BOOKING_CHANGE_REQUEST": "De huurder kan een verzoek doen om een bestaande reservering te verlengen of verkorten. Als de verhuurder dit verzoek accepteert gelden de gewijzigde tijden. Als de verhuurder de wijiging weigert dan blijven de oude tijden gelden",
     "INFO_FAVORITES": "Hier staan jouw favoriete auto's die we aanvullen met auto's die je gehuurd hebt en/of auto's uit je buurt.",
+    "INFO_RESOURCE_FREE_KM_DAY": "of 10 km per uur gratis als je onder de dagprijs blijft",
+    "INFO_RESOURCE_FUEL_PER_KM": "Omdat je niet af hoeft te tanken betaal je een vergoeding per km voor brandstof (ook voor de eerste 100 km)",
 
     "FAVORITE_RESOURCES": "Favorieten",
     "SHOW_MORE_RESOURCES": "Zoek meer auto's",
