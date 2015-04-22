@@ -118,7 +118,10 @@
               <p>
                 <a ui-sref="owm.resource.show({ resourceId: resource.id })">
                   <h4>
-                    {{ resource.brand || 'Onbekend merk'}} <span ng-if="resource.model">, {{ resource.model }}</span>
+                    {{ resource.alias }}
+                    <span ng-if="!resource.alias">
+                      {{ resource.brand || 'Onbekend merk' }}<span ng-if="resource.model">, {{ resource.model }}</span>
+                    </span>
                     &nbsp;<span rating-thumb="{ value : resource.rating.satisfaction, senders : resource.rating.senders }"></span>
                   </h4>
                   <img ng-src="{{ resource.pictures[0] | resourceAvatar: 'large' }}" class="img-scale" />
