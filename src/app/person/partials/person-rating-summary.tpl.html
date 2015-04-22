@@ -5,12 +5,12 @@
     <span rating-thumb="{ value : person.rating_totals.satisfaction, senders: person.ratings.length }"></span>
   </div>
 
-  <div class="col-xs-4 text-center">
+  <div ng-if="person.rating_totals.quality > 0" class="col-xs-4 text-center">
     <strong>{{ 'RATING.QUALITY' | translate }}</strong><br/>
     <span ng-bind-html="person.rating_totals.quality | ratingStars">-</span>
   </div>
 
-  <div class="col-xs-4 text-center">
+  <div ng-if="person.rating_totals.cleanliness > 0" class="col-xs-4 text-center">
     <strong>{{ 'RATING.CLEANLINESS' | translate }}</strong><br/>
     <span ng-bind-html="person.rating_totals.cleanliness | ratingStars">-</span>
   </div>

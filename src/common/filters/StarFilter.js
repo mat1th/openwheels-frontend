@@ -3,7 +3,8 @@
 angular.module('filters.ratingStars', [])
 
 .filter('ratingStars', function ($sce) {
-  return function(starsGiven) {
+  return function(_starsGiven) {
+    var starsGiven = Math.ceil(_starsGiven || 0);
     var stars = '';
     var starsTotal = 5;
     var star = '<i class="fa fa-star text-warning"></i> ';
