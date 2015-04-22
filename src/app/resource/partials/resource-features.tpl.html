@@ -7,4 +7,5 @@
     <i class="text-success fa fa-li fa-th"></i>
     <span ng-repeat="prop in resource.properties">{{ prop.id | toSentenceCase }}<span ng-if="$index !== resource.properties.length - 1">, </span></span>
   </li>
+  <li><i class="text-success fa fa-li fa-check"></i>{{ resource.numberOfBookings | wasBookedTimes }}</li>
 </ul>

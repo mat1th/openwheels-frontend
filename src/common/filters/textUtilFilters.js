@@ -37,6 +37,30 @@ angular.module('filters.textUtil', [])
   };
 })
 
+.filter('wasBookedTimes', function ($translate) {
+  return function (count) {
+    count = count || 0;
+    if (count <= 2) {
+      return $translate.instant('WAS_BOOKED_0_TO_2');
+    } else if (count <= 10) {
+      return $translate.instant('WAS_BOOKED_3_TO_10');
+    }
+    return $translate.instant('WAS_BOOKED_11_TO_INF');
+  };
+})
+
+.filter('hasBookedTimes', function ($translate) {
+  return function (count) {
+    count = count || 0;
+    if (count <= 2) {
+      return $translate.instant('HAS_BOOKED_0_TO_2');
+    } else if (count <= 10) {
+      return $translate.instant('HAS_BOOKED_3_TO_10');
+    }
+    return $translate.instant('HAS_BOOKED_11_TO_INF');
+  };
+})
+
 .filter('trustAsHtml', ['$sce', function ($sce) {
   return function (text) {
     return $sce.trustAsHtml(text);
