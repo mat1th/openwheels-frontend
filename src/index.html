@@ -13,21 +13,21 @@
   <link rel="stylesheet" type="text/css" href="branding/style.css">
 </head>
 
-<body class="waiting-for-angular">
+<body>
   <div ng-include="'alert/alert.tpl.html'"></div>
   <div class="snap-container">
     <div class="" ui-view="navigation">
       <div class="text-center loading" ng-show="loader" type="loader.type"><i class="fa fa-spin fa-2x fa-fw fa-spinner"></i></div>
     </div>
-    <div class="wrap"  snap-content snap-close>
+    <div class="wrap" snap-content snap-close>
       <div class="page">
         <div class="container-full">
           <div ui-view="main-full"></div>
         </div>
-        <div class="container">
+        <div class="container container-main">
           <div ui-view="main"></div>
-          <div ui-view="footer"></div>
         </div>
+        <div ui-view="footer"></div>
       </div>
     </div>
   </div>

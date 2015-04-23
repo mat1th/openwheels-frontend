@@ -1,5 +1,5 @@
 body {
-  background-color: @gray-lighter;
+  background-color: #fff;
 }
 
 h1, h2, h3 {
@@ -17,10 +17,15 @@ ul {
 .page {
   margin-top: @navbar-height;
   padding-top: 15px;
+  background-color: @gray-lighter;
 }
 
-.page, .wrap {
+.wrap {
   background-color: @gray-lighter;
+}
+
+.container-main {
+  padding-bottom: 30px;
 }
 
 .inverted {
@@ -59,12 +64,29 @@ ul {
 .nav, .pagination, .carousel a { cursor: pointer; }
 
 .footer {
-  color:#888;
-  font-family: @headings-font-family;
-  margin-bottom: 20px;
+/*  color:#888;
+  background: #fff;*/
 }
-#language-switch {
-  margin-bottom: 20px;
+
+.footer-logo-row {
+  min-height: 160px;
+  padding-top: 20px;
+  padding-bottom: 35px;
+  background: white;
+}
+
+.footer-bar {
+  padding-top: 15px;
+  background: #eee;
+  .container {
+/*    min-width: 992px;*/
+    height: 160px;
+  }
+}
+
+.footer-logo {
+  height: 100%;
+  background: url('../assets/img/mywheels-tagline-footer.png') no-repeat bottom left;
 }
 
 span.action-button a.btn {
