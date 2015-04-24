@@ -1,6 +1,23 @@
 <div ng-controller="ResourceEditSharingSettingsController">
 
-  <form name="editResourceForm" ng-submit="save(resource)">
+  <form name="editResourceForm">
+
+    <div id="availability" class="form-group">
+
+      <div class="form-group">
+        <label>{{ 'RESOURCE_AVAILABLE_LABEL' | translate }}</label>
+        <select class="form-control" ng-model="userInput.available" null-if-empty
+          ng-options="option.value as option.label for option in availabilityOptions">
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>{{ 'RESOURCE_CONFIRM_LABEL' | translate }}</label>
+        <select class="form-control" ng-model="userInput.confirmationRequired" null-if-empty
+          ng-options="option.value as option.label for option in confirmationOptions">
+        </select>
+      </div>
+    </div>
 
     <div class="form-group" id="resource_advertisement">
       <label for="advertisement">{{ 'ADVERTISEMENT' | translate }}
@@ -59,43 +76,13 @@
       <hr>
     </div>
 
-    <div id="availability" class="form-group">
-      <h3>{{ 'AVAILABILITY' | translate }}</h3>
-      <div class="checkbox" id="resource_isActive" ng-if="resource.isActive === false">
-        <label>
-          <input type="checkbox" name="isActive" ng-model="resource.isActive" disabled> {{ 'RESOURCE_ACTIVE' | translate }}
-        </label>
-      </div>
-
-      <div class="checkbox" id="resource_multiple" ng-if="resource.multipe === true">
-        <label>
-          <input type="checkbox" name="multiple" ng-model="resource.multiple" disabled> {{ 'RESOURCE_MULTIPLE' | translate }}
-          <small>{{ 'RESOURCE_MULTIPLE_EXPLANATION'}}</small>
-        </label>
-      </div>
-
-      <div>
-        <label class="checkbox-inline" id="resource_isAvailableFriends"><!-- TODO: Input group met confirmation -->
-          <input type="checkbox" name="isAvailableFriends" ng-model="resource.isAvailableFriends"> {{ 'AVAILABLE_FOR_FRIENDS' | translate }}
-        </label>
-        <label class="checkbox-inline" id="resource_isConfirmationRequiredFriends" ng-show="resource.isAvailableFriends">
-          <input type="checkbox" name="isConfirmationRequiredFriends" ng-model="resource.isConfirmationRequiredFriends"> {{ 'CONFIRMATION_REQUIRED_FOR_FRIENDS' | translate }}
-        </label>
-      </div>
-
-      <div >
-        <label class="checkbox-inline" id="resource_isAvailableOthers">
-          <input type="checkbox" name="isAvailableOthers" ng-model="resource.isAvailableOthers"> {{ 'AVAILABLE_FOR_OTHERS' | translate }}
-        </label>
-        <label class="checkbox-inline" id="resource_isConfirmationRequiredOthers" ng-show="resource.isAvailableOthers">
-          <input type="checkbox" name="isConfirmationRequiredOthers" ng-model="resource.isConfirmationRequiredOthers"> {{ 'CONFIRMATION_REQUIRED_FOR_ORDERS' | translate }}
-        </label>
-      </div>
-    </div>
-
     <div class="form-group">
-      <button id="clear" type="button" class="btn btn-default" ng-disabled="editResourceForm.$pristine" ng-click="cancel()">{{ 'CANCEL' | translate }}</button>
-      <button id="submitForm" type="submit" class="btn btn-primary" ng-disabled="editResourceForm.$pristine">{{ 'SUBMIT' | translate }}</button>
+      <button id="clear" type="button" class="btn btn-default" ng-disabled="busy || !editResourceForm.$dirty" ng-click="cancel()">
+        {{ 'CANCEL' | translate }}
+      </button>
+      <button id="submitForm" type="button" class="btn btn-primary" ng-disabled="busy || !editResourceForm.$dirty" ng-click="save()">
+        {{ 'SUBMIT' | translate }}
+      </button>
     </div>
 
   </form>

@@ -2,15 +2,17 @@
 
 angular.module('owm.resource.edit.sharing_settings', [])
 
-
-.controller('ResourceEditSharingSettingsController', function ($timeout, $scope, $filter, alertService, resourceService) {
+.controller('ResourceEditSharingSettingsController', function ($timeout, $translate, $scope, $filter, alertService, resourceService) {
   // expects to see $scope.$parent
   var resource = $scope.$parent.resource;
 
   var masterResource = resource;
 
+  $scope.busy = false;
+
   $scope.cancel = function () {
     $scope.resource = angular.copy(masterResource);
+    populateForm();
   };
   $scope.cancel();
 
@@ -65,9 +67,65 @@ angular.module('owm.resource.edit.sharing_settings', [])
     return options;
   }());
 
+  $scope.availabilityOptions = [
+    { label: $translate.instant('RESOURCE_AVAILABLE_ALWAYS'), value: 'ALWAYS' },
+    { label: $translate.instant('RESOURCE_AVAILABLE_FRIENDS'), value: 'FRIENDS' },
+    { label: $translate.instant('RESOURCE_AVAILABLE_NEVER'), value: 'NEVER' }
+  ];
+
+  $scope.confirmationOptions = [
+    { label: $translate.instant('RESOURCE_CONFIRM_ALWAYS'), value: 'ALWAYS' },
+    { label: $translate.instant('RESOURCE_CONFIRM_OTHERS'), value: 'OTHERS' },
+    { label: $translate.instant('RESOURCE_CONFIRM_NEVER'), value: 'NEVER' }
+  ];
+
+  function populateForm () {
+    $scope.userInput = {};
+
+    $scope.userInput.available = (function () {
+      if ($scope.resource.isAvailableFriends && $scope.resource.isAvailableOthers) {
+        return 'ALWAYS';
+      } else  if ($scope.resource.isAvailableFriends) {
+        return 'FRIENDS';
+      } else {
+        return 'NEVER';
+      }
+    }());
+
+    $scope.userInput.confirmationRequired = (function () {
+      if ($scope.resource.isConfirmationRequiredFriends && $scope.resource.isConfirmationRequiredOthers) {
+        return 'ALWAYS';
+      } else if ($scope.resource.isConfirmationRequiredOthers) {
+        return 'OTHERS';
+      } else {
+        return 'NEVER';
+      }
+    }());
+  }
+
   $scope.save = function () {
-    alertService.load();
     var newProps = $filter('returnDirtyItems')( angular.copy($scope.resource), $scope.editResourceForm);
+
+    newProps.isAvailableFriends = ['ALWAYS', 'FRIENDS'].indexOf($scope.userInput.available) >= 0;
+    newProps.isAvailableOthers  = $scope.userInput.available === 'ALWAYS';
+    newProps.isConfirmationRequiredFriends = $scope.userInput.confirmationRequired === 'ALWAYS';
+    newProps.isConfirmationRequiredOthers  = ['ALWAYS', 'OTHERS'].indexOf($scope.userInput.confirmationRequired) >= 0;
+
+    if ($scope.resource.isAvailableFriends === newProps.isAvailableFriends) {
+      delete newProps.isAvailableFriends;
+    }
+    if ($scope.resource.isAvailableOthers === newProps.isAvailableOthers) {
+      delete newProps.isAvailableOthers;
+    }
+    if ($scope.resource.isConfirmationRequiredFriends === newProps.isConfirmationRequiredFriends) {
+      delete newProps.isConfirmationRequiredFriends;
+    }
+    if ($scope.resource.isConfirmationRequiredOthers === newProps.isConfirmationRequiredOthers) {
+      delete newProps.isConfirmationRequiredOthers;
+    }
+
+    alertService.load();
+    $scope.busy = true;
     resourceService.alter({
       id: masterResource.id,
       newProps: newProps
@@ -76,12 +134,15 @@ angular.module('owm.resource.edit.sharing_settings', [])
       alertService.addSaveSuccess();
       masterResource = resource;
       $scope.cancel();
+      $scope.editResourceForm.$setPristine();
     })
     .catch(function (err) {
       alertService.addError(err);
     })
     .finally(function () {
       alertService.loaded();
+      $scope.busy = false;
     });
+
   };
 });
