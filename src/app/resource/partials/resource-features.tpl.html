@@ -2,7 +2,16 @@
   <li ng-if="resource.fuelCardCode" class="text-danger"><i class="fa fa-li fa-lock"></i> {{ 'FUEL_CARD_CODE' | translate}}: {{ resource.fuelCardCode }}</li>
   <li><i class="text-success fa fa-li fa-users"></i> {{ resource.numberOfSeats }} {{ 'SEATS' | translate }}</li>
   <li><i class="text-success fa fa-li fa-gear"></i> <span ng-if="resource.fuelType">{{  resource.fuelType | translate }}</span> <span ng-if="!resource.fuelType">{{ 'UNKNOWN_FUELTYPE' | translate }}</span></li>
-  <li><i class="text-success fa fa-li fa-key"></i> <span ng-if="resource.locktype">{{  ('LOCKTYPE.' + resource.locktype) | translateOrDefault : resource.locktype }}</span> <span ng-if="!resource.locktype">{{ 'UKNOWN_LOCKTYPE' | translate }}</span></li>
+
+  <!-- lock type -->
+  <li>
+    <i ng-if="['smartphone', 'chipcard', 'ophalen'].indexOf(resource.locktype) >= 0" class="text-warning fa fa-li fa-key"
+      tooltip="{{ 'SMART_WHEELS_TIP' | translate }}" tooltip-placement="right"></i>
+    <i ng-if="!( ['smartphone', 'chipcard'].indexOf(resource.locktype) >= 0 )" class="text-success fa fa-li fa-key"></i>
+    <span ng-if="resource.locktype">{{  ('LOCKTYPE.' + resource.locktype) | translateOrDefault : resource.locktype }}</span>
+    <span ng-if="!resource.locktype">{{ 'UKNOWN_LOCKTYPE' | translate }}</span>
+  </li>
+
   <li ng-if="resource.properties.length >= 1">
     <i class="text-success fa fa-li fa-th"></i>
     <span ng-repeat="prop in resource.properties">{{ prop.id | toSentenceCase }}<span ng-if="$index !== resource.properties.length - 1">, </span></span>

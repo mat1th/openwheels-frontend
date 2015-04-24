@@ -31,6 +31,9 @@
       <i class="fa fa-user fa-fw"></i> {{ resource.owner.firstName }}</a>
       <span rating-thumb="{ value : resource.rating.satisfaction, senders : resource.rating.senders }"></span>
       <resource-favorite-icon resource="resource"></resource-favorite-icon>
+      <i ng-if="['smartphone', 'chipcard'].indexOf(resource.locktype) >= 0"
+        class="fa fa-fw fa-key text-warning" tooltip="{{ 'SMART_WHEELS_TIP' | translate }}">
+      </i>
     </div>
 
   </div>
