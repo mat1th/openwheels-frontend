@@ -13,7 +13,7 @@
     <li ng-hide="resource.refuelByRenter"><i class="fa fa-plus fa-lg text-muted"></i></li>
     <li ng-hide="resource.refuelByRenter">
       {{ resource.price.fuelPerKilometer | currency }}
-      <info-icon tooltip-html="'INFO_RESOURCE_FUEL_PER_KM' | translate"></info-icon>
+      <info-icon tooltip-html="'INFO_RESOURCE_FUEL_PER_KM' | translate" tooltip-placement="bottom"></info-icon>
       <div class="resource_price-list__unit">
         <span class="hidden-md">{{ 'PER_FUEL' | translate }}</span>
         <span class="visible-md">brandstof/km</span>
