@@ -2,7 +2,11 @@
 
   <form name="form">
 
-    <div id="resource_settings_price_per_day" form-group label="{{ 'PRICE_PER_DAY' | translate }}">
+    <div id="resource_settings_price_per_day" class="form-group">
+      <label>
+        {{ 'PRICE_PER_DAY' | translate }}
+        <info-icon tooltip-html="'INFO_RESOURCE_EDIT_PRICE_PER_DAY' | translate"></info-icon>
+      </label>
       <div class="input-group">
         <span class="input-group-addon">€</span>
         <input type="text" smart-float id="dayRateTotal" name="dayRateTotal" class="form-control"
@@ -13,7 +17,11 @@
       </div>
     </div>
 
-    <div id="resource_settings_price_per_hour" form-group label="{{ 'PRICE_PER_HOUR' | translate }}">
+    <div id="resource_settings_price_per_hour" class="form-group">
+      <label>
+        {{ 'PRICE_PER_HOUR' | translate }}
+        <info-icon tooltip-html="'INFO_RESOURCE_EDIT_PRICE_PER_HOUR' | translate"></info-icon>
+      </label>
       <div class="input-group">
         <span class="input-group-addon">€</span>
         <input type="text" smart-float id="hourRate" name="hourRate" class="form-control"
