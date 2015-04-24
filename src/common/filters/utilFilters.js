@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('filters.textUtil', [])
+angular.module('filters.util', [])
 
 .filter('toSentenceCase', function () {
   return function (text) {
@@ -34,6 +34,15 @@ angular.module('filters.textUtil', [])
     } else {
       return Math.round(km * 1000) + ' m';
     }
+  };
+})
+
+.filter('containsAnyOf', function () {
+  return function (arr, other) {
+    if (!angular.isArray(arr) || !angular.isArray(other)) { return false; }
+    return arr.filter(function (item) {
+      return other.indexOf(item) >= 0;
+    }).length > 0;
   };
 })
 

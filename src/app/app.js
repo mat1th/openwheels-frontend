@@ -76,7 +76,7 @@ angular.module('openwheels', [
   'socialDirectives',
 
   // FILTERS
-  'filters.textUtil',
+  'filters.util',
   'filters.dateUtil',
   'filters.getByPropertyFilter',
   'filters.fullname',
