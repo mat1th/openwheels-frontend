@@ -42,7 +42,11 @@
 
       <h3>{{'INSURANCE' | translate }}</h3>
 
-      <div form-group label="{{ 'INSURANCE_POLICY' | translate }}" id="resource_insurancePolicy">
+      <div id="resource_insurancePolicy" class="form-group">
+        <label>
+          {{ 'INSURANCE_POLICY' | translate }}
+          <info-icon tooltip-html="'INFO_RESOURCE_EDIT_INSURANCE_POLICY' | translate"></info-icon>
+        </label>
         <select id="insurancePolicy" name="insurancePolicy" class="form-control" ng-model="resource.insurancePolicy"
                 ng-options="o.value as o.label for o in insurancePolicyOptions" ng-disabled="true">
         </select>

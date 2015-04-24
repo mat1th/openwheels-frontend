@@ -455,6 +455,7 @@
     "INFO_RESOURCE_FUEL_PER_KM": "Omdat je niet af hoeft te tanken betaal je een vergoeding per km voor brandstof (ook voor de eerste 100 km)",
     "INFO_RESOURCE_EDIT_PRICE_PER_HOUR": "Naast de dagprijs kun je ook een uurprijs instellen voor kortere verhuurperiodes. De dagprijs geldt dan als maximum",
     "INFO_RESOURCE_EDIT_PRICE_PER_DAY": "De dagprijs is het maximale bedrag dat huurders per 24 uur betalen",
+    "INFO_RESOURCE_EDIT_INSURANCE_POLICY": "Jouw auto is automatisch goed verzekerd, voor elke verhuurperiode sluiten wij een allrisk ritverzekering af. Je hebt dus geen omkijken naar de verzekering. Is jouw auto al goed verzekerd voor gebruik als deelauto? Neem dan contact met ons op zodat we geen ritverzekering meer voor je afsluiten",
     "INFO_SELF_PROFILE": "Wat mensen van je zien hangt af van hun rol. Je kunt je profielpagina in een incognito venster bekijken om te zien wat niet-ingelogde mensen zien. Of kijk als je uitgelogd bent",
 
     "FAVORITE_RESOURCES": "Favorieten",
