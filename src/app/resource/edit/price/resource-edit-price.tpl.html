@@ -39,7 +39,11 @@
 
     <!-- may be hidden by branding css -->
     <div id="resource_settings_fuel">
-      <div form-group label="Brandstof">
+      <div class="form-group">
+        <label>
+          {{ 'RESOURCE_REFUEL_BY_RENTER_LABEL' | translate }}
+          <info-icon tooltip-html="'INFO_RESOURCE_EDIT_REFUEL_BY_RENTER' | translate"></info-icon>
+        </label>
         <div class="input-group">
           <span class="input-group-addon">
             <input type="checkbox" ng-model="resource.refuelByRenter" name="refuelByRenter" id="refuelByRenter">
