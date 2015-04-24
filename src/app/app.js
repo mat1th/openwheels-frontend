@@ -151,7 +151,7 @@ angular.module('openwheels', [
 
 .run(function (windowSizeService, oAuth2MessageListener, stateAuthorizer, authService, featuresService) {})
 
-.run(function ($window, $log, $translate, $state, $stateParams, $rootScope, alertService, featuresService, appConfig, linksService) {
+.run(function ($window, $log, $timeout, $translate, $state, $stateParams, $rootScope, alertService, featuresService, appConfig, linksService) {
   $rootScope.$state = $state;
   $rootScope.$stateParams = $stateParams;
   $rootScope.showAsideMenu = false;
@@ -199,13 +199,21 @@ angular.module('openwheels', [
 
   });
 
-  // // show an error on state change error
-  // $rootScope.$on('$stateChangeError', function (event, toState, toParams, fromState, fromParams, error) {
-  //   alertService.loaded();
-  //   $log.debug('State change error', error);
-  //   alertService.closeAll();
-  //   alertService.add('danger', 'De opgevraagde pagina is niet beschikbaar', 5000);
-  // });
+  // show an error on state change error
+  $rootScope.$on('$stateChangeError', function (event, toState, toParams, fromState, fromParams, error) {
+    alertService.loaded();
+    $log.debug('State change error', error);
+    alertService.closeAll();
+
+    if (!fromState.name) {
+      $timeout(function () {
+        $state.go('home');
+      }, 0);
+    } else {
+      // (stay on same page)
+      alertService.add('danger', error.message || 'Woops, er is iets mis gegaan', 5000);
+    }
+  });
 })
 ;
 
