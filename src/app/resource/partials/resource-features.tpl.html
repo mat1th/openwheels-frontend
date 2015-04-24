@@ -5,7 +5,7 @@
 
   <!-- lock type -->
   <li>
-    <i ng-if="['smartphone', 'chipcard', 'ophalen'].indexOf(resource.locktype) >= 0" class="text-warning fa fa-li fa-key"
+    <i ng-if="['smartphone', 'chipcard'].indexOf(resource.locktype) >= 0" class="text-warning fa fa-li fa-key"
       tooltip="{{ 'SMART_WHEELS_TIP' | translate }}" tooltip-placement="right"></i>
     <i ng-if="!( ['smartphone', 'chipcard'].indexOf(resource.locktype) >= 0 )" class="text-success fa fa-li fa-key"></i>
     <span ng-if="resource.locktype">{{  ('LOCKTYPE.' + resource.locktype) | translateOrDefault : resource.locktype }}</span>
