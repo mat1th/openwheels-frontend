@@ -18,6 +18,7 @@
     <div ng-class="{ 'col-md-8': showSidebar, 'col-xs-12': !showSidebar }">
 
       <!-- suggest login -->
+
       <div ng-if="!user.isAuthenticated" class="card">
         <div class="card-body">
           <p><i class="fa fa-fw fa-info-circle text-info"></i>{{ 'MEMBER_SUGGEST_LOGIN' | translate }}</p>
@@ -33,7 +34,6 @@
           <h2 class="card-title">{{ person | fullname }}</h2>
         </div>
         <div class="card-body">
-
           <div class="media">
             <img class="media-object pull-left img-user-normal" person-profile-image="{ person: person, size: 'normal' }" />
             <div class="media-body text-left">
@@ -41,11 +41,17 @@
                 <span ng-if="person.about">{{ person.about }}</span>
                 <span ng-if="!person.about">{{ person.firstName | toTitleCase }} heeft nog geen introductie over zichzelf geschreven.</span>
               </p>
-              <span ng-if="person.dateOfBirth" class="text-muted">
-                <small>{{ 'AGE' | translate }}: {{ person.dateOfBirth | personAge }}</small>
-                <i ng-if="person.created" class="fa fa-fw fa-circle"></i>
-              </span>
-              <small ng-if="person.created" class="text-muted">{{ person.created | memberSince }}</small>
+
+              <small ng-if="person.dateOfBirth" class="text-muted">
+                {{ 'AGE' | translate }}: {{ person.dateOfBirth | personAge }}
+                <i class="fa fa-fw fa-circle"></i>
+              </small>
+              <small ng-if="person.created" class="text-muted">
+                {{ person.created | memberSince }}
+                <i class="fa fa-fw fa-circle"></i>
+              </small>
+              <small class="text-muted">{{ person.numberOfBookings | hasBookedTimes }}</small>
+
               <div ng-if="person.badges"><span badge-list="person.badges"></span></div>
             </div>
           </div>
