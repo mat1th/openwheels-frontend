@@ -1,4 +1,4 @@
-<div class="media">
+<div class="media hover-toggle">
   <img ng-if="!isWindowSizeLG" class="media-object img-resource-small pull-left" ng-src="{{ resource.pictures[0] | resourceAvatar:'small' }}">
   <img ng-if="isWindowSizeLG" class="media-object img-resource-normal pull-left" ng-src="{{ resource.pictures[0] | resourceAvatar:'normal' }}">
   <div class="media-body">
@@ -34,6 +34,33 @@
       <i ng-if="['smartphone', 'chipcard'].indexOf(resource.locktype) >= 0"
         class="fa fa-fw fa-key text-warning" tooltip="{{ 'SMART_WHEELS_TIP' | translate }}">
       </i>
+    </div>
+
+    <!-- visible on hover -->
+
+    <div ng-if="isWindowSizeLG" class="truncate hover-toggle-show text-muted" style="margin-top: 5px">
+
+      <!-- lock type -->
+      <span ng-if="resource.locktype">
+        <i ng-if="['smartphone', 'chipcard'].indexOf(resource.locktype) >= 0" class="text-warning fa fa-fw fa-key"
+          tooltip="{{ 'SMART_WHEELS_TIP' | translate }}" tooltip-placement="right"></i>
+        <i ng-if="!( ['smartphone', 'chipcard'].indexOf(resource.locktype) >= 0 )" class="text-success fa fa-fw fa-key"></i>
+        <span ng-if="resource.locktype">{{  ('LOCKTYPE.' + resource.locktype) | translateOrDefault : resource.locktype }}</span>
+      </span>
+
+      <!-- num seats -->
+      <i class="text-success fa fa-fw fa-users"></i> {{ resource.numberOfSeats }} {{ 'SEATS' | translate }}
+
+      <!-- fuel type -->
+      <span ng-if="resource.fuelType"><i class="text-success fa fa-fw fa-gear"></i>{{  resource.fuelType | translate }}</span>
+
+      <!-- % accepted -->
+      <span ng-if="resource.response_accept !== null">
+        <i class="text-success fa fa-fw fa-check"></i>
+        {{ resource.response_accept | percentage : 0 }}
+        {{ 'ACCEPTED_REQUESTS' | translate}}
+      </span>
+
     </div>
 
   </div>
