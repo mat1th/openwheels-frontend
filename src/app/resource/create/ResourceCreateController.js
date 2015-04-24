@@ -25,9 +25,9 @@ angular.module('owm.resource.create', [])
     //show dialog if user already has resources
     if(resources.length > 0) {
       dialogService.showModal(null, {
-        closeButtonText: 'Close',
-        actionButtonText: 'OK',
-        headerText: 'Proceed?',
+        closeButtonText: $translate.instant('CANCEL'),
+        actionButtonText: $translate.instant('OK'),
+        headerText: $translate.instant('CREATE_RESOURCE_TITLE'),
         bodyText: $translate.instant('ADD_MORE_THAN_ONE_RESOURCE')
       })
       .then(createResource);

@@ -275,7 +275,7 @@
     "ACTIVATION_MAIL_RESEND_FAIL": "De activatiemail kon niet verzonden worden",
     "GLOBAL.MESSAGE.SAVE_SUCCESS": "De wijzigingen zijn opgeslagen",
     "GLOBAL.MESSAGE.GENERIC_ERROR": "Er is een fout opgetreden",
-    "ADD_MORE_THAN_ONE_RESOURCE": "Je hebt al een resource toegevoegd, weet je zeker dat je er nog een wilt toevoegen?",
+    "ADD_MORE_THAN_ONE_RESOURCE": "Je hebt al een auto toegevoegd, weet je zeker dat je er nog één wilt toevoegen?",
     "RESOURCE_CREATED": "Je auto is toegevoegd",
     "CANCEL_INVITE": "Annuleer je uitnodiging",
     "OK_INVITE": "Uitnodiging versturen",
