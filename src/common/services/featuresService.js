@@ -18,8 +18,8 @@ angular.module('owm.featuresService', [])
     serverSideShare    : true, // use server side links when social-sharing resources (opengraph)
     invoiceModuleV1    : false,
     invoiceModuleV2    : true,
-    filtersSidebar     : false,
-    resourceSidebar    : false,
+    filtersSidebar     : true, // obsolete
+    resourceSidebar    : true, // obsolete
     facebook           : false,
     twitter            : false,
     googlePlus         : false,
