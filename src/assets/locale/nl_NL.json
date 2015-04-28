@@ -348,6 +348,7 @@
     "RESOURCE_MEMBERS_INTRO": "Je kunt vrienden aan je auto toevoegen om een besloten club te maken. Bij \"instellingen voor het delen\" zet je dan een vinkje bij \"beschikbaar voor vrienden\" en GEEN vinkje bij \"Beschikbaar voor iedereen\". Je auto is nu alleen te zien en te huur voor je vrienden",
 
     "BOOKING_INFO": "Boekingsinformatie",
+    "BOOKING_INFO_FIRSTNAME_TIP": "Klik op de voornaam van de huurder om naar zijn of haar profielpagina te gaan. Je vindt daar meer (contact-)informatie over de huurder",
     "CREATE_BLOCKING": "Maak blokkering",
     "EDIT_BLOCKING": "Wijzig blokkering",
     "ALL_DAY": "Hele dag",
