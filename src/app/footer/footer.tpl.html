@@ -9,7 +9,8 @@
   <div class="footer-bar">
     <div class="container" ng-class="{ 'container-transitional': containerTransitional }">
 
-      <div class="col-md-4 footer-logo" ng-if="isWindowSizeMD">
+      <div class="col-md-4" ng-if="isWindowSizeMD" style="height: 100%">
+        <div class="footer-logo"></div>
       </div>
 
       <div class="col-md-3 col-md-offset-0 col-sm-4 col-sm-offset-1 col-xs-6 col-xs-offset-1">
@@ -58,8 +59,8 @@
   <h5 class="no-margin" ng-bind-html="'SEATS2MEET_FOOTER_HTML' | translate"></h5>
 </div>
 
-<div id="language-switch" style="padding: 30px" ng-class="{ 'bg-white': features.myWheelsFooter }">
-  <ul class="list-inline text-center">
+<div style="padding: 30px" ng-class="{ 'bg-white': features.myWheelsFooter }">
+  <ul class="list-inline text-center" id="language-switch">
     <li>
       <button ng-disabled="currentLanguage() === 'nl_NL'" class="btn btn-link btn-sm" ng-click="changeLanguage('nl_NL')">{{ 'DUTCH' | translate }}</button>
     </li>
