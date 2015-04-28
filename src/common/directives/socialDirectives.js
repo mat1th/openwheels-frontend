@@ -15,7 +15,7 @@ angular.module('socialDirectives', [])
         '<tr>' +
           '<td ng-if="features.facebook"><a ng-click="shareFb()"><i class="fa fa-fw fa-facebook-square"></i>{{ "SOCIAL_SHARE_FACEBOOK" | translateOrDefault }}</a>&nbsp;&nbsp;</td>' +
           '<td ng-if="features.googlePlus"><span google-plus-share-button url="url"></span>&nbsp;&nbsp;</td>' +
-          '<td ng-if="flyerPdf"><a ng-href="{{ flyerPdf }}" target="blank"><i class="fa fa-fw fa-print"></i>{{ "SOCIAL_MAKE_FLYER" | translateOrDefault }}</a>&nbsp;&nbsp;</td>' +
+          '<td ng-if="flyerPdf"><a ng-href="{{ flyerPdf }}" target="_blank"><i class="fa fa-fw fa-print"></i>{{ "SOCIAL_MAKE_FLYER" | translateOrDefault }}</a>&nbsp;&nbsp;</td>' +
           '<td ng-if="features.twitter" style="padding-top: 4px"><span twitter-share-button url="url" text="text"></span>&nbsp;&nbsp;</td>' +
         '</tr>' +
       '</table>',
