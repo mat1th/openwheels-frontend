@@ -86,6 +86,7 @@ angular.module('owm.booking.show', [])
 
       $scope.allowStop = (function () {
         return ($scope.allowEdit &&
+          booking.status === 'accepted' &&
           booking.beginBooking && booking.endBooking &&
           moment().isAfter(moment(booking.beginBooking)) &&
           moment().isBefore(moment(booking.endBooking))
