@@ -8,6 +8,7 @@ angular.module('owm.translate', [])
     suffix: '.json'
   });
   $translateProvider.preferredLanguage('nl_NL');
+  $translateProvider.fallbackLanguage('nl_NL');
   $translateProvider.useLocalStorage();
 })
 
