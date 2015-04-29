@@ -9,11 +9,13 @@
         <label for="firstName">{{ 'FIRST_NAME' | translate }}</label>
         <input type="firstName" autocomplete="off" class="form-control" id="firstName" required ng-model="user.firstName">
       </div>
-      <div class="form-group" id="preference_group">
+
+      <div class="form-group" id="preference_group" ng-if="!features.hideSignupPreference">
         <label for="preference">{{ 'USER_PREFERENCE_LABEL' | translate }}</label>
         <select class="form-control" id="preference" name="preference" ng-model="user.preference" required ng-options="o.value as o.label for o in preferenceOptions">
         </select>
       </div>
+
       <div class="form-group" id="email_group">
         <label for="email">{{ 'EMAIL' | translate }}</label>
         <input type="email" autocomplete="off" class="form-control" id="email" required ng-model="auth.email">

@@ -2,7 +2,7 @@
 
 angular.module('owm.auth.signup', [])
 
-  .controller('AuthSignupController', function ($scope, $state, $stateParams, $translate, $q, authService, alertService) {
+  .controller('AuthSignupController', function ($scope, $state, $stateParams, $translate, $q, authService, featuresService, alertService) {
 
     $scope.auth = {};
     $scope.user = {};
@@ -21,12 +21,17 @@ angular.module('owm.auth.signup', [])
     });
     initOptions();
 
-
-    if ($state.previous.name === 'owm.resource.create') {
-      $scope.user.preference = 'owner';
+    if (featuresService.get('hideSignupPreference')) {
+      $scope.user.preference = 'both';
     } else {
-      $scope.user.preference = 'renter';
+      if ($state.previous.name === 'owm.resource.create') {
+        $scope.user.preference = 'owner';
+      } else {
+        $scope.user.preference = 'renter';
+      }
     }
+
+    console.log($scope.user.preference);
 
     $scope.signup = function () {
       alertService.load();

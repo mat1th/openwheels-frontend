@@ -24,6 +24,7 @@ angular.module('owm.featuresService', [])
     twitter            : false,
     googlePlus         : false,
     ratings            : true,
+    hideSignupPreference: false,
 
     // Auto-generated (see below):
     social             : false
