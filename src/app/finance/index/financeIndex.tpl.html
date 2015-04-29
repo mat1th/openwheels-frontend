@@ -58,7 +58,8 @@
           </tbody>
         </table>
 
-        <button type="button" class="btn btn-primary pull-right" ng-click="payInvoices()" style="margin-right:8px">Betalen</button>
+        <!-- may be hidden from branding css -->
+        <button id="finance_index_pay_button" type="button" class="btn btn-primary pull-right" ng-click="payInvoices()" style="margin-right:8px">Betalen</button>
       </div>
 
       <div ng-if="invoiceGroupsUnpaid.length > 0">
