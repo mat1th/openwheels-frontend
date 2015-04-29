@@ -23,6 +23,7 @@ angular.module('owm.featuresService', [])
     facebook           : false,
     twitter            : false,
     googlePlus         : false,
+    ratings            : true,
 
     // Auto-generated (see below):
     social             : false

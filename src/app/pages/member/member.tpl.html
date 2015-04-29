@@ -61,7 +61,7 @@
 
       <!-- ratings -->
 
-      <div class="card" ng-if="person.ratings.length >= 1">
+      <div class="card" ng-if="features.ratings && person.ratings.length >= 1">
         <div class="card-heading">
           <h3 class="card-title">{{ 'SATISFACTION' | translate }}
             <span class="text-muted">
@@ -128,7 +128,7 @@
                     <span ng-if="!resource.alias">
                       {{ resource.brand || 'Onbekend merk' }}<span ng-if="resource.model">, {{ resource.model }}</span>
                     </span>
-                    &nbsp;<span rating-thumb="{ value : resource.rating.satisfaction, senders : resource.rating.senders }"></span>
+                    &nbsp;<span ng-if="features.ratings" rating-thumb="{ value : resource.rating.satisfaction, senders : resource.rating.senders }"></span>
                   </h4>
                   <img ng-src="{{ resource.pictures[0] | resourceAvatar: 'large' }}" class="img-scale" />
                 </a>
