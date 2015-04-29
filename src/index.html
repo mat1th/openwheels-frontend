@@ -21,11 +21,13 @@
     </div>
     <div class="wrap" snap-content snap-close>
       <div class="page">
-        <div class="container-full">
-          <div ui-view="main-full"></div>
-        </div>
-        <div class="container container-main">
-          <div ui-view="main"></div>
+        <div style="min-height: 600px">
+          <div class="container-full">
+            <div ui-view="main-full"></div>
+          </div>
+          <div class="container container-main">
+            <div ui-view="main"></div>
+          </div>
         </div>
         <div ui-view="footer"></div>
       </div>
