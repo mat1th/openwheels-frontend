@@ -33,7 +33,8 @@
     <span ng-if="showPricePerHour">{{ 'FREE_KM_HOUR' | translate }}</span>
   </div>
 
-  <div ng-if="resource.refuelByRenter" class="text-success">
+  <!-- may be hidden by branding css: resource_price_refuel_by_renter -->
+  <div id="resource_price_refuel_by_renter" ng-if="resource.refuelByRenter" class="text-success">
     <span ng-bind="'RESOURCE_REFUEL_BY_RENTER' | translate"></span>
   </div>
 
