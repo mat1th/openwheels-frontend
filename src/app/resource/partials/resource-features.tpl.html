@@ -1,3 +1,7 @@
+<div ng-if="['smartphone', 'chipcard'].indexOf(resource.locktype) >= 0" class="tag tag-warning" style="margin-bottom: 8px">
+  {{ 'SMART_WHEELS_TIP' | translate }}
+</div>
+
 <ul class="list-unstyled list-spaced fa-ul">
   <li ng-if="resource.fuelCardCode" class="text-danger"><i class="fa fa-li fa-lock"></i> {{ 'FUEL_CARD_CODE' | translate}}: {{ resource.fuelCardCode }}</li>
   <li><i class="text-success fa fa-li fa-users"></i> {{ resource.numberOfSeats }} {{ 'SEATS' | translate }}</li>
@@ -5,9 +9,7 @@
 
   <!-- lock type -->
   <li>
-    <i ng-if="['smartphone', 'chipcard'].indexOf(resource.locktype) >= 0" class="text-warning fa fa-li fa-key"
-      tooltip="{{ 'SMART_WHEELS_TIP' | translate }}" tooltip-placement="right"></i>
-    <i ng-if="!( ['smartphone', 'chipcard'].indexOf(resource.locktype) >= 0 )" class="text-success fa fa-li fa-key"></i>
+    <i class="text-success fa fa-li fa-key"></i>
     <span ng-if="resource.locktype">{{  ('LOCKTYPE.' + resource.locktype) | translateOrDefault : resource.locktype }}</span>
     <span ng-if="!resource.locktype">{{ 'UKNOWN_LOCKTYPE' | translate }}</span>
   </li>
