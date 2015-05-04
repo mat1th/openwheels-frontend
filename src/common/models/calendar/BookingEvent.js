@@ -4,9 +4,12 @@
 angular.module('owm.models.calendar.bookingEvent', ['owm.models.calendar.baseEvent'])
   .factory('BookingEvent', function(BaseEvent, authService){
     'use strict';
+
+    var user = authService.user;
+
     function BookingEvent(event){
       this.setColor = function(){
-        if (authService.isLoggedIn() && this.person && this.person.id === authService.me.id) {
+        if (user.isAuthenticated && event.person && event.person.id === user.identity.id) {
           return this.selfColor;
         } else {
           return this.blockedColor;

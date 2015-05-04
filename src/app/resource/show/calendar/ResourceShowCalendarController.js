@@ -196,9 +196,6 @@ angular.module('owm.resource.show.calendar', [
       $scope.calendar.fullCalendar('changeView', view);
     };
 
-    var selfColor = '#00aa00';
-    var blockedColor = '#aa0000';
-
     $scope.calendarConfig = {
       /**
        * i18n
@@ -238,14 +235,6 @@ angular.module('owm.resource.show.calendar', [
       },
       eventClick: $scope.popupOnEventClick,
       dayClick: $scope.popupOnDayClick
-    };
-
-    var getEventColor = function getEventColor(booking) {
-      if (me && booking.person.id === me.id) {
-        return selfColor;
-      } else {
-        return blockedColor;
-      }
     };
 
     $scope.events = [];
