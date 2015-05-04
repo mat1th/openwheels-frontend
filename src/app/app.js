@@ -158,12 +158,6 @@ angular.module('openwheels', [
   $rootScope.isLanguageLoaded = false;
   $rootScope.signupUrl = featuresService.get('serverSideSignup') ? linksService.signupUrl() : $state.href('signup');
 
-  // wait for async language file (angular-translate)
-  $translate('SITE_NAME').then(function (siteName) {
-    $rootScope.isLanguageLoaded = true;
-    $rootScope.pageTitle = siteName;
-  });
-
   $rootScope.$on('$stateChangeStart', function (e, toState, toParams, fromState) {
     // show spinner
     alertService.load();
