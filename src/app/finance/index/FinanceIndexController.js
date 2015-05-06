@@ -8,6 +8,7 @@ angular.module('owm.finance.index', [])
   // invoices
   $scope.unpaidInvoices = null;
   $scope.unpaidInvoicesTotalAmount = 0;
+  $scope.unpaidInvoicesByTrip = {};
 
   // invoice groups
   $scope.invoiceGroups = null;
@@ -77,6 +78,26 @@ angular.module('owm.finance.index', [])
       grouped      : 'ungrouped'
     })
     .then(function (invoices) {
+
+      /* group invoices by trip */
+      $scope.unpaidInvoicesByTrip = (function () {
+        var grouped = {};
+        angular.forEach(invoices, function (invoice) {
+          if (!invoice.booking) { return; }
+          var groupKey = 'trip_' + invoice.booking.id;
+          grouped[groupKey] = grouped[groupKey] || {
+            invoices: [],
+            invoiceLines: [],
+            tripDetailsLink: linksService.tripDetailsPdf(invoice.booking.id)
+          };
+          grouped[groupKey].invoices.push(invoice);
+          angular.forEach(invoice.invoiceLines, function (invoiceLine) {
+            grouped[groupKey].invoiceLines.push(invoiceLine);
+          });
+        });
+        return grouped;
+      }());
+
       $scope.unpaidInvoices = invoices;
 
       // calculate total
