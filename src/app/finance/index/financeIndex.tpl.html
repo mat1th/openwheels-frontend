@@ -22,12 +22,21 @@
     <div class="card-body">
 
       <div class="clearfix">
-        <table class="table" ng-repeat="invoice in unpaidInvoices" style="margin-bottom:0">
+        <table class="table" ng-repeat="(groupKey, group) in unpaidInvoicesByTrip" style="margin-bottom:0">
           <tbody>
             <tr style="background:#eee">
-              <td colspan="6"><strong>{{ invoice.description }}</strong></td>
+              <td colspan="6">
+                <strong>
+                  Rit in {{ group.invoices[0].booking.resource.alias }}
+                  {{ group.invoices[0].booking.resource.registrationPlate | surroundWith : '(' : ')' }}
+                  op {{ group.invoices[0].booking.beginBooking | amDateFormat:'DD-MM-YYYY' }}
+                  <a target="_blank" ng-href="{{ group.tripDetailsLink }}" class="pull-right">
+                    <i class="fa fa-fw fa-external-link-square"></i>Details
+                  </a>
+                </strong>
+              </td>
             </tr>
-            <tr ng-repeat="line in invoice.invoiceLines">
+            <tr ng-repeat="line in group.invoiceLines">
               <td class="text-left" style="width: 50%">
                 {{ line.description }}
               </td>
