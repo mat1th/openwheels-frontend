@@ -31,7 +31,7 @@
       </a>
       <div class="media-body">
         <h4 class="media-heading">{{ booking.person | fullname }}</h4>
-        <div>{{ 'MEMBER_SINCE' | translate }} <span am-time-ago="booking.person.created"></span></div>
+        <div><small>{{ booking.person.created | memberSince }}</small></div>
         <div><span badge-list="booking.person.badges"></span></div>
       </div>
     </div>
@@ -43,7 +43,7 @@
       </a>
       <div class="media-body">
         <h4 class="media-heading">{{ resource.owner | fullname }}</h4>
-        <div><small>{{ 'MEMBER_SINCE' | translate }} <span am-time-ago="resource.owner.created"></span></small></div>
+        <div><small>{{ resource.owner.created | memberSince }}</small></div>
         <div><span badge-list="resource.owner.badges"></span></div>
       </div>
     </div>

@@ -139,7 +139,7 @@ module.exports = function (grunt) {
       compileApp: {
         files: [
           {
-            src: [ 'favicon.ico' ],
+            src: [ 'favicon.ico', '.htaccess' ],
             dest: '<%= compile_dir %>/',
             cwd: '<%= src_dir %>/',
             expand: true
@@ -437,8 +437,7 @@ module.exports = function (grunt) {
 
       config: {
         files: [
-          'config/local.js',
-          'config/branding.js'
+          'config/**',
         ],
         tasks: [ 'configure' ]
       },
@@ -634,6 +633,30 @@ module.exports = function (grunt) {
     var features = require('./config/features.js');
     grunt.file.write(grunt.config('build_dir') + '/branding/config.json', JSON.stringify(config, null, 2));
     grunt.file.write(grunt.config('build_dir') + '/branding/features.json', JSON.stringify(features, null, 2));
+  });
+
+  // output version number
+  grunt.registerTask('getver', function() {
+    var packageJson = require(__dirname + '/package.json');
+    var bowerJson = require(__dirname + '/bower.json');
+    console.log('package.json: ' + packageJson.version);
+    console.log('bower.json: ' + bowerJson.version);
+  });
+
+  // set version number
+  grunt.registerTask('setver', function(version) {
+    if (!version) {
+      throw grunt.util.error('Usage: $ grunt setver:0.0.0');
+    } else {
+      var packageJson = require(__dirname + '/package.json');
+      var bowerJson = require(__dirname + '/bower.json');
+      packageJson.version = version;
+      bowerJson.version = version;
+      grunt.file.write(__dirname + '/package.json', JSON.stringify(packageJson, null, 2));
+      grunt.file.write(__dirname + '/bower.json', JSON.stringify(bowerJson, null, 2));
+      console.log('ok');
+      grunt.task.run('getver');
+    }
   });
 
   /**

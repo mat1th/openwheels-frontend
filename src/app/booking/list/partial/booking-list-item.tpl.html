@@ -22,45 +22,43 @@
   </div>
 
   <div class="media-body">
-    <div class="row">
 
-      <div class="col-sm-6" ui-sref="owm.booking.show({ bookingId: b.id })">
-        <div class="booking__info">
-          <div class="booking__resource truncate">
-            {{ b.resource.alias }}
-          </div>
-          <div class="booking__resource__owner truncate">
-            <i class="fa fa-user"></i> {{ b.resource.owner | fullname }}
-          </div>
-          <div class="booking__resource__location truncate">
-            <i class="fa fa-map-marker"></i> {{ b.resource.location }}
-          </div>
-        </div>
-      </div>
+    <div class="pull-right text-right">
+      <!-- EDIT BUTTON -->
+      <a ui-sref="owm.booking.show({ bookingId: b.id })" class="btn btn-link"><i class="fa fa-fw fa-cog"></i>{{ 'EDIT' | translate }}</a>
 
-      <div class="col-sm-6">
-
-        <div class="form-group">
-          <ul class="list-inline" ng-if="allowBoardComputer(b)">
-            <li>
-              <button  ng-click="openDoor(b.resource, b)" class="btn btn-sm btn-success"><i class="fa fa-unlock fa-fw"></i></button>
-            </li>
-            <li>
-              <button  ng-click="closeDoor(b.resource, b)" class="btn btn-sm btn-danger"><i class="fa fa-lock fa-fw"></i></button>
-            </li>
-            <li>
-              <button class="btn btn-link" ui-sref="owm.booking.show({ bookingId: b.id })"><i class="fa fa-fw fa-chevron-right"></i></button>
-            </li>
-          </ul>
-
-          <div ng-if="b.approved==='TO_BE_PAID'">
-            <span class="text-danger"><i class="fa fa-eur"></i> Nog te betalen</span>
-          </div>
-
-        </div>
+      <!-- TO BE PAID LINK -->
+      <div ng-if="b.approved==='TO_BE_PAID'">
+        <a ng-if="features.invoiceModuleV2" ui-sref="owm.finance.index" class="btn btn-link text-danger"><i class="fa fa-eur"></i> Nog te betalen</a>
+        <a ng-if="!features.invoiceModuleV2 && features.invoiceModuleV1" ui-sref="owm.financeV1.index" class="btn btn-link text-danger"><i class="fa fa-eur"></i> Nog te betalen</a>
       </div>
     </div>
 
+    <!-- RESOURCE INFO -->
+    <div class="booking__info" ui-sref="owm.booking.show({ bookingId: b.id })">
+      <div class="booking__resource truncate">
+        {{ b.resource.alias }}
+      </div>
+      <div class="booking__resource__owner truncate">
+        <i class="fa fa-user"></i> {{ b.resource.owner | fullname }}
+      </div>
+      <div class="booking__resource__location truncate">
+        <i class="fa fa-map-marker"></i> {{ b.resource.location }}
+      </div>
+    </div>
+
+    <!-- BOARD COMPUTER -->
+    <div ng-if="allowBoardComputer(b)">
+      <hr/>
+      <ul class="list-inline">
+        <li>
+          <button  ng-click="openDoor(b.resource, b)" class="btn btn-sm btn-success"><i class="fa fa-unlock fa-fw"></i></button>
+        </li>
+        <li>
+          <button  ng-click="closeDoor(b.resource, b)" class="btn btn-sm btn-danger"><i class="fa fa-lock fa-fw"></i></button>
+        </li>
+      </ul>
+    </div>
 
   </div>
 </div>

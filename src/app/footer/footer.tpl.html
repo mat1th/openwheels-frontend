@@ -1,18 +1,74 @@
-<hr>
-<div class="footer text-center">
-  {{ 'MYWHEELS_FOOTER' | translate }}<br/>
-  <span ng-bind-html="'SEATS2MEET_FOOTER_HTML' | translate"></span>
+<div ng-if="features.myWheelsFooter" class="footer" style="background: #fff">
+
+  <div class="footer-logo-row text-center">
+    <img class="grayscale" style="height: 55px; margin: 15px" src="assets/img/partners/anwb_logo.png" />
+    <img class="grayscale" style="height: 90px; margin: 15px" src="assets/img/partners/seats2meet_mywheels.jpg" />
+    <img class="grayscale" style="height: 75px; margin: 15px" src="assets/img/partners/centraal_beheer_logo.png" />
+    <img class="grayscale" style="height: 50px; margin: 15px" src="assets/img/partners/multirent.jpg" />
+  </div>
+
+  <div class="footer-bar">
+    <div class="container" ng-class="{ 'container-transitional': containerTransitional }">
+
+      <div class="col-md-4" ng-if="isWindowSizeMD" style="height: 100%">
+        <div class="footer-logo"></div>
+      </div>
+
+      <div class="col-md-3 col-md-offset-0 col-sm-4 col-sm-offset-1 col-xs-6 col-xs-offset-1">
+        <h4 class="no-margin">autodelen</h4>
+        <a target="_blank" href="https://mywheels.nl/auto-huren/">auto huren</a><br/>
+        <a target="_blank" href="https://mywheels.nl/auto-verhuren/">auto verhuren</a><br/>
+        <a target="_blank" href="https://mywheels.nl/hoe-autodelen-werkt/zakelijk-autodelen">zakelijk autodelen</a><br/>
+      </div>
+
+      <div class="col-md-3 col-sm-4 col-xs-5">
+        <h4 class="no-margin">hoe het werkt</h4>
+        <a target="_blank" href="https://mywheels.nl/hoe-autodelen-werkt">hoe autodelen werkt</a><br/>
+        <a target="_blank" href="https://mywheels.nl/hoe-autodelen-werkt/veel-gestelde-vragen">veelgestelde vragen</a><br/>
+        <a target="_blank" href="https://mywheels.nl/tarieven-huren">tarieven</a><br/>
+        <a target="_blank" href="https://mywheels.nl/voorwaarden">voorwaarden</a><br/>
+        <a target="_blank" href="https://mywheels.nl/fiets">ov-fiets</a><br/>
+        <a target="_blank" href="https://mywheels.nl/app">app</a><br/>
+      </div>
+
+      <div class="col-md-2 col-sm-3 hidden-xs">
+        <h4 class="no-margin">over ons</h4>
+        <a target="_blank" href="https://mywheels.nl/community/">community</a><br/>
+        <a target="_blank" href="https://mywheels.nl/community/contact">contact</a><br/>
+        <a target="_blank" href="https://mywheels.nl/community/onze-mensen">onze mensen</a><br/>
+        <a target="_blank" href="https://mywheels.nl/community/onze-idealen">onze idealen</a><br/>
+        <a target="_blank" href="http://blog.mywheels.nl/">blog & nieuws</a><br/>
+        <a target="_blank" href="https://mywheels.nl/community/pers">pers</a><br/>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-social-row text-center">
+    <h4>{{ 'FOOTER_SOCIAL_TITLE' | translate }}</h4>
+    <a target="_blank" href="https://twitter.com/my_wheels"><i class="fa fa-fw fa-2x text-muted fa-twitter"></i></a>
+    <a target="_blank" href="https://www.facebook.com/mywheelsnl"><i class="fa fa-fw fa-2x text-muted fa-facebook"></i></a>
+    <a target="_blank" href="https://www.linkedin.com/groups/MyWheels-3913116"><i class="fa fa-fw fa-2x text-muted fa-linkedin"></i></a>
+    <a target="_blank" href="https://github.com/MyWheels"><i class="fa fa-fw fa-2x text-muted fa-github"></i></a>
+  </div>
+
 </div>
 
-<ul class="list-inline text-center" id="language-switch">
-  <li>
-    <button ng-disabled="currentLanguage() === 'nl_NL'" class="btn btn-link btn-sm" ng-click="changeLanguage('nl_NL')">{{ 'DUTCH' | translate }}</button>
-  </li>
-  <li>
-    <button ng-disabled="currentLanguage() === 'en_GB'" class="btn btn-link btn-sm" href="" ng-click="changeLanguage('en_GB')">{{ 'ENGLISH' | translate }}</button>
-  </li>
-  <li>
-    <button ng-disabled="currentLanguage() === 'fr_FR'" class="btn btn-link btn-sm" href="" ng-click="changeLanguage('fr_FR')">{{ 'FRENCH' | translate }}</button>
-  </li>
-</ul>
 
+<div ng-if="!features.myWheelsFooter" class="footer text-center" style="color: #888">
+  <h4 class="no-margin">{{ 'MYWHEELS_FOOTER' | translate }}</h4>
+  <h5 class="no-margin" ng-bind-html="'SEATS2MEET_FOOTER_HTML' | translate"></h5>
+</div>
+
+<div style="padding: 30px" ng-class="{ 'bg-white': features.myWheelsFooter }">
+  <ul class="list-inline text-center" id="language-switch">
+    <li>
+      <button ng-disabled="currentLanguage() === 'nl_NL'" class="btn btn-link btn-sm" ng-click="changeLanguage('nl_NL')">{{ 'DUTCH' | translate }}</button>
+    </li>
+    <li>
+      <button ng-disabled="currentLanguage() === 'en_GB'" class="btn btn-link btn-sm" href="" ng-click="changeLanguage('en_GB')">{{ 'ENGLISH' | translate }}</button>
+    </li>
+    <li>
+      <button ng-disabled="currentLanguage() === 'fr_FR'" class="btn btn-link btn-sm" href="" ng-click="changeLanguage('fr_FR')">{{ 'FRENCH' | translate }}</button>
+    </li>
+  </ul>
+</div>

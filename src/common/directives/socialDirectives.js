@@ -2,23 +2,29 @@
 
 angular.module('socialDirectives', [])
 
-.directive('shareButtons', function ($rootScope, appConfig, twitter) {
+.directive('shareButtons', function ($rootScope, twitter, linksService) {
   return {
     restrict: 'A',
     scope   : {
-      sharePath: '=',
-      text     : '='
+      url : '=',
+      text: '=',
+      resource: '='
     },
-    template: '<table style="margin-top:10px"><tr>' +
-                '<td><a ng-if="features.facebook" ng-click="shareFb()"><i class="fa fa-fw fa-facebook-square"></i>{{ "SOCIAL_SHARE_FACEBOOK" | translateOrDefault }}</a></td>' +
-                '<td style="padding: 4px 0 0 8px"><span ng-if="features.googlePlus" google-plus-share-button url="url"></span></td>' +
-                '<td style="padding: 4px 0 0 8px"><span ng-if="features.twitter" twitter-share-button url="url" text="text"></span></td>' +
-              '</table>',
+    template:
+      '<table style="margin-top:10px"><tr>' +
+        '<tr>' +
+          '<td ng-if="features.facebook"><a ng-click="shareFb()"><i class="fa fa-fw fa-facebook-square"></i>{{ "SOCIAL_SHARE_FACEBOOK" | translateOrDefault }}</a>&nbsp;&nbsp;</td>' +
+          '<td ng-if="features.googlePlus"><span google-plus-share-button url="url"></span>&nbsp;&nbsp;</td>' +
+          '<td ng-if="flyerPdf"><a ng-href="{{ flyerPdf }}" target="_blank"><i class="fa fa-fw fa-print"></i>{{ "SOCIAL_MAKE_FLYER" | translateOrDefault }}</a>&nbsp;&nbsp;</td>' +
+          '<td ng-if="features.twitter" style="padding-top: 4px"><span twitter-share-button url="url" text="text"></span>&nbsp;&nbsp;</td>' +
+        '</tr>' +
+      '</table>',
     link: function (scope, elm) {
       var FB = window.FB;
 
-      scope.url = appConfig.appUrl + '/' + scope.sharePath;
       scope.features = $rootScope.features;
+      scope.flyerPdf = scope.features.serverSideShare && scope.resource ?
+        linksService.flyerPdf(scope.resource.id, scope.resource.city) : null;
 
       scope.shareFb = function () {
         FB.ui({

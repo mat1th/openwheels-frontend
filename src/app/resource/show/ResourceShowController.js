@@ -2,9 +2,9 @@
 
 angular.module('owm.resource.show', [])
 
-.controller('ResourceShowController', function ($q, $timeout, $location, $scope, $state, $filter,
+.controller('ResourceShowController', function ($window, $log, $q, $timeout, $location, $scope, $state, $filter,
   authService, resourceService, bookingService, invoice2Service, boardcomputerService, alertService, chatPopupService, API_DATE_FORMAT,
-  resource, me, resourceQueryService, $stateParams) {
+  resource, me, resourceQueryService, featuresService, $stateParams, linksService) {
 
   /**
    * Warning: 'me' will be null for anonymous users
@@ -19,6 +19,9 @@ angular.module('owm.resource.show', [])
   $scope.openChatWith = openChatWith;
   $scope.isFavoriteResolved = false;
   $scope.toggleFavorite = toggleFavorite;
+
+  $scope.shareUrl = featuresService.get('serverSideShare') ? linksService.resourceUrl(resource.id, resource.city) : $window.location.href;
+  $log.debug('Share url = ' + $scope.shareUrl);
 
   loadSearchState();
   if (me) { loadFavorite(); } else { $scope.isFavoriteResolved = true; }

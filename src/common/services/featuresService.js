@@ -14,14 +14,20 @@ angular.module('owm.featuresService', [])
   var enabledFeatures = {
     homeCarousel       : false,
     verhuurTussenscherm: false,
+    serverSideSignup   : false,
+    serverSideShare    : true, // use server side links when social-sharing resources (opengraph)
     invoiceModuleV1    : false,
     invoiceModuleV2    : true,
-    filtersSidebar     : false,
-    resourceSidebar    : false,
-    social             : false, // automatically set, see below
+    filtersSidebar     : true, // obsolete
+    resourceSidebar    : true, // obsolete
     facebook           : false,
     twitter            : false,
-    googlePlus         : false
+    googlePlus         : false,
+    ratings            : true,
+    hideSignupPreference: false,
+
+    // Auto-generated (see below):
+    social             : false
   };
 
   // Parse app config

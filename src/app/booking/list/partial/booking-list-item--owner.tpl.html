@@ -24,27 +24,27 @@
   </div>
   <div class="media-body">
 
-    <div class="row">
-      <div class="col-sm-6">
-        <div class="booking__info">
-          <div class="booking__resource truncate">
-            {{ b.person | fullname }}
-          </div>
-          <div class="booking__resource__owner truncate">
-            <i class="fa fa-fw fa-user"></i> {{ b.resource.alias }}
-          </div>
-          <div class="booking__resource__location truncate">
-            <i class="fa fa-fw fa-map-marker"></i> {{ b.resource.location }}
-          </div>
-        </div>
-      </div>
+    <div class="pull-right text-right">
+      <!-- EDIT BUTTON -->
+      <a ui-sref="owm.booking.show({ bookingId: b.id })" class="btn btn-link"><i class="fa fa-fw fa-cog"></i>{{ 'EDIT' | translate }}</a>
 
-      <div class="col-sm-6">
-        <div ng-if="b.approved==='TO_BE_PAID'">
-          <span class="text-danger"><i class="fa fa-eur"></i> Huurder moet nog betalen</span>
-        </div>
+      <!-- TO BE PAID INFO -->
+      <div ng-if="b.approved==='TO_BE_PAID'">
+        <span class="text-danger">Huurder moet nog betalen</span>
       </div>
+    </div>
 
+    <!-- RESOURCE INFO -->
+    <div class="booking__info">
+      <div class="booking__resource truncate">
+        {{ b.person | fullname }}
+      </div>
+      <div class="booking__resource__owner truncate">
+        <i class="fa fa-fw fa-user"></i> {{ b.resource.alias }}
+      </div>
+      <div class="booking__resource__location truncate">
+        <i class="fa fa-fw fa-map-marker"></i> {{ b.resource.location }}
+      </div>
     </div>
 
   </div>

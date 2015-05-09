@@ -2,7 +2,7 @@
 
 angular.module('owm.finance.invoiceGroupsV1', [])
 
-.controller('FinanceInvoiceGroupsV1Controller', function ($scope, appConfig, invoiceService, alertService, me) {
+.controller('FinanceInvoiceGroupsV1Controller', function ($scope, linksService, invoiceService, alertService, me) {
 
   $scope.invoiceGroups = null;
 
@@ -26,7 +26,7 @@ angular.module('owm.finance.invoiceGroupsV1', [])
   }
 
   $scope.createInvoiceGroupPdfLink = function (invoiceGroup) {
-    return appConfig.serverUrl + '/dashboard/facturen-verzamel/' + invoiceGroup.id + '.pdf';
+    return linksService.invoiceGroupPdf_v1(invoiceGroup.id);
   };
 
 });

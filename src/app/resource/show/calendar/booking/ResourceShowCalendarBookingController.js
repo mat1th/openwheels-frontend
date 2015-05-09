@@ -7,4 +7,9 @@ angular.module('owm.resource.show.calendar.booking', [])
 		$scope.cancel = function () {
 			$modalInstance.dismiss();
 		};
+
+    $scope.goMember = function (personId) {
+      $modalInstance.dismiss();
+      $state.go('member', { personId: personId });
+    };
 	});

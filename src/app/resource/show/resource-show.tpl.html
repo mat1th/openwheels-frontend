@@ -6,9 +6,9 @@
       <div class="card card-navigation clearfix">
 
         <div ng-if="me" class="text-warning pull-right" style="padding-top: 3px;">
-          <i class="fa fa-star-o fa-spin fa-2x text-muted" ng-if="!isFavoriteResolved"></i>
-          <i class="fa fa-star fa-2x" ng-if="isFavoriteResolved && isFavorite" ng-click="toggleFavorite(false)"></i>
-          <i class="fa fa-star-o fa-2x" ng-if="isFavoriteResolved && !isFavorite" ng-click="toggleFavorite(true)"></i>
+          <i class="fa fa-heart-o fa-spin fa-2x text-muted" ng-if="!isFavoriteResolved"></i>
+          <i class="fa fa-heart fa-2x" ng-if="isFavoriteResolved && isFavorite" ng-click="toggleFavorite(false)"></i>
+          <i class="fa fa-heart-o fa-2x" ng-if="isFavoriteResolved && !isFavorite" ng-click="toggleFavorite(true)"></i>
         </div>
 
         <button type="button" class="btn btn-link" ui-sref="owm.resource.search.list">
@@ -24,7 +24,7 @@
       <div ng-if="resource.isActive && features.social && me && (resource.owner.id === me.id || resource.contactPerson.id === me.id)" class="card card-notice">
         <div class="card-body">
           {{ 'SOCIAL_SHARE_RESOURCE' | translateOrDefault }}<br/>
-          <div share-buttons share-path="$state.href('owm.resource.show', { resourceId: resource.id })"></div>
+          <div share-buttons url="shareUrl" resource="resource"></div>
         </div>
       </div>
 
@@ -45,18 +45,8 @@
             <div class="media-body">
               <h3>
                 {{ resource.brand || 'Onbekend merk'}} <span ng-if="resource.model">, {{ resource.model }}</span>
-                &nbsp;<span rating-thumb="{ value : resource.rating.satisfaction, senders : resource.rating.senders }"></span>
               </h3>
-              <ul class="list-unstyled list-spaced fa-ul">
-                <li><i class="text-success fa fa-li fa-users"></i> {{ resource.numberOfSeats }} {{ 'SEATS' | translate }}</li>
-                <li><i class="text-success fa fa-li fa-gear"></i> <span ng-if="resource.fuelType">{{  resource.fuelType | translate }}</span> <span ng-if="!resource.fuelType">{{ 'UNKNOWN_FUELTYPE' | translate }}</span></li>
-                <li><i class="text-success fa fa-li fa-key"></i> <span ng-if="resource.locktype">{{  ('LOCKTYPE.' + resource.locktype) | translateOrDefault : resource.locktype }}</span> <span ng-if="!resource.locktype">{{ 'UKNOWN_LOCKTYPE' | translate }}</span></li>
-                <li ng-if="resource.response_accept"><i class="text-success fa fa-li fa-check"></i> {{ resource.response_accept | percentage : 0 }} {{ 'ACCEPTED_REQUESTS' | translate}}</li>
-                <li ng-if="resource.properties.length >= 1">
-                  <i class="text-success fa fa-li fa-th"></i>
-                  <span ng-repeat="prop in resource.properties">{{ prop.id | toSentenceCase }}<span ng-if="$index !== resource.properties.length - 1">, </span></span>
-                </li>
-              </ul>
+              <div ng-include="'resource/partials/resource-features.tpl.html'"></div>
             </div>
           </div>
 
@@ -95,9 +85,20 @@
                 <i class="fa fa-calendar"></i> {{ 'CALENDAR_BUTTON' | translate }}
               </a>
             </p>
+            <div class="text-center" ng-if="resource.response_accept !== null">
+              <p>
+                <small>
+                  <i class="text-success fa fa-fw fa-check"></i>
+                  {{ resource.owner.firstName }}
+                  {{ 'ACCEPTED_REQUESTS_PREFIX' | translate }}
+                  {{ resource.response_accept | percentage : 0 }}
+                  {{ 'ACCEPTED_REQUESTS_SUFFIX' | translate}}
+                </small>
+              </p>
+            </div>
           </div>
           <div id="createBookingContainer" collapse="!showBookingForm">
-            <reservation-form resource="resource" booking="booking" contract-options="me.contracts" show-price="false"></reservation-form>
+            <reservation-form person="me" resource="resource" booking="booking" show-price="false"></reservation-form>
           </div>
           <!--/ booking form -->
 
@@ -121,20 +122,7 @@
           <div class="truncate">
             <h4>{{ resource.brand || 'Onbekend merk'}} <span ng-if="resource.model">, {{ resource.model }}</span></h4>
           </div>
-
-          <div class="text-left">
-            <ul class="list-unstyled list-block list-spaced fa-ul">
-              <!--<li ng-if="resource.response_time"><i class="fa fa-li fa-reply"></i><span translate="AVERAGE_RESPONSE_DURATION {{duration | amDurationFormat: 'minutes'}}" translate-values="{ duration: resource.response_time }"></span></li>-->
-              <li><i class="text-success fa fa-li fa-users"></i>{{ resource.numberOfSeats }} {{ 'SEATS' | translate }}</li>
-              <li><i class="text-success fa fa-li fa-gear"></i><span ng-if="resource.fuelType">{{  resource.fuelType | translate }}</span> <span ng-if="!resource.fuelType">{{ 'UNKNOWN_FUELTYPE' | translate }}</span></li>
-              <li><i class="text-success fa fa-li fa-key"></i><span ng-if="resource.locktype">{{  ('LOCKTYPE.' + resource.locktype) | translateOrDefault : resource.locktype }}</span> <span ng-if="!resource.locktype">{{ 'UKNOWN_LOCKTYPE' | translate }}</span></li>
-              <li ng-if="resource.response_accept"><i class="text-success fa fa-li fa-check"></i>{{ resource.response_accept | percentage : 0 }} {{ 'ACCEPTED_REQUESTS' | translate}}</li>
-              <li ng-if="resource.properties.length >= 1">
-                <i class="text-success fa fa-li fa-th"></i>
-                <span ng-repeat="prop in resource.properties">{{ prop.id | toSentenceCase }}<span ng-if="$index !== resource.properties.length - 1">, </span></span>
-              </li>
-            </ul>
-          </div>
+          <div ng-include="'resource/partials/resource-features.tpl.html'"></div>
 
         </div>
       </div>
@@ -149,7 +137,7 @@
             <div class="media-body">
               <h4 class="media-heading"><a ui-sref="member({ personId: resource.owner.id })">{{ resource.owner | fullname }}</a></h4>
               <div ng-if="resource.owner.created" class="text-muted">
-                <small>{{ 'MEMBER_SINCE' | translate }} <span am-time-ago="resource.owner.created"></span></small>
+                <small>{{ resource.owner.created | memberSince }}</small>
               </div>
               <div><span badge-list="resource.owner.badges"></span></div>
 
@@ -182,7 +170,7 @@
             <div class="media-body">
               <h4 class="media-heading"><a ui-sref="member({ personId: resource.contactPerson.id })">{{ resource.contactPerson | fullname }}</a></h4>
               <div ng-if="resource.contactPerson.created" class="text-muted">
-                <small>{{ 'MEMBER_SINCE' | translate }} <span am-time-ago="resource.contactPerson.created"></span></small>
+                <small>{{ resource.contactPerson.created | memberSince }}</small>
               </div>
               <div><span badge-list="resource.contactPerson.badges"></span></div>
 
@@ -203,7 +191,7 @@
 
       <!-- ratings -->
 
-      <div class="card">
+      <div class="card" ng-if="features.ratings">
         <div class="card-heading">
           <h3 class="card-title">
             <span ng-bind="'RATINGS' | translate"></span>
@@ -252,7 +240,7 @@
           <h3 class="card-title"><i class="fa fa-fw fa-pencil"></i> Reserveer deze auto</h3>
         </div>
         <div class="card-body">
-          <reservation-form resource="resource" booking="booking" contract-options="me.contracts" show-price="true"></reservation-form>
+          <reservation-form person="me" resource="resource" booking="booking" show-price="true"></reservation-form>
         </div>
       </div>
     </div>

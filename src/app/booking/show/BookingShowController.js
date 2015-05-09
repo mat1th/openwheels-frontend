@@ -5,7 +5,7 @@ angular.module('owm.booking.show', [])
 .controller('BookingShowController', function (
   $q, $timeout, $log, $scope, $location, $filter, $translate, $state, appConfig, API_DATE_FORMAT,
   bookingService, resourceService, invoice2Service, alertService, dialogService,
-  authService, boardcomputerService, chatPopupService,
+  authService, boardcomputerService, chatPopupService, linksService,
   booking, me) {
 
   /**
@@ -27,6 +27,9 @@ angular.module('owm.booking.show', [])
   $scope.resource = booking.resource;
   $scope.showBookingForm = false;
   $scope.showPricePerHour = false;
+  $scope.userInput = {
+    acceptRejectRemark: ''
+  };
 
   $scope.userPerspective = (function () {
     if (booking.person.id === me.id) {
@@ -39,7 +42,7 @@ angular.module('owm.booking.show', [])
   initPermissions();
 
   if ($scope.allowOvereenkomst) {
-    $scope.overeenkomstUrl = appConfig.serverUrl + '/dashboard/reservering/' + booking.id + '/overeenkomst.pdf';
+    $scope.overeenkomstUrl = linksService.bookingAgreementPdf(booking.id);
   }
 
   function initPermissions () {
@@ -83,6 +86,7 @@ angular.module('owm.booking.show', [])
 
       $scope.allowStop = (function () {
         return ($scope.allowEdit &&
+          booking.status === 'accepted' &&
           booking.beginBooking && booking.endBooking &&
           moment().isAfter(moment(booking.beginBooking)) &&
           moment().isBefore(moment(booking.endBooking))
@@ -299,11 +303,14 @@ angular.module('owm.booking.show', [])
       bodyText: $translate.instant('BOOKING.ACCEPT.INTRO')
     })
     .then(function () {
-      alertService.load();
-      bookingService.acceptRequest({
+      var params = {
         booking: booking.id
-      })
-      .then(function (booking) {
+      };
+      if ($scope.userInput.acceptRejectRemark) {
+        params.remark = $scope.userInput.acceptRejectRemark;
+      }
+      alertService.load();
+      bookingService.acceptRequest(params).then(function (booking) {
         $scope.booking = booking;
         initPermissions();
         alertService.add('success', $filter('translate')('BOOKING.ACCEPT.SUCCESS'), 5000);
@@ -323,11 +330,14 @@ angular.module('owm.booking.show', [])
       bodyText: $translate.instant('BOOKING.REJECT.INTRO')
     })
     .then(function () {
-      alertService.load();
-      bookingService.rejectRequest({
+      var params = {
         booking: booking.id
-      })
-      .then(function (booking) {
+      };
+      if ($scope.userInput.acceptRejectRemark) {
+        params.remark = $scope.userInput.acceptRejectRemark;
+      }
+      alertService.load();
+      bookingService.rejectRequest(params).then(function (booking) {
         $scope.booking = booking;
         initPermissions();
         alertService.add('success', $filter('translate')('BOOKING.REJECT.SUCCESS'), 5000);

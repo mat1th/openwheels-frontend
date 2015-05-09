@@ -28,3 +28,14 @@
 .hover-underline:hover {
   text-decoration: underline;
 }
+
+.hover-toggle {
+  .hover-toggle-show {
+    visibility: hidden;
+  }
+  &:hover {
+    .hover-toggle-show {
+      visibility: visible;
+    }
+  }
+}

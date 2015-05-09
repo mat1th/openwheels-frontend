@@ -50,6 +50,11 @@ angular.module('owm.booking', [
     url: '/rating/renter',
     templateUrl: 'booking/rating/booking-rating.tpl.html',
     controller: 'BookingRatingController',
+    data: {
+      access: {
+        feature: 'ratings'
+      }
+    },
     resolve: {
       rating: ['booking', 'ratingService', function (booking, ratingService) {
         return ratingService.getPrefill({ trip: booking.trip.id }).then(function (prefilledRating) {
@@ -66,6 +71,11 @@ angular.module('owm.booking', [
     url: '/rating/owner',
     templateUrl: 'booking/rating/booking-rating.tpl.html',
     controller: 'BookingRatingController',
+    data: {
+      access: {
+        feature: 'ratings'
+      }
+    },
     resolve: {
       rating: ['booking', 'ratingService', function (booking, ratingService) {
         return ratingService.getPrefill({ trip: booking.trip.id }).then(function (prefilledRating) {

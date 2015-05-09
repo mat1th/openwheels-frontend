@@ -53,6 +53,7 @@ angular.module('openwheels', [
   'TimeFrameService',
   'windowSizeService',
   'owm.geoPositionService',
+  'owm.linksService',
 
   // DIRECTIVES
 
@@ -75,7 +76,7 @@ angular.module('openwheels', [
   'socialDirectives',
 
   // FILTERS
-  'filters.textUtil',
+  'filters.util',
   'filters.dateUtil',
   'filters.getByPropertyFilter',
   'filters.fullname',
@@ -150,17 +151,12 @@ angular.module('openwheels', [
 
 .run(function (windowSizeService, oAuth2MessageListener, stateAuthorizer, authService, featuresService) {})
 
-.run(function ($window, $log, $translate, $state, $stateParams, $rootScope, alertService, featuresService) {
+.run(function ($window, $log, $timeout, $translate, $state, $stateParams, $rootScope, alertService, featuresService, appConfig, linksService) {
   $rootScope.$state = $state;
   $rootScope.$stateParams = $stateParams;
   $rootScope.showAsideMenu = false;
   $rootScope.isLanguageLoaded = false;
-
-  // wait for async language file (angular-translate)
-  $translate('SITE_NAME').then(function (siteName) {
-    $rootScope.isLanguageLoaded = true;
-    $rootScope.pageTitle = siteName;
-  });
+  $rootScope.signupUrl = featuresService.get('serverSideSignup') ? linksService.signupUrl() : $state.href('signup');
 
   $rootScope.$on('$stateChangeStart', function (e, toState, toParams, fromState) {
     // show spinner
@@ -197,13 +193,21 @@ angular.module('openwheels', [
 
   });
 
-  // // show an error on state change error
-  // $rootScope.$on('$stateChangeError', function (event, toState, toParams, fromState, fromParams, error) {
-  //   alertService.loaded();
-  //   $log.debug('State change error', error);
-  //   alertService.closeAll();
-  //   alertService.add('danger', 'De opgevraagde pagina is niet beschikbaar', 5000);
-  // });
+  // show an error on state change error
+  $rootScope.$on('$stateChangeError', function (event, toState, toParams, fromState, fromParams, error) {
+    alertService.loaded();
+    $log.debug('State change error', error);
+    alertService.closeAll();
+
+    if (!fromState.name) {
+      $timeout(function () {
+        $state.go('home');
+      }, 0);
+    } else {
+      // (stay on same page)
+      alertService.add('danger', error.message || 'Woops, er is iets mis gegaan', 5000);
+    }
+  });
 })
 ;
 
@@ -251,7 +255,6 @@ angular.module('openwheels', [
         serverUrl     : config.server_url,
         authEndpoint  : config.auth_endpoint,
         tokenEndpoint : config.token_endpoint,
-        placesCountry : config.places_country || 'nl', // google places: default to nl
         gtmContainerId: config.gtm_container_id || null,
         fbAppId       : config.fb_app_id || null,
         features      : config.features || {}

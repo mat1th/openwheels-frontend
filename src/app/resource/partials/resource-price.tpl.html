@@ -13,6 +13,7 @@
     <li ng-hide="resource.refuelByRenter"><i class="fa fa-plus fa-lg text-muted"></i></li>
     <li ng-hide="resource.refuelByRenter">
       {{ resource.price.fuelPerKilometer | currency }}
+      <info-icon class="branding_resource_fuel_per_kilometer_info_icon" tooltip-html="'INFO_RESOURCE_FUEL_PER_KM' | translate" tooltip-placement="bottom"></info-icon>
       <div class="resource_price-list__unit">
         <span class="hidden-md">{{ 'PER_FUEL' | translate }}</span>
         <span class="visible-md">brandstof/km</span>
@@ -27,11 +28,13 @@
   </ul>
 
   <div ng-show="resource.price.kmFree" class="text-success">
-    <span ng-if="!showPricePerHour">{{ 'FREE_KM_DAY' | translate }}</span>
+    <span ng-if="!showPricePerHour">{{ 'FREE_KM_DAY' | translate }}
+      <info-icon tooltip-html="'INFO_RESOURCE_FREE_KM_DAY' | translate"></info-icon></span>
     <span ng-if="showPricePerHour">{{ 'FREE_KM_HOUR' | translate }}</span>
   </div>
 
-  <div ng-if="resource.refuelByRenter" class="text-success">
+  <!-- may be hidden by branding css: resource_price_refuel_by_renter -->
+  <div id="resource_price_refuel_by_renter" ng-if="resource.refuelByRenter" class="text-success">
     <span ng-bind="'RESOURCE_REFUEL_BY_RENTER' | translate"></span>
   </div>
 

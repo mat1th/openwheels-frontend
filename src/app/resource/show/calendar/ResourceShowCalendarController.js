@@ -60,7 +60,7 @@ angular.module('owm.resource.show.calendar', [
             }
             if (blocking.calender_id) {
               newProps = {
-                dayOfweek: moment(blocking.start).lang('nl').format('dddd').toLowerCase()
+                dayOfWeek: moment(blocking.start).lang('nl').format('dddd').toLowerCase()
               };
               if (blocking.allDay) {
                 newProps.start = null;
@@ -156,7 +156,7 @@ angular.module('owm.resource.show.calendar', [
                 otherProps.until = blocking.until;
               }
 
-              otherProps.dayOfweek = moment(blocking.start).lang('nl').format('dddd').toLowerCase();
+              otherProps.dayOfWeek = moment(blocking.start).lang('nl').format('dddd').toLowerCase();
 
               calendarService.createPeriodic({
                 resource: resource.id,
@@ -196,15 +196,33 @@ angular.module('owm.resource.show.calendar', [
       $scope.calendar.fullCalendar('changeView', view);
     };
 
-    var selfColor = '#00aa00';
-    var blockedColor = '#aa0000';
-
     $scope.calendarConfig = {
+      /**
+       * i18n
+       * TODO(Jorrit): Upgrade to fullcalendar v2 (currently used angular-ui-calendar v0.8.1 only works with v1)
+       */
+      monthNames: 'januari_februari_maart_april_mei_juni_juli_augustus_september_oktober_november_december'.split('_'),
+      monthNamesShort: 'jan_feb_mrt_apr_mei_jun_jul_aug_sep_okt_nov_dec'.split('_'),
+      dayNames: 'zondag_maandag_dinsdag_woensdag_donderdag_vrijdag_zaterdag'.split('_'),
+      dayNamesShort: 'zo_ma_di_wo_do_vr_za'.split('_'),
+      buttonText: {
+        today: 'Nu',
+        month: 'Maand',
+        week: 'Week',
+        day: 'Dag',
+        prev: '<i class="fa fa-fw fa-chevron-left"></i>',
+        next: '<i class="fa fa-fw fa-chevron-right"></i>'
+      },
+      axisFormat: 'H(:mm)',
+      columnFormat: 'ddd d-M',
+      titleFormat: {
+        month: 'MMMM yyyy',
+        week: 'd [MMM][ \'&#39;\'yy]{ - d MMM \'&#39;\'yy}',
+      },
+
       height: 650,
       editable: false,
       defaultView: $scope.view,
-      axisFormat: 'H(:mm)',
-      columnFormat: 'ddd d/M',
       //timeFormat: 'H:mm',
       allDaySlot: false,
       slotDuration: '02:00',
@@ -217,14 +235,6 @@ angular.module('owm.resource.show.calendar', [
       },
       eventClick: $scope.popupOnEventClick,
       dayClick: $scope.popupOnDayClick
-    };
-
-    var getEventColor = function getEventColor(booking) {
-      if (me && booking.person.id === me.id) {
-        return selfColor;
-      } else {
-        return blockedColor;
-      }
     };
 
     $scope.events = [];

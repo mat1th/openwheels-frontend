@@ -6,24 +6,19 @@ angular.module('owm.resource.reservationForm', [])
   return {
     restrict: 'E',
     scope: {
+      person  : '=',
       resource: '=',
-      booking: '=',
-      contractOptions: '=',
+      booking: '=', // { beginRequested, endRequested, remarkRequester, contract }
       showPrice: '='
     },
-    templateUrl: 'resource/reservationForm/reservationForm.tpl.html',
+    templateUrl: 'resource/components/reservationForm.tpl.html',
     controller: 'ReservationFormController'
   };
 })
 
 .controller('ReservationFormController', function (
-  $q, $timeout, $filter, $scope, $state,
-  API_DATE_FORMAT, resourceService, invoice2Service, alertService, authService, bookingService) {
-
-  // REQUIRES
-  // $scope.resource
-  // $scope.booking = { beginRequested, endRequested, remarkRequester, contract }
-  // $scope.contractOptions
+  $log, $q, $timeout, $filter, $scope, $state,
+  API_DATE_FORMAT, resourceService, invoice2Service, alertService, authService, bookingService, contractService) {
 
   $scope.dateConfig = {
     modelFormat: API_DATE_FORMAT,
@@ -40,17 +35,6 @@ angular.module('owm.resource.reservationForm', [])
     format: 'HH:i',
     interval: 15
   };
-
-  initBooking();
-
-  function initBooking () {
-    $scope.contractOptions = $scope.contractOptions || [];
-
-    // select first contract by default
-    if ($scope.contractOptions && $scope.contractOptions.length === 1) {
-      $scope.booking.contract = $scope.contractOptions[0].id;
-    }
-  }
 
   function getStartOfThisQuarter () {
     var mom = moment();
@@ -108,14 +92,17 @@ angular.module('owm.resource.reservationForm', [])
   $scope.isPriceLoading = false;
   $scope.$watch('booking.beginRequested', onTimeFrameChange);
   $scope.$watch('booking.endRequested', onTimeFrameChange);
-  $scope.$watch('booking.contract', loadPrice);
 
   var timer;
   function onTimeFrameChange () {
     $timeout.cancel(timer);
     timer = $timeout(function () {
       loadAvailability().then(function (availability) {
-        loadPrice();
+        if (availability.available === 'yes') {
+          loadContractsOnce().then(loadPrice);
+        } else {
+          loadPrice();
+        }
       });
     }, 100);
   }
@@ -148,6 +135,26 @@ angular.module('owm.resource.reservationForm', [])
       })
       .finally(function () {
         $scope.isAvailabilityLoading = false;
+      });
+    }
+    return dfd.promise;
+  }
+
+  function loadContractsOnce () {
+    var dfd = $q.defer();
+    if ($scope.contractOptions) {
+      dfd.resolve($scope.contractOptions);
+    }
+    else if (!$scope.person) {
+      $scope.contractOptions = [];
+      $scope.booking.contract = null;
+      dfd.resolve([]);
+    } else {
+      contractService.forDriver({ person: $scope.person.id }).then(function (contracts) {
+        $scope.contractOptions = contracts || [];
+        $scope.booking.contract = contracts.length ? contracts[0].id : null;
+        $scope.$watch('booking.contract', loadPrice);
+        dfd.resolve(contracts);
       });
     }
     return dfd.promise;

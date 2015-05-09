@@ -2,12 +2,13 @@
 
 angular.module('owm.finance.index', [])
 
-.controller('FinanceIndexController', function ($window, $q, $location, $scope, $modal, appConfig, alertService, invoice2Service, paymentService, me) {
+.controller('FinanceIndexController', function ($window, $q, $location, $scope, $modal, appConfig, alertService, invoice2Service, paymentService, me, linksService) {
   $scope.me = me;
 
   // invoices
   $scope.unpaidInvoices = null;
   $scope.unpaidInvoicesTotalAmount = 0;
+  $scope.unpaidInvoicesByTrip = {};
 
   // invoice groups
   $scope.invoiceGroups = null;
@@ -27,7 +28,7 @@ angular.module('owm.finance.index', [])
   });
 
   $scope.createInvoiceGroupPdfLink = function (invoiceGroup) {
-    return appConfig.serverUrl + '/verzamelfactuur/' + invoiceGroup.id + '.pdf';
+    return linksService.invoiceGroupPdf(invoiceGroup.id);
   };
 
   // verzamel en betaal openstaande facturen
@@ -77,6 +78,26 @@ angular.module('owm.finance.index', [])
       grouped      : 'ungrouped'
     })
     .then(function (invoices) {
+
+      /* group invoices by trip */
+      $scope.unpaidInvoicesByTrip = (function () {
+        var grouped = {};
+        angular.forEach(invoices, function (invoice) {
+          if (!invoice.booking) { return; }
+          var groupKey = 'trip_' + invoice.booking.id;
+          grouped[groupKey] = grouped[groupKey] || {
+            invoices: [],
+            invoiceLines: [],
+            tripDetailsLink: linksService.tripDetailsPdf(invoice.booking.id)
+          };
+          grouped[groupKey].invoices.push(invoice);
+          angular.forEach(invoice.invoiceLines, function (invoiceLine) {
+            grouped[groupKey].invoiceLines.push(invoiceLine);
+          });
+        });
+        return grouped;
+      }());
+
       $scope.unpaidInvoices = invoices;
 
       // calculate total

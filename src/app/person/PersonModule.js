@@ -48,6 +48,7 @@ angular.module('owm.person', [
         blogItems: ['$http', '$translate', function ($http, $translate) {
           return $translate('BLOG_URL')
           .then(function (url) {
+            if (!url) { return {}; }
             return $http.get(url);
           })
           .then(function (response) {

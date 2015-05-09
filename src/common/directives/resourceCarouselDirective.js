@@ -8,7 +8,7 @@ angular.module('resourceCarouselDirective', [])
     scope   : {
       resource: '=resourceCarousel'
     },
-    template: '<carousel>' +
+    template: '<carousel interval="4000">' +
               '  <slide ng-repeat="image in images">' +
               '    <img style="margin:auto" ng-src="{{ image.url }}" />' +
               '  </slide>' +

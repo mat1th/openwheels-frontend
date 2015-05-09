@@ -14,7 +14,7 @@
     <h3 class="card-title">
       <a href="" ng-click="is2Collapsed = !is2Collapsed">
         <i class="fa fa-fw" ng-class="{ 'fa-chevron-right': is2Collapsed, 'fa-chevron-down': !is2Collapsed }"></i>
-        Nog te betalen
+        {{ 'TO_BE_PAID' | translate }}
       </a>
     </h3>
   </div>
@@ -22,12 +22,21 @@
     <div class="card-body">
 
       <div class="clearfix">
-        <table class="table" ng-repeat="invoice in unpaidInvoices" style="margin-bottom:0">
+        <table class="table" ng-repeat="(groupKey, group) in unpaidInvoicesByTrip" style="margin-bottom:0">
           <tbody>
             <tr style="background:#eee">
-              <td colspan="6"><strong>{{ invoice.description }}</strong></td>
+              <td colspan="6">
+                <strong>
+                  Rit in {{ group.invoices[0].booking.resource.alias }}
+                  {{ group.invoices[0].booking.resource.registrationPlate | surroundWith : '(' : ')' }}
+                  op {{ group.invoices[0].booking.beginBooking | amDateFormat:'DD-MM-YYYY' }}
+                  <a target="_blank" ng-href="{{ group.tripDetailsLink }}" class="pull-right">
+                    <i class="fa fa-fw fa-external-link-square"></i>Details
+                  </a>
+                </strong>
+              </td>
             </tr>
-            <tr ng-repeat="line in invoice.invoiceLines">
+            <tr ng-repeat="line in group.invoiceLines">
               <td class="text-left" style="width: 50%">
                 {{ line.description }}
               </td>
@@ -58,7 +67,8 @@
           </tbody>
         </table>
 
-        <button type="button" class="btn btn-primary pull-right" ng-click="payInvoices()" style="margin-right:8px">Betalen</button>
+        <!-- may be hidden from branding css -->
+        <button id="finance_index_pay_button" type="button" class="btn btn-primary pull-right" ng-click="payInvoices()" style="margin-right:8px">Betalen</button>
       </div>
 
       <div ng-if="invoiceGroupsUnpaid.length > 0">
@@ -76,7 +86,7 @@
             <td>{{ invoiceGroup.id }}</td>
             <td>{{ invoiceGroup.total | currency }}</td>
             <td>
-              <a target="_BLANK" class="btn btn-link" ng-href="{{ createInvoiceGroupPdfLink(invoiceGroup) }}">
+              <a target="_blank" class="btn btn-link" ng-href="{{ createInvoiceGroupPdfLink(invoiceGroup) }}">
                 <i class="fa fa-file-pdf-o"></i>&nbsp;Pdf
               </a>
             </td>
@@ -127,7 +137,7 @@
             <td>{{ invoiceGroup.id }}</td>
             <td>{{ invoiceGroup.total | currency }}</td>
             <td>
-              <a target="_BLANK" class="btn btn-link" ng-href="{{ createInvoiceGroupPdfLink(invoiceGroup) }}">
+              <a target="_blank" class="btn btn-link" ng-href="{{ createInvoiceGroupPdfLink(invoiceGroup) }}">
                 <i class="fa fa-file-pdf-o"></i>&nbsp;Pdf
               </a>
             </td>

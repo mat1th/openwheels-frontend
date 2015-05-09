@@ -100,8 +100,12 @@
 
           <!-- ACCEPT / REJECT -->
           <div ng-if="allowAcceptReject">
-              <button type="button" class="btn btn-success" ng-click="acceptBooking(booking)">Accepteren</button>
-              <button type="button" class="btn btn-danger" ng-click="rejectBooking(booking)">Weigeren</button>
+            <div class="form-group">
+              <label>{{ 'BOOKING.REMARK_AUTHORIZER_LABEL' | translate }}</label>
+              <textarea class="form-control" ng-model="userInput.acceptRejectRemark" />
+            </div>
+            <button type="button" class="btn btn-success" ng-click="acceptBooking(booking)">Accepteren</button>
+            <button type="button" class="btn btn-danger" ng-click="rejectBooking(booking)">Weigeren</button>
           </div>
         </div>
       </div>
@@ -116,7 +120,7 @@
     <div class="card-body">
 
       <!-- price -->
-      <div ng-include="'resource/partials/resource-price.tpl.html'"></div>
+      <div class="branding_booking_resource_price" ng-include="'resource/partials/resource-price.tpl.html'"></div>
 
       <div class="booking-form">
         <form class="booking" timeframe begin="bookingRequest.beginRequested" end="bookingRequest.endRequested">
@@ -244,6 +248,7 @@
         {{ booking.remarkRequester }}
       </div>
       <div class="booking__remarks__remark" ng-if="booking.remarkAuthorizer">
+        <hr/>
         <h4>{{ booking.resource.owner | fullname }}:</h4>
         {{ booking.remarkAuthorizer }}
       </div>
@@ -260,7 +265,7 @@
       <div class="media-body">
         <h4 class="media-heading"><a ui-sref="member({ personId: booking.person.id })">{{ booking.person | fullname }}</a></h4>
         <div ng-if="booking.person.created">
-          <small class="text-muted">{{ 'MEMBER_SINCE' | translate }} <span am-time-ago="booking.person.created"></span></small>
+          <small class="text-muted">{{ booking.person.created | memberSince }}</small>
         </div>
         <div><span badge-list="booking.person.badges"></span></div>
         <button type="button" class="btn btn-link" ng-click="openChatWith(booking.person)">
@@ -282,7 +287,7 @@
       <div class="media-body">
         <h4 class="media-heading"><a ui-sref="member({ personId: resource.owner.id })">{{ resource.owner | fullname }}</a></h4>
         <div ng-if="resource.owner.created" class="text-muted">
-          <small>{{ 'MEMBER_SINCE' | translate }} <span am-time-ago="resource.owner.created"></span></small>
+          <small>{{ resource.owner.created | memberSince }}</small>
         </div>
         <div><span badge-list="resource.owner.badges"></span></div>
         <button type="button" class="btn btn-link" ng-click="openChatWith(resource.owner)">
@@ -314,7 +319,7 @@
       <div class="media-body">
         <h4 class="media-heading"><a ui-sref="member({ personId: resource.contactPerson.id })">{{ resource.contactPerson | fullname }}</a></h4>
         <div ng-if="resource.contactPerson.created" class="text-muted">
-          <small>{{ 'MEMBER_SINCE' | translate }} <span am-time-ago="resource.contactPerson.created"></span></small>
+          <small>{{ resource.contactPerson.created | memberSince }}</small>
         </div>
         <div><span badge-list="resource.contactPerson.badges"></span></div>
         <button type="button" class="btn btn-link" ng-click="openChatWith(resource.contactPerson)">
@@ -373,7 +378,7 @@
       <a href="" ng-click="isSentInvoicesCollapsed = !isSentInvoicesCollapsed">
         <i class="fa fa-fw" ng-class="{ 'fa-chevron-right': isSentInvoicesCollapsed, 'fa-chevron-down': !isSentInvoicesCollapsed }">
       </i>
-      Opbrengsten
+      {{ 'SENT_INVOICES_TITLE' | translate }}
       </a>
     </h3>
   </div>
@@ -451,6 +456,18 @@
   </div>
 </div>
  -->
+
+<!-- resource features -->
+<div class="card">
+  <div class="card-heading">
+    <h3 class="card-title">
+      {{ resource.brand || 'Onbekend merk'}} <span ng-if="resource.model">, {{ resource.model }}</span>
+    </h3>
+  </div>
+  <div class="card-body">
+    <div ng-include="'resource/partials/resource-features.tpl.html'"></div>
+  </div>
+</div>
 
 <!-- map -->
 <div class="card" ng-if="allowMap">

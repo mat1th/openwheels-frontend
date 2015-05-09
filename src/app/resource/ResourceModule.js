@@ -9,7 +9,8 @@ angular.module('owm.resource', [
   'owm.resource.filter',
   'owm.resource.filterDirective',
   'owm.resourceQueryService',
-  'owm.resource.reservationForm'
+  'owm.resource.reservationForm',
+  'owm.resource.favoriteIcon'
 ])
 
   .config(function config($stateProvider, $urlRouterProvider) {

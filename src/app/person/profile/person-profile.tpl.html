@@ -11,7 +11,7 @@
       </a>
       <div class="media-body">
         <h4 class="media-heading">{{ person | fullname }}</h4>
-        <div><small>{{ 'MEMBER_SINCE' | translate }} <span am-time-ago="person.created"></span></small></div>
+        <div><small>{{ person.created | memberSince }}</small></div>
         <div><span badge-list="person.badges"></span></div>
       </div>
     </div>
@@ -118,7 +118,7 @@
         </div>
 
         <button id="submitFormPersonal" type="button" class="btn btn-primary"
-          ng-disabled="personalDataForm.$pristine"
+          ng-disabled="personalDataForm.$pristine || !personalDataForm.$valid"
           ng-click="submitPersonalDataForm()"
           ng-if="allowLicenseRelated">
           {{ 'SUBMIT' | translate }}
@@ -167,7 +167,7 @@
           <label for="country">{{ 'COUNTRY' | translate }}</label>
           <select name="country" class="form-control" id="country" ng-model="person.country">
             <option ng-repeat="o in countryOptions"
-                    ng-selected="o.value === person.country || ( ! person.country && o.value === 'NL')"
+                    ng-selected="o.value === person.country || ( ! person.country && o.value === 'Nederland')"
                     value="{{o.value}}">
               {{ o.label }}
             </option>
@@ -201,14 +201,14 @@
               <label for="streetName">{{ 'STREET_NAME' | translate }} <i class="fa fa-spin fa-spinner"
                                                                          ng-if="zipcodeAutocompleting"></i></label>
               <input type="text" id="streetName" name="streetName" class="form-control" ng-model="person.streetName"
-                     ng-readonly="person.country === 'NL'">
+                     ng-readonly="person.country === 'Nederland'">
               <p class="help-block" ng-if="!person.city"><span class="text-danger">{{ 'ENTER_ZIPCODE_STREET_NUMBER' | translate }}</span></p>
             </div>
           </div>
           <div class="col-xs-4">
             <label for="city">{{ 'CITY' | translate }} <i class="fa fa-spin fa-spinner" ng-if="zipcodeAutocompleting"></i></label>
             <input type="text" id="city" name="city" class="form-control" ng-model="person.city"
-                   ng-readonly="person.country === 'NL'">
+                   ng-readonly="person.country === 'Nederland'">
           </div>
         </div>
 
@@ -237,7 +237,7 @@
         </div>
 
         <button id="submitForm" type="button" class="btn btn-primary"
-          ng-disabled="contactDataForm.$pristine"
+          ng-disabled="contactDataForm.$pristine || !contactDataForm.$valid"
           ng-click="submitContactDataForm()">
           {{ 'SUBMIT' | translate }}
         </button>
@@ -375,7 +375,7 @@
         </div>
 
         <button id="submitForm" type="button" class="btn btn-primary"
-          ng-disabled="settingsForm.$pristine"
+          ng-disabled="settingsForm.$pristine || !settingsForm.$valid"
           ng-click="submitSettingsForm()">
           {{ 'SUBMIT' | translate }}
         </button>
@@ -409,7 +409,7 @@
   <div class="card-heading">
     <h3 class="card-title">
       <a ui-sref="owm.auth.changePassword">
-        <i class="fa fa-fw fa-chevron-right"></i>{{ 'AUTH_CHANGE_PWD_PAGE_TITLE' | translate }}
+        {{ 'AUTH_CHANGE_PWD_PAGE_TITLE' | translate }}
       </a>
     </h3>
   </div>

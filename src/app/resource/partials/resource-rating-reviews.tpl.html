@@ -10,7 +10,7 @@
           <span>{{ rating.review}}</span>
           <div class="text-muted">
             <small>
-              <span ng-bind="rating.sender | fullname"></span>&nbsp;
+              <a ui-sref="member({ personId: rating.sender.id })">{{ rating.sender | fullname }}</a>&nbsp;
               <i class="fa fa-circle"></i>&nbsp;
               <span am-time-ago="rating.created"></span>
             </small>

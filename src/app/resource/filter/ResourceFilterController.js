@@ -17,6 +17,7 @@ angular.module('owm.resource.filter', [])
     ];
 
     $scope.minSeatOptions = [
+      {value: undefined, label: '' },
       {value: 1, label: 1},
       {value: 2, label: 2},
       {value: 3, label: 3},
@@ -30,7 +31,7 @@ angular.module('owm.resource.filter', [])
     ];
 
     $scope.lockTypeOptions = [
-      {value: '', label: $translate.instant('LOCKTYPE.ALL')},
+      {value: undefined, label: $translate.instant('LOCKTYPE.ALL')},
       {value: 'chipcard', label: $translate.instant('LOCKTYPE.CHIPCARD')},
       {value: 'locker', label: $translate.instant('LOCKTYPE.LOCKER')},
       {value: 'meeting', label: $translate.instant('LOCKTYPE.MEETING')},
@@ -38,7 +39,7 @@ angular.module('owm.resource.filter', [])
     ];
 
     $scope.fuelTypeOptions = [
-      {value: '', label: $translate.instant('FUEL_TYPE.ALL')},
+      {value: undefined, label: $translate.instant('FUEL_TYPE.ALL')},
       {value: 'benzine', label: $translate.instant('FUEL_TYPE.BENZINE')},
       {value: 'diesel', label: $translate.instant('FUEL_TYPE.DIESEL')},
       {value: 'lpg', label: $translate.instant('FUEL_TYPE.LPG')},
@@ -48,7 +49,7 @@ angular.module('owm.resource.filter', [])
     ];
 
     $scope.resourceTypeOptions = [
-      {value: '', label: $translate.instant('RESOURCE_TYPE.ALL')},
+      {value: undefined, label: $translate.instant('RESOURCE_TYPE.ALL')},
       {value: 'car', label: $translate.instant('RESOURCE_TYPE.CAR')},
       {value: 'cabrio', label: $translate.instant('RESOURCE_TYPE.CABRIO')},
       {value: 'camper', label: $translate.instant('RESOURCE_TYPE.CAMPER')},

@@ -5,6 +5,7 @@ angular.module('owm.pages.member',[])
 
   $scope.user = user;
   $scope.person = member;
+  $scope.activeResources = [];
   $scope.showContactInfo = false;
   $scope.showSidebar = false;
 
@@ -15,7 +16,7 @@ angular.module('owm.pages.member',[])
 
   function init () {
     $scope.showContactInfo = (
-      user.isAuthenticated,
+      user.isAuthenticated ||
       member.city ||
       member.email ||
       (member.phoneNumbers && member.phoneNumbers.length) ||
@@ -23,7 +24,10 @@ angular.module('owm.pages.member',[])
       member.twitterUid ||
       member.linkedinUid
     );
-    $scope.showSidebar = $scope.showContactInfo || (member.resources && member.resources.length);
+    $scope.activeResources = $filter('filter')(member.resources || [], function (resource) {
+      return resource.isActive;
+    });
+    $scope.showSidebar = $scope.showContactInfo || $scope.activeResources.length;
   }
 
   function login () {
