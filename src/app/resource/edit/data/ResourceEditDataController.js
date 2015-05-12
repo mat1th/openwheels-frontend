@@ -10,7 +10,6 @@ angular.module('owm.resource.edit.data', [])
   var masterResourceProperties = createResourceProperties(resource);
 
   $scope.searchPlace = {};
-  $scope.resourceProperties = angular.copy(masterResourceProperties);
 
   function createResourceProperties (resource) {
     var resourceProperties = {};
@@ -22,6 +21,7 @@ angular.module('owm.resource.edit.data', [])
 
   $scope.cancel = function () {
     $scope.resource = angular.copy(masterResource);
+    $scope.resourceProperties = angular.copy(masterResourceProperties);
   };
 
   $scope.cancel();
@@ -169,15 +169,13 @@ angular.module('owm.resource.edit.data', [])
     .then(function (resource) {
       alertService.addSaveSuccess();
       masterResource = resource;
+      masterResourceProperties = $scope.resourceProperties;
       $scope.cancel();
     })
     .catch(function (err) {
       alertService.addError(err);
     })
     .finally(function () {
-      masterResourceProperties = $scope.resourceProperties;
-      $scope.resourceProperties = angular.copy(masterResourceProperties);
-
       alertService.loaded();
     });
   };
