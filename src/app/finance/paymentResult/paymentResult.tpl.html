@@ -1,0 +1,26 @@
+<div ng-if="orderStatusId > 0" class="card">
+  <div class="card-body">
+    <h2 class="card-title">
+    <i class="fa fa-fw fa-check text-success"></i>
+      Dank voor je betaling
+    </h2>
+    <p>
+      De betaling wordt nu verwerkt. Zodra wij het geld ontvangen hebben passen we je overzichten aan en sturen we je een bevestigingsmail. Dit is meestal binnen enkele minuten.
+    </p>
+    <button ui-sref="home" type="button" class="btn btn-primary">{{ 'OK' | translate }}</button>
+  </div>
+</div>
+
+<div ng-if="!(orderStatusId > 0)" class="card">
+  <div class="card-body">
+    <h2 class="card-title">
+      <i class="fa fa-fw fa-exclamation-triangle text-warning"></i>
+      De betaling is nog niet gelukt
+    </h2>
+    <p>
+      Ga naar je financiële overzicht en probeer opnieuw te betalen.
+    </p>
+    <button ng-if="features.invoiceModuleV1" ui-sref="owm.financeV1.index" class="btn btn-primary">Mijn facturen</button>
+    <button ng-if="features.invoiceModuleV2" ui-sref="owm.finance.index" class="btn btn-primary">{{ 'MY_FINANCIALS' | translate }}</button>
+  </div>
+</div>
