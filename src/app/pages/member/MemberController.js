@@ -54,7 +54,7 @@ angular.module('owm.pages.member',[])
   function login () {
     authService.loginPopup().then(function () {
       alertService.load();
-      personService.get({ person: member.id })
+      personService.get({ version: 2, person: member.id })
       .then(function (member) {
         $scope.person = member;
         initLayout();

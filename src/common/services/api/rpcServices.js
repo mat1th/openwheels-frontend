@@ -7,7 +7,10 @@ angular.module('rpcServices', [])
   this.me                    = m('me');
   this.validateEmail         = m('validateEmail');
   this.alter                 = m('alter');
+
+  /* REQUIRES parameter version=2 (version 1 deprecated on 13-5-2015) */
   this.get                   = m('get');
+
   this.search                = m('search');
   this.dropPhoneWithPhoneId  = m('dropPhoneWithPhoneId');
   this.alterPhoneWithPhoneId = m('alterPhoneWithPhoneId');
