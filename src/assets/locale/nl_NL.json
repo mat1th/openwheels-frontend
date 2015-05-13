@@ -108,6 +108,7 @@
     "MY_RESOURCES": "Mijn auto's",
     "MY_CHIPCARDS": "Mijn chipkaarten",
     "MY_CONTRACTS": "Mijn contracten",
+    "MY_FINANCIALS_V1": "Mijn facturen",
     "MY_FINANCIALS": "Mijn financiën",
     "MY_TRIPS": "Mijn ritten",
     "LOGOUT": "Uitloggen",
@@ -490,6 +491,10 @@
     "SOCIAL_MAKE_FLYER": "Maak flyer",
     "MEMBER_SUGGEST_LOGIN": "Login of meld je aan om meer informatie te zien",
     "MEMBER_PROFILE_INTRO": "Je profiel is zichtbaar voor iedereen",
-    "BADGES_TOOLTIP": "Hier vind je extra informatie over iemands reputatie"
+    "BADGES_TOOLTIP": "Hier vind je extra informatie over iemands reputatie",
 
+    "PAYMENT_SUCCESS_TITLE": "Dank voor je betaling",
+    "PAYMENT_SUCCESS_BODY": "De betaling wordt nu verwerkt. Zodra wij het geld ontvangen hebben passen we je overzichten aan en sturen we je een bevestigingsmail. Dit is meestal binnen enkele minuten.",
+    "PAYMENT_FAILURE_TITLE": "De betaling is nog niet gelukt",
+    "PAYMENT_FAILURE_BODY": "Ga naar je financiële overzicht en probeer opnieuw te betalen."
 }
