@@ -50,7 +50,8 @@ angular.module('rpcServices', [])
   this.alter             = m('alter');
   this.select            = m('select');
   this.forOwner          = m('forOwner');
-  this.search            = m('searchV2');
+  this.search            = m('search');
+  this.searchV2          = m('searchV2');
   this.create            = m('create');
   this.getMembers        = m('getMembers');
   this.addMember         = m('addMember');

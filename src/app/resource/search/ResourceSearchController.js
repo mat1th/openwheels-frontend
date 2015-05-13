@@ -122,7 +122,7 @@ angular.module('owm.resource.search', [
 
       alertService.load();
       $scope.searching = true;
-      return resourceService.search(params).then(function (resources) {
+      return resourceService.searchV2(params).then(function (resources) {
         $scope.resources = resources;
         return resources;
       })
