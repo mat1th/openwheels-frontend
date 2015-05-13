@@ -29,7 +29,8 @@
                 <strong>
                   Rit in {{ group.invoices[0].booking.resource.alias }}
                   {{ group.invoices[0].booking.resource.registrationPlate | surroundWith : '(' : ')' }}
-                  op {{ group.invoices[0].booking.beginBooking | amDateFormat:'DD-MM-YYYY' }}
+                  van {{ group.invoices[0].booking.beginBooking | amDateFormat:'DD-MM-YY HH:MM' }}
+                  tot {{ group.invoices[0].booking.endBooking | amDateFormat:'DD-MM-YY HH:MM' }}
                   <a target="_blank" ng-href="{{ group.tripDetailsLink }}" class="pull-right">
                     <i class="fa fa-fw fa-external-link-square"></i>Details
                   </a>
