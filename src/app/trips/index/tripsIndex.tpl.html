@@ -45,6 +45,7 @@
           <tr>
             <th>{{ 'DATE' | translate }}</th>
             <th>{{ 'RESOURCE' | translate }}</th>
+            <th>{{ 'OWNER' | translate }}</th>
             <th>{{ 'DISTANCE' | translate }}</th>
             <th></th>
             <th></th>
@@ -54,6 +55,7 @@
           <tr ng-repeat="booking in bookings.forRenter.data | orderBy : 'beginBooking' : true">
             <td>{{ booking.beginBooking | amDateFormat:'DD-MM-YYYY' }}</td>
             <td>{{ booking.resource.alias}}</td>
+            <td>{{ booking.resource.owner | fullname }}</td>
             <td>{{ booking.trip.odoEnd - booking.trip.odoBegin }}</td>
             <td><span booking-approval-icon="booking"></span></td>
             <td class="text-right"><a target="_blank" ng-href="{{ createTripDetailsLink(booking) }}"><i class="fa fa-fw fa-external-link-square"></i>Details</a></td>
@@ -84,6 +86,7 @@
           <tr>
             <th>{{ 'DATE' | translate }}</th>
             <th>{{ 'RESOURCE' | translate }}</th>
+            <th>{{ 'RENTER' | translate }}</th>
             <th>{{ 'DISTANCE' | translate }}</th>
             <th></th>
             <th></th>
@@ -92,7 +95,8 @@
         <tbody>
           <tr ng-repeat="booking in bookings.forOwner.data | orderBy: 'beginBooking' : true">
             <td>{{ booking.beginBooking | amDateFormat:'DD-MM-YYYY' }}</td>
-            <td>{{ booking.resource.alias}}</td>
+            <td>{{ booking.resource.alias }}</td>
+            <td>{{ booking.person | fullname }}</td>
             <td>{{ booking.trip.odoEnd - booking.trip.odoBegin }}</td>
             <td><span booking-approval-icon="booking"></span></td>
             <td class="text-right"><a target="_blank" ng-href="{{ createTripDetailsLink(booking) }}"><i class="fa fa-fw fa-external-link-square"></i>Details</a></td>
