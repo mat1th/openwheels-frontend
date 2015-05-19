@@ -7,7 +7,10 @@ angular.module('rpcServices', [])
   this.me                    = m('me');
   this.validateEmail         = m('validateEmail');
   this.alter                 = m('alter');
+
+  /* REQUIRES parameter version=2 (version 1 deprecated on 13-5-2015) */
   this.get                   = m('get');
+
   this.search                = m('search');
   this.dropPhoneWithPhoneId  = m('dropPhoneWithPhoneId');
   this.alterPhoneWithPhoneId = m('alterPhoneWithPhoneId');
@@ -50,7 +53,8 @@ angular.module('rpcServices', [])
   this.alter             = m('alter');
   this.select            = m('select');
   this.forOwner          = m('forOwner');
-  this.search            = m('searchV2');
+  this.search            = m('search');
+  this.searchV2          = m('searchV2');
   this.create            = m('create');
   this.getMembers        = m('getMembers');
   this.addMember         = m('addMember');

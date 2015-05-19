@@ -1,7 +1,8 @@
 'use strict';
 angular.module('owm.pages.member',[])
 
-.controller('MemberController', function ($window, $filter, $scope, alertService, authService, personService, chatPopupService, user, member) {
+.controller('MemberController', function ($window, $filter, $scope, alertService, authService, resourceService,
+  personService, chatPopupService, user, member) {
 
   $scope.user = user;
   $scope.person = member;
@@ -12,9 +13,10 @@ angular.module('owm.pages.member',[])
   $scope.openChatWith = openChatWith;
   $scope.login = login;
 
-  init();
+  initLayout();
+  loadResources();
 
-  function init () {
+  function initLayout () {
     $scope.showContactInfo = (
       user.isAuthenticated ||
       member.city ||
@@ -24,19 +26,38 @@ angular.module('owm.pages.member',[])
       member.twitterUid ||
       member.linkedinUid
     );
-    $scope.activeResources = $filter('filter')(member.resources || [], function (resource) {
-      return resource.isActive;
-    });
     $scope.showSidebar = $scope.showContactInfo || $scope.activeResources.length;
+  }
+
+  /* returns some active resources */
+  function loadResources () {
+    alertService.load();
+    resourceService.search({
+      owner: member.id,
+      page: 0,
+      perPage: 5
+    })
+    .then(function (resources) {
+      $scope.activeResources = $filter('filter')(resources || [], function (resource) {
+        return resource.isActive;
+      });
+    })
+    .catch(function () {
+      $scope.activeResources = [];
+    })
+    .finally(function () {
+      alertService.loaded();
+      initLayout();
+    });
   }
 
   function login () {
     authService.loginPopup().then(function () {
       alertService.load();
-      personService.get({ person: member.id })
+      personService.get({ version: 2, person: member.id })
       .then(function (member) {
         $scope.person = member;
-        init();
+        initLayout();
       })
       .catch(function (err) {
         alertService.showError(err);

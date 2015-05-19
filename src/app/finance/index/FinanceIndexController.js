@@ -62,8 +62,12 @@ angular.module('owm.finance.index', [])
   };
 
   function redirectToPaymentUrl (paymentUrl) {
-    var url = paymentUrl + '?redirectTo=' + encodeURIComponent(currentUrl());
+    var url = paymentUrl + '?redirectTo=' + encodeURIComponent(paymentResultUrl());
     $window.location.replace(url, '_top');
+  }
+
+  function paymentResultUrl () {
+    return appConfig.appUrl + '/#/payment-result';
   }
 
   function currentUrl () {

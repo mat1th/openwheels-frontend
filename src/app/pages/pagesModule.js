@@ -66,7 +66,7 @@ angular.module('owm.pages', [
     },
     resolve: {
       member: ['$stateParams', 'personService', function ($stateParams, personService) {
-        return personService.get({ person: $stateParams.personId });
+        return personService.get({ version: 2, person: $stateParams.personId });
       }]
     }
   })

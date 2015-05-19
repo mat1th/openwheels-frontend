@@ -3,7 +3,8 @@
 angular.module('owm.finance', [
   'owm.finance.index',
   'owm.finance.invoiceGroups',
-  'owm.finance.invoiceGroupsV1'
+  'owm.finance.invoiceGroupsV1',
+  'owm.finance.paymentResult'
 ])
 
 .config(function config($stateProvider) {
@@ -70,6 +71,22 @@ angular.module('owm.finance', [
     onEnter: ['$window', 'linksService', function ($window, linksService) {
       $window.location.href = linksService.depositUrl();
     }]
+  })
+
+  .state('owm.finance.payment-result', {
+    url: '/payment-result?orderStatusId',
+    views: {
+      'main@': {
+        templateUrl: 'finance/paymentResult/paymentResult.tpl.html',
+        controller: 'PaymentResultController'
+      }
+    },
+    resolve: {
+      orderStatusId: ['$stateParams', function ($stateParams) {
+        console.log($stateParams);
+        return $stateParams.orderStatusId;
+      }]
+    }
   });
 
 });
