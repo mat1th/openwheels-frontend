@@ -4,13 +4,15 @@ angular.module('rpcServices', [])
 
 .service('personService', function (api) {
   var m = function (name) { return api.createRpcMethod('person.' + name); };
-  this.me                    = m('me');
-  this.validateEmail         = m('validateEmail');
-  this.alter                 = m('alter');
 
   /* REQUIRES parameter version=2 (version 1 deprecated on 13-5-2015) */
   this.get                   = m('get');
 
+  /* REQUIRES parameter version=2 (version 1 deprecated on 19-5-2015) */
+  this.me                    = m('me');
+
+  this.validateEmail         = m('validateEmail');
+  this.alter                 = m('alter');
   this.search                = m('search');
   this.dropPhoneWithPhoneId  = m('dropPhoneWithPhoneId');
   this.alterPhoneWithPhoneId = m('alterPhoneWithPhoneId');

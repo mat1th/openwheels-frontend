@@ -160,7 +160,7 @@ angular.module('authService', [])
   function loadIdentity () {
     $log.debug('--> ' + (user.identity ? 're-' : '') + 'load identity');
     user.isPending = true;
-    api.invokeRpcMethod('person.me').then(function (identity) {
+    api.invokeRpcMethod('person.me', { version: 2 }).then(function (identity) {
       $log.debug('<-- got identity');
       user.identity = identity;
       user.isPending = false;
