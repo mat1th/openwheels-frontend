@@ -127,7 +127,7 @@ angular.module('owm.person', [
       },
       resolve: {
         person: ['personService', function (personService) {
-          return personService.me();
+          return personService.me({ version: 2 });
         }]
       }
     });
