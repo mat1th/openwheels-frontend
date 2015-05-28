@@ -1,0 +1,27 @@
+<div class="card">
+
+  <div class="card-heading">
+    <h2 class="card-title">
+      {{ 'MY_FINANCE' | translate }}
+    </h2>
+  </div>
+
+  <div class="card-body" ng-if="v1NoData && v2NoData">
+    {{ 'NO_RESULTS' | translate }}
+  </div>
+</div>
+
+<div
+  ng-include="'finance/vouchers/vouchers.tpl.html'"
+  ng-controller="VouchersController">
+</div>
+
+<div
+  ng-include="'finance/v2/financeV2.tpl.html'"
+  ng-controller="FinanceV2Controller">
+</div>
+
+<div
+  ng-include="'finance/v1/financeV1InvoiceGroups.tpl.html'"
+  ng-controller="FinanceV1InvoiceGroupsController">
+</div>

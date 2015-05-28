@@ -31,8 +31,6 @@ angular.module('owm.auth.signup', [])
       }
     }
 
-    console.log($scope.user.preference);
-
     $scope.signup = function () {
       alertService.load();
 

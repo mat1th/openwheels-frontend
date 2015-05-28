@@ -4,22 +4,31 @@ angular.module('alertService', [])
 
 .factory('alertService', function($rootScope, $timeout, $translate) {
   var alertService = {};
+  var loadersByScope = {};
 
   // create an array of alerts available globally
   $rootScope.alerts = [];
-  $rootScope.loader = undefined;
+  $rootScope.loader = null;
 
   // loading route message
   $rootScope.$on('$stateChangeSuccess', function () {
     alertService.loaded();
   });
 
-  alertService.load = function(type, msg) {
-    $rootScope.loader = {'type': type, 'msg': msg};
+  alertService.load = function(scope, type, msg) {
+    var scopeKey = 'scope_' + (scope ? scope.$id : $rootScope.$id);
+    loadersByScope[scopeKey] = { type: type, msg: msg };
+
+    /* show the first loader */
+    $rootScope.loader = loadersByScope[Object.keys(loadersByScope)[0]];
   };
 
-  alertService.loaded = function() {
-    $rootScope.loader = undefined;
+  alertService.loaded = function(scope) {
+    var scopeKey = 'scope_' + (scope ? scope.$id : $rootScope.$id);
+    if (scopeKey in loadersByScope) {
+      delete loadersByScope[scopeKey];
+    }
+    $rootScope.loader = loadersByScope[Object.keys(loadersByScope)[0]];
   };
 
   alertService.add = function(type, msg, timeout) {
