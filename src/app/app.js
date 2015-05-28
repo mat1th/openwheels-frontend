@@ -100,7 +100,6 @@ angular.module('openwheels', [
   'owm.booking',
   'owm.person',
   'owm.finance',
-  'owm.vouchers',
   'owm.payment',
   'owm.trips',
   'owm.chat',
