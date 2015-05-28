@@ -1,9 +1,11 @@
 'use strict';
 
-angular.module('owm.finance.index', [])
+angular.module('owm.finance.v2', [])
 
-.controller('FinanceIndexController', function ($window, $q, $location, $scope, $modal, appConfig, alertService, invoice2Service, paymentService, me, linksService) {
-  $scope.me = me;
+.controller('FinanceV2Controller', function ($window, $q, $location, $scope, $modal, appConfig, alertService, invoice2Service, paymentService, linksService) {
+
+  /* require parent scope */
+  var me = $scope.me;
 
   // invoices
   $scope.unpaidInvoices = null;
@@ -17,14 +19,20 @@ angular.module('owm.finance.index', [])
 
   // load data
   $scope.isLoading = true;
-  alertService.load();
+  alertService.load($scope);
   $q.all([loadUnpaidInvoices(), loadInvoiceGroups(), loadSentInvoices() ])
   .catch(function (err) {
     alertService.addError(err);
   })
   .finally(function () {
-    alertService.loaded();
+    alertService.loaded($scope);
     $scope.isLoading = false;
+
+    var hasData = false;
+    hasData = hasData || !!($scope.unpaidInvoices && $scope.unpaidInvoices.length);
+    hasData = hasData || !!($scope.invoiceGroups && $scope.invoiceGroups.length);
+    hasData = hasData || !!($scope.sentInvoices && $scope.sentInvoices.length);
+    $scope.$emit('v2LoadComplete', hasData);
   });
 
   $scope.createInvoiceGroupPdfLink = function (invoiceGroup) {
@@ -33,7 +41,7 @@ angular.module('owm.finance.index', [])
 
   // verzamel en betaal openstaande facturen
   $scope.payInvoices = function () {
-    alertService.load();
+    alertService.load($scope);
     paymentService.pay({ person: me.id }).then(function (result) {
       redirectToPaymentUrl(result.url);
     })
@@ -41,13 +49,13 @@ angular.module('owm.finance.index', [])
       alertService.addError(err);
     })
     .finally(function () {
-      alertService.loaded();
+      alertService.loaded($scope);
     });
   };
 
   // betaal openstaande verzamelfactuur
   $scope.payInvoiceGroup = function (invoiceGroup) {
-    alertService.load();
+    alertService.load($scope);
     paymentService.payInvoiceGroup({
       invoiceGroup: invoiceGroup.id
     }).then(function (result) {
@@ -57,7 +65,7 @@ angular.module('owm.finance.index', [])
       alertService.addError(err);
     })
     .finally(function () {
-      alertService.loaded();
+      alertService.loaded($scope);
     });
   };
 

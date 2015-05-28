@@ -1,14 +1,3 @@
-<div class="card">
-  <div class="card-heading">
-    <h2 class="card-title">
-      Mijn financiën
-    </h2>
-  </div>
-  <div class="card-body" ng-if="!isLoading && !(unpaidInvoices.length > 0 || invoiceGroups.length > 0 || sentInvoices.length > 0)">
-    Dit overzicht is nog leeg
-  </div>
-</div>
-
 <div class="card" ng-if="unpaidInvoices.length > 0">
   <div class="card-heading">
     <h3 class="card-title">
