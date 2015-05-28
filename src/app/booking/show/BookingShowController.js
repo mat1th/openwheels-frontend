@@ -108,8 +108,10 @@ angular.module('owm.booking.show', [])
         );
       }());
       $scope.allowOvereenkomst = booking.status === 'requested' || booking.status === 'accepted';
-
     }
+
+    /* overrides */
+    $scope.allowOvereenkomst = $scope.allowOvereenkomst && (['smartphone', 'chipcard'].indexOf(booking.resource.locktype) < 0);
   }
 
   $scope.hasAcceptedTimeframe = function (booking) {
