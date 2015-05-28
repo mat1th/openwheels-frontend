@@ -1,31 +1,45 @@
 'use strict';
 
 angular.module('owm.finance', [
-  'owm.finance.index',
-  'owm.finance.invoiceGroups',
-  'owm.finance.invoiceGroupsV1',
+  'owm.finance.v1InvoiceGroups',
+  'owm.finance.v2',
+  'owm.finance.vouchers',
   'owm.finance.paymentResult'
 ])
+
+.controller('FinanceVersionWrapperController', function ($scope, me) {
+  $scope.me = me;
+
+  $scope.v1NoData = false;
+  $scope.v2NoData = false;
+
+  $scope.$on('v1LoadComplete', function (evt, hasData) {
+    $scope.v1NoData = !hasData;
+  });
+
+  $scope.$on('v2LoadComplete', function (evt, hasData) {
+    $scope.v2NoData = !hasData;
+  });
+})
 
 .config(function config($stateProvider) {
 
   $stateProvider
 
-  /**
-   * OLD VERSION
-   * kept for compatibility
-   */
-
-  .state('owm.financeV1', {
+  .state('owm.finance', {
     abstract: true
   })
 
-  .state('owm.financeV1.index', {
+  /**
+   * V1
+   */
+
+  .state('owm.finance.v1Index', {
     url: '/finance/v1',
     views: {
       'main@': {
-        templateUrl: 'finance/invoiceGroupsV1/financeInvoiceGroupsV1.tpl.html',
-        controller: 'FinanceInvoiceGroupsV1Controller'
+        templateUrl: 'finance/v1/index.tpl.html',
+        controller : 'FinanceVersionWrapperController'
       }
     },
     data: {
@@ -42,23 +56,22 @@ angular.module('owm.finance', [
   })
 
   /**
-   * LATEST VERSION
+   * V2
    */
 
-  .state('owm.finance', {
-    abstract: true
-  })
-
-  .state('owm.finance.index', {
-    url: '/finance',
+  .state('owm.finance.v2Index', {
+    url: '/finance/v2',
     views: {
       'main@': {
-        templateUrl: 'finance/index/financeIndex.tpl.html',
-        controller: 'FinanceIndexController'
+        templateUrl: 'finance/v2/index.tpl.html',
+        controller : 'FinanceVersionWrapperController'
       }
     },
     data: {
-      access: { deny: { anonymous: true } }
+      access: {
+        deny: { anonymous: true },
+        feature: 'invoiceModuleV2'
+      }
     },
     resolve: {
       me: ['authService', function (authService) {
@@ -66,6 +79,35 @@ angular.module('owm.finance', [
       }]
     }
   })
+
+  /**
+   * V3 (latest)
+   */
+
+  .state('owm.finance.v3Index', {
+    url: '/finance',
+    views: {
+      'main@': {
+        templateUrl: 'finance/v3/index.tpl.html',
+        controller : 'FinanceVersionWrapperController'
+      }
+    },
+    data: {
+      access: {
+        deny: { anonymous: true },
+        feature: 'invoiceModuleV3'
+      }
+    },
+    resolve: {
+      me: ['authService', function (authService) {
+        return authService.me();
+      }]
+    }
+  })
+
+  /**
+   * All versions
+   */
 
   .state('owm.finance.deposit', {
     onEnter: ['$window', 'linksService', function ($window, linksService) {
@@ -83,12 +125,9 @@ angular.module('owm.finance', [
     },
     resolve: {
       orderStatusId: ['$stateParams', function ($stateParams) {
-        console.log($stateParams);
         return $stateParams.orderStatusId;
       }]
     }
   });
 
 });
-
-

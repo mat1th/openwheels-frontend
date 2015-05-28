@@ -1,0 +1,75 @@
+<div class="card">
+  <div class="card-heading">
+    <h3 class="card-title">
+      <a href="" ng-click="isVouchersCollapsed = !isVouchersCollapsed">
+        <i class="fa fa-fw" ng-class="{ 'fa-chevron-right': isVouchersCollapsed, 'fa-chevron-down': !isVouchersCollapsed }"></i>
+        Vouchers
+      </a>
+    </h3>
+  </div>
+
+  <div collapse="isVouchersCollapsed">
+    <div class="card-body">
+
+      <div style="margin-bottom: 15px;">
+        <span ng-if="!credit" class="text-muted"><i class="fa fa-spin fa-spinner"></i>&nbsp;Tegoed ophalen...</span>
+        <h1 ng-if="credit.value && !credit.error">{{ credit.value | currency }}</h1>
+        <span ng-if="credit.error"><i class="fa fa-warning text-warning"></i>&nbsp;Je tegoed is op dit moment niet beschikbaar</span>
+      </div>
+
+      <div ng-if="requiredValue" style="margin-bottom: 15px;">
+        <span ng-if="requiredValue.value">
+          Je hebt nog {{ requiredValue.value | currency }} (extra) rijtegoed nodig voor jouw reserveringen.
+          <a href="" ng-click="buyVoucher(requiredValue.value)">Koop een voucher van {{ requiredValue.value | currency }}</a>
+        </span>
+        <span ng-if="!requiredValue.value && !requiredValue.error">Je hebt voldoende rijtegoed voor jouw reserveringen.</span>
+        <span ng-if="requiredValue.error && !credit.error"><i class="fa fa-warning text-warning"></i>&nbsp;We kunnen op dit moment niet zien of je voldoende rijtegoed hebt voor jouw reserveringen.</span>
+      </div>
+
+      <div style="margin-bottom: 15px">
+        <button type="button" class="btn btn-success" ng-show="!showBuy" ng-click="showBuy = true">Koop voucher</button>
+      </div>
+
+      <div ng-if="showBuy" style="margin-bottom: 15px;">
+        <b>Kies bedrag:</b><br/>
+        <div class="clearfix" style="margin: 0 -5px 0 -5px">
+          <div ng-repeat="option in voucherOptions" class="pull-left" style="width: 20%; padding: 5px">
+            <button ng-click="buyVoucher(option)" type="button" class="btn btn-block btn-success">{{ option | currency }}</button>
+          </div>
+        </div>
+      </div>
+
+      <div ng-if="vouchers">
+        <div ng-if="vouchers.length">
+          <ul class="list-unstyled list-spaced fa-ul">
+            <li ng-repeat="voucher in vouchers">
+              <i class="text-success fa fa-li fa-gift"></i>
+              <b>{{ voucher.value | currency }}</b>
+              <span class="text-muted">betaald op {{ voucher.paid | amDateFormat : 'DD-MM-YY HH:MM' }}</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- <div class="card">
+  <div class="card-heading">
+    <h2 class="card-title">
+    </h2>
+  </div>
+  <div class="card-body">
+  </div>
+</div> -->
+
+<!-- <div class="card">
+  <div class="card-heading">
+    <h2 class="card-title">
+    </h2>
+  </div>
+  <div class="card-body">
+  </div>
+</div> -->
+
