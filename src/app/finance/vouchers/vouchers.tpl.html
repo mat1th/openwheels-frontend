@@ -3,7 +3,7 @@
     <h3 class="card-title">
       <a href="" ng-click="isVouchersCollapsed = !isVouchersCollapsed">
         <i class="fa fa-fw" ng-class="{ 'fa-chevron-right': isVouchersCollapsed, 'fa-chevron-down': !isVouchersCollapsed }"></i>
-        Vouchers
+        Tegoedbonnen
       </a>
     </h3>
   </div>
@@ -24,12 +24,12 @@
       </div>
 
       <div ng-if="requiredValue" style="margin-bottom: 15px;">
-        <span ng-if="requiredValue.value">
-          Je hebt nog {{ requiredValue.value | currency }} (extra) rijtegoed nodig voor jouw reserveringen
+        <span ng-if="requiredValue.value.voucher > 0">
+          Je hebt nog {{ requiredValue.value.voucher | currency }} (extra) rijtegoed nodig voor jouw reserveringen
           <info-icon tooltip-html="'Omdat we nog niet weten hoeveel kilometers je zal rijden vragen we je meer rijtegoed te kopen dan je rit waarschijnlijk zal kosten. Dit bedrag vraag je na je rit eenvoudig terug, of bewaar je voor een volgende rit'"></info-icon>
         </span>
-        <span ng-if="credit.value && !requiredValue.value && !requiredValue.error">
-          Je hebt voldoende rijtegoed voor jouw reserveringen
+        <span ng-if="credit.value && !requiredValue.error && !(requiredValue.value.voucher > 0)">
+          Je hebt voldoende rijtegoed voor jouw huidige reserveringen
         </span>
         <span ng-if="requiredValue.error && !credit.error">
           <i class="fa fa-warning text-warning"></i>&nbsp;We kunnen op dit moment niet zien of je voldoende rijtegoed hebt voor jouw reserveringen
@@ -37,12 +37,12 @@
       </div>
 
       <!-- call to action (buy voucher)-->
-      <div ng-show="!showVoucherOptions" style="margin-bottom: 15px">
+      <div ng-show="credit && !showVoucherOptions" style="margin-bottom: 15px">
 
         <!-- button with suggested value -->
-        <div ng-if="requiredValue.value > 0">
-          <button type="button" class="btn btn-success" ng-click="buyVoucher(requiredValue.value)">
-            Koop voucher van {{ requiredValue.value | currency }}
+        <div ng-if="requiredValue.value.voucher > 0">
+          <button type="button" class="btn btn-success" ng-click="buyVoucher(requiredValue.value.voucher)">
+            Koop tegoedbon van {{ requiredValue.value.voucher | currency }}
           </button>
           <button type="button" class="btn btn-link" ng-click="toggleVoucherOptions(true)">
             Ander bedrag
@@ -50,8 +50,8 @@
         </div>
 
         <!-- button toggle voucher options -->
-        <div ng-if="requiredValue === 0">
-          <button type="button" class="btn btn-success" ng-click="toggleVoucherOptions(true)">Koop voucher</button>
+        <div ng-if="!(requiredValue.value.voucher > 0)">
+          <button type="button" class="btn btn-success" ng-click="toggleVoucherOptions(true)">Koop tegoedbon</button>
         </div>
       </div>
 
