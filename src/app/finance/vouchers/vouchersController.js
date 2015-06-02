@@ -11,6 +11,7 @@ angular.module('owm.finance.vouchers', [])
   $scope.requiredValue = null;
   $scope.vouchers = null;
   $scope.voucherOptions = [25,50,100,250,500];
+  $scope.showVoucherOptions = false;
 
   alertService.load($scope);
   getCredit().then(function () {
@@ -20,6 +21,10 @@ angular.module('owm.finance.vouchers', [])
   .finally(function () {
     alertService.loaded($scope);
   });
+
+  $scope.toggleVoucherOptions = function (toggle) {
+    $scope.showVoucherOptions = toggle;
+  };
 
   $scope.buyVoucher = function (value) {
     if (!value || value < 0) { return; }
