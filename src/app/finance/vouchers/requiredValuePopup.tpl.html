@@ -1,0 +1,60 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+    <h3 class="modal-title">
+      Benodigd rijtegoed
+    </h3>
+  </div>
+
+  <div class="modal-body">
+
+    <table ng-if="requiredValue.bookings" class="table">
+      <thead>
+        <tr>
+          <th>Omschrijving</th>
+          <th>Huur</th>
+          <th>Kilometers</th>
+          <th class="text-right">Bedrag</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="booking in requiredValue.bookings">
+          <td>{{ booking.title }}</td>
+          <td class="text-muted">{{ booking.booking_price | currency }}</td>
+          <td class="text-muted">{{ booking.km_price | currency }}</td>
+          <td class="text-right">{{ (booking.booking_price + booking.km_price) | currency }}</td>
+        </tr>
+
+        <tr>
+          <td>Openstaande facturen</td>
+          <td></td>
+          <td></td>
+          <td class="text-right">{{ requiredValue.debt | currency }}</td>
+        </tr>
+
+        <tr>
+          <td>AF: Je huidige tegoed</td>
+          <td></td>
+          <td></td>
+          <td class="text-right">{{ requiredValue.credit | currency }}</td>
+        </tr>
+
+        <tr>
+          <td colspan="3" class="text-right"><b>Totaal</b></td>
+          <td class="text-right"><b>{{ requiredValue.total | currency }}</b></td>
+        </tr>
+
+        <tr>
+          <td colspan="3" class="text-right text-success"><b>Benodigd rijtegoed (afgerond)</b></td>
+          <td class="text-right text-success"><b>{{ requiredValue.voucher | currency }}</b></td>
+        </tr>
+
+      </tbody>
+    </table>
+
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-link" ng-click="close()">{{ 'CLOSE' | translate }}</button>
+  </div>
+</div>
