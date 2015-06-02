@@ -13,7 +13,7 @@
 
       <div style="margin-bottom: 15px;">
         <span ng-if="!credit" class="text-muted"><i class="fa fa-spin fa-spinner"></i>&nbsp;Tegoed ophalen...</span>
-        <h1 ng-if="credit.value && !credit.error">{{ credit.value | currency }}</h1>
+        <h1 ng-if="credit && !credit.error">{{ credit.value | currency }}</h1>
         <span ng-if="credit.error"><i class="fa fa-warning text-warning"></i>&nbsp;Je tegoed is op dit moment niet beschikbaar</span>
       </div>
 
@@ -22,7 +22,7 @@
           Je hebt nog {{ requiredValue.value | currency }} (extra) rijtegoed nodig voor jouw reserveringen.
           <a href="" ng-click="buyVoucher(requiredValue.value)">Koop een voucher van {{ requiredValue.value | currency }}</a>
         </span>
-        <span ng-if="!requiredValue.value && !requiredValue.error">Je hebt voldoende rijtegoed voor jouw reserveringen.</span>
+        <span ng-if="credit.value && !requiredValue.value && !requiredValue.error">Je hebt voldoende rijtegoed voor jouw reserveringen.</span>
         <span ng-if="requiredValue.error && !credit.error"><i class="fa fa-warning text-warning"></i>&nbsp;We kunnen op dit moment niet zien of je voldoende rijtegoed hebt voor jouw reserveringen.</span>
       </div>
 
