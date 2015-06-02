@@ -2,7 +2,7 @@
 
 angular.module('owm.finance.vouchers', [])
 
-.controller('VouchersController', function ($window, $q, $state, $scope, appConfig, alertService, voucherService, paymentService) {
+.controller('VouchersController', function ($window, $q, $timeout, $state, $modal, $scope, appConfig, alertService, voucherService, paymentService) {
 
   /* require parent scope */
   var me = $scope.me;
@@ -11,15 +11,40 @@ angular.module('owm.finance.vouchers', [])
   $scope.requiredValue = null;
   $scope.vouchers = null;
   $scope.voucherOptions = [25,50,100,250,500];
+  $scope.showVoucherOptions = false;
 
   alertService.load($scope);
-  getCredit().then(function () {
-    getRequiredValue();
-    getVouchers();
-  })
-  .finally(function () {
+  getCredit().then(getRequiredValue).finally(function () {
     alertService.loaded($scope);
   });
+
+  $scope.toggleVoucherOptions = function (toggle) {
+    $scope.showVoucherOptions = toggle;
+  };
+
+  $scope.toggleVoucherList = function () {
+    if (!$scope.vouchers) {
+      alertService.load($scope);
+      getVouchers().finally(function () {
+        alertService.loaded($scope);
+        $timeout(function () { // timeout ensures voucher list is populated before un-collapsing
+          $scope.showVoucherList = !!!$scope.showVoucherList;
+        });
+      });
+    } else {
+      $scope.showVoucherList = !!!$scope.showVoucherList;
+    }
+  };
+
+  $scope.showRequiredValueDetails = function (requiredValue) {
+    $modal.open({
+      templateUrl: 'finance/vouchers/requiredValuePopup.tpl.html',
+      controller: ['$scope', '$modalInstance', function ($scope, $modalInstance) {
+        $scope.requiredValue = requiredValue;
+        $scope.close = $modalInstance.close;
+      }]
+    });
+  };
 
   $scope.buyVoucher = function (value) {
     if (!value || value < 0) { return; }
