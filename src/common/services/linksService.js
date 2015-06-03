@@ -6,9 +6,9 @@ angular.module('owm.linksService', [])
  * Central registry for external links
  * Appends access token to urls if applicable
  */
-.factory('linksService', function ($log, appConfig, tokenService, featuresService) {
+.factory('linksService', function ($log, $rootScope, appConfig, tokenService, featuresService) {
 
-  return {
+  var linksService = {
     signupUrl: function () {
       return process(appConfig.serverUrl + '/aanmelden');
     },
@@ -38,6 +38,10 @@ angular.module('owm.linksService', [])
     }
   };
 
+  // Expose on $rootScope
+  $rootScope.linksService = linksService;
+
+  // Log usage, optionally append access token
   function process (link, useToken) {
     var out = link;
     var token;
@@ -45,10 +49,10 @@ angular.module('owm.linksService', [])
     if (useToken) {
       token = tokenService.getToken();
       if (token && token.accessToken) {
-        $log.info('external link + access token', link);
+        $log.debug('external link + access token', link);
         out = out + '?access_token=' + token.accessToken;
       } else {
-        $log.warn('external link: token not available', link);
+        $log.debug('external link: token not available', link);
       }
     } else {
       $log.info('external link', link);
@@ -56,6 +60,8 @@ angular.module('owm.linksService', [])
 
     return out;
   }
+
+  return linksService;
 
 })
 ;
