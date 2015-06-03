@@ -1,7 +1,7 @@
 <div class="card">
   <div class="card-heading">
     <h3 class="card-title">
-      Mijn tegoed
+      Mijn tegoed <info-icon tooltip-html="'Koop rijtegoed om je ritten te betalen. Je kunt het eenvoudig terug laten storten.'"></info-icon>
     </h3>
   </div>
 
@@ -14,10 +14,11 @@
       </span>
 
       <div ng-if="credit && !credit.error">
+
         <h1>{{ credit.value | currency }}</h1>
 
         <!-- vouchers list -->
-        <div>
+        <div ng-if="credit.value > 0">
           <a href="" ng-click="toggleVoucherList(!!!showVoucherList)">
             <i class="fa fa-fw" ng-class="{ 'fa-chevron-right': !showVoucherList, 'fa-chevron-down': showVoucherList }"></i>
             Toon tegoedbonnen
@@ -29,8 +30,10 @@
             <li ng-repeat="voucher in vouchers">
               <i class="text-success fa fa-li fa-gift"></i>
               {{ voucher.value | currency }}
-              <span ng-if="voucher.initialValue">van {{ voucher.initialValue | currency }}</span>
-              <span class="text-muted">gekocht op {{ voucher.paid | amDateFormat : 'DD-MM-YY HH:MM' }}</span>
+              <span class="text-muted">
+                <span ng-if="voucher.value !== voucher.initialValue"> over van {{ voucher.initialValue | currency }}</span>
+                gekocht op {{ voucher.paid | amDateFormat : 'DD-MM-YY HH:mm' }} {{ voucher.paid }}
+              </span>
             </li>
           </ul>
         </div>
@@ -51,7 +54,8 @@
       </div>
 
       <span ng-if="credit.value && !requiredValue.error && !(requiredValue.value.voucher > 0)">
-        Je hebt voldoende rijtegoed voor jouw huidige reserveringen
+        Je hebt voldoende rijtegoed voor jouw huidige reserveringen.
+        Klik <a href="" ng-click="showRequiredValueDetails(requiredValue.value)">hier</a> voor details
       </span>
 
       <span ng-if="requiredValue.error && !credit.error">

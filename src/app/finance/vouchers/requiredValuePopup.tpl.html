@@ -1,6 +1,6 @@
 <div class="modal-content">
   <div class="modal-header">
-    <button type="button" class="close" ng-click="cancel()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+    <button type="button" class="close" ng-click="close()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
     <h3 class="modal-title">
       Benodigd rijtegoed
     </h3>
@@ -13,13 +13,15 @@
         <tr>
           <th>Omschrijving</th>
           <th>Huur</th>
-          <th>Kilometers</th>
+          <th>Kilometers
+            <info-icon tooltip-placement="bottom" tooltip-html="'Omdat we nog niet weten hoeveel kilometers je zal rijden vragen we je meer rijtegoed te kopen dan je rit waarschijnlijk zal kosten. Dit bedrag vraag je na je rit eenvoudig terug, of bewaar je voor een volgende rit'"></info-icon>
+            </th>
           <th class="text-right">Bedrag</th>
         </tr>
       </thead>
       <tbody>
         <tr ng-repeat="booking in requiredValue.bookings">
-          <td>{{ booking.title }}</td>
+          <td><a href="" ui-sref="owm.booking.show({ bookingId: booking.id })" ng-click="close()">{{ booking.title }}</a></td>
           <td class="text-muted">{{ booking.booking_price | currency }}</td>
           <td class="text-muted">{{ booking.km_price | currency }}</td>
           <td class="text-right">{{ (booking.booking_price + booking.km_price) | currency }}</td>
@@ -36,7 +38,7 @@
           <td>AF: Je huidige tegoed</td>
           <td></td>
           <td></td>
-          <td class="text-right">{{ requiredValue.credit | currency }}</td>
+          <td class="text-right">{{ -1 * requiredValue.credit | currency }}</td>
         </tr>
 
         <tr>
