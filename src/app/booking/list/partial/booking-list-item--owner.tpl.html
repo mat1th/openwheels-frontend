@@ -29,7 +29,7 @@
       <a ui-sref="owm.booking.show({ bookingId: b.id })" class="btn btn-link"><i class="fa fa-fw fa-cog"></i>{{ 'EDIT' | translate }}</a>
 
       <!-- TO BE PAID INFO -->
-      <div ng-if="b.approved==='TO_BE_PAID'">
+      <div ng-if="['TO_BE_PAID', 'BUY_VOUCHER'].indexOf(b.approved) > 0">
         <span class="text-danger">Huurder moet nog betalen</span>
       </div>
     </div>
