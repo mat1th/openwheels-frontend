@@ -28,10 +28,20 @@
       <a ui-sref="owm.booking.show({ bookingId: b.id })" class="btn btn-link"><i class="fa fa-fw fa-cog"></i>{{ 'EDIT' | translate }}</a>
 
       <!-- TO BE PAID LINK -->
-      <div ng-if="b.approved==='TO_BE_PAID'">
-        <a ng-if="features.invoiceModuleV2" ui-sref="owm.finance.index" class="btn btn-link text-danger"><i class="fa fa-eur"></i> Nog te betalen</a>
-        <a ng-if="!features.invoiceModuleV2 && features.invoiceModuleV1" ui-sref="owm.financeV1.index" class="btn btn-link text-danger"><i class="fa fa-eur"></i> Nog te betalen</a>
+      <div ng-if="b.approved === 'TO_BE_PAID'">
+        <a ng-if="features.invoiceModuleV1" ui-sref="owm.finance.v1Index" class="btn btn-link text-danger">
+          <i class="fa fa-eur"></i> Nog te betalen</a>
+        <a ng-if="features.invoiceModuleV2" ui-sref="owm.finance.v2Index" class="btn btn-link text-danger">
+          <i class="fa fa-eur"></i> Nog te betalen</a>
+        <a ng-if="features.invoiceModuleV3" ui-sref="owm.finance.v3Index" class="btn btn-link text-danger">
+          <i class="fa fa-eur"></i> Nog te betalen</a>
       </div>
+
+      <div ng-if="b.approved === 'BUY_VOUCHER'">
+        <a ng-if="features.invoiceModuleV3" ui-sref="owm.finance.v3Index" class="btn btn-link text-danger">
+          <i class="fa fa-gift"></i> Koop rijtegoed</a>
+      </div>
+
     </div>
 
     <!-- RESOURCE INFO -->

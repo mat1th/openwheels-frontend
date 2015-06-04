@@ -62,7 +62,7 @@ angular.module('openwheels', [
   'timeframe',
   'datetimeDirective',
   'formGroupDirective',
-  'nullIfEmpty',
+  'bindingDirectives',
   'ratingThumbDirective',
   'ratingThumbBinaryDirective',
   'badgeListDirective',

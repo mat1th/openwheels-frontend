@@ -1,14 +1,3 @@
-<div class="card">
-  <div class="card-heading">
-    <h2 class="card-title">
-      Mijn financiën
-    </h2>
-  </div>
-  <div class="card-body" ng-if="!isLoading && !(unpaidInvoices.length > 0 || invoiceGroups.length > 0 || sentInvoices.length > 0)">
-    Dit overzicht is nog leeg
-  </div>
-</div>
-
 <div class="card" ng-if="unpaidInvoices.length > 0">
   <div class="card-heading">
     <h3 class="card-title">
@@ -29,8 +18,8 @@
                 <strong>
                   Rit in {{ group.invoices[0].booking.resource.alias }}
                   {{ group.invoices[0].booking.resource.registrationPlate | surroundWith : '(' : ')' }}
-                  van {{ group.invoices[0].booking.beginBooking | amDateFormat:'DD-MM-YY HH:MM' }}
-                  tot {{ group.invoices[0].booking.endBooking | amDateFormat:'DD-MM-YY HH:MM' }}
+                  van {{ group.invoices[0].booking.beginBooking | amDateFormat:'DD-MM-YY HH:mm' }}
+                  tot {{ group.invoices[0].booking.endBooking | amDateFormat:'DD-MM-YY HH:mm' }}
                   <a target="_blank" ng-href="{{ group.tripDetailsLink }}" class="pull-right">
                     <i class="fa fa-fw fa-external-link-square"></i>Details
                   </a>
