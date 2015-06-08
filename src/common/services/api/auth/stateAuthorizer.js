@@ -31,8 +31,8 @@ angular.module('stateAuthorizer', [])
       authService.notifyAnonymous();
     }
 
-    var errorPath   = stripHash($state.href(fromState, fromParams));
-    var successPath = stripHash($state.href(toState, toParams));
+    var errorPath   = $state.href(fromState, fromParams);
+    var successPath = $state.href(toState, toParams);
     var access      = toState.data ? toState.data.access || {} : {};
     var allow       = access.allow;
     var deny        = access.deny;
@@ -76,17 +76,9 @@ angular.module('stateAuthorizer', [])
             $state.go('home');
           });
         }
-
       }
     }
 
   });
-
-  function stripHash (href) {
-    if (href && href.slice(0,1) === '#') {
-      return href.slice(1);
-    }
-    return href;
-  }
 
 });

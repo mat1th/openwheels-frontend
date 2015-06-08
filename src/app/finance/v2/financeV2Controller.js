@@ -2,7 +2,7 @@
 
 angular.module('owm.finance.v2', [])
 
-.controller('FinanceV2Controller', function ($window, $q, $location, $scope, $modal, appConfig, alertService, invoice2Service, paymentService, linksService) {
+.controller('FinanceV2Controller', function ($window, $q, $state, $location, $scope, $modal, appConfig, alertService, invoice2Service, paymentService, linksService) {
 
   /* require parent scope */
   var me = $scope.me;
@@ -75,11 +75,11 @@ angular.module('owm.finance.v2', [])
   }
 
   function paymentResultUrl () {
-    return appConfig.appUrl + '/#/payment-result';
+    return appConfig.appUrl + $state.href('owm.finance.payment-result');
   }
 
   function currentUrl () {
-    return appConfig.appUrl + '/#' + $location.path();
+    return appConfig.appUrl + $location.path();
   }
 
   function loadUnpaidInvoices () {

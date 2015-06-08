@@ -328,14 +328,22 @@ module.exports = function (grunt) {
       options: {
         port: 9000,
         hostname: 'localhost',
-        livereload: 35729
+        livereload: 35729,
       },
       livereload: {
         options: {
-          open: true,
+          // open: true,
           base: [
             '<%= build_dir %>'
-          ]
+          ],
+          middleware: function (connect) {
+            return [
+              require('connect-modrewrite')(['!(\.(html|js|svg|css|png|jpg|ico|json|woff|ttf))$ /index.html [L]']),
+              // require('connect-modrewrite')(['!^/(vendor|assets|src|app|) /index.html [L]']),
+
+              connect.static('build')
+            ];
+          }
         }
       },
       coverage: {
@@ -565,8 +573,8 @@ module.exports = function (grunt) {
     'ngconstant:development',
     'index:build',
     'connect:livereload',
-    'karma:singleRun',
-    'karma:background:start',
+    // 'karma:singleRun',
+    // 'karma:background:start',
     'watch'
   ]);
 

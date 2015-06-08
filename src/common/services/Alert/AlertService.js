@@ -6,6 +6,21 @@ angular.module('alertService', [])
   var alertService = {};
   var loadersByScope = {};
 
+  var phantomTimer;
+  function callPhantomDebounced () {
+    clearTimeout(phantomTimer);
+    phantomTimer = setTimeout(function () {
+      if (Object.keys(loadersByScope).length === 0) {
+        console.log('CALLING PHANTOM', !!window.callPhantom);
+        if (window.callPhantom) {
+          window.callPhantom({ ready: 'yup!' });
+        }
+      } else {
+        callPhantomDebounced();
+      }
+    }, 1000);
+  }
+
   // create an array of alerts available globally
   $rootScope.alerts = [];
   $rootScope.loader = null;
@@ -28,6 +43,7 @@ angular.module('alertService', [])
     if (scopeKey in loadersByScope) {
       delete loadersByScope[scopeKey];
     }
+    callPhantomDebounced();
     $rootScope.loader = loadersByScope[Object.keys(loadersByScope)[0]];
   };
 
