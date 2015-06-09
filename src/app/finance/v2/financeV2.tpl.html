@@ -162,10 +162,16 @@
           <tr>
             <th>Omschrijving</th>
             <th>Bedrag</th>
+            <th>&nbsp;</th>
           </tr>
           <tr ng-repeat="invoice in sentInvoices">
             <td>{{ invoice.description }}</td>
             <td>{{ invoice.total | currency }}</td>
+            <td class="text-right">
+              <a ng-if="invoice.booking.id" target="_blank" ng-href="{{ linksService.tripDetailsPdf(invoice.booking.id) }}">
+                <i class="fa fa-fw fa-external-link-square"></i>Pdf
+              </a>
+            </td>
           </tr>
         </table>
       </div>
