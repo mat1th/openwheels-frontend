@@ -1,38 +1,45 @@
-<div class="card" ng-if="invoiceGroups && invoiceGroups.length">
+<div class="card" ng-if="invoiceGroups && invoiceGroups.length" ng-init="showMyInvoices=true">
 
   <div class="card-heading">
-    <h2 class="card-title">
-      Mijn facturen
-    </h2>
+    <h3 class="card-title">
+      <a href="" ng-click="showMyInvoices = !!!showMyInvoices">
+        <i class="fa fa-fw" ng-class="{ 'fa-chevron-right': !showMyInvoices, 'fa-chevron-down': showMyInvoices }"></i>
+        Mijn facturen
+        <!-- exclamation mark if there are unpaid invoiceGroups -->
+        <i ng-if="unpaidInvoiceGroups.length > 0" class="fa fa-exclamation-triangle text-danger" tooltip="Tooltip"></i>
+      </a>
+    </h3>
   </div>
 
-  <div class="card-body">
+  <div collapse="!showMyInvoices">
+    <div class="card-body">
 
-    <table class="table table-responsive table-condensed">
-      <thead>
-      <tr>
-        <th>{{ 'DATE' | translate }}</th>
-        <th>Verzamelfactuur</th>
-        <th>{{ 'AMOUNT' | translate }}</th>
-        <th>{{ 'PAID' | translate }}</th>
-        <th>&nbsp;</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr ng-repeat="invoiceGroup in invoiceGroups">
-        <td ng-if="invoiceGroup.due">{{invoiceGroup.due | amDateFormat:'DD-MM-YYYY' }}</td>
-        <td ng-if="!invoiceGroup.due">{{ 'CONCEPT' | translate }}</td>
-        <td>{{invoiceGroup.id}}</td>
-        <td>{{invoiceGroup.total | currency}}</td>
-        <td>{{invoiceGroup.paid | currency }}</td>
-        <td>
-          <a target="_blank" ng-href="{{ createInvoiceGroupPdfLink(invoiceGroup) }}">
-            <i class="fa fa-file-pdf-o"></i>&nbsp;Pdf
-          </a>
-        </td>
-      </tr>
-      </tbody>
-    </table>
+      <table class="table table-responsive table-condensed">
+        <thead>
+        <tr>
+          <th>{{ 'DATE' | translate }}</th>
+          <th>Verzamelfactuur</th>
+          <th>{{ 'AMOUNT' | translate }}</th>
+          <th>{{ 'PAID' | translate }}</th>
+          <th>&nbsp;</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="invoiceGroup in invoiceGroups">
+          <td ng-if="invoiceGroup.due">{{invoiceGroup.due | amDateFormat:'DD-MM-YYYY' }}</td>
+          <td ng-if="!invoiceGroup.due">{{ 'CONCEPT' | translate }}</td>
+          <td>{{invoiceGroup.id}}</td>
+          <td>{{invoiceGroup.total | currency}}</td>
+          <td>{{invoiceGroup.paid | currency }}</td>
+          <td>
+            <a target="_blank" ng-href="{{ createInvoiceGroupPdfLink(invoiceGroup) }}">
+              <i class="fa fa-file-pdf-o"></i>&nbsp;Pdf
+            </a>
+          </td>
+        </tr>
+        </tbody>
+      </table>
 
+    </div>
   </div>
 </div>

@@ -6,9 +6,11 @@
   </div>
 </div>
 
-<div
-  ng-include="'finance/vouchers/vouchers.tpl.html'"
-  ng-controller="VouchersController">
+<div ng-if="me.preference !== 'owner'">
+  <div
+    ng-include="'finance/vouchers/vouchers.tpl.html'"
+    ng-controller="VouchersController">
+  </div>
 </div>
 
 <div

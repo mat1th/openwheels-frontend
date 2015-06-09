@@ -25,13 +25,15 @@
   <div class="media-body">
 
     <div class="pull-right text-right">
+      <!-- APPROVED INFO -->
+      <span ng-if="b.approved === 'OK'">
+        <i class="fa fa-check-circle fa-2x text-success" tooltip="Deze boeking is akkoord, je kunt de auto meegeven aan de huurder"></i>
+      </span>
+      <span ng-if="['TO_BE_PAID', 'BUY_VOUCHER'].indexOf(b.approved) > 0">
+        <i class="fa fa-exclamation-circle fa-2x text-danger" tooltip="Deze boeking is (nog) niet akkoord, geef de auto niet mee aan de huurder"></i>
+      </span>
       <!-- EDIT BUTTON -->
-      <a ui-sref="owm.booking.show({ bookingId: b.id })" class="btn btn-link"><i class="fa fa-fw fa-cog"></i>{{ 'EDIT' | translate }}</a>
-
-      <!-- TO BE PAID INFO -->
-      <div ng-if="['TO_BE_PAID', 'BUY_VOUCHER'].indexOf(b.approved) > 0">
-        <span class="text-danger">Huurder moet nog betalen</span>
-      </div>
+      <a ui-sref="owm.booking.show({ bookingId: b.id })" class="text-muted"><i class="fa fa-2x fa-fw fa-cog text-muted" tooltip="{{ 'EDIT' | translate }}"></i></a>
     </div>
 
     <!-- RESOURCE INFO -->

@@ -16,6 +16,7 @@ angular.module('bookingDirectives', [])
           break;
 
         case 'TO_BE_PAID':
+        case 'BUY_VOUCHER':
           $scope.className = 'fa fa-eur text-danger';
           $scope.tooltip = 'Nog te betalen';
           break;
