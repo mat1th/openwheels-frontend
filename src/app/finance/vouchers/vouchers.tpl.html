@@ -32,7 +32,7 @@
               {{ voucher.value | currency }}
               <span class="text-muted">
                 <span ng-if="voucher.value !== voucher.initialValue"> over van {{ voucher.initialValue | currency }}</span>
-                gekocht op {{ voucher.paid | amDateFormat : 'DD-MM-YY HH:mm' }} {{ voucher.paid }}
+                gekocht op {{ voucher.paid | amDateFormat : 'DD-MM-YY HH:mm' }}
               </span>
             </li>
           </ul>
