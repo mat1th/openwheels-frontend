@@ -4,7 +4,7 @@ angular.module('filters.fullname', [])
 
 .filter('fullname', function () {
   return function (person) {
-
+    if (!person) { return ''; }
     var isString = angular.isString;
 
     var firstName   = isString(person.firstName)   ? person.firstName   : '';
