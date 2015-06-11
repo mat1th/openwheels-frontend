@@ -2,14 +2,10 @@
 
 angular.module('owm.finance.vouchers', [])
 
-.controller('VouchersController', function ($window, $q, $timeout, $state, $modal, $scope, appConfig, alertService, voucherService, paymentService) {
-
-  /* require parent scope */
-  var me = $scope.me;
+.controller('VouchersController', function ($window, $q, $timeout, $state, $modal, $scope, appConfig, alertService, voucherService, paymentService, me) {
 
   $scope.credit = null;
   $scope.requiredValue = null;
-  $scope.vouchers = null;
   $scope.voucherOptions = [25,50,100,250,500];
   $scope.showVoucherOptions = false;
 
@@ -20,20 +16,6 @@ angular.module('owm.finance.vouchers', [])
 
   $scope.toggleVoucherOptions = function (toggle) {
     $scope.showVoucherOptions = toggle;
-  };
-
-  $scope.toggleVoucherList = function () {
-    if (!$scope.vouchers) {
-      alertService.load($scope);
-      getVouchers().finally(function () {
-        alertService.loaded($scope);
-        $timeout(function () { // timeout ensures voucher list is populated before un-collapsing
-          $scope.showVoucherList = !!!$scope.showVoucherList;
-        });
-      });
-    } else {
-      $scope.showVoucherList = !!!$scope.showVoucherList;
-    }
   };
 
   $scope.showRequiredValueDetails = function (requiredValue) {
@@ -68,18 +50,6 @@ angular.module('owm.finance.vouchers', [])
       alertService.loaded($scope);
     });
   };
-
-  function getVouchers () {
-    $scope.vouchers = null;
-    var promise = voucherService.search({ person: me.id });
-    promise.then(function (vouchers) {
-      $scope.vouchers = vouchers;
-    })
-    .catch(function (err) {
-      $scope.vouchers = [];
-    });
-    return promise;
-  }
 
   function getRequiredValue () {
     $scope.requiredValue = null;

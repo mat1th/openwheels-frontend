@@ -4,6 +4,7 @@ angular.module('owm.finance', [
   'owm.finance.v1InvoiceGroups',
   'owm.finance.v2',
   'owm.finance.vouchers',
+  'owm.finance.voucherList',
   'owm.finance.paymentResult'
 ])
 
@@ -128,6 +129,27 @@ angular.module('owm.finance', [
         return $stateParams.orderStatusId;
       }]
     }
+  })
+
+  .state('owm.finance.vouchers', {
+    url: '/vouchers',
+    views: {
+      'main@': {
+        templateUrl: 'finance/vouchers/vouchers.tpl.html',
+        controller : 'VouchersController'
+      }
+    },
+    data: {
+      access: {
+        deny: { anonymous: true }
+      }
+    },
+    resolve: {
+      me: ['authService', function (authService) {
+        return authService.me();
+      }]
+    }
   });
+
 
 });

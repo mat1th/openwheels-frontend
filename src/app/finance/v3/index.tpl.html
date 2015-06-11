@@ -1,16 +1,20 @@
 <div class="card">
+
   <div class="card-heading">
     <h2 class="card-title">
       {{ 'MY_FINANCE' | translate }}
     </h2>
   </div>
+
+  <div class="card-body" ng-if="v1NoData && v2NoData">
+    {{ 'NO_RESULTS' | translate }}
+  </div>
 </div>
 
-<div ng-if="me.preference !== 'owner'">
-  <div
-    ng-include="'finance/vouchers/vouchers.tpl.html'"
-    ng-controller="VouchersController">
-  </div>
+<!-- vouchersEnabled? see navigation controller -->
+<div ng-if="vouchersEnabled"
+  ng-include="'finance/vouchers/voucherList.tpl.html'"
+  ng-controller="VoucherListController">
 </div>
 
 <div
