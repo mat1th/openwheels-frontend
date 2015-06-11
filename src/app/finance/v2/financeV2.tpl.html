@@ -82,8 +82,16 @@
             </td>
             <td class="text-right">
               <button ng-if="invoiceGroup.paid" type="button" disabled class="btn btn-link text-success"><i class="fa fa-check"></i></span>
-              <button ng-if="!invoiceGroup.paid" type="button" class="btn btn-primary"
-                ng-click="payInvoiceGroup(invoiceGroup)" style="margin-left: 5px;">Betalen</button>
+
+              <!-- vouchersEnabled? see navigation controller -->
+              <span ng-if="!invoiceGroup.paid" style="margin-left: 5px;">
+                <button ng-if="!vouchersEnabled" type="button" class="btn btn-primary" ng-click="payInvoiceGroup(invoiceGroup)">
+                  Betalen
+                </button>
+                <button ng-if="vouchersEnabled" type="button" class="btn btn-link text-danger" ui-sref="owm.finance.vouchers">
+                  <i class="fa fa-exclamation-circle"></i> Koop rijtegoed
+                </button>
+              </span>
             </td>
           </tr>
         </table>
@@ -133,8 +141,17 @@
             </td>
             <td class="text-right">
               <button ng-if="invoiceGroup.paid" type="button" disabled class="btn btn-link text-success"><i class="fa fa-check"></i></span>
-              <button ng-if="!invoiceGroup.paid" type="button" class="btn btn-primary"
-                ng-click="payInvoiceGroup(invoiceGroup)" style="margin-left: 5px;">Betalen</button>
+
+              <!-- vouchersEnabled? see navigation controller -->
+              <span ng-if="!invoiceGroup.paid" style="margin-left: 5px;">
+                <button ng-if="!vouchersEnabled" type="button" class="btn btn-primary" ng-click="payInvoiceGroup(invoiceGroup)">
+                  Betalen
+                </button>
+                <button ng-if="vouchersEnabled" type="button" class="btn btn-link text-danger" ui-sref="owm.finance.vouchers">
+                  <i class="fa fa-exclamation-circle"></i> Koop rijtegoed
+                </button>
+              </span>
+
             </td>
           </tr>
         </table>

@@ -76,10 +76,18 @@
       <a href="" ui-sref="owm.person.profile" snap-close>{{ 'MY_PROFILE' | translate }}</a>
     </li>
 
-    <li ng-class="{ active: $state.includes('owm.finance') }">
-      <a ng-if="features.invoiceModuleV1" href="" ui-sref="owm.finance.v1Index" snap-close>{{ 'MY_FINANCE' | translate }}</a>
-      <a ng-if="features.invoiceModuleV2" href="" ui-sref="owm.finance.v2Index" snap-close>{{ 'MY_FINANCE' | translate }}</a>
-      <a ng-if="features.invoiceModuleV3" href="" ui-sref="owm.finance.v3Index" snap-close>{{ 'MY_FINANCE' | translate }}</a>
+    <li ng-if="vouchersEnabled" ng-class="{ active: $state.includes('owm.finance.vouchers') }">
+      <a href="" ui-sref="owm.finance.vouchers" snap-close>{{ 'MY_VOUCHERS' | translate }}</a>
+    </li>
+
+    <li ng-if="features.invoiceModuleV1" ng-class="{ active: $state.includes('owm.finance.v1Index') }">
+      <a href="" ui-sref="owm.finance.v1Index" snap-close>{{ 'MY_FINANCE' | translate }}</a>
+    </li>
+    <li ng-if="features.invoiceModuleV2" ng-class="{ active: $state.includes('owm.finance.v2Index') }">
+      <a href="" ui-sref="owm.finance.v2Index" snap-close>{{ 'MY_FINANCE' | translate }}</a>
+    </li>
+    <li ng-if="features.invoiceModuleV3" ng-class="{ active: $state.includes('owm.finance.v3Index') }">
+      <a href="" ui-sref="owm.finance.v3Index" snap-close>{{ 'MY_FINANCE' | translate }}</a>
     </li>
 
     <li id="menu-item-trips" ng-class="{ active: $state.includes('owm.trips') }">
