@@ -7,7 +7,6 @@
           <datetime datetime="{{ b.beginBooking }}"></datetime>
           <datetime datetime="{{ b.endBooking }}"></datetime>
           <span class="tag tag-{{ b.status }}">{{ b.status | bookingStatus }}</span>
-          <i booking-approval-icon="b"></i>
         </div>
       </div>
       <div ng-class="{  'col-sm-6': (b.beginBooking && b.beginRequested), 'col-sm-12': !(b.beginBooking && b.beginRequested) }" ng-if="b.beginRequested">
@@ -16,7 +15,6 @@
           <datetime datetime="{{ b.endRequested }}"></datetime>
           <span ng-if="!b.beginBooking" class="tag tag-{{ b.status }}">{{ b.status | bookingStatus }}</span>
           <span ng-if="b.beginBooking" class="tag tag-requested">{{ 'requested' | bookingStatus }}</span>
-          <i booking-approval-icon="b"></i>
         </div>
       </div>
     </div>
@@ -25,7 +23,7 @@
   <div class="media-body">
 
     <div class="pull-right text-right">
-      <!-- APPROVED INFO -->
+      <!-- APPROVED ICON -->
       <span ng-if="b.approved === 'OK'">
         <i class="fa fa-check-circle fa-2x text-success" tooltip="Deze boeking is akkoord, je kunt de auto meegeven aan de huurder"></i>
       </span>
