@@ -7,7 +7,6 @@
           <datetime datetime="{{ b.beginBooking }}"></datetime>
           <datetime datetime="{{ b.endBooking }}"></datetime>
           <span class="tag tag-{{ b.status }}">{{ b.status | bookingStatus }}</span>
-          <i booking-approval-icon="b"></i>
         </div>
       </div>
       <div ng-class="{  'col-sm-6': (b.beginBooking && b.beginRequested), 'col-sm-12': !(b.beginBooking && b.beginRequested) }" ng-if="b.beginRequested">
