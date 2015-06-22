@@ -86,7 +86,6 @@ angular.module('owm.finance.v2', [])
     return invoice2Service.getReceived({
       person       : me.id,
       status       : 'unpaid',
-      positivesOnly: true,
       grouped      : 'ungrouped'
     })
     .then(function (invoices) {
@@ -131,7 +130,8 @@ angular.module('owm.finance.v2', [])
   function loadSentInvoices () {
     return invoice2Service.getSent({
       person: me.id,
-      status: 'both'
+      status: 'both',
+      grouped: 'ungrouped'
     })
     .then(function (result) {
       $scope.sentInvoices = result;

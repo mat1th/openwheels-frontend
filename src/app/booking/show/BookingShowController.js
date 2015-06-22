@@ -54,7 +54,8 @@ angular.module('owm.booking.show', [])
     $scope.allowAcceptReject  = false;
     $scope.allowBoardComputer = false;
     $scope.allowMap    = false;
-    $scope.allowOvereenkomst = false;
+    $scope.allowOvereenkomst = (booking.approved === 'OK') &&
+      (['smartphone', 'chipcard'].indexOf(booking.resource.locktype) < 0);
 
     if ($scope.userPerspective === 'renter') {
 
@@ -94,7 +95,6 @@ angular.module('owm.booking.show', [])
       }());
 
       $scope.allowMap = $scope.allowEdit;
-      $scope.allowOvereenkomst = booking.status === 'accepted';
     }
 
     if ($scope.userPerspective === 'owner') {
@@ -107,11 +107,7 @@ angular.module('owm.booking.show', [])
           moment().isBefore(moment(booking.beginBooking)) // is nog niet begonnen
         );
       }());
-      $scope.allowOvereenkomst = booking.status === 'requested' || booking.status === 'accepted';
     }
-
-    /* overrides */
-    $scope.allowOvereenkomst = $scope.allowOvereenkomst && (['smartphone', 'chipcard'].indexOf(booking.resource.locktype) < 0);
   }
 
   $scope.hasAcceptedTimeframe = function (booking) {
