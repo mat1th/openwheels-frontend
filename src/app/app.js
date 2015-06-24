@@ -109,6 +109,10 @@ angular.module('openwheels', [
 
 .constant('API_DATE_FORMAT', 'YYYY-MM-DD HH:mm')
 
+.config(function ($locationProvider) {
+  $locationProvider.html5Mode(true).hashPrefix('!');
+})
+
 .config(function(uiGmapGoogleMapApiProvider) {
     uiGmapGoogleMapApiProvider.configure({
       key: 'AIzaSyAwytl2OG58LpFCTcIFN13gEBaSTh2aKF0',
