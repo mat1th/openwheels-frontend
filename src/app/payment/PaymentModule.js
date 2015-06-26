@@ -17,7 +17,7 @@ angular.module('owm.payment', []).config(function ($stateProvider) {
           invoiceGroup: invoiceGroupId
         })
         .then(function (invoiceGroup) {
-          var redirectTo = appConfig.appUrl + '/#/payment-result';
+          var redirectTo = appConfig.appUrl + $state.href('owm.finance.payment-result');
           var url = invoiceGroup.url + '?redirectTo=' + encodeURIComponent(redirectTo);
           $window.location.replace(url, '_top');
         })
