@@ -15,7 +15,7 @@
         <li ng-repeat="resource in resources" >
 
           <div class="media">
-            <img ui-sref="owm.resource.show({ resourceId: resource.id })"
+            <img ui-sref="owm.resource.show({ resourceId: resource.id, city: resource.city })"
               class="media-object img-resource-small pull-left"
               ng-src="{{ resource.pictures[0] | resourceAvatar:'small' }}">
 
@@ -25,7 +25,7 @@
                 <i class="fa fa-cog"></i> {{ 'EDIT_RESOURCE' | translate }}
               </button>
 
-              <div class="resource__alias truncate" ui-sref="owm.resource.show({ resourceId: resource.id })">
+              <div class="resource__alias truncate" ui-sref="owm.resource.show({ resourceId: resource.id, city: resource.city })">
                 {{ resource.alias }} {{ resource.registrationPlate | surroundWith : '(' : ')' }}
               </div>
 
