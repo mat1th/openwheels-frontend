@@ -170,7 +170,11 @@
           <!-- disclaimer -->
           <div class="alert alert-danger" ng-if="booking.approved==='OK'">
             <i class="fa fa-exclamation-triangle text-danger"></i>&nbsp;
-            {{ 'BOOKING_AMEND_DISCLAIMER' | translate }}
+            <span ng-switch="booking.bookingAlterationStrategy">
+              <span ng-switch-when="default">{{ 'BOOKING_ALTERATION_STRATEGY_DEFAULT' | translate }}</span>
+              <span ng-switch-when="mywheels_go">{{ 'BOOKING_ALTERATION_STRATEGY_MYWHEELS_GO' | translate }}</span>
+              <span ng-switch-when="anwb">{{ 'BOOKING_ALTERATION_STRATEGY_ANWB' | translate }}</span>
+            </span>
           </div>
 
           <!-- availability & price -->

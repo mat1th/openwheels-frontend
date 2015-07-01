@@ -424,7 +424,11 @@
     "BOOKING_TITLE_HAS_RENTED_SUFFIX": "gehuurd",
     "BOOKING_TITLE_WANTS_TO_RENT_PREFIX": "wil jouw",
     "BOOKING_TITLE_WANTS_TO_RENT_SUFFIX": "huren",
-    "BOOKING_AMEND_DISCLAIMER": "Let op, als je al hebt betaald kun je de reservering niet verlengen en krijg je geen geld terug bij verkorten.",
+
+    "BOOKING_ALTERATION_STRATEGY_DEFAULT": "",
+    "BOOKING_ALTERATION_STRATEGY_ANWB": "De reservering is reeds goedgekeurd. Er kunnen voorwaarden verbonden zijn aan het wijzigen.",
+    "BOOKING_ALTERATION_STRATEGY_MYWHEELS_GO": "De reservering is reeds goedgekeurd. Er kunnen voorwaarden verbonden zijn aan het wijzigen.",
+
     "BOOKING.RATING.REVIEW_LABEL": "Jouw ervaring",
     "BOOKING.RATING.REVIEW_PLACEHOLDER": "Bij MyWheels willen we elkaar graag helpen. Hier kun je jouw tevredenheid toelichten.",
 
