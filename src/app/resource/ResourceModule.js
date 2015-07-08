@@ -125,7 +125,7 @@ angular.module('owm.resource', [
      * @resolve {promise} resource
      */
     $stateProvider.state('owm.resource.calendar', {
-      url: '/auto/:resourceId/kalender?view',
+      url: '/auto-huren/:city/:resourceId/kalender?view',
       controller: 'ResourceShowCalendarController',
       templateUrl: 'resource/show/calendar/resource-show-calendar.tpl.html',
       reloadOnSearch: true,
