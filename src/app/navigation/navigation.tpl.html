@@ -36,7 +36,7 @@
         <a ng-if="!user.isAuthenticated" ng-click="login()" class="btn btn-xs btn-link navbar-item navbar-item--small pull-right" snap-close>{{ 'LOGIN' | translate }}</a>
 
         <div ng-if="!user.isAuthenticated" class="navbar-item navbar-item--small pull-right">
-          <a ng-href="{{ signupUrl }}" class="btn btn-xs btn-success" snap-close>{{ 'SIGNUP' | translate }}</a>
+          <a target="_self" ng-href="{{ signupUrl }}" class="btn btn-xs btn-success" snap-close>{{ 'SIGNUP' | translate }}</a>
         </div>
 
       </div>
