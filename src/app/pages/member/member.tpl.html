@@ -115,14 +115,14 @@
 
           <!-- left-column version -->
           <div ng-if="!isWindowSizeMD" ng-repeat="resource in activeResources" class="media">
-            <div ui-sref="owm.resource.show({ resourceId: resource.id })" ng-include="'resource/partials/resource-header1.tpl.html'"></div>
+            <div ui-sref="owm.resource.show({ resourceId: resource.id, city: resource.city })" ng-include="'resource/partials/resource-header1.tpl.html'"></div>
           </div>
 
           <!-- side bar version -->
           <ul ng-if="isWindowSizeMD" class="list-unstyled">
             <li ng-repeat="resource in activeResources">
               <p>
-                <a ui-sref="owm.resource.show({ resourceId: resource.id })">
+                <a ui-sref="owm.resource.show({ resourceId: resource.id, city: resource.city })">
                   <h4>
                     {{ resource.alias }}
                     <span ng-if="!resource.alias">

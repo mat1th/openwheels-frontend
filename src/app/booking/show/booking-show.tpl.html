@@ -170,7 +170,11 @@
           <!-- disclaimer -->
           <div class="alert alert-danger" ng-if="booking.approved==='OK'">
             <i class="fa fa-exclamation-triangle text-danger"></i>&nbsp;
-            {{ 'BOOKING_AMEND_DISCLAIMER' | translate }}
+            <span ng-switch="booking.bookingAlterationStrategy">
+              <span ng-switch-when="default">{{ 'BOOKING_ALTERATION_STRATEGY_DEFAULT' | translate }}</span>
+              <span ng-switch-when="mywheels_go">{{ 'BOOKING_ALTERATION_STRATEGY_MYWHEELS_GO' | translate }}</span>
+              <span ng-switch-when="anwb">{{ 'BOOKING_ALTERATION_STRATEGY_ANWB' | translate }}</span>
+            </span>
           </div>
 
           <!-- availability & price -->
@@ -206,7 +210,7 @@
                 {{ 'STOP_BOOKING' | translate }}
               </button>
 
-              <a target="_blank" ng-href="{{ $state.href('owm.resource.calendar', {resourceId: resource.id}) }}" class="btn btn-default">
+              <a target="_blank" ng-href="{{ $state.href('owm.resource.calendar', {city: resource.city, resourceId: resource.id}) }}" class="btn btn-default">
                 <i class="fa fa-calendar"></i> {{ 'CALENDAR_BUTTON' | translate }}
               </a>
 

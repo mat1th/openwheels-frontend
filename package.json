@@ -6,6 +6,7 @@
   "dependencies": {},
   "devDependencies": {
     "colors": "^1.0.3",
+    "connect-modrewrite": "^0.8.1",
     "grunt": "~0.4.1",
     "grunt-angular-translate": "wilgert/grunt-angular-translate",
     "grunt-autoprefixer": "~0.6.3",

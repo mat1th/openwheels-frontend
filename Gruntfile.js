@@ -332,10 +332,15 @@ module.exports = function (grunt) {
       },
       livereload: {
         options: {
-          open: true,
           base: [
             '<%= build_dir %>'
-          ]
+          ],
+          middleware: function (connect) {
+            return [
+              require('connect-modrewrite')(['!(\\..+)$ / [L]']),
+              connect.static('build')
+            ];
+          }
         }
       },
       coverage: {
@@ -427,13 +432,13 @@ module.exports = function (grunt) {
         files: [
           '<%= app_files.js %>'
         ],
-        tasks: [ 'jshint:src', 'karma:background:run', 'copy:buildAppjs' ]
+        tasks: [ 'jshint:src', 'copy:buildAppjs' ]
       },
 
-      testSpecs: {
-        files: ['test/unit/**/*.spec.js'],
-        tasks: ['karma:background:run']
-      },
+      // testSpecs: {
+      //   files: ['test/unit/**/*.spec.js'],
+      //   tasks: ['karma:background:run']
+      // },
 
       config: {
         files: [
@@ -565,8 +570,6 @@ module.exports = function (grunt) {
     'ngconstant:development',
     'index:build',
     'connect:livereload',
-    'karma:singleRun',
-    'karma:background:start',
     'watch'
   ]);
 

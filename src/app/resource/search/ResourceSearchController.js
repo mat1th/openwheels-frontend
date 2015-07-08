@@ -218,6 +218,7 @@ angular.module('owm.resource.search', [
     $scope.selectResource = function (resource) {
       var params = resourceQueryService.createStateParams();
       params.resourceId = resource.id;
+      params.city = resource.city;
       $state.go('owm.resource.show', params);
     };
 

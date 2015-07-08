@@ -76,7 +76,7 @@ angular.module('owm.finance.vouchers', [])
   }
 
   function redirect (url) {
-    var redirectTo = appConfig.appUrl + '/' + $state.href('owm.finance.v3Index');
+    var redirectTo = appConfig.appUrl + $state.href('owm.finance.v3Index');
     $window.location.href = url + '?redirectTo=' + encodeURIComponent(redirectTo);
   }
 
