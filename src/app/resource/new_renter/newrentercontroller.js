@@ -127,19 +127,36 @@ angular.module('owm.resource.newrenter', [
   };
 })
 
-.controller('NewuserCreateBookingController', function ($scope, person, resource, booking, bookingService) {
-  bookingService.create({
+.controller('NewuserCreateBookingController', function ($scope, $q, person, resource, booking, bookingService) {
+  bookingService.getBookingList({
     person: person.id,
-    resource: resource.id,
-    timeFrame: booking,
+    timeFrame: {
+      startDate: booking.startTime,
+      endDate: booking.endTime
+    },
   })
-  // bookingService.create({
-    // resource: $scope.resource.id,
-    // person: $scope.person.id,
-    // timeFrame: booking
-  // })
+  .then(function (bookings) {
+    return bookings.filter(function (elm) {
+      return elm.resource.id === resource.id;
+    });
+  })
+  .then(function (bookings) {
+    if(bookings.length) {
+      return bookings[0];
+    } else {
+      return bookingService.create({
+        person: person.id,
+        resource: resource.id,
+        timeFrame: {
+          startDate: booking.startTime,
+          endDate: booking.endTime
+        },
+      });
+    }
+  })
   .then(function (booking) {
-     console.log(booking);
+    console.log(booking);
+    $scope.b = booking;
   });
 })
 
