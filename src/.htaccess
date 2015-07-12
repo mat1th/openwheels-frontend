@@ -1,5 +1,11 @@
 DirectoryIndex index.html
 
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} -f
+RewriteRule .? - [L]
+
+RewriteRule .? index.html [L]
+
 <IfModule mod_headers.c>
     Header set X-Frame-Options SAMEORIGIN
 </IfModule>

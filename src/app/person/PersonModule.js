@@ -6,7 +6,8 @@ angular.module('owm.person', [
     'owm.person.action.payinvoicegroup',
     'owm.person.license',
     'owm.person.anwbId',
-    'owm.person.account'
+    'owm.person.account',
+    'owm.person.fileread',
   ])
 
   .config(function config($stateProvider) {
