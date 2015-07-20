@@ -118,11 +118,13 @@
       <div ng-if="sentInvoices.length > 0">
         <table class="table">
           <tr>
+            <th>ID</th>
             <th>Omschrijving</th>
             <th>Bedrag</th>
             <th>&nbsp;</th>
           </tr>
           <tr ng-repeat="invoice in sentInvoices">
+            <td>{{ invoice.id }}</td>
             <td>{{ invoice.description }}</td>
             <td>{{ invoice.total | currency }}</td>
             <td class="text-right">

@@ -81,7 +81,7 @@
               <button class="btn btn-success" ng-click="toggleBookingForm()">
                 {{ 'CREATE_BOOKING' | translate }}
               </button>
-              <a class="btn btn-default" ui-sref="owm.resource.calendar({resourceId: resource.id})">
+              <a class="btn btn-default" ui-sref="owm.resource.calendar({city: resource.city, resourceId: resource.id})">
                 <i class="fa fa-calendar"></i> {{ 'CALENDAR_BUTTON' | translate }}
               </a>
             </p>

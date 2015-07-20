@@ -17,7 +17,7 @@ angular.module('owm.resource', [
 
     $stateProvider.state('owm.resource', {
       abstract: true,
-      url: '/resource?lat&lng&start&end&text&radius&options&fuel&lock&seats&type',
+      url: '?lat&lng&start&end&text&radius&options&fuel&lock&seats&type',
       views: {
         'main@': {
           template: '<div ui-view></div>'
@@ -50,14 +50,14 @@ angular.module('owm.resource', [
     });
 
     $stateProvider.state('owm.resource.search.list', {
-      url: '',
+      url: '/auto-huren',
       reloadOnSearch: false,
       controller: 'ResourceSearchListController',
       templateUrl: 'resource/search/list/resource-search-list.tpl.html'
     });
 
     $stateProvider.state('owm.resource.search.map', {
-      url: '/map',
+      url: '/auto-huren/kaart',
       reloadOnSearch: false,
       controller: 'ResourceSearchMapController',
       templateUrl: 'resource/search/map/resource-search-map.tpl.html'
@@ -68,7 +68,7 @@ angular.module('owm.resource', [
      * resource/create
      */
     $stateProvider.state('owm.resource.create', {
-      url: '/create',
+      url: '/mijn-auto',
       controller: 'ResourceCreateController',
       templateUrl: 'resource/create/resource-create.tpl.html',
       data: {
@@ -97,7 +97,7 @@ angular.module('owm.resource', [
      * @resolve {promise} resource
      */
     $stateProvider.state('owm.resource.show', {
-      url: '/:resourceId',
+      url: '/auto-huren/:city/:resourceId',
       views: {
         'main-full@': {
           controller: 'ResourceShowController',
@@ -125,7 +125,7 @@ angular.module('owm.resource', [
      * @resolve {promise} resource
      */
     $stateProvider.state('owm.resource.calendar', {
-      url: '/:resourceId/calendar?view',
+      url: '/auto-huren/:city/:resourceId/kalender?view',
       controller: 'ResourceShowCalendarController',
       templateUrl: 'resource/show/calendar/resource-show-calendar.tpl.html',
       reloadOnSearch: true,
@@ -173,7 +173,7 @@ angular.module('owm.resource', [
      * @resolve {promise} resource
      */
     $stateProvider.state('owm.resource.edit', {
-      url: '/:resourceId/edit',
+      url: 'auto/:resourceId/wijzigen',
       controller: 'ResourceEditController',
       templateUrl: 'resource/edit/resource-edit.tpl.html',
       data: {

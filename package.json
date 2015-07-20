@@ -1,11 +1,12 @@
 {
   "author": "Jaap Gerritsen",
   "name": "OpenWheels",
-  "version": "1.6.0",
+  "version": "1.7.0",
   "homepage": "https://github.com/OpenWheels",
   "dependencies": {},
   "devDependencies": {
     "colors": "^1.0.3",
+    "connect-modrewrite": "^0.8.1",
     "grunt": "~0.4.1",
     "grunt-angular-translate": "wilgert/grunt-angular-translate",
     "grunt-autoprefixer": "~0.6.3",

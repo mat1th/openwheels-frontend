@@ -7,7 +7,13 @@ angular.module('owm', [
 ])
 
 .config(function myAppConfig($stateProvider, $urlRouterProvider) {
-  $urlRouterProvider.otherwise('/');
+
+  $urlRouterProvider.otherwise(function ($injector, $location) {
+    // workaround for https://github.com/angular-ui/ui-router/issues/600
+    // $urlRouterProvider.otherwise('/') would cause infinite loop when requesting a non-existing url
+    var $state = $injector.get('$state');
+    $state.go('home');
+  });
 
   $stateProvider.state('base', {
     resolve: {
