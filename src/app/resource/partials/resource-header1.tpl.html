@@ -16,7 +16,7 @@
     </div>
 
     <div class="truncate">
-      <a ui-sref="owm.resource.show({city: resource.city, resourceId: resource.id})" class="resource__alias">{{ resource.alias || ('RESOURCE_NO_NAME' | translate) }}</a>
+      <a href="" class="resource__alias">{{ resource.alias || ('RESOURCE_NO_NAME' | translate) }}</a>
       <span ng-if="resource.brand || resource.model"> - {{ (resource.brand + ' ' + resource.model) | toTitleCase }}</span>
     </div>
 
