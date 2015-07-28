@@ -1,14 +1,3 @@
-<div class="card">
-  <div class="card-heading">
-    <h2 class="card-title">
-      Mijn financiën
-    </h2>
-  </div>
-  <div class="card-body" ng-if="!isLoading && !(unpaidInvoices.length > 0 || invoiceGroups.length > 0 || sentInvoices.length > 0)">
-    Dit overzicht is nog leeg
-  </div>
-</div>
-
 <div class="card" ng-if="unpaidInvoices.length > 0">
   <div class="card-heading">
     <h3 class="card-title">
@@ -29,8 +18,8 @@
                 <strong>
                   Rit in {{ group.invoices[0].booking.resource.alias }}
                   {{ group.invoices[0].booking.resource.registrationPlate | surroundWith : '(' : ')' }}
-                  van {{ group.invoices[0].booking.beginBooking | amDateFormat:'DD-MM-YY HH:MM' }}
-                  tot {{ group.invoices[0].booking.endBooking | amDateFormat:'DD-MM-YY HH:MM' }}
+                  van {{ group.invoices[0].booking.beginBooking | amDateFormat:'DD-MM-YY HH:mm' }}
+                  tot {{ group.invoices[0].booking.endBooking | amDateFormat:'DD-MM-YY HH:mm' }}
                   <a target="_blank" ng-href="{{ group.tripDetailsLink }}" class="pull-right">
                     <i class="fa fa-fw fa-external-link-square"></i>Details
                   </a>
@@ -69,7 +58,7 @@
         </table>
 
         <!-- may be hidden from branding css -->
-        <button id="finance_index_pay_button" type="button" class="btn btn-primary pull-right" ng-click="payInvoices()" style="margin-right:8px">Betalen</button>
+        <button ng-if="unpaidInvoicesTotalAmount > 0" id="finance_index_pay_button" type="button" class="btn btn-primary pull-right" ng-click="payInvoices()" style="margin-right:8px">Betalen</button>
       </div>
 
       <div ng-if="invoiceGroupsUnpaid.length > 0">
@@ -92,14 +81,64 @@
               </a>
             </td>
             <td class="text-right">
-              <button ng-if="invoiceGroup.paid" type="button" disabled class="btn btn-link text-success"><i class="fa fa-check"></i></span>
-              <button ng-if="!invoiceGroup.paid" type="button" class="btn btn-primary"
-                ng-click="payInvoiceGroup(invoiceGroup)" style="margin-left: 5px;">Betalen</button>
+              <button ng-if="invoiceGroup.paid" type="button" disabled class="btn btn-link text-success"><i class="fa fa-check"></i></button>
+
+              <!-- vouchersEnabled? see navigation controller -->
+              <span ng-if="!invoiceGroup.paid" style="margin-left: 5px;">
+                <button ng-if="!vouchersEnabled" type="button" class="btn btn-primary" ng-click="payInvoiceGroup(invoiceGroup)">
+                  Betalen
+                </button>
+                <button ng-if="vouchersEnabled" type="button" class="btn btn-link text-danger" ui-sref="owm.finance.vouchers">
+                  <i class="fa fa-exclamation-circle"></i> Koop rijtegoed
+                </button>
+              </span>
             </td>
           </tr>
         </table>
       </div>
 
+
+    </div>
+  </div>
+</div><!-- /card -->
+
+
+<div class="card" ng-if="sentInvoices.length > 0">
+  <div class="card-heading">
+    <h3 class="card-title">
+      <a href="" ng-click="is3Collapsed = !is3Collapsed">
+        <i class="fa fa-fw" ng-class="{ 'fa-chevron-right': is3Collapsed, 'fa-chevron-down': !is3Collapsed }"></i>
+        Verhuuropbrengsten
+      </a>
+    </h3>
+  </div>
+  <div collapse="is3Collapsed">
+    <div class="card-body">
+
+      <div ng-if="sentInvoices.length > 0">
+        <table class="table">
+          <tr>
+            <th>Nr</th>
+            <th>Omschrijving</th>
+            <th>Bedrag</th>
+            <th>&nbsp;</th>
+          </tr>
+          <tr ng-repeat="invoice in sentInvoices">
+            <td>{{ invoice.id }}</td>
+            <td>{{ invoice.description }}</td>
+            <td>{{ invoice.total | currency }}</td>
+            <td class="text-right">
+              <a ng-if="invoice.booking.id" target="_blank" ng-href="{{ linksService.tripDetailsPdf(invoice.booking.id) }}">
+                <i class="fa fa-fw fa-external-link-square"></i>Pdf
+              </a>
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <div ng-if="sentInvoices.length <= 0">
+        Geen verhuuropbrengsten
+      </div>
 
     </div>
   </div>
@@ -143,46 +182,21 @@
               </a>
             </td>
             <td class="text-right">
-              <button ng-if="invoiceGroup.paid" type="button" disabled class="btn btn-link text-success"><i class="fa fa-check"></i></span>
-              <button ng-if="!invoiceGroup.paid" type="button" class="btn btn-primary"
-                ng-click="payInvoiceGroup(invoiceGroup)" style="margin-left: 5px;">Betalen</button>
+              <button ng-if="invoiceGroup.paid" type="button" disabled class="btn btn-link text-success"><i class="fa fa-check"></i></button>
+
+              <!-- vouchersEnabled? see navigation controller -->
+              <span ng-if="!invoiceGroup.paid && invoiceGroup.total > 0" style="margin-left: 5px;">
+                <button ng-if="!vouchersEnabled" type="button" class="btn btn-primary" ng-click="payInvoiceGroup(invoiceGroup)">
+                  Betalen
+                </button>
+                <button ng-if="vouchersEnabled" type="button" class="btn btn-link text-danger" ui-sref="owm.finance.vouchers">
+                  <i class="fa fa-exclamation-circle"></i> Koop rijtegoed
+                </button>
+              </span>
+
             </td>
           </tr>
         </table>
-      </div>
-
-    </div>
-  </div>
-</div><!-- /card -->
-
-
-<div class="card" ng-if="sentInvoices.length > 0">
-  <div class="card-heading">
-    <h3 class="card-title">
-      <a href="" ng-click="is3Collapsed = !is3Collapsed">
-        <i class="fa fa-fw" ng-class="{ 'fa-chevron-right': is3Collapsed, 'fa-chevron-down': !is3Collapsed }"></i>
-        Mijn verhuuropbrengsten
-      </a>
-    </h3>
-  </div>
-  <div collapse="is3Collapsed">
-    <div class="card-body">
-
-      <div ng-if="sentInvoices.length > 0">
-        <table class="table">
-          <tr>
-            <th>Omschrijving</th>
-            <th>Bedrag</th>
-          </tr>
-          <tr ng-repeat="invoice in sentInvoices">
-            <td>{{ invoice.description }}</td>
-            <td>{{ invoice.total | currency }}</td>
-          </tr>
-        </table>
-      </div>
-
-      <div ng-if="sentInvoices.length <= 0">
-        Geen verhuuropbrengsten
       </div>
 
     </div>

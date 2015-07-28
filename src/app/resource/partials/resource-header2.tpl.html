@@ -2,7 +2,7 @@
 
   <img class="media-object img-resource-small pull-left" ng-src="{{ resource.pictures[0] | resourceAvatar:'small' }}" />
 
-  <div class="media-body" ui-sref="owm.resource.show({ resourceId: resource.id })">
+  <div class="media-body" ui-sref="owm.resource.show({ resourceId: resource.id, city: resource.city })">
     <div class="resource__alias truncate">
       <span>
         {{ resource.alias || ('RESOURCE_NO_NAME' | translate) }} {{ resource.registrationPlate | surroundWith : '(' : ')' }}

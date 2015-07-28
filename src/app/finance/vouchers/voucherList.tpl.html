@@ -1,0 +1,30 @@
+<div class="card" ng-if="credit">
+  <div class="card-heading">
+    <h3 class="card-title">
+      <a ng-if="!credit.error" href="" ng-click="toggle()">
+        <i class="fa fa-fw" ng-class="{ 'fa-chevron-right': !showVoucherList, 'fa-chevron-down': showVoucherList }"></i>
+        Tegoedbonnen ({{ credit.value | currency }})
+      </a>
+      <span ng-if="credit.error">
+        <i class="fa fa-warning text-warning"></i>&nbsp;Je rijtegoed is op dit moment niet beschikbaar.
+      </span>
+    </h3>
+  </div>
+  <div collapse="!showVoucherList">
+    <div class="card-body">
+
+      <div ng-if="vouchers && !vouchers.length">{{ 'NO_RESULTS' | translate }}</div>
+      <ul ng-if="vouchers && vouchers.length" class="list-unstyled list-spaced fa-ul">
+        <li ng-repeat="voucher in vouchers">
+          <i class="text-muted fa fa-li fa-circle"></i>
+          {{ voucher.value | currency }}
+          <span class="text-muted">
+            <span ng-if="voucher.value !== voucher.initialValue"> over van {{ voucher.initialValue | currency }}</span>
+            gekocht op {{ voucher.paid | amDateFormat : 'DD-MM-YY HH:mm' }}
+          </span>
+        </li>
+      </ul>
+
+    </div>
+  </div>
+</div>

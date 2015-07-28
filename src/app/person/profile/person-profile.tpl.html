@@ -404,6 +404,17 @@
   </div><!--/ collapse -->
 </div><!--/ card -->
 
+<!-- upload license -->
+<div class="card" ng-show="person.driverLicense === null">
+  <div class="card-heading">
+    <h3 class="card-title">
+      <a ui-sref="owm.person.license">
+        {{ 'LICENSE_UPLOAD' | translate }}
+      </a>
+    </h3>
+  </div>
+</div>
+
 <!-- change password -->
 <div class="card">
   <div class="card-heading">

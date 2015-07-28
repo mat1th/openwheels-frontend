@@ -80,7 +80,6 @@ angular.module('authService', [])
 
   this.notifyFreshToken = function (freshToken) {
     var remaining;
-    user.isAuthenticated = true;
     if (asyncToken) {
       asyncToken.resolve(freshToken);
       asyncToken = null;
@@ -88,9 +87,9 @@ angular.module('authService', [])
     if (isFirstAuthenticate) {
       if (moment(freshToken.expiryDate).isValid()) {
         remaining = moment.duration({ seconds: freshToken.expiresIn() });
-        $log.debug('[*] AUTHENTICATED, token expires in ' + remaining.humanize() + ' (' + remaining.asSeconds() + ' sec)');
+        $log.debug('token expires in ' + remaining.humanize() + ' (' + remaining.asSeconds() + ' sec)');
       } else {
-        $log.debug('[*] AUTHENTICATED, assume token not expired (invalid expiry date)');
+        $log.debug('token has invalid expiry date, assume not expired');
       }
       loadIdentity();
       isFirstAuthenticate = false;
@@ -160,8 +159,10 @@ angular.module('authService', [])
   function loadIdentity () {
     $log.debug('--> ' + (user.identity ? 're-' : '') + 'load identity');
     user.isPending = true;
-    api.invokeRpcMethod('person.me').then(function (identity) {
+    api.invokeRpcMethod('person.me', { version: 2 }).then(function (identity) {
       $log.debug('<-- got identity');
+      $log.debug('[*] AUTHENTICATED');
+      user.isAuthenticated = true;
       user.identity = identity;
       user.isPending = false;
       if (asyncUser) {
@@ -232,7 +233,6 @@ angular.module('authService', [])
     var oAuth2CallbackUrl =
       $window.location.protocol + '//' +
       $window.location.host +
-      $window.location.pathname +
       $state.href('oauth2callback') +
       '?' +
       ( !successPath ? '' : '&successPath=' + encodeURIComponent(successPath) ) +

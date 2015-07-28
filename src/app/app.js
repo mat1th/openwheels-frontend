@@ -62,7 +62,7 @@ angular.module('openwheels', [
   'timeframe',
   'datetimeDirective',
   'formGroupDirective',
-  'nullIfEmpty',
+  'bindingDirectives',
   'ratingThumbDirective',
   'ratingThumbBinaryDirective',
   'badgeListDirective',
@@ -108,6 +108,10 @@ angular.module('openwheels', [
 
 
 .constant('API_DATE_FORMAT', 'YYYY-MM-DD HH:mm')
+
+.config(function ($locationProvider) {
+  $locationProvider.html5Mode(true);
+})
 
 .config(function(uiGmapGoogleMapApiProvider) {
     uiGmapGoogleMapApiProvider.configure({

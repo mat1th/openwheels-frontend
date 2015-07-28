@@ -54,7 +54,8 @@ angular.module('owm.booking.show', [])
     $scope.allowAcceptReject  = false;
     $scope.allowBoardComputer = false;
     $scope.allowMap    = false;
-    $scope.allowOvereenkomst = false;
+    $scope.allowOvereenkomst = (booking.approved === 'OK') &&
+      (['smartphone', 'chipcard'].indexOf(booking.resource.locktype) < 0);
 
     if ($scope.userPerspective === 'renter') {
 
@@ -94,7 +95,6 @@ angular.module('owm.booking.show', [])
       }());
 
       $scope.allowMap = $scope.allowEdit;
-      $scope.allowOvereenkomst = booking.status === 'accepted';
     }
 
     if ($scope.userPerspective === 'owner') {
@@ -107,8 +107,6 @@ angular.module('owm.booking.show', [])
           moment().isBefore(moment(booking.beginBooking)) // is nog niet begonnen
         );
       }());
-      $scope.allowOvereenkomst = booking.status === 'requested' || booking.status === 'accepted';
-
     }
   }
 
@@ -446,15 +444,12 @@ angular.module('owm.booking.show', [])
 
   $scope.priceHtml = function (price) {
     var s = '';
-    if (show(price.rent))      { s+='Huur: '        + $filter('currency')(price.rent) + '<br/>'; }
-    if (show(price.insurance)) { s+='Verzekering: ' + $filter('currency')(price.insurance) + '<br/>'; }
-    if (show(price.fee))       { s+='Fee: '         + $filter('currency')(price.fee) + '<br/>'; }
-    s+='Totaal: '      + $filter('currency')(price.total);
+    if (price.rent > 0) { s += 'Huur: ' + $filter('currency')(price.rent) + '<br/>'; }
+    if (price.insurance > 0) { s += 'Verzekering: ' + $filter('currency')(price.insurance) + '<br/>'; }
+    if (price.fee > 0) { s += 'Fee: ' + $filter('currency')(price.fee) + '<br/>'; }
+    if (price.redemption > 0) { s+='Afkoop eigen risico: ' + $filter('currency')(price.redemption) + '<br/>'; }
+    s += 'Totaal: ' + $filter('currency')(price.total);
     return s;
-
-    function show (amount) {
-      return (amount && amount !== 0);
-    }
   };
 
 
