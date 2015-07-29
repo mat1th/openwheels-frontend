@@ -2,7 +2,8 @@
 
 angular.module('owm.finance.v2', [])
 
-.controller('FinanceV2Controller', function ($window, $q, $state, $location, $scope, $modal, appConfig, alertService, invoice2Service, paymentService, linksService) {
+.controller('FinanceV2Controller', function ($window, $q, $state, $location, $scope, $modal, appConfig, alertService,
+  invoice2Service, paymentService, linksService, API_DATE_FORMAT) {
 
   /* require parent scope */
   var me = $scope.me;
@@ -60,6 +61,23 @@ angular.module('owm.finance.v2', [])
       invoiceGroup: invoiceGroup.id
     }).then(function (result) {
       redirectToPaymentUrl(result.url);
+    })
+    .catch(function (err) {
+      alertService.addError(err);
+    })
+    .finally(function () {
+      alertService.loaded($scope);
+    });
+  };
+
+  // verzoek om uitbetaling verzamelfactuur
+  $scope.payoutInvoiceGroup = function (invoiceGroup) {
+    alertService.load($scope);
+    paymentService.payoutInvoiceGroup({ invoiceGroup: invoiceGroup.id }).then(function (result) {
+      // add fake payout request
+      invoiceGroup.payoutRequest = {
+        created: moment().format(API_DATE_FORMAT)
+      };
     })
     .catch(function (err) {
       alertService.addError(err);
