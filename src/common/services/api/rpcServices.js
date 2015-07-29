@@ -151,6 +151,8 @@ angular.module('rpcServices', [])
   this.payVoucher       = m('payVoucher');
   this.payInvoiceGroup  = m('payInvoiceGroup');
   this.getInvoiceGroups = m('getInvoiceGroups');
+  this.payoutVoucher    = m('payoutVoucher');
+  this.payoutInvoiceGroup = m('payoutInvoicegroup');
 })
 
 .service('calendarService', function(api){

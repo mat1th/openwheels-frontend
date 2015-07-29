@@ -108,7 +108,7 @@
     <h3 class="card-title">
       <a href="" ng-click="is3Collapsed = !is3Collapsed">
         <i class="fa fa-fw" ng-class="{ 'fa-chevron-right': is3Collapsed, 'fa-chevron-down': !is3Collapsed }"></i>
-        Nog te ontvangen
+        Verhuuropbrengsten
       </a>
     </h3>
   </div>
@@ -118,7 +118,7 @@
       <div ng-if="sentInvoices.length > 0">
         <table class="table">
           <tr>
-            <th>ID</th>
+            <th>Nr</th>
             <th>Omschrijving</th>
             <th>Bedrag</th>
             <th>&nbsp;</th>
@@ -172,6 +172,7 @@
             <th></th>
             <th></th>
           </tr>
+
           <tr ng-repeat="invoiceGroup in invoiceGroups">
             <td>{{ invoiceGroup.date | amDateFormat:'DD-MM-YYYY' }}</td>
             <td>{{ invoiceGroup.id }}</td>
@@ -181,8 +182,12 @@
                 <i class="fa fa-file-pdf-o"></i>&nbsp;Pdf
               </a>
             </td>
-            <td class="text-right">
-              <button ng-if="invoiceGroup.paid" type="button" disabled class="btn btn-link text-success"><i class="fa fa-check"></i></button>
+
+            <!-- positive amount -->
+            <td ng-if="invoiceGroup.total > 0" class="text-right">
+              <button ng-if="invoiceGroup.paid" type="button" disabled class="btn btn-link text-success">
+                <i class="fa fa-check"></i>
+              </button>
 
               <!-- vouchersEnabled? see navigation controller -->
               <span ng-if="!invoiceGroup.paid && invoiceGroup.total > 0" style="margin-left: 5px;">
@@ -193,8 +198,18 @@
                   <i class="fa fa-exclamation-circle"></i> Koop rijtegoed
                 </button>
               </span>
-
             </td>
+
+            <!-- negative amount -->
+            <td ng-if="invoiceGroup.total < 0" class="text-right">
+              <span ng-if="invoiceGroup.payoutRequest" class="text-muted">
+                Uitbetaling aangevraagd
+              </span>
+              <button ng-if="!invoiceGroup.payoutRequest" type="button" class="btn btn-primary" ng-click="payoutInvoiceGroup(invoiceGroup)">
+                Uitbetalen
+              </button>
+            </td>
+
           </tr>
         </table>
       </div>

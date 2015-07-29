@@ -237,7 +237,7 @@
         </div>
 
         <button id="submitForm" type="button" class="btn btn-primary"
-          ng-disabled="contactDataForm.$pristine || !contactDataForm.$valid"
+          ng-disabled="contactDataForm.$pristine || !contactDataForm.$valid || !person.phoneNumbers.length || (person.phoneNumbers.length > 0 && !person.phoneNumbers[0].number)"
           ng-click="submitContactDataForm()">
           {{ 'SUBMIT' | translate }}
         </button>
@@ -403,6 +403,17 @@
     </div><!--/ card-body -->
   </div><!--/ collapse -->
 </div><!--/ card -->
+
+<!-- upload license -->
+<div class="card" ng-show="person.driverLicense === null">
+  <div class="card-heading">
+    <h3 class="card-title">
+      <a ui-sref="owm.person.license">
+        {{ 'LICENSE_UPLOAD' | translate }}
+      </a>
+    </h3>
+  </div>
+</div>
 
 <!-- change password -->
 <div class="card">
