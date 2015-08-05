@@ -26,6 +26,7 @@ angular.module('owm.featuresService', [])
     googlePlus         : false,
     ratings            : true,
     hideSignupPreference: false,
+    payoutRequests     : false, // show payout button for vouchers & invoiceGroups
 
     // Auto-generated (see below):
     social             : false

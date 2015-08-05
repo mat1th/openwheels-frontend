@@ -201,7 +201,7 @@
             </td>
 
             <!-- negative amount -->
-            <td ng-if="invoiceGroup.total < 0" class="text-right">
+            <td ng-if="features.payoutRequests && invoiceGroup.total < 0" class="text-right">
               <span ng-if="invoiceGroup.payoutRequest" class="text-muted">
                 Uitbetaling aangevraagd
               </span>
