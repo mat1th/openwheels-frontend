@@ -39,7 +39,7 @@
     <hr/>
 
     <!-- alert -->
-    <div class="alert alert-warning" ng-if="(booking.status === 'cancelled' || booking.status === 'rejected')">
+    <div class="alert alert-warning" ng-if="['cancelled', 'owner_cancelled', 'rejected'].indexOf(booking.status) >= 0">
       <span>{{ booking.status | bookingStatus }}</span>
     </div>
 
