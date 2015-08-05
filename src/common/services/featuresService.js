@@ -21,6 +21,7 @@ angular.module('owm.featuresService', [])
     invoiceModuleV3    : false,
     filtersSidebar     : true, // obsolete
     resourceSidebar    : true, // obsolete
+    calculatePrice     : true, // display detailed price info based on currently selected times and contract
     facebook           : false,
     twitter            : false,
     googlePlus         : false,
