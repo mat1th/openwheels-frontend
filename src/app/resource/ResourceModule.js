@@ -115,6 +115,20 @@ angular.module('owm.resource', [
           return authService.userPromise().then(function (user) {
             return user.isAuthenticated ? user.identity : null;
           });
+        }],
+        metaInfo: ['$state', '$translate', '$filter', 'resource', 'metaInfoService', 'appConfig',
+         function ($state  ,  $translate ,  $filter ,  resource ,  metaInfoService ,  appConfig) {
+          var substitutions = {
+            city: resource.city,
+            alias: resource.alias,
+            owner: $filter('fullname')(resource.owner)
+          };
+          metaInfoService.set({
+            title: $translate.instant('META_RESOURCE_TITLE', substitutions),
+            description: $translate.instant('META_RESOURCE_DESCRIPTION', substitutions),
+            url: appConfig.appUrl + $state.href('owm.resource.show', { resourceId: resource.id }),
+            image: appConfig.serverUrl + '/' + $filter('resourceAvatar')(resource.pictures[0], 'normal')
+          });
         }]
       }
     });
