@@ -14,19 +14,28 @@
     <div class="card-body">
 
       <div ng-if="vouchers && !vouchers.length">{{ 'NO_RESULTS' | translate }}</div>
-      <ul ng-if="vouchers && vouchers.length" class="list-unstyled list-spaced fa-ul">
+      <ul ng-if="vouchers && vouchers.length" class="list-unstyled list-spaced list-bordered">
         <li ng-repeat="voucher in vouchers">
-          <i class="text-muted fa fa-li fa-circle"></i>
           {{ voucher.value | currency }}
 
-          <span ng-if="!voucher.payoutRequst" class="text-muted">
+          <span class="text-muted">
             <span ng-if="voucher.value !== voucher.initialValue"> over van {{ voucher.initialValue | currency }}</span>
             gekocht op {{ voucher.paid | amDateFormat : 'DD-MM-YY HH:mm' }}
-            <a ng-if="!voucher.payoutRequest" href="" ng-click="payoutVoucher(voucher.id)">Uitbetalen</a>
+          </span>
+
+          <i class="text-muted fa fa-fw fa-circle"></i>
+
+          <span ng-if="!voucher.payoutRequest">
+            <a href="" ng-click="payoutVoucher(voucher.id)">Uitbetalen</a>
           </span>
 
           <span ng-if="voucher.payoutRequest">
-            Uitbetaling aangevraagd op {{ voucher.payoutRequest.created | amDateFormat: 'DD-MM-YY HH:mm' }}
+            <span ng-if="!voucher.payoutRequest.paid">
+              Uitbetaling aangevraagd op {{ voucher.payoutRequest.created | amDateFormat: 'DD-MM-YY HH:mm' }}
+            </span>
+            <span ng-if="voucher.payoutRequest.paid">
+              Uitbetaald op {{ voucher.payoutRequest.paid | amDateFormat: 'DD-MM-YY HH:mm' }}
+            </span>
           </span>
 
         </li>
