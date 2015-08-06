@@ -1,4 +1,13 @@
 {
+    "META_DEFAULT_TITLE": "Autodelen: huur of verhuur een auto in de buurt!",
+    "META_DEFAULT_DESCRIPTION": "Huur een auto in de buurt of verhuur je eigen auto.",
+
+    "META_HOME_TITLE": "Autodelen: huur voordelig een auto in de buurt",
+    "META_HOME_DESCRIPTION": "Huur een auto in de buurt of verhuur je eigen auto.",
+
+    "META_RESOURCE_TITLE": "Huur voordelig de auto {{ alias }} in {{ city }} via autodelen",
+    "META_RESOURCE_DESCRIPTION": "Huur in {{ city }} voordelig en makkelijk de auto {{ alias }} van {{ owner }}",
+
     "SEARCH_COUNTRY": "nl",
     "EMAIL": "E-mail",
     "PASSWORD": "Wachtwoord",

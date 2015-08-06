@@ -54,6 +54,7 @@ angular.module('openwheels', [
   'windowSizeService',
   'owm.geoPositionService',
   'owm.linksService',
+  'owm.metaInfoService',
 
   // DIRECTIVES
 
@@ -74,6 +75,7 @@ angular.module('openwheels', [
   'passwordStrengthDirective',
   'geocoderDirective',
   'socialDirectives',
+  'bindMetaDirective',
 
   // FILTERS
   'filters.util',
@@ -155,7 +157,9 @@ angular.module('openwheels', [
 
 .run(function (windowSizeService, oAuth2MessageListener, stateAuthorizer, authService, featuresService) {})
 
-.run(function ($window, $log, $timeout, $translate, $state, $stateParams, $rootScope, alertService, featuresService, appConfig, linksService) {
+.run(function ($window, $log, $timeout, $state, $stateParams, $rootScope,
+  alertService, featuresService, linksService, metaInfoService) {
+
   $rootScope.$state = $state;
   $rootScope.$stateParams = $stateParams;
   $rootScope.showAsideMenu = false;
@@ -177,13 +181,13 @@ angular.module('openwheels', [
     angular.element($window).scrollTop(0);
 
     // set page title
-    $translate('SITE_NAME').then(function (siteName) {
+    if (!metaInfoService.get().title) {
+      // not set? fallback to using page title from router config
       if (toState.data && toState.data.pageTitle) {
-        $rootScope.pageTitle = toState.data.pageTitle + ' | ' + siteName;
-      } else {
-        $rootScope.pageTitle = siteName;
+        metaInfoService.set({ title: toState.data.pageTitle });
       }
-    });
+    }
+    metaInfoService.flush();
 
     /**
      * Use new bootstrap container width on certain pages
