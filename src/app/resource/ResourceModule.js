@@ -38,7 +38,7 @@ angular.module('owm.resource', [
     });
 
     $stateProvider.state('owm.resource.search', {
-      url: '',
+      url: '/auto-huren',
       abstract: true,
       reloadOnSearch: false,
       views: {
@@ -46,23 +46,71 @@ angular.module('owm.resource', [
           controller: 'ResourceSearchController',
           templateUrl: 'resource/search/resource-search.tpl.html'
         }
+      },
+      resolve: {
+        place: function () {
+          return null;
+        }
+      }
+    });
+
+    $stateProvider.state('owm.resource.place', {
+      url: '/auto-huren/:city',
+      abstract: true,
+      reloadOnSearch: false,
+      views: {
+        'main-full@': {
+          controller: 'ResourceSearchController',
+          templateUrl: 'resource/search/resource-search.tpl.html'
+        }
+      },
+      resolve: {
+        place: [ '$q', '$stateParams', 'placeService',
+        function ($q ,  $stateParams ,  placeService) {
+          return placeService.search({
+            place: $stateParams.city
+          }).catch(angular.noop); // ignore errors
+        }]
       }
     });
 
     $stateProvider.state('owm.resource.search.list', {
-      url: '/auto-huren',
+      url: '',
       reloadOnSearch: false,
       controller: 'ResourceSearchListController',
       templateUrl: 'resource/search/list/resource-search-list.tpl.html'
     });
 
     $stateProvider.state('owm.resource.search.map', {
-      url: '/auto-huren/kaart',
+      url: '/kaart',
       reloadOnSearch: false,
       controller: 'ResourceSearchMapController',
       templateUrl: 'resource/search/map/resource-search-map.tpl.html'
     });
 
+    $stateProvider.state('owm.resource.place.list', {
+      url: '',
+      reloadOnSearch: false,
+      controller: 'ResourceSearchListController',
+      templateUrl: 'resource/search/list/resource-search-list.tpl.html',
+      data: {
+        access: {
+          feature: 'cityPages'
+        }
+      }
+    });
+
+    $stateProvider.state('owm.resource.place.map', {
+      url: '/kaart',
+      reloadOnSearch: false,
+      controller: 'ResourceSearchMapController',
+      templateUrl: 'resource/search/map/resource-search-map.tpl.html',
+      data: {
+        access: {
+          feature: 'cityPages'
+        }
+      }
+    });
 
     /**
      * resource/create
