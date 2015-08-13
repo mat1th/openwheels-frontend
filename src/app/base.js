@@ -47,6 +47,14 @@ angular.module('owm', [
         controller: 'FooterController'
       }
     },
+    resolve: {
+      metaInfo: ['metaInfoService', function (metaInfoService) {
+        metaInfoService.setTranslated({
+          title: 'META_HOME_TITLE',
+          description: 'META_HOME_DESCRIPTION'
+        });
+      }]
+    },
     data: {
       access: {
         deny: { authenticated: true }

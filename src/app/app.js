@@ -54,6 +54,7 @@ angular.module('openwheels', [
   'windowSizeService',
   'owm.geoPositionService',
   'owm.linksService',
+  'owm.metaInfoService',
 
   // DIRECTIVES
 
@@ -74,6 +75,7 @@ angular.module('openwheels', [
   'passwordStrengthDirective',
   'geocoderDirective',
   'socialDirectives',
+  'bindMetaDirective',
 
   // FILTERS
   'filters.util',
@@ -155,7 +157,9 @@ angular.module('openwheels', [
 
 .run(function (windowSizeService, oAuth2MessageListener, stateAuthorizer, authService, featuresService) {})
 
-.run(function ($window, $log, $timeout, $translate, $state, $stateParams, $rootScope, alertService, featuresService, appConfig, linksService) {
+.run(function ($window, $log, $timeout, $state, $stateParams, $rootScope,
+  alertService, featuresService, linksService, metaInfoService) {
+
   $rootScope.$state = $state;
   $rootScope.$stateParams = $stateParams;
   $rootScope.showAsideMenu = false;
@@ -174,16 +178,20 @@ angular.module('openwheels', [
     alertService.loaded();
 
     // scroll to top
-    angular.element($window).scrollTop(0);
+    // except for place pages (for toggling map <--> list)
+    // TODO: move to a better place
+    if (['owm.resource.place.list', 'owm.resource.place.map'].indexOf(toState.name) < 0) {
+      angular.element($window).scrollTop(0);
+    }
 
     // set page title
-    $translate('SITE_NAME').then(function (siteName) {
+    if (!metaInfoService.get().title) {
+      // not set? fallback to using page title from router config
       if (toState.data && toState.data.pageTitle) {
-        $rootScope.pageTitle = toState.data.pageTitle + ' | ' + siteName;
-      } else {
-        $rootScope.pageTitle = siteName;
+        metaInfoService.set({ title: toState.data.pageTitle });
       }
-    });
+    }
+    metaInfoService.flush();
 
     /**
      * Use new bootstrap container width on certain pages
@@ -191,6 +199,7 @@ angular.module('openwheels', [
      */
     $rootScope.containerTransitional = (
       (featuresService.get('filtersSidebar')  && $state.includes('owm.resource.search')) ||
+      (featuresService.get('filtersSidebar')  && $state.includes('owm.resource.place')) ||
       (featuresService.get('resourceSidebar') && $state.includes('owm.resource.show')) ||
       $state.includes('member')
     );
