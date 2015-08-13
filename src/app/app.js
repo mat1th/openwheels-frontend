@@ -178,7 +178,11 @@ angular.module('openwheels', [
     alertService.loaded();
 
     // scroll to top
-    angular.element($window).scrollTop(0);
+    // except for place pages (for toggling map <--> list)
+    // TODO: move to a better place
+    if (['owm.resource.place.list', 'owm.resource.place.map'].indexOf(toState.name) < 0) {
+      angular.element($window).scrollTop(0);
+    }
 
     // set page title
     if (!metaInfoService.get().title) {
@@ -195,6 +199,7 @@ angular.module('openwheels', [
      */
     $rootScope.containerTransitional = (
       (featuresService.get('filtersSidebar')  && $state.includes('owm.resource.search')) ||
+      (featuresService.get('filtersSidebar')  && $state.includes('owm.resource.place')) ||
       (featuresService.get('resourceSidebar') && $state.includes('owm.resource.show')) ||
       $state.includes('member')
     );
