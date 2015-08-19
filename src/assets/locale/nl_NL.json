@@ -8,6 +8,9 @@
     "META_RESOURCE_TITLE": "Huur voordelig de auto {{ alias }} in {{ city }} via autodelen",
     "META_RESOURCE_DESCRIPTION": "Huur in {{ city }} voordelig en makkelijk de auto {{ alias }} van {{ owner }}",
 
+    "META_CITYPAGE_TITLE": "Huur voordelig een auto in {{ city }}",
+    "META_CITYPAGE_DESCRIPTION": "Auto huren in {{ city }}? Huur voordelig een deelauto in {{ city }}, bekijk het aanbod!",
+
     "SEARCH_COUNTRY": "nl",
     "EMAIL": "E-mail",
     "PASSWORD": "Wachtwoord",
@@ -471,6 +474,7 @@
     "RESOURCE_LOCATION_CITY_LABEL": "Plaatsnaam",
     "RESOURCE_PRICE_DISCLAIMER": "",
     "RESOURCE_CAL_INFO_FOR_OWNER": "Klik in de kalender om aan te geven wanneer je auto niet beschikbaar is.",
+    "RESOURCE_MORE_IN_CITY": "Bekijk ook de andere deelauto's in",
     "TRIPS_BOOKINGS_FOR_RENTER": "Ritten",
     "TRIPS_BOOKINGS_FOR_OWNER": "Verhuringen",
     "LOCKTYPE.smartphone": "Smartphone",

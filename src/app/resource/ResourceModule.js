@@ -70,6 +70,14 @@ angular.module('owm.resource', [
           return placeService.search({
             place: $stateParams.city
           }).catch(angular.noop); // ignore errors
+        }],
+        metaInfo: ['$translate', 'place', 'metaInfoService',
+         function ( $translate ,  place ,  metaInfoService) {
+          if (!place) { return; }
+          metaInfoService.set({
+            title: $translate.instant('META_CITYPAGE_TITLE', { city: place.name }),
+            description: $translate.instant('META_CITYPAGE_DESCRIPTION', { city: place.name })
+          });
         }]
       }
     });
