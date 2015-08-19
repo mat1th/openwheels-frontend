@@ -8,6 +8,9 @@
     "META_RESOURCE_TITLE": "Huur voordelig de auto {{ alias }} in {{ city }} via autodelen",
     "META_RESOURCE_DESCRIPTION": "Huur in {{ city }} voordelig en makkelijk de auto {{ alias }} van {{ owner }}",
 
+    "META_CITYPAGE_TITLE": "Huur voordelig een auto in {{ city }}",
+    "META_CITYPAGE_DESCRIPTION": "Auto huren in {{ city }}? Huur voordelig een deelauto in {{ city }}, bekijk het aanbod!",
+
     "SEARCH_COUNTRY": "nl",
     "EMAIL": "E-mail",
     "PASSWORD": "Wachtwoord",
