@@ -2,7 +2,7 @@
 
 angular.module('owm.finance.voucherList', [])
 
-.controller('VoucherListController', function ($timeout, $scope, alertService, voucherService) {
+.controller('VoucherListController', function ($timeout, $scope, alertService, voucherService, paymentService) {
 
   // Requires parent scope
   var me = $scope.me;
@@ -49,5 +49,16 @@ angular.module('owm.finance.voucherList', [])
     });
     return promise;
   }
+
+  $scope.payoutVoucher = function (voucherId) {
+    alertService.load($scope);
+    paymentService.payoutVoucher({ voucher: voucherId }).then(function (result) {
+      return getVouchers();
+    })
+    .catch(alertService.addError)
+    .finally(function () {
+      alertService.loaded($scope);
+    });
+  };
 
 });

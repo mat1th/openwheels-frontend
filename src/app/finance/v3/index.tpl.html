@@ -6,7 +6,7 @@
     </h2>
   </div>
 
-  <div class="card-body" ng-if="v1NoData && v2NoData">
+  <div class="card-body" ng-if="!vouchersEnabled && v1NoData && v2NoData">
     {{ 'NO_RESULTS' | translate }}
   </div>
 </div>

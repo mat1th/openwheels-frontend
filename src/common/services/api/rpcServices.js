@@ -24,6 +24,11 @@ angular.module('rpcServices', [])
   this.setProfileImage       = m('setProfileImage');
 })
 
+.service('placeService', function (api) {
+  var m = function (name) { return api.createRpcMethod('place.' + name); };
+  this.search = m('search');
+})
+
 .service('contractService', function (api) {
   var m = function (name) { return api.createRpcMethod('contract.' + name); };
   this.get           = m('get');
@@ -151,6 +156,8 @@ angular.module('rpcServices', [])
   this.payVoucher       = m('payVoucher');
   this.payInvoiceGroup  = m('payInvoiceGroup');
   this.getInvoiceGroups = m('getInvoiceGroups');
+  this.payoutVoucher    = m('payoutVoucher');
+  this.payoutInvoiceGroup = m('payoutInvoicegroup');
 })
 
 .service('calendarService', function(api){
