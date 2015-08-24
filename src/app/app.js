@@ -280,7 +280,7 @@ angular.module('openwheels', [
 
   function configFile () {
     var dfd = $q.defer();
-    $http.get('branding/config.json').then(function (response) {
+    $http.get('branding/config.json?v=' + moment().format('YYMMDDHHmmss')).then(function (response) {
       dfd.resolve(response.data);
     }).catch(function () {
       dfd.resolve({});
@@ -290,7 +290,7 @@ angular.module('openwheels', [
 
   function featuresFile () {
     var dfd = $q.defer();
-    $http.get('branding/features.json').then(function (response) {
+    $http.get('branding/features.json?v=' + moment().format('YYMMDDHHmmss')).then(function (response) {
       dfd.resolve(response.data);
     }).catch(function () {
       dfd.resolve({});
