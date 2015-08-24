@@ -1,16 +1,20 @@
 {
     "META_DEFAULT_TITLE": "Autodelen: huur of verhuur een auto in de buurt!",
     "META_DEFAULT_DESCRIPTION": "Huur een auto in de buurt of verhuur je eigen auto.",
-
     "META_HOME_TITLE": "Autodelen: huur voordelig een auto in de buurt",
     "META_HOME_DESCRIPTION": "Huur een auto in de buurt of verhuur je eigen auto.",
-
     "META_RESOURCE_TITLE": "Huur voordelig de auto {{ alias }} in {{ city }} via autodelen",
     "META_RESOURCE_DESCRIPTION": "Huur in {{ city }} voordelig en makkelijk de auto {{ alias }} van {{ owner }}",
-
+    "META_SEARCHPAGE_TITLE": "Huur voordelig een auto bij jou in de buurt",
+    "META_SEARCHPAGE_DESCRIPTION": "Huur een auto in de buurt of verhuur je eigen auto.",
     "META_CITYPAGE_TITLE": "Huur voordelig een auto in {{ city }}",
     "META_CITYPAGE_DESCRIPTION": "Auto huren in {{ city }}? Huur voordelig een deelauto in {{ city }}, bekijk het aanbod!",
-
+    "META_LISTYOURCAR_TITLE": "Verhuur je auto en verdien",
+    "META_LISTYOURCAR_DESCRIPTION": "Verhuur je auto makkelijk en volledig verzekerd aan buren en vrienden",
+    "META_LISTYOURCAR2_TITLE": "Meld je auto aan en verdien",
+    "META_LISTYOURCAR2_DESCRIPTION": "Meld je auto in een paar minuten aan en verdien!",
+    "META_SIGNUP_TITLE": "Meld je gratis aan",
+    "META_SIGNUP_DESCRIPTION": "Meld je gratis aan en start met autodelen!",
     "SEARCH_COUNTRY": "nl",
     "EMAIL": "E-mail",
     "PASSWORD": "Wachtwoord",

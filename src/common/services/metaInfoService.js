@@ -33,8 +33,8 @@ angular.module('owm.metaInfoService', [])
     angular.extend(tmp_translate, data);
   };
 
-  this.get = function () {
-    return tmp;
+  this.isSet = function (prop) {
+    return !!tmp[prop] || !!tmp_translate[prop];
   };
 
   // Register DOM elements whose attribute or inner text should be changed when flush() is called

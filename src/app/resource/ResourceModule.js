@@ -47,11 +47,29 @@ angular.module('owm.resource', [
           templateUrl: 'resource/search/resource-search.tpl.html'
         }
       },
+      data: {
+        title: 'META_SEARCHPAGE_TITLE',
+        description: 'META_SEARCHPAGE_DESCRIPTION'
+      },
       resolve: {
         place: function () {
           return null;
         }
       }
+    });
+
+    $stateProvider.state('owm.resource.search.list', {
+      url: '',
+      reloadOnSearch: false,
+      controller: 'ResourceSearchListController',
+      templateUrl: 'resource/search/list/resource-search-list.tpl.html'
+    });
+
+    $stateProvider.state('owm.resource.search.map', {
+      url: '/kaart',
+      reloadOnSearch: false,
+      controller: 'ResourceSearchMapController',
+      templateUrl: 'resource/search/map/resource-search-map.tpl.html'
     });
 
     $stateProvider.state('owm.resource.place', {
@@ -80,20 +98,6 @@ angular.module('owm.resource', [
           });
         }]
       }
-    });
-
-    $stateProvider.state('owm.resource.search.list', {
-      url: '',
-      reloadOnSearch: false,
-      controller: 'ResourceSearchListController',
-      templateUrl: 'resource/search/list/resource-search-list.tpl.html'
-    });
-
-    $stateProvider.state('owm.resource.search.map', {
-      url: '/kaart',
-      reloadOnSearch: false,
-      controller: 'ResourceSearchMapController',
-      templateUrl: 'resource/search/map/resource-search-map.tpl.html'
     });
 
     $stateProvider.state('owm.resource.place.list', {
@@ -234,6 +238,20 @@ angular.module('owm.resource', [
         }],
         resource: ['resourceService', '$stateParams', function (resourceService, $stateParams) {
           return resourceService.get({id: $stateParams.resourceId});
+        }],
+        metaInfo: ['$state', '$translate', '$filter', 'resource', 'metaInfoService', 'appConfig',
+         function ($state  ,  $translate ,  $filter ,  resource ,  metaInfoService ,  appConfig) {
+          var substitutions = {
+            city: resource.city,
+            alias: resource.alias,
+            owner: $filter('fullname')(resource.owner)
+          };
+          metaInfoService.set({
+            title: $translate.instant('META_RESOURCE_TITLE', substitutions),
+            description: $translate.instant('META_RESOURCE_DESCRIPTION', substitutions),
+            url: appConfig.appUrl + $state.href('owm.resource.show', { resourceId: resource.id }),
+            image: appConfig.serverUrl + '/' + $filter('resourceAvatar')(resource.pictures[0], 'normal')
+          });
         }]
       }
     });
