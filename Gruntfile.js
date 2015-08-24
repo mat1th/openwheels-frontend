@@ -393,7 +393,8 @@ module.exports = function (grunt) {
           dest: '<%= build_dir %>/app/config.js',
           name: 'openwheels.environment',
           constants: {
-            ENV: 'development'
+            ENV: 'development',
+            VERSION: '<%= pkg.version %>'
           }
         }
       ],
@@ -402,7 +403,8 @@ module.exports = function (grunt) {
           dest: '<%= build_dir %>/app/config.js',
           name: 'openwheels.environment',
           constants: {
-            ENV: 'production' // sets $logProvider.debugEnabled(false), see app.js
+            ENV: 'production',
+            VERSION: '<%= pkg.version %>'
           }
         }
       ]
