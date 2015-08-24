@@ -2,7 +2,7 @@
 
 angular.module('owm.home', [])
 
-.controller('HomeController', function ($scope, $translate, resourceQueryService, $state) {
+.controller('HomeController', function ($scope, $translate, resourceQueryService, $state, VERSION) {
 
   $scope.$watch(function () {
     return $translate.use();
@@ -32,6 +32,6 @@ angular.module('owm.home', [])
   $scope.imageStyle2 = { 'background-image': 'url(\'branding/img/home-rotate-2.jpg\')' };
   $scope.imageStyle3 = { 'background-image': 'url(\'branding/img/home-rotate-3.jpg\')' };
 
+  $scope.version = VERSION;
 })
-
 ;
