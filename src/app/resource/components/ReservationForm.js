@@ -18,7 +18,8 @@ angular.module('owm.resource.reservationForm', [])
 
 .controller('ReservationFormController', function (
   $log, $q, $timeout, $filter, $scope, $state,
-  API_DATE_FORMAT, resourceService, invoice2Service, alertService, authService, bookingService, contractService) {
+  API_DATE_FORMAT, resourceService, invoice2Service, alertService, authService, bookingService, contractService,
+  featuresService) {
 
   $scope.dateConfig = {
     modelFormat: API_DATE_FORMAT,
@@ -99,9 +100,15 @@ angular.module('owm.resource.reservationForm', [])
     timer = $timeout(function () {
       loadAvailability().then(function (availability) {
         if (availability.available === 'yes') {
-          loadContractsOnce().then(loadPrice);
+          loadContractsOnce().then(function () {
+            if (featuresService.get('calculatePrice')) {
+              loadPrice();
+            }
+          });
         } else {
-          loadPrice();
+          if (featuresService.get('calculatePrice')) {
+            loadPrice();
+          }
         }
       });
     }, 100);
@@ -153,7 +160,9 @@ angular.module('owm.resource.reservationForm', [])
       contractService.forDriver({ person: $scope.person.id }).then(function (contracts) {
         $scope.contractOptions = contracts || [];
         $scope.booking.contract = contracts.length ? contracts[0].id : null;
-        $scope.$watch('booking.contract', loadPrice);
+        if (featuresService.get('calculatePrice')) {
+          $scope.$watch('booking.contract', loadPrice);
+        }
         dfd.resolve(contracts);
       });
     }

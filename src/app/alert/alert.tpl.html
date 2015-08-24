@@ -6,7 +6,7 @@
       <i ng-if="alert.type==='success'" class="fa fa-fw fa-check"></i>
       <i ng-if="alert.type==='info'" class="fa fa-fw fa-info-circle"></i>
       <span ng-if="!alert.msg" ng-bind="'GLOBAL.MESSAGE.GENERIC_ERROR' | translate"></span>
-      {{ alert.msg }}&nbsp;
+      <span ng-bind-html="alert.msg"> </span>&nbsp;
     </alert>
   </div>
 </div>

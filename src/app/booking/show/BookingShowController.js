@@ -111,11 +111,11 @@ angular.module('owm.booking.show', [])
   }
 
   $scope.hasAcceptedTimeframe = function (booking) {
-    return booking.beginBooking && ( ['cancelled', 'rejected'].indexOf(booking.status) < 0 );
+    return booking.beginBooking && ( ['cancelled', 'owner_cancelled', 'rejected'].indexOf(booking.status) < 0 );
   };
 
   $scope.hasRequestedTimeframe = function (booking) {
-    return booking.beginRequested && ( ['cancelled', 'rejected'].indexOf(booking.status) < 0 );
+    return booking.beginRequested && ( ['cancelled', 'owner_cancelled', 'rejected'].indexOf(booking.status) < 0 );
   };
 
   $scope.setTimeframe = function(booking, addDays) {
