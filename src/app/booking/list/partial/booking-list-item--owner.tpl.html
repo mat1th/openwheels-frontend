@@ -24,7 +24,7 @@
 
     <div class="pull-right text-right">
       <!-- APPROVED ICON -->
-      <span ng-if="b.approved === 'OK'">
+      <span ng-if="b.approved === null || b.approved === 'OK'">
         <i class="fa fa-check-circle fa-2x text-success" tooltip="Deze boeking is akkoord, je kunt de auto meegeven aan de huurder"></i>
       </span>
       <span ng-if="['TO_BE_PAID', 'BUY_VOUCHER'].indexOf(b.approved) > 0">
