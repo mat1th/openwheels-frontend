@@ -185,11 +185,11 @@ angular.module('openwheels', [
     }
 
     // set page title
-    if (!metaInfoService.get().title) {
-      // not set? fallback to using page title from router config
-      if (toState.data && toState.data.pageTitle) {
-        metaInfoService.set({ title: toState.data.pageTitle });
-      }
+    if (!metaInfoService.isSet('title') && toState.data) {
+      metaInfoService.setTranslated({
+        title: toState.data.title,
+        description: toState.data.description
+      });
     }
     metaInfoService.flush();
 

@@ -131,6 +131,7 @@
 
 
 <!-- CONTACT DATA  -->
+
 <div class="card" id="contact-data">
   <div class="card-heading">
     <h3 class="card-title">
@@ -210,6 +211,11 @@
             <input type="text" id="city" name="city" class="form-control" ng-model="person.city"
                    ng-readonly="person.country === 'Nederland'">
           </div>
+        </div>
+
+        <div ng-if="person.preference !== 'renter'" class="form-group">
+          {{ 'INFO_MY_PROFILE_CONTACT' | translate }}
+          <a ui-sref="owm.resource.create">{{ 'MY_RESOURCES' | translate }}</a>
         </div>
 
         <div ng-repeat="p in person.phoneNumbers">

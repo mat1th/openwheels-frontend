@@ -21,6 +21,8 @@ angular.module( 'owm.auth', [
       }
     },
     data: {
+      title: 'META_SIGNUP_TITLE',
+      description: 'META_SIGNUP_DESCRIPTION',
       access: { deny: { authenticated: true } }
     },
     resolve: {

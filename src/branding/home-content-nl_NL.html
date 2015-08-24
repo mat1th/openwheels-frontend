@@ -1,53 +1,91 @@
-<div class="container vert-pad-large text-left" id="home-content">
+<div class="container vert-pad-large text-left">
 
-  <ul class="list-unstyled list-block">
-    <li>
-      <h2>huur in de buurt</h2>
-      <p>Vind de ideale deelauto voor elke rit bij MyWheels autodelen. Een busje voor een verhuizing, een cabrio voor een zomerse rit of een gezinsauto voor een weekendje weg, je kunt ze allemaal bij jou in de buurt huren. MyWheels zorgt ervoor dat alles goed geregeld is en je verzekerd op weg kunt.</p>
-      <ul class="list-inline list-inline--multiple">
-        <li><a href="" ui-sref="owm.resource.search.list" class="btn btn-sm btn-success">{{ 'RENT_A_CAR' | translate }}</a></li>
-        <li><a href="{{ howToRent }}">{{ 'HOW_TO_RENT' | translate }}</a></li>
-      </ul>
-    </li>
+  <h2>Huur in de buurt</h2>
+  <p>
+  Vind de ideale deelauto voor elke rit bij MyWheels autodelen. Een busje voor een verhuizing, een cabrio voor een zomerse rit of een gezinsauto voor een weekendje weg, je kunt ze allemaal bij jou in de buurt huren. MyWheels zorgt ervoor dat alles goed geregeld is en je verzekerd op weg kunt.
+  </p>
+  <a href="" ui-sref="owm.resource.search.list" class="btn btn-success">{{ 'RENT_A_CAR' | translate }}</a>&nbsp;&nbsp;
+  <a href="{{ howToRent }}">{{ 'HOW_TO_RENT' | translate }}</a><br/>
+  <br/>
 
-    <li>
-      <h2>verhuur en verdien</h2>
-      <p>Je kunt je auto gratis bij MyWheels verhuren en het levert ook nog eens het meeste op. Het is jouw auto, dus je kunt zelf de prijs en beschikbaarheid bepalen. Via MyWheels is jouw auto zichtbaar voor duizenden leden die graag een auto willen gebruiken. Wij zorgen ervoor dat je auto all-risk verzekerd is tijdens de rit.</p>
-      <ul class="list-inline list-inline--multiple">
-        <li><a href="" ui-sref="owm.resource.create" class="btn btn-sm btn-primary">{{ 'LIST_YOUR_CAR' | translate }}</a></li>
-        <li><a href="{{ howToLet }}">{{ 'HOW_TO_LET' | translate }}</a></li>
-      </ul>
-    </li>
+  <h2>Verhuur en verdien</h2>
+  <p>
+  Je kunt je auto gratis bij MyWheels verhuren en het levert ook nog eens het meeste op. Het is jouw auto, dus je kunt zelf de prijs en beschikbaarheid bepalen. Via MyWheels is jouw auto zichtbaar voor duizenden leden die graag een auto willen gebruiken. Wij zorgen ervoor dat je auto all-risk verzekerd is tijdens de rit.
+  </p>
+  <a href="" ui-sref="owm.resource.create" class="btn btn-primary">{{ 'LIST_YOUR_CAR' | translate }}</a>&nbsp;&nbsp;
+  <a href="{{ howToLet }}">{{ 'HOW_TO_LET' | translate }}</a><br/>
+  <br/>
 
-    <li>
-      <h2>het voordeligste autodelen</h2>
-      <p>MyWheels is de voordeligste, dat kan omdat we non-profit zijn en geen winstoogmerk hebben. Daarom delen onze leden al meer dan duizend auto’s via MyWheels. Vergelijk de tarieven op Deelauto.nl of lees meer over onze idealen. Doe mee en steun de deeleconomie!</p>
-      <p><a href="{{ howToCarsharing }}" class="btn btn-sm btn-warning">{{ 'HOW_TO_CARSHARING' | translate }}</a></p>
-    </li>
-  </ul>
+  <h2>Het voordeligste autodelen</h2>
+  <p>
+  MyWheels is de voordeligste, dat kan omdat we non-profit zijn en geen winstoogmerk hebben. Daarom delen onze leden al meer dan duizend auto’s via MyWheels. Vergelijk de tarieven op <a target="_blank" href="https://www.deelauto.nl">deelauto.nl</a> of lees meer over <a href="https://mywheels.nl/autodelen/community/onze-idealen/">onze idealen</a>. Doe mee en steun de deeleconomie!
+  </p>
+  <a href="{{ howToCarsharing }}" class="btn btn-warning">{{ 'HOW_TO_CARSHARING' | translate }}</a><br/>
+  <br/>
 
-  <iframe id="ytplayer" type="text/html" width="100%" height="300px"
-            src="https://www.youtube.com/embed/Ta-GPK3Eo_E?rel=0&showinfo=0&autohide=1">
+  <br/>
+  <h3>Bekijk het filmpje om te zien hoe MyWheels werkt</h3>
+  <iframe style="border:none;" id="ytplayer" type="text/html" width="100%" height="300px"
+    src="https://www.youtube.com/embed/Ta-GPK3Eo_E?rel=0&showinfo=0&autohide=1">
   </iframe>
 </div>
 
 
-<div class="publications inverted">
-  <div class="container vert-pad-large text-left">
-    <ul class="list-unstyled list-block list-block--borderless">
-      <li>
-        <h3>de volkskrant</h3>
-        <p>‘Auto’s zijn duur en staan veruit het grootste deel van hun leven stil. Waarom dan niet je eigen auto verhuren aan een ander in de tijd dat je hem zelf niet gebruikt?’</p>
-      </li>
+<div>
+  <div class="container text-left">
+    <div class="row">
+      <div class="col-md-6">
+        <h2 class="text-success">Anderen over MyWeels</h2>
+        <br/>
 
-      <li>
-        <h3>ad</h3>
-        <p>‘Onder de naam MyWheels is een open standaard voor autodelen ontwikkeld. Dat betekent dat iedereen kan aanhaken en consumenten meer keus krijgen. Zij kunnen alle deelnemende auto’s tegen een vergoeding lenen. Of dat nu huurauto’s, deelauto’s of particuliere auto’s zijn.’</p>
-      </li>
-      <li>
-        <h3>de telegraaf</h3>
-        <p>'Haverman, die ook de OV-fiets bedacht, heeft idealistische gedachten bij MyWheels: het autogebruik terugdringen en daarmee alle bijverschijnselen als files en milieuvervuiling. Maar toch ook: de auto delen maakt hem goedkoper.’</p>
-      </li>
-    </ul>
+        <img src="branding/img/media-volkskrant.png" style="margin-bottom: 10px" />
+        <p style="font-family: OmnesRegular; font-size: 1.2em">&quot;Auto’s zijn duur en staan veruit het grootste deel van hun leven stil. Waarom dan niet je eigen auto verhuren aan een ander in de tijd dat je hem zelf niet gebruikt?&quot;</p>
+        <br/>
+
+        <img src="branding/img/media-ad.png" style="margin-bottom: 8px" />
+        <p style="font-family: OmnesRegular; font-size: 1.2em">&quot;Onder de naam MyWheels is een open standaard voor autodelen ontwikkeld. Dat betekent dat iedereen kan aanhaken en consumenten meer keus krijgen. Zij kunnen alle deelnemende auto’s tegen een vergoeding lenen. Of dat nu huurauto’s, deelauto’s of particuliere auto’s zijn.&quot;</p>
+        <br/>
+
+        <img src="branding/img/media-telegraaf.png" style="margin-bottom: 6px"/>
+        <p style="font-family: OmnesRegular; font-size: 1.2em">&quot;Haverman, die ook de OV-fiets bedacht, heeft idealistische gedachten bij MyWheels: het autogebruik terugdringen en daarmee alle bijverschijnselen als files en milieuvervuiling. Maar toch ook: de auto delen maakt hem goedkoper.&quot;</p>
+        <br/>
+      </div>
+
+      <div class="col-md-5 col-md-offset-1">
+        <h3 class="text-success">Wat onze leden zeggen</h3>
+        <br/>
+        <div class="media">
+          <img class="media-object pull-left" src="branding/img/quote-saskia.jpg" />
+          <div class="media-body">
+            <h4>Saskia (45)</h4>
+            <span class="text-muted">ZZP-er uit Zoeterwoude</span>
+          </div>
+        </div>
+        <p><i>&quot;Interview in Joure, Middelburg of Den Helder? Ik reserveer gewoon de deelauto en krijg achteraf een duidelijke rekening. Heel handig!&quot;</i></p>
+        <br/>
+
+        <div class="media">
+          <img class="media-object pull-left" src="branding/img/quote-saskia.jpg" />
+          <div class="media-body">
+            <h4>Erik (52)</h4>
+            <span class="text-muted">Ambtenaar</span>
+          </div>
+        </div>
+        <p><i>&quot;Op vakantie met een deelauto is prima betaalbaar omdat je voor de meeste auto’s maximaal tien uur per dag betaalt. Dat is bij veel aanbieders wel anders, daar telt de tikker door.&quot;</i></p>
+        <br/>
+
+        <div class="media">
+          <img class="media-object pull-left" src="branding/img/quote-saskia.jpg" />
+          <div class="media-body">
+            <h4>Evert (63)</h4>
+            <span class="text-muted">Realistische idealist uit Bolsward</span>
+          </div>
+        </div>
+        <p><i>&quot;Ik wilde graag een buurtauto in Bolsward en wist zes mensen over de streep te trekken. Zo eenvoudig kan het dus zijn.&quot;</i></p>
+        <br/>
+
+      </div>
+    </div>
+
   </div>
 </div>
