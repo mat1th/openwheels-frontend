@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owm.resource.newrenter', [
+angular.module('owm.newrenter.new_renter', [
   'datetimeDirective'
 ])
 
@@ -32,8 +32,7 @@ angular.module('owm.resource.newrenter', [
 ) {
   
   $scope.license_front = null;
-  $scope.person = {
-  };
+  $scope.person = { };
   
   $scope.subscribe = function(email, password, person, license_front) {
     alertService.closeAll();
