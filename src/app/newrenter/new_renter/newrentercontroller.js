@@ -1,8 +1,6 @@
 'use strict';
 
-angular.module('owm.newrenter.new_renter', [
-  'datetimeDirective'
-])
+angular.module('owm.newrenter')
 
 .controller('BorgController', function ($scope, $state, $sce) {
   $scope.purchaseID = $scope.user.identity.id +' ' + (new Date()).getTime().toString(16);
@@ -34,6 +32,7 @@ angular.module('owm.newrenter.new_renter', [
   $scope.license_front = null;
   $scope.person = { };
   
+  
   $scope.subscribe = function(email, password, person, license_front) {
     alertService.closeAll();
     alertService.load();
@@ -62,18 +61,35 @@ angular.module('owm.newrenter.new_renter', [
       alertService.loaded();
     });
   };
-  /*
-   * remove all spaces
-   */
-  function stripWhitespace (str) {
-    var out = str;
-    while (out.indexOf(' ') >= 0) {
-      out = out.replace(' ', '');
+//  
+  var update_data = function (newValue) {
+    if(newValue){
+      authService.authenticatedUser()
+      .then(function (me) {
+        console.log('reeval', me);
+        $scope.person.firstName = me.firstName;
+        $scope.person.preposition = me.preposition;
+        $scope.person.surname = me.surname;
+        $scope.person.dateOfBirth = me.dateOfBirth;
+        $scope.person.zipcode = me.zipcode;
+        $scope.person.streetNumber = me.streetNumber;
+      });
     }
-    return out;
-  }
+  };
+  $scope.$watch('user.isAuthenticated && !user.isPending', update_data);
   
   $scope.$watch('[person.zipcode, person.streetNumber]', function( newValue, oldValue ){
+    /*
+     * remove all spaces
+     */
+    function stripWhitespace (str) {
+      var out = str;
+      while (out.indexOf(' ') >= 0) {
+        out = out.replace(' ', '');
+      }
+      return out;
+    }
+  
     var country = 'nl';
 
     if( newValue !== oldValue ){
