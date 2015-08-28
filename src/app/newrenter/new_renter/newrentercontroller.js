@@ -26,7 +26,7 @@ angular.module('owm.newrenter')
 })
 
 .controller('RegistreerController', function ($scope, $state,
-  dutchZipcodeService, authService, alertService, personService
+  dutchZipcodeService, authService, alertService, personService, $q
 ) {
   
   $scope.license_front = null;
@@ -37,36 +37,65 @@ angular.module('owm.newrenter')
     alertService.closeAll();
     alertService.load();
     
-    authService.oauthSubscribe({
-      email: email,
-      password: password,
-      other: person
+    $q(function(succ, fail) {
+      return succ(authService.user.isAuthenticated);
     })
-    .then(function (me) {
-      return personService.addLicenseImages(
-        {person: me.id},
-        {frontImage: license_front}
-      );
-    })
-    .then(function (data) {
+    .then(function (authenticated) {
+      if(!authenticated) {
+        return authService.oauthSubscribe({
+          email: email,
+          password: password,
+          other: person
+        });
+      }
+
+      return personService.alter({
+        person: authService.user.identity.id,
+        newProps: person
+      }).then(function (new_user) {
+        for (var key in authService.user.identity) {
+          if (authService.user.identity.hasOwnProperty(key) && new_user.hasOwnProperty(key)) {
+            authService.user.identity[key] = new_user[key];
+          }
+        }
+        return new_user;
+      });
+    }).then(function (me) {
+      if(license_front) {
+        return personService.addLicenseImages(
+          {person: me.id},
+          {frontImage: license_front}
+        );
+      }
+      return personService.emailBookingLink({
+        person: me.id,
+        url: $state.href('new_renter-create_booking', {
+          resourceId: $scope.resource.id,
+          startTime: $scope.booking.startTime,
+          endTime: $scope.booking.endTime
+        }, {absolute: true})
+      });
+    }).then(function (me) {
       alertService.addSaveSuccess();
       alertService.loaded();
-      $state.go('new_renter-betaal_borg', {
-        resourceId: $scope.resource.id,
-        startTime:  $scope.booking.startTime,
-        endTime:    $scope.booking.endTime
-      });
+      if(me.status === 'active' || me.status === 'book-only' ) {
+        $state.go('new_renter-betaal_borg', {
+          resourceId: $scope.resource.id,
+          startTime:  $scope.booking.startTime,
+          endTime:    $scope.booking.endTime
+        });
+      }
     }, function (error) {
       alertService.addError(error);
       alertService.loaded();
     });
+    
   };
 //  
-  var update_data = function (newValue) {
+  $scope.$watch('user.isAuthenticated && !user.isPending', function (newValue) {
     if(newValue){
       authService.authenticatedUser()
       .then(function (me) {
-        console.log('reeval', me);
         $scope.person.firstName = me.firstName;
         $scope.person.preposition = me.preposition;
         $scope.person.surname = me.surname;
@@ -75,8 +104,7 @@ angular.module('owm.newrenter')
         $scope.person.streetNumber = me.streetNumber;
       });
     }
-  };
-  $scope.$watch('user.isAuthenticated && !user.isPending', update_data);
+  });
   
   $scope.$watch('[person.zipcode, person.streetNumber]', function( newValue, oldValue ){
     /*
@@ -185,10 +213,7 @@ angular.module('owm.newrenter')
   
   $scope.$watch('user.isAuthenticated && !user.isPending', function (newValue) {
     if(newValue){
-      authService.authenticatedUser()
-      .then(function (me) {
-        $scope.person = me;
-      });
+      $scope.person = authService.user.identity;
     }
   });
   

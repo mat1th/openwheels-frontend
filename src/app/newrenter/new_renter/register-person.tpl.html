@@ -86,16 +86,14 @@
                     <info-icon tooltip-html="'LICENSEUPLOAD_INFO' | translate | trustAsHtml"></info-icon>
 
                 </label>
-                <input type="file" id="licenseFrontFile" name="licenseFrontFile" class="form-control" fileread="license_front" required>
-
-                <p class="help-block" ng-show="contactDataForm.licenseFrontFile.$error.required"><span class="text-danger">{{ 'REQUIRED' | translate }}</span>
-                </p>
+                <input type="file" id="licenseFrontFile" name="licenseFrontFile" class="form-control" fileread="license_front">
             </div>
         </div>
     </div>
 
     <div class="row">
-        <input type="submit" class="btn btn-success pull-right" value="Volgende" />
+        <input type="submit" class="btn btn-success pull-right" value="Opslaan &amp; ga later verder" ng-if="!license_front"/>
+        <input type="submit" class="btn btn-success pull-right" value="Volgende"  ng-if="license_front" />
     </div>
 </form>
 
