@@ -105,7 +105,8 @@ angular.module('openwheels', [
   'owm.payment',
   'owm.trips',
   'owm.chat',
-  'owm.message'
+  'owm.message',
+  'owm.newrenter'
 ])
 
 

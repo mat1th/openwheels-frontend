@@ -1,0 +1,55 @@
+<div class="container" ng-class="{ 'container-transitional': features.resourceSidebar }">
+  
+  <section class="row">
+    <article class="col-md-12 card">
+        <header class="card-heading">
+            <h2 class="card-title">Huur een auto in 3 stappen</h2>
+        </header>
+    </article>
+  </section>
+  
+  <div class="row">  
+      <section class="col-md-8">
+        <article class="card" ui-view>
+        </article>
+      </section>
+      
+      <section class="col-md-4">
+        <div class="card"> 
+            <div class="card-heading">
+                <h4 class="card-title">1. Kies een auto <i class="fa fa-check"></i>
+                </h4>
+            </div>
+            <div class="card-body">
+                <div class="pull-right">
+                    <div>Tijden:</div>
+                    <datetime datetime="{{booking.startTime}}"></datetime> 
+                    <datetime datetime="{{booking.endTime}}"></datetime>
+                </div>
+                <div ng-include="'resource/partials/resource-header2.tpl.html'"> </div>
+            </div>
+         </div>
+         
+        <div class="card" ng-if="user.isAuthenticated"> 
+            <div class="card-heading">
+                <h4 class="card-title">2. Word lid <i class="fa fa-check" ng-if="person.status == 'book-only' || person.status == 'active'"></i>
+                </h4>
+            </div>
+            <div class="card-body">
+                <div>{{person.firstName}} {{person.preposition}} {{ person.surname}}</div>
+                <div>{{person.streetName}} {{person.streetNumber}} te {{person.city}}</div>
+                <div>{{person.email}}</div>
+            </div>
+         </div>
+        <div class="card" ng-if="contracts.length"> 
+            <div class="card-heading">
+                <h4 class="card-title">3. Betaal borg <i class="fa fa-check"></i>
+                </h4>
+            </div>
+            <div class="card-body">
+                Je ideal transactie is verwerkt.
+            </div>
+         </div>
+      </section>
+  </div>
+</div>

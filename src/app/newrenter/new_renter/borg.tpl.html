@@ -1,0 +1,34 @@
+
+<div class="card-heading"> 
+    <h3 class="card-title">3. Borg & incasso</h3>     
+ </div>
+<div class="card-body">
+    <p>Bij MyWheels betaal je de auto achteraf per maandelijks incasso. Echter voor je kunt rijden vragen we je wel een borg van &euro; 250,- over te maken via ideal. </p>
+    
+    <form METHOD="post" action="{{endpoint}}" id="ideal">
+    <div class="checkbox">
+        <label>
+          <input type="checkbox" name="accept" id="accept" value="true"> Ik machtig mywheels om verschuldigde bedragen te innen via automatische incasso.
+        </label>
+    </div>
+        <INPUT type="hidden" NAME="merchantID" value="002021687">
+        <INPUT type="hidden" NAME="subID" value="0">
+        <INPUT type="hidden" NAME="amount" ng-value="amount" >
+        <INPUT type="hidden" NAME="purchaseID" ng-value="purchaseID">
+        <INPUT type="hidden" NAME="language" VALUE="nl">
+        <INPUT type="hidden" NAME="currency" VALUE="EUR">
+        <INPUT type="hidden" NAME="description" VALUE="borg betaling" >
+        <INPUT type="hidden" NAME="itemNumber1" VALUE="1">
+        <INPUT type="hidden" NAME="itemDescription1" VALUE="borg betaling">
+        <INPUT type="hidden" NAME="itemQuantity1" VALUE="1">
+        <INPUT type="hidden" NAME="itemPrice1" ng-value="amount">
+        <INPUT type="hidden" NAME="paymentType" VALUE="ideal">
+        <INPUT type="hidden" NAME="validUntil" VALUE="2030-10-04T12:00:00.000Z">
+        <INPUT type="hidden" NAME="urlCancel" ng-value="urlCancel">
+        <INPUT type="hidden" NAME="urlSuccess" ng-value="urlSuccess">
+        <INPUT type="hidden" NAME="urlError" ng-value="urlError">
+        <button type="submit" class="btn btn-primary" data-role="none" id="submit2" name="submit2">Betaal je borg via iDeal</button>
+    </form>
+    
+    <p>MyWheels incasseert je openstaande rekeningen maandelijks (of als je veel rijdt iedere 14 dagen) vanaf jouw bankrekening die je voor de borgbetaling gebruikt heb. Neem contact met ons op als je via een andere rekening wilt betalen. Als je (gedurende langere tijd) geen auto's meer wilt huren via MyWheels kun je je borg terugvragen. Terugstorten kan een aantal weken duren na je laatste rit/betaling i.v.m. risico op bekeuringen etc. Zie de algemene voorwaarden.</p>
+</div>
