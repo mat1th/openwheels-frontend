@@ -36,7 +36,7 @@ angular.module('owm.resource', [
         }]
       },
     });
-
+    
     $stateProvider.state('owm.resource.search', {
       url: '/auto-huren',
       abstract: true,

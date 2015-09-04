@@ -1,0 +1,106 @@
+<div class="card">
+
+  <div class="card-heading">
+    <h3 class="card-title">2. Word gratis lid</h3>
+   </div>
+
+  <div class="card-body">
+    <form name="personalDataForm" ng-submit="subscribe(email, password, person, license_front)">
+
+      <div class="row" ng-hide="user.isAuthenticated">
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="email">{{ 'EMAIL' | translate }}</label>
+            <input type="email" id="email" name="email" class="form-control" ng-model="email" required>
+            <p class="help-block" ng-show="contactDataForm.email.$error.required"><span class="text-danger">{{ 'REQUIRED' | translate }}</span>
+            </p>
+          </div>
+        </div>
+
+        <div class="col-md-8">
+          <div class="form-group">
+            <label for="password">{{ 'PASSWORD' | translate }}</label>
+            <input type="password" id="password" name="password" class="form-control" ng-model="password"
+                 required>
+            <p class="help-block" ng-show="contactDataForm.password.$error.required"><span class="text-danger">{{ 'REQUIRED' | translate }}</span>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="firstName" >{{ 'FIRST_NAME' | translate }}</label>
+            <input type="text" id="FirstName" name="firstName" class="form-control" ng-model="person.firstName" required>
+            <p class="help-block" ng-show="personalDataForm.firstName.$error.required"><span class="text-danger">{{ 'REQUIRED' | translate }}</span></p>
+          </div>
+        </div>
+
+        <div class="col-md-2">
+          <div class="form-group">
+            <label for="preposition" class="">{{ 'PREPOSITION' | translate }}</label>
+            <input type="text" id="preposition" name="preposition" class="form-control" ng-model="person.preposition" null-if-empty>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="surname" class="">{{ 'SURNAME' | translate }}</label>
+            <input type="text" id="surname" name="surname" class="form-control" ng-model="person.surname" required>
+            <p class="help-block" ng-show="personalDataForm.surname.$error.required"><span class="text-danger">{{ 'REQUIRED' | translate }}</span>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="dateOfBirth">
+          {{ 'DATE_OF_BIRTH' | translate }}
+        </label>
+        <input type="text" name="dateOfBirth" id="dateOfBirth" placeholder="{{ 'PICK_A_DATE' | translate }}"
+             class="form-control pickadate-input" ng-model="person.dateOfBirth" pickadate="dateConfig" required>
+        <p class="help-block" ng-show="personalDataForm.dateOfBirth.$error.required"><span class="text-danger">{{ 'REQUIRED' | translate }}</span>
+        </p>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-4">
+          <div class="form-group">
+            <label for="zipcode">{{ 'ZIPCODE' | translate }}</label>
+            <input type="text" id="zipcode" name="zipcode" class="form-control" ng-model="person.zipcode" required>
+            <p class="help-block" ng-show="contactDataForm.zipcode.$error.required"><span class="text-danger">{{ 'REQUIRED' | translate }}</span>
+            </p>
+          </div>
+        </div>
+
+        <div class="col-xs-8">
+          <div class="form-group">
+            <em class="pull-right">{{person.streetName}} {{person.streetNumber}} {{person.zipcode}} {{person.city}}</em>
+            <label for="streetNumber">{{ 'STREET_NUMBER' | translate }} </label>
+            <input type="text" id="streetNumber" name="streetNumber" class="form-control" ng-model="person.streetNumber"
+                 required>
+            <p class="help-block" ng-show="contactDataForm.streetNumber.$error.required"><span class="text-danger">{{ 'REQUIRED' | translate }}</span>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="form-group">
+            <label for="licenseFrontFile">Voorkant rijbewijs</label>
+            <input type="file" id="licenseFrontFile" name="licenseFrontFile" class="form-control" fileread="license_front">
+            <p class="help-block" ng-bind-html="'LICENSEUPLOAD_INFO' | translate"></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <input type="submit" class="btn btn-success pull-right" value="Opslaan &amp; ga later verder" ng-if="!license_front"/>
+        <input type="submit" class="btn btn-success pull-right" value="Volgende"  ng-if="license_front" />
+      </div>
+    </form>
+
+  </div>
+</div>
