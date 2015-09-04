@@ -14,7 +14,7 @@ angular.module('owm.newRenter', [
       views: {
         'main-full@': {
           controller: 'NewRenterController',
-          templateUrl: 'newRenter/newRenter/wrapper.tpl.html'
+          templateUrl: 'new-renter/new-renter/wrapper.tpl.html'
         }
       },
       data: {
@@ -42,14 +42,14 @@ angular.module('owm.newRenter', [
       url: '/aanmelden',
       parent: 'newRenter',
       controller: 'NewRenterRegisterController',
-      templateUrl: 'newRenter/newRenter/register.tpl.html'
+      templateUrl: 'new-renter/new-renter/register.tpl.html'
     });
 
     $stateProvider.state('newRenter-deposit', {
       url: '/betaal-borg',
       parent: 'newRenter',
       controller: 'NewRenterDepositController',
-      templateUrl: 'newRenter/newRenter/borg.tpl.html',
+      templateUrl: 'new-renter/new-renter/borg.tpl.html',
     });
 
     $stateProvider.state('newRenter-depositResult', {
@@ -64,7 +64,7 @@ angular.module('owm.newRenter', [
       url: '/boekauto',
       parent: 'newRenter',
       controller: 'NewRenterBookingController',
-      templateUrl: 'newRenter/newRenter/booking.tpl.html',
+      templateUrl: 'new-renter/new-renter/booking.tpl.html',
       resolve: {
         person: ['authService', function (authService){
           return authService.authenticatedUser();
