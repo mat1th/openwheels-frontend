@@ -1,42 +1,40 @@
 'use strict';
 
-angular.module('owm.newrenter')
+angular.module('owm.newRenter.controllers', [])
 
-.controller('BorgController', function ($scope, $state, $sce) {
-  $scope.purchaseID = $scope.user.identity.id +' ' + (new Date()).getTime().toString(16);
-  $scope.endpoint =  $sce.trustAsResourceUrl('https://idealtest.rabobank.nl/ideal/mpiPayInitRabo.do');
-  $scope.amount = '100';
-  $scope.urlCancel = $state.href('new_renter-return_borg', {
-    state:      'cancel',
-    resourceId: $scope.resource.id,
-    startTime:  $scope.booking.startTime,
-    endTime:    $scope.booking.endTime
-  }, {absolute: true});
-  $scope.urlSuccess = $state.href('new_renter-bookresource', {
-    resourceId: $scope.resource.id,
-    startTime:  $scope.booking.startTime,
-    endTime:    $scope.booking.endTime
-  }, {absolute: true});
-  $scope.urlError = $state.href('new_renter-return_borg', {
-    state:      'error',
-    resourceId: $scope.resource.id,
-    startTime:  $scope.booking.startTime,
-    endTime:    $scope.booking.endTime
-  }, {absolute: true});
+.controller('NewRenterController', function ($scope, resource, booking, authService, contractService) {
+
+  $scope.resource = resource;
+  $scope.booking = booking;
+  $scope.user = authService.user;
+
+  $scope.$watch('user.isAuthenticated && !user.isPending', function (newValue) {
+    if(newValue){
+      $scope.person = authService.user.identity;
+    }
+  });
+
+  $scope.$watch('user.identity.id', function (id) {
+    if(id) {
+      contractService.forDriver({person: id}).
+      then(function (contracts) {
+        $scope.contracts = contracts;
+      });
+    }
+  });
 })
 
-.controller('RegistreerController', function ($scope, $state,
+.controller('NewRenterRegisterController', function ($scope, $state,
   dutchZipcodeService, authService, alertService, personService, $q
 ) {
-  
+
   $scope.license_front = null;
-  $scope.person = { };
-  
-  
+  $scope.person = {};
+
   $scope.subscribe = function(email, password, person, license_front) {
     alertService.closeAll();
     alertService.load();
-    
+
     $q(function(succ, fail) {
       return succ(authService.user.isAuthenticated);
     })
@@ -69,7 +67,7 @@ angular.module('owm.newrenter')
       }
       return personService.emailBookingLink({
         person: me.id,
-        url: $state.href('new_renter-create_booking', {
+        url: $state.href('newRenter-register', {
           resourceId: $scope.resource.id,
           startTime: $scope.booking.startTime,
           endTime: $scope.booking.endTime
@@ -79,19 +77,19 @@ angular.module('owm.newrenter')
       alertService.addSaveSuccess();
       alertService.loaded();
       if(me.status === 'active' || me.status === 'book-only' ) {
-        $state.go('new_renter-betaal_borg', {
+        $state.go('newRenter-deposit', {
           resourceId: $scope.resource.id,
           startTime:  $scope.booking.startTime,
           endTime:    $scope.booking.endTime
         });
       }
-    }, function (error) {
-      alertService.addError(error);
+    }).catch(function (error) {
+      alertService.addGenericError();
+    }).finally(function () {
       alertService.loaded();
     });
-    
   };
-//  
+
   $scope.$watch('user.isAuthenticated && !user.isPending', function (newValue) {
     if(newValue){
       authService.authenticatedUser()
@@ -105,7 +103,7 @@ angular.module('owm.newrenter')
       });
     }
   });
-  
+
   $scope.$watch('[person.zipcode, person.streetNumber]', function( newValue, oldValue ){
     /*
      * remove all spaces
@@ -117,7 +115,7 @@ angular.module('owm.newrenter')
       }
       return out;
     }
-  
+
     var country = 'nl';
 
     if( newValue !== oldValue ){
@@ -170,7 +168,35 @@ angular.module('owm.newrenter')
   };
 })
 
-.controller('NewuserCreateBookingController', function ($scope, $q, person, resource, booking, bookingService) {
+.controller('NewRenterDepositController', function ($scope, $state, $sce) {
+
+  $scope.purchaseID = $scope.user.identity.id +' ' + (new Date()).getTime().toString(16);
+  $scope.endpoint =  $sce.trustAsResourceUrl('https://idealtest.rabobank.nl/ideal/mpiPayInitRabo.do');
+  $scope.amount = '100';
+  $scope.urlCancel = $state.href('newRenter-depositResult', {
+    state:      'cancel',
+    resourceId: $scope.resource.id,
+    startTime:  $scope.booking.startTime,
+    endTime:    $scope.booking.endTime
+  }, {absolute: true});
+  $scope.urlSuccess = $state.href('newRenter-booking', {
+    resourceId: $scope.resource.id,
+    startTime:  $scope.booking.startTime,
+    endTime:    $scope.booking.endTime
+  }, {absolute: true});
+  $scope.urlError = $state.href('newRenter-depositResult', {
+    state:      'error',
+    resourceId: $scope.resource.id,
+    startTime:  $scope.booking.startTime,
+    endTime:    $scope.booking.endTime
+  }, {absolute: true});
+})
+
+
+.controller('NewRenterBookingController', function ($scope, $q, person, resource, booking, bookingService, alertService) {
+
+  alertService.load();
+
   bookingService.getBookingList({
     person: person.id,
     timeFrame: {
@@ -200,31 +226,12 @@ angular.module('owm.newrenter')
   .then(function (booking) {
     console.log(booking);
     $scope.b = booking;
+  })
+  .catch(function (err) {
+    alertService.addGenericError();
+  })
+  .finally(function () {
+    alertService.loaded();
   });
 })
-
-.controller('NewRenterController', function ($scope, resource,
-    booking, authService, contractService) {
-  
-  //alertService.loaded();
-  $scope.resource = resource;
-  $scope.booking = booking;
-  $scope.user = authService.user;
-  
-  $scope.$watch('user.isAuthenticated && !user.isPending', function (newValue) {
-    if(newValue){
-      $scope.person = authService.user.identity;
-    }
-  });
-  
-  $scope.$watch('user.identity.id', function (id) {
-    if(id) {
-      contractService.forDriver({person: id}).
-      then(function (contracts) {
-        $scope.contracts = contracts;
-      });
-    }
-  });
-})
-
 ;

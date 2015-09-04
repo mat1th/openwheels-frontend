@@ -9,7 +9,9 @@ angular.module('owm.person.fileread', [])
     },
     link: function (scope, element, attributes) {
       element.bind('change', function (changeEvent) {
-        scope.fileread = changeEvent.target.files[0];
+        scope.$apply(function () {
+          scope.fileread = changeEvent.target.files[0];
+        });
       });
     }
   };

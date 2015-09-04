@@ -1,0 +1,24 @@
+<div class="card">
+
+  <div class="card-heading">
+    <h3 class="card-title">Auto geboekt</h3>
+  </div>
+
+  <div class="card-body">
+    <p ng-if="!b">
+      Je aanmelding is verwerkt. We maken nu de boeking voor je.
+    </p>
+    <div  ng-if="b" ng-include="'booking/list/partial/booking-list-item.tpl.html'"></div>
+
+    <p ng-if="b.status === 'requested'">
+      We hebben je huurverzoek verwerkt en aan de verhuurder voorgelegd. Het kan even duren voor de verhuurder reageert. Duurt het te lang of wil je zeker weten dat je kunt rijden? Boek dan een van onze SmartWheels. Deze auto's zijn 24 uur per dag direct beschikbaar voor onze leden.
+    </p>
+
+    <p ng-if="b.status === 'accepted'">
+      We hebben je huurverzoek verwerkt en de verhuurder is akkoord. Een fijne reis gewenst en we horen graag wat je van de auto vond.
+    </p>
+
+    <a ui-sref="owm.person.dashboard" class="btn btn-success">Ga naar dashboard</a>
+
+  </div>
+</div>

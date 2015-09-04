@@ -1,18 +1,25 @@
 'use strict';
 
-angular.module('owm.newrenter', [
+angular.module('owm.newRenter', [
+  'owm.newRenter.controllers',
   'datetimeDirective',
   'owm.resource'
 ])
 .config(function config($stateProvider, $urlRouterProvider) {
-    $stateProvider.state('new_renter', {
-      url: '/auto-huren/:city/:resourceId/reserveren?startTime$endTime',
+
+    $stateProvider.state('newRenter', {
+      url: '/auto-huren/:city/:resourceId/reserveren?startTime&endTime',
       abstract: true,
       parent: 'owm.resource',
       views: {
         'main-full@': {
           controller: 'NewRenterController',
-          templateUrl: 'newrenter/new_renter/create-booking.tpl.html'
+          templateUrl: 'newRenter/newRenter/wrapper.tpl.html'
+        }
+      },
+      data: {
+        access: {
+          feature: 'bookingSignupWizard'
         }
       },
       resolve: {
@@ -30,33 +37,34 @@ angular.module('owm.newrenter', [
         }]
       }
     });
-    
-    $stateProvider.state('new_renter-create_booking', {
+
+    $stateProvider.state('newRenter-register', {
       url: '/aanmelden',
-      parent: 'new_renter',
-      controller: 'RegistreerController',
-      templateUrl: 'newrenter/new_renter/register-person.tpl.html'
+      parent: 'newRenter',
+      controller: 'NewRenterRegisterController',
+      templateUrl: 'newRenter/newRenter/register.tpl.html'
     });
-    
-    $stateProvider.state('new_renter-betaal_borg', {
+
+    $stateProvider.state('newRenter-deposit', {
       url: '/betaal-borg',
-      parent: 'new_renter',
-      controller: 'BorgController',
-      templateUrl: 'newrenter/new_renter/borg.tpl.html',
+      parent: 'newRenter',
+      controller: 'NewRenterDepositController',
+      templateUrl: 'newRenter/newRenter/borg.tpl.html',
     });
-    
-    $stateProvider.state('new_renter-return_borg', {
-      url: '/betaal-borg/{state}',
-      parent: 'new_renter',
-      //controller: '',
-      template: '<h3> hoeraa </h3>'
+
+    $stateProvider.state('newRenter-depositResult', {
+      url: '/betaal-borg/:state',
+      parent: 'newRenter',
+      template: '<div class="card"><div class="card-body">' +
+                '<b>De iDEAL-betaling is niet voltooid. Heb je wel een betaling gedaan? Neem dan s.v.p. contact met ons op.</b>' +
+                '</div></div>'
     });
-    
-    $stateProvider.state('new_renter-bookresource', {
+
+    $stateProvider.state('newRenter-booking', {
       url: '/boekauto',
-      parent: 'new_renter',
-      controller: 'NewuserCreateBookingController',
-      templateUrl: 'newrenter/new_renter/booking.tpl.html',
+      parent: 'newRenter',
+      controller: 'NewRenterBookingController',
+      templateUrl: 'newRenter/newRenter/booking.tpl.html',
       resolve: {
         person: ['authService', function (authService){
           return authService.authenticatedUser();

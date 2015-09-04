@@ -213,15 +213,15 @@ angular.module('owm.resource.reservationForm', [])
       return alertService.add('danger', $filter('translate')('DATETIME_REQUIRED'), 5000);
     }
     alertService.load();
-    
-    // Als je nog niet bent ingelocht is er 
+
+    // Als je nog niet bent ingelogd is er
     // even een andere flow nodig
-    if(!$scope.person) {
-      $state.go('new_renter-create_booking', {
-        city:           $scope.resource.city ? $scope.resource.city : 'utrecht',
-        resourceId:     $scope.resource.id,
+    if (featuresService.get('bookingSignupWizard') && !$scope.person) {
+      $state.go('newRenter-register', {
+        city: $scope.resource.city ? $scope.resource.city : 'utrecht',
+        resourceId: $scope.resource.id,
         startTime: booking.beginRequested,
-        endTime:   booking.endRequested
+        endTime: booking.endRequested
       });
       return;
     }
