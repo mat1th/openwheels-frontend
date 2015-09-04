@@ -11,3 +11,10 @@ AddDefaultCharset utf-8
 <IfModule mod_mime.c>
     AddCharset utf-8 .atom .css .js .json .rss .vtt .webapp .xml
 </IfModule>
+
+RewriteCond %{REQUEST_FILENAME} -s
+RewriteCond %{REQUEST_FILENAME} -f
+RewriteRule .? - [L]
+
+RewriteCond %{HTTP_HOST} ^mywheels.be$
+RewriteRule .? index.html [NC,L]
