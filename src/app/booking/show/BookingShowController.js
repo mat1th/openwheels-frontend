@@ -54,8 +54,7 @@ angular.module('owm.booking.show', [])
     $scope.allowAcceptReject  = false;
     $scope.allowBoardComputer = false;
     $scope.allowMap    = false;
-    $scope.allowOvereenkomst = (booking.approved === 'OK') &&
-      (['smartphone', 'chipcard'].indexOf(booking.resource.locktype) < 0);
+    $scope.allowOvereenkomst = (booking.approved === null || booking.approved === 'OK') && booking.status === 'accepted';
 
     if ($scope.userPerspective === 'renter') {
 

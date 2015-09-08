@@ -37,7 +37,11 @@ angular.module('owm.pages', [
       }
     },
     data: {
-      access: { feature: 'verhuurTussenscherm' }
+      title: 'META_LISTYOURCAR_TITLE',
+      description: 'META_LISTYOURCAR_DESCRIPTION',
+      access: {
+        feature: 'verhuurTussenscherm'
+      }
     }
   })
 
@@ -51,7 +55,11 @@ angular.module('owm.pages', [
       }
     },
     data: {
-      access: { feature: 'verhuurTussenscherm' }
+      title: 'META_LISTYOURCAR2_TITLE',
+      description: 'META_LISTYOURCAR2_DESCRIPTION',
+      access: {
+        feature: 'verhuurTussenscherm'
+      }
     }
   })
 

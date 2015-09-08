@@ -22,6 +22,7 @@ angular.module('rpcServices', [])
   this.resetPassword         = m('resetPassword');
   this.addLicenseImages      = m('addLicenseImages');
   this.setProfileImage       = m('setProfileImage');
+  this.emailBookingLink      = m('emailBookingLink');
 })
 
 .service('placeService', function (api) {
