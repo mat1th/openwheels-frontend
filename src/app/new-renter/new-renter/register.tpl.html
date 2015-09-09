@@ -100,6 +100,12 @@
         <input type="submit" class="btn btn-success pull-right" value="Opslaan &amp; ga later verder" ng-if="!license_front"/>
         <input type="submit" class="btn btn-success pull-right" value="Volgende"  ng-if="license_front" />
       </div>
+
+      <div class="text-muted text-center">
+        <br/>
+        <span ng-bind-html="'SIGNUP_TERMS' | translate"></span><br/>
+        <span ng-bind-html="'SIGNUP_FAQ' | translate"></span>
+      </div>
     </form>
 
   </div>
