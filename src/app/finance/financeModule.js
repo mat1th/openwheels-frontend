@@ -135,7 +135,11 @@ angular.module('owm.finance', [
     url: '/vouchers',
     views: {
       'main@': {
-        templateUrl: 'finance/vouchers/vouchers.tpl.html',
+        /**
+         * TODO: Finish & remove wireframe
+         */
+        // templateUrl: 'finance/vouchers/vouchers.tpl.html',
+        templateUrl: 'finance/vouchers/vouchers-WIREFRAME.tpl.html',
         controller : 'VouchersController'
       }
     },
