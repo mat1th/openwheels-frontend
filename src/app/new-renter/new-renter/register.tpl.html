@@ -64,6 +64,33 @@
         </p>
       </div>
 
+      {{ person.phoneNumbers }}
+
+      <div ng-repeat="p in person.phoneNumbers">
+        <div class="form-group">
+          <label ng-if="$index === 0" for="number-{{ $index }}">{{ 'PHONENUMBER' | translate }}</label>
+          <div class="input-group">
+            <span class="input-group-btn" ng-if="person.phoneNumbers.length > 1">
+              <button type="button" class="btn btn-default" ng-click="removePhone($index)"><i class="fa fa-trash-o"></i></button>
+            </span>
+            <input type="text" class="form-control" id="number-{{ $index }}" class="form-control" ng-model="p.number">
+            <span class="input-group-addon">
+              <input type="checkbox" name="confidential" ng-model="p.confidential"> {{ 'CONFIDENTIAL' | translate }}
+          </span>
+          </div>
+        </div>
+      </div>
+
+      <p class="help-block" style="margin-top:-10px" ng-show="!person.phoneNumbers.length || (person.phoneNumbers.length === 1 && !person.phoneNumbers[0].number)">
+        <span class="text-danger">{{ 'REQUIRED' | translate }}</span>
+      </p>
+      <div class="form-group">
+        <a href="" ng-click="addPhone()" ng-if="person.phoneNumbers.length && person.phoneNumbers[person.phoneNumbers.length-1].number">
+          <i class="fa fa-plus fa-fw"></i> {{ 'PHONENUMBER_ADD' | translate }}
+        </a>
+      </div>
+
+
       <div class="row">
         <div class="col-xs-4">
           <div class="form-group">
