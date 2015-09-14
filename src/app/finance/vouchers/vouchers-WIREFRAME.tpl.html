@@ -141,6 +141,9 @@
             <td>Boekingskosten</td><td class="text-right">{{ booking.booking_price.booking_fee | currency }}</td>
           </tr>
           <tr>
+            <td>Afkoop eigen risico</td><td class="text-right">{{ booking.booking_price.redemption | currency }}</td>
+          </tr>
+          <tr>
             <td><b>Totale huurprijs</b></td><td class="text-right"><b>{{ (booking.booking_price.total) | currency }}</b></td>
           </tr>
 
