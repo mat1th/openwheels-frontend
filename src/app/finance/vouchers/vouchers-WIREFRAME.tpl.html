@@ -1,3 +1,4 @@
+<!--
 <div class="card">
   <div class="card-heading">
     <h2 class="card-title">
@@ -18,13 +19,11 @@
     </h2>
 
     <div ng-show="credit && !showVoucherOptions">
-      <!-- button toggle voucher options -->
       <div>
         Klik <a ng-click="toggleVoucherOptions(true)">hier</a> om extra rijtegoed te kopen. Wil je rijtegoed laten terugstorten? Ga dan naar <a>Mijn Financiën</a>.
       </div>
     </div>
 
-    <!-- voucher options -->
     <div ng-show="showVoucherOptions">
       <div class="clearfix" style="margin: 0 -5px 15px -5px">
         <div ng-repeat="option in voucherOptions" class="pull-left" style="width: 20%; padding: 5px">
@@ -39,24 +38,22 @@
 
 
 <p>of:</p>
-
+ -->
 
 <div class="card">
   <div class="card-heading">
     <h2 class="card-title">
-      Vul je rijtegoed aan
-      <info-icon tooltip-html="'Koop rijtegoed om je ritten te betalen. Je kunt het eenvoudig terug laten storten.'" tooltip-placement="bottom"></info-icon>
+      Bijna klaar! Alleen nog rijtegoed kopen
     </h2>
   </div>
 
-  <div class="card-body">
+<!--   <div class="card-body">
     <p>
     Je hebt nog <b>{{ requiredValue.value.voucher | currency }}</b> extra rijtegoed nodig voor jouw reserveringen.
     </p>
 
     <div ng-show="credit && !showVoucherOptions">
 
-      <!-- button with suggested value -->
       <div ng-if="requiredValue.value.voucher > 0">
         <button type="button" class="btn btn-success" ng-click="buyVoucher(requiredValue.value.voucher)">
           Koop {{ requiredValue.value.voucher | currency }} rijtegoed
@@ -66,13 +63,11 @@
         </button>
       </div>
 
-      <!-- button toggle voucher options -->
       <div ng-if="!(requiredValue.value.voucher > 0)">
         <button type="button" class="btn btn-success" ng-click="toggleVoucherOptions(true)">Koop rijtegoed</button>
       </div>
     </div>
 
-    <!-- voucher options -->
     <div ng-show="showVoucherOptions">
       <div class="clearfix" style="margin: 0 -5px 15px -5px">
         <div ng-repeat="option in voucherOptions" class="pull-left" style="width: 20%; padding: 5px">
@@ -82,28 +77,49 @@
       <a href="" ng-click="toggleVoucherOptions(false)">Annuleren</a>
     </div>
 
-  </div>
+
+  </div> -->
 </div>
 
 
-<div class="card">
+<div class="card" ng-repeat="booking in requiredValue.value.bookings" ng-init="isOpen={}; isOpen[0]=true">
+
   <div class="card-heading">
-    <h3 class="card-title">
-      <a href="">
-        Openstaande facturen
+
+    <div class="media media--small">
+      <a class="media-object pull-left" ui-sref="owm.resource.show({ resourceId: resource.id, city: resource.city })">
+        <img class="img-resource-small" src="assets/img/resource-avatar-small.jpg">
       </a>
-      {{ requiredValue.value.debt | currency }}
-    </h3>
-  </div>
-  <div collapse="true">
-    <div class="card-body">
+
+      <div class="media-body">
+
+        <div class="pull-left">
+          <div class="booking__timeframe booking__timeframe--accepted">
+            <datetime datetime="01-01-2015 09:00"></datetime>
+            <datetime datetime="01-01-2015 17:00"></datetime>
+            <span class="tag tag-requested">Aanvraag</span>
+          </div>
+        </div>
+
+        <div class="pull-left">
+          <div class="resource__alias truncate">
+            <a>
+              Test's Wheels
+            </a>
+          </div>
+          <div class="truncate">
+            <i class="fa fa-map-marker fa-fw"></i> Moreelsepark, Utrecht
+          </div>
+          <div class="truncate">
+            <i class="fa fa-user fa-fw"></i> Eigenaar</a>
+          </div>
+        </div>
+
+      </div>
     </div>
   </div>
-</div><!-- /card -->
 
-
-<div class="card" ng-repeat="booking in requiredValue.value.bookings" ng-init="isOpen={}; isOpen[0]=true">
-  <div class="card-heading">
+<!--   <div class="card-heading">
     <h3 class="card-title">
       <a href="" ng-click="isOpen[$index] = !!!isOpen[$index]">
         <i class="fa fa-fw" ng-class="{ 'fa-chevron-right': !isOpen[$index], 'fa-chevron-down': isOpen[$index] }"></i>
@@ -111,50 +127,46 @@
       </a>
       {{ (booking.booking_price.total + booking.km_price) | currency }}
     </h3>
-  </div>
+  </div> -->
+
   <div collapse="!isOpen[$index]">
     <div class="card-body">
 
       <table class="table">
         <tbody>
           <tr>
-            <td>Huur</td><td>{{ booking.booking_price.total | currency }}</td>
+            <td style="width:100%">Huur</td><td class="text-right">{{ booking.booking_price.sub_total | currency }}</td>
           </tr>
           <tr>
-            <td>
-              Geschatte kilometers
-              <info-icon tooltip-placement="bottom" tooltip-html="'Omdat we nog niet weten hoeveel kilometers je zal rijden vragen we je meer rijtegoed te kopen dan je rit waarschijnlijk zal kosten. Dit bedrag vraag je na je rit eenvoudig terug, of bewaar je voor een volgende rit'"></info-icon>            </td><td>{{ booking.km_price | currency }}</td>
+            <td>Boekingskosten</td><td class="text-right">{{ booking.booking_price.booking_fee | currency }}</td>
           </tr>
           <tr>
-            <td>Totaal</td><td>{{ (booking.booking_price.total + booking.km_price) | currency }}</td>
+            <td><b>Totale huurprijs</b></td><td class="text-right"><b>{{ (booking.booking_price.total) | currency }}</b></td>
+          </tr>
+
+          <tr>
+            <td style="padding-top:25px">
+              <i>Geschatte kilometers</i>
+              <info-icon tooltip-placement="bottom" tooltip-html="'Omdat we nog niet weten hoeveel kilometers je zal rijden vragen we je meer rijtegoed te kopen dan je rit waarschijnlijk zal kosten. Dit bedrag vraag je na je rit eenvoudig terug, of bewaar je voor een volgende rit'"></info-icon>
+            </td>
+            <td style="padding-top:25px" class="text-right"><i>{{ booking.km_price | currency }}</i></td>
+          </tr>
+          <tr>
+            <td><b>Benodigd rijtegoed</b></td><td class="text-right"><b>{{ (booking.booking_price.total + booking.km_price) | currency }}</b></td>
           </tr>
         </tbody>
       </table>
 
-      <a ui-sref="owm.booking.show({ bookingId: booking.id })">
-        Ga naar boeking »
-      </a>
+      <div class="alert alert-info">
+        <input type="checkbox" />&nbsp;&nbsp;
+        Eigen risico afkopen (€3,50 per dag)
+      </div>
+
     </div>
   </div>
 </div><!-- /card -->
 
 
-
-<div class="card">
-  <div class="card-heading">
-    <h3 class="card-title">
-      <a href="">
-        <i class="fa fa-fw fa-chevron-right"></i>
-        Rit op ...
-      </a>
-      {{ 0 | currency }}
-    </h3>
-  </div>
-  <div collapse="true">
-    <div class="card-body">
-    </div>
-  </div>
-</div><!-- /card -->
 
 
 
@@ -176,10 +188,38 @@
 
       <div ng-if="credit && !credit.error">
         <table class="table">
-        <tr><td>Huidig rijtegoed</td><td>{{ credit.value | currency }}</td></tr>
-        <tr><td>AF: Openstaande bedragen</td><td>{{ requiredValue.value.sub_total | currency }}</td></tr>
-        <tr><td>Benodig extra rijtegoed</td><td>{{ requiredValue.value.total | currency }}</td></tr>
-        <tr><td><b>Benodig extra rijtegoed (afgerond)</b></td><td><b>{{ requiredValue.value.voucher | currency }}</b></td></tr>
+          <tr><td style="width:100%">Benodigd voor je reserveringen</td><td class="text-right">{{ requiredValue.value.sub_total | currency }}</td></tr>
+          <tr><td>Openstaande facturen</td><td class="text-right">{{ requiredValue.value.debt | currency }}</td></tr>
+          <tr><td>AF: Je huidige rijtegoed</td><td class="text-right">{{ requiredValue.value.credit | currency }}</td></tr>
+          <tr><td>Totaal benodigd extra rijtegoed</td><td class="text-right">{{ requiredValue.value.total | currency }}</td></tr>
+          <tr><td><b>Totaal benodigd extra rijtegoed (afgerond)</b></td><td class="text-right"><b>{{ requiredValue.value.voucher | currency }}</b></td></tr>
+        </table>
+
+        <div ng-show="credit && !showVoucherOptions">
+
+          <div ng-if="requiredValue.value.voucher > 0">
+            <button type="button" class="btn btn-success" ng-click="buyVoucher(requiredValue.value.voucher)">
+              Koop {{ requiredValue.value.voucher | currency }} rijtegoed
+            </button>
+            <button type="button" class="btn btn-link" ng-click="toggleVoucherOptions(true)">
+              Ander bedrag
+            </button>
+          </div>
+
+          <div ng-if="!(requiredValue.value.voucher > 0)">
+            <button type="button" class="btn btn-success" ng-click="toggleVoucherOptions(true)">Koop rijtegoed</button>
+          </div>
+        </div>
+
+        <div ng-show="showVoucherOptions">
+          <div class="clearfix" style="margin: 0 -5px 15px -5px">
+            <div ng-repeat="option in voucherOptions" class="pull-left" style="width: 20%; padding: 5px">
+              <button ng-click="buyVoucher(option)" type="button" class="btn btn-block btn-success">{{ option | currency }}</button>
+            </div>
+          </div>
+          <a href="" ng-click="toggleVoucherOptions(false)">Annuleren</a>
+        </div>
+
       </div>
 
     </div>
