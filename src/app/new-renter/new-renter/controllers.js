@@ -83,8 +83,8 @@ angular.module('owm.newRenter.controllers', [])
           endTime:    $scope.booking.endTime
         });
       }
-    }).catch(function (error) {
-      alertService.addGenericError();
+    }).catch(function (err) {
+      alertService.addError(err);
     }).finally(function () {
       alertService.loaded();
     });
@@ -232,7 +232,7 @@ angular.module('owm.newRenter.controllers', [])
     $scope.b = booking;
   })
   .catch(function (err) {
-    alertService.addGenericError();
+    alertService.addError(err);
   })
   .finally(function () {
     alertService.loaded();
