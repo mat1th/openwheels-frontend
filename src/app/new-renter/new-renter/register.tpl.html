@@ -7,7 +7,7 @@
   <div class="card-body">
     <form name="personalDataForm" ng-submit="subscribe(email, password, person, license_front)">
 
-      <div class="row" ng-hide="user.isAuthenticated">
+      <div class="row" ng-if="!user.isAuthenticated">
         <div class="col-md-4">
           <div class="form-group">
             <label for="email">{{ 'EMAIL' | translate }}</label>
