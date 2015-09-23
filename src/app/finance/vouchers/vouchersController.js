@@ -51,7 +51,9 @@ angular.module('owm.finance.vouchers', [])
     $scope.redemptionPending[booking.id] = true;
     bookingService.alter({
       booking: booking.id,
-      riskReduction: !booking.riskReduction
+      newProps: {
+        riskReduction: !booking.riskReduction
+      }
     })
     .then(function () {
       /* reload price */
