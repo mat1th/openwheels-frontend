@@ -168,22 +168,26 @@ angular.module('owm.newRenter.controllers', [])
   };
 })
 
-.controller('NewRenterDepositController', function ($scope, $state, $sce) {
+
+.controller('NewRenterDepositController', function ($scope, $state, $sce, ENV) {
 
   $scope.purchaseID = $scope.user.identity.id +' ' + (new Date()).getTime().toString(16);
   $scope.endpoint =  $sce.trustAsResourceUrl('https://idealtest.rabobank.nl/ideal/mpiPayInitRabo.do');
-  $scope.amount = '100';
+  $scope.amount = ENV === 'production' ? 25000 : 100; // deposit amount in euro cent
+
   $scope.urlCancel = $state.href('newRenter-depositResult', {
     state:      'cancel',
     resourceId: $scope.resource.id,
     startTime:  $scope.booking.startTime,
     endTime:    $scope.booking.endTime
   }, {absolute: true});
+
   $scope.urlSuccess = $state.href('newRenter-booking', {
     resourceId: $scope.resource.id,
     startTime:  $scope.booking.startTime,
     endTime:    $scope.booking.endTime
   }, {absolute: true});
+
   $scope.urlError = $state.href('newRenter-depositResult', {
     state:      'error',
     resourceId: $scope.resource.id,
