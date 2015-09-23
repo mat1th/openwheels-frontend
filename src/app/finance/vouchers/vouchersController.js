@@ -2,30 +2,23 @@
 
 angular.module('owm.finance.vouchers', [])
 
-.controller('VouchersController', function ($window, $q, $timeout, $state, $modal, $scope, appConfig, alertService, voucherService, paymentService, me) {
+.controller('VouchersController', function ($window, $q, $state, $scope, appConfig, alertService, voucherService,
+  paymentService, bookingService, me) {
 
-  $scope.credit = null;
+  $scope.busy = true;
   $scope.requiredValue = null;
   $scope.voucherOptions = [25,50,100,250,500];
   $scope.showVoucherOptions = false;
+  $scope.redemptionPending = {}; /* by booking id */
 
   alertService.load($scope);
-  getCredit().then(getRequiredValue).finally(function () {
+  getRequiredValue().then(getBookings).finally(function () {
     alertService.loaded($scope);
+    $scope.busy = false;
   });
 
   $scope.toggleVoucherOptions = function (toggle) {
     $scope.showVoucherOptions = toggle;
-  };
-
-  $scope.showRequiredValueDetails = function (requiredValue) {
-    $modal.open({
-      templateUrl: 'finance/vouchers/requiredValuePopup.tpl.html',
-      controller: ['$scope', '$modalInstance', function ($scope, $modalInstance) {
-        $scope.requiredValue = requiredValue;
-        $scope.close = $modalInstance.close;
-      }]
-    });
   };
 
   $scope.buyVoucher = function (value) {
@@ -51,28 +44,62 @@ angular.module('owm.finance.vouchers', [])
     });
   };
 
-  function getRequiredValue () {
-    $scope.requiredValue = null;
-    var promise = voucherService.calculateRequiredCredit({ person: me.id });
-    promise.then(function (value) {
-      $scope.requiredValue = { value: value };
+  $scope.toggleRedemption = function (booking) {
+    alertService.closeAll();
+    alertService.load($scope);
+
+    $scope.redemptionPending[booking.id] = true;
+    bookingService.alter({
+      booking: booking.id,
+      riskReduction: !booking.riskReduction
+    })
+    .then(function () {
+      /* reload price */
+      return getRequiredValue();
+    })
+    .then(function (requiredValue) {
+      /* reload bookings */
+      return getBookings(requiredValue);
     })
     .catch(function (err) {
-      $scope.requiredValue = { error: true };
+      alertService.addError(err);
+      booking.riskReduction = !!!booking.riskReduction;
+    })
+    .finally(function () {
+      alertService.loaded($scope);
+      $scope.redemptionPending[booking.id] = false;
     });
-    return promise;
+  };
+
+  function getRequiredValue () {
+    return voucherService.calculateRequiredCredit({
+      person: me.id
+    }).then(function (value) {
+      $scope.requiredValue = value;
+      return value;
+    })
+    .catch(function (err) {
+      alertService.addError(err);
+    });
   }
 
-  function getCredit () {
-    $scope.credit = null;
-    var promise = voucherService.calculateCredit({ person: me.id });
-    promise.then(function (credit) {
-      $scope.credit = { value: credit };
-    })
-    .catch(function (err) {
-      $scope.credit = { error: true };
+  /* load all bookings contained in the requiredValue object */
+  function getBookings (requiredValue) {
+    if (!requiredValue.bookings || !requiredValue.bookings.length) { return true; }
+
+    var promises = [];
+    requiredValue.bookings.forEach(function (booking) {
+      promises.push(
+        bookingService.get({
+          booking: booking.id
+        }).then(function (_booking) {
+          angular.extend(booking, _booking);
+        })
+      );
     });
-    return promise;
+    return $q.all(promises).catch(function (err) {
+      alertService.addError(err);
+    });
   }
 
   function redirect (url) {
