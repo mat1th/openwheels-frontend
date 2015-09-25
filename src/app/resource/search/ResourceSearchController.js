@@ -116,6 +116,7 @@ angular.module('owm.resource.search', [
         } else if ($state.includes('owm.resource.place.map')) {
           return $state.go('owm.resource.search.map');
         }
+        updateUrl();
       } else {
         if (!$state.includes('owm.resource.place')) {
           updateUrl();
