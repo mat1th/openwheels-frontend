@@ -5,6 +5,8 @@ angular.module('owm.finance.vouchers', [])
 .controller('VouchersController', function ($window, $q, $state, $scope, appConfig, alertService, voucherService,
   paymentService, bookingService, me) {
 
+  var cachedBookings = {};
+
   $scope.busy = true;
   $scope.requiredValue = null;
   $scope.voucherOptions = [25,50,100,250,500];
@@ -30,11 +32,11 @@ angular.module('owm.finance.vouchers', [])
       return paymentService.payVoucher({ voucher: voucher.id });
     })
     .then(function (data) {
-      if (data.url) {
-        redirect(data.url);
-      } else {
+      if (!data.url) {
         throw new Error('Er is een fout opgetreden');
       }
+      /* redirect to payment url */
+      redirect(data.url);
     })
     .catch(function (err) {
       alertService.addError(err);
@@ -48,24 +50,31 @@ angular.module('owm.finance.vouchers', [])
     alertService.closeAll();
     alertService.load($scope);
 
+    /* checkbox is already checked, so new value is now: */
+    var newValue = booking.riskReduction;
+
     $scope.redemptionPending[booking.id] = true;
     bookingService.alter({
       booking: booking.id,
       newProps: {
-        riskReduction: !booking.riskReduction
+        riskReduction: newValue
       }
     })
     .then(function () {
-      /* reload price */
+      /* recalculate amounts */
       return getRequiredValue();
     })
     .then(function (requiredValue) {
-      /* reload bookings */
+      /* get bookings from cache */
       return getBookings(requiredValue);
     })
+    .then(function () {
+      booking.riskReduction = newValue;
+    })
     .catch(function (err) {
-      alertService.addError(err);
+      /* revert */
       booking.riskReduction = !!!booking.riskReduction;
+      alertService.addError(err);
     })
     .finally(function () {
       alertService.loaded($scope);
@@ -85,21 +94,26 @@ angular.module('owm.finance.vouchers', [])
     });
   }
 
-  /* load all bookings contained in the requiredValue object */
+  /**
+   * Extend the requiredValue object's bookings
+   * Use cache, no need to reload, e.g. after toggling redemption
+   */
   function getBookings (requiredValue) {
     if (!requiredValue.bookings || !requiredValue.bookings.length) { return true; }
+    var results = [];
 
-    var promises = [];
     requiredValue.bookings.forEach(function (booking) {
-      promises.push(
+      results.push(cachedBookings[booking.id] ||
         bookingService.get({
           booking: booking.id
         }).then(function (_booking) {
+          cachedBookings[_booking.id] = _booking;
+
           angular.extend(booking, _booking);
         })
       );
     });
-    return $q.all(promises).catch(function (err) {
+    return $q.all(results).catch(function (err) {
       alertService.addError(err);
     });
   }
@@ -109,5 +123,4 @@ angular.module('owm.finance.vouchers', [])
     $window.location.href = url + '?redirectTo=' + encodeURIComponent(redirectTo);
   }
 
-})
-;
+});
