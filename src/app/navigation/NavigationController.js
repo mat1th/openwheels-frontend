@@ -19,7 +19,7 @@ angular.module('owm.navigation', [])
         if (!contracts.length) { return; }
 
         contracts.some(function (contract) {
-          if (contract.type === 60) {
+          if (contract.type.id === 60) {
             $rootScope.vouchersEnabled = true;
             return true;
           }
