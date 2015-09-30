@@ -1,7 +1,7 @@
 {
   "author": "Jaap Gerritsen",
   "name": "OpenWheels",
-  "version": "1.8.2",
+  "version": "1.8.3",
   "homepage": "https://github.com/OpenWheels",
   "dependencies": {},
   "devDependencies": {
