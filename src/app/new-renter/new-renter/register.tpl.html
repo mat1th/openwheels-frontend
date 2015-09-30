@@ -5,13 +5,13 @@
    </div>
 
   <div class="card-body">
-    <form name="personalDataForm" ng-submit="subscribe(email, password, person, license_front)">
+    <form name="personalDataForm" ng-submit="subscribe(credentials, person, license_front)">
 
       <div class="row" ng-if="!user.isAuthenticated">
         <div class="col-md-4">
           <div class="form-group">
             <label for="email">{{ 'EMAIL' | translate }}</label>
-            <input type="email" id="email" name="email" class="form-control" ng-model="email" required>
+            <input type="email" id="email" name="email" class="form-control" ng-model="credentials.email" required>
             <p class="help-block" ng-show="contactDataForm.email.$error.required"><span class="text-danger">{{ 'REQUIRED' | translate }}</span>
             </p>
           </div>
@@ -20,7 +20,7 @@
         <div class="col-md-8">
           <div class="form-group">
             <label for="password">{{ 'PASSWORD' | translate }}</label>
-            <input type="password" id="password" name="password" class="form-control" ng-model="password"
+            <input type="password" id="password" name="password" class="form-control" ng-model="credentials.password"
                  required>
             <p class="help-block" ng-show="contactDataForm.password.$error.required"><span class="text-danger">{{ 'REQUIRED' | translate }}</span>
             </p>
@@ -97,8 +97,15 @@
       </div>
 
       <div class="row">
-        <input type="submit" class="btn btn-success pull-right" value="Opslaan &amp; ga later verder" ng-if="!license_front"/>
+        <input type="submit" class="btn btn-success pull-right" value="Opslaan &amp; later verder gaan" ng-if="!license_front"/>
         <input type="submit" class="btn btn-success pull-right" value="Volgende"  ng-if="license_front" />
+      </div>
+
+      <div class="text-muted row"  ng-if="!license_front">
+        <div class="col-xs-12">
+          <br/>
+          <p class="help-block" ng-bind-html="'SIGNUP_SAVE' | translate"></p>
+        </div>
       </div>
 
       <div class="text-muted text-center">

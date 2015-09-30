@@ -30,8 +30,9 @@ angular.module('owm.newRenter.controllers', [])
 
   $scope.license_front = null;
   $scope.person = {};
+  $scope.credentials = {};
 
-  $scope.subscribe = function(email, password, person, license_front) {
+  $scope.subscribe = function(credentials, person, license_front) {
     alertService.closeAll();
     alertService.load();
 
@@ -40,9 +41,10 @@ angular.module('owm.newRenter.controllers', [])
     })
     .then(function (authenticated) {
       if(!authenticated) {
+
         return authService.oauthSubscribe({
-          email: email,
-          password: password,
+          email: credentials.email,
+          password: credentials.password,
           other: person
         });
       }
