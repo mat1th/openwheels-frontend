@@ -28,7 +28,7 @@ angular.module('owm.featuresService', [])
     ratings            : true,
     hideSignupPreference: false,
     payoutRequests     : false, // show payout button for vouchers & invoiceGroups
-    bookingSignupWizard: false  // redirect to signup wizard if not logged in AKA 'newrenter flow'
+    bookingSignupWizard: false,  // redirect to signup wizard if not logged in AKA 'newrenter flow'
 
     // Auto-generated (see below):
     social             : false
