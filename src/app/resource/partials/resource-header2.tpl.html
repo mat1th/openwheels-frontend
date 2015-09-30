@@ -15,7 +15,7 @@
 
     <div class="truncate">
       <i class="fa fa-user fa-fw"></i> {{ resource.owner.firstName }}
-      <span ng-if="features.ratings" rating-thumb="{ value : resource.rating.satisfaction, senders : resource.rating.senders }"></span>
+      <span ng-if="features.ratings" rating-thumb="{ value : resource.rating_totals.satisfaction, senders: resource.ratings.length }"></span>
     </div>
 
   </div>
