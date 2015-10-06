@@ -243,7 +243,11 @@ angular.module('owm.resource.reservationForm', [])
       } else {
         alertService.add('info', $filter('translate')('BOOKING_REQUESTED'), 5000);
       }
-      return $state.go('owm.person.dashboard');
+      if(response.approved === 'BUY_VOUCHER') {
+        return $state.go('owm.finance.vouchers');
+      } else {
+        return $state.go('owm.person.dashboard');
+      }
 
     }, function(err) {
       return alertService.addError(err);
