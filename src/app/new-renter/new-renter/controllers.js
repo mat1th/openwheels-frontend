@@ -28,6 +28,19 @@ angular.module('owm.newRenter.controllers', [])
   dutchZipcodeService, authService, alertService, personService, $q
 ) {
 
+  $scope.addPhone = function () {
+    $scope.person.phoneNumbers = $scope.person.phoneNumbers || [];
+    $scope.person.phoneNumbers.push({
+      number: '',
+      type: 'mobile'
+    });
+  };
+
+  $scope.removePhone = function (index) {
+    $scope.person.phoneNumbers.splice(index, 1);
+  };
+
+  $scope.addPhone();
   $scope.license_front = null;
   $scope.person = {};
   $scope.credentials = {};
