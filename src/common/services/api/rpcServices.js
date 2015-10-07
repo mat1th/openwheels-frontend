@@ -111,6 +111,7 @@ angular.module('rpcServices', [])
   this.calculatePrice = m('calculatePrice');
   this.getSent        = m('getSent');
   this.getReceived    = m('getReceived'); // status = paid | unpaid | both
+  this.createSenderInvoiceGroup = m('createSenderInvoiceGroup');
 })
 
 .service('accountService', function (api) {
