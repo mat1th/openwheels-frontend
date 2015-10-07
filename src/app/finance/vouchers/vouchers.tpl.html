@@ -26,7 +26,7 @@
     <h3 class="card-title">
       <a ng-click="isOpen['_' + $index] = !!!isOpen['_' + $index]">
         <i class="fa fa-fw" ng-class="{ 'fa-chevron-right': !isOpen['_' + $index], 'fa-chevron-down': isOpen['_' + $index] }"></i>
-        {{ booking.title }}
+        Rit op {{ booking.beginBooking | amDateFormat:'DD-MM-YYYY' }}
       </a>
     </h3>
   </div>
