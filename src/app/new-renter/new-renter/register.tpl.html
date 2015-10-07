@@ -64,8 +64,6 @@
         </p>
       </div>
 
-      {{ person.phoneNumbers }}
-
       <div ng-repeat="p in person.phoneNumbers">
         <div class="form-group">
           <label ng-if="$index === 0" for="number-{{ $index }}">{{ 'PHONENUMBER' | translate }}</label>
