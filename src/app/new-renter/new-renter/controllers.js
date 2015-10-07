@@ -40,9 +40,9 @@ angular.module('owm.newRenter.controllers', [])
     $scope.person.phoneNumbers.splice(index, 1);
   };
 
-  $scope.addPhone();
   $scope.license_front = null;
   $scope.person = {};
+  $scope.addPhone();
   $scope.credentials = {};
 
   $scope.subscribe = function(credentials, person, license_front) {
@@ -115,6 +115,9 @@ angular.module('owm.newRenter.controllers', [])
         $scope.person.dateOfBirth = me.dateOfBirth;
         $scope.person.zipcode = me.zipcode;
         $scope.person.streetNumber = me.streetNumber;
+        if (!me.phoneNumbers && !me.phoneNumbers.length) {
+          $scope.addPhone();
+        }
       });
     }
   });
