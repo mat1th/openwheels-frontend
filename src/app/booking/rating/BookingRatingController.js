@@ -36,13 +36,11 @@ angular.module('owm.booking.rating', [])
     // set quality 0 to null
     if ($scope.rating.quality === 0) {
       $scope.rating.quality = null;
-      console.log('aangepast');
     }
 
     // set cleanliness 0 to null
     if ($scope.rating.cleanliness === 0) {
       $scope.rating.cleanliness = null;
-      console.log('aangepast');
     }
 
     var data = {
