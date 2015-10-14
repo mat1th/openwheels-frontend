@@ -21,11 +21,14 @@ angular.module('owm.featuresService', [])
     invoiceModuleV3    : false,
     filtersSidebar     : true, // obsolete
     resourceSidebar    : true, // obsolete
+    calculatePrice     : true, // display detailed price info based on currently selected times and contract
     facebook           : false,
     twitter            : false,
     googlePlus         : false,
     ratings            : true,
     hideSignupPreference: false,
+    payoutRequests     : false, // show payout button for vouchers & invoiceGroups
+    bookingSignupWizard: false,  // redirect to signup wizard if not logged in AKA 'newrenter flow'
 
     // Auto-generated (see below):
     social             : false
@@ -48,5 +51,4 @@ angular.module('owm.featuresService', [])
     get: getByName
   };
 
-})
-;
+});

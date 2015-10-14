@@ -15,6 +15,16 @@ angular.module('owm', [
     $state.go('home');
   });
 
+  $stateProvider.state('autodelen', {
+    url: '/autodelen',
+    onEnter: ['$window', function ($window) { $window.location.reload(); }]
+  });
+
+  $stateProvider.state('autodelen2', {
+    url: '/autodelen/*path',
+    onEnter: ['$window', function ($window) { $window.location.reload(); }]
+  });
+
   $stateProvider.state('base', {
     resolve: {
       isLanguageLoaded: ['$q', '$rootScope', function ($q, $rootScope) {
@@ -46,6 +56,14 @@ angular.module('owm', [
         templateUrl: 'footer/footer.tpl.html',
         controller: 'FooterController'
       }
+    },
+    resolve: {
+      metaInfo: ['metaInfoService', function (metaInfoService) {
+        metaInfoService.setTranslated({
+          title: 'META_HOME_TITLE',
+          description: 'META_HOME_DESCRIPTION'
+        });
+      }]
     },
     data: {
       access: {

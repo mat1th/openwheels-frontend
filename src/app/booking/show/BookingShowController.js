@@ -54,8 +54,7 @@ angular.module('owm.booking.show', [])
     $scope.allowAcceptReject  = false;
     $scope.allowBoardComputer = false;
     $scope.allowMap    = false;
-    $scope.allowOvereenkomst = (booking.approved === 'OK') &&
-      (['smartphone', 'chipcard'].indexOf(booking.resource.locktype) < 0);
+    $scope.allowOvereenkomst = (booking.approved === null || booking.approved === 'OK') && booking.status === 'accepted';
 
     if ($scope.userPerspective === 'renter') {
 
@@ -111,11 +110,11 @@ angular.module('owm.booking.show', [])
   }
 
   $scope.hasAcceptedTimeframe = function (booking) {
-    return booking.beginBooking && ( ['cancelled', 'rejected'].indexOf(booking.status) < 0 );
+    return booking.beginBooking && ( ['cancelled', 'owner_cancelled', 'rejected'].indexOf(booking.status) < 0 );
   };
 
   $scope.hasRequestedTimeframe = function (booking) {
-    return booking.beginRequested && ( ['cancelled', 'rejected'].indexOf(booking.status) < 0 );
+    return booking.beginRequested && ( ['cancelled', 'owner_cancelled', 'rejected'].indexOf(booking.status) < 0 );
   };
 
   $scope.setTimeframe = function(booking, addDays) {

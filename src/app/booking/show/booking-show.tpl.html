@@ -39,7 +39,7 @@
     <hr/>
 
     <!-- alert -->
-    <div class="alert alert-warning" ng-if="(booking.status === 'cancelled' || booking.status === 'rejected')">
+    <div class="alert alert-warning" ng-if="['cancelled', 'owner_cancelled', 'rejected'].indexOf(booking.status) >= 0">
       <span>{{ booking.status | bookingStatus }}</span>
     </div>
 
@@ -388,7 +388,7 @@
       <a href="" ng-click="isSentInvoicesCollapsed = !isSentInvoicesCollapsed">
         <i class="fa fa-fw" ng-class="{ 'fa-chevron-right': isSentInvoicesCollapsed, 'fa-chevron-down': !isSentInvoicesCollapsed }">
       </i>
-      {{ 'SENT_INVOICES_TITLE' | translate }}
+      {{ 'BOOKING_SENT_INVOICES_TITLE' | translate }}
       </a>
     </h3>
   </div>

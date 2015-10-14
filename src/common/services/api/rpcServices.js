@@ -22,6 +22,12 @@ angular.module('rpcServices', [])
   this.resetPassword         = m('resetPassword');
   this.addLicenseImages      = m('addLicenseImages');
   this.setProfileImage       = m('setProfileImage');
+  this.emailBookingLink      = m('emailBookingLink');
+})
+
+.service('placeService', function (api) {
+  var m = function (name) { return api.createRpcMethod('place.' + name); };
+  this.search = m('search');
 })
 
 .service('contractService', function (api) {
@@ -105,6 +111,7 @@ angular.module('rpcServices', [])
   this.calculatePrice = m('calculatePrice');
   this.getSent        = m('getSent');
   this.getReceived    = m('getReceived'); // status = paid | unpaid | both
+  this.createSenderInvoiceGroup = m('createSenderInvoiceGroup');
 })
 
 .service('accountService', function (api) {
@@ -151,6 +158,8 @@ angular.module('rpcServices', [])
   this.payVoucher       = m('payVoucher');
   this.payInvoiceGroup  = m('payInvoiceGroup');
   this.getInvoiceGroups = m('getInvoiceGroups');
+  this.payoutVoucher    = m('payoutVoucher');
+  this.payoutInvoiceGroup = m('payoutInvoicegroup');
 })
 
 .service('calendarService', function(api){

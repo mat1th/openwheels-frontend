@@ -131,6 +131,7 @@
 
 
 <!-- CONTACT DATA  -->
+
 <div class="card" id="contact-data">
   <div class="card-heading">
     <h3 class="card-title">
@@ -212,9 +213,14 @@
           </div>
         </div>
 
+        <div ng-if="person.preference !== 'renter'" class="form-group">
+          {{ 'INFO_MY_PROFILE_CONTACT' | translate }}
+          <a ui-sref="owm.resource.create">{{ 'MY_RESOURCES' | translate }}</a>.
+        </div>
+
         <div ng-repeat="p in person.phoneNumbers">
           <div class="form-group">
-            <label for="number-{{ $index }}">{{ 'PHONENUMBER' | translate }}</label>
+            <label ng-if="$index === 0" for="number-{{ $index }}">{{ 'PHONENUMBER' | translate }}</label>
             <div class="input-group">
               <span class="input-group-btn" ng-if="person.phoneNumbers.length > 1">
                 <button type="button" class="btn btn-default" ng-click="removePhone(p, $index)"><i class="fa fa-trash-o"></i></button>
@@ -237,7 +243,7 @@
         </div>
 
         <button id="submitForm" type="button" class="btn btn-primary"
-          ng-disabled="contactDataForm.$pristine || !contactDataForm.$valid"
+          ng-disabled="contactDataForm.$pristine || !contactDataForm.$valid || !person.phoneNumbers.length || (person.phoneNumbers.length > 0 && !person.phoneNumbers[0].number)"
           ng-click="submitContactDataForm()">
           {{ 'SUBMIT' | translate }}
         </button>
@@ -395,6 +401,7 @@
          <i class="fa fa-fw" ng-class="{ 'fa-chevron-right': accountIsCollapsed, 'fa-chevron-down': !accountIsCollapsed }"></i>
          {{ 'MY_PROFILE_ACCOUNT' | translate }}
        </a>
+       &nbsp;<i class="text-danger fa fa-exclamation-triangle" ng-show="alerts.personalData" tooltip="Vul je gegevens aan"></i>
      </h3>
   </div>
   <div collapse="accountIsCollapsed" >
@@ -403,6 +410,18 @@
     </div><!--/ card-body -->
   </div><!--/ collapse -->
 </div><!--/ card -->
+
+<!-- upload license -->
+<div class="card" ng-show="person.driverLicense === null">
+  <div class="card-heading">
+    <h3 class="card-title">
+      <a ui-sref="owm.person.license">
+        {{ 'LICENSE_UPLOAD' | translate }}
+      </a>
+      &nbsp;<i class="text-danger fa fa-exclamation-triangle" ng-show="alerts.personalData" tooltip="Upload je rijbewijs"></i>
+    </h3>
+  </div>
+</div>
 
 <!-- change password -->
 <div class="card">
@@ -415,7 +434,7 @@
   </div>
 </div>
 
-<div class="card" id="menu-item-contracts">
+<div class="card" id="menu-item-contracts" ng-if="person.status != 'new'">
   <div class="card-heading">
     <h3 class="card-title">
       <a href="" ui-sref="owm.person.contract">{{ 'MY_CONTRACTS' | translate }}</a>
@@ -423,7 +442,7 @@
   </div>
 </div>
 
-<div class="card" id="menu-item-chipcards">
+<div class="card" id="menu-item-chipcards" ng-if="person.status != 'new'">
   <div class="card-heading">
     <h3 class="card-title">
       <a href="" ui-sref="owm.person.chipcard">{{ 'MY_CHIPCARDS' | translate }}</a>

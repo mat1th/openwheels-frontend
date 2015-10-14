@@ -36,9 +36,9 @@ angular.module('owm.resource', [
         }]
       },
     });
-
+    
     $stateProvider.state('owm.resource.search', {
-      url: '',
+      url: '/auto-huren',
       abstract: true,
       reloadOnSearch: false,
       views: {
@@ -46,23 +46,85 @@ angular.module('owm.resource', [
           controller: 'ResourceSearchController',
           templateUrl: 'resource/search/resource-search.tpl.html'
         }
+      },
+      data: {
+        title: 'META_SEARCHPAGE_TITLE',
+        description: 'META_SEARCHPAGE_DESCRIPTION'
+      },
+      resolve: {
+        place: function () {
+          return null;
+        }
       }
     });
 
     $stateProvider.state('owm.resource.search.list', {
-      url: '/auto-huren',
+      url: '',
       reloadOnSearch: false,
       controller: 'ResourceSearchListController',
       templateUrl: 'resource/search/list/resource-search-list.tpl.html'
     });
 
     $stateProvider.state('owm.resource.search.map', {
-      url: '/auto-huren/kaart',
+      url: '/kaart',
       reloadOnSearch: false,
       controller: 'ResourceSearchMapController',
       templateUrl: 'resource/search/map/resource-search-map.tpl.html'
     });
 
+    $stateProvider.state('owm.resource.place', {
+      url: '/auto-huren/:city',
+      abstract: true,
+      reloadOnSearch: false,
+      views: {
+        'main-full@': {
+          controller: 'ResourceSearchController',
+          templateUrl: 'resource/search/resource-search.tpl.html'
+        }
+      },
+      resolve: {
+        place: [ '$q', '$stateParams', 'placeService',
+        function ($q ,  $stateParams ,  placeService) {
+          return placeService.search({
+            place: $stateParams.city
+          }).catch(angular.noop); // ignore errors
+        }],
+        metaInfo: ['$translate', 'place', 'metaInfoService',
+         function ( $translate ,  place ,  metaInfoService) {
+          if (!place) { return; }
+          return $translate('SITE_NAME').then(function () {
+            metaInfoService.set({
+              title: $translate.instant('META_CITYPAGE_TITLE', { city: place.name }),
+              description: $translate.instant('META_CITYPAGE_DESCRIPTION', { city: place.name })
+            });
+          });
+        }]
+      }
+    });
+
+    $stateProvider.state('owm.resource.place.list', {
+      url: '',
+      reloadOnSearch: false,
+      controller: 'ResourceSearchListController',
+      templateUrl: 'resource/search/list/resource-search-list.tpl.html',
+      data: {
+        access: {
+          feature: 'cityPages'
+        }
+      }
+    });
+
+    $stateProvider.state('owm.resource.place.map', {
+      url: '/kaart',
+      reloadOnSearch: false,
+      controller: 'ResourceSearchMapController',
+      templateUrl: 'resource/search/map/resource-search-map.tpl.html',
+      data: {
+        access: {
+          feature: 'cityPages'
+        }
+      }
+    });
 
     /**
      * resource/create
@@ -115,6 +177,24 @@ angular.module('owm.resource', [
           return authService.userPromise().then(function (user) {
             return user.isAuthenticated ? user.identity : null;
           });
+        }],
+        metaInfo: ['$state', '$translate', '$filter', 'resource', 'metaInfoService', 'appConfig',
+         function ($state  ,  $translate ,  $filter ,  resource ,  metaInfoService ,  appConfig) {
+
+          var substitutions = {
+            city: resource.city,
+            alias: resource.alias,
+            owner: $filter('fullname')(resource.owner)
+          };
+
+          return $translate('SITE_NAME').then(function () {
+            metaInfoService.set({
+              title: $translate.instant('META_RESOURCE_TITLE', substitutions),
+              description: $translate.instant('META_RESOURCE_DESCRIPTION', substitutions),
+              url: appConfig.appUrl + $state.href('owm.resource.show', { resourceId: resource.id }),
+              image: appConfig.serverUrl + '/' + $filter('resourceAvatar')(resource.pictures[0], 'normal')
+            });
+          });
         }]
       }
     });
@@ -164,6 +244,25 @@ angular.module('owm.resource', [
         }],
         resource: ['resourceService', '$stateParams', function (resourceService, $stateParams) {
           return resourceService.get({id: $stateParams.resourceId});
+        }],
+
+        metaInfo: ['$state', '$translate', '$filter', 'resource', 'metaInfoService', 'appConfig',
+         function ($state  ,  $translate ,  $filter ,  resource ,  metaInfoService ,  appConfig) {
+
+          return $translate('SITE_NAME').then(function () {
+            var substitutions = {
+              city: resource.city,
+              alias: resource.alias,
+              owner: $filter('fullname')(resource.owner)
+            };
+            metaInfoService.set({
+              title: $translate.instant('META_RESOURCE_TITLE', substitutions),
+              description: $translate.instant('META_RESOURCE_DESCRIPTION', substitutions),
+              url: appConfig.appUrl + $state.href('owm.resource.show', { resourceId: resource.id }),
+              image: appConfig.serverUrl + '/' + $filter('resourceAvatar')(resource.pictures[0], 'normal')
+            });
+          });
+
         }]
       }
     });

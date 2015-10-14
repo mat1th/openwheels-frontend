@@ -1,4 +1,20 @@
 {
+    "META_DEFAULT_TITLE": "Autodelen: huur of verhuur een auto in de buurt!",
+    "META_DEFAULT_DESCRIPTION": "Huur een auto in de buurt of verhuur je eigen auto.",
+    "META_HOME_TITLE": "Autodelen: huur voordelig een auto in de buurt",
+    "META_HOME_DESCRIPTION": "Huur een auto in de buurt of verhuur je eigen auto.",
+    "META_RESOURCE_TITLE": "Huur voordelig de auto {{ alias }} in {{ city }} via autodelen",
+    "META_RESOURCE_DESCRIPTION": "Huur in {{ city }} voordelig en makkelijk de auto {{ alias }} van {{ owner }}",
+    "META_SEARCHPAGE_TITLE": "Huur voordelig een auto bij jou in de buurt",
+    "META_SEARCHPAGE_DESCRIPTION": "Huur een auto in de buurt of verhuur je eigen auto.",
+    "META_CITYPAGE_TITLE": "Huur voordelig een auto in {{ city }}",
+    "META_CITYPAGE_DESCRIPTION": "Auto huren in {{ city }}? Huur voordelig een deelauto in {{ city }}, bekijk het aanbod!",
+    "META_LISTYOURCAR_TITLE": "Verhuur je auto en verdien",
+    "META_LISTYOURCAR_DESCRIPTION": "Verhuur je auto makkelijk en volledig verzekerd aan buren en vrienden",
+    "META_LISTYOURCAR2_TITLE": "Meld je auto aan en verdien",
+    "META_LISTYOURCAR2_DESCRIPTION": "Meld je auto in een paar minuten aan en verdien!",
+    "META_SIGNUP_TITLE": "Meld je gratis aan",
+    "META_SIGNUP_DESCRIPTION": "Meld je gratis aan en start met autodelen!",
     "SEARCH_COUNTRY": "nl",
     "EMAIL": "E-mail",
     "PASSWORD": "Wachtwoord",
@@ -22,6 +38,7 @@
     "ALREADY_MEMBER": "Ben je al lid?",
     "SIGNUP_TROUBLE": "Problemen met aanmelden?",
     "SIGNUP_TROUBLE_URL": "https://mywheels.nl/autodelen/community/contact",
+    "SIGNUP_SAVE": "Later verder gaan met aanmelden? Klik op bovenstaande knop en je ontvangt een mail waarmee je de reservering later kunt afronden.",
     "SIGNUP_TERMS": "Door je te registeren ga je akkoord met de <a href=\"https://mywheels.nl/autodelen/hoe-autodelen-werkt/voorwaarden/\" target=\"_blank\">algemene voorwaarden</a>.",
     "SIGNUP_FAQ": "Heb je nog vragen, kijk dan bij onze <a href=\"https://mywheels.nl/autodelen/hoe-autodelen-werkt/veelgestelde-vragen\" target=\"_blank\">veel gestelde vragen</a>",
     "ALL_RENTALS": "Alle verhuringen",
@@ -43,7 +60,7 @@
     "NOW": "Nu",
     "MALE": "Man",
     "TO_BE_PAID": "Nog te betalen",
-    "SENT_INVOICES_TITLE": "Opbrengsten",
+    "BOOKING_SENT_INVOICES_TITLE": "Opbrengsten",
     "FEMALE": "Vrouw",
     "EDIT_DATE_END": "Wijzig eindtijd",
     "EDIT_BOOKING": "Wijzig reservering",
@@ -139,6 +156,7 @@
     "PERSON.CHIPCARD.LIST.EDIT_BUTTON": "Wijzig",
     "PERSON.CHIPCARD.LIST.BLOCK_BUTTON": "Blokkeer",
     "DASHBOARD_INTRO_TEXT": "Welkom bij MyWheels.",
+    "LICENSE_UPLOAD": "Upload je rijbewijs",
     "LICENSEUPLOAD_INFO": "Met app KopieID van de Rijksoverheid kun je een watermerk toevoegen voordat je je rijbewijs uploadt, om de kans op fraude te beperken. Klik <a target=\"_blank\" href=\"http://www.rijksoverheid.nl/nieuws/2014/11/04/kopieid-app-maakt-misbruik-met-kopie-identiteitsbewijs-moeilijker.html\">hier</a> voor meer informatie.",
     "CURRENT_BOOKINGS": "Mijn reserveringen",
     "CURRENT_RENTALS": "Mijn verhuringen",
@@ -310,7 +328,6 @@
     "RESOURCE_TYPE.CABRIO": "Cabrio",
     "RESOURCE_TYPE.CAMPER": "Camper",
     "RESOURCE_TYPE.VAN": "Bestelbus",
-
     "ACCESSORIES.AIRCONDITIONING": "Airconditioning",
     "ACCESSORIES.BIKE_CARRIER": "Fietsendrager",
     "ACCESSORIES.WINTER_TIRES": "Winterbanden",
@@ -320,7 +337,6 @@
     "ACCESSORIES.AUTOMATICTRANSMISSION": "Automaat",
     "ACCESSORIES.MP3_CONNECTION": "MP3-aansluiting",
     "ACCESSORIES.WHEELCHAIR_FRIENDLY": "Rolstoelvriendelijk",
-
     "DATETIME_REQUIRED": "Vul een tijd in",
     "BOOKING_ACCEPTED": "Geaccepteerd",
     "BOOKING_REQUESTED": "In aanvraag",
@@ -333,7 +349,6 @@
     "PERSON.CHIPCARD.EDIT.PAGE_TITLE": "Chipkaart wijzigen",
     "PERSON.CHIPCARD.BLOCK.PAGE_TITLE": "Chipkaart blokkeren",
     "PERSON.CHIPCARD.BLOCK.ARE_YOU_SURE": "Weet je zeker dat je deze chipkaart wilt blokkeren?",
-
     "PERSON.CONTRACT.LIST.NO_OWN_CONTRACTS": "Je kunt beginnen met autodelen zodra je een geactiveerd contract hebt.",
     "PERSON.CONTRACT.OTHER_CONTRACTS": "Andere contracten waar ik op mag rijden",
     "PERSON.CONTRACT.OTHER_CONTRACTS_PERSONS" : "Extra personen op dit contract",
@@ -350,7 +365,6 @@
     "RESOURCE.RATING.TOOLTIP_NORATING": "Geen beoordelingen",
     "RESOURCE.RATING.TOOLTIP_HTML": "van de huurders was<br/>tevreden over deze auto",
     "RESOURCE_MEMBERS_INTRO": "Je kunt vrienden aan je auto toevoegen om een besloten club te maken. Bij \"instellingen voor het delen\" zet je dan een vinkje bij \"beschikbaar voor vrienden\" en GEEN vinkje bij \"Beschikbaar voor iedereen\". Je auto is nu alleen te zien en te huur voor je vrienden",
-
     "BOOKING_INFO": "Boekingsinformatie",
     "BOOKING_INFO_FIRSTNAME_TIP": "Klik op de voornaam van de huurder om naar zijn of haar profielpagina te gaan. Je vindt daar meer (contact-)informatie over de huurder",
     "CREATE_BLOCKING": "Maak blokkering",
@@ -358,7 +372,6 @@
     "ALL_DAY": "Hele dag",
     "REPEAT_BLOCKING": "Wekelijks herhalen",
     "RESOURCE.BLOCK.REPEAT_BLOCKING": "Wekelijks herhalen",
-
     "BOOKING.CANCEL.CONFIRM_TEXT": "Weet je zeker dat je de reservering wilt annuleren? Aan kort van te voren annuleren kunnen kosten verbonden zijn. Zie de voorwaarden voor meer informatie. ",
     "BOOKING.STOP.CONFIRM_TEXT": "Weet je zeker dat je de rit wilt beëindigen?",
     "BOOKING.ACCEPT.TITLE": "Huurverzoek accepteren",
@@ -369,7 +382,6 @@
     "BOOKING.REJECT.SUCCESS": "Je hebt het huurverzoek geweigerd",
     "BOOKING.REMARK_REQUESTER_LABEL": "Opmerking voor de eigenaar",
     "BOOKING.REMARK_AUTHORIZER_LABEL": "Opmerking voor de huurder",
-
     "RATINGS": "Beoordelingen",
     "SATISFACTION": "Tevredenheid",
     "OF_OWNERS": "van verhuurders",
@@ -378,17 +390,14 @@
     "RATING.QUALITY": "Kwaliteit",
     "RATING.CLEANLINESS": "Netheid",
     "RATING.PUNCTUALITY": "Punctualiteit",
-
     "EMAIL_PREFERENCE_ALL": "Alle",
     "EMAIL_PREFERENCE_SOME":"Enkele",
     "EMAIL_PREFERENCE_MINIMUM":"Minimaal",
-
     "PROFILE_VISIBILITY_PUBLIC":"Openbaar",
     "PROFILE_VISIBILITY_RENTALRELATIONS":"Mijn huurders/verhuurders",
     "PROFILE_VISIBILITY_MEMBERS": "Alleen leden",
     "IBAN_NUMBER": "IBAN-nummer",
     "PROFILE_IBAN_INTRO": "Vul hieronder jouw IBAN-nummer in zonder spaties, bijvoorbeeld op de volgende manier: NL29RABO0159955734",
-
     "BOOKING.RATING.RENTER.PAGE_TITLE": "Beoordeel je rit",
     "BOOKING.RATING.OWNER.PAGE_TITLE": "Beoordeel je verhuur",
     "BOOKING.RATING.FOOTER_TEXT": "Mail de eigenaar of contact MyWheels voor overige zaken zonder ze publiekelijk op internet te zetten. Bijvoorbeeld een berichtje dat de ruitenvloeistof bijgevuld moet worden of als je iets vergeten bent mee te nemen uit de auto.",
@@ -424,36 +433,27 @@
     "BOOKING_TITLE_HAS_RENTED_SUFFIX": "gehuurd",
     "BOOKING_TITLE_WANTS_TO_RENT_PREFIX": "wil jouw",
     "BOOKING_TITLE_WANTS_TO_RENT_SUFFIX": "huren",
-
     "BOOKING_ALTERATION_STRATEGY_DEFAULT": "",
     "BOOKING_ALTERATION_STRATEGY_ANWB": "De reservering is reeds goedgekeurd. Er kunnen voorwaarden verbonden zijn aan het wijzigen.",
     "BOOKING_ALTERATION_STRATEGY_MYWHEELS_GO": "De reservering is reeds goedgekeurd. Er kunnen voorwaarden verbonden zijn aan het wijzigen.",
-
     "BOOKING.RATING.REVIEW_LABEL": "Jouw ervaring",
     "BOOKING.RATING.REVIEW_PLACEHOLDER": "Bij MyWheels willen we elkaar graag helpen. Hier kun je jouw tevredenheid toelichten.",
-
     "BLOG_URL": "https://www.googleapis.com/blogger/v3/blogs/6542680713381713598/posts?key=AIzaSyCnLRNdIY_aU0atiyI-uSdbXQzv7imWyLA",
-
     "NAVBAR.HOW_IT_WORKS": "Hoe autodelen werkt",
     "NAVBAR.HOW_IT_WORKS_URL": "https://mywheels.nl/autodelen",
     "NAVBAR.LIST_YOUR_CAR_URL": "https://mywheels.nl/autodelen/hoe-verhuren-werkt",
-
     "AUTH.RESET_PASSWORD_SUCCESS": "We hebben een e-mail met instructies verstuurd naar het door jou opgegeven e-mailadres.",
     "AUTH.RESET_PASSWORD_PAGE_TITLE": "Wachtwoord vergeten",
     "AUTH.RESET_PASSWORD_TEXT": "Vul het e-mailadres in waarmee je bent aangemeld voor autodelen. Je ontvangt dan per e-mail een link om een nieuw wachtwoord in te stellen.",
     "AUTH.RESET_PASSWORD_FOOTER_HTML": "Heb je geen mail ontvangen, of weet je niet meer met welk e-mailadres je bent aangemeld? Neem dan <a href=\"https://mywheels.nl/autodelen/community/contact\">contact</a> met ons op.",
-
     "AUTH_CHANGE_PWD_PAGE_TITLE": "Wachtwoord wijzigen",
     "AUTH_CHANGE_PWD_INTRO": "Je kunt hier een nieuw wachtwoord kiezen",
     "AUTH_CHANGE_PWD_SUCCESS": "Je nieuwe wachtwoord is opgeslagen",
-
     "AUTH_EMAIL_VALIDATE_SUCCESS": "Bedankt voor het bevestigen van je e-mailadres",
-
     "ANWBID.PAGE_TITLE": "ANWB Lidmaatschapsnummer",
     "ANWBID.INTRO": "",
     "ANWBID.LABEL": "Vul hieronder je lidmaatschapsnummer in",
     "ANWBID.SAVE_SUCCESS": "Je lidmaatschapsnummer is opgeslagen",
-
     "INFO_RESOURCE_ADVERTISEMENT": "Zet hier een wervende tekst om huurders aan te trekken (zichtbaar voor iedereen)",
     "INFO_RESOURCE_USAGE_MANUAL": "Beschrijf hier zaken die van belang zijn bij het rijden in jouw auto. Bijvoorbeeld hoe je tankt of handigheidjes (alleen zichtbaar bij een reservering)",
     "INFO_RESOURCE_ROAD_ASSISTENCE": "Vul dit alleen in als je wilt dat mensen pechhulp inschakelen die NIET via de ritverzekering loopt",
@@ -469,7 +469,7 @@
     "INFO_RESOURCE_EDIT_REFUEL_BY_RENTER": "Zet dit vinkje aan als je de auto met een volle tank wil afgeven en met een volle tank weer terug wilt. Je ontvangt dan geen brandstofprijs per km",
     "INFO_RESOURCE_EDIT_INSURANCE_POLICY": "Jouw auto is automatisch goed verzekerd, voor elke verhuurperiode sluiten wij een allrisk ritverzekering af. Je hebt dus geen omkijken naar de verzekering. Is jouw auto al goed verzekerd voor gebruik als deelauto? Neem dan contact met ons op zodat we geen ritverzekering meer voor je afsluiten",
     "INFO_SELF_PROFILE": "Wat mensen van je zien hangt af van hun rol. Je kunt je profielpagina in een incognito venster bekijken om te zien wat niet-ingelogde mensen zien. Of kijk als je uitgelogd bent",
-
+    "INFO_MY_PROFILE_CONTACT": "Let op: de locatie van jouw auto verandert niet automatisch na het wijzigen van je woonadres. De locatie van jouw auto wijzig je bij",
     "FAVORITE_RESOURCES": "Favorieten",
     "SHOW_MORE_RESOURCES": "Zoek meer auto's",
     "RESOURCE_NO_NAME": "Naamloos",
@@ -480,7 +480,7 @@
     "RESOURCE_LOCATION_CITY_LABEL": "Plaatsnaam",
     "RESOURCE_PRICE_DISCLAIMER": "",
     "RESOURCE_CAL_INFO_FOR_OWNER": "Klik in de kalender om aan te geven wanneer je auto niet beschikbaar is.",
-
+    "RESOURCE_MORE_IN_CITY": "Bekijk ook de andere deelauto's in",
     "TRIPS_BOOKINGS_FOR_RENTER": "Ritten",
     "TRIPS_BOOKINGS_FOR_OWNER": "Verhuringen",
     "LOCKTYPE.smartphone": "Smartphone",
@@ -496,9 +496,9 @@
     "MEMBER_SUGGEST_LOGIN": "Login of meld je aan om meer informatie te zien",
     "MEMBER_PROFILE_INTRO": "Je profiel is zichtbaar voor iedereen",
     "BADGES_TOOLTIP": "Hier vind je extra informatie over iemands reputatie",
-
     "PAYMENT_SUCCESS_TITLE": "Dank voor je betaling",
     "PAYMENT_SUCCESS_BODY": "De betaling wordt nu verwerkt. Zodra wij het geld ontvangen hebben passen we je overzichten aan en sturen we je een bevestigingsmail. Dit is meestal binnen enkele minuten.",
     "PAYMENT_FAILURE_TITLE": "De betaling is nog niet gelukt",
-    "PAYMENT_FAILURE_BODY": "Ga naar je financiële overzicht en probeer opnieuw te betalen."
+    "PAYMENT_FAILURE_BODY": "Ga naar je financiële overzicht en probeer opnieuw te betalen.",
+    "FINANCE_SENT_INVOICES_TITLE": "Verhuuropbrengsten"
 }

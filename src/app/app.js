@@ -54,6 +54,7 @@ angular.module('openwheels', [
   'windowSizeService',
   'owm.geoPositionService',
   'owm.linksService',
+  'owm.metaInfoService',
 
   // DIRECTIVES
 
@@ -74,6 +75,7 @@ angular.module('openwheels', [
   'passwordStrengthDirective',
   'geocoderDirective',
   'socialDirectives',
+  'bindMetaDirective',
 
   // FILTERS
   'filters.util',
@@ -103,7 +105,8 @@ angular.module('openwheels', [
   'owm.payment',
   'owm.trips',
   'owm.chat',
-  'owm.message'
+  'owm.message',
+  'owm.newRenter'
 ])
 
 
@@ -155,7 +158,9 @@ angular.module('openwheels', [
 
 .run(function (windowSizeService, oAuth2MessageListener, stateAuthorizer, authService, featuresService) {})
 
-.run(function ($window, $log, $timeout, $translate, $state, $stateParams, $rootScope, alertService, featuresService, appConfig, linksService) {
+.run(function ($window, $log, $timeout, $state, $stateParams, $rootScope,
+  alertService, featuresService, linksService, metaInfoService) {
+
   $rootScope.$state = $state;
   $rootScope.$stateParams = $stateParams;
   $rootScope.showAsideMenu = false;
@@ -174,16 +179,20 @@ angular.module('openwheels', [
     alertService.loaded();
 
     // scroll to top
-    angular.element($window).scrollTop(0);
+    // except for place pages (for toggling map <--> list)
+    // TODO: move to a better place
+    if (['owm.resource.place.list', 'owm.resource.place.map'].indexOf(toState.name) < 0) {
+      angular.element($window).scrollTop(0);
+    }
 
     // set page title
-    $translate('SITE_NAME').then(function (siteName) {
-      if (toState.data && toState.data.pageTitle) {
-        $rootScope.pageTitle = toState.data.pageTitle + ' | ' + siteName;
-      } else {
-        $rootScope.pageTitle = siteName;
-      }
-    });
+    if (!metaInfoService.isSet('title') && toState.data) {
+      metaInfoService.setTranslated({
+        title: toState.data.title,
+        description: toState.data.description
+      });
+    }
+    metaInfoService.flush();
 
     /**
      * Use new bootstrap container width on certain pages
@@ -191,6 +200,7 @@ angular.module('openwheels', [
      */
     $rootScope.containerTransitional = (
       (featuresService.get('filtersSidebar')  && $state.includes('owm.resource.search')) ||
+      (featuresService.get('filtersSidebar')  && $state.includes('owm.resource.place')) ||
       (featuresService.get('resourceSidebar') && $state.includes('owm.resource.show')) ||
       $state.includes('member')
     );
@@ -271,7 +281,7 @@ angular.module('openwheels', [
 
   function configFile () {
     var dfd = $q.defer();
-    $http.get('branding/config.json').then(function (response) {
+    $http.get('branding/config.json?v=' + moment().format('YYMMDDHHmmss')).then(function (response) {
       dfd.resolve(response.data);
     }).catch(function () {
       dfd.resolve({});
@@ -281,7 +291,7 @@ angular.module('openwheels', [
 
   function featuresFile () {
     var dfd = $q.defer();
-    $http.get('branding/features.json').then(function (response) {
+    $http.get('branding/features.json?v=' + moment().format('YYMMDDHHmmss')).then(function (response) {
       dfd.resolve(response.data);
     }).catch(function () {
       dfd.resolve({});

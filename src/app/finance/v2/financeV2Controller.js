@@ -2,7 +2,8 @@
 
 angular.module('owm.finance.v2', [])
 
-.controller('FinanceV2Controller', function ($window, $q, $state, $location, $scope, $modal, appConfig, alertService, invoice2Service, paymentService, linksService) {
+.controller('FinanceV2Controller', function ($window, $q, $state, $location, $scope, $modal, appConfig, alertService,
+  invoice2Service, paymentService, linksService, API_DATE_FORMAT) {
 
   /* require parent scope */
   var me = $scope.me;
@@ -69,6 +70,41 @@ angular.module('owm.finance.v2', [])
     });
   };
 
+  // 1) verzamel invoices
+  // 2) verzoek om uitbetaling verzamelfactuur
+  $scope.payoutInvoices = function () {
+    alertService.load($scope);
+    invoice2Service.createSenderInvoiceGroup({ person: me.id }).then(function (invoiceGroup) {
+      $scope.sentInvoices.length = 0;
+      $scope.invoiceGroups = $scope.invoiceGroups || [];
+      $scope.invoiceGroups.push(invoiceGroup);
+      return $scope.payoutInvoiceGroup(invoiceGroup);
+    })
+    .catch(function (err) {
+      alertService.addError(err);
+    })
+    .finally(function () {
+      alertService.loaded($scope);
+    });
+  };
+
+  // verzoek om uitbetaling verzamelfactuur
+  $scope.payoutInvoiceGroup = function (invoiceGroup) {
+    alertService.load($scope);
+    return paymentService.payoutInvoiceGroup({ invoiceGroup: invoiceGroup.id }).then(function (result) {
+      // add fake payout request
+      invoiceGroup.payoutRequest = {
+        created: moment().format(API_DATE_FORMAT)
+      };
+    })
+    .catch(function (err) {
+      alertService.addError(err);
+    })
+    .finally(function () {
+      alertService.loaded($scope);
+    });
+  };
+
   function redirectToPaymentUrl (paymentUrl) {
     var url = paymentUrl + '?redirectTo=' + encodeURIComponent(paymentResultUrl());
     $window.location.replace(url, '_top');
@@ -89,7 +125,6 @@ angular.module('owm.finance.v2', [])
       grouped      : 'ungrouped'
     })
     .then(function (invoices) {
-
       /* group invoices by trip */
       $scope.unpaidInvoicesByTrip = (function () {
         var grouped = {};

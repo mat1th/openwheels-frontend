@@ -2,10 +2,10 @@
 
 angular.module('owm.translate', [])
 
-.config(function config($translateProvider) {
+.config(function ($translateProvider, VERSION) {
   $translateProvider.useLoader('brandedFileLoader', {
     prefix: 'assets/locale/',
-    suffix: '.json'
+    suffix: '.json?v=' + VERSION
   });
   $translateProvider.preferredLanguage('nl_NL');
   $translateProvider.useLocalStorage();

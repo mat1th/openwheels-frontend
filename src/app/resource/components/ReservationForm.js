@@ -18,7 +18,8 @@ angular.module('owm.resource.reservationForm', [])
 
 .controller('ReservationFormController', function (
   $log, $q, $timeout, $filter, $scope, $state,
-  API_DATE_FORMAT, resourceService, invoice2Service, alertService, authService, bookingService, contractService) {
+  API_DATE_FORMAT, resourceService, invoice2Service, alertService, authService, bookingService, contractService,
+  featuresService) {
 
   $scope.dateConfig = {
     modelFormat: API_DATE_FORMAT,
@@ -99,9 +100,15 @@ angular.module('owm.resource.reservationForm', [])
     timer = $timeout(function () {
       loadAvailability().then(function (availability) {
         if (availability.available === 'yes') {
-          loadContractsOnce().then(loadPrice);
+          loadContractsOnce().then(function () {
+            if (featuresService.get('calculatePrice')) {
+              loadPrice();
+            }
+          });
         } else {
-          loadPrice();
+          if (featuresService.get('calculatePrice')) {
+            loadPrice();
+          }
         }
       });
     }, 100);
@@ -153,7 +160,9 @@ angular.module('owm.resource.reservationForm', [])
       contractService.forDriver({ person: $scope.person.id }).then(function (contracts) {
         $scope.contractOptions = contracts || [];
         $scope.booking.contract = contracts.length ? contracts[0].id : null;
-        $scope.$watch('booking.contract', loadPrice);
+        if (featuresService.get('calculatePrice')) {
+          $scope.$watch('booking.contract', loadPrice);
+        }
         dfd.resolve(contracts);
       });
     }
@@ -204,6 +213,18 @@ angular.module('owm.resource.reservationForm', [])
       return alertService.add('danger', $filter('translate')('DATETIME_REQUIRED'), 5000);
     }
     alertService.load();
+
+    // Als je nog niet bent ingelogd is er
+    // even een andere flow nodig
+    if (featuresService.get('bookingSignupWizard') && !$scope.person) {
+      $state.go('newRenter-register', {
+        city: $scope.resource.city ? $scope.resource.city : 'utrecht',
+        resourceId: $scope.resource.id,
+        startTime: booking.beginRequested,
+        endTime: booking.endRequested
+      });
+      return;
+    }
     return authService.me().then(function(me) {
       return bookingService.create({
         resource: $scope.resource.id,
@@ -222,7 +243,11 @@ angular.module('owm.resource.reservationForm', [])
       } else {
         alertService.add('info', $filter('translate')('BOOKING_REQUESTED'), 5000);
       }
-      return $state.go('owm.person.dashboard');
+      if(response.approved === 'BUY_VOUCHER') {
+        return $state.go('owm.finance.vouchers');
+      } else {
+        return $state.go('owm.person.dashboard');
+      }
 
     }, function(err) {
       return alertService.addError(err);

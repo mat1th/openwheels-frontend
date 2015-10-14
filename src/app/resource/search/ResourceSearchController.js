@@ -17,10 +17,9 @@ angular.module('owm.resource.search', [
       alertService,
       resourceService,
       resourceQueryService,
-      user
+      user,
+      place
   ) {
-
-    $scope.searching = false;
 
     var DEFAULT_LOCATION = {
       // Utrecht, The Netherlands
@@ -30,9 +29,11 @@ angular.module('owm.resource.search', [
 
     var query = resourceQueryService.data;
 
+    $scope.searching = false;
+    $scope.place = place;
     $scope.booking = {};
     $scope.resources = [];
-    $scope.place = '';
+    $scope.searchText = '';
 
     $scope.completePlacesOptions = {
       country: $filter('translateOrDefault')('SEARCH_COUNTRY', 'nl'),
@@ -79,12 +80,18 @@ angular.module('owm.resource.search', [
         $scope.filters.filters = query.filters;
       }
 
-      $scope.place = query.text;
+      if (place) {
+        resourceQueryService.setLocation({
+          latitude: place.latitude,
+          longitude: place.longitude
+        });
+      }
 
-      doSearch();
+      $scope.searchText = query.text;
+      doSearch(true);
     }
 
-    function doSearch () {
+    function doSearch (isInitialSearch) {
       // time frame
       resourceQueryService.setTimeFrame({
         startDate: $scope.booking.beginRequested,
@@ -102,7 +109,19 @@ angular.module('owm.resource.search', [
       var filtersObject = $scope.filters.filters;
       resourceQueryService.setFilters(filtersObject);
 
-      updateUrl();
+      if (!isInitialSearch) {
+        // on subsequent searches, jump to normal search page
+        if ($state.includes('owm.resource.place.list')) {
+          return $state.go('owm.resource.search.list');
+        } else if ($state.includes('owm.resource.place.map')) {
+          return $state.go('owm.resource.search.map');
+        }
+        updateUrl();
+      } else {
+        if (!$state.includes('owm.resource.place')) {
+          updateUrl();
+        }
+      }
 
       // construct api call
       var params = {};
@@ -111,7 +130,6 @@ angular.module('owm.resource.search', [
       if (query.radius)    { params.radius    = query.radius; }
       if (query.options)   { params.options   = query.options; }
       if (query.filters)   { params.filters   = query.filters; }
-
       if (!params.location) {
         if (user.isAuthenticated) {
           params.person = user.identity.id;
@@ -120,6 +138,7 @@ angular.module('owm.resource.search', [
         }
       }
 
+      // perform search
       alertService.load();
       $scope.searching = true;
       return resourceService.searchV2(params).then(function (resources) {
