@@ -32,6 +32,17 @@ angular.module('owm.booking.rating', [])
   }
 
   $scope.submit = function () {
+
+    // set quality 0 to null
+    if ($scope.rating.quality === 0) {
+      $scope.rating.quality = null;
+    }
+
+    // set cleanliness 0 to null
+    if ($scope.rating.cleanliness === 0) {
+      $scope.rating.cleanliness = null;
+    }
+
     var data = {
       satisfaction: $scope.rating.satisfaction,
       review      : $scope.rating.review
