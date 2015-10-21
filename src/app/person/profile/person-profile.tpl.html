@@ -401,7 +401,6 @@
          <i class="fa fa-fw" ng-class="{ 'fa-chevron-right': accountIsCollapsed, 'fa-chevron-down': !accountIsCollapsed }"></i>
          {{ 'MY_PROFILE_ACCOUNT' | translate }}
        </a>
-       &nbsp;<i class="text-danger fa fa-exclamation-triangle" ng-show="alerts.personalData" tooltip="Vul je gegevens aan"></i>
      </h3>
   </div>
   <div collapse="accountIsCollapsed" >
@@ -418,7 +417,7 @@
       <a ui-sref="owm.person.license">
         {{ 'LICENSE_UPLOAD' | translate }}
       </a>
-      &nbsp;<i class="text-danger fa fa-exclamation-triangle" ng-show="alerts.personalData" tooltip="Upload je rijbewijs"></i>
+      &nbsp;<i class="text-danger fa fa-exclamation-triangle" ng-show="alerts.licenseData" tooltip="Upload je rijbewijs"></i>
     </h3>
   </div>
 </div>

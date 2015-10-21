@@ -39,7 +39,8 @@ angular.module('owm.person.profile', [])
     var p = $scope.person;
     var alerts = {
       personalData: (!p.firstName || !p.surname || !p.dateOfBirth),
-      contactData : (!p.streetName || !p.streetNumber || !p.city || (!p.phoneNumbers || !p.phoneNumbers.length))
+      contactData : (!p.streetName || !p.streetNumber || !p.city || (!p.phoneNumbers || !p.phoneNumbers.length)),
+      licenseData : (!p.driverLicense)
     };
     $scope.alerts = alerts;
   }
