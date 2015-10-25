@@ -36,5 +36,26 @@ angular.module('owm.resource.create', [])
     }
 
   };
-})
-;
+
+  $scope.isActiveResource = function (resource, value) {
+    dialogService.showModal(null, {
+      closeButtonText: $translate.instant('CANCEL'),
+      actionButtonText: $translate.instant('OK'),
+      headerText: $translate.instant('IS_ACTIVATE_RESOURCE_TITLE'),
+      bodyText: $translate.instant('IS_ACTIVATE_RESOURCE')
+    })
+    .then(function () {
+      resourceService.alter({
+        resource: resource.id,
+        newProps: {'isActive': value}
+      });
+    })
+    .then(function () {
+      alertService.addSaveSuccess();
+      resource.isActive = value;
+    }, function (error) {
+      alertService.add('danger', error.message, 5000);
+    });
+  };
+
+});

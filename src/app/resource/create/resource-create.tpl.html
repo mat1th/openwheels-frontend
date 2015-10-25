@@ -21,9 +21,21 @@
 
             <div class="media-body">
 
-              <button ui-sref="owm.resource.edit({ resourceId: resource.id })" type="button" class="btn btn-link pull-right">
-                <i class="fa fa-cog"></i> {{ 'EDIT_RESOURCE' | translate }}
-              </button>
+              <div class="pull-right text-right">
+                <div>
+                  <button ui-sref="owm.resource.edit({ resourceId: resource.id })" type="button" class="btn btn-link">
+                    <i class="fa fa-cog"></i> {{ 'EDIT_RESOURCE' | translate }}
+                  </button>
+                </div>
+                <div>
+                  <button ng-if="resource.isActive" type="button" class="btn btn-link text-danger" ng-click="isActiveResource(resource, false)">
+                    <i class="fa fa-times"></i> Deactiveer
+                  </button> 
+                  <button ng-if="!resource.isActive" type="button" class="btn btn-link text-success" ng-click="isActiveResource(resource, true)">
+                    <i class="fa fa-check"></i> Activeer
+                  </button> 
+                </div>
+              </div>
 
               <div class="resource__alias truncate" ui-sref="owm.resource.show({ resourceId: resource.id, city: resource.city })">
                 {{ resource.alias }} {{ resource.registrationPlate | surroundWith : '(' : ')' }}

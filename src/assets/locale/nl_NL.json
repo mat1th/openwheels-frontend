@@ -66,6 +66,8 @@
     "EDIT_BOOKING": "Wijzig reservering",
     "EDIT_RESOURCE": "Wijzig auto",
     "EDIT_PROFILE": "Wijzig profiel",
+    "IS_ACTIVATE_RESOURCE_TITLE": "Beschkbaarheid van jouw auto wijzigen",
+    "IS_ACTIVATE_RESOURCE": "Weet je zeker dat je de beschikbaarheid van deze auto wil wijzigen?",
     "CANCEL_BOOKING": "Annuleer reservering",
     "STOP_BOOKING": "Beëindig rit nu",
     "BOOKING_STATUS_REQUESTED": "Aanvraag",
