@@ -57,14 +57,6 @@ angular.module('owm.newRenter', [
       }
     });
 
-    $stateProvider.state('newRenter-depositResult', {
-      url: '/betaal-borg/:state',
-      parent: 'newRenter',
-      template: '<div class="card"><div class="card-body">' +
-                '<b>De iDEAL-betaling is niet voltooid. Heb je wel een betaling gedaan? Neem dan s.v.p. contact met ons op.</b>' +
-                '</div></div>'
-    });
-
     $stateProvider.state('newRenter-booking', {
       url: '/boekauto',
       parent: 'newRenter',

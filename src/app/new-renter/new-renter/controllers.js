@@ -187,13 +187,14 @@ angular.module('owm.newRenter.controllers', [])
 })
 
 
-.controller('NewRenterDepositController', function ($scope, alertService, depositService, me) {
+.controller('NewRenterDepositController', function ($state, $scope, alertService, depositService, me) {
   $scope.data = { mandate: false };
   $scope.busy = false;
 
   $scope.payDeposit = function () {
     $scope.busy = true;
     alertService.load($scope);
+    saveState();
     depositService.requestContractAndPay({
       person: me.id
     })
@@ -205,6 +206,27 @@ angular.module('owm.newRenter.controllers', [])
       alertService.loaded($scope);
     });
   };
+
+  function saveState () {
+    sessionStorage.setItem('afterPayment', JSON.stringify({
+      error: {
+        stateName: $state.current.name,
+        stateParams: {
+          resourceId: $scope.resource.id,
+          startTime:  $scope.booking.startTime,
+          endTime:    $scope.booking.endTime
+        }
+      },
+      success: {
+        stateName: 'newRenter-booking',
+        stateParams: {
+          resourceId: $scope.resource.id,
+          startTime:  $scope.booking.startTime,
+          endTime:    $scope.booking.endTime
+        }
+      }
+    }));
+  }
 })
 
 

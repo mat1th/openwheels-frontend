@@ -2,11 +2,11 @@
 
 angular.module('owm.finance')
 
-.service('depositService', function ($window, $timeout, $log, $state, appConfig, contractService, paymentService) {
+.service('depositService', function ($window, $timeout, $log, $state, contractService, paymentService) {
 
   this.requestContractAndPay = function (params) {
     var personId = params.person;
-    var nextUrl = appConfig.appUrl + $state.href('owm.finance.payment-result');
+    var nextUrl = $state.href('owm.finance.payment-result', { absolute: true });
 
     return contractService.requestContract({
       person: personId
