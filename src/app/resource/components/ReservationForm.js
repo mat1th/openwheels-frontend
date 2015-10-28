@@ -202,8 +202,8 @@ angular.module('owm.resource.reservationForm', [])
     var s = '';
     if (price.rent > 0) { s += 'Huur: ' + $filter('currency')(price.rent) + '<br/>'; }
     if (price.insurance > 0) { s += 'Verzekering: ' + $filter('currency')(price.insurance) + '<br/>'; }
-    if (price.fee > 0) { s += 'Fee: ' + $filter('currency')(price.fee) + '<br/>'; }
-    if (price.redemption > 0) { s+='Afkoop eigen risico: ' + $filter('currency')(price.redemption) + '<br/>'; }
+    if (price.booking_fee > 0) { s += 'Boekingskosten: ' + $filter('currency')(price.booking_fee) + '<br/>'; }
+//    if (price.redemption > 0) { s+='Afkoop eigen risico: ' + $filter('currency')(price.redemption) + '<br/>'; }
     s += 'Totaal: ' + $filter('currency')(price.total);
     return s;
   };
@@ -243,7 +243,11 @@ angular.module('owm.resource.reservationForm', [])
       } else {
         alertService.add('info', $filter('translate')('BOOKING_REQUESTED'), 5000);
       }
-      return $state.go('owm.person.dashboard');
+      if(response.approved === 'BUY_VOUCHER') {
+        return $state.go('owm.finance.vouchers');
+      } else {
+        return $state.go('owm.person.dashboard');
+      }
 
     }, function(err) {
       return alertService.addError(err);

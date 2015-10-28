@@ -70,10 +70,28 @@ angular.module('owm.finance.v2', [])
     });
   };
 
+  // 1) verzamel invoices
+  // 2) verzoek om uitbetaling verzamelfactuur
+  $scope.payoutInvoices = function () {
+    alertService.load($scope);
+    invoice2Service.createSenderInvoiceGroup({ person: me.id }).then(function (invoiceGroup) {
+      $scope.sentInvoices.length = 0;
+      $scope.invoiceGroups = $scope.invoiceGroups || [];
+      $scope.invoiceGroups.push(invoiceGroup);
+      return $scope.payoutInvoiceGroup(invoiceGroup);
+    })
+    .catch(function (err) {
+      alertService.addError(err);
+    })
+    .finally(function () {
+      alertService.loaded($scope);
+    });
+  };
+
   // verzoek om uitbetaling verzamelfactuur
   $scope.payoutInvoiceGroup = function (invoiceGroup) {
     alertService.load($scope);
-    paymentService.payoutInvoiceGroup({ invoiceGroup: invoiceGroup.id }).then(function (result) {
+    return paymentService.payoutInvoiceGroup({ invoiceGroup: invoiceGroup.id }).then(function (result) {
       // add fake payout request
       invoiceGroup.payoutRequest = {
         created: moment().format(API_DATE_FORMAT)
@@ -107,7 +125,6 @@ angular.module('owm.finance.v2', [])
       grouped      : 'ungrouped'
     })
     .then(function (invoices) {
-
       /* group invoices by trip */
       $scope.unpaidInvoicesByTrip = (function () {
         var grouped = {};

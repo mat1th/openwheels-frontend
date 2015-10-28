@@ -28,8 +28,21 @@ angular.module('owm.newRenter.controllers', [])
   dutchZipcodeService, authService, alertService, personService, $q
 ) {
 
+  $scope.addPhone = function () {
+    $scope.person.phoneNumbers = $scope.person.phoneNumbers || [];
+    $scope.person.phoneNumbers.push({
+      number: '',
+      type: 'mobile'
+    });
+  };
+
+  $scope.removePhone = function (index) {
+    $scope.person.phoneNumbers.splice(index, 1);
+  };
+
   $scope.license_front = null;
   $scope.person = {};
+  $scope.addPhone();
   $scope.credentials = {};
 
   $scope.subscribe = function(credentials, person, license_front) {
@@ -102,6 +115,9 @@ angular.module('owm.newRenter.controllers', [])
         $scope.person.dateOfBirth = me.dateOfBirth;
         $scope.person.zipcode = me.zipcode;
         $scope.person.streetNumber = me.streetNumber;
+        if (!me.phoneNumbers && !me.phoneNumbers.length) {
+          $scope.addPhone();
+        }
       });
     }
   });
