@@ -48,16 +48,13 @@ angular.module('owm.newRenter', [
     $stateProvider.state('newRenter-deposit', {
       url: '/betaal-borg',
       parent: 'newRenter',
-      controller: 'NewRenterDepositController',
       templateUrl: 'new-renter/new-renter/borg.tpl.html',
-    });
-
-    $stateProvider.state('newRenter-depositResult', {
-      url: '/betaal-borg/:state',
-      parent: 'newRenter',
-      template: '<div class="card"><div class="card-body">' +
-                '<b>De iDEAL-betaling is niet voltooid. Heb je wel een betaling gedaan? Neem dan s.v.p. contact met ons op.</b>' +
-                '</div></div>'
+      controller: 'NewRenterDepositController',
+      resolve: {
+        me: ['authService', function (authService) {
+          return authService.me();
+        }]
+      }
     });
 
     $stateProvider.state('newRenter-booking', {

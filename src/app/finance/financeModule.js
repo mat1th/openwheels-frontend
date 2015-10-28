@@ -5,7 +5,8 @@ angular.module('owm.finance', [
   'owm.finance.v2',
   'owm.finance.vouchers',
   'owm.finance.voucherList',
-  'owm.finance.paymentResult'
+  'owm.finance.paymentResult',
+  'owm.finance.deposit'
 ])
 
 .controller('FinanceVersionWrapperController', function ($scope, me) {
@@ -111,9 +112,23 @@ angular.module('owm.finance', [
    */
 
   .state('owm.finance.deposit', {
-    onEnter: ['$window', 'linksService', function ($window, linksService) {
-      $window.location.href = linksService.depositUrl();
-    }]
+    url: '/deposit',
+    views: {
+      'main@': {
+        templateUrl: 'finance/deposit/deposit.tpl.html',
+        controller: 'DepositController'
+      }
+    },
+    data: {
+      access: {
+        deny: { anonymous: true }
+      }
+    },
+    resolve: {
+      me: ['authService', function (authService) {
+        return authService.authenticatedUser();
+      }]
+    }
   })
 
   .state('owm.finance.payment-result', {

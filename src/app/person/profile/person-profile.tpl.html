@@ -393,7 +393,7 @@
 
 <!-- ACCOUNT -->
 
-<div class="card" id="bank-data">
+<div class="card" id="bank-data" ng-if="person.preference !== 'renter' || person.status === 'active'">
   <div class="card-heading">
     <h3 class="card-title">
       <a href="" ng-init="accountIsCollapsed = true"

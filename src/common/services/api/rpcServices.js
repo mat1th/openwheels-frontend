@@ -41,6 +41,7 @@ angular.module('rpcServices', [])
   this.addPerson     = m('addPerson');
   this.removePerson  = m('removePerson');
   this.invitePerson  = m('invitePerson');
+  this.requestContract = m('requestContract');
 })
 
 .service('chipcardService', function (api) {
