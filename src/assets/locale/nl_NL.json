@@ -506,6 +506,6 @@
     "PAYMENT_SUCCESS_TITLE": "Dank voor je betaling",
     "PAYMENT_SUCCESS_BODY": "De betaling wordt nu verwerkt. Zodra wij het geld ontvangen hebben passen we je overzichten aan en sturen we je een bevestigingsmail. Dit is meestal binnen enkele minuten.",
     "PAYMENT_FAILURE_TITLE": "De betaling is nog niet gelukt",
-    "PAYMENT_FAILURE_BODY": "Ga naar je financiële overzicht en probeer opnieuw te betalen.",
+    "PAYMENT_FAILURE_BODY": "Wil je het opnieuw proberen?",
     "FINANCE_SENT_INVOICES_TITLE": "Verhuuropbrengsten"
 }
