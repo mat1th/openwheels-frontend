@@ -6,7 +6,7 @@ angular.module('owm.finance')
 
   this.requestContractAndPay = function (params) {
     var personId = params.person;
-    var nextUrl = $state.href('owm.finance.payment-result', { absolute: true });
+    var nextUrl = $state.href('owm.finance.payment-result', {}, { absolute: true });
 
     return contractService.requestContract({
       person: personId
