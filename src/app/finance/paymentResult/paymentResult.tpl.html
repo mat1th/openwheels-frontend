@@ -1,4 +1,4 @@
-<div ng-if="orderStatusId > 0" class="card">
+<div ng-if="result.success" class="card">
   <div class="card-body">
     <h2 class="card-title">
     <i class="fa fa-fw fa-check text-success"></i>
@@ -7,11 +7,16 @@
     <p>
       {{ 'PAYMENT_SUCCESS_BODY' | translate }}
     </p>
-    <button ui-sref="home" type="button" class="btn btn-primary">{{ 'OK' | translate }}</button>
+    <button ng-if="afterPayment" ng-click="goAfterPayment()" type="button" class="btn btn-primary">
+      Ga verder
+    </button>
+    <button ng-if="!afterPayment" ui-sref="home" type="button" class="btn btn-primary">
+      {{ 'OK' | translate }}
+    </button>
   </div>
 </div>
 
-<div ng-if="!(orderStatusId > 0)" class="card">
+<div ng-if="!result.success" class="card">
   <div class="card-body">
     <h2 class="card-title">
       <i class="fa fa-fw fa-exclamation-triangle text-warning"></i>
@@ -20,8 +25,16 @@
     <p>
       {{ 'PAYMENT_FAILURE_BODY' | translate }}
     </p>
-    <button ng-if="features.invoiceModuleV1" ui-sref="owm.finance.v1Index" class="btn btn-primary">{{ 'MY_FINANCE' | translate }}</button>
-    <button ng-if="features.invoiceModuleV2" ui-sref="owm.finance.v2Index" class="btn btn-primary">{{ 'MY_FINANCE' | translate }}</button>
-    <button ng-if="features.invoiceModuleV3" ui-sref="owm.finance.v3Index" class="btn btn-primary">{{ 'MY_FINANCE' | translate }}</button>
+
+    <button ng-if="afterPayment" ng-click="goAfterPayment()" type="button" class="btn btn-primary">
+      Ga verder
+    </button>
+
+    <div ng-if="!afterPayment">
+      <button ng-if="features.invoiceModuleV1" ui-sref="owm.finance.v1Index" class="btn btn-primary">{{ 'MY_FINANCE' | translate }}</button>
+      <button ng-if="features.invoiceModuleV2" ui-sref="owm.finance.v2Index" class="btn btn-primary">{{ 'MY_FINANCE' | translate }}</button>
+      <button ng-if="features.invoiceModuleV3" ui-sref="owm.finance.v3Index" class="btn btn-primary">{{ 'MY_FINANCE' | translate }}</button>
+    </div>
+
   </div>
 </div>
