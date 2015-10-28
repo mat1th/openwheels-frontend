@@ -15,9 +15,6 @@ angular.module('owm.linksService', [])
     bookingAgreementPdf: function (bookingId) {
       return process(appConfig.serverUrl + '/dashboard/reservering/' + bookingId + '/overeenkomst.pdf', true);
     },
-    depositUrl: function () {
-      return process(appConfig.serverUrl + '/dashboard/borg', true);
-    },
     invoiceGroupPdf: function (invoiceGroupId) {
       return process(appConfig.serverUrl + '/verzamelfactuur/' + invoiceGroupId + '.pdf', true);
     },
