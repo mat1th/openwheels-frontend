@@ -20,8 +20,8 @@
     <p>
       {{ 'PAYMENT_FAILURE_BODY' | translate }}
     </p>
-    <button ng-if="features.invoiceModuleV1" ui-sref="owm.finance.v1Index" class="btn btn-primary">{{ 'MY_FINANCE' | translate }}</button>
-    <button ng-if="features.invoiceModuleV2" ui-sref="owm.finance.v2Index" class="btn btn-primary">{{ 'MY_FINANCE' | translate }}</button>
-    <button ng-if="features.invoiceModuleV3" ui-sref="owm.finance.vouchers" class="btn btn-primary">{{ 'MY_VOUCHERS' | translate }}</button>
+    <button ng-if="features.invoiceModuleV1" ui-sref="owm.person.dashboard" class="btn btn-primary">{{ 'MY_DASHBOARD' | translate }}</button>
+    <button ng-if="features.invoiceModuleV2" ui-sref="owm.person.dashboard" class="btn btn-primary">{{ 'MY_DASHBOARD' | translate }}</button>
+    <button ng-if="features.invoiceModuleV3" ui-sref="owm.person.dashboard" class="btn btn-primary">{{ 'MY_DASHBOARD' | translate }}</button>
   </div>
 </div>
