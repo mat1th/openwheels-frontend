@@ -83,16 +83,16 @@
     </div>
 
     <ul class="list-inline" ng-if="!(favoriteResources.length >= 1)">
-      <li id="dashboard_rent_a_car">
+      <li id="dashboard_rent_a_car" ng-if="me.preference != 'owner'">
         <a ui-sref="owm.resource.search.list" class="btn btn-success">
           {{ 'RENT_A_CAR' | translate }}
         </a>
       </li>
-      <li id="dashboard_list_your_car">
-        <a ng-if="me.resources.length === 0" ui-sref="owm.resource.create" class="btn btn-primary">
+      <li id="dashboard_list_your_car" ng-if="me.preference != 'renter'">
+        <a ui-sref="owm.resource.create" class="btn btn-primary">
           {{ 'LIST_YOUR_CAR' | translate }}
         </a>
-      </li>
+      </li>   
     </ul>
   </div>
 </div>
