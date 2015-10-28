@@ -2,25 +2,23 @@
 
 angular.module('owm.finance.deposit', [])
 
-.controller('DepositController', function ($scope, alertService, me) {
+.controller('DepositController', function ($scope, alertService, depositService, me) {
 
   $scope.data = { mandate: false };
   $scope.busy = false;
 
   $scope.payDeposit = function () {
-    alertService.load($scope);
     $scope.busy = true;
-
-    // financeService.payDeposit().then(function () {
-
+    alertService.load($scope);
+    depositService.requestContractAndPay({
+      person: me.id
     })
     .catch(function (err) {
       alertService.addError(err);
     })
     .finally(function () {
-      alertService.loaded($scope);
       $scope.busy = false;
+      alertService.loaded($scope);
     });
   };
-
 });
