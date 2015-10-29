@@ -21,9 +21,21 @@
 
             <div class="media-body">
 
-              <button ui-sref="owm.resource.edit({ resourceId: resource.id })" type="button" class="btn btn-link pull-right">
-                <i class="fa fa-cog"></i> {{ 'EDIT_RESOURCE' | translate }}
-              </button>
+              <div class="pull-right text-right">
+                <div>
+                  <button ui-sref="owm.resource.edit({ resourceId: resource.id })" type="button" class="btn btn-link">
+                    <i class="fa fa-cog"></i> {{ 'EDIT_RESOURCE' | translate }}
+                  </button>
+                </div>
+                <div>
+                  <button ng-if="(resource.isAvailableOthers || resource.isAvailableFriends) && resource.isActive" type="button" class="btn btn-link" ng-click="setResourceAvailability(resource, false)">
+                    <i class="fa fa-times"></i> {{ 'AVAILABLE_RESOURCE' | translate }}
+                  </button> 
+                  <button ng-if="!resource.isAvailableOthers && !resource.isAvailableFriends && resource.isActive" type="button" class="btn btn-link" ng-click="setResourceAvailability(resource, true)">
+                    <i class="fa fa-check"></i> {{ 'NOT_AVAILABLE_RESOURCE' | translate }}
+                  </button> 
+                </div>
+              </div>
 
               <div class="resource__alias truncate" ui-sref="owm.resource.show({ resourceId: resource.id, city: resource.city })">
                 {{ resource.alias }} {{ resource.registrationPlate | surroundWith : '(' : ')' }}
@@ -35,6 +47,14 @@
 
               <div ng-if="!resource.isActive" class="text-danger">
                 <i class="fa fa-exclamation-circle fa-fw"></i>{{ 'RESOURCE_INACTIVE_WARNING' | translate }}
+              </div>
+
+              <div ng-if="(resource.isAvailableOthers || resource.isAvailableFriends) && resource.isActive" class="text-success">
+                <i class="fa fa-check fa-fw"></i>{{ 'RESOURCE_AVAILABLE' | translate }}
+              </div>
+
+              <div ng-if="!resource.isAvailableOthers && !resource.isAvailableFriends && resource.isActive" class="text-danger">
+                <i class="fa fa-exclamation-circle fa-fw"></i>{{ 'RESOURCE_NOT_AVAILABLE_WARNING' | translate }}
               </div>
 
             </div>

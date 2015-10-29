@@ -226,7 +226,23 @@ angular.module('authService', [])
   function subscribe (params) {
     return api.invokeRpcMethod('person.subscribe', params, null, true);
   }
-
+  
+  var that = this;
+  this.oauthSubscribe = function oauthSubscribe(params) {
+    params.clientId = appConfig.appId;
+    return api.invokeRpcMethod('auth.subscribe', params, null, true)
+    .then(function (data) {
+      var token = tokenService.createToken({
+        tokenType   : data.token_type,
+        accessToken : data.access_token,
+        refreshToken: data.refresh_token,
+        expiresIn   : data.expires_in
+      });
+      token.save();
+      return that.authenticatedUser(true);
+    });
+  };
+  
   // HELPERS
 
   function authUrl (errorPath, successPath) {
