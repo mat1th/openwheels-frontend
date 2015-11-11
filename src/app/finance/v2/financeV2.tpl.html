@@ -135,9 +135,11 @@
           </tr>
         </table>
 
-        <button type="button" class="btn btn-link" ng-click="payoutInvoices()">
-          Alles uitbetalen
-        </button>
+        <div class="text-right">
+          <button type="button" class="btn btn-primary" ng-click="payoutInvoices()">
+            Alles uitbetalen
+          </button>
+        </div>
       </div>
 
       <div ng-if="sentInvoices.length <= 0">
