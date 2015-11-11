@@ -2,7 +2,7 @@
 
 angular.module('owm.newRenter.controllers', [])
 
-.controller('NewRenterController', function ($scope, resource, booking, authService, contractService) {
+.controller('NewRenterController', function ($state, $scope, resource, booking, authService, contractService) {
 
   $scope.resource = resource;
   $scope.booking = booking;
@@ -11,6 +11,7 @@ angular.module('owm.newRenter.controllers', [])
   $scope.$watch('user.isAuthenticated && !user.isPending', function (newValue) {
     if(newValue){
       $scope.person = authService.user.identity;
+      checkCompleted();
     }
   });
 
@@ -19,9 +20,30 @@ angular.module('owm.newRenter.controllers', [])
       contractService.forDriver({person: id}).
       then(function (contracts) {
         $scope.contracts = contracts;
+        checkCompleted();
       });
     }
   });
+
+  function checkCompleted () {
+    var contracts = $scope.contracts;
+    var person = $scope.person;
+    var completed = contracts && contracts.length && person;
+
+    completed = completed && person.status === 'active' || person.status === 'book-only';
+
+    completed = completed && contracts.some(function (contract) {
+      return contract.status === 'active';
+    });
+
+    if (completed) {
+      $state.go('newRenter-booking', {
+        resourceId: $scope.resource.id,
+        startTime:  $scope.booking.startTime,
+        endTime:    $scope.booking.endTime
+      });
+    }
+  }
 })
 
 .controller('NewRenterRegisterController', function ($scope, $state,
@@ -261,7 +283,6 @@ angular.module('owm.newRenter.controllers', [])
     }
   })
   .then(function (booking) {
-    console.log(booking);
     $scope.b = booking;
   })
   .catch(function (err) {
