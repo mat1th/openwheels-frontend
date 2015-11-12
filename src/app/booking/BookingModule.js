@@ -22,7 +22,7 @@ angular.module('owm.booking', [
       }
     },
     data: {
-      access: { deny: { anonymous: true } }
+      denyAnonymous: true
     },
     resolve: {
       booking: ['$stateParams', 'authService', 'bookingService', function ($stateParams, authService, bookingService) {
@@ -51,9 +51,7 @@ angular.module('owm.booking', [
     templateUrl: 'booking/rating/booking-rating.tpl.html',
     controller: 'BookingRatingController',
     data: {
-      access: {
-        feature: 'ratings'
-      }
+      requiredFeatures: ['ratings']
     },
     resolve: {
       rating: ['booking', 'ratingService', function (booking, ratingService) {
@@ -72,9 +70,7 @@ angular.module('owm.booking', [
     templateUrl: 'booking/rating/booking-rating.tpl.html',
     controller: 'BookingRatingController',
     data: {
-      access: {
-        feature: 'ratings'
-      }
+      requiredFeatures: ['ratings']
     },
     resolve: {
       rating: ['booking', 'ratingService', function (booking, ratingService) {
