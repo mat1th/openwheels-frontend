@@ -3,6 +3,7 @@ angular.module('owm.pages', [
   'owm.pages.list-your-car',
   'owm.pages.list-your-car-login',
   'owm.pages.member',
+  'owm.pages.emailPreference',
 ])
 
 .config(function ($stateProvider) {
@@ -76,6 +77,17 @@ angular.module('owm.pages', [
       member: ['$stateParams', 'personService', function ($stateParams, personService) {
         return personService.get({ version: 2, person: $stateParams.personId });
       }]
+    }
+  })
+
+  .state('emailPreference', {
+    parent: 'owm.pages',
+    url: '/email-uitschrijven?person&hash',
+    views: {
+      'main-full@': {
+        templateUrl: 'pages/email-preference/emailPreference.tpl.html',
+        controller: 'EmailPreferenceController'
+      }
     }
   })
   ;
