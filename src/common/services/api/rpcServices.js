@@ -23,6 +23,7 @@ angular.module('rpcServices', [])
   this.addLicenseImages      = m('addLicenseImages');
   this.setProfileImage       = m('setProfileImage');
   this.emailBookingLink      = m('emailBookingLink');
+  this.emailPreferenceToNone = m('emailPreferenceToNone');
 })
 
 .service('placeService', function (api) {
