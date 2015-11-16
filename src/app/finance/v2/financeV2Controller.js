@@ -125,17 +125,28 @@ angular.module('owm.finance.v2', [])
       grouped      : 'ungrouped'
     })
     .then(function (invoices) {
+
       /* group invoices by trip */
       $scope.unpaidInvoicesByTrip = (function () {
         var grouped = {};
         angular.forEach(invoices, function (invoice) {
-          if (!invoice.booking) { return; }
-          var groupKey = 'trip_' + invoice.booking.id;
+          var groupKey;
+
+          if (invoice.booking) {
+            groupKey = 'trip_' + invoice.booking.id;
+          } else {
+            groupKey = 'no_trip';
+          }
           grouped[groupKey] = grouped[groupKey] || {
+            tripId: null,
+            tripDetailsLink: null,
             invoices: [],
             invoiceLines: [],
-            tripDetailsLink: linksService.tripDetailsPdf(invoice.booking.id)
           };
+          if (invoice.booking) {
+            grouped[groupKey].tripId = invoice.booking.id;
+            grouped[groupKey].tripDetailsLink = linksService.tripDetailsPdf(invoice.booking.id);
+          }
           grouped[groupKey].invoices.push(invoice);
           angular.forEach(invoice.invoiceLines, function (invoiceLine) {
             grouped[groupKey].invoiceLines.push(invoiceLine);
