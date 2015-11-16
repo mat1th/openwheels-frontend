@@ -209,31 +209,46 @@ angular.module('owm.newRenter.controllers', [])
 })
 
 
-.controller('NewRenterDepositController', function ($scope, $state, $sce, ENV) {
+.controller('NewRenterDepositController', function ($state, $scope, alertService, depositService, me) {
+  $scope.data = { mandate: false };
+  $scope.busy = false;
 
-  $scope.purchaseID = $scope.user.identity.id +' ' + (new Date()).getTime().toString(16);
-  $scope.endpoint =  $sce.trustAsResourceUrl('https://idealtest.rabobank.nl/ideal/mpiPayInitRabo.do');
-  $scope.amount = ENV === 'production' ? 25000 : 100; // deposit amount in euro cent
+  $scope.payDeposit = function () {
+    $scope.busy = true;
+    alertService.load($scope);
+    saveState();
+    depositService.requestContractAndPay({
+      person: me.id
+    })
+    .catch(function (err) {
+      alertService.addError(err);
+    })
+    .finally(function () {
+      $scope.busy = false;
+      alertService.loaded($scope);
+    });
+  };
 
-  $scope.urlCancel = $state.href('newRenter-depositResult', {
-    state:      'cancel',
-    resourceId: $scope.resource.id,
-    startTime:  $scope.booking.startTime,
-    endTime:    $scope.booking.endTime
-  }, {absolute: true});
-
-  $scope.urlSuccess = $state.href('newRenter-booking', {
-    resourceId: $scope.resource.id,
-    startTime:  $scope.booking.startTime,
-    endTime:    $scope.booking.endTime
-  }, {absolute: true});
-
-  $scope.urlError = $state.href('newRenter-depositResult', {
-    state:      'error',
-    resourceId: $scope.resource.id,
-    startTime:  $scope.booking.startTime,
-    endTime:    $scope.booking.endTime
-  }, {absolute: true});
+  function saveState () {
+    sessionStorage.setItem('afterPayment', JSON.stringify({
+      error: {
+        stateName: $state.current.name,
+        stateParams: {
+          resourceId: $scope.resource.id,
+          startTime:  $scope.booking.startTime,
+          endTime:    $scope.booking.endTime
+        }
+      },
+      success: {
+        stateName: 'newRenter-booking',
+        stateParams: {
+          resourceId: $scope.resource.id,
+          startTime:  $scope.booking.startTime,
+          endTime:    $scope.booking.endTime
+        }
+      }
+    }));
+  }
 })
 
 

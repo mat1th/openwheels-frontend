@@ -28,7 +28,7 @@
               </td>
             </tr>
 
-            <tr ng-if="group.tripId" style="background:#eee">
+            <tr ng-if="!group.tripId" style="background:#eee">
               <td colspan="6">
                 <strong>
                   Overig
@@ -150,6 +150,7 @@
             Alles uitbetalen
           </button>
         </div>
+
       </div>
 
       <div ng-if="sentInvoices.length <= 0">
