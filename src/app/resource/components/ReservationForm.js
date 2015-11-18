@@ -236,6 +236,7 @@ angular.module('owm.resource.reservationForm', [])
           startTime: booking.beginRequested,
           endTime: booking.endRequested
         });
+        return;
       }
     }
 
