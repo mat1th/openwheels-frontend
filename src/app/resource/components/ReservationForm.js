@@ -85,6 +85,9 @@ angular.module('owm.resource.reservationForm', [])
       if (begin < end) {
         booking.beginRequested = begin.format(API_DATE_FORMAT);
         booking.endRequested = end.format(API_DATE_FORMAT);
+      } else {
+        booking.beginRequested = begin.format(API_DATE_FORMAT);
+        booking.endRequested = begin.format(API_DATE_FORMAT);
       }
     }
   };

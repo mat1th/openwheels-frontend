@@ -73,12 +73,15 @@ angular.module('owm.booking.timeframe', [])
     if (end && !isToday(end)) {
       end = end.startOf('day').add('hours', 18);
       if (!begin) {
-        begin   = end.clone().startOf('day').add('hours', 9);
+        begin = end.clone().startOf('day').add('hours', 9);
       }
-    }
-    if (begin < end) {
-      booking.beginRequested = begin.format(API_DATE_FORMAT);
-      booking.endRequested = end.format(API_DATE_FORMAT);
+      if (begin < end) {
+        booking.beginRequested = begin.format(API_DATE_FORMAT);
+        booking.endRequested = end.format(API_DATE_FORMAT);
+      } else {
+        booking.beginRequested = begin.format(API_DATE_FORMAT);
+        booking.endRequested = begin.format(API_DATE_FORMAT);
+      }
     }
   };
   // /FIXME: duplicate code
