@@ -31,12 +31,22 @@ angular.module('timeframe', [])
             $scope.begin = end.subtract('hours', 6).format(modelFormat);
           }
         };
+
         var setEnd = function(begin) {
           if(!begin.isValid()){
             return;
           }
-          $scope.end = begin.add('hours', 6).format(modelFormat);
+
+          /* #MW-1782: end time should not automagically jump to next day */
+          var midnight = moment().startOf('day').add(1, 'days');
+          var sixHoursLater = begin.clone().add(6, 'hours');
+          if (begin.isBefore(midnight) && sixHoursLater.isAfter(midnight)) {
+            $scope.end = begin.clone().add(30, 'minutes').format(modelFormat);
+          } else {
+            $scope.end = sixHoursLater.format(modelFormat);
+          }
         };
+
         var timeframeChanged = function(timeframeNew, timeframeOld) {
           var begin = timeframeNew[0] ? moment(timeframeNew[0]) : null;
           var end = timeframeNew[1] ? moment(timeframeNew[1]) : null;
