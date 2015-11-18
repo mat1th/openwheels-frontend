@@ -40,7 +40,7 @@ angular.module('owm.person.profile', [])
     var alerts = {
       personalData: (!p.firstName || !p.surname || !p.dateOfBirth),
       contactData : (!p.streetName || !p.streetNumber || !p.city || (!p.phoneNumbers || !p.phoneNumbers.length)),
-      licenseData : (!p.driverLicense)
+      licenseData : (p.status === 'new')
     };
     $scope.alerts = alerts;
   }
