@@ -137,6 +137,8 @@ angular.module('owm.newRenter.controllers', [])
         $scope.person.dateOfBirth = me.dateOfBirth;
         $scope.person.zipcode = me.zipcode;
         $scope.person.streetNumber = me.streetNumber;
+        $scope.person.phoneNumbers = me.phoneNumbers;
+
         if (!me.phoneNumbers && !me.phoneNumbers.length) {
           $scope.addPhone();
         }
