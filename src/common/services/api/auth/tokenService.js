@@ -37,11 +37,17 @@ angular.module('tokenService', [])
 
   tokenService.createToken = function (data) {
     var token = Object.create(tokenPrototype);
+    var expiresIn = data.expiresIn;
+    try {
+      expiresIn = parseInt(expiresIn);
+    } catch (ex) {
+      expiresIn = DEFAULT_EXPIRES_IN;
+    }
     angular.extend(token, {
       tokenType   : data.tokenType,
       accessToken : data.accessToken,
       refreshToken: data.refreshToken,
-      expiryDate  : moment().add(data.expiresIn || DEFAULT_EXPIRES_IN, 'seconds').toDate(),
+      expiryDate  : moment().add(expiresIn, 'seconds').toDate(),
     });
     return token;
   };

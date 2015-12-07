@@ -29,7 +29,7 @@ angular.module('oAuth2Callback', [])
         var token;
         var tokenData = {
           accessToken : req.access_token,
-          expiresIn   : angular.isNumber(req.expires_in) ? parseInt(req.expires_in) : 0,
+          expiresIn   : req.expires_in,
           tokenType   : req.token_type,
           refreshToken: req.refresh_token
         };

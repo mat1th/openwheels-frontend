@@ -22,6 +22,8 @@ angular.module('rpcServices', [])
   this.resetPassword         = m('resetPassword');
   this.addLicenseImages      = m('addLicenseImages');
   this.setProfileImage       = m('setProfileImage');
+  this.emailBookingLink      = m('emailBookingLink');
+  this.emailPreferenceToNone = m('emailPreferenceToNone');
 })
 
 .service('placeService', function (api) {
@@ -40,6 +42,7 @@ angular.module('rpcServices', [])
   this.addPerson     = m('addPerson');
   this.removePerson  = m('removePerson');
   this.invitePerson  = m('invitePerson');
+  this.requestContract = m('requestContract');
 })
 
 .service('chipcardService', function (api) {
@@ -110,6 +113,7 @@ angular.module('rpcServices', [])
   this.calculatePrice = m('calculatePrice');
   this.getSent        = m('getSent');
   this.getReceived    = m('getReceived'); // status = paid | unpaid | both
+  this.createSenderInvoiceGroup = m('createSenderInvoiceGroup');
 })
 
 .service('accountService', function (api) {

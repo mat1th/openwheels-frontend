@@ -61,7 +61,7 @@ angular.module('authService', [])
     user.isPending = false;
 
     asyncUser = null; // make sure it never gets resolved;
-    window.location.reload();
+    $window.location.href = $state.href('home', {}, { absolute: true });
   });
 
   this.notifyAnonymous = function () {
@@ -137,7 +137,7 @@ angular.module('authService', [])
     alertService.closeAll();
     alertService.loaded();
 
-    if (isInternetExplorer()) {
+    if (isPopupSupported()) {
       loginRedirect('/');
     } else {
       openPopup(authUrl('postMessage', 'postMessage'));
@@ -145,9 +145,9 @@ angular.module('authService', [])
     return loginPromise;
   }
 
-  function isInternetExplorer () {
+  function isPopupSupported () {
     var ua = window.navigator.userAgent;
-    return !!( ~ua.indexOf('MSIE ') || ~ua.indexOf('Trident/') );
+    return !!( ~ua.indexOf('MSIE ') || ~ua.indexOf('Trident/') ); // Internet Explorer
   }
 
   function loginRedirect (errorPath, successPath) {
@@ -226,6 +226,22 @@ angular.module('authService', [])
   function subscribe (params) {
     return api.invokeRpcMethod('person.subscribe', params, null, true);
   }
+
+  var that = this;
+  this.oauthSubscribe = function oauthSubscribe(params) {
+    params.clientId = appConfig.appId;
+    return api.invokeRpcMethod('auth.subscribe', params, null, true)
+    .then(function (data) {
+      var token = tokenService.createToken({
+        tokenType   : data.token_type,
+        accessToken : data.access_token,
+        refreshToken: data.refresh_token,
+        expiresIn   : data.expires_in
+      });
+      token.save();
+      return that.authenticatedUser(true);
+    });
+  };
 
   // HELPERS
 

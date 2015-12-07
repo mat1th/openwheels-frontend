@@ -1,0 +1,295 @@
+'use strict';
+
+angular.module('owm.newRenter.controllers', [])
+
+.controller('NewRenterController', function ($state, $scope, resource, booking, authService, contractService) {
+
+  $scope.resource = resource;
+  $scope.booking = booking;
+  $scope.user = authService.user;
+
+  $scope.$watch('user.isAuthenticated && !user.isPending', function (newValue) {
+    if(newValue){
+      $scope.person = authService.user.identity;
+      checkCompleted();
+    }
+  });
+
+  $scope.$watch('user.identity.id', function (id) {
+    if(id) {
+      contractService.forDriver({person: id}).
+      then(function (contracts) {
+        $scope.contracts = contracts;
+        checkCompleted();
+      });
+    }
+  });
+
+  function checkCompleted () {
+    var contracts = $scope.contracts;
+    var person = $scope.person;
+    var completed = contracts && contracts.length && person;
+
+    completed = completed && person.status === 'active' || person.status === 'book-only';
+
+    completed = completed && contracts.some(function (contract) {
+      return contract.status === 'active';
+    });
+
+    if (completed) {
+      $state.go('newRenter-booking', {
+        resourceId: $scope.resource.id,
+        startTime:  $scope.booking.startTime,
+        endTime:    $scope.booking.endTime
+      });
+    }
+  }
+})
+
+.controller('NewRenterRegisterController', function ($scope, $state,
+  dutchZipcodeService, authService, alertService, personService, $q
+) {
+
+  $scope.addPhone = function () {
+    $scope.person.phoneNumbers = $scope.person.phoneNumbers || [];
+    $scope.person.phoneNumbers.push({
+      number: '',
+      type: 'mobile'
+    });
+  };
+
+  $scope.removePhone = function (index) {
+    $scope.person.phoneNumbers.splice(index, 1);
+  };
+
+  $scope.license_front = null;
+  $scope.person = {};
+  $scope.addPhone();
+  $scope.credentials = {};
+
+  $scope.subscribe = function(credentials, person, license_front) {
+    alertService.closeAll();
+    alertService.load();
+
+    $q(function(succ, fail) {
+      return succ(authService.user.isAuthenticated);
+    })
+    .then(function (authenticated) {
+      if(!authenticated) {
+
+        return authService.oauthSubscribe({
+          email: credentials.email,
+          password: credentials.password,
+          other: person
+        });
+      }
+
+      return personService.alter({
+        person: authService.user.identity.id,
+        newProps: person
+      }).then(function (new_user) {
+        for (var key in authService.user.identity) {
+          if (authService.user.identity.hasOwnProperty(key) && new_user.hasOwnProperty(key)) {
+            authService.user.identity[key] = new_user[key];
+          }
+        }
+        return new_user;
+      });
+    }).then(function (me) {
+      if(license_front) {
+        return personService.addLicenseImages(
+          {person: me.id},
+          {frontImage: license_front}
+        );
+      }
+      return personService.emailBookingLink({
+        person: me.id,
+        url: $state.href('newRenter-register', {
+          resourceId: $scope.resource.id,
+          startTime: $scope.booking.startTime,
+          endTime: $scope.booking.endTime
+        }, {absolute: true})
+      });
+    }).then(function (me) {
+      alertService.addSaveSuccess();
+      alertService.loaded();
+      if(me.status === 'active' || me.status === 'book-only' ) {
+        $state.go('newRenter-deposit', {
+          resourceId: $scope.resource.id,
+          startTime:  $scope.booking.startTime,
+          endTime:    $scope.booking.endTime
+        });
+      }
+    }).catch(function (err) {
+      alertService.addError(err);
+    }).finally(function () {
+      alertService.loaded();
+    });
+  };
+
+  $scope.$watch('user.isAuthenticated && !user.isPending', function (newValue) {
+    if(newValue){
+      authService.authenticatedUser()
+      .then(function (me) {
+        $scope.person.firstName = me.firstName;
+        $scope.person.preposition = me.preposition;
+        $scope.person.surname = me.surname;
+        $scope.person.dateOfBirth = me.dateOfBirth;
+        $scope.person.zipcode = me.zipcode;
+        $scope.person.streetNumber = me.streetNumber;
+        if (!me.phoneNumbers && !me.phoneNumbers.length) {
+          $scope.addPhone();
+        }
+      });
+    }
+  });
+
+  $scope.$watch('[person.zipcode, person.streetNumber]', function( newValue, oldValue ){
+    /*
+     * remove all spaces
+     */
+    function stripWhitespace (str) {
+      var out = str;
+      while (out.indexOf(' ') >= 0) {
+        out = out.replace(' ', '');
+      }
+      return out;
+    }
+
+    var country = 'nl';
+
+    if( newValue !== oldValue ){
+      if( !( newValue[0] && newValue[1] )) {
+        return;
+      }
+
+      $scope.zipcodeAutocompleting = true;
+      dutchZipcodeService.autocomplete({
+        country: country,
+        zipcode: stripWhitespace(newValue[0]),
+        streetNumber: newValue[1]
+      })
+      .then(function(data) {
+        /*jshint sub: true */
+        $scope.person.city = data[0].city;
+        $scope.person.streetName = data[0].street;
+        $scope.person.latitude = data[0].lat;
+        $scope.person.longitude = data[0].lng;
+      }, function(error) {
+        if($scope.person.zipcode !== newValue[0] || $scope.person.streetNumber !== newValue[1] ) {
+          //resolved too late
+          return;
+        }
+        $scope.person.city = null;
+        $scope.person.streetName = null;
+        $scope.person.latitude = null;
+        $scope.person.longitude = null;
+      })
+      .finally(function() {
+        $scope.zipcodeAutocompleting = false;
+      })
+      ;
+    }
+  }, true);
+
+  $scope.dateConfig = {
+    //model
+    modelFormat: 'YYYY-MM-DD',
+    formatSubmit: 'yyyy-mm-dd',
+
+    //view
+    viewFormat: 'DD-MM-YYYY',
+    format: 'dd-mm-yyyy',
+
+    //options
+    selectMonths: true,
+    selectYears: '100',
+    max: true
+  };
+})
+
+
+.controller('NewRenterDepositController', function ($state, $scope, alertService, depositService, me) {
+  $scope.data = { mandate: false };
+  $scope.busy = false;
+
+  $scope.payDeposit = function () {
+    $scope.busy = true;
+    alertService.load($scope);
+    saveState();
+    depositService.requestContractAndPay({
+      person: me.id
+    })
+    .catch(function (err) {
+      alertService.addError(err);
+    })
+    .finally(function () {
+      $scope.busy = false;
+      alertService.loaded($scope);
+    });
+  };
+
+  function saveState () {
+    sessionStorage.setItem('afterPayment', JSON.stringify({
+      error: {
+        stateName: $state.current.name,
+        stateParams: {
+          resourceId: $scope.resource.id,
+          startTime:  $scope.booking.startTime,
+          endTime:    $scope.booking.endTime
+        }
+      },
+      success: {
+        stateName: 'newRenter-booking',
+        stateParams: {
+          resourceId: $scope.resource.id,
+          startTime:  $scope.booking.startTime,
+          endTime:    $scope.booking.endTime
+        }
+      }
+    }));
+  }
+})
+
+
+.controller('NewRenterBookingController', function ($scope, $q, person, resource, booking, bookingService, alertService) {
+
+  alertService.load();
+
+  bookingService.getBookingList({
+    person: person.id,
+    timeFrame: {
+      startDate: booking.startTime,
+      endDate: booking.endTime
+    },
+  })
+  .then(function (bookings) {
+    return bookings.filter(function (elm) {
+      return elm.resource.id === resource.id;
+    });
+  })
+  .then(function (bookings) {
+    if(bookings.length) {
+      return bookings[0];
+    } else {
+      return bookingService.create({
+        person: person.id,
+        resource: resource.id,
+        timeFrame: {
+          startDate: booking.startTime,
+          endDate: booking.endTime
+        },
+      });
+    }
+  })
+  .then(function (booking) {
+    $scope.b = booking;
+  })
+  .catch(function (err) {
+    alertService.addError(err);
+  })
+  .finally(function () {
+    alertService.loaded();
+  });
+})
+;
