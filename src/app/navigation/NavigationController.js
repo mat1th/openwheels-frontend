@@ -2,10 +2,32 @@
 
 angular.module('owm.navigation', [])
 
-.controller('NavigationController', function ($log, $state, $rootScope, $scope, alertService, authService, featuresService, contractService) {
+.controller('NavigationController', function ($window, $log, $state, $rootScope, $scope, alertService, authService, featuresService, contractService) {
 
   $scope.user = authService.user;
-
+  
+  $scope.$watch('!user.isPending && user.isAuthenticated', function (value) {
+    if(value) {
+      var options = $window.LHCChatOptions = $window.LHCChatOptions || {};
+      options.attr = [{
+        name: 'userid',
+        value: authService.user.identity.id,
+        type: 'hidden',
+        size: 12,
+      }];
+      options.attr_prefill = [{
+        name: 'email',
+        value: '',
+        hidden: true
+      }, {
+        name: 'username',
+        value: authService.user.identity.firstName,
+        hidden: true
+      }];
+    } else {
+      
+    }
+  });
   /**
    * HACK
    * Determine whether to show the vouchers menu item by checking the user's contracts
