@@ -11,7 +11,7 @@ AddDefaultCharset utf-8
 <IfModule mod_mime.c>
     AddCharset utf-8 .atom .css .js .json .rss .vtt .webapp .xml
 </IfModule>
-
+RewriteEngine On
 RewriteCond %{REQUEST_FILENAME} -s
 RewriteCond %{REQUEST_FILENAME} -f
 RewriteRule .? - [L]
