@@ -75,7 +75,9 @@
     <li id="menu-item-profile" ng-class="{ active: $state.includes('owm.person.profile') }">
       <a href="" ui-sref="owm.person.profile" snap-close>{{ 'MY_PROFILE' | translate }}</a>
     </li>
-
+    <li id="menu-item-contracts" ng-if="features.myContractsMenuItem" ng-class="{ active: $state.includes('owm.person.contract') }">
+      <a href="" ui-sref="owm.person.contract" snap-close>{{ 'MY_CONTRACTS' | translate }}</a>
+    </li>
     <li ng-if="vouchersEnabled" ng-class="{ active: $state.includes('owm.finance.vouchers') }">
       <a href="" ui-sref="owm.finance.vouchers" snap-close>{{ 'MY_VOUCHERS' | translate }}</a>
     </li>
