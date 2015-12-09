@@ -55,7 +55,7 @@ angular.module('openwheels', [
   'owm.geoPositionService',
   'owm.linksService',
   'owm.metaInfoService',
-
+  'owm.livehelperchat',
   // DIRECTIVES
 
   'form.validation',
