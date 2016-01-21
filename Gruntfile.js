@@ -186,6 +186,7 @@ module.exports = function (grunt) {
         src: [
           '<%= vendor_files.js %>',
           'module.prefix',
+          '<%= build_dir %>/src/**/*Module.js', // modules first
           '<%= build_dir %>/src/**/*.js',
           '<%= build_dir %>/app/config.js',
           '<%= html2js.app.dest %>',
