@@ -15,4 +15,4 @@ node_modules
 sandbox
 src/branding/config.json
 test/coverage
-vendor
+/vendor
