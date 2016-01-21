@@ -19,7 +19,7 @@ angular.module('owm.resource', [
       abstract: true,
       url: '?lat&lng&start&end&text&radius&options&fuel&lock&seats&type',
       views: {
-        'main@': {
+        'main@shell': {
           template: '<div ui-view></div>'
         }
       },
@@ -36,13 +36,13 @@ angular.module('owm.resource', [
         }]
       },
     });
-    
+
     $stateProvider.state('owm.resource.search', {
       url: '/auto-huren',
       abstract: true,
       reloadOnSearch: false,
       views: {
-        'main-full@': {
+        'main-full@shell': {
           controller: 'ResourceSearchController',
           templateUrl: 'resource/search/resource-search.tpl.html'
         }
@@ -77,7 +77,7 @@ angular.module('owm.resource', [
       abstract: true,
       reloadOnSearch: false,
       views: {
-        'main-full@': {
+        'main-full@shell': {
           controller: 'ResourceSearchController',
           templateUrl: 'resource/search/resource-search.tpl.html'
         }
@@ -161,7 +161,7 @@ angular.module('owm.resource', [
     $stateProvider.state('owm.resource.show', {
       url: '/auto-huren/:city/:resourceId',
       views: {
-        'main-full@': {
+        'main-full@shell': {
           controller: 'ResourceShowController',
           templateUrl: 'resource/show/resource-show.tpl.html',
         }

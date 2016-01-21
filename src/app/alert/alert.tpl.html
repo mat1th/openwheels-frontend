@@ -1,5 +1,5 @@
 <div class="global-spinner" ng-show="loader" type="loader.type"><i class="fa fa-spin fa-2x fa-fw fa-spinner"></i></div>
-<div class="alerts" ng-controller="MyAlertController">
+<div class="alerts" ng-controller="AlertController">
   <div class="container">
   	<alert ng-repeat="alert in alerts" type="{{ alert.type }}" close="closeAlert($index)">
       <i ng-if="alert.type==='danger'" class="fa fa-fw fa-exclamation-triangle"></i>

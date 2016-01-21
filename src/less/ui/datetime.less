@@ -1,16 +1,28 @@
 .datetime {
-  .datetime__date {
-    .datetime__date--ddd {
-      font-size: 65%;
-    }
-    .datetime__date--DD {
-
-    }
-    .datetime__date--MMM {
-      font-size: 65%;
-    }
+  .datetime__date--ddd {
+    font-size: 85%;
+    line-height: @line-height-computed;
+    text-transform: uppercase;
+    color: @gray;
   }
+  .datetime__date--DD {
+
+  }
+  .datetime__date--MMM {
+    font-size: 85%;
+    text-transform: uppercase;
+    color: @gray;
+    line-height: @line-height-computed;
+  }
+
   .datetime__time {
-    color: red;
+    .datetime__time--HH {
+    }
+    .datetime__time--mm {
+      color: @gray;
+      font-size: 85%;
+      line-height: @line-height-computed;
+    }
   }
 }
+
