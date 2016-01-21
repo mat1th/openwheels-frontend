@@ -50,7 +50,6 @@ angular.module('owm.person.profile', [])
     alertService.closeAll();
     alertService.load();
     var newProps = $filter('returnDirtyItems')( angular.copy($scope.person), $scope.personalDataForm);
-    // console.log('newProps!', newProps);
     personService.alter({
       id: person.id,
       newProps: newProps

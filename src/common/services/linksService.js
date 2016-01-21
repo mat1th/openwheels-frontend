@@ -51,8 +51,6 @@ angular.module('owm.linksService', [])
       } else {
         $log.debug('external link: token not available', link);
       }
-    } else {
-      $log.info('external link', link);
     }
 
     return out;

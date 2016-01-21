@@ -138,16 +138,17 @@ angular.module('authService', [])
     alertService.loaded();
 
     if (isPopupSupported()) {
-      loginRedirect('/');
-    } else {
       openPopup(authUrl('postMessage', 'postMessage'));
+    } else {
+      loginRedirect('/');
     }
     return loginPromise;
   }
 
   function isPopupSupported () {
     var ua = window.navigator.userAgent;
-    return !!( ~ua.indexOf('MSIE ') || ~ua.indexOf('Trident/') ); // Internet Explorer
+    var ie = !!( ~ua.indexOf('MSIE ') || ~ua.indexOf('Trident/') );
+    return !ie;
   }
 
   function loginRedirect (errorPath, successPath) {

@@ -104,8 +104,6 @@ angular.module('owm.resource.show', [])
     var dfd = $q.defer();
     dfd.promise.then(function (bool) {
       $scope.isFavorite = bool;
-    })
-    .finally(function () {
       $scope.isFavoriteResolved = true;
     });
 

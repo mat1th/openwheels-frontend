@@ -11,7 +11,7 @@ angular.module('owm.trips', [
   .state('owm.trips', {
     url: '/trips',
     views: {
-      'main@': {
+      'main@shell': {
         templateUrl: 'trips/index/tripsIndex.tpl.html',
         controller: 'TripsIndexController'
       }

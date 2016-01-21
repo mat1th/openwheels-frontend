@@ -12,7 +12,7 @@ angular.module('owm.newRenter', [
       abstract: true,
       parent: 'owm.resource',
       views: {
-        'main-full@': {
+        'main@shell': {
           controller: 'NewRenterController',
           templateUrl: 'new-renter/new-renter/wrapper.tpl.html'
         }
