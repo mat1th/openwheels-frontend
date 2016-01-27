@@ -6,12 +6,12 @@ angular.module('owm.livehelperchat', [])
   if(!featuresService.get('livehelperchat')) {
     return ;
   }
-  
+
   authService.userPromise().then(function (user) {
     if(!user.identity) {
       return;
     }
-    
+
     var options = $window.LHCChatOptions = $window.LHCChatOptions || {};
     options.attr = [{
       name: 'userid',
@@ -29,8 +29,8 @@ angular.module('owm.livehelperchat', [])
       hidden: true
     }];
   });
-  
-  
+
+
   var options = $window.LHCChatOptions = $window.LHCChatOptions || {};
   options.opt = {widget_height:440,widget_width:300,popup_height:520,popup_width:500};
 
@@ -39,8 +39,8 @@ angular.module('owm.livehelperchat', [])
   po.async = true;
   var referrer = (document.referrer) ? encodeURIComponent(document.referrer.substr(document.referrer.indexOf('://')+1)) : '';
   var location  = (document.location) ? encodeURIComponent(window.location.href.substring(window.location.protocol.length)) : '';
-  po.src = 'https://openwheels.nl/lhc/index.php/nld/chat/getstatus/(click)/internal/(position)/bottom_right/(ma)/br/(hide_offline)/true/(top)/350/(units)/pixels/(leaveamessage)/true/(department)/1?r='+referrer+'&l='+location;
+  po.src = 'https://openwheels.nl/lhc/index.php/nld/chat/getstatus/(click)/internal/(position)/bottom_right/(ma)/br/(hide_offline)/true/(top)/350/(units)/pixels/(leaveamessage)/true/(department)/1/(noresponse)/true?r='+referrer+'&l='+location;
   var s = document.getElementsByTagName('script')[0];
   s.parentNode.insertBefore(po, s);
-  
+
 });
