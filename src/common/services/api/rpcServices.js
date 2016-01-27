@@ -145,7 +145,9 @@ angular.module('rpcServices', [])
 .service('ratingService', function (api) {
   var m = function (name) { return api.createRpcMethod('rating.' + name); };
   this.getPrefill = m('getPrefill');
-  this.create     = m('create');
+  this.create = m('create');
+  this.getResourceRatings = m('getResourceRatings');
+  this.getDriverRatings = m('getDriverRatings');
 })
 
 .service('anwbService', function (api) {
