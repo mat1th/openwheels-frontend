@@ -132,7 +132,7 @@ angular.module('owm.resource', [
       resolve: {
         bookings: ['$stateParams', 'authService', 'bookingService', 'API_DATE_FORMAT', function ($stateParams, authService, bookingService, API_DATE_FORMAT) {
           var resourceId = $stateParams.resourceId;
-          var startDate = moment().subtract(7, 'days').isoWeekday(1).hours(0).minutes(0).seconds(0);
+          var startDate = moment().subtract(14, 'days').isoWeekday(1).hours(0).minutes(0).seconds(0);
           var endDate = moment().add(52, 'weeks');
 
           return bookingService.forResource({
@@ -145,7 +145,7 @@ angular.module('owm.resource', [
         }],
         blockings: ['$stateParams', 'calendarService', 'API_DATE_FORMAT', function ($stateParams, calendarService, API_DATE_FORMAT) {
           var resourceId = $stateParams.resourceId;
-          var startDate = moment().subtract(7, 'days').isoWeekday(1).hours(0).minutes(0).seconds(0);
+          var startDate = moment().subtract(14, 'days').isoWeekday(1).hours(0).minutes(0).seconds(0);
           var endDate = moment().add(52, 'weeks');
 
           return calendarService.between({
