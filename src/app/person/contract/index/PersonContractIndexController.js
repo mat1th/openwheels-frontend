@@ -1,20 +1,28 @@
 'use strict';
 angular.module('owm.person')
-.controller('PersonContractIndexController', function ($q, $filter, $modal, $translate, $scope, authService, dialogService, alertService, personService, contractService, me) {
 
+.controller('PersonContractIndexController', function ($q, $filter, $modal, $translate, $scope,
+  authService, dialogService, alertService, personService, contractService, me) {
+
+  $scope.busy = false;
   $scope.isLoadingContracts = true;
+  $scope.ownContracts = [];
+  $scope.ownContractsCopy = [];
+  $scope.otherContracts = [];
+
   loadContracts().finally(function () {
     $scope.isLoadingContracts = false;
   });
 
   function loadContracts () {
-    alertService.load();
-    var ownContractsPromise   = contractService.forContractor({ person: me.id });
+    var ownContractsPromise = contractService.forContractor({ person: me.id });
     var otherContractsPromise = contractService.forDriver({ person: me.id });
 
+    alertService.load();
     return $q.all([ownContractsPromise, otherContractsPromise])
     .then(function (result) {
-      $scope.ownContracts   = result[0];
+      $scope.ownContracts = result[0];
+      $scope.ownContractsCopy = angular.copy(result[0]);
       $scope.otherContracts = $filter('filter')(result[1], function (c) {
         return c.contractor.id !== me.id;
       });
@@ -31,28 +39,67 @@ angular.module('owm.person')
     });
   };
 
-  $scope.getOwnRiskWaiverDescription = function (waiver) {
-    switch (waiver.toLowerCase()) {
-      case 'not':
-        return '';
-      default:
-        return $translate.instant('CONTRACT.PROP.OWNRISKWAIVER') +
-        ': ' + $translate.instant('CONTRACT.PROP.OWNRISKWAIVER.BOOKING');
+  $scope.saveContract = function ($index, form) {
+    var original = $scope.ownContractsCopy[$index];
+    var contract = $scope.ownContracts[$index];
+    var newProps = {};
+    if (contract.ownRiskWaiver !== original.ownRiskWaiver) {
+      newProps.ownRiskWaiver = contract.ownRiskWaiver;
     }
+    if (Object.keys(newProps).length <= 0) {
+      return;
+    }
+
+    $scope.busy = true;
+    contractService.alter({
+      id : contract.id,
+      newProps: newProps
+    })
+    .then(function (saved) {
+      alertService.addSaveSuccess();
+      angular.extend(original, saved);
+      angular.extend(contract, saved);
+      form.$setPristine();
+    })
+    .catch(function (err) {
+      alertService.addError(err);
+    })
+    .finally(function () {
+      $scope.busy = false;
+    });
   };
 
-  $scope.editContract = function (contract) {
-    $modal.open({
-      templateUrl: 'person/contract/edit-modal/person-contract-edit-modal.tpl.html',
-      controller : 'PersonContractEditController',
-      resolve: {
-        contract: function () {
-          return contract;
+  $scope.blockContract = function ($index) {
+    var original = $scope.ownContractsCopy[$index];
+    var contract = $scope.ownContracts[$index];
+
+    dialogService.showModal(null, {
+      closeButtonText: $translate.instant('CANCEL'),
+      actionButtonText: $translate.instant('CONFIRM'),
+      headerText: $translate.instant('CONTRACT_END_ACTION'),
+      bodyText: $translate.instant('CONTRACT_END_CONFIRM_DESC')
+    })
+    .then(function () {
+      $scope.busy = true;
+      contractService.alter({
+        id: contract.id,
+        newProps: {
+          status: 'blocked'
         }
-      }
-    }).result.then(function () {
-      authService.invalidateMe();
-      $scope.ownContracts = $filter('filter')($scope.ownContracts, { status: 'active' });
+      })
+      .then(function (saved) {
+        alertService.addSaveSuccess();
+        angular.extend(contract, saved);
+        angular.extend(original, saved);
+        $scope.ownContracts = $filter('filter')($scope.ownContracts, { status: 'active' });
+        $scope.ownContractsCopy = angular.copy($scope.ownContracts);
+      })
+      .catch(function (err) {
+        alertService.addError(err);
+      })
+      .finally(function () {
+        $scope.busy = false;
+      });
     });
   };
 

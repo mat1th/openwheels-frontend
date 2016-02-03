@@ -95,11 +95,11 @@ module.exports = function (grunt) {
           }
         ]
       },
-      buildVendorAssets: {
+      buildVendorFonts: {
         files: [
           {
-            src: [ '<%= vendor_files.assets %>' ],
-            dest: '<%= build_dir %>/assets/',
+            src: [ '<%= vendor_files.fonts %>' ],
+            dest: '<%= build_dir %>/assets/fonts',
             cwd: '.',
             expand: true,
             flatten: true
@@ -176,17 +176,6 @@ module.exports = function (grunt) {
      */
     concat: {
       /**
-       * The `buildCss` target concatenates compiled CSS and vendor CSS
-       * together.
-       */
-      buildCss: {
-        src: [
-          '<%= vendor_files.css %>',
-          '<%= less.build.destFile %>'
-        ],
-        dest: '<%= less.build.destFile %>'
-      },
-      /**
        * The `compileJs` target is the concatenation of our application source
        * code and all specified vendor source code into a single file.
        */
@@ -197,6 +186,7 @@ module.exports = function (grunt) {
         src: [
           '<%= vendor_files.js %>',
           'module.prefix',
+          '<%= build_dir %>/src/**/*Module.js', // modules first
           '<%= build_dir %>/src/**/*.js',
           '<%= build_dir %>/app/config.js',
           '<%= html2js.app.dest %>',
@@ -239,36 +229,45 @@ module.exports = function (grunt) {
       }
     },
 
+    /* TODO: Remove temp fix for https://github.com/angular/material/issues/6304 */
+    replace: {
+      angularMaterialCss: {
+        src: ['vendor/angular-material/angular-material.css'],
+        dest: 'vendor/angular-material/angular-material.css.openwheels-fix.css',
+        replacements: [{
+          from: 'screen\\0 ', to: 'screen'
+        }]
+      }
+    },
+
     /**
      * `less` handles our LESS compilation and uglification automatically.
      * Only our `main.less` file is included in compilation; all other files
      * must be imported from this file.
      */
     less: {
+      destFile: '<%= build_dir %>/assets/<%= pkg.name %>-<%= pkg.version %><%= cacheBuster %>.css',
+      options: {
+        paths: [
+          'vendor'
+        ]
+      },
       build: {
-        destFile: '<%= build_dir %>/assets/<%= pkg.name %>-<%= pkg.version %><%= cacheBuster %>.css',
-        options: {
-          paths: ['<%= src_dir %>/less', '<%= vendor_dir %>']
-        },
         files: {
-          '<%= less.build.destFile %>': '<%= app_files.less %>'
+          '<%= less.destFile %>': '<%= app_files.less %>'
         }
       },
       compile: {
-        destFile: '<%= less.build.destFile %>',
-        options: {
-          paths: ['<%= src_dir %>/less', '<%= vendor_dir %>/bootstrap/less', 'vendor/font-awesome/less', 'vendor/pickadate/lib/compressed/themes'],
-          cleancss: true
-        }
-      },
-      branding_example: {
-        options: {
-          compress: false,
-          cleancss: false,
-        },
         files: {
-          './build/branding/style.css': '<%= src_dir %>/less/branding-example.less'
-        }
+          '<%= less.destFile %>': '<%= app_files.less %>'
+        },
+        options: {
+          plugins: [
+            (new (require('less-plugin-clean-css'))({
+              keepSpecialComments: 0
+            }))
+          ]
+        },
       }
     },
 
@@ -366,11 +365,12 @@ module.exports = function (grunt) {
         dir: '<%= build_dir %>',
         src: [
           '<%= vendor_files.js %>',
+          '<%= build_dir %>/src/**/*Module.js', // modules first
           '<%= build_dir %>/src/**/*.js',
           '<%= build_dir %>/app/config.js',
           '<%= html2js.common.dest %>',
           '<%= html2js.app.dest %>',
-          '<%= less.build.destFile %>'
+          '<%= less.destFile %>'
         ]
       },
 
@@ -379,7 +379,7 @@ module.exports = function (grunt) {
         dir: '<%= compile_dir %>',
         src: [
           '<%= concat.compileJs.dest %>',
-          '<%= less.compile.destFile %>'
+          '<%= less.destFile %>'
         ]
       }
     },
@@ -408,15 +408,6 @@ module.exports = function (grunt) {
           }
         }
       ]
-    },
-
-    autoprefixer: {
-      build: {
-        options: {
-          diff: true
-        },
-        src: '<%= build_dir %>/assets/<%= pkg.name %>-<%= pkg.version %><%= cacheBuster %>.css' // globbing is also possible here
-      }
     },
 
     watch: {
@@ -478,8 +469,10 @@ module.exports = function (grunt) {
 
       less: {
         files: [ 'src/**/*.less' ],
-        tasks: [ 'less:build', 'autoprefixer:build' ],
-        options: { livereload: false }
+        tasks: [ 'less:build' ],
+        options: {
+          livereload: false
+        }
       },
 
       livereload: {
@@ -568,6 +561,7 @@ module.exports = function (grunt) {
   // run local server
   grunt.registerTask('server', [
     'build-common',
+    'less:build',
     'configure',
     'ngconstant:development',
     'index:build',
@@ -594,6 +588,12 @@ module.exports = function (grunt) {
   grunt.registerTask('dist-dev', ['initWithCacheBuster', 'build-common', 'ngconstant:development' , 'compile']);
   grunt.registerTask('dist'    , ['initWithCacheBuster', 'build-common', 'ngconstant:production'  , 'compile']);
 
+  // manually test a "dist" build locally, with dev configuration
+  grunt.registerTask('test-dist', [
+    'configure:./bin/branding/',
+    'connect:bin'
+  ]);
+
   grunt.registerTask('initWithCacheBuster', function () {
     grunt.initConfig(grunt.util._.extend(gruntConfig, buildConfig, {
       cacheBuster: '-' + uuid.v4().slice(-12)
@@ -601,8 +601,9 @@ module.exports = function (grunt) {
   });
 
   grunt.registerTask('build-common', [
-    'clean', 'html2js', 'jshint:src', 'less:build', 'autoprefixer:build', 'concat:buildCss',
-    'copy:buildAppAssets', 'copy:buildAppBranding', 'copy:buildApp', 'copy:buildVendorAssets',
+    'clean', 'html2js', 'jshint:src',
+    'replace:angularMaterialCss', // TODO: remove temp fix
+    'copy:buildAppAssets', 'copy:buildAppBranding', 'copy:buildApp', 'copy:buildVendorFonts',
     'copy:buildAppjs', 'copy:buildVendorjs'
   ]);
 
@@ -632,12 +633,13 @@ module.exports = function (grunt) {
     });
   });
 
-  // write config
-  grunt.registerTask('configure', function () {
+  // copy local config files to the build dir
+  grunt.registerTask('configure', function (/* optional */ targetDir) {
+    var dir = targetDir || grunt.config('build_dir') + '/branding/';
     var config = require('./config/config.js');
     var features = require('./config/features.js');
-    grunt.file.write(grunt.config('build_dir') + '/branding/config.json', JSON.stringify(config, null, 2));
-    grunt.file.write(grunt.config('build_dir') + '/branding/features.json', JSON.stringify(features, null, 2));
+    grunt.file.write(dir + 'config.json', JSON.stringify(config, null, 2));
+    grunt.file.write(dir + 'features.json', JSON.stringify(features, null, 2));
   });
 
   // output version number

@@ -85,6 +85,9 @@ angular.module('owm.resource.reservationForm', [])
       if (begin < end) {
         booking.beginRequested = begin.format(API_DATE_FORMAT);
         booking.endRequested = end.format(API_DATE_FORMAT);
+      } else {
+        booking.beginRequested = begin.format(API_DATE_FORMAT);
+        booking.endRequested = begin.format(API_DATE_FORMAT);
       }
     }
   };
@@ -212,19 +215,33 @@ angular.module('owm.resource.reservationForm', [])
     if (!booking.beginRequested || !booking.endRequested) {
       return alertService.add('danger', $filter('translate')('DATETIME_REQUIRED'), 5000);
     }
-    alertService.load();
 
     // Als je nog niet bent ingelogd is er
     // even een andere flow nodig
-    if (featuresService.get('bookingSignupWizard') && !$scope.person) {
-      $state.go('newRenter-register', {
-        city: $scope.resource.city ? $scope.resource.city : 'utrecht',
-        resourceId: $scope.resource.id,
-        startTime: booking.beginRequested,
-        endTime: booking.endRequested
-      });
-      return;
+    if (featuresService.get('bookingSignupWizard')) {
+
+      if (!$scope.person || $scope.person.status === 'new') { // should register, or upload driver's license
+        $state.go('newRenter-register', { // should register
+          city: $scope.resource.city ? $scope.resource.city : 'utrecht',
+          resourceId: $scope.resource.id,
+          startTime: booking.beginRequested,
+          endTime: booking.endRequested
+        });
+        return;
+      }
+      else if (!booking.contract) { // should pay deposit to get a contract
+        $state.go('newRenter-deposit', {
+          city: $scope.resource.city ? $scope.resource.city : 'utrecht',
+          resourceId: $scope.resource.id,
+          startTime: booking.beginRequested,
+          endTime: booking.endRequested
+        });
+        return;
+      }
     }
+
+    alertService.load();
+
     return authService.me().then(function(me) {
       return bookingService.create({
         resource: $scope.resource.id,

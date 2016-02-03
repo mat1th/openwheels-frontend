@@ -13,7 +13,8 @@
       <div class="clearfix">
         <table class="table" ng-repeat="(groupKey, group) in unpaidInvoicesByTrip" style="margin-bottom:0">
           <tbody>
-            <tr style="background:#eee">
+
+            <tr ng-if="group.tripId" style="background:#eee">
               <td colspan="6">
                 <strong>
                   Rit in {{ group.invoices[0].booking.resource.alias }}
@@ -26,6 +27,15 @@
                 </strong>
               </td>
             </tr>
+
+            <tr ng-if="!group.tripId" style="background:#eee">
+              <td colspan="6">
+                <strong>
+                  Overig
+                </strong>
+              </td>
+            </tr>
+
             <tr ng-repeat="line in group.invoiceLines">
               <td class="text-left" style="width: 50%">
                 {{ line.description }}

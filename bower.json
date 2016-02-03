@@ -1,36 +1,36 @@
 {
   "name": "OpenWheels",
-  "version": "1.8.4",
+  "version": "1.8.2",
   "dependencies": {
-    "angular": "1.3.11",
-    "angular-cookies": "1.3.11",
-    "angular-sanitize": "1.3.11",
+    "angular": "1.4.8",
+    "angular-animate": "1.4.8",
     "angular-bootstrap": "0.12.0",
+    "angular-cookies": "1.4.8",
     "angular-google-maps": "2.0.12",
     "angular-jsonrpc-q": "0.0.2",
     "angular-moment": "0.5.2",
+    "angular-sanitize": "1.4.8",
     "angular-translate": "2.6.1",
     "angular-translate-storage-cookie": "2.6.1",
     "angular-translate-storage-local": "2.6.1",
+    "angular-ui-calendar": "0.8.1",
     "angular-ui-router": "0.2.13",
     "angular-ui-utils": "0.0.4",
-    "angular-ui-calendar": "0.8.1",
     "angularjs-geolocation": "0.1.1",
     "bootstrap": "https://github.com/twbs/bootstrap.git#v3.2.0",
-    "fastclick": "0.6.12",
-    "headroom.js": "0.4.0",
     "momentjs": "2.5.1",
+    "ng-sortable": "1.1.2",
+    "ngScrollTo": "https://github.com/iameugenejo/ngScrollTo.git#546a47678769c27b6bf02f338717b7c041eb356e",
     "ngstorage": "0.3.0",
     "pickadate": "3.5.3",
-    "ngScrollTo": "https://github.com/iameugenejo/ngScrollTo.git#546a47678769c27b6bf02f338717b7c041eb356e",
-    "angular-snap": "1.3.5",
-    "snapjs": "https://github.com/wilgert/Snap.js.git",
-    "ng-sortable": "1.1.2"
+    "angular-aria": "~1.4.8",
+    "font-awesome": "~4.4.0",
+    "angular-material": "~1.0.2"
   },
   "resolutions": {
-    "angular": "1.3.11",
     "jquery": "~2.x",
-    "angular-google-maps": "~2.0.12"
+    "angular": "1.4.8",
+    "angular-cookies": "1.4.8"
   },
   "devDependencies": {
     "angular-mocks": "~1.3.5"

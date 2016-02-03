@@ -39,7 +39,7 @@ angular.module('owm.finance', [
   .state('owm.finance.v1Index', {
     url: '/finance/v1',
     views: {
-      'main@': {
+      'main@shell': {
         templateUrl: 'finance/v1/index.tpl.html',
         controller : 'FinanceVersionWrapperController'
       }
@@ -64,7 +64,7 @@ angular.module('owm.finance', [
   .state('owm.finance.v2Index', {
     url: '/finance/v2',
     views: {
-      'main@': {
+      'main@shell': {
         templateUrl: 'finance/v2/index.tpl.html',
         controller : 'FinanceVersionWrapperController'
       }
@@ -89,7 +89,7 @@ angular.module('owm.finance', [
   .state('owm.finance.v3Index', {
     url: '/finance',
     views: {
-      'main@': {
+      'main@shell': {
         templateUrl: 'finance/v3/index.tpl.html',
         controller : 'FinanceVersionWrapperController'
       }
@@ -114,7 +114,7 @@ angular.module('owm.finance', [
   .state('owm.finance.deposit', {
     url: '/deposit',
     views: {
-      'main@': {
+      'main@shell': {
         templateUrl: 'finance/deposit/deposit.tpl.html',
         controller: 'DepositController'
       }
@@ -134,7 +134,7 @@ angular.module('owm.finance', [
   .state('owm.finance.payment-result', {
     url: '/payment-result?orderStatusId',
     views: {
-      'main@': {
+      'main@shell': {
         templateUrl: 'finance/paymentResult/paymentResult.tpl.html',
         controller: 'PaymentResultController'
       }
@@ -149,7 +149,7 @@ angular.module('owm.finance', [
   .state('owm.finance.vouchers', {
     url: '/vouchers',
     views: {
-      'main@': {
+      'main@shell': {
         templateUrl: 'finance/vouchers/vouchers.tpl.html',
         controller : 'VouchersController'
       }

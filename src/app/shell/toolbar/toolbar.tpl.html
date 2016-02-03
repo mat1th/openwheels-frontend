@@ -1,0 +1,84 @@
+<div class="container" ng-class="{ 'container-transitional': containerTransitional }">
+  <md-toolbar class="app-toolbar">
+    <div class="md-toolbar-tools">
+
+      <a class="app-logo" ui-sref="home">
+        <img ng-src="branding/img/logo.png" />
+      </a>
+
+      <!-- menu button -->
+      <md-button hide-gt-xs class="md-icon-button" ng-click="openMenu()">
+        <md-icon>menu</md-icon>
+      </md-button>
+      <md-button hide-xs ng-click="openMenu()">
+        <md-icon>menu</md-icon>
+        <span>Menu</span>
+      </md-button>
+
+      <span flex></span>
+
+      <!-- help button -->
+      <md-button hide-gt-xs ng-if="user.isAuthenticated" class="md-icon-button" href="{{ 'NAVBAR.HOW_IT_WORKS_URL' | translate }}">
+        <md-icon>help_outline</md-icon>
+      </md-button>
+      <md-button hide-xs ng-if="user.isAuthenticated || isWindowSizeXS" href="{{ 'NAVBAR.HOW_IT_WORKS_URL' | translate }}">
+        <md-icon>help_outline</md-icon>
+        <span>Help</span>
+      </md-button>
+
+      <!-- spinner -->
+      <div ng-if="user.isPending">
+        <i class="fa fa-spinner fa-spin text-muted"></i>
+      </div>
+
+      <!-- signup -->
+      <md-button class="signup-button" ng-if="!user.isPending && !user.isAuthenticated" ng-click="signup()">
+        <md-icon hide-xs>person_outline</md-icon>
+        {{ 'SIGNUP' | translate }}
+      </md-button>
+
+      <!-- login -->
+      <md-button class="login-button" ng-if="isWindowSizeSM && !user.isPending && !user.isAuthenticated" ng-click="login()">
+        <md-icon>person</md-icon>
+        {{ 'LOGIN' | translate }}
+      </md-button>
+
+      <!-- user menu -->
+      <md-menu md-position-mode="target-right target" ng-if="user.isAuthenticated" ng-class="{ 'user-name-visible': isWindowSizeSM }">
+
+        <md-button class="user-menu-button" ng-class="{ 'md-icon-button': !isWindowSizeSM }" ng-click="$mdOpenMenu($event)">
+          <md-icon md-menu-origin>person</md-icon>
+          <span ng-if="isWindowSizeSM" class="user-name">{{ user.identity.firstName }}</span>
+        </md-button>
+
+        <md-menu-content width="4">
+          <md-menu-item md-menu-align-target>
+            <md-button ui-sref="owm.person.dashboard">
+              <md-icon>home</md-icon>
+              {{ 'MY_DASHBOARD' | translate }}
+              <span md-menu-align-target></span>
+            </md-button>
+          </md-menu-item>
+
+          <md-menu-item>
+            <md-button ui-sref="owm.person.profile">
+              <md-icon>settings</md-icon>
+              {{ 'MY_PROFILE' | translate }}
+            </md-button>
+          </md-menu-item>
+
+          <md-menu-divider></md-menu-divider>
+
+          <md-menu-item>
+            <md-button ng-click="logout()">
+              <md-icon>power_settings_new</md-icon>
+              {{ 'LOGOUT' | translate }}
+            </md-button>
+          </md-menu-item>
+        </md-menu-content>
+      </md-menu>
+
+    </div>
+
+  </md-toolbar>
+</div>

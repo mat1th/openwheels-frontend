@@ -17,7 +17,7 @@ angular.module('owm.booking', [
     abstract: true,
     url: '/booking/:bookingId',
     views: {
-      'main@': {
+      'main@shell': {
         template: '<div ui-view></div>'
       }
     },
@@ -44,6 +44,44 @@ angular.module('owm.booking', [
         return authService.me();
       }]
     }
+  })
+
+  /**
+   * Accept a booking & redirect to booking detail
+   */
+  .state('owm.booking.accept', {
+    url: '/accept',
+    onEnter: ['$state', '$stateParams', '$filter', 'alertService', 'bookingService',
+     function ($state ,  $stateParams ,  $filter ,  alertService ,  bookingService) {
+
+      var bookingId = $stateParams.bookingId;
+      bookingService.acceptRequest({ booking: bookingId }).then(function (booking) {
+        alertService.add('success', $filter('translate')('BOOKING.ACCEPT.SUCCESS'), 8000);
+      })
+      .catch(alertService.addError)
+      .finally(function () {
+        $state.go('owm.booking.show', { bookingId: bookingId });
+      });
+    }]
+  })
+
+  /**
+   * Reject a booking & redirect to booking detail
+   */
+  .state('owm.booking.reject', {
+    url: '/reject',
+    onEnter: ['$state', '$stateParams', '$filter', 'alertService', 'bookingService',
+     function ($state ,  $stateParams ,  $filter ,  alertService ,  bookingService) {
+
+      var bookingId = $stateParams.bookingId;
+      bookingService.rejectRequest({ booking: bookingId }).then(function (booking) {
+        alertService.add('success', $filter('translate')('BOOKING.REJECT.SUCCESS'), 8000);
+      })
+      .catch(alertService.addError)
+      .finally(function () {
+        $state.go('owm.booking.show', { bookingId: bookingId });
+      });
+    }]
   })
 
   .state('owm.booking.rating-renter', {
