@@ -26,26 +26,12 @@
 
   .md-button {
     font-size: 16px;
+    color: @mywheels-gray;
     text-transform: none;
     md-icon {
       margin-top: -2px;
+      color: @mywheels-gray;
     }
-  }
-
-  .md-button .user-name {
-    display: inline-block;
-    float: right;
-    margin-right: 8px;
-    max-width: 180px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  a.md-button:focus,
-  .md-button:focus,
-  a.md-button:hover,
-  .md-button:hover {
-    background: none;
   }
 
   .app-logo {
@@ -59,8 +45,6 @@
   }
 
   .signup-button {
-    padding: 1px 4px;
-    font-size: 14px;
   }
 
   .login-button {
@@ -69,7 +53,17 @@
     color: @mywheels-gray;
   }
 
-  .user-icon,
+  .user-menu-button {
+    display: inline-block;
+    float: right;
+    margin-right: 8px;
+    max-width: 180px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    md-icon { color: @mywheels-blue; }
+  }
+
   .user-name {
     color: @mywheels-blue;
   }
@@ -78,33 +72,20 @@
 
 .app-menu {
   margin-top: 9px;
-  li {
-    a {
-      display: block;
-      padding: 12px 16px;
-      font-size: 18px;
-      font-family: @headings-font-family;
-      color: @mywheels-gray;
+  font-family: @headings-font-family;
+  font-size: 16px;
 
-      transition: background linear 0.1s;
+  md-list {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
 
-      &:hover {
-        color: darken(@mywheels-gray, 35%);
-        background: #eee;
-      }
-    }
+  md-list-item p {
+    color: @mywheels-gray;
   }
-  li.active {
-    a, a:hover {
-      background-color: @mywheels-blue;
-      background-image: linear-gradient(to bottom, lighten(@mywheels-blue, 5%), darken(@mywheels-blue, 15%));
-      color: #fff;
-    }
-  }
-  li.divider {
-    height: 1px;
-    margin: 9px 0;
-    overflow: hidden;
-    background-color: #e5e5e5;
+
+  md-divider {
+    margin-top: 8px;
+    margin-bottom: 8px;
   }
 }

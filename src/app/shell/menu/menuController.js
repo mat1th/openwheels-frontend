@@ -2,7 +2,7 @@
 
 angular.module('owm.shell')
 
-.controller('MenuController', function ($log, $rootScope, $scope, alertService, authService, featuresService, contractService) {
+.controller('MenuController', function ($window, $log, $rootScope, $scope, $state, $translate, authService, featuresService, contractService) {
 
   $rootScope.vouchersEnabled = false;
 
@@ -30,5 +30,16 @@ angular.module('owm.shell')
       });
     });
   }
+
+  $scope.navigate = function (toState, toParams) {
+    $scope.closeMenu();
+    $state.go(toState, toParams);
+  };
+
+  $scope.translateAndNavigate = function (translateKey) {
+    var translated = $translate.instant(translateKey);
+    $scope.closeMenu();
+    $window.location.href = translated;
+  };
 
 });

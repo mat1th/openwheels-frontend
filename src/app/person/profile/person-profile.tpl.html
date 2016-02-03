@@ -5,12 +5,12 @@
 
   <div class="card-body">
     <div class="media">
-      <a class="pull-left">
+      <a class="pull-left" ui-sref="member({ personId: person.id })">
         <img class="media-object img-user-normal" ng-if="!refreshProfileImage" person-profile-image="{ person: person, size: 'small', noCache: true }" />
         <div class="media-object img-user-normal" ng-if="refreshProfileImage" />
       </a>
       <div class="media-body">
-        <h4 class="media-heading">{{ person | fullname }}</h4>
+        <h4 class="media-heading"><a ui-sref="member({ personId: person.id })">{{ person | fullname }}</a></h4>
         <div><small>{{ person.created | memberSince }}</small></div>
         <div><span badge-list="person.badges"></span></div>
       </div>

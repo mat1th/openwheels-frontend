@@ -1,62 +1,83 @@
 <div class="app-menu">
-  <ul class="list-unstyled" ng-if="user.isAuthenticated">
-    <li id="menu-item-dashboard" ng-class="{ active: $state.includes('owm.person.dashboard') }">
-      <a href="" ui-sref="owm.person.dashboard" ng-click="closeMenu()">{{ 'MY_DASHBOARD' | translate }}</a>
-    </li>
-    <li id="menu-item-dashboard" ng-class="{ active: $state.includes('owm.message') }">
-      <a href="" ui-sref="owm.message" ng-click="closeMenu()">{{ 'MY_MESSAGES' | translate }}</a>
-    </li>
-    <li id="menu-item-dashboard" ng-class="{ active: $state.is('member', { personId: user.identity.id }) }">
-      <a href="" ui-sref="member({ personId: user.identity.id })" ng-click="closeMenu()">{{ 'MY_MEMBER_PAGE' | translate }}</a>
-    </li>
-    <li class="divider"></li>
-  </ul>
 
-  <ul class="list-unstyled">
-    <li id="menu-item-rent-a-car" ng-class="{ active: $state.includes('owm.resource.search.list') }">
-      <a href="" ui-sref="owm.resource.search.list" ng-click="closeMenu()">{{ 'RENT_A_CAR' | translate }}</a>
-    </li>
-    <li id="menu-item-list-your-car" ng-class="{ active: $state.includes('owm.resource.create') }">
-      <a href="" ui-sref="owm.resource.create" ng-click="closeMenu()">{{ 'MY_RESOURCES' | translate }}</a>
-    </li>
-    <li id="menu-item-how-it-works">
-      <a ng-click="closeMenu()" href="{{ 'NAVBAR.HOW_IT_WORKS_URL' | translate }}" ng-bind="'NAVBAR.HOW_IT_WORKS' | translate"></a>
-    </li>
-    <li class="divider"></li>
-  </ul>
+  <md-list ng-if="!user.isAuthenticated">
+    <md-list-item ng-click="signup()">
+      <md-icon>person_outline</md-icon><p>{{ 'SIGNUP' | translate }}</p>
+    </md-list-item>
 
-  <ul class="list-unstyled" ng-if="user.isAuthenticated">
-    <li id="menu-item-profile" ng-class="{ active: $state.includes('owm.person.profile') }">
-      <a href="" ui-sref="owm.person.profile" ng-click="closeMenu()">{{ 'MY_PROFILE' | translate }}</a>
-    </li>
+    <md-list-item ng-click="login()">
+      <md-icon>person</md-icon><p>{{ 'LOGIN' | translate }}</p>
+    </md-list-item>
 
-    <li id="menu-item-contracts" ng-if="features.myContractsMenuItem" ng-class="{ active: $state.includes('owm.person.contract') }">
-      <a href="" ui-sref="owm.person.contract" snap-close>{{ 'MY_CONTRACTS' | translate }}</a>
-    </li>
+    <md-divider></md-divider>
+  </md-list>
 
-    <li ng-if="vouchersEnabled" ng-class="{ active: $state.includes('owm.finance.vouchers') }">
-      <a href="" ui-sref="owm.finance.vouchers" ng-click="closeMenu()">{{ 'MY_VOUCHERS' | translate }}</a>
-    </li>
+  <md-list ng-if="user.isAuthenticated">
+    <md-list-item ng-click="navigate('owm.person.dashboard')">
+      <md-icon>home</md-icon><p>{{ 'MY_DASHBOARD' | translate }}</p>
+    </md-list-item>
 
-    <li ng-if="features.invoiceModuleV1" ng-class="{ active: $state.includes('owm.finance.v1Index') }">
-      <a href="" ui-sref="owm.finance.v1Index" ng-click="closeMenu()">{{ 'MY_FINANCE' | translate }}</a>
-    </li>
-    <li ng-if="features.invoiceModuleV2" ng-class="{ active: $state.includes('owm.finance.v2Index') }">
-      <a href="" ui-sref="owm.finance.v2Index" ng-click="closeMenu()">{{ 'MY_FINANCE' | translate }}</a>
-    </li>
-    <li ng-if="features.invoiceModuleV3" ng-class="{ active: $state.includes('owm.finance.v3Index') }">
-      <a href="" ui-sref="owm.finance.v3Index" ng-click="closeMenu()">{{ 'MY_FINANCE' | translate }}</a>
-    </li>
+    <md-list-item ng-click="navigate('owm.message')">
+      <md-icon>message</md-icon><p>{{ 'MY_MESSAGES' | translate }}</p>
+    </md-list-item>
 
-    <li id="menu-item-trips" ng-class="{ active: $state.includes('owm.trips') }">
-      <a href="" ui-sref="owm.trips" ng-click="closeMenu()">{{ 'MY_TRIPS' | translate }}</a>
-    </li>
-  </ul>
+    <md-divider></md-divider>
+  </md-list>
 
-  <ul class="list-unstyled" ng-if="user.isAuthenticated">
-    <li class="divider"></li>
-    <li id="menu-item-logout">
-      <a href="" ng-click="logout()" ng-click="closeMenu()">{{ 'LOGOUT' | translate }}</a>
-    </li>
-  </ul>
+  <md-list>
+    <md-list-item ng-click="navigate('owm.resource.search.list')">
+      <md-icon>search</md-icon><p>{{ 'RENT_A_CAR' | translate }}</p>
+    </md-list-item>
+    <md-list-item ng-click="navigate('owm.resource.create')" ng-if="user.isAuthenticated">
+      <md-icon>directions_car</md-icon><p>{{ 'MY_RESOURCES' | translate }}</p>
+    </md-list-item>
+    <md-list-item ng-click="translateAndNavigate('NAVBAR.LIST_YOUR_CAR_URL')" ng-if="!user.isAuthenticated">
+      <md-icon>directions_car</md-icon><p>{{ 'LIST_YOUR_CAR' | translate }}</p>
+    </md-list-item>
+    <md-list-item ng-click="translateAndNavigate('NAVBAR.HOW_IT_WORKS_URL')">
+      <md-icon>help_outline</md-icon><p>{{ 'NAVBAR.HOW_IT_WORKS' | translate }}</p>
+    </md-list-item>
+  </md-list>
+
+
+  <md-list ng-if="user.isAuthenticated">
+
+    <md-divider></md-divider>
+
+    <md-list-item ng-click="navigate('owm.person.profile')">
+      <md-icon>settings</md-icon><p>{{ 'MY_PROFILE' | translate }}</p>
+    </md-list-item>
+
+    <md-list-item ng-click="navigate('owm.person.contract')" ng-if="features.myContractsMenuItem && user.identity.preference !== 'owner'">
+      <md-icon>content_paste</md-icon><p>{{ 'MY_CONTRACTS' | translate }}</p>
+    </md-list-item>
+
+    <md-list-item ng-click="navigate('owm.finance.vouchers')" ng-if="vouchersEnabled">
+      <md-icon>payment</md-icon><p>{{ 'MY_VOUCHERS' | translate }}</p>
+    </md-list-item>
+
+    <md-list-item ng-click="navigate('owm.finance.v1Index')" ng-if="features.invoiceModuleV1">
+      <md-icon>attach_money</md-icon><p>{{ 'MY_FINANCE' | translate }}</p>
+    </md-list-item>
+
+    <md-list-item ng-click="navigate('owm.finance.v2Index')" ng-if="features.invoiceModuleV2">
+      <md-icon>attach_money</md-icon><p>{{ 'MY_FINANCE' | translate }}</p>
+    </md-list-item>
+
+    <md-list-item ng-click="navigate('owm.finance.v3Index')" ng-if="features.invoiceModuleV3">
+      <md-icon>attach_money</md-icon><p>{{ 'MY_FINANCE' | translate }}</p>
+    </md-list-item>
+
+    <md-list-item ng-click="navigate('owm.trips')">
+      <md-icon>history</md-icon><p>{{ 'MY_TRIPS' | translate }}</p>
+    </md-list-item>
+
+    <md-divider></md-divider>
+
+    <md-list-item ng-click="logout()">
+      <md-icon>power_settings_new</md-icon><p>{{ 'LOGOUT' | translate }}</p>
+    </md-list-item>
+
+  </md-list>
+
 </div>
