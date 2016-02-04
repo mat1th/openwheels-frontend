@@ -235,7 +235,8 @@ module.exports = function (grunt) {
         src: ['vendor/angular-material/angular-material.css'],
         dest: 'vendor/angular-material/angular-material.css.openwheels-fix.css',
         replacements: [{
-          from: 'screen\\0 ', to: 'screen'
+          from: 'screen\\0 ',
+          to: 'screen'
         }]
       }
     },
