@@ -32,13 +32,13 @@
       </div>
 
       <!-- signup -->
-      <md-button class="signup-button" ng-if="!user.isPending && !user.isAuthenticated" ng-click="signup()">
+      <md-button ng-if="!user.isPending && !user.isAuthenticated" ng-click="signup()">
         <md-icon hide-xs>person_outline</md-icon>
         {{ 'SIGNUP' | translate }}
       </md-button>
 
       <!-- login -->
-      <md-button class="login-button" ng-if="isWindowSizeSM && !user.isPending && !user.isAuthenticated" ng-click="login()">
+      <md-button ng-if="isWindowSizeSM && !user.isPending && !user.isAuthenticated" ng-click="login()">
         <md-icon>person</md-icon>
         {{ 'LOGIN' | translate }}
       </md-button>
