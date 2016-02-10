@@ -13,7 +13,7 @@ angular.module('owm.resource', [
   'owm.resource.favoriteIcon'
 ])
 
-  .config(function config($stateProvider, $urlRouterProvider) {
+  .config(function ($stateProvider) {
 
     $stateProvider.state('owm.resource', {
       abstract: true,
@@ -272,7 +272,7 @@ angular.module('owm.resource', [
      * @resolve {promise} resource
      */
     $stateProvider.state('owm.resource.edit', {
-      url: 'auto/:resourceId/wijzigen',
+      url: '/auto/:resourceId/wijzigen',
       controller: 'ResourceEditController',
       templateUrl: 'resource/edit/resource-edit.tpl.html',
       data: {
@@ -295,9 +295,6 @@ angular.module('owm.resource', [
         }]
       }
     });
-
-
-
   })
 
 ;

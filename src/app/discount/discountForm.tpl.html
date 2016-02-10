@@ -1,0 +1,54 @@
+<form name="form" ng-if="!doneSaving">
+
+  <md-input-container>
+    <label>Resource</label>
+    <input ng-model="discount.resource" disabled>
+  </md-input-container>
+
+  <md-input-container>
+    <label>Sender</label>
+    <input ng-model="discount.sender" disabled>
+  </md-input-container>
+
+  <md-input-container>
+    <label>Recipient</label>
+    <input ng-model="discount.recipient">
+  </md-input-container>
+
+  <div layout="row">
+    <md-input-container>
+      <label>Bedrag (€)</label>
+      <input ng-model="discount.amount" type="number">
+    </md-input-container>
+
+    <md-input-container>
+      <label>Percentage</label>
+      <input ng-model="discount.percentage" type="number">
+    </md-input-container>
+  </div>
+
+  <div layout="row">
+    <md-datepicker ng-model="discount.validFrom" md-placeholder="Geldig vanaf"></md-datepicker>
+    <md-datepicker ng-model="discount.validUntil" md-placeholder="t/m"></md-datepicker>
+  </div>
+
+  <br/>
+
+  <md-checkbox ng-model="discount.multiple">
+    Multiple
+  </md-checkbox>
+
+  <md-checkbox ng-model="discount.global">
+    Global
+  </md-checkbox>
+
+  <br/>
+  <code>
+    {{ discount }}
+  </code>
+
+  <div>
+    <md-button class="md-raised md-primary" ng-click="save()">Opslaan</md-button>
+  </div>
+
+</form>

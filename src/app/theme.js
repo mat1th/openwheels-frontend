@@ -13,7 +13,7 @@ angular.module('openwheels')
   // #E65A37 red
   // #5A5A5A gray
 
-  var customPrimary = {
+  var customPrimary = { // blue
     '50': '#bedce9',
     '100': '#abd2e2',
     '200': '#98c8dc',
@@ -30,24 +30,24 @@ angular.module('openwheels')
     'A700': '#2b657d'
   };
 
-  var customAccent = {
-    '50': '#c4deaf',
-    '100': '#b7d79d',
-    '200': '#aacf8b',
-    '300': '#9dc879',
-    '400': '#8fc067',
-    '500': '#82B955',
-    '600': '#75ad47',
-    '700': '#699b40',
-    '800': '#5d8938',
-    '900': '#507731',
-    'A100': '#d2e6c1',
-    'A200': '#dfedd3',
-    'A400': '#ecf4e5',
-    'A700': '#44652a'
+  var customAccent = { // orange
+    '50': '#ffd466',
+    '100': '#ffcd4d',
+    '200': '#ffc533',
+    '300': '#ffbe1a',
+    '400': '#ffb700',
+    '500': '#E6A500',
+    '600': '#cc9300',
+    '700': '#b38000',
+    '800': '#996e00',
+    '900': '#805c00',
+    'A100': '#ffdb80',
+    'A200': '#ffe299',
+    'A400': '#ffeab3',
+    'A700': '#664a00'
   };
 
-  var customWarn = {
+  var customWarn = { // red
     '50': '#f4b7a8',
     '100': '#f1a592',
     '200': '#ee927b',
@@ -64,27 +64,9 @@ angular.module('openwheels')
     'A700': '#8c2a12'
   };
 
-  var customBackground = {
-    '50': '#ffffff',
-    '100': '#fbfbfb',
-    '200': '#eeeeee',
-    '300': '#e1e1e1',
-    '400': '#d5d5d5',
-    '500': '#c8c8c8',
-    '600': '#bbbbbb',
-    '700': '#aeaeae',
-    '800': '#a2a2a2',
-    '900': '#959595',
-    'A100': '#ffffff',
-    'A200': '#ffffff',
-    'A400': '#ffffff',
-    'A700': '#888888'
-  };
-
   $mdThemingProvider.definePalette('customPrimary', customPrimary);
   $mdThemingProvider.definePalette('customAccent', customAccent);
   $mdThemingProvider.definePalette('customWarn', customWarn);
-  $mdThemingProvider.definePalette('customBackground', customBackground);
 
   $mdThemingProvider.theme('default')
     .primaryPalette('customPrimary')

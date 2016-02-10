@@ -103,7 +103,8 @@ angular.module('openwheels', [
   'owm.chat',
   'owm.message',
   'owm.newRenter',
-  'owm.livehelperchat'
+  'owm.livehelperchat',
+  'owm.discount'
 ])
 
 .constant('API_DATE_FORMAT', 'YYYY-MM-DD HH:mm')
@@ -123,6 +124,10 @@ angular.module('openwheels', [
   /**
    * Force server reload for these urls:
    */
+  $stateProvider.state('aanmelden', {
+    url: '/aanmelden',
+    onEnter: ['$window', function ($window) { $window.location.reload(); }]
+  });
   $stateProvider.state('autodelen', {
     url: '/autodelen',
     onEnter: ['$window', function ($window) { $window.location.reload(); }]

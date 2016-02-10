@@ -20,6 +20,7 @@ angular.module('owm.resource.edit', [
     $scope.hasPermission = true;
   }
 
+  $scope.me = me;
   $scope.resource = resource;
   $scope.members  = members;
   $scope.isLocationCollapsed = true;

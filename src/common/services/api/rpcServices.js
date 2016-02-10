@@ -184,4 +184,13 @@ angular.module('rpcServices', [])
   this.getConversationWith = m('getConversationWith');
   this.getMessagesAfter    = m('getMessagesAfter');
   this.getMessagesBefore   = m('getMessagesBefore');
+})
+
+.service('discountService', function (api) {
+  var m = function (name) { return api.createRpcMethod('discount.' + name); };
+  this.create = m('create');
+  this.get = m('get');
+  this.search = m('search');
+  this.apply = m('apply');
+  this.disable = m('disable');
 });
