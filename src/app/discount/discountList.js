@@ -13,21 +13,32 @@ angular.module('owm.discount')
   };
 })
 
-.controller('DiscountListController', function ($scope, discountService, alertService) {
+.controller('DiscountListController', function ($log, API_DATE_FORMAT, $scope, discountService, alertService) {
   $scope.discounts = [];
 
   init();
 
   function init () {
     if ($scope.resource) {
-      loadDiscountsForResource($scope.resource.id);
+      loadDiscounts();
     }
   }
 
-  function loadDiscountsForResource (resourceId) {
+  function loadDiscounts () {
     alertService.load();
-    return discountService.search({ resource: resourceId }).then(function (discounts) {
+    return discountService.search({
+      resource: $scope.resource.id
+
+      // TODO:
+      //
+      // validFrom: moment().startOf('day').format(API_DATE_FORMAT),
+      // validUntil: moment().startOf('day').format(API_DATE_FORMAT)
+    })
+    .then(function (discounts) {
       $scope.discounts = discounts;
+    })
+    .catch(function (err) {
+      $log.debug('error loading discounts', err);
     })
     .finally(alertService.loaded);
   }
