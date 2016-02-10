@@ -124,6 +124,10 @@ angular.module('openwheels', [
   /**
    * Force server reload for these urls:
    */
+  $stateProvider.state('aanmelden', {
+    url: '/aanmelden',
+    onEnter: ['$window', function ($window) { $window.location.reload(); }]
+  });
   $stateProvider.state('autodelen', {
     url: '/autodelen',
     onEnter: ['$window', function ($window) { $window.location.reload(); }]
