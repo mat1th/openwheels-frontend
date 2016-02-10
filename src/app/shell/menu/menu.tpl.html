@@ -31,7 +31,7 @@
     <md-list-item ng-click="navigate('owm.resource.create')" ng-if="user.isAuthenticated">
       <md-icon>directions_car</md-icon><p>{{ 'MY_RESOURCES' | translate }}</p>
     </md-list-item>
-    <md-list-item ng-click="translateAndNavigate('NAVBAR.LIST_YOUR_CAR_URL')" ng-if="!user.isAuthenticated">
+    <md-list-item ng-click="navigate('list-your-car')" ng-if="!user.isAuthenticated">
       <md-icon>directions_car</md-icon><p>{{ 'LIST_YOUR_CAR' | translate }}</p>
     </md-list-item>
     <md-list-item ng-click="translateAndNavigate('NAVBAR.HOW_IT_WORKS_URL')">
