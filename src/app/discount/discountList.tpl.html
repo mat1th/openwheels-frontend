@@ -1,3 +1,39 @@
-<div ng-repeat="discount in discounts">
-  <div><code>{{ discount }}</code></div>
+<ul class="list-unstyled">
+  <li ng-repeat="discount in discounts" style="padding: 10px; border-bottom: 1px solid #ccc">
+
+    <h3>{{ $index + 1 }}. Kortingscode &quot;{{ discount.code }}&quot;</h3>
+
+    <div class="row">
+      <div class="col-xs-6">
+        code = {{ discount.code }}<br/>
+        resourceId = {{ discount.resource.id }}<br/>
+        senderId = {{ discount.sender.id }}<br/>
+        recipientId = {{ discount.recipient.id }}<br/>
+        amount = {{ discount.amount }}<br/>
+        percentage = {{ discount.percentage }}<br/>
+        validFrom = {{ discount.validFrom }}<br/>
+        validUntil = {{ discount.validUntil }}<br/>
+        multiple = {{ discount.multiple }}<br/>
+        global = {{ discount.global }}<br/>
+      </div>
+
+      <div class="col-xs-6">
+        created = {{ discount.created }}<br/>
+        updated = {{ discount.updated }}<br/>
+        currency = {{ discount.currency }}<br/>
+
+        <br/>
+
+        <md-button class="md-raised" ng-click="disableDiscount(discount)">Disable</md-button>
+        <md-button class="md-raised" disabled>Details</button>
+      </div>
+    </div>
+  </li>
+</div>
+
+<div layout="row" layout-align="center">
+  <md-button class="md-fab" ng-click="createDiscount($event)">
+    <md-icon>add</md-icon>
+    <md-tooltip>Korting toevoegen</md-tooltip>
+  </md-button>
 </div>

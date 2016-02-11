@@ -259,22 +259,27 @@ angular.module('owm.resource.reservationForm', [])
     })
 
     .then(function (response) {
-      /**
-       * Apply discount
-       */
-      return discountService.apply({
-        booking: response.id,
-        discount: booking.discountCode
-      })
-      .then(function (discountResponse) {
-        $log.debug('successfully applied discount');
-        return response; // <-- (the response from bookingService.create)
-      })
-      .catch(function (err) {
-        $log.debug('error applying discount');
-        return $q.reject(err);
-      });
-
+      if (!booking.discountCode) {
+        return response;
+      }
+      else {
+        /**
+         * Apply discount
+         */
+        return discountService.apply({
+          booking: response.id,
+          discount: booking.discountCode
+        })
+        .then(function (discountResponse) {
+          $log.debug('successfully applied discount');
+          return response; // <-- the response from bookingService.create
+        })
+        .catch(function (err) {
+          $log.debug('error applying discount');
+          alertService.addError(err);
+          return response; // <-- continue, although the discount has not been applied!
+        });
+      }
     })
     .then(function (response) {
       if( response.beginBooking ) {
