@@ -90,6 +90,7 @@ angular.module('openwheels', [
   'openwheels.analytics',
   'openwheels.social',
   'owm.shell',
+  'owm.alert',
   'owm.translate',
   'owm.auth',
   'owm.home',
