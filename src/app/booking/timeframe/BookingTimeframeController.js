@@ -2,7 +2,7 @@
 
 angular.module('owm.booking.timeframe', [])
 
-.controller('BookingTimeframeController', function ($scope, $stateParams, $modalInstance, booking, API_DATE_FORMAT) {
+.controller('BookingTimeframeController', function ($scope, $stateParams, $uibModalInstance, booking, API_DATE_FORMAT) {
   $scope.booking = booking;
 
   $scope.dateConfig = {
@@ -87,11 +87,11 @@ angular.module('owm.booking.timeframe', [])
   // /FIXME: duplicate code
 
   $scope.ok = function () {
-    $modalInstance.close($scope.booking);
+    $uibModalInstance.close($scope.booking);
   };
 
   $scope.cancel = function () {
-    $modalInstance.dismiss('cancel');
+    $uibModalInstance.dismiss('cancel');
   };
 })
 

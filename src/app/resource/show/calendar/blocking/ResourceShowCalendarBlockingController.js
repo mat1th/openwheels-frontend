@@ -1,7 +1,7 @@
 'use strict';
 angular.module('owm.resource.show.calendar.blocking', [])
 
-	.controller('ResourceShowCalendarBlockingController', function ($location, $scope, $state, $filter, $modalInstance, blocking, API_DATE_FORMAT) {
+	.controller('ResourceShowCalendarBlockingController', function ($location, $scope, $state, $filter, $uibModalInstance, blocking, API_DATE_FORMAT) {
 		$scope.blocking = angular.copy(blocking);
 
 		$scope.dateConfig = {
@@ -64,15 +64,15 @@ angular.module('owm.resource.show.calendar.blocking', [])
 		});
 
 		$scope.save = function(){
-			$modalInstance.close($scope.blocking);
+			$uibModalInstance.close($scope.blocking);
 		};
 
 		$scope.remove = function(){
 			$scope.blocking.remove = true;
-			$modalInstance.close($scope.blocking);
+			$uibModalInstance.close($scope.blocking);
 		};
 
 		$scope.cancel = function () {
-			$modalInstance.dismiss();
+			$uibModalInstance.dismiss();
 		};
 	});

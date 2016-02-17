@@ -7,7 +7,7 @@
       </a>
     </h3>
   </div>
-  <div collapse="is2Collapsed">
+  <div uib-collapse="is2Collapsed">
     <div class="card-body">
 
       <div class="clearfix">
@@ -122,7 +122,7 @@
       </a>
     </h3>
   </div>
-  <div collapse="is3Collapsed">
+  <div uib-collapse="is3Collapsed">
     <div class="card-body">
 
       <div ng-if="sentInvoices.length > 0">
@@ -169,11 +169,11 @@
         <i class="fa fa-fw" ng-class="{ 'fa-chevron-right': is1Collapsed, 'fa-chevron-down': !is1Collapsed }"></i>
         Verzamelfacturen
         <!-- exclamation mark if there are unpaid invoiceGroups -->
-        <i ng-if="unpaidInvoiceGroups.length > 0" class="fa fa-exclamation-triangle text-danger" tooltip="Tooltip"></i>
+        <i ng-if="unpaidInvoiceGroups.length > 0" class="fa fa-exclamation-triangle text-danger"></i>
       </a>
     </h3>
   </div>
-  <div collapse="is1Collapsed">
+  <div uib-collapse="is1Collapsed">
     <div class="card-body">
 
       <div ng-if="invoiceGroups.length <= 0">

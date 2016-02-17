@@ -15,7 +15,7 @@ angular.module('ratingThumbDirective', [])
   return {
     restrict: 'A',
     scope: {},
-    template: '<span class="{{ colorClass }}" tooltip-html-unsafe="{{ tooltipHtml }}">' +
+    template: '<span class="{{ colorClass }}" uib-tooltip-html="tooltipHtml">' +
               '  <i class="{{ iconClass }}"></i>&nbsp;{{ label }}' +
               '</span>',
     link: function (scope, elm, attrs) {

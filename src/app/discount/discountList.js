@@ -14,7 +14,7 @@ angular.module('owm.discount')
   };
 })
 
-.controller('DiscountListController', function ($log, $q, $modal, $mdDialog, $scope, API_DATE_FORMAT, discountService, alertService) {
+.controller('DiscountListController', function ($log, $q, $uibModal, $mdDialog, $scope, API_DATE_FORMAT, discountService, alertService) {
   $scope.discounts = [];
 
   function init () {
