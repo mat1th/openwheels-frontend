@@ -348,7 +348,7 @@
 </div>
 
 <!-- received invoices -->
-<div class="card" ng-if="receivedInvoices.length > 0">
+<div class="card" ng-if="receivedInvoices.length > 0 && sentInvoices.length = 0">
   <div class="card-heading">
     <h3 class="card-title">
       <a href="" ng-click="isInvoicesCollapsed = !isInvoicesCollapsed">
@@ -403,10 +403,14 @@
           <td>{{ invoice.description }}</td>
           <td>{{ invoice.total | currency }}</td>
         </tr>
+        <tr ng-repeat="invoice in receivedInvoices">
+          <td>{{ invoice.description }}</td>
+          <td>{{ -invoice.total | currency }}</td>
+        </tr>
         <tr>
           <td><b>Totaal</b></td>
           <td>
-            <b>{{ sentInvoicesTotalAmount | currency }}</b>
+            <b>{{ sentInvoicesTotalAmount - receivedInvoicesTotalAmount | currency }}</b>
 <!--             &nbsp;<button type="button" class="btn btn-primary pull-right" ng-click="payInvoices()">Betalen</button> -->
           </td>
         </tr>

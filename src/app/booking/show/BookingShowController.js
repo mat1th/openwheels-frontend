@@ -466,6 +466,7 @@ angular.module('owm.booking.show', [])
 
   if ($scope.userPerspective === 'owner') {
     loadSentInvoices();
+    loadReceivedInvoices();
   }
 
   function loadReceivedInvoices () {
