@@ -23,6 +23,7 @@ module.exports = {
       'vendor/angular/angular.js',
       'vendor/angular-aria/angular-aria.js',
       'vendor/angular-material/angular-material.js',
+      'vendor/angular-messages/angular-messages.js',
       'vendor/angular-animate/angular-animate.js',
       'vendor/angular-cookies/angular-cookies.js',
       'vendor/angular-sanitize/angular-sanitize.js',

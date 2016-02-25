@@ -13,24 +13,39 @@
   <md-dialog-content layout-padding>
     <form name="form">
 
-      <md-input-container>
-        <label>Resource</label>
-        <input ng-model="discount.resource" disabled>
-      </md-input-container>
+      <div layout="row">
+        <md-input-container>
+          <label>Resource</label>
+          <input ng-model="discount.resource" disabled>
+        </md-input-container>
 
-      <md-input-container>
-        <label>Sender</label>
-        <input ng-model="discount.sender" disabled>
-      </md-input-container>
+        <md-input-container>
+          <label>Sender</label>
+          <input ng-model="discount.sender" disabled>
+        </md-input-container>
 
-      <md-input-container>
-        <label>Recipient</label>
-        <input ng-model="discount.recipient">
-      </md-input-container>
+        <md-input-container>
+          <label>Recipient</label>
+          <input ng-model="validRecipient.id" disabled>
+        </md-input-container>
+      </div>
+
+      <div layout="row">
+        <md-input-container flex>
+          <md-icon>email</md-icon>
+          <label class="disable-ng-animate">Recipient <i class="fa fa-spinner fa-spin" ng-if="validRecipient.pending"></i></label>
+          <input type="email" name="recipientEmail" ng-model="discount.recipientEmail" ng-change="resetRecipient()" ng-blur="validateRecipient()" />
+          <div ng-messages="form.recipientEmail.$error">
+            <div ng-message="email">Enter an email address</div>
+            <div ng-message="registeredEmail">Not a registered user</div>
+          </div>
+        </md-input-container>
+      </div>
 
       <div layout="row">
         <md-input-container>
-          <label>Bedrag (€)</label>
+          <label>Bedrag</label>
+          <md-icon>euro_symbol</md-icon>
           <input ng-model="discount.amount" type="number">
         </md-input-container>
 
@@ -40,25 +55,26 @@
         </md-input-container>
       </div>
 
-      <div layout="row">
+      <div layout="row" style="margin-bottom: 32px">
         <md-datepicker ng-model="discount.validFrom" md-placeholder="Geldig vanaf"></md-datepicker>
         <md-datepicker ng-model="discount.validUntil" md-placeholder="t/m"></md-datepicker>
       </div>
 
-      <br/>
+      <div layout="row">
+        <md-checkbox ng-model="discount.multiple">
+          Multiple
+        </md-checkbox>
 
-      <md-checkbox ng-model="discount.multiple">
-        Multiple
-      </md-checkbox>
+        <md-checkbox ng-model="discount.global">
+          Global
+        </md-checkbox>
+      </div>
 
-      <md-checkbox ng-model="discount.global">
-        Global
-      </md-checkbox>
-
-      <br/>
-      <code>
-        {{ discount }}
-      </code>
+      <div layout="row">
+        <code>
+          {{ discount }}
+        </code>
+      </div>
 
     </form>
 
@@ -66,7 +82,7 @@
 
   <md-dialog-actions>
     <md-button class="md-primary" ng-click="cancelDialog()">Annuleren</md-button>
-    <md-button class="md-raised md-primary" ng-click="createDiscount()">Opslaan</md-button>
+    <md-button class="md-raised md-primary" ng-disabled="form.$invalid" ng-click="createDiscount()">Opslaan</md-button>
   </md-dialog-actions>
 
 </md-dialog>

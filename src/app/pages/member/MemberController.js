@@ -18,7 +18,7 @@ angular.module('owm.pages.member',[])
    */
   initLayout();
   loadResources();
-  if (featuresService.get('ratings')) {
+  if (user.isAuthenticated && featuresService.get('ratings')) {
     loadRatings();
   }
 

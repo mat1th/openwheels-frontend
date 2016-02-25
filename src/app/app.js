@@ -7,6 +7,7 @@ angular.module('openwheels', [
   'ngAnimate',
   'ngCookies',
   'ngMaterial',
+  'ngMessages',
   'ngSanitize',
 
   /* Tools */

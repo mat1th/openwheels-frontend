@@ -1,4 +1,4 @@
-<div class="card" ng-if="unpaidInvoices.length > 0">
+<div class="card" ng-if="unpaidInvoices.length > 0 && sentInvoices.length == 0">
   <div class="card-heading">
     <h3 class="card-title">
       <a href="" ng-click="is2Collapsed = !is2Collapsed">
@@ -137,6 +137,16 @@
             <td>{{ invoice.id }}</td>
             <td>{{ invoice.description }}</td>
             <td>{{ invoice.total | currency }}</td>
+            <td class="text-right">
+              <a ng-if="invoice.booking.id" target="_blank" ng-href="{{ linksService.tripDetailsPdf(invoice.booking.id) }}">
+                <i class="fa fa-fw fa-external-link-square"></i>Pdf
+              </a>
+            </td>
+          </tr>
+          <tr ng-repeat="invoice in unpaidInvoices">
+            <td>{{ invoice.id }}</td>
+            <td>{{ invoice.description }}</td>
+            <td>{{ -invoice.total | currency }}</td>
             <td class="text-right">
               <a ng-if="invoice.booking.id" target="_blank" ng-href="{{ linksService.tripDetailsPdf(invoice.booking.id) }}">
                 <i class="fa fa-fw fa-external-link-square"></i>Pdf
