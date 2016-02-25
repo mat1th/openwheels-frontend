@@ -5,8 +5,8 @@ angular.module('owm.discount')
 .controller('DiscountDialogController', function ($log, $mdDialog, $scope, API_DATE_FORMAT, alertService, discountService, resource, sender) {
 
   $scope.discount = {
-    senderId: sender.id,
-    resourceId: resource.id
+    sender: sender.id,
+    resource: resource.id
   };
 
   $scope.cancelDialog = function () {
@@ -16,11 +16,13 @@ angular.module('owm.discount')
   $scope.createDiscount = function () {
     var params = angular.copy($scope.discount);
 
-    params.sender = params.senderId;
-    params.recipient = params.recipientId;
-    params.resource = params.resourceId;
-    params.validFrom = moment(params.validFrom).startOf('day').format(API_DATE_FORMAT);
-    params.validUntil = moment(params.validUntil).startOf('day').add(1, 'days').format(API_DATE_FORMAT);
+    if (params.validFrom) {
+      params.validFrom = moment(params.validFrom).startOf('day').format(API_DATE_FORMAT); // start of selected day
+    }
+
+    if (params.validUntil) {
+      params.validUntil = moment(params.validUntil).startOf('day').add(1, 'days').format(API_DATE_FORMAT); // end of selected day
+    }
 
     alertService.load();
 
