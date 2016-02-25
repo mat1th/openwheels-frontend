@@ -15,15 +15,19 @@ angular.module('owm.discount')
 })
 
 .controller('DiscountListController', function ($log, $q, $uibModal, $mdDialog, $scope, API_DATE_FORMAT, discountService, alertService) {
-  $scope.discounts = [];
+  var ctrl = $scope.ctrl = {};
 
-  function init () {
-    if ($scope.resource) {
-      $scope.loadDiscounts();
-    } else {
-      $log.debug('Error: no resource set for discount list');
+  ctrl.ranges = {
+    now: {},
+    custom: {
+      start: moment().startOf('day').toDate(),
+      end: null
     }
-  }
+  };
+
+  ctrl.selectedRange = ctrl.ranges.now;
+
+  $scope.discounts = [];
 
   $scope.loadDiscounts = function () {
     alertService.load();
@@ -52,19 +56,43 @@ angular.module('owm.discount')
     });
   };
 
-
   init();
 
+  function init () {
+    if ($scope.resource) {
+      $scope.loadDiscounts();
+    } else {
+      $log.debug('Error: no resource set for discount list');
+    }
+  }
 
   function loadDiscounts () {
-    return discountService.search({
-      resource: $scope.resource.id
+    var range = ctrl.selectedRange,
+        validFrom,
+        validUntil;
 
-      // TODO: show discounts valid now
-      // validFrom: moment().startOf('day').format(API_DATE_FORMAT),
-      // validUntil: moment().startOf('day').add(1, 'days').format(API_DATE_FORMAT)
-    })
-    .then(function (discounts) {
+    switch (ctrl.selectedRange) {
+      case ctrl.ranges.custom:
+        validFrom = range.start ? moment(range.start).startOf('day').format(API_DATE_FORMAT) : null;
+        validUntil = range.end ? moment(range.end).startOf('day').add(1, 'days').format(API_DATE_FORMAT) : null;
+        break;
+
+      case ctrl.ranges.now:
+        validFrom = moment().format(API_DATE_FORMAT);
+        validUntil = null;
+        break;
+
+      default: // shouldn't be possible
+        return;
+    }
+
+    $log.debug('get discounts valid from', validFrom, 'until', validUntil);
+
+    return discountService.search({
+      resource: $scope.resource.id,
+      validFrom: validFrom,
+      validUntil: validUntil
+    }).then(function (discounts) {
       $scope.discounts = discounts;
     })
     .catch(function (err) {
