@@ -17,9 +17,11 @@ angular.module('owm.resource.reservationForm', [])
 })
 
 .controller('ReservationFormController', function (
-  $log, $q, $timeout, $filter, $scope, $state,
+  $log, $q, $timeout, $filter, $rootScope, $scope, $state,
   API_DATE_FORMAT, resourceService, invoice2Service, alertService, authService, bookingService, discountService,
   contractService, featuresService) {
+
+  $scope.features = $rootScope.features;
 
   $scope.dateConfig = {
     modelFormat: API_DATE_FORMAT,
