@@ -8,11 +8,11 @@ angular.module('resourceCarouselDirective', [])
     scope   : {
       resource: '=resourceCarousel'
     },
-    template: '<carousel interval="4000">' +
-              '  <slide ng-repeat="image in images">' +
+    template: '<uib-carousel interval="4000">' +
+              '  <uib-slide ng-repeat="image in images">' +
               '    <img style="margin:auto" ng-src="{{ image.url }}" />' +
-              '  </slide>' +
-              '</carousel>',
+              '  </uib-slide>' +
+              '</uib-carousel>',
     link: function (scope, elm, attrs) {
 
       scope.images = [];

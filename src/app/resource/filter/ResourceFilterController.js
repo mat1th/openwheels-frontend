@@ -2,7 +2,7 @@
 
 angular.module('owm.resource.filter', [])
 
-  .controller('ResourceFilterController', function ($scope, $stateParams, $modalInstance, $translate, props, filters, options) {
+  .controller('ResourceFilterController', function ($scope, $stateParams, $uibModalInstance, $translate, props, filters, options) {
     $scope.props   = props; // .radius, ...
     $scope.filters = filters;
     $scope.options = options;
@@ -69,11 +69,11 @@ angular.module('owm.resource.filter', [])
     };
 
     $scope.ok = function () {
-      $modalInstance.close({filters: $scope.filters, options: $scope.options, props: $scope.props });
+      $uibModalInstance.close({filters: $scope.filters, options: $scope.options, props: $scope.props });
     };
 
     $scope.cancel = function () {
-      $modalInstance.dismiss('cancel');
+      $uibModalInstance.dismiss('cancel');
     };
   })
 

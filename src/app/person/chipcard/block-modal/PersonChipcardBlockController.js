@@ -2,7 +2,7 @@
 
 angular.module('owm.person')
 
-.controller('PersonChipcardBlockController', function ($log, $modalInstance, $translate, $scope, alertService, chipcardService, chipcard) {
+.controller('PersonChipcardBlockController', function ($log, $uibModalInstance, $translate, $scope, alertService, chipcardService, chipcard) {
   $scope.chipcard = angular.copy(chipcard);
 
   $scope.ok = function () {
@@ -18,7 +18,7 @@ angular.module('owm.person')
       // success
       angular.extend(chipcard, $scope.chipcard);
       alertService.add('success', $translate.instant('GLOBAL.MESSAGE.SAVE_SUCCESS'), 5000);
-      $modalInstance.close(chipcard);
+      $uibModalInstance.close(chipcard);
     })
 
     .catch(function () {
@@ -31,7 +31,7 @@ angular.module('owm.person')
   };
 
   $scope.cancel = function () {
-    $modalInstance.dismiss();
+    $uibModalInstance.dismiss();
   };
 
 })

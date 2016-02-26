@@ -1,7 +1,7 @@
 'use strict';
 angular.module('owm.person')
 
-.controller('PersonContractIndexController', function ($q, $filter, $modal, $translate, $scope,
+.controller('PersonContractIndexController', function ($q, $filter, $uibModal, $translate, $scope,
   authService, dialogService, alertService, personService, contractService, me) {
 
   $scope.busy = false;

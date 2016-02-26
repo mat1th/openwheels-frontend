@@ -6,12 +6,12 @@
         <i class="fa fa-fw" ng-class="{ 'fa-chevron-right': !showMyInvoices, 'fa-chevron-down': showMyInvoices }"></i>
         Mijn facturen
         <!-- exclamation mark if there are unpaid invoiceGroups -->
-        <i ng-if="unpaidInvoiceGroups.length > 0" class="fa fa-exclamation-triangle text-danger" tooltip="Tooltip"></i>
+        <i ng-if="unpaidInvoiceGroups.length > 0" class="fa fa-exclamation-triangle text-danger" uib-tooltip="Tooltip"></i>
       </a>
     </h3>
   </div>
 
-  <div collapse="!showMyInvoices">
+  <div uib-collapse="!showMyInvoices">
     <div class="card-body">
 
       <table class="table table-responsive table-condensed">

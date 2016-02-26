@@ -9,7 +9,7 @@
     </h3>
   </div>
 
-  <div collapse="isMyResourcesCollapsed">
+  <div uib-collapse="isMyResourcesCollapsed">
     <div class="card-body">
       <ul class="list-unstyled list-row">
         <li ng-repeat="resource in resources" >
@@ -30,10 +30,10 @@
                 <div>
                   <button ng-if="(resource.isAvailableOthers || resource.isAvailableFriends) && resource.isActive" type="button" class="btn btn-link" ng-click="setResourceAvailability(resource, false)">
                     <i class="fa fa-times"></i> {{ 'AVAILABLE_RESOURCE' | translate }}
-                  </button> 
+                  </button>
                   <button ng-if="!resource.isAvailableOthers && !resource.isAvailableFriends && resource.isActive" type="button" class="btn btn-link" ng-click="setResourceAvailability(resource, true)">
                     <i class="fa fa-check"></i> {{ 'NOT_AVAILABLE_RESOURCE' | translate }}
-                  </button> 
+                  </button>
                 </div>
               </div>
 
@@ -82,7 +82,7 @@
     </h3>
   </div>
 
-  <div collapse="isCreateCollapsed">
+  <div uib-collapse="isCreateCollapsed">
     <div class="card-body">
       <p>{{ 'CREATE_RESOURCE_ADVERTISEMENT1' | translate }}</p>
 

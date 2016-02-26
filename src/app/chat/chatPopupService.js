@@ -2,7 +2,7 @@
 
 angular.module('owm.chat.service', [])
 
-.factory('chatPopupService', function ($log, $modal, $timeout, authService) {
+.factory('chatPopupService', function ($log, $uibModal, $timeout, authService) {
 
   var modalInstance;
 
@@ -11,7 +11,7 @@ angular.module('owm.chat.service', [])
       $log.debug('Login is required for chatting');
       return;
     }
-    modalInstance = $modal.open({
+    modalInstance = $uibModal.open({
       templateUrl: 'chat/chatPopup.tpl.html',
       controller : 'ChatPopupController',
       windowClass: 'modal-chat',

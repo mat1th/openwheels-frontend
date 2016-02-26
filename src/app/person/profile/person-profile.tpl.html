@@ -30,11 +30,11 @@
            ng-class="{ 'fa-chevron-right': personalIsCollapsed, 'fa-chevron-down': !personalIsCollapsed }"></i>
         {{ 'MY_PROFILE_PERSONAL' | translate }}
       </a>
-      &nbsp;<i class="text-danger fa fa-exclamation-triangle" ng-show="alerts.personalData" tooltip="Vul je gegevens aan"></i>
+      &nbsp;<i class="text-danger fa fa-exclamation-triangle" ng-show="alerts.personalData" uib-tooltip="Vul je gegevens aan"></i>
     </h3>
   </div>
 
-  <div collapse="personalIsCollapsed">
+  <div uib-collapse="personalIsCollapsed">
     <div class="card-body">
       <form name="personalDataForm">
 
@@ -140,11 +140,11 @@
          <i class="fa fa-fw" ng-class="{ 'fa-chevron-right': contactIsCollapsed, 'fa-chevron-down': !contactIsCollapsed }"></i>
          {{ 'MY_PROFILE_CONTACT' | translate }}
        </a>
-      &nbsp;<i class="text-danger fa fa-exclamation-triangle" ng-show="alerts.contactData" tooltip="Vul je gegevens aan"></i>
+      &nbsp;<i class="text-danger fa fa-exclamation-triangle" ng-show="alerts.contactData" uib-tooltip="Vul je gegevens aan"></i>
     </h3>
   </div>
 
-  <div collapse="contactIsCollapsed">
+  <div uib-collapse="contactIsCollapsed">
     <div class="card-body">
       <form name="contactDataForm">
 
@@ -266,7 +266,7 @@
        </a>
      </h3>
   </div>
-  <div collapse="profileIsCollapsed" >
+  <div uib-collapse="profileIsCollapsed" >
     <div class="panel-body">
       <form name="settingsForm">
 
@@ -403,7 +403,7 @@
        </a>
      </h3>
   </div>
-  <div collapse="accountIsCollapsed" >
+  <div uib-collapse="accountIsCollapsed" >
     <div class="card-body">
       <div ng-include="'person/account/person-account.tpl.html'"></div>
     </div><!--/ card-body -->
@@ -417,7 +417,7 @@
       <a ui-sref="owm.person.license">
         {{ 'LICENSE_UPLOAD' | translate }}
       </a>
-      &nbsp;<i class="text-danger fa fa-exclamation-triangle" ng-show="alerts.licenseData" tooltip="Upload je rijbewijs"></i>
+      &nbsp;<i class="text-danger fa fa-exclamation-triangle" ng-show="alerts.licenseData" uib-tooltip="Upload je rijbewijs"></i>
     </h3>
   </div>
 </div>

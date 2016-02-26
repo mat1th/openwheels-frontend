@@ -13,7 +13,7 @@ angular.module('infoIconDirective', [])
     restrict: 'E',
     scope: true,
     replace: true,
-    template: '<i ng-show="tooltipHtml" class="info-icon fa fa-info-circle text-info" tooltip-html-unsafe="{{ tooltipHtml }}"></i>',
+    template: '<i ng-show="tooltipHtml" class="info-icon fa fa-info-circle text-info" uib-tooltip-html="tooltipHtml"></i>',
     link: function (scope, elm, attrs) {
       scope.$watch(attrs.tooltipHtml, function (tooltipHtml) {
         if (tooltipHtml) {

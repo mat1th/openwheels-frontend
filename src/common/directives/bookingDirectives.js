@@ -6,7 +6,7 @@ angular.module('bookingDirectives', [])
   return {
     restrict: 'A',
     scope   : { booking: '=bookingApprovalIcon' },
-    template: '<i class="{{ className }}" tooltip="{{ tooltip }}"></i>',
+    template: '<i class="{{ className }}" uib-tooltip="{{ tooltip }}"></i>',
     controller: function ($scope) {
       switch ($scope.booking.approved) {
 

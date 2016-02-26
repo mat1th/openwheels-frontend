@@ -1,3 +1,55 @@
-<div ng-repeat="discount in discounts">
-  <div><code>{{ discount }}</code></div>
+<div layout="row" ng-if="ctrl.selectedRange !== ctrl.ranges.custom">
+  <md-input-container>
+    <md-select ng-model="ctrl.selectedRange" aria-label="Selecteer een periode" ng-change="loadDiscounts()">
+      <md-option ng-value="ctrl.ranges.now">Geldig vanaf nu</md-option>
+      <md-option ng-value="ctrl.ranges.custom">Selecteer een periode</md-option>
+    </md-select>
+  </md-input-container>
+</div>
+
+<div layout="row" style="padding-top: 16px; padding-bottom: 14px" ng-if="ctrl.selectedRange === ctrl.ranges.custom">
+  <md-datepicker ng-model="ctrl.ranges.custom.start" md-placeholder="Geldig vanaf" ng-change="loadDiscounts()"></md-datepicker>
+  <md-datepicker ng-model="ctrl.ranges.custom.end" md-placeholder="t/m" ng-change="loadDiscounts()"></md-datepicker>
+  <md-button class="md-icon-button" ng-click="ctrl.selectedRange = ctrl.ranges.now; loadDiscounts()"><md-icon>close</md-icon></md-button>
+</div>
+
+<ul class="list-unstyled">
+  <li ng-repeat="discount in discounts" style="padding: 10px; border-bottom: 1px solid #ccc">
+
+    <h3>{{ $index + 1 }}. Kortingscode &quot;{{ discount.code }}&quot;</h3>
+
+    <div class="row">
+      <div class="col-xs-6">
+        code = {{ discount.code }}<br/>
+        resourceId = {{ discount.resource.id }}<br/>
+        senderId = {{ discount.sender.id }}<br/>
+        <b>recipientId</b> = {{ discount.recipient.id }}<br/>
+        amount = {{ discount.amount }}<br/>
+        percentage = {{ discount.percentage }}<br/>
+        validFrom = {{ discount.validFrom }}<br/>
+        validUntil = {{ discount.validUntil }}<br/>
+        multiple = {{ discount.multiple }}<br/>
+        global = {{ discount.global }}<br/>
+      </div>
+
+      <div class="col-xs-6">
+        created = {{ discount.created }}<br/>
+        updated = {{ discount.updated }}<br/>
+        currency = {{ discount.currency }}<br/>
+        <b>usage</b> = {{ discount.usage }}<br/>
+
+        <br/>
+
+        <md-button class="md-raised" ng-click="disableDiscount(discount)">Disable</md-button>
+        <md-button class="md-raised" disabled>Details</button>
+      </div>
+    </div>
+  </li>
+</div>
+
+<div layout="row" layout-align="center">
+  <md-button class="md-fab" ng-click="createDiscount($event)">
+    <md-icon>add</md-icon>
+    <md-tooltip>Korting toevoegen</md-tooltip>
+  </md-button>
 </div>

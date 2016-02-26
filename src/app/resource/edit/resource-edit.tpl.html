@@ -8,21 +8,12 @@
   </div>
 </div>
 
-<div class="card">
+<div class="card" ng-if="features.discounts">
   <div class="card-heading">
-    <h3 class="card-title">Kortingen voor deze auto</h3>
+    <h3 class="card-title"><a>Kortingen voor deze auto</a></h3>
   </div>
   <div class="card-body">
-    <discount-list resource="resource" />
-  </div>
-</div>
-
-<div class="card">
-  <div class="card-heading">
-    <h3 class="card-title">Korting toevoegen</h3>
-  </div>
-  <div class="card-body">
-    <discount-form sender="me" resource="resource" />
+    <discount-list me="me" resource="resource" />
   </div>
 </div>
 
@@ -36,7 +27,7 @@
       </a>
     </h3>
   </div>
-  <div collapse="isDataCollapsed">
+  <div uib-collapse="isDataCollapsed">
     <div class="card-body">
       <div ng-include="'resource/edit/data/resource-edit-data.tpl.html'"></div>
     </div>
@@ -53,7 +44,7 @@
       </a>
     </h3>
   </div>
-  <div collapse="isSharingSettingsCollapsed">
+  <div uib-collapse="isSharingSettingsCollapsed">
     <div class="card-body">
       <div ng-include="'resource/edit/sharing_settings/resource-edit-sharing_settings.tpl.html'"></div>
     </div>
@@ -71,7 +62,7 @@
       </a>
     </h3>
   </div>
-  <div collapse="isPriceCollapsed">
+  <div uib-collapse="isPriceCollapsed">
     <div class="card-body">
       <div ng-include="'resource/edit/price/resource-edit-price.tpl.html'"></div>
     </div>
@@ -88,7 +79,7 @@
       </a>
     </h3>
   </div>
-  <div collapse="isPhotosCollapsed">
+  <div uib-collapse="isPhotosCollapsed">
     <div class="card-body">
       <div ng-include="'resource/edit/pictures/resource-edit-pictures.tpl.html'"></div>
     </div>
@@ -105,7 +96,7 @@
       </a>
     </h3>
   </div>
-  <div collapse="isLocationCollapsed">
+  <div uib-collapse="isLocationCollapsed">
     <div class="card-body">
       <div ng-include="'resource/edit/location/resource-edit-location.tpl.html'"></div>
     </div>
@@ -122,7 +113,7 @@
       </a>
     </h3>
   </div>
-  <div collapse="isMembersCollapsed">
+  <div uib-collapse="isMembersCollapsed">
     <div class="card-body">
       <div ng-include="'resource/edit/members/resource-edit-members.tpl.html'"></div>
     </div>
