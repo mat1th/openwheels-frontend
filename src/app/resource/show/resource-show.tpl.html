@@ -166,7 +166,7 @@
 
       <!-- contact person -->
 
-      <div class="card" ng-if="resource.contactPerson && (resource.contactPerson.id !== resource.owner.id)">
+      <div class="card" ng-if="me && resource.contactPerson && (resource.contactPerson.id !== resource.owner.id)">
         <div class="card-heading">
           <h3 class="card-title">{{ 'CONTACT_PERSON' | translate }}</h3>
           <div class="media">
