@@ -86,7 +86,11 @@
         </form>
       </div>
 
-      <alert type="info" close="removeTimeframe()" ng-if="booking.beginRequested && booking.endRequested"><i class="fa fa-clock-o"></i> Beschikbare auto's voor <span class="text-success">{{ booking.beginRequested | amCalendar }}</span> tot <span class="text-success">{{ booking.endRequested  | amCalendar }}</span></alert>
+      <uib-alert type="info" close="removeTimeframe()" ng-if="booking.beginRequested && booking.endRequested">
+        <i class="fa fa-clock-o"></i>
+        Beschikbare auto's voor <span class="text-success">{{ booking.beginRequested | amCalendar }}</span>
+        tot <span class="text-success">{{ booking.endRequested  | amCalendar }}</span>
+      </uib-alert>
 
       <div class="card" ng-if="!searching && !(resources.length >= 1)">
         <div class="card-body">
