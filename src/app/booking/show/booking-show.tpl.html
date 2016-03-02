@@ -120,7 +120,7 @@
 </div>
 
 <!-- FORM -->
-<div id="bookingFormContainer" collapse="!showBookingForm">
+<div id="bookingFormContainer" uib-collapse="!showBookingForm">
   <div class="card">
     <div class="card-heading"><h2 class="card-title">Reservering wijzigen</h2></div>
     <div class="card-body">
@@ -348,7 +348,7 @@
 </div>
 
 <!-- received invoices -->
-<div class="card" ng-if="receivedInvoices.length > 0">
+<div class="card" ng-if="receivedInvoices.length > 0 && sentInvoices.length = 0">
   <div class="card-heading">
     <h3 class="card-title">
       <a href="" ng-click="isInvoicesCollapsed = !isInvoicesCollapsed">
@@ -358,7 +358,7 @@
       </a>
     </h3>
   </div>
-  <div collapse="isInvoicesCollapsed">
+  <div uib-collapse="isInvoicesCollapsed">
     <div class="card-body">
       <table class="table">
         <tr>
@@ -392,7 +392,7 @@
       </a>
     </h3>
   </div>
-  <div collapse="isSentInvoicesCollapsed">
+  <div uib-collapse="isSentInvoicesCollapsed">
     <div class="card-body">
       <table class="table">
         <tr>
@@ -403,10 +403,14 @@
           <td>{{ invoice.description }}</td>
           <td>{{ invoice.total | currency }}</td>
         </tr>
+        <tr ng-repeat="invoice in receivedInvoices">
+          <td>{{ invoice.description }}</td>
+          <td>{{ -invoice.total | currency }}</td>
+        </tr>
         <tr>
           <td><b>Totaal</b></td>
           <td>
-            <b>{{ sentInvoicesTotalAmount | currency }}</b>
+            <b>{{ sentInvoicesTotalAmount - receivedInvoicesTotalAmount | currency }}</b>
 <!--             &nbsp;<button type="button" class="btn btn-primary pull-right" ng-click="payInvoices()">Betalen</button> -->
           </td>
         </tr>

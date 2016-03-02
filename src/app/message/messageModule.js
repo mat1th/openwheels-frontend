@@ -11,7 +11,7 @@ angular.module('owm.message', [
   .state('owm.message', {
     url: '/messages',
     views: {
-      'main@': {
+      'main@shell': {
         templateUrl: 'message/index/messageIndex.tpl.html',
         controller: 'MessageIndexController'
       }

@@ -10,7 +10,7 @@ angular.module('owm.resource.search', [
       $scope,
       $state,
       $stateParams,
-      $modal,
+      $uibModal,
       $filter,
       appConfig,
       Geocoder,
@@ -156,7 +156,7 @@ angular.module('owm.resource.search', [
 
     //select timeframe modal
     $scope.selectTimeframe = function () {
-      $modal.open({
+      $uibModal.open({
         templateUrl: 'booking/timeframe/booking-timeframe-modal.tpl.html',
         controller: 'BookingTimeframeController',
         resolve: {
@@ -178,7 +178,7 @@ angular.module('owm.resource.search', [
 
     //select filters modal
     $scope.setFilters = function () {
-      $modal.open({
+      $uibModal.open({
         templateUrl: 'resource/filter/resource-filter-modal.tpl.html',
         controller: 'ResourceFilterController',
         resolve: {

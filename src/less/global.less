@@ -1,5 +1,23 @@
-body {
-  background-color: #fff;
+body,
+md-content {
+  background-color: #eee;
+}
+
+body, html, button, select, textarea, input {
+  font-family: Arial;
+}
+
+.min-content-height {
+  min-height: 400px;
+}
+
+.container-full {
+  /* no padding */
+}
+
+.container-main {
+  padding-top: @material-padding;
+  padding-bottom: (2 * @material-padding);
 }
 
 h1, h2, h3 {
@@ -14,20 +32,6 @@ ul {
   margin-bottom: 0;
 }
 
-.page {
-  margin-top: @navbar-height;
-  padding-top: 15px;
-  background-color: @gray-lighter;
-}
-
-.wrap {
-  background-color: @gray-lighter;
-}
-
-.container-main {
-  padding-bottom: 30px;
-}
-
 .inverted {
   color: #fff;
   .btn-link, .btn-link:hover, a, a:hover, h1, h2, h3, h4, h5, h6 {
@@ -36,10 +40,6 @@ ul {
   .btn-link:hover {
     text-decoration: underline;
   }
-}
-
-.below-toolbar {
-  margin-top: -15px;
 }
 
 .section {
@@ -61,41 +61,24 @@ ul {
   }
 }
 
-.nav, .pagination, .carousel a { cursor: pointer; }
-
-.footer {
+[ng-click],
+[data-ng-click],
+[x-ng-click],
+[ui-sref],
+[data-ui-sref],
+[x-ui-sref],
+.nav,
+.pagination,
+.carousel a {
+  cursor: pointer;
 }
 
-.footer-logo-row {
-  padding-bottom: 5px;
-  background: white;
-}
-
-.footer-bar {
-  padding-top: 15px;
-  background: #eee;
-  .container {
-    height: 160px;
+.modal {
+  &[ng-click],
+  &[data-ng-click],
+  &[x-ng-click] {
+    cursor: auto;
   }
-}
-
-.footer-social-row {
-  padding: 25px;
-  background: white;
-}
-
-.footer-logo {
-  height: 100%;
-  min-width: 280px;
-  background: url('../assets/img/mywheels-tagline-footer.png') no-repeat bottom left;
-}
-
-span.action-button a.btn {
-  margin-bottom: 10px;
-}
-
-span.action-button:last-child a.btn {
-  margin-bottom: 0;
 }
 
 a.text-muted {
@@ -105,37 +88,32 @@ a.text-muted {
   }
 }
 
-/* password-strengh */
-input[password-strength] + .progress {
-  background: #ddd;
-  .password-verdict { margin-left: 16px; }
+a:hover,
+a:focus,
+.btn-link:hover,
+.btn-link:focus {
+  text-decoration: none;
 }
-ul.error-list {
-  margin-top: -10px;
-  list-style: none;
-  padding: 0;
+
+.tooltip {
+  font-weight: normal;
 }
-/* /password-strengh */
 
-.image-overlay {
-  position: absolute;
-  top: 0;
-  width: 100%;
-  padding-top: 40px;
-
-  .tagline {
-    color: #fff;
-    font-size: 52px;
-    text-shadow: 1px 2px 3px rgba(0, 0, 0, 0.5);
+.table {
+  > thead {
+    > tr {
+      > th {
+        border-bottom: 1px solid #ddd;
+      }
+    }
   }
+}
 
-  .lead {
-    color: #fff;
-    font-size: 24px;
-    font-family: OmnesRegular;
-    background: rgba(0, 0, 0, 0.5);
-    line-height: 40px;
-    display: inline;
-    padding: 4px 0;
-  }
+hr {
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+
+.panel {
+  border: none;
 }

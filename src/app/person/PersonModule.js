@@ -34,11 +34,11 @@ angular.module('owm.person', [
     $stateProvider.state('owm.person.dashboard', {
       url: '',
       views: {
-        'main@': {
+        'main@shell': {
           templateUrl: 'person/dashboard/person-dashboard.tpl.html',
           controller: 'PersonDashboardController'
         },
-        'main-full@': {
+        'main-full@shell': {
           templateUrl: 'person/dashboard/person-dashboard-hero.tpl.html',
           controller: ['$scope', 'blogItems', function ($scope, blogItems) {
             $scope.blogItems = blogItems;
@@ -121,7 +121,7 @@ angular.module('owm.person', [
     $stateProvider.state('owm.person.profile', {
       url: '/profile',
       views: {
-        'main@': {
+        'main@shell': {
           templateUrl: 'person/profile/person-profile.tpl.html',
           controller: 'PersonProfileController'
         }
@@ -140,7 +140,7 @@ angular.module('owm.person', [
       abstract: true,
       url: '/action',
       views: {
-        'main@': {
+        'main@shell': {
           template: '<ui-view></ui-view>'
         }
       }
@@ -192,7 +192,7 @@ angular.module('owm.person', [
     $stateProvider.state('owm.person.chipcard', {
       url: '/chipcards',
       views: {
-        'main@': {
+        'main@shell': {
           templateUrl: 'person/chipcard/list/person-chipcards.tpl.html',
           controller: 'PersonChipcardsController'
         }
@@ -215,7 +215,7 @@ angular.module('owm.person', [
     $stateProvider.state('owm.person.contract', {
       url: '/contracts',
       views: {
-        'main@': {
+        'main@shell': {
           templateUrl: 'person/contract/index/person-contract-index.tpl.html',
           controller: 'PersonContractIndexController'
         }
@@ -225,7 +225,7 @@ angular.module('owm.person', [
     $stateProvider.state('owm.person.anwbId', {
       url: '/anwb-id',
       views: {
-        'main@': {
+        'main@shell': {
           templateUrl: 'person/anwbId/personAnwbId.tpl.html',
           controller : 'PersonAnwbIdController'
         }
@@ -236,7 +236,7 @@ angular.module('owm.person', [
     $stateProvider.state('owm.person.license', {
       url: '/license',
       views: {
-        'main@': {
+        'main@shell': {
           templateUrl: 'person/license/person-license.tpl.html',
           controller: 'PersonLicenseController'
         }

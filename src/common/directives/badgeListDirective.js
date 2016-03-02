@@ -7,7 +7,7 @@ angular.module('badgeListDirective', [])
     restrict: 'A',
     scope   : {},
     replace : true,
-    template: '<span tooltip="{{ \'BADGES_TOOLTIP\' | translate }}">' +
+    template: '<span uib-tooltip="{{ \'BADGES_TOOLTIP\' | translate }}">' +
               '  <span ng-repeat="badge in badges">' +
               '    <img class="img-badge" ng-if="badge.imageUrl" ng-src="{{ badge.imageUrl }}" alt="{{ badge.name }}" title="{{ badge.name }}" />' +
               '    <span class="tag" ng-if="!badge.imageUrl" ng-bind="badge.name"></span>' +

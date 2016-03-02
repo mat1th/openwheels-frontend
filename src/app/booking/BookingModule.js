@@ -17,7 +17,7 @@ angular.module('owm.booking', [
     abstract: true,
     url: '/booking/:bookingId',
     views: {
-      'main@': {
+      'main@shell': {
         template: '<div ui-view></div>'
       }
     },

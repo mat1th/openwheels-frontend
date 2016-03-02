@@ -1,39 +1,38 @@
 'use strict';
 
 angular.module('openwheels', [
+
+  /* Framework */
+  'ngAria',
+  'ngAnimate',
+  'ngCookies',
+  'ngMaterial',
+  'ngMessages',
+  'ngSanitize',
+
+  /* Tools */
   'ui.router',
   'ui.unique',
   'ui.bootstrap',
   'ui.calendar',
   'ui.sortable', // bower install ng-sortable
   'validation.match', // see vendor_custom
-
   'angularMoment',
   'uiGmapgoogle-maps',
   'ngStorage',
-  'ngCookies',
   'pascalprecht.translate',
-  'headroom',
   'geolocation',
   'geocoder',
   'ngAutocomplete',
-  'ngSanitize',
   'ngScrollTo',
-  'snap',
 
+  /* Auto-generated */
   'templates-app',
   'templates-common',
-  'openwheels.analytics',
-  'openwheels.social',
-
-  // SERVICES
-
-  // settings
   'openwheels.environment',
   'openwheels.config',
-  'owm.featuresService',
 
-  // api & authorization
+  /* API communication & access control */
   'api',
   'rpcServices',
   'authService',
@@ -42,10 +41,7 @@ angular.module('openwheels', [
   'oAuth2MessageListener',
   'stateAuthorizer',
 
-  // storage & caching
-  'cacheFactory',
-
-  // other services
+  /* Services */
   'alertService',
   'dialogService',
   'DutchZipcodeService',
@@ -54,10 +50,10 @@ angular.module('openwheels', [
   'windowSizeService',
   'owm.geoPositionService',
   'owm.linksService',
+  'owm.featuresService',
   'owm.metaInfoService',
-  'owm.livehelperchat',
-  // DIRECTIVES
 
+  /* Directives */
   'form.validation',
   'pickadate',
   'timeframe',
@@ -77,7 +73,7 @@ angular.module('openwheels', [
   'socialDirectives',
   'bindMetaDirective',
 
-  // FILTERS
+  /* Filters */
   'filters.util',
   'filters.dateUtil',
   'filters.getByPropertyFilter',
@@ -91,9 +87,11 @@ angular.module('openwheels', [
   'filters.booking',
   'filters.translateOrDefault',
 
-  // APP MODULES
-
-  'owm',
+  /* Components */
+  'openwheels.analytics',
+  'openwheels.social',
+  'owm.shell',
+  'owm.alert',
   'owm.translate',
   'owm.auth',
   'owm.home',
@@ -106,30 +104,50 @@ angular.module('openwheels', [
   'owm.trips',
   'owm.chat',
   'owm.message',
-  'owm.newRenter'
+  'owm.newRenter',
+  'owm.livehelperchat',
+  'owm.discount'
 ])
-
 
 .constant('API_DATE_FORMAT', 'YYYY-MM-DD HH:mm')
 
-.config(function ($locationProvider) {
+.config(function ($locationProvider, $stateProvider, $urlRouterProvider) {
   $locationProvider.html5Mode(true);
+
+  /**
+   * Prevent infinite loop when requesting non-existing url
+   * see https://github.com/angular-ui/ui-router/issues/600
+   */
+  $urlRouterProvider.otherwise(function ($injector, $location) {
+    var $state = $injector.get('$state');
+    $state.go('home');
+  });
+
+  /**
+   * Force server reload for these urls:
+   */
+  $stateProvider.state('aanmelden', {
+    url: '/aanmelden',
+    onEnter: ['$window', function ($window) { $window.location.reload(); }]
+  });
+  $stateProvider.state('autodelen', {
+    url: '/autodelen',
+    onEnter: ['$window', function ($window) { $window.location.reload(); }]
+  });
+  $stateProvider.state('autodelen2', {
+    url: '/autodelen/*path',
+    onEnter: ['$window', function ($window) { $window.location.reload(); }]
+  });
 })
 
-.config(function(uiGmapGoogleMapApiProvider) {
-    uiGmapGoogleMapApiProvider.configure({
-      key: 'AIzaSyAwytl2OG58LpFCTcIFN13gEBaSTh2aKF0',
-      v: '3.18',
-      libraries: 'places',
-      language: 'nl',
-      sensor: false
-    });
-  })
-
-.config(function (snapRemoteProvider) {
-  snapRemoteProvider.globalOptions.disable = 'left';
-  snapRemoteProvider.globalOptions.hyperextensible = false;
-  snapRemoteProvider.globalOptions.clickToDrag = false;
+.config(function (uiGmapGoogleMapApiProvider) {
+  uiGmapGoogleMapApiProvider.configure({
+    key: 'AIzaSyAwytl2OG58LpFCTcIFN13gEBaSTh2aKF0',
+    v: '3.18',
+    libraries: 'places',
+    language: 'nl',
+    sensor: false
+  });
 })
 
 .config(function (appConfig, googleTagManagerProvider) {
@@ -156,14 +174,15 @@ angular.module('openwheels', [
   }
 })
 
-.run(function (windowSizeService, oAuth2MessageListener, stateAuthorizer, authService, featuresService) {})
+.run(function (windowSizeService, oAuth2MessageListener, stateAuthorizer, authService, featuresService) {
+  /* Intentionally left blank */
+})
 
-.run(function ($window, $log, $timeout, $state, $stateParams, $rootScope,
+.run(function ($window, $log, $timeout, $state, $stateParams, $rootScope, $anchorScroll,
   alertService, featuresService, linksService, metaInfoService) {
 
   $rootScope.$state = $state;
   $rootScope.$stateParams = $stateParams;
-  $rootScope.showAsideMenu = false;
   $rootScope.isLanguageLoaded = false;
   $rootScope.signupUrl = featuresService.get('serverSideSignup') ? linksService.signupUrl() : $state.href('signup');
 
@@ -178,11 +197,11 @@ angular.module('openwheels', [
     // hide spinner
     alertService.loaded();
 
-    // scroll to top
-    // except for place pages (for toggling map <--> list)
-    // TODO: move to a better place
+    // scroll to top, except for place pages (for toggling map <--> list)
+    // depends on presence of DOM-element with id="scroll-to-top-anchor"
+    // TODO(?): move to a better place
     if (['owm.resource.place.list', 'owm.resource.place.map'].indexOf(toState.name) < 0) {
-      angular.element($window).scrollTop(0);
+      $anchorScroll('scroll-to-top-anchor');
     }
 
     // set page title
@@ -239,11 +258,6 @@ angular.module('openwheels', [
     if ($window.location.host.indexOf('127.0.0.1') >= 0) {
       $window.location.replace($window.location.href.replace('127.0.0.1', 'localhost'));
     } else {
-
-      // setup FastClick
-      $window.addEventListener('load', function () {
-        new FastClick(document);
-      }, false);
 
       // merge configs + bootstrap
       angular.element($window.document).ready(function () {

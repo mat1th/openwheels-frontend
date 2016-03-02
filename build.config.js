@@ -6,7 +6,10 @@ module.exports = {
   vendor_dir: 'vendor',
 
   app_files: {
-    js: [ 'src/**/*.js' ],
+    js: [
+      'src/**/*Module.js', // modules first
+      'src/**/*.js'
+    ],
     atpl: [ 'src/app/**/*.tpl.html' ],
     ctpl: [ 'src/common/**/*.tpl.html' ],
     html: [ 'src/index.html' ],
@@ -18,6 +21,10 @@ module.exports = {
     js: [
       'vendor/jquery/dist/jquery.js',
       'vendor/angular/angular.js',
+      'vendor/angular-aria/angular-aria.js',
+      'vendor/angular-material/angular-material.js',
+      'vendor/angular-messages/angular-messages.js',
+      'vendor/angular-animate/angular-animate.js',
       'vendor/angular-cookies/angular-cookies.js',
       'vendor/angular-sanitize/angular-sanitize.js',
       'vendor/angular-ui-router/release/angular-ui-router.js',
@@ -41,16 +48,11 @@ module.exports = {
       'vendor/fullcalendar/fullcalendar.js',
       'vendor/angularjs-geolocation/src/geolocation.js',
       'vendor/ngScrollTo/ng-scrollto.js',
-      'vendor/fastclick/lib/fastclick.js',
-      'vendor/headroom.js/dist/headroom.js',
-      'vendor/headroom.js/dist/angular.headroom.js',
       'vendor/ngstorage/ngStorage.js',
       'vendor/pickadate/lib/picker.js',
       'vendor/pickadate/lib/picker.date.js',
       'vendor/pickadate/lib/picker.time.js',
       'vendor/pickadate/lib/translations/nl_NL.js',
-      'vendor/snapjs/snap.js',
-      'vendor/angular-snap/angular-snap.js',
       'vendor/ng-sortable/dist/ng-sortable.js',
 
       'vendor_custom/angular-locale/angular-locale_nl-nl.js',
@@ -59,10 +61,7 @@ module.exports = {
       'vendor_custom/pwstrength-bootstrap/pwstrength-bootstrap-1.2.2.js',
       'vendor_custom/angular-input-match/angular-input-match-1.4.1.js'
     ],
-    css: [
-      'vendor/fullcalendar/fullcalendar.css'
-    ],
-    assets: [
+    fonts: [
       'vendor/font-awesome/fonts/*'
     ]
   }

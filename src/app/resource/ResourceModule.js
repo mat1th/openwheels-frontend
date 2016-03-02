@@ -13,13 +13,13 @@ angular.module('owm.resource', [
   'owm.resource.favoriteIcon'
 ])
 
-  .config(function config($stateProvider, $urlRouterProvider) {
+  .config(function ($stateProvider) {
 
     $stateProvider.state('owm.resource', {
       abstract: true,
       url: '?lat&lng&start&end&text&radius&options&fuel&lock&seats&type',
       views: {
-        'main@': {
+        'main@shell': {
           template: '<div ui-view></div>'
         }
       },
@@ -36,13 +36,13 @@ angular.module('owm.resource', [
         }]
       },
     });
-    
+
     $stateProvider.state('owm.resource.search', {
       url: '/auto-huren',
       abstract: true,
       reloadOnSearch: false,
       views: {
-        'main-full@': {
+        'main-full@shell': {
           controller: 'ResourceSearchController',
           templateUrl: 'resource/search/resource-search.tpl.html'
         }
@@ -77,7 +77,7 @@ angular.module('owm.resource', [
       abstract: true,
       reloadOnSearch: false,
       views: {
-        'main-full@': {
+        'main-full@shell': {
           controller: 'ResourceSearchController',
           templateUrl: 'resource/search/resource-search.tpl.html'
         }
@@ -161,7 +161,7 @@ angular.module('owm.resource', [
     $stateProvider.state('owm.resource.show', {
       url: '/auto-huren/:city/:resourceId',
       views: {
-        'main-full@': {
+        'main-full@shell': {
           controller: 'ResourceShowController',
           templateUrl: 'resource/show/resource-show.tpl.html',
         }
@@ -212,7 +212,7 @@ angular.module('owm.resource', [
       resolve: {
         bookings: ['$stateParams', 'authService', 'bookingService', 'API_DATE_FORMAT', function ($stateParams, authService, bookingService, API_DATE_FORMAT) {
           var resourceId = $stateParams.resourceId;
-          var startDate = moment().subtract(7, 'days').isoWeekday(1).hours(0).minutes(0).seconds(0);
+          var startDate = moment().subtract(14, 'days').isoWeekday(1).hours(0).minutes(0).seconds(0);
           var endDate = moment().add(52, 'weeks');
 
           return bookingService.forResource({
@@ -225,7 +225,7 @@ angular.module('owm.resource', [
         }],
         blockings: ['$stateParams', 'calendarService', 'API_DATE_FORMAT', function ($stateParams, calendarService, API_DATE_FORMAT) {
           var resourceId = $stateParams.resourceId;
-          var startDate = moment().subtract(7, 'days').isoWeekday(1).hours(0).minutes(0).seconds(0);
+          var startDate = moment().subtract(14, 'days').isoWeekday(1).hours(0).minutes(0).seconds(0);
           var endDate = moment().add(52, 'weeks');
 
           return calendarService.between({
@@ -272,7 +272,7 @@ angular.module('owm.resource', [
      * @resolve {promise} resource
      */
     $stateProvider.state('owm.resource.edit', {
-      url: 'auto/:resourceId/wijzigen',
+      url: '/auto/:resourceId/wijzigen',
       controller: 'ResourceEditController',
       templateUrl: 'resource/edit/resource-edit.tpl.html',
       data: {
@@ -295,9 +295,6 @@ angular.module('owm.resource', [
         }]
       }
     });
-
-
-
   })
 
 ;

@@ -17,9 +17,11 @@ angular.module('owm.resource.reservationForm', [])
 })
 
 .controller('ReservationFormController', function (
-  $log, $q, $timeout, $filter, $scope, $state,
-  API_DATE_FORMAT, resourceService, invoice2Service, alertService, authService, bookingService, contractService,
-  featuresService) {
+  $log, $q, $timeout, $filter, $rootScope, $scope, $state,
+  API_DATE_FORMAT, resourceService, invoice2Service, alertService, authService, bookingService, discountService,
+  contractService, featuresService) {
+
+  $scope.features = $rootScope.features;
 
   $scope.dateConfig = {
     modelFormat: API_DATE_FORMAT,
@@ -243,6 +245,9 @@ angular.module('owm.resource.reservationForm', [])
     alertService.load();
 
     return authService.me().then(function(me) {
+      /**
+       * Create booking
+       */
       return bookingService.create({
         resource: $scope.resource.id,
         timeFrame: {
@@ -254,7 +259,31 @@ angular.module('owm.resource.reservationForm', [])
         remark: booking.remarkRequester
       });
     })
-    .then( function(response) {
+
+    .then(function (response) {
+      if (!booking.discountCode) {
+        return response;
+      }
+      else {
+        /**
+         * Apply discount
+         */
+        return discountService.apply({
+          booking: response.id,
+          discount: booking.discountCode
+        })
+        .then(function (discountResponse) {
+          $log.debug('successfully applied discount');
+          return response; // <-- the response from bookingService.create
+        })
+        .catch(function (err) {
+          $log.debug('error applying discount');
+          alertService.addError(err);
+          return response; // <-- continue, although the discount has not been applied!
+        });
+      }
+    })
+    .then(function (response) {
       if( response.beginBooking ) {
         alertService.add('success', $filter('translate')('BOOKING_ACCEPTED'), 10000);
       } else {
@@ -265,13 +294,9 @@ angular.module('owm.resource.reservationForm', [])
       } else {
         return $state.go('owm.person.dashboard');
       }
-
-    }, function(err) {
-      return alertService.addError(err);
     })
-    .finally(function () {
-      alertService.loaded();
-    });
+    .catch(alertService.addError)
+    .finally(alertService.loaded);
   };
 
 })

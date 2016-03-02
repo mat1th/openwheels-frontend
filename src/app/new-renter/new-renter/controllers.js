@@ -113,6 +113,10 @@ angular.module('owm.newRenter.controllers', [])
     }).then(function (me) {
       alertService.addSaveSuccess();
       alertService.loaded();
+
+      // update user properties (e.g. status may have changed as a result of uploading license)
+      angular.extend(authService.user.identity, me);
+
       if(me.status === 'active' || me.status === 'book-only' ) {
         $state.go('newRenter-deposit', {
           resourceId: $scope.resource.id,
@@ -139,7 +143,7 @@ angular.module('owm.newRenter.controllers', [])
         $scope.person.streetNumber = me.streetNumber;
         $scope.person.phoneNumbers = me.phoneNumbers;
 
-        if (!me.phoneNumbers && !me.phoneNumbers.length) {
+        if (!$scope.person.phoneNumbers || !$scope.person.phoneNumbers.length) {
           $scope.addPhone();
         }
       });

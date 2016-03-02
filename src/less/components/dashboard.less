@@ -1,0 +1,57 @@
+.dashboard {
+  &-hero {
+    position: relative;
+    background-image: url('../branding/img/dashboard.jpg');
+    background-position: 50% 10%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 160px;
+
+    .container {
+      height: 100%;
+      position: relative;
+    }
+  }
+
+  &-blog-items {
+    position: absolute;
+    bottom: 0;
+    left:  (@grid-gutter-width / 2);
+    right: (@grid-gutter-width / 2);
+    li {
+      padding: 0;
+      margin-bottom: 5px;
+      a {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: block;
+        padding: 5px 15px;
+        background: #fff;
+        opacity: 0.9;
+      }
+    }
+  }
+}
+
+@media (min-width:@screen-sm) {
+  .dashboard-hero {
+    height: 240px;
+  }
+}
+
+@media (min-width:@screen-lg) {
+  .dashboard-hero {
+    height: 240px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+span.action-button a.btn {
+  margin-bottom: 10px;
+}
+
+span.action-button:last-child a.btn {
+  margin-bottom: 0;
+}

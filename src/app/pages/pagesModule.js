@@ -1,4 +1,5 @@
 'use strict';
+
 angular.module('owm.pages', [
   'owm.pages.list-your-car',
   'owm.pages.list-your-car-login',
@@ -10,17 +11,21 @@ angular.module('owm.pages', [
 
   $stateProvider
 
-  .state('owm.pages', {
+  .state('home', {
+    url: '/',
+    parent: 'owm',
     views: {
-      'navigation@': {
-        templateUrl: 'navigation/navigation.tpl.html',
-        controller: 'NavigationController'
-      },
-      'footer@': {
-        templateUrl: 'footer/footer.tpl.html',
-        controller: 'FooterController'
+      'main-full@shell': {
+        templateUrl: 'home/home.tpl.html',
+        controller: 'HomeController'
       }
     },
+    data: {
+      access: { deny: { authenticated: true } }
+    }
+  })
+
+  .state('owm.pages', {
     resolve: {
       user: ['authService', function (authService) {
         return authService.userPromise();
@@ -32,7 +37,7 @@ angular.module('owm.pages', [
     parent: 'owm.pages',
     url: '/auto-verhuren',
     views: {
-      'main-full@': {
+      'main-full@shell': {
         templateUrl: 'pages/list-your-car/list-your-car.tpl.html',
         controller : 'ListYourCarController'
       }
@@ -50,7 +55,7 @@ angular.module('owm.pages', [
     parent: 'owm.pages',
     url: '/auto-verhuren/deel-auto-aanmelden',
     views: {
-      'main-full@': {
+      'main-full@shell': {
         templateUrl: 'pages/list-your-car/list-your-car-login.tpl.html',
         controller : 'ListYourCarLoginController'
       }
@@ -68,7 +73,7 @@ angular.module('owm.pages', [
     parent: 'owm.pages',
     url: '/lid/:personId',
     views: {
-      'main-full@': {
+      'main-full@shell': {
         templateUrl: 'pages/member/member.tpl.html',
         controller: 'MemberController'
       }
@@ -84,13 +89,11 @@ angular.module('owm.pages', [
     parent: 'owm.pages',
     url: '/email-uitschrijven?person&hash',
     views: {
-      'main-full@': {
+      'main@shell': {
         templateUrl: 'pages/email-preference/emailPreference.tpl.html',
         controller: 'EmailPreferenceController'
       }
     }
-  })
-  ;
+  });
 
-})
-;
+});

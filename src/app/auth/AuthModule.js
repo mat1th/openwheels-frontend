@@ -15,7 +15,7 @@ angular.module( 'owm.auth', [
     parent: 'base',
     url: '/signup?preference',
     views: {
-      'main@':{
+      'main@shell':{
         templateUrl: 'auth/signup/auth-signup.tpl.html',
         controller: 'AuthSignupController'
       }
@@ -24,11 +24,6 @@ angular.module( 'owm.auth', [
       title: 'META_SIGNUP_TITLE',
       description: 'META_SIGNUP_DESCRIPTION',
       access: { deny: { authenticated: true } }
-    },
-    resolve: {
-      prevState: ['$state', function ($state) {
-        // console.log($state);
-      }]
     }
   })
 
@@ -39,7 +34,7 @@ angular.module( 'owm.auth', [
   .state('owm.auth.forgotPassword', {
     url: '/forgot-password',
     views: {
-      'main@': {
+      'main@shell': {
         templateUrl: 'auth/forgotPassword/forgotPassword.tpl.html',
         controller : 'ForgotPasswordController'
       }
@@ -54,7 +49,7 @@ angular.module( 'owm.auth', [
   .state('owm.auth.resetPassword', {
     url: '/reset-password/:code',
     views: {
-      'main@': {
+      'main@shell': {
         templateUrl: 'auth/resetPassword/resetPassword.tpl.html',
         controller : 'ResetPasswordController'
       }
@@ -73,7 +68,7 @@ angular.module( 'owm.auth', [
   .state('owm.auth.changePassword', {
     url: '/change-password',
     views: {
-      'main@': {
+      'main@shell': {
         templateUrl: 'auth/alterPassword/alterPassword.tpl.html',
         controller : 'AlterPasswordController'
       }
@@ -110,7 +105,7 @@ angular.module( 'owm.auth', [
       .finally(function () {
         alertService.loaded();
         $timeout(function () {
-          $state.go('home');
+          $state.go('owm.person.profile');
         });
       });
     }]

@@ -2,13 +2,13 @@
 
 angular.module('owm.person')
 
-.controller('PersonChipcardsController', function ($log, $window, $state, $modal, $scope, chipcards) {
+.controller('PersonChipcardsController', function ($log, $window, $state, $uibModal, $scope, chipcards) {
 
   $scope.chipcards = chipcards;
 
   $scope.blockChipcard = function (chipcard) {
 
-    $modal.open({
+    $uibModal.open({
       templateUrl: 'person/chipcard/block-modal/person-chipcard-block-modal.tpl.html',
       controller : 'PersonChipcardBlockController',
       resolve: {
@@ -27,7 +27,7 @@ angular.module('owm.person')
   };
 
   $scope.editChipcard = function (chipcard) {
-    $modal.open({
+    $uibModal.open({
       templateUrl: 'person/chipcard/edit-modal/person-chipcard-edit-modal.tpl.html',
       controller : 'PersonChipcardEditController',
       resolve: {

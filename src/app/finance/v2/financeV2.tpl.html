@@ -1,4 +1,4 @@
-<div class="card" ng-if="unpaidInvoices.length > 0">
+<div class="card" ng-if="unpaidInvoices.length > 0 && sentInvoices.length == 0">
   <div class="card-heading">
     <h3 class="card-title">
       <a href="" ng-click="is2Collapsed = !is2Collapsed">
@@ -7,7 +7,7 @@
       </a>
     </h3>
   </div>
-  <div collapse="is2Collapsed">
+  <div uib-collapse="is2Collapsed">
     <div class="card-body">
 
       <div class="clearfix">
@@ -122,7 +122,7 @@
       </a>
     </h3>
   </div>
-  <div collapse="is3Collapsed">
+  <div uib-collapse="is3Collapsed">
     <div class="card-body">
 
       <div ng-if="sentInvoices.length > 0">
@@ -137,6 +137,16 @@
             <td>{{ invoice.id }}</td>
             <td>{{ invoice.description }}</td>
             <td>{{ invoice.total | currency }}</td>
+            <td class="text-right">
+              <a ng-if="invoice.booking.id" target="_blank" ng-href="{{ linksService.tripDetailsPdf(invoice.booking.id) }}">
+                <i class="fa fa-fw fa-external-link-square"></i>Pdf
+              </a>
+            </td>
+          </tr>
+          <tr ng-repeat="invoice in unpaidInvoices">
+            <td>{{ invoice.id }}</td>
+            <td>{{ invoice.description }}</td>
+            <td>{{ -invoice.total | currency }}</td>
             <td class="text-right">
               <a ng-if="invoice.booking.id" target="_blank" ng-href="{{ linksService.tripDetailsPdf(invoice.booking.id) }}">
                 <i class="fa fa-fw fa-external-link-square"></i>Pdf
@@ -169,11 +179,11 @@
         <i class="fa fa-fw" ng-class="{ 'fa-chevron-right': is1Collapsed, 'fa-chevron-down': !is1Collapsed }"></i>
         Verzamelfacturen
         <!-- exclamation mark if there are unpaid invoiceGroups -->
-        <i ng-if="unpaidInvoiceGroups.length > 0" class="fa fa-exclamation-triangle text-danger" tooltip="Tooltip"></i>
+        <i ng-if="unpaidInvoiceGroups.length > 0" class="fa fa-exclamation-triangle text-danger"></i>
       </a>
     </h3>
   </div>
-  <div collapse="is1Collapsed">
+  <div uib-collapse="is1Collapsed">
     <div class="card-body">
 
       <div ng-if="invoiceGroups.length <= 0">
