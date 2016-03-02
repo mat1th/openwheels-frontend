@@ -1,0 +1,29 @@
+<md-card>
+
+  <md-card-title>
+    <md-card-title-text>
+      <span class="md-headline">{{ resource.alias || ('RESOURCE_NO_NAME' | translate) }}</span>
+      <span class="md-subhead">{{ (resource.brand + ' ' + resource.model) | toTitleCase }}</span>
+    </md-card-title-text>
+  </md-card-title>
+
+  <md-card-content layout="row" layout-align="space-between">
+    <img class="md-media-xl card-media img-resource-normal"
+         ng-src="{{ resource.pictures[0] | resourceAvatar:'large' }}"
+         style="width: 400px; height: 260px"
+         >
+
+    <md-card-actions layout="column">
+      <md-button class="md-icon-button">
+        <md-icon>favorite</md-icon>
+      </md-button>
+      <md-button class="md-icon-button">
+        <md-icon>menu</md-icon>
+      </md-button>
+      <md-button class="md-icon-button">
+        <md-icon>share-arrow</md-icon>
+      </md-button>
+    </md-card-actions>
+
+  </md-card-content>
+</md-card>
