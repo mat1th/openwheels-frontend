@@ -1,11 +1,11 @@
 <div class="app-menu">
 
   <md-list ng-if="!user.isAuthenticated">
-    <md-list-item ng-click="signup()">
+    <md-list-item class="menu-item-signup" ng-click="signup()">
       <md-icon>person_outline</md-icon><p>{{ 'SIGNUP' | translate }}</p>
     </md-list-item>
 
-    <md-list-item ng-click="login()">
+    <md-list-item class="menu-item-login" ng-click="login()">
       <md-icon>person</md-icon><p>{{ 'LOGIN' | translate }}</p>
     </md-list-item>
 
@@ -13,11 +13,11 @@
   </md-list>
 
   <md-list ng-if="user.isAuthenticated">
-    <md-list-item ng-click="navigate('owm.person.dashboard')">
+    <md-list-item class="menu-item-dashboard" ng-click="navigate('owm.person.dashboard')">
       <md-icon>home</md-icon><p>{{ 'MY_DASHBOARD' | translate }}</p>
     </md-list-item>
 
-    <md-list-item ng-click="navigate('owm.message')">
+    <md-list-item class="menu-item-messages" ng-click="navigate('owm.message')">
       <md-icon>message</md-icon><p>{{ 'MY_MESSAGES' | translate }}</p>
     </md-list-item>
 
@@ -25,16 +25,16 @@
   </md-list>
 
   <md-list>
-    <md-list-item ng-click="navigate('owm.resource.search.list')">
+    <md-list-item class="menu-item-rent-a-car" ng-click="navigate('owm.resource.search.list')">
       <md-icon>search</md-icon><p>{{ 'RENT_A_CAR' | translate }}</p>
     </md-list-item>
-    <md-list-item ng-click="navigate('owm.resource.create')" ng-if="user.isAuthenticated">
+    <md-list-item class="menu-item-resources" ng-click="navigate('owm.resource.create')" ng-if="user.isAuthenticated">
       <md-icon>directions_car</md-icon><p>{{ 'MY_RESOURCES' | translate }}</p>
     </md-list-item>
-    <md-list-item ng-click="navigate('list-your-car')" ng-if="!user.isAuthenticated">
+    <md-list-item class="menu-item-list-your-car" ng-click="navigate('list-your-car')" ng-if="!user.isAuthenticated">
       <md-icon>directions_car</md-icon><p>{{ 'LIST_YOUR_CAR' | translate }}</p>
     </md-list-item>
-    <md-list-item ng-click="translateAndNavigate('NAVBAR.HOW_IT_WORKS_URL')">
+    <md-list-item class="menu-item-how-it-works" ng-click="translateAndNavigate('NAVBAR.HOW_IT_WORKS_URL')">
       <md-icon>help_outline</md-icon><p>{{ 'NAVBAR.HOW_IT_WORKS' | translate }}</p>
     </md-list-item>
   </md-list>
@@ -44,37 +44,37 @@
 
     <md-divider></md-divider>
 
-    <md-list-item ng-click="navigate('owm.person.profile')">
+    <md-list-item class="menu-item-profile" ng-click="navigate('owm.person.profile')">
       <md-icon>settings</md-icon><p>{{ 'MY_PROFILE' | translate }}</p>
     </md-list-item>
 
-    <md-list-item ng-click="navigate('owm.person.contract')" ng-if="features.myContractsMenuItem && user.identity.preference !== 'owner'">
+    <md-list-item class="menu-item-contracts" ng-click="navigate('owm.person.contract')" ng-if="features.myContractsMenuItem && user.identity.preference !== 'owner'">
       <md-icon>content_paste</md-icon><p>{{ 'MY_CONTRACTS' | translate }}</p>
     </md-list-item>
 
-    <md-list-item ng-click="navigate('owm.finance.vouchers')" ng-if="vouchersEnabled">
+    <md-list-item class="menu-item-vouchers" ng-click="navigate('owm.finance.vouchers')" ng-if="vouchersEnabled">
       <md-icon>payment</md-icon><p>{{ 'MY_VOUCHERS' | translate }}</p>
     </md-list-item>
 
-    <md-list-item ng-click="navigate('owm.finance.v1Index')" ng-if="features.invoiceModuleV1">
+    <md-list-item class="menu-item-finance" ng-click="navigate('owm.finance.v1Index')" ng-if="features.invoiceModuleV1">
       <md-icon>attach_money</md-icon><p>{{ 'MY_FINANCE' | translate }}</p>
     </md-list-item>
 
-    <md-list-item ng-click="navigate('owm.finance.v2Index')" ng-if="features.invoiceModuleV2">
+    <md-list-item class="menu-item-finance" ng-click="navigate('owm.finance.v2Index')" ng-if="features.invoiceModuleV2">
       <md-icon>attach_money</md-icon><p>{{ 'MY_FINANCE' | translate }}</p>
     </md-list-item>
 
-    <md-list-item ng-click="navigate('owm.finance.v3Index')" ng-if="features.invoiceModuleV3">
+    <md-list-item class="menu-item-finance" ng-click="navigate('owm.finance.v3Index')" ng-if="features.invoiceModuleV3">
       <md-icon>attach_money</md-icon><p>{{ 'MY_FINANCE' | translate }}</p>
     </md-list-item>
 
-    <md-list-item ng-click="navigate('owm.trips')">
+    <md-list-item class="menu-item-trips" ng-click="navigate('owm.trips')">
       <md-icon>history</md-icon><p>{{ 'MY_TRIPS' | translate }}</p>
     </md-list-item>
 
     <md-divider></md-divider>
 
-    <md-list-item ng-click="logout()">
+    <md-list-item class="menu-item-logout" ng-click="logout()">
       <md-icon>power_settings_new</md-icon><p>{{ 'LOGOUT' | translate }}</p>
     </md-list-item>
 
