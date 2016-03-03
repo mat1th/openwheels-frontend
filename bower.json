@@ -1,6 +1,6 @@
 {
   "name": "OpenWheels",
-  "version": "1.8.8",
+  "version": "1.8.9",
   "dependencies": {
     "angular": "1.4.8",
     "angular-animate": "1.4.8",
