@@ -13,8 +13,6 @@
       link: function (scope, elm, attrs) {
         var resource = scope.resource;
 
-        console.log(resource);
-
         attrs.$observe('size', function (size) {
           if (!resource.pictures || !resource.pictures.length) {
             scope.imageUrl = defaultPicture(size);
