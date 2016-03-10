@@ -104,8 +104,8 @@
           <tr ng-if="booking.discount > 0">
             <td style="padding-top:25px">Af: korting</td><td class="text-right" style="padding-top:25px">{{ booking.discount | currency }}</td>
           </tr>
-          <tr>
-            <td><b>Benodigd rijtegoed</b></td><td class="text-right"><b>{{ (booking.booking_price.total + booking.km_price - booking.discount) | currency }}</b></td>
+          <tr ng-if="booking.discount > 0">
+            <td><b>Totaal</b></td><td class="text-right"><b>{{ (booking.booking_price.total + booking.km_price - booking.discount) | currency }}</b></td>
           </tr>
         </tbody>
       </table>
@@ -138,7 +138,7 @@
             <td class="text-right">{{ requiredValue.credit | currency }}</td>
           </tr>
           <tr>
-            <td><b>Benodigd rijtegoed</b></td>
+            <td><b>Te betalen</b></td>
             <td class="text-right"><b>{{ requiredValue.total | currency }}</b></td>
           </tr>
         </table>
