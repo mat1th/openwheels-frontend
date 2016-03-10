@@ -10,25 +10,26 @@ angular.module('owm.shell')
    * Enable vouchers menu item if user has a MyWheels Go contract (type 60)
    */
   if (featuresService.get('invoiceModuleV3')) {
-    authService.userPromise().then(function (user) {
-      if (!user.identity) { return; }
-
-      contractService.forDriver({ person: user.identity.id }).then(function (contracts) {
-        if (!contracts.length) { return; }
-
+    $rootScope.$watch(function isAuthenticated () {
+      return authService.user.isAuthenticated;
+    },
+    function loginStatusChanged (authenticated) {
+      if (!authenticated) {
+        $rootScope.vouchersEnabled = false;
+        return;
+      }
+      contractService.forDriver({ person: authService.user.identity.id }).then(function (contracts) {
+        if (!contracts.length) {
+          $rootScope.vouchersEnabled = false;
+        }
         contracts.some(function (contract) {
           if (contract.type.id === 60) {
-
-
             $rootScope.vouchersEnabled = true;
-
-
             return true;
           }
         });
-        $log.debug('Vouchers enabled? ' + $rootScope.vouchersEnabled);
       });
-    });
+    }); // end $watch
   }
 
   $scope.navigate = function (toState, toParams) {
