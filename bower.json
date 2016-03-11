@@ -13,7 +13,7 @@
     "angular-translate": "2.6.1",
     "angular-translate-storage-cookie": "2.6.1",
     "angular-translate-storage-local": "2.6.1",
-    "angular-ui-calendar": "0.8.1",
+    "angular-ui-calendar": "~0.8.1",
     "angular-ui-router": "0.2.13",
     "angular-ui-utils": "0.0.4",
     "angularjs-geolocation": "0.1.1",
@@ -24,7 +24,7 @@
     "pickadate": "3.5.3",
     "angular-aria": "~1.4.8",
     "font-awesome": "~4.4.0",
-    "angular-material": "~1.0.2",
+    "angular-material": "1.0.2",
     "bootstrap": "3.3.6"
   },
   "resolutions": {
