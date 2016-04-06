@@ -1,8 +1,8 @@
 'use strict';
 
-angular.module('owm.person.dashboard', [])
+angular.module('owm.person.dashboard.v1', [])
 
-.controller('PersonDashboardController', function ($q, $scope, $sce, $state, me, bookingList, rentalList, actions,
+.controller('PersonDashboardControllerv1', function ($q, $scope, $sce, $state, me, bookingList, rentalList, actions,
   authService, bookingService, alertService, boardcomputerService, actionService, resourceService, resourceQueryService, blogItems) {
 
   $scope.me = me;
@@ -20,7 +20,6 @@ angular.module('owm.person.dashboard', [])
     return $sce.trustAsHtml(html_code);
   };
 
-
   $scope.doSearch = function (placeDetails) {
     if (placeDetails) {
       resourceQueryService.setText($scope.search.text);
@@ -31,6 +30,7 @@ angular.module('owm.person.dashboard', [])
     }
     $state.go('owm.resource.search.list', resourceQueryService.createStateParams());
   };
+
 
   $scope.allowBoardComputer = function (booking) {
     return (booking.status === 'accepted' &&

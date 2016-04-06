@@ -1,3 +1,4 @@
+
 .dashboard {
   &-hero {
     position: relative;
@@ -10,8 +11,33 @@
     .container {
       height: 100%;
       position: relative;
+      
+       .searchbar-container-dash {
+        z-index:5;
+        position: absolute;
+        bottom: 30px;
+        width: 100%;
+        margin-bottom: 4.5em;
+           .searchbar {
+            max-width: 500px;
+            margin: 0 auto 0 auto;
+            opacity: 0.95;
+            .input-group {
+              input {
+                height: 42px;
+              }
+            }
+            a, button {
+              width: 140px;
+              height: 42px;
+            }
+            a {
+              padding: 0px 12px;
+            }
+          }
+        
     }
-  }
+  }}
 
   &-blog-items {
     position: absolute;
