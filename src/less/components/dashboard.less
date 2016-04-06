@@ -3,21 +3,24 @@
   &-hero {
     position: relative;
     background-image: url('../branding/img/dashboard.jpg');
-    background-position: 50% 10%;
+    background-position: 50% 0;
     background-repeat: no-repeat;
     background-size: cover;
     height: 160px;
+    padding: 0 10px 0 10px;
 
     .container {
       height: 100%;
       position: relative;
-      
+		padding: 0;
+		
        .searchbar-container-dash {
         z-index:5;
         position: absolute;
         bottom: 30px;
         width: 100%;
         margin-bottom: 4.5em;
+       
            .searchbar {
             max-width: 500px;
             margin: 0 auto 0 auto;
@@ -52,7 +55,7 @@
         overflow: hidden;
         text-overflow: ellipsis;
         display: block;
-        padding: 5px 15px;
+        padding: 5px 5px;
         background: #fff;
         opacity: 0.9;
       }
