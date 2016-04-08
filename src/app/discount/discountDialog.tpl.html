@@ -65,11 +65,11 @@
           Multiple
         </md-checkbox>
 
-        <md-checkbox ng-model="discount.global">
+        <md-checkbox ng-model="discount.global" ng-disabled="discount.globalCharge">
           Global
         </md-checkbox>
 
-        <md-checkbox ng-model="discount.globalCharge">
+        <md-checkbox ng-model="discount.globalCharge" ng-disabled="discount.global">
           GlobalCharge
         </md-checkbox>
       </div>
