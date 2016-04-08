@@ -193,4 +193,9 @@ angular.module('rpcServices', [])
   this.search = m('search');
   this.apply = m('apply');
   this.disable = m('disable');
+})
+
+.service('discountUsageService', function (api) {
+  var m = function (name) { return api.createRpcMethod('discount_usage.' + name); };
+  this.search = m('search');
 });
