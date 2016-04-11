@@ -251,9 +251,7 @@ angular.module('openwheels', [
     }
   });
 })
-
 ;
-
 
 // MANUAL BOOTSTRAP
 
