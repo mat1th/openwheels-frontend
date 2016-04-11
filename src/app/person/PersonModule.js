@@ -9,12 +9,15 @@ angular.module('owm.person', [
     'owm.person.account',
     'owm.person.fileread',
   ])
+ 
+  
+
 
   .config(function config($stateProvider) {
-
     /**
      * person
      */
+     
     $stateProvider.state('owm.person', {
       abstract: true,
       url: '/dashboard',
@@ -25,12 +28,15 @@ angular.module('owm.person', [
         me: ['authService', function (authService) {
           return authService.me();
         }]
+        
       }
+      
     });
 
     /**
      * dashboard
      */
+   
     $stateProvider.state('owm.person.dashboard', {
       url: '',
       views: {
@@ -45,6 +51,7 @@ angular.module('owm.person', [
           }]
         }
       },
+     
       resolve: {
         blogItems: ['$http', '$translate', function ($http, $translate) {
           return $translate('BLOG_URL')
@@ -63,7 +70,7 @@ angular.module('owm.person', [
             return [];
           });
         }],
-
+                      
         bookingList: ['$stateParams', 'me', 'authService', 'bookingService', 'API_DATE_FORMAT', function ($stateParams, me, authService, bookingService, API_DATE_FORMAT) {
           var timeFrame = {
             startDate: moment().add(-1, 'hours').format(API_DATE_FORMAT),
@@ -109,10 +116,15 @@ angular.module('owm.person', [
               };
             });
         }],
+         
+        
         actions: ['actionService', 'me', function (actionService, me) {
           return actionService.all({ person: me.id });
         }]
+        
+     
       }
+   
     });
     /**
     *DashboardV1

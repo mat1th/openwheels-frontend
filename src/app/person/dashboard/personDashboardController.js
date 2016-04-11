@@ -2,6 +2,7 @@
 
 angular.module('owm.person.dashboard', [])
 
+
 .controller('PersonDashboardController', function ($q, $scope, $sce, $state, me, bookingList, rentalList, actions,
   authService, bookingService, alertService, boardcomputerService, actionService, resourceService, resourceQueryService, blogItems) {
 
@@ -19,6 +20,8 @@ angular.module('owm.person.dashboard', [])
   $scope.renderHtml = function(html_code) {
     return $sce.trustAsHtml(html_code);
   };
+
+
 
 
   $scope.doSearch = function (placeDetails) {
