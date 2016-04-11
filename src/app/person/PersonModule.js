@@ -30,7 +30,6 @@ angular.module('owm.person', [
     /**
      * dashboard
      */
-   
     $stateProvider.state('owm.person.dashboard', {
       url: '',
       views: {
