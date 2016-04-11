@@ -2,7 +2,6 @@
 
 angular.module('owm.person', [
     'owm.person.dashboard',
-    'owm.person.dashboard.v1',
     'owm.person.profile',
     'owm.person.action.payinvoicegroup',
     'owm.person.license',
@@ -123,86 +122,15 @@ angular.module('owm.person', [
       views: {
         'main@shell': {
           templateUrl: 'person/dashboard/person-dashboardv1.tpl.html',
-          controller: 'PersonDashboardControllerv1'
+          controller: 'PersonDashboardController'
         },
         'main-full@shell': {
           templateUrl: 'person/dashboard/person-dashboard-herov1.tpl.html',
-          controller: 'PersonDashboardControllerv1'
+          controller: 'PersonDashboardController'
         }
-      },
-      resolve: {
-        blogItems: ['$http', '$translate', function ($http, $translate) {
-          return $translate('BLOG_URL')
-          .then(function (url) {
-            if (!url) { return {}; }
-            return $http.get(url);
-          })
-          .then(function (response) {
-            var maxResults = 2;
-            if (response.data && response.data.items) {
-              return response.data.items.slice(0, maxResults);
-            }
-            return [];
-          })
-          .catch(function () {
-            return [];
-          });
-        }],
-
-        bookingList: ['$stateParams', 'me', 'authService', 'bookingService', 'API_DATE_FORMAT', function ($stateParams, me, authService, bookingService, API_DATE_FORMAT) {
-          var timeFrame = {
-            startDate: moment().add(-1, 'hours').format(API_DATE_FORMAT),
-            endDate: moment().startOf('day').add(1, 'years').format(API_DATE_FORMAT)
-          };
-          if (me.preference === 'owner') {
-            return {
-              bookings: null,
-              timeFrame: timeFrame
-            };
-          }
-          return bookingService.getBookingList({
-            person: me.id,
-            timeFrame: timeFrame
-          })
-            .then(function (bookings) {
-              return {
-                bookings: bookings,
-                timeFrame: timeFrame
-              };
-            });
-        }],
-        rentalList: ['$stateParams', 'me', 'authService', 'bookingService', 'API_DATE_FORMAT', function ($stateParams, me, authService, bookingService, API_DATE_FORMAT) {
-          var timeFrame = {
-            startDate: moment().startOf('day').add(-1, 'weeks').format(API_DATE_FORMAT),
-            endDate: moment().startOf('day').add(1, 'years').format(API_DATE_FORMAT)
-          };
-
-          if (me.preference === 'renter') {
-            return {
-              bookings: null,
-              timeFrame: timeFrame
-            };
-          }
-          return bookingService.forOwner({
-            person: me.id,
-            timeFrame: timeFrame
-          })
-            .then(function (bookings) {
-              return {
-                bookings: bookings,
-                timeFrame: timeFrame
-              };
-            });
-        }],
-        actions: ['actionService', 'me', function (actionService, me) {
-          return actionService.all({ person: me.id });
-        }]
       }
       
     });
-    /**
-    * End dashboard V1
-    */
      /**
      * dashboard/profile
      */
