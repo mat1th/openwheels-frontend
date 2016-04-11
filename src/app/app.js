@@ -25,7 +25,6 @@ angular.module('openwheels', [
   'geocoder',
   'ngAutocomplete',
   'ngScrollTo',
-  
 
   /* Auto-generated */
   'templates-app',
