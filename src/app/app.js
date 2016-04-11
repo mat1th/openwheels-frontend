@@ -167,10 +167,6 @@ angular.module('openwheels', [
     twitterProvider.init();
   }
 })
-
-
- 
-
 /**
  * Disable logging for non-development environments
  */
