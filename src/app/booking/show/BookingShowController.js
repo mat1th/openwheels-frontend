@@ -5,7 +5,7 @@ angular.module('owm.booking.show', [])
 .controller('BookingShowController', function (
   $q, $timeout, $log, $scope, $location, $filter, $translate, $state, appConfig, API_DATE_FORMAT,
   bookingService, resourceService, invoice2Service, alertService, dialogService,
-  authService, boardcomputerService, chatPopupService, linksService,
+  authService, boardcomputerService, discountUsageService, chatPopupService, linksService,
   booking, me) {
 
   /**
@@ -359,6 +359,7 @@ angular.module('owm.booking.show', [])
 
   $scope.price = null;
   $scope.isPriceLoading = false;
+  loadDiscount();
 
   var unbindWatch = $scope.$watch('showBookingForm', function (val) {
     if (val) {
@@ -439,6 +440,15 @@ angular.module('owm.booking.show', [])
         $scope.isPriceLoading = false;
       });
     }
+  }
+
+  function loadDiscount () {
+    discountUsageService.search({
+      booking: $scope.booking.id
+    })
+    .then(function (discount) {
+      $scope.discount = discount;
+    });
   }
 
   $scope.priceHtml = function (price) {
