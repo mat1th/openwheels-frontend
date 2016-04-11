@@ -1,7 +1,6 @@
 'use strict';
 
 angular.module('openwheels', [
-	
   /* Framework */
   'ngAria',
   'ngAnimate',
