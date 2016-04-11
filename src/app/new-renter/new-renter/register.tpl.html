@@ -122,8 +122,10 @@
       </div>
 
       <div class="row">
-        <input type="submit" class="btn btn-success pull-right" value="Opslaan &amp; later verder gaan" ng-if="!license_front"/>
-        <input type="submit" class="btn btn-success pull-right" value="Volgende"  ng-if="license_front" />
+        <div class="col-xs-12">        
+          <input type="submit" class="btn btn-success pull-right" value="Opslaan &amp; later verder gaan" ng-if="!license_front"/>
+          <input type="submit" class="btn btn-success pull-right" value="Volgende"  ng-if="license_front" />
+        </div>
       </div>
 
       <div class="text-muted row"  ng-if="!license_front">
