@@ -24,9 +24,7 @@ angular.module('owm.person', [
         me: ['authService', function (authService) {
           return authService.me();
         }]
-        
       }
-      
     });
 
     /**
