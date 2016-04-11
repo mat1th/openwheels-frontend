@@ -114,8 +114,24 @@ angular.module('owm.person', [
         }]
       }
     });
-
-      /**
+    /**
+    *DashboardV1
+    */
+    $stateProvider.state('owm.person.dashboard.v1', {
+      url: '/v1',
+      views: {
+        'main@shell': {
+          templateUrl: 'person/dashboard/person-dashboardv1.tpl.html',
+          controller: 'PersonDashboardController'
+        },
+        'main-full@shell': {
+          templateUrl: 'person/dashboard/person-dashboard-herov1.tpl.html',
+          controller: 'PersonDashboardController'
+        }
+      }
+      
+    });
+     /**
      * dashboard/profile
      */
     $stateProvider.state('owm.person.profile', {
