@@ -44,7 +44,6 @@ angular.module('owm.person', [
           }]
         }
       },
-     
       resolve: {
         blogItems: ['$http', '$translate', function ($http, $translate) {
           return $translate('BLOG_URL')
