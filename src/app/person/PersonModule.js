@@ -14,7 +14,6 @@ angular.module('owm.person', [
     /**
      * person
      */
-     
     $stateProvider.state('owm.person', {
       abstract: true,
       url: '/dashboard',
