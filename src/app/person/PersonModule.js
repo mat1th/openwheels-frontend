@@ -9,9 +9,6 @@ angular.module('owm.person', [
     'owm.person.account',
     'owm.person.fileread',
   ])
- 
-  
-
 
   .config(function config($stateProvider) {
     /**
@@ -122,9 +119,7 @@ angular.module('owm.person', [
           return actionService.all({ person: me.id });
         }]
         
-     
       }
-   
     });
     /**
     *DashboardV1
