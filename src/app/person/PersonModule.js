@@ -110,12 +110,9 @@ angular.module('owm.person', [
               };
             });
         }],
-         
-        
         actions: ['actionService', 'me', function (actionService, me) {
           return actionService.all({ person: me.id });
         }]
-        
       }
     });
     /**
