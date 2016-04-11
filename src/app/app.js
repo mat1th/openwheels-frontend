@@ -53,7 +53,6 @@ angular.module('openwheels', [
   'owm.featuresService',
   'owm.metaInfoService',
   'ng-optimizely',
-  
 
   /* Directives */
   'form.validation',
