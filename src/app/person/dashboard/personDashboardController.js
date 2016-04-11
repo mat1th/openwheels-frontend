@@ -2,7 +2,6 @@
 
 angular.module('owm.person.dashboard', [])
 
-
 .controller('PersonDashboardController', function ($q, $scope, $sce, $state, me, bookingList, rentalList, actions,
   authService, bookingService, alertService, boardcomputerService, actionService, resourceService, resourceQueryService, blogItems) {
 
