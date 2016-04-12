@@ -20,7 +20,6 @@ angular.module('owm.person.dashboard', [])
     return $sce.trustAsHtml(html_code);
   };
 
-
   $scope.doSearch = function (placeDetails) {
     if (placeDetails) {
       resourceQueryService.setText($scope.search.text);

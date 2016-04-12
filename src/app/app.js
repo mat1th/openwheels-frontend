@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('openwheels', [
-
+  
   /* Framework */
   'ngAria',
   'ngAnimate',
@@ -40,7 +40,7 @@ angular.module('openwheels', [
   'oAuth2Callback',
   'oAuth2MessageListener',
   'stateAuthorizer',
-
+  
   /* Services */
   'alertService',
   'dialogService',
@@ -52,6 +52,7 @@ angular.module('openwheels', [
   'owm.linksService',
   'owm.featuresService',
   'owm.metaInfoService',
+  'ng-optimizely',
 
   /* Directives */
   'form.validation',
@@ -164,7 +165,6 @@ angular.module('openwheels', [
     twitterProvider.init();
   }
 })
-
 /**
  * Disable logging for non-development environments
  */
@@ -173,6 +173,14 @@ angular.module('openwheels', [
     $logProvider.debugEnabled(false);
   }
 })
+.config(function(optimizelyProvider) {
+  optimizelyProvider.setKey('5390511383');
+  optimizelyProvider.setActivationEventName('$stateChangeSuccess');
+})
+.run( function(optimizely) {
+  optimizely.loadProject();
+})
+
 
 .run(function (windowSizeService, oAuth2MessageListener, stateAuthorizer, authService, featuresService) {
   /* Intentionally left blank */
