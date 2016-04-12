@@ -11,7 +11,6 @@ angular.module('owm.person', [
   ])
 
   .config(function config($stateProvider) {
-
     /**
      * person
      */
@@ -63,7 +62,7 @@ angular.module('owm.person', [
             return [];
           });
         }],
-
+                      
         bookingList: ['$stateParams', 'me', 'authService', 'bookingService', 'API_DATE_FORMAT', function ($stateParams, me, authService, bookingService, API_DATE_FORMAT) {
           var timeFrame = {
             startDate: moment().add(-1, 'hours').format(API_DATE_FORMAT),

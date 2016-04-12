@@ -54,6 +54,7 @@ module.exports = {
       'vendor/pickadate/lib/picker.time.js',
       'vendor/pickadate/lib/translations/nl_NL.js',
       'vendor/ng-sortable/dist/ng-sortable.js',
+      'vendor/ng-optimizely/ng-optimizely.js',
 
       'vendor_custom/angular-locale/angular-locale_nl-nl.js',
       'vendor_custom/moment-locale/moment-locale_nl.js',
