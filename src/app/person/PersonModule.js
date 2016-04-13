@@ -2,6 +2,7 @@
 
 angular.module('owm.person', [
     'owm.person.dashboard',
+    'owm.person.dashboard.v1',
     'owm.person.profile',
     'owm.person.action.payinvoicegroup',
     'owm.person.license',
@@ -125,7 +126,7 @@ angular.module('owm.person', [
         },
         'main-full@shell': {
           templateUrl: 'person/dashboard/person-dashboard-herov1.tpl.html',
-          controller: 'PersonDashboardController'
+          controller: 'PersonDashboardHeroController'
         }
       }
       
