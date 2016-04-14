@@ -1,6 +1,6 @@
 {
   "name": "OpenWheels",
-  "version": "1.8.2",
+  "version": "1.8.10",
   "dependencies": {
     "angular": "1.4.8",
     "angular-animate": "1.4.8",
@@ -13,7 +13,7 @@
     "angular-translate": "2.6.1",
     "angular-translate-storage-cookie": "2.6.1",
     "angular-translate-storage-local": "2.6.1",
-    "angular-ui-calendar": "0.8.1",
+    "angular-ui-calendar": "~0.8.1",
     "angular-ui-router": "0.2.13",
     "angular-ui-utils": "0.0.4",
     "angularjs-geolocation": "0.1.1",
