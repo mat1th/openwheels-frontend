@@ -14,10 +14,16 @@
 
 md-card {
 
-  margin-bottom: 12px;
+  -webkit-box-shadow: 4px 4px 8px rgba(0,0,0,.15);
+  box-shadow: 4px 4px 8px rgba(0,0,0,.15);
+  margin-bottom: 15px;
+  margin: 8px 0px 15px 0px;
 
-  md-card-header {
-    background-color: @mywheels-blue;
+  .blue-header {
+      background-color: @mywheels-blue;
+      span {
+        color: #fff !important;
+      }
   }
 
   md-card-header-text {
@@ -26,10 +32,6 @@ md-card {
       font-family: "OmnesMedium", Arial, Helvetica, sans-serif;
       font-weight: 700;
       line-height: 1.1;
-      color: #fff !important;
-      a {
-        color: #fff !important;
-      }
     }
   }
 }

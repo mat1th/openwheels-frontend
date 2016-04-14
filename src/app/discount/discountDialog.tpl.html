@@ -2,7 +2,7 @@
 
   <md-toolbar>
     <div class="md-toolbar-tools">
-      <h2>Korting</h2>
+      <h2>Ritkorting</h2>
       <span flex></span>
       <md-button class="md-icon-button" ng-click="cancelDialog()">
         <md-icon>close</md-icon>
@@ -40,14 +40,14 @@
 
       <div layout="row" style="margin-bottom: 32px">
         <md-datepicker ng-model="discount.validFrom" md-placeholder="Geldig vanaf"></md-datepicker>
-        <md-datepicker ng-model="discount.validUntil" md-placeholder="t/m"></md-datepicker>
+        <md-datepicker ng-model="discount.validUntil" md-placeholder="Geldig t/m"></md-datepicker>
       </div>
 
       <div layout="row">
         <md-checkbox ng-model="discount.multiple">
-          Meerdere keren
+          Meerdere malen te gebruiken
           <md-tooltip>
-            De kortingscode kan meerdere keren gebruikt worden.
+            De kortingscode kan meerdere malen gebruikt worden door dezelfde huurder.
           </md-tooltip>
         </md-checkbox>
       </div>
