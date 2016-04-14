@@ -8,7 +8,7 @@ angular.module('owm.newRenter', [
 .config(function config($stateProvider, $urlRouterProvider) {
 
     $stateProvider.state('newRenter', {
-      url: '/auto-huren/:city/:resourceId/reserveren?startTime&endTime',
+      url: '/auto-huren/:city/:resourceId/reserveren?startTime&endTime&discountCode',
       abstract: true,
       parent: 'owm.resource',
       views: {

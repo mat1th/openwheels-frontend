@@ -106,11 +106,13 @@ angular.module('owm.resource.reservationForm', [])
       loadAvailability().then(function (availability) {
         if (availability.available === 'yes') {
           loadContractsOnce().then(function () {
+            validateDiscountCode();
             if (featuresService.get('calculatePrice')) {
               loadPrice();
             }
           });
         } else {
+          validateDiscountCode();
           if (featuresService.get('calculatePrice')) {
             loadPrice();
           }
@@ -208,10 +210,69 @@ angular.module('owm.resource.reservationForm', [])
     if (price.rent > 0) { s += 'Huur: ' + $filter('currency')(price.rent) + '<br/>'; }
     if (price.insurance > 0) { s += 'Verzekering: ' + $filter('currency')(price.insurance) + '<br/>'; }
     if (price.booking_fee > 0) { s += 'Boekingskosten: ' + $filter('currency')(price.booking_fee) + '<br/>'; }
-//    if (price.redemption > 0) { s+='Afkoop eigen risico: ' + $filter('currency')(price.redemption) + '<br/>'; }
     s += 'Totaal: ' + $filter('currency')(price.total);
     return s;
   };
+
+  $scope.discountCodeValidation = {
+    timer      : null,
+    submitted  : false,
+    busy       : false,
+    showSpinner: false,
+    success    : false,
+    error      : false
+  };
+
+  $scope.validateDiscountCode = validateDiscountCode;
+
+  function validateDiscountCode () {
+    var DEBOUNCE_TIMEOUT_MS = 500,
+        validation = $scope.discountCodeValidation,
+        code = $scope.booking.discountCode;
+
+    $timeout.cancel(validation.timer);
+    validation.busy = false;
+    validation.showSpinner = false;
+    validation.success = false;
+    validation.error = false;
+
+    if (!code || !$scope.person || !$scope.booking.contract) {
+      return;
+    }
+
+    validation.busy = true;
+    validation.timer = $timeout(function validateDebounced () {
+      $log.debug('validating', code);
+      validation.showSpinner = true;
+
+      discountService.isApplicable({
+        resource: $scope.resource.id,
+        person: $scope.person.id,
+        contract: $scope.booking.contract,
+        discount: code,
+        timeFrame: {
+          startDate: $scope.booking.beginRequested,
+          endDate: $scope.booking.endRequested
+        }
+      })
+      .then(function (result) {
+        if (!validation.busy || code !== $scope.booking.discountCode) { return; }
+        validation.success = true;
+        validation.error = false;
+      })
+      .catch(function () {
+        if (!validation.busy || code !== $scope.booking.discountCode) { return; }
+        validation.success = false;
+        validation.error = true;
+      })
+      .finally(function () {
+        if (!validation.busy || code !== $scope.booking.discountCode) { return; }
+        validation.submitted = true;
+        validation.busy = false;
+        validation.showSpinner = false;
+      });
+    }, DEBOUNCE_TIMEOUT_MS);
+  }
 
   $scope.createBooking = function(booking) {
     if (!booking.beginRequested || !booking.endRequested) {
@@ -221,13 +282,13 @@ angular.module('owm.resource.reservationForm', [])
     // Als je nog niet bent ingelogd is er
     // even een andere flow nodig
     if (featuresService.get('bookingSignupWizard')) {
-
       if (!$scope.person || $scope.person.status === 'new') { // should register, or upload driver's license
         $state.go('newRenter-register', { // should register
           city: $scope.resource.city ? $scope.resource.city : 'utrecht',
           resourceId: $scope.resource.id,
           startTime: booking.beginRequested,
-          endTime: booking.endRequested
+          endTime: booking.endRequested,
+          discountCode: booking.discountCode
         });
         return;
       }
@@ -236,7 +297,8 @@ angular.module('owm.resource.reservationForm', [])
           city: $scope.resource.city ? $scope.resource.city : 'utrecht',
           resourceId: $scope.resource.id,
           startTime: booking.beginRequested,
-          endTime: booking.endRequested
+          endTime: booking.endRequested,
+          discountCode: booking.discountCode
         });
         return;
       }
@@ -260,14 +322,14 @@ angular.module('owm.resource.reservationForm', [])
       });
     })
 
+    /**
+     * Apply discount (only if we have a discount code)
+     */
     .then(function (response) {
       if (!booking.discountCode) {
         return response;
       }
       else {
-        /**
-         * Apply discount
-         */
         return discountService.apply({
           booking: response.id,
           discount: booking.discountCode
