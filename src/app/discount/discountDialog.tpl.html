@@ -14,30 +14,13 @@
     <form name="form">
 
       <div layout="row">
-        <md-input-container>
-          <label>Resource</label>
-          <input ng-model="discount.resource" disabled>
-        </md-input-container>
-
-        <md-input-container>
-          <label>Sender</label>
-          <input ng-model="discount.sender" disabled>
-        </md-input-container>
-
-        <md-input-container>
-          <label>Recipient</label>
-          <input ng-model="validRecipient.id" disabled>
-        </md-input-container>
-      </div>
-
-      <div layout="row">
         <md-input-container flex>
-          <label class="disable-ng-animate">Recipient <i class="fa fa-spinner fa-spin" ng-if="validRecipient.pending"></i></label>
+          <label class="disable-ng-animate">Ontvanger (optioneel) <i class="fa fa-spinner fa-spin" ng-if="validRecipient.pending"></i></label>
           <md-icon>email</md-icon>
           <input type="email" name="recipientEmail" ng-model="discount.recipientEmail" ng-change="resetRecipient()" ng-blur="validateRecipient()" />
           <div ng-messages="form.recipientEmail.$error">
-            <div ng-message="email">Enter an email address</div>
-            <div ng-message="registeredEmail">Not a registered user</div>
+            <div ng-message="email">Voer een geldig e-mailadres in</div>
+            <div ng-message="registeredEmail">Dit e-mailadres is onbekend</div>
           </div>
         </md-input-container>
       </div>
@@ -46,12 +29,12 @@
         <md-input-container>
           <label>Bedrag</label>
           <md-icon>euro_symbol</md-icon>
-          <input ng-model="discount.amount" type="number">
+          <input ng-model="discount.amount" type="number" ng-disabled="discount.percentage">
         </md-input-container>
 
         <md-input-container>
           <label>Percentage</label>
-          <input ng-model="discount.percentage" type="number">
+          <input ng-model="discount.percentage" type="number" ng-disabled="discount.amount">
         </md-input-container>
       </div>
 
@@ -62,22 +45,11 @@
 
       <div layout="row">
         <md-checkbox ng-model="discount.multiple">
-          Multiple
+          Meerdere keren
+          <md-tooltip>
+            De kortingscode kan meerdere keren gebruikt worden.
+          </md-tooltip>
         </md-checkbox>
-
-        <md-checkbox ng-model="discount.global" ng-disabled="discount.globalCharge">
-          Global
-        </md-checkbox>
-
-        <md-checkbox ng-model="discount.globalCharge" ng-disabled="discount.global">
-          GlobalCharge
-        </md-checkbox>
-      </div>
-
-      <div layout="row">
-        <code>
-          {{ discount }}
-        </code>
       </div>
 
     </form>
