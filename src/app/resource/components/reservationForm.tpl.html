@@ -41,9 +41,15 @@
     </select>
   </div>
 
-  <div class="form-group" ng-if="features.discounts">
-    <label>Kortingscode toepassen</label>
-    <input class="form-control" type="text" ng-model="booking.discountCode" />
+  <div class="form-group"
+       ng-if="features.discounts"
+       ng-class="{'has-error': discountCodeValidation.submitted && discountCodeValidation.error}">
+    <label class="control-label disable-ng-animate">
+      Kortingscode
+      <i class="fa fa-check text-success" ng-if="booking.discountCode && !discountCodeValidation.busy && discountCodeValidation.success"></i>
+      <i class="fa fa-spin fa-spinner" ng-if="discountCodeValidation.showSpinner"></i>
+    </label>
+    <input class="form-control" type="text" ng-model="booking.discountCode" ng-change="validateDiscountCode()"/>
   </div>
 
   <!-- {owner} accepted % of requests -->
@@ -78,7 +84,7 @@
 
   <div class="text-center">
     <p>
-      <button class="btn btn-success" ng-disabled="!availability || availability.available=='no'"
+      <button class="btn btn-success" ng-disabled="discountCodeValidation.busy || discountCodeValidation.error || !availability || availability.available=='no'"
         ng-click="createBooking(booking)">
         {{ 'CREATE_BOOKING' | translate }}
       </button>
