@@ -32,8 +32,8 @@
 
       <div layout="row">
         <md-input-container flex>
-          <md-icon>email</md-icon>
           <label class="disable-ng-animate">Recipient <i class="fa fa-spinner fa-spin" ng-if="validRecipient.pending"></i></label>
+          <md-icon>email</md-icon>
           <input type="email" name="recipientEmail" ng-model="discount.recipientEmail" ng-change="resetRecipient()" ng-blur="validateRecipient()" />
           <div ng-messages="form.recipientEmail.$error">
             <div ng-message="email">Enter an email address</div>
@@ -65,8 +65,12 @@
           Multiple
         </md-checkbox>
 
-        <md-checkbox ng-model="discount.global">
+        <md-checkbox ng-model="discount.global" ng-disabled="discount.globalCharge">
           Global
+        </md-checkbox>
+
+        <md-checkbox ng-model="discount.globalCharge" ng-disabled="discount.global">
+          GlobalCharge
         </md-checkbox>
       </div>
 

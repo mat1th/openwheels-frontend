@@ -11,7 +11,6 @@ angular.module('owm.person', [
   ])
 
   .config(function config($stateProvider) {
-
     /**
      * person
      */
@@ -63,7 +62,7 @@ angular.module('owm.person', [
             return [];
           });
         }],
-
+                      
         bookingList: ['$stateParams', 'me', 'authService', 'bookingService', 'API_DATE_FORMAT', function ($stateParams, me, authService, bookingService, API_DATE_FORMAT) {
           var timeFrame = {
             startDate: moment().add(-1, 'hours').format(API_DATE_FORMAT),
@@ -114,8 +113,24 @@ angular.module('owm.person', [
         }]
       }
     });
-
-      /**
+    /**
+    *DashboardV1
+    */
+    $stateProvider.state('owm.person.dashboard.v1', {
+      url: '/v1',
+      views: {
+        'main@shell': {
+          templateUrl: 'person/dashboard/person-dashboardv1.tpl.html',
+          controller: 'PersonDashboardController'
+        },
+        'main-full@shell': {
+          templateUrl: 'person/dashboard/person-dashboard-herov1.tpl.html',
+          controller: 'PersonDashboardController'
+        }
+      }
+      
+    });
+     /**
      * dashboard/profile
      */
     $stateProvider.state('owm.person.profile', {
