@@ -257,8 +257,8 @@ angular.module('owm.resource.reservationForm', [])
       })
       .then(function (result) {
         if (!validation.busy || code !== $scope.booking.discountCode) { return; }
-        validation.success = true;
-        validation.error = false;
+        validation.success = result.applicable;
+        validation.error = !validation.success;
       })
       .catch(function () {
         if (!validation.busy || code !== $scope.booking.discountCode) { return; }
