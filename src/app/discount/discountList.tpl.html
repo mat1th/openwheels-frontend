@@ -19,30 +19,29 @@
 <table class="table">
   <tr>
     <th>Code</th>
-    <th>Ontvanger</th>
+    <th hide-xs>Ontvanger</th>
     <th>Korting</th>
-    <th>Geldig vanaf</th>
-    <th>Geldig t/m</th>
+    <th hide-xs>Geldig vanaf</th>
+    <th hide-xs>Geldig t/m</th>
     <th></th>
     <th></th>
   </tr>
   <tr ng-repeat="discount in discounts">
     <td>{{ discount.code }}</td>
-    <td>{{ discount.recipient.firstName }}</td>
-    <td class="text-right">
+    <td hide-xs><a ui-sref="member({ personId: discount.recipient.id })">{{ discount.recipient.firstName }}</a></td>
+    <td class="text-left">
       <span ng-if="discount.percentage">{{ discount.percentage | number:0 }}%</span>
       <span ng-if="discount.amount">{{ discount.amount | currency }}</span>
     </td>
-    <td>{{ discount.validFrom }}</td>
-    <td>{{ discount.validUntil }}</td>
-    <td><a href="" disabled>Details</a></td>
-    <td><a href="" ng-click="disableDiscount(discount)">Verwijder</a></td>
+    <td hide-xs>{{ discount.validFrom | amDateFormat:'DD-MM-YY' }}</td>
+    <td hide-xs>{{ discount.validUntil | amDateFormat:'DD-MM-YY' }}</td>
+    <td class="text-right"><a href="" ng-click="discountDetails(discount)"><md-icon>info outline</md-icon></a></td>
+    <td class="text-right"><a href="" ng-click="disableDiscount(discount)"><md-icon>delete</md-icon></a></td>
   </tr>
 </table>
 
-<div layout="row" layout-align="center">
-  <md-button class="md-fab" ng-click="createDiscount($event)">
-    <md-icon>add</md-icon>
-    <md-tooltip>Korting toevoegen</md-tooltip>
+<div layout="row" layout-align="left">
+  <md-button class="md-raised md-primary md-button md-ink-ripple" ng-click="createDiscount($event)">
+    Toevoegen
   </md-button>
 </div>
