@@ -8,9 +8,7 @@ angular.module('owm.finance')
     var personId = params.person;
     var nextUrl = $state.href('owm.finance.payment-result', {}, { absolute: true });
 
-    return contractService.requestContract({
-      person: personId
-    })
+    return contractService.requestContract(params)
     .then(function (contractRequest) {
       // TODO(jdb): check contractRequest.status === 'new' before paying:
       return paymentService.pay({

@@ -106,7 +106,8 @@ angular.module('openwheels', [
   'owm.message',
   'owm.newRenter',
   'owm.livehelperchat',
-  'owm.discount'
+  'owm.discount',
+  'owm.contract'
 ])
 
 .constant('API_DATE_FORMAT', 'YYYY-MM-DD HH:mm')
