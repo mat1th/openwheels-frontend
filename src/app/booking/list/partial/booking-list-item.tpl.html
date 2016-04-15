@@ -36,9 +36,13 @@
           <i class="fa fa-eur"></i> Nog te betalen</a>
       </div>
 
-      <div ng-if="b.approved === 'BUY_VOUCHER'">
+      <div ng-if="b.approved === 'BUY_VOUCHER' && b.person.numberOfBookings > 1">
         <a ui-sref="owm.finance.vouchers" class="btn btn-link text-danger">
-          <i class="fa fa-exclamation-circle"></i> Koop rijtegoed</a>
+          <i class="fa fa-exclamation-circle"></i> Betaal rit</a> 
+      </div>
+      <div ng-if="b.approved === 'BUY_VOUCHER' && b.person.numberOfBookings == 1">
+        <a ui-sref="contractchoice" class="btn btn-link text-danger">
+          <i class="fa fa-exclamation-circle"></i> Betaal rit</a>
       </div>
 
     </div>
