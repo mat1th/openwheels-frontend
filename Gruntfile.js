@@ -327,8 +327,8 @@ module.exports = function (grunt) {
     connect: {
       options: {
         port: 9000,
-        hostname: 'localhost',
-        livereload: 35729
+        hostname: '0.0.0.0',
+        livereload: 35730
       },
       livereload: {
         options: {
@@ -413,13 +413,13 @@ module.exports = function (grunt) {
 
     watch: {
       options: {
-        livereload: true
+        livereload: 35730
       },
 
       gruntfile: {
         files: 'Gruntfile.js',
         tasks: [ 'jshint:gruntfile' ],
-        options: { livereload: false }
+        options: { livereload: 35730 }
       },
 
       jssrc: {
@@ -472,13 +472,13 @@ module.exports = function (grunt) {
         files: [ 'src/**/*.less' ],
         tasks: [ 'less:build' ],
         options: {
-          livereload: false
+          livereload: 35730
         }
       },
 
       livereload: {
         options: {
-          livereload: true,
+          livereload: 35730,
         },
         files: [
           '<%= build_dir %>/assets/**/*.css',
