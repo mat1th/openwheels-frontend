@@ -1,4 +1,4 @@
-<footer class="page-footer elegant-color center-on-small-only">
+<footer class="page-footer footer-color center-on-small-only">
   <div class="container">
 
     <div ng-if="features.myWheelsFooter" class="row">
@@ -36,7 +36,7 @@
         </div>
     </div>
 
-    <div ng-if="features.myWheelsFooter" class="footer-social-row text-center elegant-color">
+    <div ng-if="features.myWheelsFooter" class="footer-social-row text-center footer-color">
       <h4>{{ 'FOOTER_SOCIAL_TITLE' | translate }}</h4>
       <a target="_blank" href="https://twitter.com/my_wheels"><i class="fa fa-fw fa-2x fa-twitter"></i></a>
       <a target="_blank" href="https://www.facebook.com/mywheelsnl"><i class="fa fa-fw fa-2x fa-facebook"></i></a>
@@ -44,11 +44,11 @@
       <a target="_blank" href="https://github.com/MyWheels"><i class="fa fa-fw fa-2x fa-github"></i></a>
     </div>
 
-    <div ng-if="!features.myWheelsFooter" class="footer text-center" style="color: #888">
+    <div ng-if="!features.myWheelsFooter" class="footer text-center footer-color" style="color: #888">
       <h4 class="no-margin">{{ 'MYWHEELS_FOOTER' | translate }}</h4>
     </div>
 
-    <div style="padding: 10px" ng-class="{ 'bg-white': features.myWheelsFooter } elegant-color">
+    <div style="padding: 10px" ng-class="{ 'bg-white': features.myWheelsFooter }" class="footer-color">
       <ul class="list-inline text-center" id="language-switch">
         <li>
           <button ng-disabled="currentLanguage() === 'nl_NL'" class="btn btn-link btn-sm" ng-click="changeLanguage('nl_NL')">{{ 'DUTCH' | translate }}</button>
