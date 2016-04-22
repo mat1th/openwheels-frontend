@@ -1,13 +1,13 @@
 <div class="card">
   <div class="card-heading">
     <h2 class="card-title">
-      Mijn berichten
+      {{ 'MY_MESSAGES_TITLE' | translate }}
     </h2>
   </div>
 
   <div class="card-body" >
     <div ng-if="!(conversations.length > 0)">
-      Je hebt geen berichten
+      {{ 'MY_MESSAGES' | translate }}
     </div>
 
     <div ng-if="conversations.length > 0">
