@@ -232,7 +232,7 @@
               <span ng-if="invoiceGroup.payoutRequest" class="text-muted">
                 Uitbetaling aangevraagd
               </span>
-              <button ng-if="!invoiceGroup.payoutRequest && !payoutRequest.paid" type="button" class="btn btn-primary" ng-click="payoutInvoiceGroup(invoiceGroup)">
+              <button ng-if="!invoiceGroup.payoutRequest && !invoiceGroup.paid" type="button" class="btn btn-primary" ng-click="payoutInvoiceGroup(invoiceGroup)">
                 Uitbetalen
               </button>
               <button ng-if="invoiceGroup.paid" type="button" disabled class="btn btn-link text-success">
