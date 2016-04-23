@@ -1,0 +1,58 @@
+<md-dialog>
+
+  <md-toolbar>
+    <div class="md-toolbar-tools">
+      <h2>Details</h2>
+      <span flex></span>
+      <md-button class="md-icon-button" ng-click="cancelDialog()">
+        <md-icon>close</md-icon>
+      </md-button>
+    </div>
+  </md-toolbar>
+
+  <md-dialog-content layout-padding>
+
+    <table class="table">
+      <tr>
+        <td><strong>Code:</strong></td>
+        <td class="text-right">{{ discount.code }}</td>
+      </tr>
+      <tr>
+        <td><strong>Korting:</strong></td>
+        <td class="text-right">
+          <span ng-if="discount.percentage">{{ discount.percentage | number:0 }}%</span>
+          <span ng-if="discount.amount">{{ discount.amount | currency }}</span>
+        </td>
+      </tr>
+      <tr>
+        <td><strong>Aangemaakt op:</strong></td>
+        <td class="text-right">{{ discount.created | amDateFormat:'DD-MM-YY' }}</td>
+      </tr>
+      <tr>
+        <td><strong>Geldig vanaf:</strong></td>
+        <td class="text-right">{{ discount.validFrom | amDateFormat:'DD-MM-YY' }}</td>
+      </tr>
+      <tr>
+        <td><strong>Geldig t/m:</strong></td>
+        <td class="text-right">{{ discount.validUntil | amDateFormat:'DD-MM-YY' }}</td>
+      </tr>
+      <tr>
+        <td><strong>Gebruik:</strong></td>
+        <td class="text-right">{{ discount.usage.length }}</td>
+      </tr>
+      <tr>
+        <td><strong>Meerdere malen te gebruiken:</strong></td>
+        <td class="text-right">
+          <span ng-if="discount.multiple">Ja</span>
+          <span ng-if="!discount.multiple">Nee</span>
+        </td>
+      </tr>
+    </table>
+
+  </md-dialog-content>
+
+  <md-dialog-actions>
+    <md-button class="md-primary" ng-click="cancelDialog()">Sluiten</md-button>
+  </md-dialog-actions>
+
+</md-dialog>
