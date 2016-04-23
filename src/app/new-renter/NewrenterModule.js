@@ -26,7 +26,8 @@ angular.module('owm.newRenter', [
         booking: ['$stateParams', function ($stateParams) {
           return {
             startTime: $stateParams.startTime,
-            endTime:   $stateParams.endTime
+            endTime: $stateParams.endTime,
+            discountCode: $stateParams.discountCode
           };
         }],
         resource: ['$stateParams', 'resourceService', function ($stateParams, resourceService) {

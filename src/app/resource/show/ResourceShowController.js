@@ -43,7 +43,8 @@ angular.module('owm.resource.show', [])
       $scope.booking.beginRequested = timeFrame.startDate;
       $scope.booking.endRequested   = timeFrame.endDate;
     }
-    $location.search(resourceQueryService.createStateParams());
+    $location.search(angular.extend($location.search(), resourceQueryService.createStateParams()));
+    $scope.booking.discountCode = $stateParams.discountCode;
   }
 
   function loadRatings () {

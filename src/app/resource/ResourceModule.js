@@ -159,7 +159,7 @@ angular.module('owm.resource', [
      * @resolve {promise} resource
      */
     $stateProvider.state('owm.resource.show', {
-      url: '/auto-huren/:city/:resourceId',
+      url: '/auto-huren/:city/:resourceId?discountCode',
       views: {
         'main-full@shell': {
           controller: 'ResourceShowController',
