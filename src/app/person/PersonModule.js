@@ -2,6 +2,7 @@
 
 angular.module('owm.person', [
     'owm.person.dashboard',
+    'owm.person.dashboard.v1',
     'owm.person.profile',
     'owm.person.action.payinvoicegroup',
     'owm.person.license',
@@ -39,9 +40,7 @@ angular.module('owm.person', [
         },
         'main-full@shell': {
           templateUrl: 'person/dashboard/person-dashboard-hero.tpl.html',
-          controller: ['$scope', 'blogItems', function ($scope, blogItems) {
-            $scope.blogItems = blogItems;
-          }]
+          controller: 'PersonDashboardHeroController'
         }
       },
       resolve: {
@@ -113,23 +112,7 @@ angular.module('owm.person', [
         }]
       }
     });
-    /**
-    *DashboardV1
-    */
-    $stateProvider.state('owm.person.dashboard.v1', {
-      url: '/v1',
-      views: {
-        'main@shell': {
-          templateUrl: 'person/dashboard/person-dashboardv1.tpl.html',
-          controller: 'PersonDashboardController'
-        },
-        'main-full@shell': {
-          templateUrl: 'person/dashboard/person-dashboard-herov1.tpl.html',
-          controller: 'PersonDashboardController'
-        }
-      }
-      
-    });
+   
      /**
      * dashboard/profile
      */
