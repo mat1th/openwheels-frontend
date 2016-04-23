@@ -80,14 +80,14 @@ angular.module('owm.resource.edit.data', [])
 
   $scope.resourcePropertyOptions = [
     { value: 'airconditioning'    , label: $translate.instant('ACCESSORIES.AIRCONDITIONING') },
-    { value: 'fietsendrager'      , label: $translate.instant('ACCESSORIES.BIKE_CARRIER') },
-    { value: 'winterbanden'       , label: $translate.instant('ACCESSORIES.WINTER_TIRES') },
-    { value: 'kinderzitje'        , label: $translate.instant('ACCESSORIES.CHILD_SEAT') },
-    { value: 'navigatie'          , label: $translate.instant('ACCESSORIES.NAVIGATION') },
-    { value: 'trekhaak'           , label: $translate.instant('ACCESSORIES.TOW_BAR') },
     { value: 'automaat'           , label: $translate.instant('ACCESSORIES.AUTOMATICTRANSMISSION') },
+    { value: 'fietsendrager'      , label: $translate.instant('ACCESSORIES.BIKE_CARRIER') },
+    { value: 'kinderzitje'        , label: $translate.instant('ACCESSORIES.CHILD_SEAT') },
     { value: 'mp3-aansluiting'    , label: $translate.instant('ACCESSORIES.MP3_CONNECTION') },
-    { value: 'rolstoelvriendelijk', label: $translate.instant('ACCESSORIES.WHEELCHAIR_FRIENDLY') }
+    { value: 'navigatie'          , label: $translate.instant('ACCESSORIES.NAVIGATION') },
+    { value: 'rolstoelvriendelijk', label: $translate.instant('ACCESSORIES.WHEELCHAIR_FRIENDLY') },
+    { value: 'trekhaak'           , label: $translate.instant('ACCESSORIES.TOW_BAR') },
+    { value: 'winterbanden'       , label: $translate.instant('ACCESSORIES.WINTER_TIRES') }
   ];
 
   //google maps places config
