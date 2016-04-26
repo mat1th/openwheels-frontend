@@ -32,9 +32,7 @@ angular.module('owm.newRenter.controllers', [])
 
     completed = completed && person.status === 'active' || person.status === 'book-only';
 
-    completed = completed && contracts && contracts.
-
-    some(function (contract) {
+    completed = completed && contracts && contracts.some(function (contract) {
       return contract.status === 'active';
     });
 
