@@ -32,7 +32,9 @@ angular.module('owm.newRenter.controllers', [])
 
     completed = completed && person.status === 'active' || person.status === 'book-only';
 
-    completed = completed && contracts && contracts.some(function (contract) {
+    completed = completed && contracts && contracts.
+
+    some(function (contract) {
       return contract.status === 'active';
     });
 
@@ -120,7 +122,7 @@ angular.module('owm.newRenter.controllers', [])
       angular.extend(authService.user.identity, me);
 
       if(me.status === 'active' || me.status === 'book-only' ) {
-        $state.go('newRenter-deposit', {
+        $state.go('newRenter-booking', {
           resourceId: $scope.resource.id,
           startTime:  $scope.booking.startTime,
           endTime:    $scope.booking.endTime,
@@ -217,52 +219,6 @@ angular.module('owm.newRenter.controllers', [])
   };
 })
 
-
-.controller('NewRenterDepositController', function ($state, $scope, alertService, depositService, me) {
-  $scope.data = { mandate: false };
-  $scope.busy = false;
-
-  $scope.payDeposit = function () {
-    $scope.busy = true;
-    alertService.load($scope);
-    saveState();
-    depositService.requestContractAndPay({
-      person: me.id
-    })
-    .catch(function (err) {
-      alertService.addError(err);
-    })
-    .finally(function () {
-      $scope.busy = false;
-      alertService.loaded($scope);
-    });
-  };
-
-  function saveState () {
-    sessionStorage.setItem('afterPayment', JSON.stringify({
-      error: {
-        stateName: $state.current.name,
-        stateParams: {
-          resourceId: $scope.resource.id,
-          startTime:  $scope.booking.startTime,
-          endTime:    $scope.booking.endTime,
-          discountCode: $scope.booking.discountCode
-        }
-      },
-      success: {
-        stateName: 'newRenter-booking',
-        stateParams: {
-          resourceId: $scope.resource.id,
-          startTime:  $scope.booking.startTime,
-          endTime:    $scope.booking.endTime,
-          discountCode: $scope.booking.discountCode
-        }
-      }
-    }));
-  }
-})
-
-
 .controller('NewRenterBookingController', function ($log, $scope, $q, $state, person, resource, booking, resourceQueryService, contractService, discountService, bookingService, alertService) {
   $scope.busy = true;
   $scope.errorMessage = null;
@@ -339,7 +295,7 @@ angular.module('owm.newRenter.controllers', [])
       return discountService.isApplicable({
         resource: resource.id,
         person: person.id,
-        contract: contract,
+        contract: contract.id,
         discount: booking.discountCode,
         timeFrame: {
           startDate: booking.startTime,
