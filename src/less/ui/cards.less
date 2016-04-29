@@ -69,7 +69,21 @@ md-card {
   &-heading + .collapsing > &-body {
     padding-top: 0;
   }
+
+  .card__navbar{
+    margin-bottom: 0;
+    border-top: 0;
+    border-right: 0;
+    border-left: 0;
+    background-color: #fff;
+  }
 }
+
+.card__body,
+.card--media__body {
+  padding-top: 5px;
+}
+
 
 .card-navigation {
   padding: 10px 15px;
@@ -78,4 +92,41 @@ md-card {
 .card-notice {
   background: rgb(252, 248, 227);
   color: rgb(192, 152, 83);
+}
+
+
+.card-accordion {
+
+  .panel-group {
+    margin-bottom: 15px;
+
+    .panel + .panel {
+      margin-top: 15px;
+    }
+
+    .panel-heading + .panel-collapse > .panel-body {
+      border: none;
+    }
+
+    .panel-heading + .panel-collapse {
+      .panel-body {
+        padding-top: 0;
+      }
+    }
+  }
+
+
+
+  .panel-heading {
+    padding: 15px;
+  }
+
+  .panel-title {
+    color: @brand-primary;
+  }
+
+  .panel-body {
+    border: none;
+  }
+
 }

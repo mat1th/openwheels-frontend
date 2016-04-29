@@ -1,5 +1,3 @@
-<ow-resource-card
-  ng-repeat="resource in resources"
-  resource="resource"
-  on-select="selectResource(resource)">
-</ow-resource-card>
+<div class="card" ng-repeat="resource in resources" ng-click="selectResource(resource)">
+  <div ng-include="'resource/partials/resource-header1.tpl.html'"></div>
+</div>
