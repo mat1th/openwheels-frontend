@@ -387,6 +387,8 @@ module.exports = function (grunt) {
 
     ngconstant: {
       options: {
+        dest: '<%= build_dir %>/app/config.js',
+        name: 'openwheels.environment',
         space: '  '
       },
       development: {
