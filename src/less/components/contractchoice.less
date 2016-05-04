@@ -3,35 +3,39 @@
     text-align: center;
     .pay {
         background: @mywheels-green;
-        padding: 1.5em 1em;
+        padding: 2em 1em;
         color: #fff;
         width: 100%;
+        font-size: 1.1em;
         font-weight: 600;
     }
     h3 {
-        margin: 1em;
+        margin: 2em 1em;
     }
     .contract-choice {
         padding-bottom: 1em;
         display: inline-block;
-        max-width: 20em;
+        max-width: 23em;
+        width: 100%;
         margin: 1em auto;
-        border: 2px solid rgba(0, 0, 0, 0.12);
+        // border: 2px solid @mywheels-green;
+        border: 2px solid rgba(23, 61, 80, 0.06);
     }
-    .contract-choice:hover {
-        border: 2px solid @mywheels-green;
-    }
+
     ul {
         width: 100%;
         list-style-type: none;
         display: inline-block;
-        padding: 0.5em;
-        margin: 0.5em 0 0;
+        margin: 0 0 1em 0;
+        padding: 0;
     }
     li {
         display: inline-block;
         display: block;
-        margin: 0.7em;
+        padding: 0.7em;
+    }
+    li:nth-of-type(2n+1) {
+        background-color: rgba(23, 61, 80, 0.06);
     }
     a.md-button.md-primary.md-raised:not([disabled]) {
         color: #fff;
@@ -39,7 +43,4 @@
     .divider {
         border-bottom: 1px solid rgba(0, 0, 0, 0.12);
     }
-}
-.btn-green {
-    background: @mywheels-green;
 }
