@@ -39,13 +39,12 @@ angular.module('owm.resourceQueryService', [])
   var filterApi2Url = {};
   var filterUrl2Api = {};
   (function () {
-    var url = ['fuel','lock','seats','type', 'smartwheels'];
+    var url = ['fuel','lock','seats','type'];
     var api = [
       'fuelType',
       'locktype', // FIXME: apparently needs lowercase
       'minSeats',
-      'resourceType',
-      'smartwheels'
+      'resourceType'
     ];
     for (var i=0; i < url.length; i++) {
       filterApi2Url[api[i]] = url[i];

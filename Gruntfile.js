@@ -387,26 +387,28 @@ module.exports = function (grunt) {
 
     ngconstant: {
       options: {
-        dest: '<%= build_dir %>/app/config.js',
-        name: 'openwheels.environment',
         space: '  '
       },
-      development: {
-        dest: '<%= build_dir %>/app/config.js',
-        name: 'openwheels.environment',
-        constants: {
-          ENV: 'development',
-          VERSION: '<%= pkg.version %>'
+      development: [
+        {
+          dest: '<%= build_dir %>/app/config.js',
+          name: 'openwheels.environment',
+          constants: {
+            ENV: 'development',
+            VERSION: '<%= pkg.version %>'
+          }
         }
-      },
-      production: {
-        dest: '<%= build_dir %>/app/config.js',
-        name: 'openwheels.environment',
-        constants: {
-          ENV: 'production',
-          VERSION: '<%= pkg.version %>'
+      ],
+      production: [
+        {
+          dest: '<%= build_dir %>/app/config.js',
+          name: 'openwheels.environment',
+          constants: {
+            ENV: 'production',
+            VERSION: '<%= pkg.version %>'
+          }
         }
-      }
+      ]
     },
 
     watch: {

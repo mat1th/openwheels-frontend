@@ -16,9 +16,6 @@
         <div class="pull-right">
           <button class="btn btn-link" ng-click="blockContract($index)">{{ 'CONTRACT_END_ACTION' | translate }}</button>
         </div>
-        <div class="pull-right" ng-if="ownContracts.length == 1">
-          <a class="btn btn-link" ui-sref="contractchoice">wijzig abonement</a>
-        </div>
 
         <h4>{{ contract.type.name }} <small>({{ contract.id }})</small></h4>
 

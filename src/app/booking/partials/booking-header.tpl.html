@@ -1,8 +1,8 @@
-<div class="media media--small">
+<div class="media">
   <a class="pull-left" ui-sref="owm.resource.show({ resourceId: resource.id, city: resource.city })">
     <img class="media-object img-resource-small" ng-src="{{ resource.pictures[0] | resourceAvatar:'small' }}">
   </a>
-  <div class="media-body card--media__body">
+  <div class="media-body">
     <div class="resource__alias truncate">
       <a ui-sref="owm.resource.show({ resourceId: resource.id, city: resource.city })">{{ resource.alias }} {{ resource.registrationPlate | surroundWith : '(' : ')' }}</a>
     </div>
