@@ -92,6 +92,7 @@ angular.module('owm.resource.search', [
     }
 
     function doSearch (isInitialSearch) {
+
       // time frame
       resourceQueryService.setTimeFrame({
         startDate: $scope.booking.beginRequested,
@@ -155,20 +156,20 @@ angular.module('owm.resource.search', [
     }
 
     //select timeframe modal
-    $scope.selectTimeframe = function () {
-      $uibModal.open({
-        templateUrl: 'booking/timeframe/booking-timeframe-modal.tpl.html',
-        controller: 'BookingTimeframeController',
-        resolve: {
-          booking: function () {
-            return angular.copy($scope.booking);
-          }
-        }
-      }).result.then(function (booking) {
-          $scope.booking = booking;
-          return doSearch();
-        });
-    };
+    // $scope.selectTimeframe = function () {
+    //   $uibModal.open({
+    //     templateUrl: 'booking/timeframe/booking-timeframe-modal.tpl.html',
+    //     controller: 'BookingTimeframeController',
+    //     resolve: {
+    //       booking: function () {
+    //         return angular.copy($scope.booking);
+    //       }
+    //     }
+    //   }).result.then(function (booking) {
+    //       $scope.booking = booking;
+    //       return doSearch();
+    //     });
+    // };
 
     $scope.removeTimeframe = function () {
       $scope.booking.beginRequested = null;
