@@ -14,12 +14,12 @@
     </div>
     <div>
         <md-card-title>
-            <md-card-title-text>
-                <h3 class="no-margin" style="font-size: 2rem">
+            <md-card-title-text layout="colum" layout-wrap>
+                <h3 class="no-margin" style="font-size: 2rem" flex="100">
                 <span>{{ resource.alias || ('RESOURCE_NO_NAME' | translate) }}</span>
                 </h3>
-                <span class="md-subhead" ng-if="resource.brand || resource.model">{{ (resource.brand + ' ' + resource.model) | toTitleCase }}</span>
-                <span class="tag tag-warning" ng-if="['smartphone', 'chipcard'].indexOf(resource.locktype) >= 0"> {{ 'SMART_WHEELS_TIP' | translate }} </span>
+                <span class="md-subhead" ng-if="resource.brand || resource.model" flex="none">{{ (resource.brand + ' ' + resource.model) | toTitleCase }}</span>
+                <span class="tag tag-warning" ng-if="['smartphone', 'chipcard'].indexOf(resource.locktype) >= 0" flex="none"> {{ 'SMART_WHEELS_TIP' | translate }} </span>
             </md-card-title-text>
         </md-card-title>
         <md-list class="ow-list-compact">

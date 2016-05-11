@@ -8,6 +8,13 @@
     .md-headline {
         font-size: 2rem;
     }
+    .md-card-image {
+        width: 100%;
+    }
+    .tag {
+        margin-top: 14px;
+        margin-left: 12px;
+    }
     .price {
         position: absolute;
         bottom: 1em;
@@ -17,6 +24,16 @@
         background: rgba(0, 0, 0, 0.35);
         color: #fff;
         padding: 8px;
+    }
+    md-list-item {
+        align-items: flex-start;
+    }
+    md-card-title-text {
+        // display: flex;
+        // flex-wrap: wrap;
+        h3 {
+            flex-basis: auto;
+        }
     }
     @media all and (min-width: @screen-sm) {
         .md-card-image {
@@ -55,8 +72,8 @@ md-card {
             line-height: 1.1;
         }
     }
-    md-subhead{
-      display: inline-block;
+    md-subhead {
+        display: inline-block;
     }
 }
 .card {
