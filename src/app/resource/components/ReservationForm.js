@@ -154,6 +154,12 @@ angular.module('owm.resource.reservationForm', [])
     return dfd.promise;
   }
 
+  //ceck if user is a go user
+  // if ($scope.person. === true  ){
+  // $scope.booking.riskReduction = true;
+  // $scope.riskReductionStatus = true;
+  // }
+
   function loadContractsOnce () {
     var dfd = $q.defer();
     if ($scope.contractOptions) {

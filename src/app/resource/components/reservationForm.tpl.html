@@ -33,10 +33,10 @@
     <label ng-bind="'BOOKING.REMARK_REQUESTER_LABEL' | translate"></label>
     <textarea rows="3" id="remarkRequester" name="remarkRequester" class="form-control" ng-model="booking.remarkRequester"></textarea>
   </div>
-    
+
   <div class="checkbox" ng-if="contractOptions">
     <label for="riskReduction">
-        <input id="riskReduction" type="checkbox" ng-model="booking.riskReduction" />
+        <input id="riskReduction" type="checkbox" ng-model="booking.riskReduction" ng-disabled="riskReductionStatus">
         Verlaag eigenrisico
     </label>
   </div>
