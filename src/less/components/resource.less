@@ -31,31 +31,32 @@
 }
 .resource-search {
     .search {
+        padding: 0;
         height: 40px;
         position: relative;
         overflow: visible;
+        input {
+            flex-grow: 1;
+            font-size: 1em;
+            box-sizing: border-box;
+            max-width: 80%;
+            border: none;
+            box-shadow: none;
+            outline: 0;
+            background: 0 0;
+            width: 100%;
+            padding: 0 15px;
+            height: 100%;
+        }
     }
-    .date{
-      margin: 2em 1em;
-      // display: block;
+    .date {
+        margin: 2em 1em;
+        // display: block;
     }
     md-icon {
         margin: auto;
         font-size: 1.4em;
-        padding: 0 1em;
-    }
-    input {
-        flex-grow: 1;
-        font-size: 1em;
-        box-sizing: border-box;
-        max-width: 80%;
-        border: none;
-        box-shadow: none;
-        outline: 0;
-        background: 0 0;
-        width: 100%;
-        padding: 0 1em;
-        height: 100%;
+        padding: 0 15px;
     }
 }
 .resource-property-list {

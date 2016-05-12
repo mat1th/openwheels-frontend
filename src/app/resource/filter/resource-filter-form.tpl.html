@@ -1,47 +1,59 @@
 <form role="form">
-  <div class="form-group">
-    <label for="smartwheels">{{ 'SMART_WHEELS_TIP' | translate }}</label>
-    <md-switch name="smartwheels" id="smartwheels" ng-model="filters.smartwheels" aria-label="smartwheels" ng-true-value="'true'"></md-switch>
-    <md-tooltip>
-      {{ 'SMART_WHEELS_INFO' | translate }}
-    </md-tooltip>
-  </div>
-  <div class="form-group">
-    <label for="minSeats">
-      {{ 'SEARCH_RADIUS' | translate }}
-    </label>
-    <select class="form-control" name="radius" id="radius" ng-model="props.radius" ng-options="o.value as o.label for o in radiusOptions">
-    </select>
-  </div>
-  <div class="form-group">
-    <label for="minSeats">
-      {{ 'MIN_SEATS' | translate }}
-    </label>
-    <select class="form-control" name="minSeats" id="minSeats" ng-model="filters.minSeats" ng-options="o.value as o.label for o in minSeatOptions">
-    </select>
-  </div>
-  <div class="form-group">
-    <label for="fuelType">
-      {{ 'FUEL_TYPE' | translate }}
-    </label>
-    <select class="form-control" name="fuelType" id="fuelType" ng-model="filters.fuelType" ng-options="o.value as o.label for o in fuelTypeOptions">
-    </select>
-  </div>
-  <div class="form-group">
-    <label for="resourceType">
-      {{ 'RESOURCE_TYPE' | translate }}
-    </label>
-    <select class="form-control" name="resourceType" id="resourceType" ng-model="filters.resourceType" ng-options="o.value as o.label for o in resourceTypeOptions">
-    </select>
-  </div>
-
-  <div class="form-group">
-    <label>Opties</label>
-    <div class="checkbox" ng-repeat="(key, value) in options" style="margin-left: 20px">
-      <label>
-        <input type="checkbox" ng-model="options[key]" id="{{key}}"> {{optionsLabels[key]}}
-      </label>
+    <div class="form-group">
+        <label for="smartwheels">{{ 'SMART_WHEELS_TIP' | translate }}</label>
+        <md-switch name="smartwheels" id="smartwheels" ng-model="filters.smartwheels" aria-label="smartwheels" ng-true-value="'true'"></md-switch>
+        <md-tooltip>
+            {{ 'SMART_WHEELS_INFO' | translate }}
+        </md-tooltip>
     </div>
-  </div>
+    <div class="form-group" >
+        <md-input-container>
+            <label> {{ 'SEARCH_RADIUS' | translate }}</label>
+            <md-select ng-model="props.radius" name="radius" id="radius">
+                <md-option ng-repeat="distance in radiusOptions" value="{{distance.value}}">
+                    {{distance.label}}
+                </md-option>
+            </md-select>
+        </md-input-container>
+    </div>
+    <div class="form-group">
+        <md-input-container>
+            <label> {{ 'MIN_SEATS' | translate }}</label>
+            <md-select ng-model="filters.minSeats" name="minSeats" id="minSeats">
+                <md-option ng-repeat="seat in minSeatOptions" value="{{seat.value}}">
+                    {{seat.label}}
+                </md-option>
+            </md-select>
+        </md-input-container>
+    </div>
+    <div class="form-group">
+        <md-input-container>
+            <label for="fuelType"> {{ 'FUEL_TYPE' | translate }}</label>
+            <md-select ng-model="filters.fuelType" name="fuelType" id="fuelType">
+                <md-option ng-repeat="type in fuelTypeOptions" value="{{type.value}}">
+                    {{type.label}}
+                </md-option>
+            </md-select>
+        </md-input-container>
+    </div>
+    <div class="form-group">
+        <md-input-container>
+            <label for="resourceType"> {{ 'RESOURCE_TYPE' | translate }}</label>
+            <md-select ng-model="filters.resourceType" name="resourceType" id="resourceType">
+                <md-option ng-repeat="type in resourceTypeOptions" value="{{type.value}}">
+                    {{type.label}}
+                </md-option>
+            </md-select>
+        </md-input-container>
+    </div>
+
+    <div class="form-group">
+        <label>Opties</label>
+        <div class="checkbox" ng-repeat="(key, value) in options">
+            <md-checkbox ng-model="options[key]" id="{{key}}" class="md-primary ">
+              {{optionsLabels[key]}}
+            </md-checkbox>
+        </div>
+    </div>
 
 </form>

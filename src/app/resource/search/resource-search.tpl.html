@@ -65,56 +65,76 @@
 
         <div ng-class="{ 'col-xs-12 col-md-8 col-lg-9' : features.filtersSidebar }">
             <!-- filter dates  -->
-            <form timeframe begin="booking.beginRequested" end="booking.endRequested" class="resource-search">
 
-                <section class="card" flex>
+            <section class="card" flex>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                <!-- search part -->
+                <div class="resource-search">
                     <div class="search">
                         <md-icon class="name">search</md-icon>
                         <input type="text" placeholder="{{ 'FIND_AVAILABLE_PLACEHOLDER' | translate }}" ng-model="searchText" ng-autocomplete details="placeDetails" options="completePlacesOptions">
                     </div>
-                    <md-divider></md-divider>
+                </div>
+                <md-divider></md-divider>
 
-                    <div layout="row" layout-xs="column">
-                        <div flex>
-                            <md-input-container class="md-icon-float md-block">
-                                <label>{{ 'DATE_START' | translate }}</label>
-                                <!-- <button id="timepopup_now_button" type="button" class="btn btn-warning btn-xs" ng-click="setTimeframe(0)">{{ 'NOW' | translate }}</button> -->
-                                <md-icon class="name">date_range</md-icon>
-                                <input type="text" ng-model="booking.beginRequested" ng-change="onBeginDateChange()" pickadate="dateConfig">
-                            </md-input-container>
-                            <md-input-container class="md-icon-float md-block">
-                                <label>{{ 'TIME_START' | translate }}</label>
+                <!-- time part -->
+                <form timeframe begin="booking.beginRequested" end="booking.endRequested" layout-xs="column" layout="row" class="card-body">
+                    <div>
+                        <md-input-container class="md-icon-float md-block">
+                            <label>{{ 'DATE_START' | translate }}</label>
+                            <!-- <button id="timepopup_now_button" type="button" class="btn btn-warning btn-xs" ng-click="setTimeframe(0)">{{ 'NOW' | translate }}</button> -->
+                            <md-icon class="name">date_range</md-icon>
+                            <input type="text" ng-model="booking.beginRequested" ng-change="onBeginDateChange()" pickadate="dateConfig">
+                        </md-input-container>
 
-                                <md-icon class="name">date_range</md-icon>
-                                <input type="text" ng-model="booking.beginRequested" pickatime="timeConfig">
-                            </md-input-container>
-                        </div>
-
-                        <div flex>
-                            <md-input-container class="md-icon-float md-block">
-                                <label>{{ 'DATE_END' | translate }}</label>
-                                <!-- <button id="timepopup_now_button" type="button" class="btn btn-warning btn-xs" ng-click="setTimeframe(0)">{{ 'NOW' | translate }}</button> -->
-                                <md-icon class="name">date_range</md-icon>
-                                <input type="text" ng-model="booking.endRequested" ng-change="onEndDateChange()" pickadate="dateConfig">
-                            </md-input-container>
-                            <md-input-container class="md-icon-float md-block">
-                                <label>{{ 'TIME_END' | translate }}</label>
-
-                                <md-icon class="name">date_range</md-icon>
-                                <input type="text" class="form-control pickadate-input" ng-model="booking.endRequested" pickatime="timeConfig">
-                            </md-input-container>
-                        </div>
+                        <md-input-container class="md-icon-float md-block">
+                            <label>{{ 'TIME_START' | translate }}</label>
+                            <md-icon class="name">access_time</md-icon>
+                            <input type="text" ng-model="booking.beginRequested" pickatime="timeConfig">
+                        </md-input-container>
                     </div>
-                </section>
+                    <div>
+                        <md-input-container class="md-icon-float md-block">
+                            <label>{{ 'DATE_END' | translate }}</label>
+                            <!-- <button id="timepopup_now_button" type="button" class="btn btn-warning btn-xs" ng-click="setTimeframe(0)">{{ 'NOW' | translate }}</button> -->
+                            <md-icon class="name">date_range</md-icon>
+                            <input type="text" ng-model="booking.endRequested" ng-change="onEndDateChange()" pickadate="dateConfig">
+                        </md-input-container>
 
-                <!-- <span ng-if="!features.filtersSidebar || !isWindowSizeMD" class="input-group-btn">
-              <button class="btn btn-default" type="button" ng-click="setFilters()">
-                <i class="fa fa-filter"></i> <span class="hidden-sm hidden-xs"> {{ 'FILTER' | translate }}</span>
-                    </button>
-                    </span> -->
+                        <md-input-container class="md-icon-float md-block">
+                            <label>{{ 'TIME_END' | translate }}</label>
+                            <md-icon class="name">access_time</md-icon>
+                            <input type="text" class="form-control pickadate-input" ng-model="booking.endRequested" pickatime="timeConfig">
+                        </md-input-container>
+                    </div>
+                </form>
+                <md-divider></md-divider>
+                <!-- filter part -->
+                <div resource-filter on-change="sidebarFiltersChanged" props="filters.props" filters="filters.filters" options="filters.options" class="card-body"></div>
 
-            </form>
-
+            </section>
+            <md-button class="md-raised">Meer filters</md-button>
 
             <uib-alert type="info" close="removeTimeframe()" ng-if="booking.beginRequested && booking.endRequested">
                 <i class="fa fa-clock-o"></i> Beschikbare auto's voor <span class="text-success">{{ booking.beginRequested | amCalendar }}</span> tot <span class="text-success">{{ booking.endRequested  | amCalendar }}</span>
@@ -130,7 +150,7 @@
                 <div class="card">
                     <div class="card-heading text-center">
                         <button type="button" class="btn btn-link" ng-click="toggleMap()" ng-if="!($state.includes('owm.resource.search.map') || $state.includes('owm.resource.place.map'))">
-                            <i class="fa fa-map-marker"></i> {{ 'SHOW_ON_MAP' | translate }}
+                            <md-icon>place</md-icon>{{ 'SHOW_ON_MAP' | translate }}
                         </button>
                         <button type="button" class="btn btn-link" ng-click="toggleMap()" ng-if="$state.includes('owm.resource.search.map') || $state.includes('owm.resource.place.map')">
                             <i class="fa fa-th-list"></i> {{ 'SHOW_AS_LIST' | translate }}
