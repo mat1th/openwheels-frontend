@@ -15,7 +15,7 @@
 
       <div layout="row">
         <md-input-container flex>
-          <label class="disable-ng-animate">Ontvanger (optioneel) <i class="fa fa-spinner fa-spin" ng-if="validRecipient.pending"></i></label>
+          <label class="disable-ng-animate">E-mail ontvanger (optioneel) <i class="fa fa-spinner fa-spin" ng-if="validRecipient.pending"></i></label>
           <md-icon>email</md-icon>
           <input type="email" name="recipientEmail" ng-model="discount.recipientEmail" ng-change="resetRecipient()" ng-blur="validateRecipient()" />
           <div ng-messages="form.recipientEmail.$error">

@@ -48,7 +48,7 @@
 
             <div class="media-body">
               <h3>
-                {{ resource.brand || ('UNKNOWN_BRAND' | translate) }} <span ng-if="resource.model">, {{ resource.model }}</span>
+                {{ resource.brand || ('UNKNOWN_BRAND' | translate) }} <span ng-if="resource.model"> {{ resource.model }}</span>
               </h3>
               <div ng-include="'resource/partials/resource-features.tpl.html'"></div>
             </div>
