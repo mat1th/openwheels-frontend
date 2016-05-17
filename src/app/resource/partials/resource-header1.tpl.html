@@ -33,6 +33,9 @@
       <resource-favorite-icon resource="resource"></resource-favorite-icon>
       <div class="tag tag-warning" ng-if="['smartphone', 'chipcard'].indexOf(resource.locktype) >= 0">
         {{ 'SMART_WHEELS_TIP' | translate }}
+        <md-tooltip>
+          {{ 'SMART_WHEELS_INFO' | translate }}
+        </md-tooltip>
       </div>
     </div>
 

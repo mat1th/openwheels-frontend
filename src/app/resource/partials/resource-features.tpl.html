@@ -1,6 +1,10 @@
 <div ng-if="['smartphone', 'chipcard'].indexOf(resource.locktype) >= 0" class="tag tag-warning" style="margin-bottom: 8px">
   {{ 'SMART_WHEELS_TIP' | translate }}
+  <md-tooltip>
+    {{ 'SMART_WHEELS_INFO' | translate }}
+  </md-tooltip>
 </div>
+
 
 <ul class="list-unstyled list-spaced fa-ul">
   <li ng-if="resource.fuelCardCode" class="text-danger"><i class="fa fa-li fa-lock"></i> {{ 'FUEL_CARD_CODE' | translate}}: {{ resource.fuelCardCode }}</li>
