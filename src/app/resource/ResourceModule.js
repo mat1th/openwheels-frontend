@@ -17,7 +17,7 @@ angular.module('owm.resource', [
 
     $stateProvider.state('owm.resource', {
       abstract: true,
-      url: '?lat&lng&start&end&text&radius&options&fuel&lock&seats&type&smartwheels',
+      url: '?lat&lng&start&end&text&radius&options&fuel&lock&seats&type',
       views: {
         'main@shell': {
           template: '<div ui-view></div>'

@@ -1,0 +1,65 @@
+<md-card class="ow-card" ng-click="select()">
+
+    <div class="md-card-image" style="position: relative">
+        <ow-resource-picture resource="resource" size="large"></ow-resource-picture>
+
+        <div class="price">
+            <h2 class="no-margin" style="color:#fff">
+          {{ resource.price.dayRateTotal | currency }}
+          </h2>
+            <div ng-if="resource.price.kmFree" class="">
+                <small>{{ 'FREE_KM_DAY' | translate }}</small>
+            </div>
+        </div>
+    </div>
+    <div>
+        <md-card-title>
+            <md-card-title-text layout="colum" layout-wrap>
+                <h3 class="no-margin" style="font-size: 2rem" flex="100">
+                <span>{{ resource.alias || ('RESOURCE_NO_NAME' | translate) }}</span>
+                </h3>
+                <span class="md-subhead" ng-if="resource.brand || resource.model" flex="none">{{ (resource.brand + ' ' + resource.model) | toTitleCase }}</span>
+                <span class="tag tag-warning" ng-if="['smartphone', 'chipcard'].indexOf(resource.locktype) >= 0" flex="none"> {{ 'SMART_WHEELS_TIP' | translate }} </span>
+            </md-card-title-text>
+        </md-card-title>
+        <md-list class="ow-list-compact">
+            <md-list-item>
+                <!-- location -->
+                <md-icon>location_on</md-icon>
+                <div flex>
+                    <span> {{ resource.location }} {{ resource.city }}
+                          <span ng-if="resource.distance_to"> ({{ resource.distance_to | formatKilometers }})</span>
+                    </span>
+                </div>
+            </md-list-item>
+            <md-list-item>
+                <!-- person -->
+                <md-icon>person</md-icon>
+                <div flex>
+                    {{ resource.owner.firstName }}
+                    <span ng-if="features.ratings && resource.rating" rating-thumb="{ value : resource.rating.satisfaction, senders : resource.rating.senders }"></span>
+                    <span rating-thumb="{ value : resource.rating.satisfaction, senders: resource.rating.senders }"></span>
+                </div>
+            </md-list-item>
+            <md-list-item>
+                <div flex>
+                    <!-- number of bookings -->
+                    <span>
+                      <md-icon class="text-success">check</md-icon>
+                   {{ resource.numberOfBookings | wasBookedTimes }}
+                    </span>
+                </div>
+                <div flex>
+                    <!-- lock type -->
+                    <span ng-if="resource.locktype">
+                        <md-icon class="text-success">vpn_key</md-icon>
+                    <span>{{  ('LOCKTYPE.' + resource.locktype) | translateOrDefault : resource.locktype }}</span>
+                    </span>
+                </div>
+            </md-list-item>
+            <md-list-item ng-if="resource.properties.length >= 1">
+                <span ng-repeat="prop in resource.properties">{{ prop.id | toSentenceCase }}<span ng-if="$index !== resource.properties.length - 1">, </span></span>
+            </md-list-item>
+        </md-list>
+    </div>
+</md-card>

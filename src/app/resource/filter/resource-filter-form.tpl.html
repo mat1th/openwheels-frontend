@@ -1,12 +1,5 @@
 <form role="form">
   <div class="form-group">
-    <label for="smartwheels">{{ 'SMART_WHEELS_TIP' | translate }}</label>
-    <md-switch name="smartwheels" id="smartwheels" ng-model="filters.smartwheels" aria-label="smartwheels" ng-true-value="'true'"></md-switch>
-    <md-tooltip>
-      {{ 'SMART_WHEELS_INFO' | translate }}
-    </md-tooltip>
-  </div>
-  <div class="form-group">
     <label for="minSeats">
       {{ 'SEARCH_RADIUS' | translate }}
     </label>
@@ -18,6 +11,13 @@
       {{ 'MIN_SEATS' | translate }}
     </label>
     <select class="form-control" name="minSeats" id="minSeats" ng-model="filters.minSeats" ng-options="o.value as o.label for o in minSeatOptions">
+    </select>
+  </div>
+  <div class="form-group">
+    <label for="lockType">
+      {{ 'OPEN_WITH' | translate }}
+    </label>
+    <select class="form-control" name="lockType" id="lockType" ng-model="filters.locktype" ng-options="o.value as o.label for o in lockTypeOptions">
     </select>
   </div>
   <div class="form-group">
