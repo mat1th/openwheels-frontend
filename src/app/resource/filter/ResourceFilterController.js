@@ -30,14 +30,6 @@ angular.module('owm.resource.filter', [])
       {value: 10, label: 10}
     ];
 
-    $scope.lockTypeOptions = [
-      {value: undefined, label: $translate.instant('LOCKTYPE.ALL')},
-      {value: 'chipcard', label: $translate.instant('LOCKTYPE.CHIPCARD')},
-      {value: 'locker', label: $translate.instant('LOCKTYPE.LOCKER')},
-      {value: 'meeting', label: $translate.instant('LOCKTYPE.MEETING')},
-      {value: 'smartphone', label: $translate.instant('LOCKTYPE.SMARTPHONE')},
-    ];
-
     $scope.fuelTypeOptions = [
       {value: undefined, label: $translate.instant('FUEL_TYPE.ALL')},
       {value: 'benzine', label: $translate.instant('FUEL_TYPE.BENZINE')},
