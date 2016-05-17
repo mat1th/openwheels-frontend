@@ -1,63 +1,140 @@
 <div class="container vert-pad-large text-left">
 
-  <div class="col-md-12">
-    <h1 style="text-align: center;">Waarom MyWheels?</h1><br />
-  </div>
+  <div class="content">
 
-  <div class="col-md-6">
-    <div style="box-shadow: 0px 3px 5px #444; padding: 5%; background-color: #82B955; min-height: 18em;"><h2 style="color: #fff;">
-      <md-icon style="color: #efefef; vertical-align: top; margin: 1px 10px 0 0;">home</md-icon>&nbsp;Huur in de buurt</h2>
-      <p>Met auto's in meer dan 400 plaatsen, is er altijd wel een auto bij jou in de buurt. Boek, een auto, haal de sleutel op en rijden maar! In veel grote steden staan zelfs smartwheels, dat zijn auto's die makkelijk open gaan met je OV-kaart of Smartphone. Ideaal!</p>
-      <p style="text-align: right;  position: absolute; bottom: 0px; right: 0; padding-right: 35px;"><a class="btn-success btn" href="" style="color: #fff; border: 1px solid #fff;">Bekijk de auto's >></a></p>
-   </div>
-  </div>
-
-  <div class="col-md-12" hide-gt-sm>
-    <br /><br />
-  </div>
-
-  <div class="col-md-6">
-    <div style="box-shadow: 0px 3px 5px #444; padding: 5%;background-color: #82B955; min-height: 18em;"><h2 style="color: #fff;">
-      <md-icon style="color: #efefef; vertical-align: top; margin: 1px 10px 0 0;">euro_symbol</md-icon>Verhuur en verdien</h2>
-      <p>Je auto aanbieden is gratis. We vragen een klein vergoeding zodra je auto gehuurd wordt. En je weet zeker dat je goed verzekerd bent want dat regelen wij voor je. Vul je kenteken in, maak wat mooie foto's en je kan beginnen.</p>
-      <p style="text-align: right; position: absolute; bottom: 0px; right: 0; padding-right: 35px;"><a class="btn-success btn" href="" style="color: #fff; border: 1px solid #fff; ">Bereken wat je kunt verdienen >></a></p>
-    </div>
-  </div>
-
-  <div class="col-md-12">
-  <br />
-    <div class="col-md-12" style="background-image: url(https://mywheels.nl/branding/img/home-rotate-3.jpg); background-size: width:100%; background-position-y: -180px; background-repeat: no-repeat;">
-      <h2 style="color: #fff; text-shadow: 0px 3px 5px #444; text-align: center; padding-top: 40px; padding-bottom: 40px;">Begin direct met huren</h2></span>
-      <p style="text-align: center;"><a style="align: center; background-color: #5FAAC8;" href="" ng-click="signup()"class="btn-lg btn-success">{{ 'SIGNUP_SHORT' | translate }}</a></p>
+    <div class="col-md-12">
+      <h2 style="text-align: center;">Dit is MyWheels</h2>
       <br />
     </div>
-  </div>
+    
+    <div class="col-md-12">
+      <md-card class="content-green">
+        <p>Op MyWheels huur je eenvoudig en snel een auto of verhuur je eigen auto. Kies een particuliere auto of een auto die je met een OV-chipkaart of smartphone opent. Of je nu een auto voor een avondje uit zoekt of een mooie camper voor vakantie: MyWheels heeft het.</p>
+      </md-card>
+      <br />
+    </div>
+
+    <div class="col-md-12">
+      <h2 style="text-align: center;">De voordelen van MyWheels</h2>
+      <br />
+    </div>
+
+    <div class="col-md-6">
+      <md-card class="content-white">
+        <div>
+          <h3><table><tr><td><md-icon>home</md-icon></td><td>Huur in de buurt</td></tr></table></h3>
+          <p>Met auto's in meer dan 400 plaatsen, is er altijd wel een auto bij jou in de buurt. Boek, een auto, haal de sleutel op en rijden maar! In veel grote steden staan zelfs smartwheels, dat zijn auto's die makkelijk open gaan met je OV-kaart of Smartphone. Ideaal!</p>
+          <p style="text-align: right;"><a class="btn-success btn" href="" ng-click="doSearch()" style="color: #fff; border: 1px solid #fff; bottom: 0;">Bekijk het aanbod</a></p> 
+        </div>
+      </md-card>
+    </div>
+
+    <div class="col-md-12" hide-gt-sm><br /><br /></div>
+
+    <div class="col-md-6">
+      <md-card class="content-white">
+        <div><h3><table><tr><td><md-icon>euro_symbol</md-icon></td><td>Verhuur en verdien</td></tr></table></h3>
+        <p>
+        Je auto aanbieden is gratis. We vragen een kleine vergoeding zodra is verhuurd. En je weet zeker dat je goed verzekerd bent want dat regelen wij voor je. Vul je kenteken in, maak wat mooie foto's en je kan beginnen. Zo maak je de buurt een stukje beter.</p>
+        <p style="text-align: right;"><a class="btn-success btn" href="" style="color: #fff; border: 1px solid #fff; bottom: 0;">Bereken je winst</a></p>
+        </div>
+      </md-card>
+    </div>
+
+    <div class="col-md-12">
+      <br />
+      <div class="col-md-12" style="background-image: url(https://MyWheels.nl/branding/img/home-rotate-3.jpg); background-size: width:100%; background-position-y: -180px; background-position-x: -30px; background-repeat: no-repeat;">
+        <h3 style="color: #fff; text-shadow: 0px 1px 3px #444; text-align: center; padding-top: 40px; padding-bottom: 40px;" class="call-to-signup-text">Begin direct met huren</h3></span>
+        <p class="" style="text-align: center;"><a href="" ng-click="signup()"class="btn-lg btn call-to-signup">{{ 'SIGNUP_SHORT' | translate }}</a></p>
+        <br />
+      </div>
+    </div>
+
+    <div class="col-md-12"><br /></div>
+
+    <div class="col-md-6">
+      <br />
+      <div>
+        <md-card class="content-white"><h3><table><tr><td><md-icon>done</md-icon></td><td>Goedkoop autodelen</td></tr></table></h3>
+          <p style="min-height: 9.25em;">MyWheels is de voordeligste, dat kan omdat we not-for-profit zijn. Daarom delen onze leden al meer dan drieduizend auto’s via MyWheels. Doe mee en steun de deeleconomie!></p>
+          <p style="text-align: right;"><a class="btn-success btn" href="https://MyWheels.nl/autodelen/hoe-huren-werkt/tarieven-huren/" style="color: #fff; border: 1px solid #fff;">Onze tarieven</a></p>
+        </md-card>
+      </div>
+    </div>
+
+  </div><!-- content -->
+
+  <div class="col-md-12" hide-gt-sm><br /></div>
 
   <div class="col-md-6">
     <br />
-    <div style="box-shadow: 0px 3px 5px #444; padding: 5%;background-color: #82B955; min-height: 18em;"><h2 style="color: #fff;">
-      <md-icon style="color: #efefef; vertical-align: top; margin: 1px 10px 0 0;">done</md-icon>Het voordeligste</h2>
-      <p>MyWheels is de voordeligste, dat kan omdat we non-profit zijn en geen winstoogmerk hebben. Daarom delen onze leden al meer dan tweeduizend auto’s via MyWheels. Vergelijk de tarieven op <a target="_blank" href="https://www.deelauto.nl">deelauto.nl</a> of lees meer over <a href="https://mywheels.nl/autodelen/community/onze-idealen/">onze idealen</a>. Doe mee en steun de deeleconomie!</p>
-     <p style="text-align: right; position: absolute; bottom: 0px; right: 0; padding-right: 35px;"><a class="btn-success btn" href="" style="color: #fff; border: 1px solid #fff;">Iets met goedkoop rijden >></a></p> 
+    <md-card class="content-white"><h3><table><tr><td><md-icon>directions_car</md-icon></td><td>Een passende optie voor iedereen</td></tr></table></h3>
+      <p>Voor elk type gebruiker hebben we een passend aanbod. Huur je soms? Dan kan je zonder borg direct beginnen met huren. Huur je vaak? Voor een tientje per maand krijg je allerlei voordelen die het makkelijk maken.</p>
+      <p style="text-align: right;"><a class="btn-success btn" href="" style="color: #fff; border: 1px solid #fff;">Vergelijk de contracten</a></p> 
+    </md-card>
+  </div> 
+
+  <div class="col-md-6">
+    <br />
+    <div>
+      <md-card class="content-white"><h3><table><tr><td><md-icon>security</md-icon></td><td>Goed verzekerd, zonder poespas</td></tr></table></h3>
+        <p>Je bent via MyWheels altijd goed verzekerd. Wij regelen de verzekering tijdens de verhuur, waardoor je met een gerust hart op weg gaat. Ook krijg je de kans om je eigen risico helemaal af te kopen, wel zo fijn.</p>
+        <p style="text-align: right;"><a class="btn-success btn" href="https://MyWheels.nl/autodelen/hoe-huren-werkt/tarieven-huren/" style="color: #fff; border: 1px solid #fff;">Onze tarieven</a></p>
+      </md-card>
+    </div>
+  </div>
+   
+  <div class="col-md-12" hide-gt-sm><br /></div>
+
+  <div class="col-md-6">
+    <br />
+    <div>
+      <md-card class="content-white"><h3><table><tr><td><md-icon>contact_phone</md-icon></td><td>Altijd een hulplijn binnen handbereik</td></tr></table></h3>
+        <p>Gebeurt er iets onderweg? 24 uur per dag staat er iemand voor je klaar om je uit de brand te helpen. Een telefoontje is genoeg, en als de auto niet meer verder kan, regelt de verzekering vervangend vervoer.</p>
+        <p style="text-align: right;"><a class="btn-success btn" href="https://MyWheels.nl/autodelen/hoe-huren-werkt/tarieven-huren/" style="color: #fff; border: 1px solid #fff;">Onze tarieven</a></p>
+      </md-card>
     </div>
   </div>
 
-  <div class="col-md-12" hide-gt-sm>
-    <br /><br />
+  <div class="col-md-12" hide-gt-sm><br /></div>
+
+  <div class="col-md-6">
+    <br />
+    <div>
+      <md-card class="content-white"><h3><table><tr><td><md-icon>call_split</md-icon></td><td>Flexibele opties voor verhuurders</td></tr></table></h3>
+        <p>Eenmalig een vriendenprijsje? Of graag elke rit direct goedkeuren? Liever zelf goedkeuren? Kan allemaal. Dankzij de vele flexibele opties is verhuren op MyWheels heel eenvoudig. Jij verhuurt je auto, wij maken het simpel.</p>
+        <p style="text-align: right;"><a class="btn-success btn" href="https://MyWheels.nl/autodelen/hoe-huren-werkt/tarieven-huren/" style="color: #fff; border: 1px solid #fff;">Onze tarieven</a></p>
+      </md-card>
+    </div>
   </div>
 
   <div class="col-md-6">
     <br />
-    <div style="box-shadow: 0px 3px 5px #444; padding: 5%;background-color: #82B955; min-height: 18em;"><h2 style="color: #fff;">
-      <md-icon style="color: #efefef; vertical-align: top; margin: 1px 10px 0 0;" >directions_car</md-icon>Een passende optie</h2>
-      <p>Voor elk type gebruiker hebben we een passend aanbod. Huur je soms? Dan kan je zonder borg direct beginnen met huren, huur je vaak? Voor een tientje per maand krijg je allerlei voordelen die het makkelijk maken.</p>
-      <p style="text-align: right; position: absolute; bottom: 0px; right: 0; padding-right: 35px;"><a class="btn-success btn" href="" style="color: #fff; border: 1px solid #fff;">Vergelijk de contracten >> </a></p> 
-    </div> 
+    <div>
+      <md-card class="content-white"><h3><table><tr><td><md-icon>done</md-icon></td><td>Geen onverwachte kosten</td></tr></table></h3>
+        <p>De prijs van MyWheels is overzichtelijk en helder. Bijna altijd zit benzine bij de prijs in, waardoor je precies weet hoeveel een rit nu echt kost. En moet je tanken zonder tankpas? Dan lever je het bonnetje gewoon in. Wel zo makkelijk.</p>
+        <p style="text-align: right;"><a class="btn-success btn" href="https://MyWheels.nl/autodelen/hoe-huren-werkt/tarieven-huren/" style="color: #fff; border: 1px solid #fff;">Onze tarieven</a></p>
+      </md-card>
+    </div>
+  </div>
+     
+  <div class="col-md-6">
+    <br />
+    <div>
+      <md-card class="content-white"><h3><table><tr><td><md-icon>verified_user</md-icon></td><td>Veilig & Betrouwbaar</td></tr></table></h3>
+        <p>Om zeker te weten dat zowel huurder als verhuurder elkaar kunnen vertrouwen, voeren we een aantal controles uit om zo een veilige community te creëren. Zo kun je met een gerust hart een auto huren of verhuren.</p>
+         <p style="text-align: right;"><a class="btn-success btn" href="https://MyWheels.nl/autodelen/hoe-huren-werkt/tarieven-huren/" style="color: #fff; border: 1px solid #fff;">Onze tarieven</a></p>
+      </md-card>
+    </div>
   </div>
 
-</div>
+  <div class="col-md-12" hide-gt-sm><br /></div>
+        
+  <div class="col-md-6"><br /></div>
 
-<div ng-if="features.myWheelsFooter" class="footer-logo-row text-center">
+</div><!-- container -->
+
+<div class="footer-logo-row text-center">
   <div class="container">
     <div class="row">
       <div class="col-md-3" hide-xs hide-sm>
