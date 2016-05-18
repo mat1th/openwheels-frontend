@@ -19,7 +19,7 @@
     </li>
 
     <li ng-if="resource.properties.length >= 1">
-      <md-icon class="text-success list-margin"></md-icon>
+      <md-icon class="text-success list-margin">build</md-icon>
         <span ng-repeat="prop in resource.properties">{{ prop.id | toSentenceCase }}<span ng-if="$index !== resource.properties.length - 1">, </span></span>
     </li>
     <li><md-icon class="text-success list-margin">event_available</md-icon>{{ resource.numberOfBookings | wasBookedTimes }}</li>

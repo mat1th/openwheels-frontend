@@ -60,19 +60,6 @@
     </label>
   </div>
 
-  <!-- {owner} accepted % of requests -->
-  <div class="text-center" ng-if="resource.response_accept !== null">
-    <p>
-      <small>
-        <i class="text-success fa fa-fw fa-check"></i>
-        {{ resource.owner.firstName }}
-        {{ 'ACCEPTED_REQUESTS_PREFIX' | translate }}
-        {{ resource.response_accept | percentage : 0 }}
-        {{ 'ACCEPTED_REQUESTS_SUFFIX' | translate}}
-      </small>
-    </p>
-  </div>
-
   <!-- availability & price -->
   <div class="form-group" ng-if="price || isPriceLoading || availability || isAvailabilityLoading">
     <div class="text-center">
