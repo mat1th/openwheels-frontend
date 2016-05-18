@@ -52,7 +52,7 @@
       <md-icon>content_paste</md-icon><p>{{ 'MY_CONTRACTS' | translate }}</p>
     </md-list-item>
 
-    <md-list-item class="menu-item-vouchers" ng-click="navigate('owm.finance.vouchers')" ng-if="vouchersEnabled">
+    <md-list-item class="menu-item-vouchers" ng-click="navigate('owm.finance.vouchers')" ng-if="vouchersEnabled && user.identity.preference !== 'owner'">
       <md-icon>payment</md-icon><p>{{ 'MY_VOUCHERS' | translate }}</p>
     </md-list-item>
 
