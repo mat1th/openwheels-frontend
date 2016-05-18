@@ -229,8 +229,6 @@
               <!-- rendering via ng-repear, HIGH OVERHEAD via DOM Manipulation -->
               <ui-gmap-marker idKey="$index" ng-repeat="m in map.markers" coords="m" icon="m.icon" click="onMarkerClicked(m)">
                   <ui-gmap-window show="m.showWindow" closeClick="m.closeClick()">
-                      <p>This is an info window at {{ m.latitude | number:4 }}, {{ m.longitude | number:4 }}!</p>
-                      <p class="muted">My marker will stay open when the window is popped up!</p>
                   </ui-gmap-window>
               </ui-gmap-marker>
         </ui-gmap-google-map >
