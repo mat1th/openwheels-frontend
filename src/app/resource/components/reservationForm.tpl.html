@@ -37,12 +37,11 @@
   <div class="form-group"
        ng-if="features.discounts"
        ng-class="{'has-error': discountCodeValidation.submitted && discountCodeValidation.error}">
-    <label class="control-label disable-ng-animate" ng-init="isDiscountCollapsed = true" ng-click="isDiscountCollapsed = !isDiscountCollapsed">
-       <i class="fa fa-fw" ng-class="{ 'fa-plus': isDiscountCollapsed, 'fa-minus': !isDiscountCollapsed }"></i>
-       {{ 'DISCOUNT' | translate }}
+    <label >
+       {{ 'DISCOUNT' | translate }}  </label>
       <i class="fa fa-check text-success" ng-if="booking.discountCode && !discountCodeValidation.busy && discountCodeValidation.success"></i>
       <i class="fa fa-spin fa-spinner" ng-if="discountCodeValidation.showSpinner"></i>
-    </label>
+
     <input class="form-control" type="text" ng-model="booking.discountCode" ng-change="validateDiscountCode()" uib-collapse="isDiscountCollapsed"/>
   </div>
 
