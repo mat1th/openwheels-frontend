@@ -1,6 +1,10 @@
 <div class="card">
   <div class="card-heading">
-    <h3 class="card-title">Auto geboekt</h3>
+    <h4 class="card-title" ng-if="!busy && !errorMessage && b.status === 'requested'">3. Auto geboekt <i class="fa fa-check text-success"></i></h4>
+    <h4 class="card-title" ng-if="!busy && !errorMessage && b.status === 'accepted' && b.approved !== 'BUY_VOUCHER'">3. Auto geboekt <i class="fa fa-check text-success"></i></h4>
+    <h4 class="card-title" ng-if="!busy && !errorMessage && b.status === 'accepted' && b.approved === 'BUY_VOUCHER'">3. Rit betalen</h4>
+    <h4 class="card-title" ng-if="busy">3. Auto wordt geboekt</h4>
+    <h4 class="card-title" ng-if="errorMessage">3. Auto niet geboekt</h4>
   </div>
 
   <div class="card-body">
@@ -17,14 +21,17 @@
 
     <!-- success -->
     <div ng-if="!busy && !errorMessage">
-      <div ng-include="'booking/list/partial/booking-list-item.tpl.html'"></div>
-      <p ng-if="b.status === 'requested'">
-        We hebben je huurverzoek verwerkt en aan de verhuurder voorgelegd. Het kan even duren voor de verhuurder reageert. Duurt het te lang of wil je zeker weten dat je kunt rijden? Boek dan een van onze SmartWheels. Deze auto's zijn 24 uur per dag direct beschikbaar voor onze leden.
-      </p>
-      <p ng-if="b.status === 'accepted'">
-        We hebben je huurverzoek verwerkt en de verhuurder is akkoord. Een fijne reis gewenst en we horen graag wat je van de auto vond.
-      </p>
-      <a ui-sref="owm.person.dashboard" class="btn btn-success">Ga naar dashboard</a>
+      <div ng-if="b.status === 'requested'">
+        <p>We hebben je huurverzoek verwerkt en aan de verhuurder voorgelegd. Het kan even duren voor de verhuurder reageert. Duurt het te lang of wil je zeker weten dat je kunt rijden? Boek dan een auto die <a ui-sref="owm.resource.search.list({smartwheels: 'true'})">direct te huur</a> is. Deze auto's zijn 24 uur per dag direct beschikbaar en open je met je smartphone of OV-chipkaart.</p>
+      </div>
+      <div ng-if="b.status === 'accepted' && b.approved === 'BUY_VOUCHER'">
+        <p>We hebben je huurverzoek verwerkt en de verhuurder is akkoord. Klik hieronder om de rit te betalen.</p>
+        <p><a ui-sref="contractchoice" class="btn btn-success pull-right" style="font-size: 17px;"><md-icon style="color: #fff; vertical-align: middle; font-size: 21px;">euro_symbol</md-icon> Betaal de rit</a><br/><br/></p>
+      </div>
+      <div ng-if="b.status === 'accepted' && b.approved !== 'BUY_VOUCHER'">
+        <p>We hebben je huurverzoek verwerkt en de verhuurder is akkoord. Een fijne rit gewenst en we horen graag wat je van de auto vond.</p>
+        <p><a ui-sref="owm.person.dashboard" class="btn btn-success pull-right">Ga naar dashboard</a><br/><br/></p>
+      </div>
     </div>
 
   </div>
