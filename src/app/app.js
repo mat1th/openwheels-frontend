@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('openwheels', [
-  
+
   /* Framework */
   'ngAria',
   'ngAnimate',
@@ -40,7 +40,7 @@ angular.module('openwheels', [
   'oAuth2Callback',
   'oAuth2MessageListener',
   'stateAuthorizer',
-  
+
   /* Services */
   'alertService',
   'dialogService',
@@ -59,6 +59,7 @@ angular.module('openwheels', [
   'pickadate',
   'timeframe',
   'datetimeDirective',
+  'dateTimePicker',
   'formGroupDirective',
   'bindingDirectives',
   'ratingThumbDirective',

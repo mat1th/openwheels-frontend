@@ -70,5 +70,3 @@ angular.module('owm.newRenter', [
       }
     });
   });
-
-
