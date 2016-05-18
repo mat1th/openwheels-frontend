@@ -75,12 +75,11 @@ angular.module('owm.finance.v2', [])
   $scope.payoutInvoices = function () {
     alertService.load($scope);
     invoice2Service.createSenderInvoiceGroup({ person: me.id }).then(function (invoiceGroup) {
-      $scope.sentInvoices = [];
+      $scope.sentInvoices.length = 0;
       $scope.invoiceGroups = $scope.invoiceGroups || [];
       $scope.invoiceGroups.push(invoiceGroup);
       return $scope.payoutInvoiceGroup(invoiceGroup);
     })
-    .then(loadUnpaidInvoices)
     .catch(function (err) {
       alertService.addError(err);
     })

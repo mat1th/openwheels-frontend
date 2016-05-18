@@ -17,7 +17,7 @@
           <button class="btn btn-link" ng-click="blockContract($index)">{{ 'CONTRACT_END_ACTION' | translate }}</button>
         </div>
         <div class="pull-right" ng-if="ownContracts.length == 1">
-          <a class="btn btn-link" ui-sref="contractchoice">wijzig abonement</a>
+          <a class="btn btn-link" ui-sref="contractchoice">{{ 'PERSON.CONTRACT.CHANGE_CONTRACT' | translate }}</a>
         </div>
 
         <h4>{{ contract.type.name }} <small>({{ contract.id }})</small></h4>
@@ -57,7 +57,7 @@
               {{ person.firstName }} {{ person.preposition }} {{ person.surname }} {{ person.email | surroundWith : '&lt;' : '&gt;' }}
             </div>
             <div ng-if="!person.firstName">
-              Uitgenodigd persoon {{ person.email | surroundWith : '&lt;' : '&gt;' }}
+              {{ 'PERSON.CONTRACT.INVITED_PERSON' | translate }} {{ person.email | surroundWith : '&lt;' : '&gt;' }}
             </div>
           </li>
         </ul>
