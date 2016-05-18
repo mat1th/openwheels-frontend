@@ -2,6 +2,7 @@
     margin-left: 0;
     margin-right: 0;
     margin-bottom: 1em;
+    position: relative;
     md-card-title {
         padding: 1em 1em 0;
     }
@@ -12,7 +13,6 @@
         width: 100%;
     }
     .tag {
-        margin-top: 14px;
         margin-left: 12px;
     }
     .price {
@@ -24,6 +24,34 @@
         background: rgba(0, 0, 0, 0.35);
         color: #fff;
         padding: 8px;
+    }
+    .next-icon {
+      font-size: 2em;
+      position: absolute;
+      top: 0;
+      height: 100%;
+      width: 60px;
+      right: 0;
+      z-index: 10;
+      display: flex;
+      a {
+        margin: auto;
+
+      }
+    }
+    .next-icon:hover{
+      background-image: -webkit-gradient(
+      	linear,
+      	right bottom,
+      	left bottom,
+      	color-stop(0, rgba(217, 217, 217, 0.44)),
+      	color-stop(1, rgba(255, 255, 255, 0))
+      );
+      background-image: -o-linear-gradient(left, rgba(217, 217, 217, 0.44) 0%, rgba(255, 255, 255, 0) 100%);
+      background-image: -moz-linear-gradient(left, rgba(217, 217, 217, 0.44) 0%, rgba(255, 255, 255, 0) 100%);
+      background-image: -webkit-linear-gradient(left, rgba(217, 217, 217, 0.44) 0%, rgba(255, 255, 255, 0) 100%);
+      background-image: -ms-linear-gradient(left, rgba(217, 217, 217, 0.44) 0%, rgba(255, 255, 255, 0) 100%);
+      background-image: linear-gradient(to left, rgba(217, 217, 217, 0.44) 0%, rgba(255, 255, 255, 0) 100%);
     }
     md-list-item {
         align-items: flex-start;
