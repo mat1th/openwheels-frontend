@@ -31,14 +31,24 @@
 
   <div class="form-group">
     <label ng-bind="'BOOKING.REMARK_REQUESTER_LABEL' | translate"></label>
-    <textarea rows="3" id="remarkRequester" name="remarkRequester" class="form-control" ng-model="booking.remarkRequester"></textarea>
+    <textarea rows="2" id="remarkRequester" name="remarkRequester" class="form-control" ng-model="booking.remarkRequester"></textarea>
   </div>
+
 
   <div class="checkbox" ng-if="contractOptions">
     <label for="riskReduction">
         <input id="riskReduction" type="checkbox" ng-model="booking.riskReduction" />
         Verlaag eigenrisico
     </label>
+  </div>
+
+  <div class="form-group"
+       ng-if="features.discounts"
+       ng-class="{'has-error': discountCodeValidation.submitted && discountCodeValidation.error}">
+    <label >  {{ 'DISCOUNT' | translate }}  </label>
+      <i class="fa fa-check text-success" ng-if="booking.discountCode && !discountCodeValidation.busy && discountCodeValidation.success"></i>
+      <i class="fa fa-spin fa-spinner" ng-if="discountCodeValidation.showSpinner"></i>
+    <input class="form-control" type="text" ng-model="booking.discountCode" ng-change="validateDiscountCode()" uib-collapse="isDiscountCollapsed"/>
   </div>
 
   <div class="form-group" ng-if="contractOptions && contractOptions.length > 1">
@@ -48,15 +58,12 @@
     </select>
   </div>
 
-  <div class="form-group"
-       ng-if="features.discounts"
-       ng-class="{'has-error': discountCodeValidation.submitted && discountCodeValidation.error}">
-    <label class="control-label disable-ng-animate">
-      Kortingscode
-      <i class="fa fa-check text-success" ng-if="booking.discountCode && !discountCodeValidation.busy && discountCodeValidation.success"></i>
-      <i class="fa fa-spin fa-spinner" ng-if="discountCodeValidation.showSpinner"></i>
+  <div class="checkbox" ng-if="contractOptions && booking.contract.type.id !== 60 && booking.contract.ownRiskWaiver === 'not'">
+    <label for="riskReduction">
+        <input id="riskReduction" type="checkbox" ng-model="booking.riskReduction" /></input>
+        {{ 'DECREASE_OWN_RISK' | translate }}
+        <info-icon tooltip-html="'DECREASE_OWN_RISK_INFO' | translate"></info-icon>
     </label>
-    <input class="form-control" type="text" ng-model="booking.discountCode" ng-change="validateDiscountCode()"/>
   </div>
 
   <!-- {owner} accepted % of requests -->
@@ -75,10 +82,10 @@
   <!-- availability & price -->
   <div class="form-group" ng-if="price || isPriceLoading || availability || isAvailabilityLoading">
     <div class="text-center">
-      <h4 ng-if="availability.available==='no'"><i class="fa fa-times text-danger" ></i> Niet beschikbaar</h4>
-      <h4 ng-if="availability.available==='yes'"><i class="fa fa-check text-success" ></i> Beschikbaar</h4>
+      <h4 ng-if="availability.available==='no'"><i class="fa fa-times text-danger" ></i> {{ 'NOT_AVAILABLE' | translate }}</h4>
+      <h4 ng-if="availability.available==='yes'"><i class="fa fa-check text-success" ></i> {{ 'AVAILABLE' | translate }}</h4>
       <h4 ng-if="availability.available==='yes' && price">
-        Kosten:
+        {{ 'COSTS' | translate }}:
         <span>{{ price.total | currency }}</span>
         <info-icon tooltip-html="priceHtml(price)"></info-icon>
         {{ 'RESOURCE_PRICE_DISCLAIMER' | translate }}
