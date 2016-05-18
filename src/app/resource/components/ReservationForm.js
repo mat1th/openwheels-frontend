@@ -193,7 +193,7 @@ angular.module('owm.resource.reservationForm', [])
           endDate: b.endRequested
         }
       };
-      if (b.contract.id) {
+      if (b.contract) {
         params.contract = b.contract.id;
       }
       invoice2Service.calculatePrice(params).then(function (price) {
@@ -347,12 +347,15 @@ angular.module('owm.resource.reservationForm', [])
       }
     })
     .then(function (response) {
+      console.log(response);
       if( response.beginBooking ) {
         alertService.add('success', $filter('translate')('BOOKING_ACCEPTED'), 10000);
       } else {
         alertService.add('info', $filter('translate')('BOOKING_REQUESTED'), 5000);
       }
-      if(response.approved === 'BUY_VOUCHER') {
+      if(response.approved === 'BUY_VOUCHER' && response.person.numberOfBookings <= 1) {
+        return $state.go('contractchoice');
+      } else if (response.approved === 'BUY_VOUCHER') {
         return $state.go('owm.finance.vouchers');
       } else {
         return $state.go('owm.person.dashboard');
