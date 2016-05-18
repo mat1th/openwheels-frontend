@@ -7,9 +7,9 @@
         </md-tooltip>
     </div>
     <div class="form-group" >
-        <md-input-container>
+        <md-input-container class="md-block" flex-gt-sm="">
             <label> {{ 'SEARCH_RADIUS' | translate }}</label>
-            <md-select ng-model="props.radius" name="radius" id="radius">
+            <md-select ng-model="props.radius" name="radius" id="radius" >
                 <md-option ng-repeat="distance in radiusOptions" value="{{distance.value}}">
                     {{distance.label}}
                 </md-option>
@@ -17,7 +17,7 @@
         </md-input-container>
     </div>
     <div class="form-group">
-        <md-input-container>
+        <md-input-container class="md-block" flex-gt-sm="">
             <label> {{ 'MIN_SEATS' | translate }}</label>
             <md-select ng-model="filters.minSeats" name="minSeats" id="minSeats">
                 <md-option ng-repeat="seat in minSeatOptions" value="{{seat.value}}">
@@ -27,7 +27,7 @@
         </md-input-container>
     </div>
     <div class="form-group">
-        <md-input-container>
+        <md-input-container class="md-block" flex-gt-sm="">
             <label for="fuelType"> {{ 'FUEL_TYPE' | translate }}</label>
             <md-select ng-model="filters.fuelType" name="fuelType" id="fuelType">
                 <md-option ng-repeat="type in fuelTypeOptions" value="{{type.value}}">
@@ -37,14 +37,14 @@
         </md-input-container>
     </div>
     <div class="form-group">
-        <md-input-container>
-            <label for="resourceType"> {{ 'RESOURCE_TYPE' | translate }}</label>
-            <md-select ng-model="filters.resourceType" name="resourceType" id="resourceType">
-                <md-option ng-repeat="type in resourceTypeOptions" value="{{type.value}}">
-                    {{type.label}}
-                </md-option>
-            </md-select>
-        </md-input-container>
+      <md-input-container class="md-block" flex-gt-sm="">
+          <label for="resourceType"> {{ 'RESOURCE_TYPE' | translate }}</label>
+          <md-select ng-model="filters.resourceType" name="resourceType" id="resourceType">
+              <md-option ng-repeat="type in resourceTypeOptions" value="{{type.value}}">
+                  {{type.label}}
+              </md-option>
+          </md-select>
+      </md-input-container>
     </div>
 
     <div class="form-group">
