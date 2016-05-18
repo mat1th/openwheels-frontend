@@ -89,7 +89,7 @@
                 <i class="fa fa-calendar"></i> {{ 'CALENDAR_BUTTON' | translate }}
               </a>
             </p>
-            <div class="text-center" ng-if="resource.response_accept !== null">
+            <!-- <div class="text-center" ng-if="resource.response_accept !== null">
               <p>
                 <small>
                   <i class="text-success fa fa-fw fa-check"></i>
@@ -99,7 +99,7 @@
                   {{ 'ACCEPTED_REQUESTS_SUFFIX' | translate}}
                 </small>
               </p>
-            </div>
+            </div> -->
           </div>
           <div id="createBookingContainer" uib-collapse="!showBookingForm">
             <reservation-form person="me" resource="resource" booking="booking" show-price="false"></reservation-form>
