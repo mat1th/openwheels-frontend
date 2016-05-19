@@ -319,7 +319,7 @@ angular.module('owm.resource.reservationForm', [])
         person: me.id,
         contract: booking.contract.id,
         remark: booking.remarkRequester,
-        riskReduction: booking.riskReductions
+        riskReduction: booking.riskReduction
       });
     })
 
