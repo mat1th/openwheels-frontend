@@ -327,8 +327,8 @@ module.exports = function (grunt) {
     connect: {
       options: {
         port: 9000,
-        hostname: 'localhost',
-        livereload: 35729
+        hostname: '0.0.0.0',
+        livereload: 35730
       },
       livereload: {
         options: {
@@ -387,39 +387,33 @@ module.exports = function (grunt) {
 
     ngconstant: {
       options: {
+        dest: '<%= build_dir %>/app/config.js',
+        name: 'openwheels.environment',
         space: '  '
       },
-      development: [
-        {
-          dest: '<%= build_dir %>/app/config.js',
-          name: 'openwheels.environment',
-          constants: {
-            ENV: 'development',
-            VERSION: '<%= pkg.version %>'
-          }
+      development: {
+        constants: {
+          ENV: 'development',
+          VERSION: '<%= pkg.version %>'
         }
-      ],
-      production: [
-        {
-          dest: '<%= build_dir %>/app/config.js',
-          name: 'openwheels.environment',
-          constants: {
-            ENV: 'production',
-            VERSION: '<%= pkg.version %>'
-          }
+      },
+      production: {
+        constants: {
+          ENV: 'production',
+          VERSION: '<%= pkg.version %>'
         }
-      ]
+      }
     },
 
     watch: {
       options: {
-        livereload: true
+        livereload: 35730
       },
 
       gruntfile: {
         files: 'Gruntfile.js',
         tasks: [ 'jshint:gruntfile' ],
-        options: { livereload: false }
+        options: { livereload: 35730 }
       },
 
       jssrc: {
@@ -472,13 +466,13 @@ module.exports = function (grunt) {
         files: [ 'src/**/*.less' ],
         tasks: [ 'less:build' ],
         options: {
-          livereload: false
+          livereload: 35730
         }
       },
 
       livereload: {
         options: {
-          livereload: true,
+          livereload: 35730,
         },
         files: [
           '<%= build_dir %>/assets/**/*.css',

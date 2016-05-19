@@ -8,7 +8,7 @@ angular.module('owm.newRenter', [
 .config(function config($stateProvider, $urlRouterProvider) {
 
     $stateProvider.state('newRenter', {
-      url: '/auto-huren/:city/:resourceId/reserveren?startTime&endTime',
+      url: '/auto-huren/:city/:resourceId/reserveren?startTime&endTime&discountCode',
       abstract: true,
       parent: 'owm.resource',
       views: {
@@ -26,7 +26,8 @@ angular.module('owm.newRenter', [
         booking: ['$stateParams', function ($stateParams) {
           return {
             startTime: $stateParams.startTime,
-            endTime:   $stateParams.endTime
+            endTime: $stateParams.endTime,
+            discountCode: $stateParams.discountCode
           };
         }],
         resource: ['$stateParams', 'resourceService', function ($stateParams, resourceService) {
@@ -45,18 +46,6 @@ angular.module('owm.newRenter', [
       templateUrl: 'new-renter/new-renter/register.tpl.html'
     });
 
-    $stateProvider.state('newRenter-deposit', {
-      url: '/betaal-borg',
-      parent: 'newRenter',
-      templateUrl: 'new-renter/new-renter/borg.tpl.html',
-      controller: 'NewRenterDepositController',
-      resolve: {
-        me: ['authService', function (authService) {
-          return authService.me();
-        }]
-      }
-    });
-
     $stateProvider.state('newRenter-booking', {
       url: '/boekauto',
       parent: 'newRenter',
@@ -69,5 +58,3 @@ angular.module('owm.newRenter', [
       }
     });
   });
-
-

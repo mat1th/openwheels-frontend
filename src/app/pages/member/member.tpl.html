@@ -126,7 +126,7 @@
                   <h4>
                     {{ resource.alias }}
                     <span ng-if="!resource.alias">
-                      {{ resource.brand || 'Onbekend merk' }}<span ng-if="resource.model">, {{ resource.model }}</span>
+                      {{ resource.brand || ('UNKNOWN_BRAND' | translate) }}<span ng-if="resource.model">, {{ resource.model }}</span>
                     </span>
                     &nbsp;<span ng-if="features.ratings" rating-thumb="{ value : resource.rating_totals.satisfaction, senders: resource.ratings.length }"></span>
                   </h4>

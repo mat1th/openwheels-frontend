@@ -56,6 +56,19 @@ angular.module('owm.discount')
     });
   };
 
+  $scope.discountDetails = function ($event) {
+    console.log($event);
+    $mdDialog.show({
+      autoWrap: false,
+      targetEvent: $event,
+      templateUrl: 'discount/discountDetailsDialog.tpl.html',
+      controller: 'DiscountDetailsDialogController',
+      locals: {
+        discount: $event
+      }
+    });
+  };
+
   init();
 
   function init () {

@@ -8,7 +8,7 @@
     <form name="personalDataForm" ng-submit="subscribe(credentials, person, license_front)">
 
       <div class="row" ng-if="!user.isAuthenticated">
-        <div class="col-md-4">
+        <div class="col-md-6">
           <div class="form-group">
             <label for="email">{{ 'EMAIL' | translate }}</label>
             <input type="email" id="email" name="email" class="form-control" ng-model="credentials.email" required>
@@ -17,7 +17,7 @@
           </div>
         </div>
 
-        <div class="col-md-8">
+        <div class="col-md-6">
           <div class="form-group">
             <label for="password">{{ 'PASSWORD' | translate }}</label>
             <input type="password" id="password" name="password" class="form-control" ng-model="credentials.password"
@@ -116,14 +116,19 @@
           <div class="form-group">
             <label for="licenseFrontFile">Voorkant rijbewijs</label>
             <input type="file" id="licenseFrontFile" name="licenseFrontFile" class="form-control" fileread="license_front">
-            <p class="help-block" ng-bind-html="'LICENSEUPLOAD_INFO' | translate"></p>
+            <p class="help-block" style="margin-top:15px">
+              <i class="fa fa-info-circle text-primary"></i>
+              <span ng-bind-html="'LICENSEUPLOAD_INFO' | translate | trustAsHtml"></span>
+            </p>
           </div>
         </div>
       </div>
 
       <div class="row">
-        <input type="submit" class="btn btn-success pull-right" value="Opslaan &amp; later verder gaan" ng-if="!license_front"/>
-        <input type="submit" class="btn btn-success pull-right" value="Volgende"  ng-if="license_front" />
+        <div class="col-xs-12">
+          <input type="submit" class="btn btn-success pull-right" value="Opslaan &amp; later verder gaan" ng-if="!license_front"/>
+          <input type="submit" class="btn btn-success pull-right" value="{{ 'CREATE_BOOKING' | translate }}"  ng-if="license_front" />
+        </div>
       </div>
 
       <div class="text-muted row"  ng-if="!license_front">

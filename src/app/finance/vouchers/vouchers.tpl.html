@@ -91,18 +91,21 @@
             </td>
           </tr>
           <tr>
-            <td><b>Totale huurprijs</b></td><td class="text-right"><b>{{ (booking.booking_price.total) | currency }}</b></td>
+            <td>
+              Geschatte kilometers
+              <info-icon tooltip-placement="bottom" tooltip-html="'Dit is een schatting van de kilometerkosten. Na afloop kun je teveel betaald rijtegoed terugvragen.'"></info-icon>
+            </td>
+            <td class="text-right">{{ booking.km_price | currency }}</td>
+          </tr>
+          <tr>
+            <td><b>Totale huurprijs</b></td><td class="text-right"><b>{{ (booking.booking_price.total + booking.km_price) | currency }}</b></td>
           </tr>
 
-          <tr>
-            <td style="padding-top:25px">
-              Geschatte kilometers
-              <info-icon tooltip-placement="bottom" tooltip-html="'Omdat we nog niet weten hoeveel kilometers je zal rijden vragen we je meer rijtegoed te kopen dan je rit waarschijnlijk zal kosten. Dit bedrag vraag je na je rit eenvoudig terug, of bewaar je voor een volgende rit'"></info-icon>
-            </td>
-            <td style="padding-top:25px" class="text-right">{{ booking.km_price | currency }}</td>
+          <tr ng-if="booking.discount > 0">
+            <td style="padding-top:25px">Af: korting</td><td class="text-right" style="padding-top:25px">{{ booking.discount | currency }}</td>
           </tr>
-          <tr>
-            <td><b>Benodigd rijtegoed</b></td><td class="text-right"><b>{{ (booking.booking_price.total + booking.km_price) | currency }}</b></td>
+          <tr ng-if="booking.discount > 0">
+            <td><b>Totaal</b></td><td class="text-right"><b>{{ (booking.booking_price.total + booking.km_price - booking.discount) | currency }}</b></td>
           </tr>
         </tbody>
       </table>
@@ -135,7 +138,8 @@
             <td class="text-right">{{ requiredValue.credit | currency }}</td>
           </tr>
           <tr>
-            <td><b>Benodigd rijtegoed</b></td>
+            <td ng-if="requiredValue.total >= 0"><b>Te betalen</b></td>
+            <td ng-if="requiredValue.total < 0"><b>Resterend rijtegoed</b></td>
             <td class="text-right"><b>{{ requiredValue.total | currency }}</b></td>
           </tr>
         </table>
@@ -167,6 +171,14 @@
 
       </div>
 
+    </div>
+  </div>
+
+  <div class="card" ng-if="!busy && requiredValue">
+    <div class="card-heading">
+      <h3 class="card-title">
+      <a ui-sref="contractchoice"><span ng-if="vouchersEnabled">Achteraf betalen?</span> {{ 'PERSON.CONTRACT.CHANGE_CONTRACT' | translate }}</a>
+      </h3>
     </div>
   </div>
 

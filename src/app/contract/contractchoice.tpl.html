@@ -1,0 +1,44 @@
+<div class="card">
+    <!-- header -->
+    <section class="card-heading">
+        <h2 class="card-title">Contract kiezen</h2>
+        <br>
+        <p>Jouw huurverzoek is geaccepteerd door de verhuurder. Je kunt hieronder een contract kiezen om je rit te betalen. Bij <a href="https://mywheels.nl/autodelen/hoe-huren-werkt/tarieven-huren/">tarieven</a> vind je meer informatie.</p>
+    </section>
+    <section layout="row" layout-xs="column" class="card-body contract">
+        <!-- first card -->
+        <section class="contract-choice">
+            <h3>MyWheels Go</h3>
+            <section>
+                <div class="pay">Betaal vooraf met iDeal</div>
+                <ul>
+                    <li>Eigen risico automatisch afgekocht</li>
+                    <li>Annuleren binnen 24 uur: volledige rit</li>
+                    <li>Annuleren buiten 24 uur: 7,50 euro</li>
+                    <li>Inkorten rit niet mogelijk</li>
+                    <li>Maximaal 1 bestuurder</li>
+                    <li>Geen abonnementskosten</li>
+                    <li>Geen borg</li>
+                </ul>
+            </section>
+            <md-button type="button" name="button" class="md-raised md-primary" ui-sref="owm.finance.vouchers">Kies dit contract</md-button>
+        </section>
+        <!-- second card -->
+        <section class="contract-choice">
+            <h3>MyWheels Member</h3>
+            <section>
+                <div class="pay">Betaal achteraf per SEPA incasso</div>
+                <ul>
+                    <li>Eigen risico optioneel af te kopen</li>
+                    <li>Anuleren binnen 24 uur: volledige rit</li>
+                    <li>Annuleren buiten 24 uur: 3 euro</li>
+                    <li>Inkorten rit tot maximaal 1 uur</li>
+                    <li>Maximaal 2 bestuurders</li>
+                    <li>Geen abonnementskosten</li>
+                    <li>250 euro borg</li>
+                </ul>
+            </section>
+            <md-button type="button" name="button" class="md-raised md-primary" ng-click="createMember()">Kies dit contract</md-button>
+        </section>
+    </section>
+</div>
