@@ -22,7 +22,8 @@
     <!-- success -->
     <div ng-if="!busy && !errorMessage">
       <div ng-if="b.status === 'requested'">
-        <p>We hebben je huurverzoek verwerkt en aan de verhuurder voorgelegd. Het kan even duren voor de verhuurder reageert. Duurt het te lang of wil je zeker weten dat je kunt rijden? Boek dan een auto die <a ui-sref="owm.resource.search.list({smartwheels: 'true'})">direct te huur</a> is. Deze auto's zijn 24 uur per dag direct beschikbaar en open je met je smartphone of OV-chipkaart.</p>
+        <p>We hebben je huurverzoek verwerkt en aan de verhuurder voorgelegd. Het kan even duren voor de verhuurder reageert. Duurt het te lang of wil je zeker weten dat je kunt rijden? Boek dan een <a ui-sref="owm.resource.search.list({smartwheels: 'true'})">Smartwheels</a>. Deze auto's zijn 24 uur per dag te huur en open je met je smartphone of OV-chipkaart.</p>
+        <p><a ui-sref="owm.person.dashboard" class="btn btn-success pull-right">Ga naar dashboard</a><br/><br/></p>
       </div>
       <div ng-if="b.status === 'accepted' && b.approved === 'BUY_VOUCHER'">
         <p>We hebben je huurverzoek verwerkt en de verhuurder is akkoord. Klik hieronder om de rit te betalen.</p>
