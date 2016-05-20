@@ -292,8 +292,8 @@ angular.module('owm.resource.reservationForm', [])
         });
         return;
       }
-      else if (!booking.contract.id) { // should pay deposit to get a contract
-        $state.go('newRenter-deposit', {
+      else if (!booking.contract) { // should pay deposit to get a contract
+        $state.go('contractchoice', {
           city: $scope.resource.city ? $scope.resource.city : 'utrecht',
           resourceId: $scope.resource.id,
           startTime: booking.beginRequested,
