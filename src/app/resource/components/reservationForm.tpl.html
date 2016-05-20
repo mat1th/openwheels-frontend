@@ -47,7 +47,7 @@
 
   <div class="form-group" ng-if="contractOptions && contractOptions.length > 1">
     <label for="contract">Contract</label>
-    <select id="contract" name="contract" class="form-control" ng-model="booking.contract" ng-options="c.id as (c.type.name + ' - ' + c.contractor.firstName) for c in contractOptions">
+    <select id="contract" name="contract" class="form-control" ng-model="booking.contract" ng-options="c as (c.type.name + ' - ' + c.contractor.firstName) for c in contractOptions">
       <option value="">-- {{ 'PICK_A_CONTRACT' | translate }} --</option>
     </select>
   </div>
