@@ -1,6 +1,6 @@
 {
   "name": "OpenWheels",
-  "version": "1.8.10",
+  "version": "1.8.11",
   "dependencies": {
     "angular": "1.4.8",
     "angular-animate": "1.4.8",
@@ -24,8 +24,9 @@
     "pickadate": "3.5.3",
     "angular-aria": "~1.4.8",
     "font-awesome": "~4.4.0",
-    "angular-material": "1.0.2",
-    "bootstrap": "3.3.6"
+    "angular-material": "~1.0.2",
+    "bootstrap": "3.3.6",
+    "ng-optimizely": "^2.0.0"
   },
   "resolutions": {
     "jquery": "~2.x",

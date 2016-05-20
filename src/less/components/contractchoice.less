@@ -1,0 +1,46 @@
+.contract {
+    box-sizing: border-box;
+    text-align: center;
+    .pay {
+        background: @mywheels-green;
+        padding: 2em 1em;
+        color: #fff;
+        width: 100%;
+        font-size: 1.1em;
+        font-weight: 600;
+    }
+    h3 {
+        margin: 2em 1em;
+    }
+    .contract-choice {
+        padding-bottom: 1em;
+        display: inline-block;
+        max-width: 23em;
+        width: 100%;
+        margin: 1em auto;
+        // border: 2px solid @mywheels-green;
+        border: 2px solid rgba(23, 61, 80, 0.06);
+    }
+
+    ul {
+        width: 100%;
+        list-style-type: none;
+        display: inline-block;
+        margin: 0 0 1em 0;
+        padding: 0;
+    }
+    li {
+        display: inline-block;
+        display: block;
+        padding: 0.7em;
+    }
+    li:nth-of-type(2n+1) {
+        background-color: rgba(23, 61, 80, 0.06);
+    }
+    a.md-button.md-primary.md-raised:not([disabled]) {
+        color: #fff;
+    }
+    .divider {
+        border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+    }
+}

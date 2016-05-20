@@ -48,7 +48,7 @@
 
             <div class="media-body">
               <h3>
-                {{ resource.brand || 'Onbekend merk'}} <span ng-if="resource.model">, {{ resource.model }}</span>
+                {{ (resource.brand | toTitleCase) || ('UNKNOWN_BRAND' | translate) }} <span ng-if="resource.model"> {{ resource.model }}</span>
               </h3>
               <div ng-include="'resource/partials/resource-features.tpl.html'"></div>
             </div>
@@ -89,7 +89,7 @@
                 <i class="fa fa-calendar"></i> {{ 'CALENDAR_BUTTON' | translate }}
               </a>
             </p>
-            <div class="text-center" ng-if="resource.response_accept !== null">
+            <!-- <div class="text-center" ng-if="resource.response_accept !== null">
               <p>
                 <small>
                   <i class="text-success fa fa-fw fa-check"></i>
@@ -99,7 +99,7 @@
                   {{ 'ACCEPTED_REQUESTS_SUFFIX' | translate}}
                 </small>
               </p>
-            </div>
+            </div> -->
           </div>
           <div id="createBookingContainer" uib-collapse="!showBookingForm">
             <reservation-form person="me" resource="resource" booking="booking" show-price="false"></reservation-form>
@@ -124,7 +124,7 @@
 
           <!-- features -->
           <div class="truncate">
-            <h4>{{ resource.brand || 'Onbekend merk'}} <span ng-if="resource.model">, {{ resource.model }}</span></h4>
+            <h4>{{ resource.brand || ('UNKNOWN_BRAND' | translate) }} <span ng-if="resource.model">, {{ resource.model }}</span></h4>
           </div>
           <div ng-include="'resource/partials/resource-features.tpl.html'"></div>
 
@@ -229,8 +229,6 @@
               <!-- rendering via ng-repear, HIGH OVERHEAD via DOM Manipulation -->
               <ui-gmap-marker idKey="$index" ng-repeat="m in map.markers" coords="m" icon="m.icon" click="onMarkerClicked(m)">
                   <ui-gmap-window show="m.showWindow" closeClick="m.closeClick()">
-                      <p>This is an info window at {{ m.latitude | number:4 }}, {{ m.longitude | number:4 }}!</p>
-                      <p class="muted">My marker will stay open when the window is popped up!</p>
                   </ui-gmap-window>
               </ui-gmap-marker>
         </ui-gmap-google-map >
@@ -245,7 +243,7 @@
     <div ng-if="features.resourceSidebar && isWindowSizeMD" class="col-md-4 hidden-xs hidden-sm">
       <div class="card">
         <div class="card-heading">
-          <h3 class="card-title"><i class="fa fa-fw fa-pencil"></i> Reserveer deze auto</h3>
+          <h3 class="card-title"><i class="fa fa-fw fa-pencil"></i> {{ 'BOOK_A_CAR' | translate }}</h3>
         </div>
         <div class="card-body">
           <reservation-form person="me" resource="resource" booking="booking" show-price="true"></reservation-form>

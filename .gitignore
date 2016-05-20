@@ -16,3 +16,4 @@ sandbox
 src/branding/config.json
 test/coverage
 /vendor
+/nbproject/private/

@@ -5,7 +5,7 @@ angular.module('owm.booking.show', [])
 .controller('BookingShowController', function (
   $q, $timeout, $log, $scope, $location, $filter, $translate, $state, appConfig, API_DATE_FORMAT,
   bookingService, resourceService, invoice2Service, alertService, dialogService,
-  authService, boardcomputerService, chatPopupService, linksService,
+  authService, boardcomputerService, discountUsageService, chatPopupService, linksService,
   booking, me) {
 
   /**
@@ -359,6 +359,7 @@ angular.module('owm.booking.show', [])
 
   $scope.price = null;
   $scope.isPriceLoading = false;
+  loadDiscount();
 
   var unbindWatch = $scope.$watch('showBookingForm', function (val) {
     if (val) {
@@ -441,11 +442,20 @@ angular.module('owm.booking.show', [])
     }
   }
 
+  function loadDiscount () {
+    discountUsageService.search({
+      booking: $scope.booking.id
+    })
+    .then(function (discount) {
+      $scope.discount = discount;
+    });
+  }
+
   $scope.priceHtml = function (price) {
     var s = '';
     if (price.rent > 0) { s += 'Huur: ' + $filter('currency')(price.rent) + '<br/>'; }
     if (price.insurance > 0) { s += 'Verzekering: ' + $filter('currency')(price.insurance) + '<br/>'; }
-    if (price.fee > 0) { s += 'Fee: ' + $filter('currency')(price.fee) + '<br/>'; }
+    if (price.booking_fee > 0) { s += 'Boekingskosten: ' + $filter('currency')(price.booking_fee) + '<br/>'; }
     if (price.redemption > 0) { s+='Afkoop eigen risico: ' + $filter('currency')(price.redemption) + '<br/>'; }
     s += 'Totaal: ' + $filter('currency')(price.total);
     return s;

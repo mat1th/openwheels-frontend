@@ -26,7 +26,7 @@ angular.module('ratingThumbDirective', [])
       value = angular.isNumber(value) ? value : null;
 
       /* maintain compatiblity (always show neutral thumb if no senders, regardless of value) */
-      if (options.senders === null || options.senders === 0) {
+      if (!options.senders) {
         value = null;
       }
 

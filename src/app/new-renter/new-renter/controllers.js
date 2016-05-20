@@ -32,7 +32,7 @@ angular.module('owm.newRenter.controllers', [])
 
     completed = completed && person.status === 'active' || person.status === 'book-only';
 
-    completed = completed && contracts.some(function (contract) {
+    completed = completed && contracts && contracts.some(function (contract) {
       return contract.status === 'active';
     });
 
@@ -40,7 +40,8 @@ angular.module('owm.newRenter.controllers', [])
       $state.go('newRenter-booking', {
         resourceId: $scope.resource.id,
         startTime:  $scope.booking.startTime,
-        endTime:    $scope.booking.endTime
+        endTime:    $scope.booking.endTime,
+        discountCode: $scope.booking.discountCode
       });
     }
   }
@@ -107,7 +108,8 @@ angular.module('owm.newRenter.controllers', [])
         url: $state.href('newRenter-register', {
           resourceId: $scope.resource.id,
           startTime: $scope.booking.startTime,
-          endTime: $scope.booking.endTime
+          endTime: $scope.booking.endTime,
+          discountCode: $scope.booking.discountCode
         }, {absolute: true})
       });
     }).then(function (me) {
@@ -118,10 +120,11 @@ angular.module('owm.newRenter.controllers', [])
       angular.extend(authService.user.identity, me);
 
       if(me.status === 'active' || me.status === 'book-only' ) {
-        $state.go('newRenter-deposit', {
+        $state.go('newRenter-booking', {
           resourceId: $scope.resource.id,
           startTime:  $scope.booking.startTime,
-          endTime:    $scope.booking.endTime
+          endTime:    $scope.booking.endTime,
+          discountCode: $scope.booking.discountCode
         });
       }
     }).catch(function (err) {
@@ -214,51 +217,21 @@ angular.module('owm.newRenter.controllers', [])
   };
 })
 
+.controller('NewRenterBookingController', function ($log, $scope, $q, $state, person, resource, booking, resourceQueryService, contractService, discountService, bookingService, alertService) {
+  $scope.busy = true;
+  $scope.errorMessage = null;
 
-.controller('NewRenterDepositController', function ($state, $scope, alertService, depositService, me) {
-  $scope.data = { mandate: false };
-  $scope.busy = false;
-
-  $scope.payDeposit = function () {
-    $scope.busy = true;
-    alertService.load($scope);
-    saveState();
-    depositService.requestContractAndPay({
-      person: me.id
-    })
-    .catch(function (err) {
-      alertService.addError(err);
-    })
-    .finally(function () {
-      $scope.busy = false;
-      alertService.loaded($scope);
-    });
-  };
-
-  function saveState () {
-    sessionStorage.setItem('afterPayment', JSON.stringify({
-      error: {
-        stateName: $state.current.name,
-        stateParams: {
-          resourceId: $scope.resource.id,
-          startTime:  $scope.booking.startTime,
-          endTime:    $scope.booking.endTime
-        }
-      },
-      success: {
-        stateName: 'newRenter-booking',
-        stateParams: {
-          resourceId: $scope.resource.id,
-          startTime:  $scope.booking.startTime,
-          endTime:    $scope.booking.endTime
-        }
-      }
-    }));
-  }
-})
-
-
-.controller('NewRenterBookingController', function ($scope, $q, person, resource, booking, bookingService, alertService) {
+  // generate state params for return-url (in case of error)
+  resourceQueryService.setTimeFrame({
+    startDate: booking.startTime,
+    endDate  : booking.endTime
+  });
+  $scope.resourceStateParams = angular.extend(resourceQueryService.createStateParams(), {
+    city: resource.city,
+    resourceId: resource.id,
+    discountCode: booking.discountCode
+  });
+  $log.debug('return url', $state.href('owm.resource.show', $scope.resourceStateParams));
 
   alertService.load();
 
@@ -277,25 +250,95 @@ angular.module('owm.newRenter.controllers', [])
   .then(function (bookings) {
     if(bookings.length) {
       return bookings[0];
-    } else {
-      return bookingService.create({
-        person: person.id,
-        resource: resource.id,
-        timeFrame: {
-          startDate: booking.startTime,
-          endDate: booking.endTime
-        },
+    }
+    if (booking.discountCode) {
+      return verifyDiscountCode().then(function () {
+        return createBooking().then(function (newBooking) {
+          return applyDiscountCode(newBooking).then(function () {
+            // FIXME(jdb) IF APPLYING DISCOUNT CODE FAILS, WE CANNOT ROLL BACK THE BOOKING (design flaw)
+            return newBooking;
+          });
+        });
       });
+    } else {
+      return createBooking();
     }
   })
   .then(function (booking) {
+    $scope.errorMessage = null;
     $scope.b = booking;
   })
   .catch(function (err) {
-    alertService.addError(err);
+    $scope.errorMessage = (err && err.message) ? err.message : 'Er is iets misgegaan bij het maken van de reservering.';
   })
   .finally(function () {
     alertService.loaded();
+    $scope.busy = false;
   });
+
+  // resolve if code is empty or valid, otherwise reject.
+  function verifyDiscountCode () {
+    if (!booking.discountCode) {
+      return $q.when(true); // resolve
+    }
+    return contractService.forDriver({ person: person.id }).then(function getFirstContract (contracts) {
+      if (contracts && contracts.length) {
+        return contracts[0];
+      } else {
+        $log.debug('error: new user should have at least one contract');
+        return $q.reject();
+      }
+    })
+    .then(function isApplicableForContract (contract) {
+      return discountService.isApplicable({
+        resource: resource.id,
+        person: person.id,
+        contract: contract.id,
+        discount: booking.discountCode,
+        timeFrame: {
+          startDate: booking.startTime,
+          endDate: booking.endTime
+        }
+      })
+      .then(function (result) {
+        if (result && result.applicable) {
+          $log.debug('discount code is applicable');
+          return $q.when(true); // resolve
+        } else {
+          $log.debug('discount code not applicable');
+          return $q.reject(new Error('De kortingscode die je had opgegeven kon niet worden toegepast.'));
+        }
+      });
+    });
+  }
+
+  function createBooking () {
+    return bookingService.create({
+      person: person.id,
+      resource: resource.id,
+      timeFrame: {
+        startDate: booking.startTime,
+        endDate: booking.endTime
+      }
+    });
+  }
+
+  // resolve if code is empty or has been successfully applied, otherwise reject.
+  function applyDiscountCode (newBooking) {
+    if (!booking.discountCode) {
+      $log.debug('no discount code to apply');
+      return $q.when(true); // resolve
+    }
+    else {
+      return discountService.apply({
+        booking: newBooking.id,
+        discount: booking.discountCode
+      })
+      .then(function () {
+        $log.debug('discount code applied');
+      });
+    }
+  }
+
 })
 ;

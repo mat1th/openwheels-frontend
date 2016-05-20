@@ -191,6 +191,12 @@ angular.module('rpcServices', [])
   this.create = m('create');
   this.get = m('get');
   this.search = m('search');
+  this.isApplicable = m('isApplicable');
   this.apply = m('apply');
   this.disable = m('disable');
+})
+
+.service('discountUsageService', function (api) {
+  var m = function (name) { return api.createRpcMethod('discount_usage.' + name); };
+  this.search = m('search');
 });

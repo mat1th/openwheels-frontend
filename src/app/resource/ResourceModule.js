@@ -17,7 +17,7 @@ angular.module('owm.resource', [
 
     $stateProvider.state('owm.resource', {
       abstract: true,
-      url: '?lat&lng&start&end&text&radius&options&fuel&lock&seats&type',
+      url: '?lat&lng&start&end&text&radius&options&fuel&lock&seats&type&smartwheels',
       views: {
         'main@shell': {
           template: '<div ui-view></div>'
@@ -159,7 +159,7 @@ angular.module('owm.resource', [
      * @resolve {promise} resource
      */
     $stateProvider.state('owm.resource.show', {
-      url: '/auto-huren/:city/:resourceId',
+      url: '/auto-huren/:city/:resourceId?discountCode',
       views: {
         'main-full@shell': {
           controller: 'ResourceShowController',

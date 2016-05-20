@@ -2,6 +2,7 @@
 
 angular.module('owm.person', [
     'owm.person.dashboard',
+    'owm.person.dashboard.v1',
     'owm.person.profile',
     'owm.person.action.payinvoicegroup',
     'owm.person.license',
@@ -11,7 +12,6 @@ angular.module('owm.person', [
   ])
 
   .config(function config($stateProvider) {
-
     /**
      * person
      */
@@ -40,9 +40,7 @@ angular.module('owm.person', [
         },
         'main-full@shell': {
           templateUrl: 'person/dashboard/person-dashboard-hero.tpl.html',
-          controller: ['$scope', 'blogItems', function ($scope, blogItems) {
-            $scope.blogItems = blogItems;
-          }]
+          controller: 'PersonDashboardHeroController'
         }
       },
       resolve: {
@@ -63,7 +61,7 @@ angular.module('owm.person', [
             return [];
           });
         }],
-
+                      
         bookingList: ['$stateParams', 'me', 'authService', 'bookingService', 'API_DATE_FORMAT', function ($stateParams, me, authService, bookingService, API_DATE_FORMAT) {
           var timeFrame = {
             startDate: moment().add(-1, 'hours').format(API_DATE_FORMAT),
@@ -114,8 +112,8 @@ angular.module('owm.person', [
         }]
       }
     });
-
-      /**
+   
+     /**
      * dashboard/profile
      */
     $stateProvider.state('owm.person.profile', {

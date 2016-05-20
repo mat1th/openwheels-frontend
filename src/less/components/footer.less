@@ -1,27 +1,44 @@
-.footer-logo-row {
-  padding-bottom: 5px;
-  background: white;
+.page-footer {
+  padding-top: 35px;
+  -webkit-box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.footer-bar {
-  position: relative;
-  padding-top: 28px;
-  height: 200px;
+.footer-logo-row {
   background: #eee;
+  padding-top: 25px;
+  margin-bottom: -25px;
+  img {
+    margin: 8px;
+  }
+ }
 
-  .container {
-    padding-top: 0;
+.footer-color {
+  background-color: @mywheels-gray!important;
+  color: #fff!important;
+
+  h4 {
+    color: #fff;
+    margin-bottom: 10px!important;
+    font-size:16px;
+  }
+  a {
+    color: #fff;  
+  }
+  button {
+    color: #fff;  
+  }
+  button:hover {
+    color: #999;
+  }
+  a:hover {
+    color: #999;
   }
 }
 
-.footer-logo {
-  position: absolute;
-  height: 172px; /* see above: 200 - 28 */
-  width: 280px;
-  background: url('../assets/img/mywheels-tagline-footer.png') no-repeat bottom left;
-}
-
 .footer-social-row {
-  padding: 25px;
+  border-top: 1px solid #fff;
+  padding: 25px 25px 25px 25px;
   background: white;
+  margin-top: 25px;
 }

@@ -1,7 +1,7 @@
 {
   "author": "Jaap Gerritsen",
   "name": "OpenWheels",
-  "version": "1.8.10",
+  "version": "1.8.11",
   "homepage": "https://github.com/OpenWheels",
   "dependencies": {},
   "devDependencies": {
@@ -36,6 +36,7 @@
     "load-grunt-tasks": "~0.1.0",
     "lodash": "^2.4.1",
     "minimist": "^1.1.0",
+    "ng-optimizely": "~2.0.0",
     "time-grunt": "~0.1.0",
     "uuid": "^2.0.1"
   }

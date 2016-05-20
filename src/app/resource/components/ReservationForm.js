@@ -106,11 +106,13 @@ angular.module('owm.resource.reservationForm', [])
       loadAvailability().then(function (availability) {
         if (availability.available === 'yes') {
           loadContractsOnce().then(function () {
+            validateDiscountCode();
             if (featuresService.get('calculatePrice')) {
               loadPrice();
             }
           });
         } else {
+          validateDiscountCode();
           if (featuresService.get('calculatePrice')) {
             loadPrice();
           }
@@ -164,9 +166,9 @@ angular.module('owm.resource.reservationForm', [])
     } else {
       contractService.forDriver({ person: $scope.person.id }).then(function (contracts) {
         $scope.contractOptions = contracts || [];
-        $scope.booking.contract = contracts.length ? contracts[0].id : null;
+        $scope.booking.contract = contracts.length ? contracts[0] : null;
         if (featuresService.get('calculatePrice')) {
-          $scope.$watch('booking.contract', loadPrice);
+          $scope.$watch('booking.contract.id', loadPrice);
         }
         dfd.resolve(contracts);
       });
@@ -192,7 +194,7 @@ angular.module('owm.resource.reservationForm', [])
         }
       };
       if (b.contract) {
-        params.contract = b.contract;
+        params.contract = b.contract.id;
       }
       invoice2Service.calculatePrice(params).then(function (price) {
         $scope.price = price;
@@ -208,10 +210,69 @@ angular.module('owm.resource.reservationForm', [])
     if (price.rent > 0) { s += 'Huur: ' + $filter('currency')(price.rent) + '<br/>'; }
     if (price.insurance > 0) { s += 'Verzekering: ' + $filter('currency')(price.insurance) + '<br/>'; }
     if (price.booking_fee > 0) { s += 'Boekingskosten: ' + $filter('currency')(price.booking_fee) + '<br/>'; }
-//    if (price.redemption > 0) { s+='Afkoop eigen risico: ' + $filter('currency')(price.redemption) + '<br/>'; }
     s += 'Totaal: ' + $filter('currency')(price.total);
     return s;
   };
+
+  $scope.discountCodeValidation = {
+    timer      : null,
+    submitted  : false,
+    busy       : false,
+    showSpinner: false,
+    success    : false,
+    error      : false
+  };
+
+  $scope.validateDiscountCode = validateDiscountCode;
+
+  function validateDiscountCode () {
+    var DEBOUNCE_TIMEOUT_MS = 500,
+        validation = $scope.discountCodeValidation,
+        code = $scope.booking.discountCode;
+
+    $timeout.cancel(validation.timer);
+    validation.busy = false;
+    validation.showSpinner = false;
+    validation.success = false;
+    validation.error = false;
+
+    if (!code || !$scope.person || !$scope.booking.contract.id) {
+      return;
+    }
+
+    validation.busy = true;
+    validation.timer = $timeout(function validateDebounced () {
+      $log.debug('validating', code);
+      validation.showSpinner = true;
+
+      discountService.isApplicable({
+        resource: $scope.resource.id,
+        person: $scope.person.id,
+        contract: $scope.booking.contract.id,
+        discount: code,
+        timeFrame: {
+          startDate: $scope.booking.beginRequested,
+          endDate: $scope.booking.endRequested
+        }
+      })
+      .then(function (result) {
+        if (!validation.busy || code !== $scope.booking.discountCode) { return; }
+        validation.success = result.applicable;
+        validation.error = !validation.success;
+      })
+      .catch(function () {
+        if (!validation.busy || code !== $scope.booking.discountCode) { return; }
+        validation.success = false;
+        validation.error = true;
+      })
+      .finally(function () {
+        if (!validation.busy || code !== $scope.booking.discountCode) { return; }
+        validation.submitted = true;
+        validation.busy = false;
+        validation.showSpinner = false;
+      });
+    }, DEBOUNCE_TIMEOUT_MS);
+  }
 
   $scope.createBooking = function(booking) {
     if (!booking.beginRequested || !booking.endRequested) {
@@ -221,22 +282,23 @@ angular.module('owm.resource.reservationForm', [])
     // Als je nog niet bent ingelogd is er
     // even een andere flow nodig
     if (featuresService.get('bookingSignupWizard')) {
-
       if (!$scope.person || $scope.person.status === 'new') { // should register, or upload driver's license
         $state.go('newRenter-register', { // should register
           city: $scope.resource.city ? $scope.resource.city : 'utrecht',
           resourceId: $scope.resource.id,
           startTime: booking.beginRequested,
-          endTime: booking.endRequested
+          endTime: booking.endRequested,
+          discountCode: booking.discountCode
         });
         return;
       }
-      else if (!booking.contract) { // should pay deposit to get a contract
+      else if (!booking.contract.id) { // should pay deposit to get a contract
         $state.go('newRenter-deposit', {
           city: $scope.resource.city ? $scope.resource.city : 'utrecht',
           resourceId: $scope.resource.id,
           startTime: booking.beginRequested,
-          endTime: booking.endRequested
+          endTime: booking.endRequested,
+          discountCode: booking.discountCode
         });
         return;
       }
@@ -255,19 +317,20 @@ angular.module('owm.resource.reservationForm', [])
           endDate: booking.endRequested
         },
         person: me.id,
-        contract: booking.contract,
-        remark: booking.remarkRequester
+        contract: booking.contract.id,
+        remark: booking.remarkRequester,
+        riskReduction: booking.riskReduction
       });
     })
 
+    /**
+     * Apply discount (only if we have a discount code)
+     */
     .then(function (response) {
       if (!booking.discountCode) {
         return response;
       }
       else {
-        /**
-         * Apply discount
-         */
         return discountService.apply({
           booking: response.id,
           discount: booking.discountCode
@@ -284,12 +347,15 @@ angular.module('owm.resource.reservationForm', [])
       }
     })
     .then(function (response) {
+      console.log(response);
       if( response.beginBooking ) {
         alertService.add('success', $filter('translate')('BOOKING_ACCEPTED'), 10000);
       } else {
         alertService.add('info', $filter('translate')('BOOKING_REQUESTED'), 5000);
       }
-      if(response.approved === 'BUY_VOUCHER') {
+      if(response.approved === 'BUY_VOUCHER' && response.person.numberOfBookings <= 1) {
+        return $state.go('contractchoice');
+      } else if (response.approved === 'BUY_VOUCHER') {
         return $state.go('owm.finance.vouchers');
       } else {
         return $state.go('owm.person.dashboard');
