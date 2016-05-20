@@ -7,7 +7,7 @@
 
 
 <ul class="list-unstyled list-spaced">
-    <li ng-if="resource.fuelCardCode" class="text-danger"><i class="fa fa-li fa-lock"></i> {{ 'FUEL_CARD_CODE' | translate}}: {{ resource.fuelCardCode }}</li>
+    <li ng-if="resource.fuelCardCode"><md-icon class="text-success list-margin">credit_card</md-icon>{{ 'FUEL_CARD_CODE' | translate}}: {{ resource.fuelCardCode }}</li>
     <li><md-icon class="text-success list-margin">people</md-icon>{{ resource.numberOfSeats }} {{ 'SEATS' | translate }}</li>
     <li><md-icon class="text-success list-margin">settings</md-icon><span ng-if="resource.fuelType">{{  resource.fuelType | translate }}</span> <span ng-if="!resource.fuelType">{{ 'UNKNOWN_FUELTYPE' | translate }}</span></li>
 
