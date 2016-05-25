@@ -47,7 +47,7 @@
 
   <div class="form-group" ng-if="contractOptions && contractOptions.length > 1">
     <label for="contract">Contract</label>
-    <select id="contract" name="contract" class="form-control" ng-model="booking.contract" ng-options="c.id as (c.type.name + ' - ' + c.contractor.firstName) for c in contractOptions">
+    <select id="contract" name="contract" class="form-control" ng-model="booking.contract" ng-options="c as (c.type.name + ' - ' + c.contractor.firstName) for c in contractOptions">
       <option value="">-- {{ 'PICK_A_CONTRACT' | translate }} --</option>
     </select>
   </div>
@@ -58,19 +58,6 @@
         {{ 'DECREASE_OWN_RISK' | translate }}
         <info-icon tooltip-html="'DECREASE_OWN_RISK_INFO' | translate"></info-icon>
     </label>
-  </div>
-
-  <!-- {owner} accepted % of requests -->
-  <div class="text-center" ng-if="resource.response_accept !== null">
-    <p>
-      <small>
-        <i class="text-success fa fa-fw fa-check"></i>
-        {{ resource.owner.firstName }}
-        {{ 'ACCEPTED_REQUESTS_PREFIX' | translate }}
-        {{ resource.response_accept | percentage : 0 }}
-        {{ 'ACCEPTED_REQUESTS_SUFFIX' | translate}}
-      </small>
-    </p>
   </div>
 
   <!-- availability & price -->

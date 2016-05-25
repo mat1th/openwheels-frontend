@@ -23,7 +23,7 @@ angular.module('owm.shell')
           $rootScope.vouchersEnabled = false;
         }
         contracts.some(function (contract) {
-          if (contract.type.id === 60) {
+          if ([60, 62].indexOf(contract.type.id) >= 0) {
             $rootScope.vouchersEnabled = true;
             return true;
           }
