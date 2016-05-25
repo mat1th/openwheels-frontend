@@ -1,1 +1,8 @@
-<h1>hoi, asdf asd</h1>
+<div>
+    <md-datepicker ng-model="date" md-placeholder="{{start}}"></md-datepicker>
+    <md-input-container class="md-icon-float md-block">
+        <label>{{startTime}}</label>
+        <md-icon class="name">access_time</md-icon>
+        <input type="time" ng-model="time" ng-change="setTime()">
+    </md-input-container>
+</div>
