@@ -1,6 +1,6 @@
 <div class="container" ng-class="{ 'container-transitional': features.filtersSidebar }">
 
-  <div ng-if="place" class="row">
+  <div ng-if="place">
     <div class="col-xs-12">
       <div class="card">
         <!-- image -->
@@ -10,7 +10,7 @@
 
         <!-- overlay -->
         <div class="image-overlay">
-          <div class="row">
+          <div>
             <div class="col-xs-offset-1 col-md-offset-1 col-xs-10 col-md-6">
               <h1 class="tagline">Autodelen in {{ place.name | toTitleCase }}</h1>
               <h2 class="lead">{{ place.lead }}</h2>
@@ -48,7 +48,7 @@
     </div>
   </div><!-- /place -->
 
-  <div class="row">
+  <div>
 
     <div ng-if="features.filtersSidebar && isWindowSizeMD" class="hidden-xs hidden-sm col-md-4 col-lg-3">
       <div class="card">
@@ -61,7 +61,7 @@
       </div>
     </div>
 
-    <div ng-class="{ 'col-xs-12 col-md-8 col-lg-9' : features.filtersSidebar }">
+    <div ng-class="{ 'col-xs-12 col-md-8 col-lg-9' : features.filtersSidebar }" style="padding: 0;">
 
       <div style="margin-bottom:15px">
         <form class="resource-search">
