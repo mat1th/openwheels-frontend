@@ -293,14 +293,7 @@ angular.module('owm.resource.reservationForm', [])
         return;
       }
       else if (!booking.contract) { // should pay deposit to get a contract
-        $state.go('contractchoice', {
-          city: $scope.resource.city ? $scope.resource.city : 'utrecht',
-          resourceId: $scope.resource.id,
-          startTime: booking.beginRequested,
-          endTime: booking.endRequested,
-          discountCode: booking.discountCode
-        });
-        return;
+        return alertService.add('danger', 'Voordat je een auto kunt boeken, hebben we een borg van je nodig', 5000);
       }
     }
 
