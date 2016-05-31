@@ -29,8 +29,8 @@ angular.module('owm.contract', [])
 
 .controller('ContractChoiceController', function ($scope, $state, alertService, depositService, person, contracts, $log) {
   
-  $scope.hasMember = contracts.some(function (c) { return c.type ==  62; });
-  $scope.hasGo     = contracts.some(function (c) { return c.type ==  60; });
+  $scope.hasMember = contracts.some(function (c) { return c.type ===  62; });
+  $scope.hasGo     = contracts.some(function (c) { return c.type ===  60; });
   $log.debug($scope.hasMember, $scope.hasGo);
   if(!$scope.hasMember || !$scope.hasGo) {
     $state.go('owm.finance.deposit');
