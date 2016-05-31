@@ -21,7 +21,8 @@
                     <li>Geen borg</li>
                 </ul>
             </section>
-            <md-button type="button" name="button" class="md-raised md-primary" ui-sref="owm.finance.vouchers">Kies dit contract</md-button>
+            <md-button type="button" ng-if="hasGo" name="button" class="md-raised md-primary" ui-sref="owm.finance.vouchers">Kies dit contract</md-button>
+            <md-button type="button" ng-if="!hasGo" name="button" class="md-raised md-primary" ng-click="createGo()">Kies dit contract</md-button>
         </section>
         <!-- second card -->
         <section class="contract-choice">
@@ -38,7 +39,8 @@
                     <li>250 euro borg</li>
                 </ul>
             </section>
-            <md-button type="button" name="button" class="md-raised md-primary" ng-click="createMember()">Kies dit contract</md-button>
+            <md-button type="button" ng-if="!hasMember" name="button" class="md-raised md-primary" ng-click="createMember()">Kies dit contract</md-button>
+            <md-button type="button" ng-if="hasMember" name="button" class="md-raised md-primary" ui-sref="owm.finance.vouchers">Kies dit contract</md-button>
         </section>
     </section>
 </div>
