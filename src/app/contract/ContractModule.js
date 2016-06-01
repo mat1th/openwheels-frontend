@@ -29,10 +29,10 @@ angular.module('owm.contract', [])
 
 .controller('ContractChoiceController', function ($scope, $state, alertService, depositService, person, contracts, $log) {
   
-  $scope.hasMember = contracts.some(function (c) { return c.type ===  62; });
-  $scope.hasGo     = contracts.some(function (c) { return c.type ===  60; });
-  $log.debug($scope.hasMember, $scope.hasGo);
-  if(!$scope.hasMember || !$scope.hasGo) {
+  $scope.hasMember = contracts.some(function (c) { return c.type.id ===  62; });
+  $scope.hasGo     = contracts.some(function (c) { return c.type.id ===  60; });
+  
+  if(!$scope.hasMember && !$scope.hasGo) {
     $state.go('owm.finance.deposit');
   }
   
@@ -54,9 +54,11 @@ angular.module('owm.contract', [])
     $log.log('requesting 60 contract');
 
     depositService.requestContractAndPay({
-        person: person.id,
-        contractType: 60,
-        contract: contracts[0].id
-      });
+      person: person.id,
+      contractType: 60,
+      contract: contracts[0].id
+    }).then(function (contractRequest) { 
+      $state.go('owm.finance.deposit'); 
+    });
   };
 });
