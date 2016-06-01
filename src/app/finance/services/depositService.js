@@ -10,16 +10,19 @@ angular.module('owm.finance')
 
     return contractService.requestContract(params)
     .then(function (contractRequest) {
+      $log.debug(contractRequest);
+      if(contractRequest.status === 'accept') {
+        return ;//contractRequest;
+      }
       // TODO(jdb): check contractRequest.status === 'new' before paying:
       return paymentService.pay({
         person: personId
-      });
-    })
-    .then(function (paymentInfo) {
-      redirect(appendedNextUrl(paymentInfo.url, nextUrl));
+      }).then(function (paymentInfo) {
+        redirect(appendedNextUrl(paymentInfo.url, nextUrl));
 
-      // call back after a few seconds (will keep busy-spinners spinning while redirect is still in progress)
-      return $timeout(angular.noop, 5000);
+        // call back after a few seconds (will keep busy-spinners spinning while redirect is still in progress)
+        return $timeout(angular.noop, 5000);
+      });
     });
   };
 
