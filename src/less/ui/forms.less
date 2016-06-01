@@ -1,4 +1,91 @@
-.form-inline .form-group{
+.form-inline .form-group {
     margin-left: 0;
     margin-right: 0;
+}
+.mywheels-form label {
+    font-size: 1em;
+    // color: ;
+    display: inline-block;
+}
+.mywheels-form textarea {
+    min-height: 5em;
+    resize: vertical;
+    overflow: auto;
+}
+.mywheels-form-margin {
+    margin: 0.5em;
+}
+/*input*/
+.mywheels-form input[type="text"],
+input[type="date"],
+input[type="email"],
+input[type="password"],
+legend,
+select,
+textarea {
+    box-sizing: border-box;
+    // margin-left: 0.5em;
+    display: block;
+    width: 100%;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+.mywheels-form input[type="text"],
+input[type="date"],
+input[type="email"],
+input[type="password"],
+select,
+textarea {
+    padding: 0.5em;
+    box-sizing: border-box;
+    width: 100%;
+    display: block;
+    font-size: 1.1em;
+    background-color: #fff;
+    border-radius: @border-raduis;
+    border: 0.08em solid rgb(189, 197, 199);
+    box-shadow: inset 0 0.0625em 0.0625em rgba(0, 0, 0, 0.08);
+}
+.mywheels-form input[type="text"]:focus,
+input[type="date"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+    border-color: @mywheels-blue;
+    box-shadow: 0 0 0.3125em rgba(0, 156, 144, 0.2);
+}
+/*select*/
+.mywheels-form .select-icon {
+    position: relative;
+}
+.mywheels-form .select-icon::after {
+    content: 'keyboard_arrow_down';
+    font-family: 'Material Icons';
+    text-rendering: optimizelegibility;
+    font-feature-settings: 'liga' 1;
+    font-style: normal;
+    text-transform: none;
+    line-height: 1;
+    color: @mywheels-blue;
+    font-size: 2em;
+    display: inline-block;
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+    position: absolute;
+    z-index: 1;
+    right: 0.3em;
+    top: 15%;
+    display: block;
+    width: 1em;
+    height: 1em;
+    pointer-events: none;
+}
+.mywheels-form select {
+    cursor: pointer;
+}
+.mywheels-form select::-ms-expand {
+    display: none;
 }

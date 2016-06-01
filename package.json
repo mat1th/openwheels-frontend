@@ -24,7 +24,7 @@
     "grunt-html2js": "~0.1.3",
     "grunt-karma": "^0.9.0",
     "grunt-manifest": "*",
-    "grunt-ng-constant": "~2.0.0",
+    "grunt-ng-constant": "2.0.0",
     "grunt-ngmin": "0.0.2",
     "grunt-text-replace": "^0.4.0",
     "karma": "^0.12.25",
