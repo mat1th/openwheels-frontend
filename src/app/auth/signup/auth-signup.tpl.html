@@ -1,41 +1,43 @@
-<div class="row" id="auth-signup">
-  <div class="col-xs-offset-1 col-xs-10 col-md-offset-3 col-md-6">
-    <a href="" ui-sref="home"><img class="img-responsive center-block" src="branding/img/logo-head.png"></a>
-    <br/>
-    <h3>{{ 'SIGNUP_HEADING' | translate }}</h3>
+<div class="row card" id="auth-signup">
+    <div class="card-body">
+        <h1>{{ 'SIGNUP' | translate }}</h1>
+        <h3>{{ 'SIGNUP_HEADING' | translate }}</h3>
 
-    <form role="form" class="form" ng-submit="signup()">
-      <div class="form-group" id="firstName_group">
-        <label for="firstName">{{ 'FIRST_NAME' | translate }}</label>
-        <input type="firstName" autocomplete="off" class="form-control" id="firstName" required ng-model="user.firstName">
-      </div>
+        <form role="form" class="mywheels-form" ng-submit="signup()">
+            <div class="mywheels-form-margin">
+                <div id="firstName_group">
+                    <label for="firstName">{{ 'FIRST_NAME' | translate }}</label>
+                    <input type="text" autocomplete="off" id="firstName" ng-model="user.firstName" required>
+                </div>
 
-      <div class="form-group" id="preference_group" ng-if="!features.hideSignupPreference">
-        <label for="preference">{{ 'USER_PREFERENCE_LABEL' | translate }}</label>
-        <select class="form-control" id="preference" name="preference" ng-model="user.preference" required ng-options="o.value as o.label for o in preferenceOptions">
-        </select>
-      </div>
+                <div id="preference_group" ng-if="!features.hideSignupPreference">
+                    <label for="preference">{{ 'USER_PREFERENCE_LABEL' | translate }}</label>
+                    <div class="select-icon">
+                        <select id="preference" name="preference" ng-model="user.preference" ng-options="o.value as o.label for o in preferenceOptions" required>
+                        </select>
+                    </div>
+                </div>
 
-      <div class="form-group" id="email_group">
-        <label for="email">{{ 'EMAIL' | translate }}</label>
-        <input type="email" autocomplete="off" class="form-control" id="email" required ng-model="auth.email">
-      </div>
-      <div class="form-group" id="password_group">
-        <label for="password">{{ 'PASSWORD' | translate }}</label>
-        <input type="password" autocomplete="off" class="form-control" id="password" required ng-model="auth.password" password-strength>
-      </div>
-      <div class="form-inline">
-        <button type="submit" class="btn btn-primary">{{ 'SIGNUP' | translate }}</button>
-      </div>
-    </form>
-    <hr>
-    <p class="text-muted">{{ 'ALREADY_MEMBER' | translate }} <a href="" ui-sref="owm.person.dashboard">{{ 'LOGIN' | translate }}</a></p>
-    <hr>
-    <p id="signup-term" class="text-muted" ng-bind-html="'SIGNUP_TERMS' | translate"></p>
-    <p id="signup-faq" class="text-muted" ng-bind-html="'SIGNUP_FAQ' | translate"></p>
-    <p id="signup-trouble" class="text-muted">
-      <a ng-href="{{ 'SIGNUP_TROUBLE_URL' | translate }}">{{ 'SIGNUP_TROUBLE' | translate }}</a>
-    <p>
+                <div id="email_group">
+                    <label for="email">{{ 'EMAIL' | translate }}</label>
+                    <input type="email" autocomplete="off" id="email" ng-model="auth.email" required>
+                </div>
+                <div id="password_group">
+                    <label for="password">{{ 'PASSWORD' | translate }}</label>
+                    <input type="password" autocomplete="off" id="password" required ng-model="auth.password" password-strength>
+                </div>
+            </div>
+            <!-- <button type="submit" class="btn btn-primary">{{ 'SIGNUP' | translate }}</button> -->
+            <md-button class="md-raised md-primary">Primary</md-button>
 
-  </div>
+        </form>
+        <hr>
+        <p class="text-muted">{{ 'ALREADY_MEMBER' | translate }} <a href="" ui-sref="owm.person.dashboard">{{ 'LOGIN' | translate }}</a></p>
+        <hr>
+        <p id="signup-term" class="text-muted" ng-bind-html="'SIGNUP_TERMS' | translate"></p>
+        <p id="signup-faq" class="text-muted" ng-bind-html="'SIGNUP_FAQ' | translate"></p>
+        <p id="signup-trouble" class="text-muted">
+            <a ng-href="{{ 'SIGNUP_TROUBLE_URL' | translate }}">{{ 'SIGNUP_TROUBLE' | translate }}</a>
+        </p>
+    </div>
 </div>
