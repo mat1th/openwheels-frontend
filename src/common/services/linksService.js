@@ -10,7 +10,7 @@ angular.module('owm.linksService', [])
 
   var linksService = {
     signupUrl: function () {
-      return process(appConfig.serverUrl + '/aanmelden');
+      return process(appConfig.serverUrl + '/signup');
     },
     bookingAgreementPdf: function (bookingId) {
       return process(appConfig.serverUrl + '/dashboard/reservering/' + bookingId + '/overeenkomst.pdf', true);
