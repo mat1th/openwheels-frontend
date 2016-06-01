@@ -57,7 +57,7 @@ angular.module('owm.contract', [])
       person: person.id,
       contractType: 60,
       contract: contracts[0].id
-    }).then(function (contractRequest) { 
+    }).then(function (contractRequest) {
       $state.go('owm.finance.deposit');
     });
   };
