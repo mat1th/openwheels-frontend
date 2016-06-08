@@ -2,8 +2,12 @@
     margin-left: 0;
     margin-right: 0;
 }
+.mywheels-form {
+    max-width: 35em;
+}
 .mywheels-form label {
     font-size: 1em;
+    margin: 0.8em 0 0;
     // color: ;
     display: inline-block;
 }
@@ -56,6 +60,19 @@ textarea:focus {
     outline: none;
     border-color: @mywheels-blue;
     box-shadow: 0 0 0.3125em rgba(0, 156, 144, 0.2);
+}
+input[type="checkbox"] {
+    display: inline-block;
+}
+.mywheels-form input[type="text"].error,
+input[type="date"].error,
+input[type="email"].error,
+input[type="password"].error,
+legend.error,
+select.error,
+textarea.error {
+    color: @mywheels-red;
+    border: 0.08em solid @mywheels-red;
 }
 /*select*/
 .mywheels-form .select-icon {

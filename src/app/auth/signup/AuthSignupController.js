@@ -33,8 +33,13 @@ angular.module('owm.auth.signup', [])
 
     $scope.signup = function () {
       alertService.load();
+      var email;
+      if($scope.auth.email ){
+        email = $scope.auth.email.trim().toLowerCase();
+      }else {
+        return false;
+      }
 
-      var email = $scope.auth.email.trim().toLowerCase();
       authService.subscribe({
         email: email,
         password: $scope.auth.password,
