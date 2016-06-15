@@ -73,8 +73,7 @@
               </button>
             </span>
 
-            <input type="text" class="form-control" placeholder="{{ 'FIND_AVAILABLE_PLACEHOLDER' | translate }}"
-                   ng-model="searchText" ng-autocomplete details="placeDetails" options="completePlacesOptions">
+            <input type="text" class="form-control" details="placeDetails" placeholder="{{ 'FIND_AVAILABLE_PLACEHOLDER' | translate }}" ow-geocoder="{ onDetails: doSearch }" ng-model="searchText">
 
             <span class="input-group-btn">
               <button class="btn btn-default" type="button" ng-click="selectTimeframe()" title="Datum/tijd">
