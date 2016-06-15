@@ -96,6 +96,14 @@ angular.module('owm.resourceQueryService', [])
     data.options = optionsArray && optionsArray.length ? optionsArray : null;
   }
 
+  function setPage (page) {
+    if(page) {
+      data.page = parseInt(page);
+    } else {
+      data.page = page;
+    }
+  }
+
   function setFilters (filtersObject) {
     data.filters = null;
     angular.forEach(filtersObject, function (value, key) {
@@ -128,6 +136,9 @@ angular.module('owm.resourceQueryService', [])
     }
     if (data.radius) {
       stateParams.radius = data.radius;
+    }
+    if (data.page) {
+      stateParams.page = data.page;
     }
 
     if (data.options) {
@@ -167,6 +178,7 @@ angular.module('owm.resourceQueryService', [])
     }
 
     setRadius(stateParams.radius);
+    setPage(stateParams.page);
 
     var options = [];
     try {
@@ -194,6 +206,7 @@ angular.module('owm.resourceQueryService', [])
     setRadius        : setRadius,
     setLocation      : setLocation,
     setTimeFrame     : setTimeFrame,
+    setPage          : setPage,
     setOptions       : setOptions,
     setFilters       : setFilters,
     createStateParams: createStateParams,

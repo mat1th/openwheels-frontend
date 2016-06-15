@@ -29,8 +29,8 @@ angular.module('owm.resource.search', [
 
     var query = resourceQueryService.data;
 
-    var results_per_page = 3;
-    var max_pages = 10;
+    var results_per_page = 5;
+    var max_pages = 5;
 
     $scope.searching = false;
     $scope.place = place;
@@ -38,11 +38,10 @@ angular.module('owm.resource.search', [
     $scope.resources = [];
     $scope.searchText = '';
 
-    // pagination. Max-page will be calculated later
-    $scope.page = 1;
-    $scope.max_pages = max_pages;
+    // pagination variables
+    $scope.page = 1; // current page
+    $scope.last_page = max_pages;
     $scope.pagedResults = {};
-    $scope.pages = [];// all cached pages
 
     $scope.completePlacesOptions = {
       country: $filter('translateOrDefault')('SEARCH_COUNTRY', 'nl'),
@@ -79,6 +78,10 @@ angular.module('owm.resource.search', [
         $scope.filters.props.radius = query.radius;
       }
 
+      if (query.page) {
+        $scope.page = query.page;
+      }
+
       if (query.options) {
         query.options.forEach(function (key) {
           $scope.filters.options[key] = true;
@@ -97,7 +100,7 @@ angular.module('owm.resource.search', [
       }
 
       $scope.searchText = query.text;
-      doSearch(true);
+      doSearch(true, query.page, undefined, true);
     }
 
     // get search result for page(s)
@@ -106,7 +109,7 @@ angular.module('owm.resource.search', [
     // If gotoStartPage is empty no GUI changes are made, this is useful when 
     // we want to cache results in the background
     function doSearch (isInitialSearch, startPage, numberOfPages, gotoStartPage) {
-      // ensure backward compatatibility 
+      // ensure backward compatatibility, define default values for new params
       if(startPage === undefined) {
         startPage = 1;
       }
@@ -116,6 +119,15 @@ angular.module('owm.resource.search', [
       if(gotoStartPage === undefined) {
         gotoStartPage = true;
       }
+
+      // are requested pages legal?
+      if(startPage > max_pages) {
+        startPage = max_pages;
+      }
+      if(startPage+numberOfPages > max_pages) {
+        numberOfPages = max_pages - startPage + 1;
+      }
+
       // time frame
       resourceQueryService.setTimeFrame({
         startDate: $scope.booking.beginRequested,
@@ -150,7 +162,8 @@ angular.module('owm.resource.search', [
 
       // construct api call
       var params = {};
-      params.maxresults = numberOfPages * results_per_page; // load first two pages
+      // calculate offset
+      params.maxresults = numberOfPages * results_per_page;
       params.offset = (startPage - 1) * results_per_page;
       if (query.location)  { params.location  = query.location;  }
       if (query.timeFrame) { params.timeFrame = query.timeFrame; }
@@ -166,7 +179,7 @@ angular.module('owm.resource.search', [
       }
 
       // we only want to show spinner/loader when the user is waiting for
-      // the results. This function is sometimes call to cache the next page
+      // the results. This function is sometimes called to cache the next page,
       // in that case we do not want to show the spinner.
       if(gotoStartPage) {
         // perform search
@@ -174,17 +187,21 @@ angular.module('owm.resource.search', [
         $scope.searching = true;
       }
       return resourceService.searchV2(params).then(function (resources) {
+        // if there are less results than expected, the last page
+        // is not equal to the max_page. Calculate and update last_pag
         if(resources.length < 1) {
-          $scope.max_pages = startPage - 1;
+          $scope.last_page = startPage - 1;
         }
         else if(resources.length < numberOfPages * results_per_page) {
-          $scope.max_pages = startPage + Math.ceil(resources.length / results_per_page) - 1;
-        }
-        for(var i = 0; i < numberOfPages; i++) {
-          $scope.pagedResults[startPage + i] = resources.slice((i) * results_per_page, (i+1) * results_per_page);
-          $scope.pages.push(startPage + i);
+          $scope.last_page = startPage + Math.ceil(resources.length / results_per_page) - 1;
         }
 
+        // cache results
+        for(var i = 0; i < numberOfPages; i++) {
+          $scope.pagedResults[startPage + i] = resources.slice((i) * results_per_page, (i+1) * results_per_page);
+        }
+
+        // if needed, update UI
         if(gotoStartPage) {
           $scope.showPage(startPage);
         }
@@ -200,13 +217,18 @@ angular.module('owm.resource.search', [
     }
 
     $scope.showPage = function(page) {
+      // check page is legal value
       if(page < 1) {
         page = 1;
       }
       if(page > max_pages) {
         page = max_pages;
       }
+
+      // update url
       $scope.page = page;
+      resourceQueryService.setPage(page);
+      updateUrl();
 
       // page can be cached or not
       if($scope.pagedResults[page] !== undefined) { // Hooray, page is already in cache
@@ -216,7 +238,8 @@ angular.module('owm.resource.search', [
       }
 
       // if next page is not in cache, cache it
-      if($scope.pages.indexOf(page + 1) < 0) { // next page not in cache, cache it!
+      var cachedPages = Object.keys($scope.pagedResults);
+      if(cachedPages.indexOf(page + 1) < 0) { // next page not in cache, cache it!
         // doSearch might block loop, so do it in background;
         setTimeout(function() {doSearch(false, page + 1, 1, false);}, 0);
       }

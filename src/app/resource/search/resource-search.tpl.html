@@ -118,7 +118,7 @@
         <md-card layout="row" layout-padding layout-align="center center">
               <md-button ng-disabled="page == 1" ng-click="showPage(page - 1)"><md-icon>arrow_back</md-icon></md-button>
               <div flex-gt-xs="50" flex-xs="33" class="text-center">{{page}}</div>
-              <md-button ng-disabled="page == max_pages" class="btn btn-link" ng-click="showPage(page + 1)"><md-icon>arrow_forward</md-icon></md-button>
+              <md-button ng-disabled="page == last_page" class="btn btn-link" ng-click="showPage(page + 1)"><md-icon>arrow_forward</md-icon></md-button>
         </md-card>
         <!-- /pagination -->
 
