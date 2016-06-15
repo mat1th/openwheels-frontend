@@ -29,8 +29,8 @@ angular.module('owm.resource.search', [
 
     var query = resourceQueryService.data;
 
-    var results_per_page = 5;
-    var max_pages = 5;
+    var results_per_page = 20;
+    var max_pages = 10;
 
     $scope.searching = false;
     $scope.place = place;
