@@ -38,10 +38,8 @@ angular.module('owm.resource.search', [
     $scope.resources = [];
     $scope.searchText = '';
 
-    // pagination variables
-    $scope.page = 1; // current page
-    $scope.last_page = max_pages;
-    $scope.pagedResults = {};
+    // set pagination variables
+    resetPaginationCache();
 
     $scope.completePlacesOptions = {
       country: $filter('translateOrDefault')('SEARCH_COUNTRY', 'nl'),
@@ -293,8 +291,16 @@ angular.module('owm.resource.search', [
     };
 
     $scope.sidebarFiltersChanged = function () {
+      resetPaginationCache();
       doSearch();
     };
+
+    function resetPaginationCache() {
+      // pagination variables
+      $scope.page = 1; // current page
+      $scope.last_page = max_pages;
+      $scope.pagedResults = {};
+    }
 
     $scope.$watch('placeDetails', function (newVal, oldVal) {
       if (!newVal || (newVal === oldVal)) {
