@@ -1,8 +1,8 @@
 'use strict';
 
-angular.module('owm.home', [])
+angular.module('owm.home', ['owm.resource', 'slick'])
 
-.controller('HomeController', function ($scope, $translate, resourceQueryService, $state, VERSION) {
+.controller('HomeController', function ($scope, $translate, resourceQueryService, $state, VERSION, resourceService) {
 
   $scope.$watch(function () {
     return $translate.use();
@@ -10,6 +10,14 @@ angular.module('owm.home', [])
     if (lang) {
       $scope.lang = lang;
     }
+  });
+
+  //resourceService.all({onlyFeatured: true}) //API CALL NEEDS TO BE FIXED FIRST, EMPTY RESULT SET
+  resourceService.searchV2({maxresults: 20})
+  .then(function(res) {
+    console.log(res);
+    $scope.resources_slider = res;
+    $scope.dataLoaded = true;
   });
 
   $scope.howToRent = 'https://mywheels.nl/autodelen/hoe-huren-werkt';

@@ -61,6 +61,21 @@
 
 }
 
+@media (min-width:1024px) {
+.container {
+  width: 996px!important;
+  padding-top: 16px;
+  padding-left: 8px;
+  padding-right: 8px;
+}
+}
+@media (min-width:996px) {
+.container {
+  width: 996px!important;
+}
+}
+
+
 .home .hero {
   background-image: url('../branding/img/bg.jpg');
   background-position: 50% 50%;
@@ -69,6 +84,80 @@
   height: 500px;
 }
 
+/* ---------------------- SLIDER ------------------- */
+.slider--image {
+  position: relative;
+}
+
+.slider--image img {
+  width: 100%;
+  height: auto;
+}
+
+.slider--price {
+  position: absolute;
+  bottom: 1em;
+  right: 1em;
+  text-align: right;
+  border-radius: .4em;
+  background: rgba(0,0,0,.35);
+  color: #fff;
+  padding: 8px;
+  font-family: OmnesMedium;
+}
+
+.slider--location {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  padding: 0px 10px 6px 10px;
+  font-size: 1em;
+}
+
+.slider--alias {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  padding: 6px 10px 0px 10px;
+  font-size: 1.2em;
+}
+
+
+/* ---------------------- INFO BOX ------------------- */
+.infobox {
+  padding: 15px;
+  border: 2px solid @mywheels-green;
+  min-height: 19em;
+}
+
+.infobox--title {
+  font-size: 27px;
+  color: @mywheels-green;
+  text-align: left;
+}
+
+.infobox--title--icon {
+  color: @mywheels-green;
+  line-height: 24px;
+}
+
+.infobox--title--text {
+  padding-left: 8px;
+}
+
+.infobox--content {
+  text-align: left;
+}
+
+.infobox--button {
+  color: #fff;
+  border: 1px solid #fff;
+  position: absolute;
+  bottom: 30px;
+  right: 30px;
+}
+
+
 .home .intro {
   padding: 40px 0;
   h1 {
@@ -76,9 +165,6 @@
     text-shadow: 1px 2px 3px rgba(0, 0, 0, 0.5);
   }
   .cta {
-    @media(max-width: 480px) {
-      padding: 50px 0;
-    }
     font-weight: bold;
     padding: 150px 0;
     max-width: 500px;
@@ -98,6 +184,7 @@
   }
 
 }
+
 
 .home .publications {
   background-color: #5FA24A;
