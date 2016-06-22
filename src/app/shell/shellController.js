@@ -34,7 +34,6 @@ angular.module('owm.shell')
 
   $scope.signup = function () {
     $scope.closeMenu();
-    $window.location.href = $scope.signupUrl;
   };
 
 })

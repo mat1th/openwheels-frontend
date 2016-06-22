@@ -53,7 +53,7 @@ angular.module('owm.auth.signup', [])
           // alertService.loaded();
         });
       }else {
-        alertService.add('danger', 'Voordat je je kan aanmelden, moet je de voorwaarden accepteeren.', 10000);
+        alertService.add('danger', 'Voordat je je kunt aanmelden, moet je de voorwaarden accepteren.', 10000);
       }
     };
   });

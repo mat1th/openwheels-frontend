@@ -32,7 +32,7 @@
       </div>
 
       <!-- signup -->
-      <md-button ng-if="!user.isPending && !user.isAuthenticated" class="btn-green" ng-click="signup()">
+      <md-button ng-if="!user.isPending && !user.isAuthenticated" class="btn-green" ui-sref="owm.auth.signup">
         <md-icon hide-xs>person_outline</md-icon>
         {{ 'SIGNUP' | translate }}
       </md-button>
