@@ -250,12 +250,18 @@
 
 @media (min-width:1024px) {
   .infobox {
-    min-height: 15em;
+    min-height: 19em;
+  }
+  .infobox--no-button {
+    min-height: 16em;
   }
 }
 @media (max-width:1023px) {
   .infobox {
-    min-height: 19em;
+    min-height: 22em;
+  }
+  .infobox--no-button {
+    min-height: 21em;
   }
 }
 
@@ -268,7 +274,6 @@
     color: @mywheels-green;
     text-align: left;
   }
-
     .infobox--title--icon {
       color: @mywheels-green;
     }
@@ -282,6 +287,10 @@
     text-align: left;
     padding-bottom: 60px;
     margin: 0 16px;
+  }
+
+  infobox--no-button .infobox--content {
+    padding-bottom: 0;
   }
 
   .infobox--button {
