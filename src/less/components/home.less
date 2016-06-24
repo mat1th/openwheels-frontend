@@ -85,77 +85,119 @@
 }
 
 /* ---------------------- SLIDER ------------------- */
-.slider--image {
-  position: relative;
+.slider {
+  background: @mywheels-green;
+  margin: 50px 0;
 }
 
-.slider--image img {
-  width: 100%;
-  height: auto;
-}
+  .slider--container {
+    position: relative;
+    padding: 0 45px;
+  }
 
-.slider--price {
-  position: absolute;
-  bottom: 1em;
-  right: 1em;
-  text-align: right;
-  border-radius: .4em;
-  background: rgba(0,0,0,.35);
-  color: #fff;
-  padding: 8px;
-  font-family: OmnesMedium;
-}
+  .slider--heading {
+    color: white;
+    padding: 20px 0 10px 0;
+    font-size: 30px;
+    margin: 0;
+  }
 
-.slider--location {
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
-  padding: 0px 10px 6px 10px;
-  font-size: 1em;
-}
+  .slider--slide {
+    padding: 0 5px;
+    cursor: pointer;
+  }
 
-.slider--alias {
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
-  padding: 6px 10px 0px 10px;
-  font-size: 1.2em;
-}
+    .slider--slide--image {
+      position: relative;
+    }
+
+    .slider--slide--image img {
+      width: 100%;
+      height: auto;
+    }
+
+    .slider--slide--price {
+      position: absolute;
+      bottom: 1em;
+      right: 1em;
+      text-align: right;
+      border-radius: .4em;
+      background: rgba(0,0,0,.35);
+      color: #fff;
+      padding: 8px;
+      font-family: OmnesMedium;
+      font-size: 1.2em;
+    }
+
+    .slider--slide--location {
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+      padding: 0px 10px 6px 10px;
+      font-size: 1em;
+    }
+
+    .slider--slide--alias {
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+      padding: 6px 10px 0px 10px;
+      font-size: 1.2em;
+    }
 
 
 /* ---------------------- INFO BOX ------------------- */
+.infoboxes {}
+
+.infoboxes--heading {
+  text-align: center;
+  font-size: 30px;
+  margin: 20px 0 10px 0;
+}
+
+@media (min-width:1024px) {
+  .infobox {
+    min-height: 15em;
+  }
+}
+@media (max-width:1023px) {
+  .infobox {
+    min-height: 19em;
+  }
+}
+
 .infobox {
-  padding: 15px;
   border: 2px solid @mywheels-green;
-  min-height: 19em;
+  margin: 16px 0 8px 0;
 }
 
-.infobox--title {
-  font-size: 27px;
-  color: @mywheels-green;
-  text-align: left;
-}
+  .infobox--title {
+    color: @mywheels-green;
+    text-align: left;
+  }
 
-.infobox--title--icon {
-  color: @mywheels-green;
-  line-height: 24px;
-}
+    .infobox--title--icon {
+      color: @mywheels-green;
+    }
 
-.infobox--title--text {
-  padding-left: 8px;
-}
+    .infobox--title--text {
+      color: @mywheels-green;
+      font-size: 23px;
+    }
 
-.infobox--content {
-  text-align: left;
-}
+  .infobox--content {
+    text-align: left;
+    padding-bottom: 60px;
+    margin: 0 16px;
+  }
 
-.infobox--button {
-  color: #fff;
-  border: 1px solid #fff;
-  position: absolute;
-  bottom: 30px;
-  right: 30px;
-}
+  .infobox--button {
+    color: #fff;
+    border: 1px solid #fff;
+    position: absolute;
+    bottom: 16px;
+    right: 32px;
+  }
 
 
 .home .intro {

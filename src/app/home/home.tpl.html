@@ -1,7 +1,6 @@
 <div class="home">
 
   <div ng-if="features.homeCarousel" class="hero-container">
-
     <div class="searchbar-container">
       <div class="container">
         <div class="searchbar branding_home_searchbar">
@@ -34,75 +33,71 @@
   </div>
 
 
+  <!-- SEARCHBAR -->
   <div ng-if="!features.homeCarousel" class="hero inverted text-center">
     <div class="container">
       <div class="intro">
         <h1 id="tagline" translate="{{ 'TAGLINE_HOME' | translate }}"></h1>
-
         <div class="cta branding_home_searchbar" id="home_buttons">
           <div ng-include="'home/searchBar.tpl.html'"></div>
         </div>
-
       </div>
     </div>
   </div>
+  <!-- /SEARCHBAR -->
 
-  <div class="container content" style="background: white;">
+  <!-- INFOBOXES -->
+  <div class="container infoboxes">
     <div class="col-md-12">
-      <h2 style="text-align: center;">Dit is MyWheels</h2>
+      <h2 class="infoboxes--heading">Dit is MyWheels</h2>
     </div>
-    <div class="col-md-4">
+
+    <div class="col-sm-6">
       <md-card class="infobox">
-      <h3 class="infobox--title"><md-icon class="infobox--title--icon">home</md-icon><span class="infobox--title--text">Huur in de buurt</span></h3>
+        <div layout="row" layout-align="start center" layout-margin class="infobox--title">
+          <md-icon class="infobox--title--icon">home</md-icon>
+          <h3 class="infobox--title--text">Huur in de buurt</h3>
+        </div>
         <p class="infobox--content">Met auto's in meer dan 400 plaatsen, is er altijd wel een auto in de buurt. Boek, een auto, haal de sleutel op en je kunt op weg! In veel grote steden staan smartwheels, dat zijn auto's die je direect kunt boeken. </p>
         <button class="infobox--button btn-success btn" ng-click="doSearch()">Bekijk het aanbod</button>
       </md-card>
     </div>
 
-    <div class="col-md-12" hide-gt-sm><br />,<br /></div>
-
-    <div class="col-md-4">
-      <md-card class="content-white">
-      <h3><table><tr><td><md-icon>euro_symbol</md-icon></td><td>Verhuur en verdien</td></tr></table></h3>
-      <p>
-      Je auto aanbieden is gratis. Pas als iemand je auto kost het je een deel van de opbrengst. Deze gebruiken zodat jij met een gerust hart je auto mee kunt geven.</p>
-      <p style="text-align: right;"><a class="btn-success btn" href="" style="color: #fff; border: 1px solid #fff; bottom: 0;">Bereken je winst</a></p>
+    <div class="col-sm-6">
+      <md-card class="infobox">
+        <div layout="row" layout-align="start center" layout-margin class="infobox--title">
+          <md-icon class="infobox--title--icon">euro_symbol</md-icon>
+          <h3 class="infobox--title--text">Verhuur en verdien</h3>
+        </div>
+        <p class="infobox--content">Je auto aanbieden is gratis. Pas als iemand je auto kost het je een deel van de opbrengst. Deze gebruiken zodat jij met een gerust hart je auto mee kunt geven.</p>
+        <button class="infobox--button btn-success btn" ng-click="doSearch()">Bereken je winst</button>
       </md-card>
-    </div>
-
-    <div class="col-md-12" hide-gt-sm><br /><br /></div>
-
-    <div class="col-md-4">
-      <md-card class="content-white"><h3><table><tr><td><md-icon>done</md-icon></td><td>Goedkoop autodelen</td></tr></table></h3>
-      <p>MyWheels is de voordeligste, dat kan omdat we not-for-profit zijn. Daarom delen onze leden al meer dan drieduizend auto’s via MyWheels. Doe mee en steun de deeleconomie!</p>
-      <p style="text-align: right;"><a class="btn-success btn" href="https://MyWheels.nl/autodelen/hoe-huren-werkt/tarieven-huren/" style="color: #fff; border: 1px solid #fff;">Onze tarieven</a></p>
-      </md-card>
-
     </div>
   </div>
+  <!-- /INFOBOXES -->
 
-
-  <div class="container-fluid" style="background: #82b955; margin-top: 50px;" ng-if="features.featuredSlider">
-    <div style="position: relative" layout="column" class="container" layout-align="center center">
-      <h2 style="color: white;">{{'FEATURED_CARS_HEADING' | translate}}</h2>
-      <slick dots="false" prev-arrow=".slickprev" next-arrow=".slicknext" ng-if="dataLoaded" responsive="[{breakpoint: 1024, settings: { slidesToShow: 3, slidesToScroll: 3}}, {breakpoint: 768, settings: {slidesToShow: 2, slidesToScroll: 2 }}]" slides-to-show="4" slides-to-scroll="4" >
-        <div class="slider" ng-repeat="slide in resources_slider" style="padding: 0px 5px; ">
-          <md-card>
-            <div class="slider--image">
-              <ow-resource-picture resource="slide" size="large"></ow-resource-picture>
-              <span class="slider--price">&euro;{{::slide.price.dayRateTotal}}</span>
+  <!-- FEATURED SLIDER -->
+  <div class="container-fluid slider" ng-if="features.featuredSlider">
+    <div class="slider--container container" layout="column" layout-align="center center">
+      <h2 class="slider--heading">{{'FEATURED_CARS_HEADING' | translate}}</h2>
+      <slick dots="false" prev-arrow=".slick--prev" next-arrow=".slick--next" ng-if="resources_slider" responsive="[{breakpoint: 1024, settings: { slidesToShow: 3, slidesToScroll: 3}}, {breakpoint: 768, settings: {slidesToShow: 2, slidesToScroll: 2 }}, {breakpoint: 450, settings: {slidesToShow: 1, slidesToScroll: 1 }}]" slides-to-show="4" slides-to-scroll="4" >
+        <div class="slider--slide" ng-repeat="resource in resources_slider">
+          <md-card ng-click="gotoProfile(resource)">
+            <div class="slider--slide--image">
+              <ow-resource-picture alttext="{{::'Huur: ' + resource.alias}}" resource="resource" size="large"></ow-resource-picture>
+              <span class="slider--slide--price">&euro;{{::resource.price.dayRateTotal}}</span>
             </div>
-            <span class="md-title slider--alias">{{::slide.alias}}</span>
-            <span class="md-subhead slider--location">{{::slide.city ? slide.city : ' '}}</span>
+            <span title="{{::resource.alias}}" class="md-title slider--slide--alias">{{::resource.alias}}</span>
+            <span class="md-subhead slider--slide--location">{{::resource.city ? resource.city : ' '}}</span>
           </md-card>
         </div>
       </slick>
-      <md-card type="button" class="slickprev"><md-icon>keyboard_arrow_left</md-icon></md-card>
-      <md-card type="button" class="slicknext"><md-icon>keyboard_arrow_right</md-icon></md-card>
+      <md-card><button type="button" class="slick--prev"><md-icon>keyboard_arrow_left</md-icon></button></md-card>
+      <md-card><button type="button" class="slick--next"><md-icon>keyboard_arrow_right</md-icon></button></md-card>
     </div>
   </div>
+  <!-- /FEATURED SLIDER -->
 
   <div ng-if="lang" ng-include="'branding/home-content-' + lang + '.html?v=' + version"></div>
-
 </div>
 

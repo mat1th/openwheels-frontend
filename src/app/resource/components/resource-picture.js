@@ -6,9 +6,9 @@
   .directive('owResourcePicture', function (appConfig) {
     return {
       restrict: 'E',
-      template: '<img ng-src="{{ imageUrl }}">',
+      template: '<img alt="{{alttext}}" ng-src="{{ imageUrl }}">',
       scope: {
-        resource: '='
+        resource: '=',
       },
       link: function (scope, elm, attrs) {
         var resource = scope.resource;
@@ -22,6 +22,13 @@
           if (resource.pictures[0][size]) {
             scope.imageUrl = appConfig.serverUrl + '/' + resource.pictures[0][size];
           }
+        });
+        attrs.$observe('alttext', function (alttext) {
+          if(alttext) {
+            scope.alttext = alttext;
+            return;
+          }
+          scope.alttext = '';
         });
 
         function defaultPicture (size) {
