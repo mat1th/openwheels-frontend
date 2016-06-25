@@ -243,7 +243,7 @@
         </div>
 
         <button id="submitForm" type="button" class="btn btn-primary"
-          ng-disabled="contactDataForm.$pristine || !contactDataForm.$valid || !person.phoneNumbers.length || (person.phoneNumbers.length > 0 && !person.phoneNumbers[0].number)"
+          ng-disabled="contactFormProcessing || contactDataForm.$pristine || !contactDataForm.$valid || !person.phoneNumbers.length || (person.phoneNumbers.length > 0 && !person.phoneNumbers[0].number)"
           ng-click="submitContactDataForm()">
           {{ 'SUBMIT' | translate }}
         </button>

@@ -2,7 +2,10 @@
   <div class="input-group" style="box-shadow: 4px 6px 8px rgba(0,0,0, 0.35)">
     <input type="text" ow-geocoder="{ onDetails: doSearch }" ng-model="search.text" class="form-control" placeholder="Waar wil je huren?" style="font-weight: normal;" />
     <div class="input-group-btn">
-      <button type="button" class="btn btn-success" ng-click="doSearch()">Zoek een auto</button>
+      <button hide-xs type="button" class="btn btn-success" ng-click="doSearch()">Zoek een auto</button>
+      <button show-xs hide-gt-xs type="button" class="btn auto-width btn-success" ng-click="doSearch()">
+        <md-icon class="text-white">search</md-icon>
+      </button>
     </div>
   </div>
 

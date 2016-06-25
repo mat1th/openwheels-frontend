@@ -73,8 +73,7 @@
               </button>
             </span>
 
-            <input type="text" class="form-control" placeholder="{{ 'FIND_AVAILABLE_PLACEHOLDER' | translate }}"
-                   ng-model="searchText" ng-autocomplete details="placeDetails" options="completePlacesOptions">
+            <input type="text" class="form-control" details="placeDetails" placeholder="{{ 'FIND_AVAILABLE_PLACEHOLDER' | translate }}" ow-geocoder="{ onDetails: doSearch }" ng-model="searchText">
 
             <span class="input-group-btn">
               <button class="btn btn-default" type="button" ng-click="selectTimeframe()" title="Datum/tijd">
@@ -113,6 +112,15 @@
         </div>
 
         <ui-view />
+
+        <!-- pagination -->
+        <md-card layout="row" layout-padding layout-align="center center">
+              <md-button ng-disabled="page == 1" ng-click="showPage(page - 1)"><md-icon>arrow_back</md-icon></md-button>
+              <div flex-gt-xs="50" flex-xs="33" class="text-center">{{page}}</div>
+              <md-button ng-disabled="page == last_page" class="btn btn-link" ng-click="showPage(page + 1)"><md-icon>arrow_forward</md-icon></md-button>
+        </md-card>
+        <!-- /pagination -->
+
       </div>
 
     </div><!-- /col -->

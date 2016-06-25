@@ -5,8 +5,10 @@
   <div class="card card-notice" ng-if="user.identity.id === person.id">
     <div class="card-body">
       <p>
-        {{ 'MEMBER_PROFILE_INTRO' | translate }}
-        <info-icon tooltip-html="'INFO_SELF_PROFILE' | translate" tooltip-placement="bottom"><info-icon>
+      <span ng-if="person.visibility=='public'">{{ 'MEMBER_PROFILE_INTRO_PUBLIC' | translate }}</span>
+      <span ng-if="person.visibility=='rentalrelation_only'">{{ 'MEMBER_PROFILE_INTRO_RENTAL' | translate }}</span>
+      <span ng-if="person.visibility=='members'">{{ 'MEMBER_PROFILE_INTRO_MEMBERS' | translate }}</span>
+      <info-icon tooltip-html="'INFO_SELF_PROFILE' | translate" tooltip-placement="bottom"><info-icon>
       </p>
       <a ui-sref="owm.person.profile">
         {{ 'EDIT_PROFILE' | translate }}
