@@ -1,12 +1,11 @@
-<form class="mywheels-form">
+<form class="mywheels-form searchbar">
 
-  <div class="icon search">
-      <input type="text" ow-geocoder="{ onDetails: doSearch }" ng-model="search.text" class="home-search" placeholder="Waar wil je huren?" />
-  </div>
+    <div class="icon location searchbar">
+        <input type="text" ow-geocoder="{ onDetails: doSearch }" ng-model="search.text" class="home-search" placeholder="Waar wil je huren?" />
+    </div>
 
-
-    <div class="button">
-        <button hide-xs type="button" class="btn btn-success" ng-click="doSearch()">Zoek een auto</button>
+    <div class="button" md-ink-ripple="#232521">
+        <button hide-xs type="button" class="btn btn-success" ng-click="doSearch()" >Zoek een auto</button>
         <button show-xs hide-gt-xs type="button" class="btn auto-width btn-success" ng-click="doSearch()">
             <md-icon class="text-white">search</md-icon>
         </button>

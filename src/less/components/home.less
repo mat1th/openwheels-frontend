@@ -1,4 +1,4 @@
-@hero-height: 20em;
+@hero-height: 29rem;
 .home {
     text-align: center;
     background-color: #fff;
@@ -10,7 +10,7 @@
     .searchbar-container {
         z-index: 999;
         position: absolute;
-        bottom: 30px;
+        bottom: 1.875em;
         width: 100%;
         height: 120px;
         .searchbar {
@@ -56,7 +56,7 @@
 }
 /* ---------------------- HOME PAGE BASELINE ------------------- */
 .homepage-baseline {
-    height: 15em;
+    height: 20rem;
     display: flex;
 }
 .homepage-baseline-header {
@@ -64,7 +64,9 @@
 }
 .homepage-searchbar {
     width: 100%;
-    height: 5em;
+    height: 10rem;
+    padding: 0.5em;
+    max-height: 9rem;
     background: rgba(0, 0, 0, 0.6);
     display: flex;
     form {
@@ -76,31 +78,29 @@
     }
     input[type="text"] {
         display: inline-block;
-        color: #000;
+        color: #333;
         border-radius: 0;
-        padding: 0.5em;
+        padding: 1.1rem;
+        font-size: 1.1em;
     }
     .icon {
         margin: 0;
     }
+    .icon:before {
+        left: 0.2rem;
+        top: 0.5rem;
+        font-size: 1.8em;
+    }
+    .button {
+        position: relative;
+    }
     .button button {
-        height: 2.75em;
+        max-height: 100%;
+        width: 100%;
+        font-weight: 500;
         display: inline-block;
         border-radius: 0 0 0 0;
-        // height: 100%;
-    }
-}
-@media (min-width:1024px) {
-    .container {
-        width: 996px!important;
-        padding-top: 1rem;
-        padding-left: 8px;
-        padding-right: 8px;
-    }
-}
-@media (min-width:996px) {
-    .container {
-        width: 996px!important;
+        padding: 1.1rem;
     }
 }
 .home .hero {
@@ -109,6 +109,51 @@
     background-repeat: no-repeat;
     background-size: cover;
     height: @hero-height;
+}
+.searchbar {
+    width: 100%;
+    height: 100%;
+    .button {
+        height: 100%;
+    }
+    button {
+        height: 100%;
+    }
+    input {
+        height: 100%;
+    }
+}
+@media (min-width:1024px) {
+    .home .hero {
+        height: 40rem;
+    }
+    .homepage-baseline-header {
+        margin: auto;
+    }
+    .homepage-baseline {
+        height: 31rem;
+    }
+    .searchbar {
+        width: 100%;
+        max-width: 50em;
+        .button {
+            padding-left: 1em;
+        }
+    }
+    .button {
+        min-width: 10em;
+    }
+    .container {
+        width: 62.25em !important;
+        padding-top: 1rem;
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+    }
+}
+@media (min-width:996px) {
+    .container {
+        width: 80em !important;
+    }
 }
 /* ---------------------- RENTER CALL TO ACTION  ------------------- */
 .renter--call-to--action {
@@ -127,7 +172,7 @@
     .md-button {
         margin: 2em 0;
         background: #fff;
-        color: #000;
+        color: #333;
     }
     .md-button:hover {
         color: #EAE9EA;
@@ -148,7 +193,7 @@
 .content-white md-icon {
     color: @mywheels-green;
     vertical-align: top;
-    margin: 1px 10px 0 0;
+    margin: 1px 0.5em 0 0;
 }
 // .call-to-signup {
 //     background-color: @mywheels-red;
@@ -167,8 +212,13 @@
 .content h2 {
     font-size: 39px;
 }
+/* ---------------------- ADVATAGE ------------------- */
+.advantage-mywheels {
+    margin: 3em auto;
+}
 /* ---------------------- SLIDER ------------------- */
 .slider {
+    padding: 3em 1em;
     background: @mywheels-green;
 }
 .slider--container {
@@ -222,7 +272,7 @@
 .infobox {
     margin: 1rem 0 8px;
     text-align: left;
-    padding: 1em;
+    padding: 3em 1em;
 }
 .infobox {
     .rend--nearby {
