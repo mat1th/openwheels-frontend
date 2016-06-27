@@ -34,6 +34,7 @@ angular.module('rpcServices', [])
 .service('contractService', function (api) {
   var m = function (name) { return api.createRpcMethod('contract.' + name); };
   this.get           = m('get');
+  this.all           = m('all');
   this.alter         = m('alter');
   this.create        = m('create');
   this.allTypes      = m('allTypes');
