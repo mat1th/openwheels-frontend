@@ -4,18 +4,18 @@
         <section class="logo">
             <img src="https://mywheels.nl/bundles/openwheelsfrontend/img/huisstijl/mywheels-logo-wit.png?v1.1.11" alt="brand logo">
         </section>
-        <section>
-            <p>{{ 'SIGNUP_HEADING' | translate }}</p>
+        <section class="heading">
+            <h1>{{ 'SIGNUP_HEADING' | translate }}</h1>
         </section>
         <section>
-            <h2>Voordelen van MyWheels</h2>
+            <h2>{{ 'SIGNUP_AVANGES' | translate }}</h2>
             <ul>
                 <li>
-                    <md-icon>check</md-icon><span>Altijd een auto in de buurt</span></li>
+                    <md-icon>check</md-icon><span>{{ 'SIGNUP_AVANGES_NEARBY' | translate }}</span></li>
                 <li>
-                    <md-icon>check</md-icon><span>All-Risk verzekerd</span></li>
+                    <md-icon>check</md-icon><span>{{ 'SIGNUP_AVANGES_RISK' | translate }}</span></li>
                 <li>
-                    <md-icon>check</md-icon><span>24/7 klantenservice</span></li>
+                    <md-icon>check</md-icon><span>{{ 'SIGNUP_AVANGES_SERVICE' | translate }}</span></li>
             </ul>
             <p ng-bind-html="'SIGNUP_AMOUNT_USERS' | translate " class="amount"></p>
         </section>
