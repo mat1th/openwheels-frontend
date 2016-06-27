@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('openwheels', [
-  
+
   /* Framework */
   'ngAria',
   'ngAnimate',
@@ -40,7 +40,7 @@ angular.module('openwheels', [
   'oAuth2Callback',
   'oAuth2MessageListener',
   'stateAuthorizer',
-  
+
   /* Services */
   'alertService',
   'dialogService',
@@ -159,12 +159,12 @@ angular.module('openwheels', [
 })
 
 .config(function (appConfig, facebookProvider, twitterProvider) {
-  if (appConfig.features.facebook && appConfig.fbAppId) {
-    facebookProvider.init(appConfig.fbAppId);
-  }
-  if (appConfig.features.twitter) {
-    twitterProvider.init();
-  }
+  // if (appConfig.features.facebook && appConfig.fbAppId) {
+  //   facebookProvider.init(appConfig.fbAppId);
+  // }
+  // if (appConfig.features.twitter) {
+  //   twitterProvider.init();
+  // }
 })
 /**
  * Disable logging for non-development environments
