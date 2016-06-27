@@ -1,335 +1,279 @@
-@hero-height: 500px;
-
+@hero-height: 20em;
 .home {
-  text-align: center;
-  background-color: #fff;
-
-  .hero-container {
-    position: relative;
-    width : 100%;
-    height: @hero-height;
-  }
-
-  .searchbar-container {
-    z-index:999;
-    position: absolute;
-    bottom: 30px;
-    width: 100%;
-    height: 120px;
-
-    .searchbar {
-      max-width: 500px;
-      margin: 0 auto 0 auto;
-      opacity: 0.95;
-      .input-group {
-        input {
-          height: 42px;
-        }
-      }
-      a, button {
-        width: 140px;
-        height: 42px;
-      }
-      a {
-        padding: 10px 12px;
-      }
+    text-align: center;
+    background-color: #fff;
+    .hero-container {
+        position: relative;
+        width: 100%;
+        height: @hero-height;
     }
-  }
-
-  .logo-container {
-    z-index: 999;
-    position: absolute;
-    top: 30px;
+    .searchbar-container {
+        z-index: 999;
+        position: absolute;
+        bottom: 30px;
+        width: 100%;
+        height: 120px;
+        .searchbar {
+            max-width: @hero-height;
+            margin: 0 auto;
+            opacity: 0.95;
+            .input-group {
+                input {
+                    height: 42px;
+                }
+            }
+            a,
+            button {
+                width: 140px;
+                height: 42px;
+            }
+            a {
+                padding: 10px 12px;
+            }
+        }
+    }
+    .logo-container {
+        //disabled
+        z-index: 999;
+        position: absolute;
+        top: 30px;
+        width: 100%;
+        height: 58px;
+    }
+    .slide-container {
+        width: 100%;
+        height: @hero-height;
+        background-position: 50% 50%;
+        background-repeat: no-repeat;
+        background-size: cover;
+        .tagline {
+            padding-top: 90px;
+            color: #fff;
+            font-size: 52px;
+            text-shadow: 1px 2px 3px rgba(0, 0, 0, 0.5);
+        }
+    }
+}
+/* ---------------------- HOME PAGE BASELINE ------------------- */
+.homepage-baseline {
+    height: 15em;
+    display: flex;
+}
+.homepage-baseline-header {
+    margin: 0.5em auto auto;
+}
+.homepage-searchbar {
     width: 100%;
-    height: 58px;
-  }
-
-  .slide-container {
-    width: 100%;
-    height: @hero-height;
+    height: 5em;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    form {
+        // padding: 1em 1em;
+        margin: auto;
+        padding: 1em;
+        text-align: left;
+        display: flex;
+    }
+    input[type="text"] {
+        display: inline-block;
+        color: #000;
+        border-radius: 0;
+        padding: 0.5em;
+    }
+    .icon {
+        margin: 0;
+    }
+    .button button {
+        height: 2.75em;
+        display: inline-block;
+        border-radius: 0 0 0 0;
+        // height: 100%;
+    }
+}
+@media (min-width:1024px) {
+    .container {
+        width: 996px!important;
+        padding-top: 1rem;
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+}
+@media (min-width:996px) {
+    .container {
+        width: 996px!important;
+    }
+}
+.home .hero {
+    background-image: url('../branding/img/bg.jpg');
     background-position: 50% 50%;
     background-repeat: no-repeat;
     background-size: cover;
-
-    .tagline {
-      padding-top: 90px;
-      color: #fff;
-      font-size: 52px;
-      text-shadow: 1px 2px 3px rgba(0, 0, 0, 0.5);
+    height: @hero-height;
+}
+/* ---------------------- RENTER CALL TO ACTION  ------------------- */
+.renter--call-to--action {
+    background: @mywheels-blue;
+    padding: 3em 1em;
+    text-align: center;
+    p {
+        max-width: 50em;
+        margin: 0 auto;
+        font-size: 1.1em;
     }
-  }
-
-}
-
-@media (min-width:1024px) {
-.container {
-  width: 996px!important;
-  padding-top: 16px;
-  padding-left: 8px;
-  padding-right: 8px;
-}
-}
-@media (min-width:996px) {
-.container {
-  width: 996px!important;
-}
-}
-
-
-.home .hero {
-  background-image: url('../branding/img/bg.jpg');
-  background-position: 50% 50%;
-  background-repeat: no-repeat;
-  background-size: cover;
-  height: 500px;
-}
-
-.home .intro {
-  padding: 40px 0;
-  h1 {
-    word-spacing:10px;
-    text-shadow: 1px 2px 3px rgba(0, 0, 0, 0.5);
-  }
-  .cta {
-    font-weight: bold;
-    padding: 150px 0;
-    max-width: 500px;
-    margin-left: auto;
-    margin-right: auto;
-
-    .input-group {
-      input { height: 42px; }
+    h2 {
+        margin: 0 0 1em;
+        font-size: 3em;
     }
-    a, button {
-      width: 140px;
-      height: 42px;
+    .md-button {
+        margin: 2em 0;
+        background: #fff;
+        color: #000;
     }
-    a {
-      padding: 10px 12px;
+    .md-button:hover {
+        color: #EAE9EA;
     }
-  }
-
 }
-
-.home .publications {
-  background-color: #5FA24A;
-}
-
-.vert-pad-large {
-  padding-top: 40px;
-  padding-bottom: 40px;
-}
-
 .action-button:last-child .btn {
-  margin-bottom: 0;
+    margin-bottom: 0;
 }
-
-.content-green {
-  box-shadow: 0px 3px 5px #444;
-  padding: 5%;
-  font-size: 17px;
-  text-align: justify;
-  background-color: @mywheels-green;
-  p {
-    margin: 0;
-  }
-
-}
-.content-green h3 {
-   color:  #fff;
-   font-size: 27px;
-    }
-.content-green md-icon {
-  color: #fff;
-  vertical-align: top;
-  margin: 1px 10px 0 0;
-}
-
 .content-white {
-   padding: 5%;
-   border: 2px solid @mywheels-green;
-   min-height: 19em;
+    padding: 5%;
+    border: 2px solid @mywheels-green;
+    min-height: 19em;
 }
 .content-white h3 {
-   font-size: 27px;
-   color: @mywheels-green;
-    }
+    font-size: 27px;
+    color: @mywheels-green;
+}
 .content-white md-icon {
-  color: @mywheels-green;
-  vertical-align: top;
-  margin: 1px 10px 0 0;
+    color: @mywheels-green;
+    vertical-align: top;
+    margin: 1px 10px 0 0;
 }
-.call-to-signup {
-  background-color: @mywheels-red;
-  border: 0px;
-  box-shadow: 0px 3px 5px #444;
-  color: #fff;
-}
-.call-to-signup:hover {
-  background-color: #B44123;
-  color:#fff;
-}
-.call-to-signup-text {
-  font-size: 27px;
-  text-shadow: 0px 3px 5px #444;
-}
+// .call-to-signup {
+//     background-color: @mywheels-red;
+//     border: 0;
+//     box-shadow: 0 3px 5px #444;
+//     color: #fff;
+// }
+// .call-to-signup:hover {
+//     background-color: #B44123;
+//     color: #fff;
+// }
+// .call-to-signup-text {
+//     font-size: 27px;
+//     text-shadow: 0 3px 5px #444;
+// }
 .content h2 {
-  font-size: 39px;
+    font-size: 39px;
 }
-
 /* ---------------------- SLIDER ------------------- */
 .slider {
-  background: @mywheels-green;
-  margin: 50px 0 0 0;
+    background: @mywheels-green;
 }
-
-  .slider--container {
+.slider--container {
     position: relative;
     padding: 0 45px;
-  }
-
-  .slider--heading {
+}
+.slider--heading {
     color: white;
-    padding: 20px 0 10px 0;
+    padding: 20px 0 10px;
     font-size: 30px;
     margin: 0;
-  }
-
-  .slider--slide {
+}
+.slider--slide {
     padding: 0 5px;
     cursor: pointer;
-  }
-
-    .slider--slide--image {
-      position: relative;
-    }
-
-    .slider--slide--image img {
-      width: 100%;
-      height: auto;
-    }
-
-    .slider--slide--price {
-      position: absolute;
-      bottom: 1em;
-      right: 1em;
-      text-align: right;
-      border-radius: .4em;
-      background: rgba(0,0,0,.35);
-      color: #fff;
-      padding: 8px;
-      font-family: OmnesMedium;
-      font-size: 1.2em;
-    }
-
-    .slider--slide--location {
-      text-overflow: ellipsis;
-      overflow: hidden;
-      white-space: nowrap;
-      padding: 0px 10px 6px 10px;
-      font-size: 1em;
-    }
-
-    .slider--slide--alias {
-      text-overflow: ellipsis;
-      overflow: hidden;
-      white-space: nowrap;
-      padding: 6px 10px 0px 10px;
-      font-size: 1.2em;
-    }
-
-
-/* ---------------------- INFO BOX ------------------- */
-.infoboxes {}
-
-.infoboxes--heading {
-  text-align: center;
-  font-size: 30px;
-  margin: 20px 0 10px 0;
 }
-
-@media (min-width:1024px) {
-  .infobox {
-    min-height: 19em;
-  }
-  .infobox--no-button {
-    min-height: 16em;
-  }
+.slider--slide--image {
+    position: relative;
 }
-@media (max-width:1023px) {
-  .infobox {
-    min-height: 22em;
-  }
-  .infobox--no-button {
-    min-height: 21em;
-  }
+.slider--slide--image img {
+    width: 100%;
+    height: auto;
 }
-
-.infobox {
-  border: 2px solid @mywheels-green;
-  margin: 16px 0 8px 0;
-}
-
-  .infobox--title {
-    color: @mywheels-green;
-    text-align: left;
-  }
-    .infobox--title--icon {
-      color: @mywheels-green;
-    }
-
-    .infobox--title--text {
-      color: @mywheels-green;
-      font-size: 23px;
-    }
-
-  .infobox--content {
-    text-align: left;
-    padding-bottom: 60px;
-    margin: 0 16px;
-  }
-
-  infobox--no-button .infobox--content {
-    padding-bottom: 0;
-  }
-
-  .infobox--button {
-    color: #fff;
-    border: 1px solid #fff;
+.slider--slide--price {
     position: absolute;
-    bottom: 16px;
-    right: 32px;
-  }
-
+    bottom: 1em;
+    right: 1em;
+    text-align: right;
+    border-radius: 0.4em;
+    background: rgba(0,0,0,.35);
+    color: #fff;
+    padding: 8px;
+    font-family: OmnesMedium;
+    font-size: 1.2em;
+}
+.slider--slide--location {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    padding: 0 10px 6px;
+    font-size: 1em;
+}
+.slider--slide--alias {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    padding: 6px 10px 0;
+    font-size: 1.2em;
+}
+/* ---------------------- INFO BOX ------------------- */
+.infobox {
+    margin: 1rem 0 8px;
+    text-align: left;
+    padding: 1em;
+}
+.infobox {
+    .rend--nearby {
+        position: relative;
+        background-image: url('../branding/img/dashboard.jpg');
+        background-position: 100% auto;
+        height: 3em;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+}
+.infobox--title--icon {
+    color: @mywheels-green;
+}
+.infobox--title--text {
+    color: @mywheels-green;
+    font-size: 23px;
+}
 /* ---------------------- IMAGE BLOCK ------------------- */
 .imageblock {
-  margin-top: 40px;
-  margin-bottom: 40px;
-}
-
-  .imageblock--heading {
-    color: #fff;
-    text-shadow: 0px 1px 3px #444;
-    text-align: center;
-    padding: 40px 0;
-    font-size: 30px;
-    margin: 0 16px;
-    background-image: url('https://MyWheels.nl/branding/img/home-rotate-3.jpg');
-    background-position: center -180px;
+    background-image: url('../branding/img/dashboard.jpg');
+    background-position: 100% auto;
     background-repeat: no-repeat;
-  }
-
-  .imageblock--button {
+    background-size: cover;
+    width: 100%;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+.imageblock--content {
+    text-shadow: 0 1px 3px #444;
     text-align: center;
-    margin: 20px auto;
+    padding: 5em 0;
+}
+.imageblock--heading {
+    color: #fff;
+    text-shadow: 0 1px 3px #444;
+    text-align: center;
+    font-size: 2em;
+    margin: 0 1rem;
+}
+.imageblock--button {
+    text-align: center;
+    margin: 1em auto;
     background-color: @mywheels-red;
-    border: 0px;
-    box-shadow: 0px 3px 5px #444;
+    border: 0;
+    box-shadow: 0 3px 5px #444;
     color: #fff;
     display: block;
-  }
-
-  .imageblock--button:hover {
+}
+.imageblock--button:hover {
     background-color: #B44123;
-    color:#fff;
-  }
+    color: #fff;
+}
