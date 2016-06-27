@@ -35,6 +35,10 @@ module.exports = {
       'vendor/angular-google-maps/dist/angular-google-maps.js',
       'vendor/lodash/dist/lodash.js', // required by angular-google-maps
 
+      // front page slider
+      'vendor/slick-carousel/slick/slick.js',
+      'vendor/angular-slick/dist/slick.js',
+
       'vendor/angular-uuid/uuid.js',
       'vendor/angular-jsonrpc-q/build/jsonrpc.js',
       'vendor/angular-moment/angular-moment.js',

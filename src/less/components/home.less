@@ -61,6 +61,21 @@
 
 }
 
+@media (min-width:1024px) {
+.container {
+  width: 996px!important;
+  padding-top: 16px;
+  padding-left: 8px;
+  padding-right: 8px;
+}
+}
+@media (min-width:996px) {
+.container {
+  width: 996px!important;
+}
+}
+
+
 .home .hero {
   background-image: url('../branding/img/bg.jpg');
   background-position: 50% 50%;
@@ -76,9 +91,6 @@
     text-shadow: 1px 2px 3px rgba(0, 0, 0, 0.5);
   }
   .cta {
-    @media(max-width: 480px) {
-      padding: 50px 0;
-    }
     font-weight: bold;
     padding: 150px 0;
     max-width: 500px;
@@ -164,3 +176,160 @@
 .content h2 {
   font-size: 39px;
 }
+
+/* ---------------------- SLIDER ------------------- */
+.slider {
+  background: @mywheels-green;
+  margin: 50px 0 0 0;
+}
+
+  .slider--container {
+    position: relative;
+    padding: 0 45px;
+  }
+
+  .slider--heading {
+    color: white;
+    padding: 20px 0 10px 0;
+    font-size: 30px;
+    margin: 0;
+  }
+
+  .slider--slide {
+    padding: 0 5px;
+    cursor: pointer;
+  }
+
+    .slider--slide--image {
+      position: relative;
+    }
+
+    .slider--slide--image img {
+      width: 100%;
+      height: auto;
+    }
+
+    .slider--slide--price {
+      position: absolute;
+      bottom: 1em;
+      right: 1em;
+      text-align: right;
+      border-radius: .4em;
+      background: rgba(0,0,0,.35);
+      color: #fff;
+      padding: 8px;
+      font-family: OmnesMedium;
+      font-size: 1.2em;
+    }
+
+    .slider--slide--location {
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+      padding: 0px 10px 6px 10px;
+      font-size: 1em;
+    }
+
+    .slider--slide--alias {
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+      padding: 6px 10px 0px 10px;
+      font-size: 1.2em;
+    }
+
+
+/* ---------------------- INFO BOX ------------------- */
+.infoboxes {}
+
+.infoboxes--heading {
+  text-align: center;
+  font-size: 30px;
+  margin: 20px 0 10px 0;
+}
+
+@media (min-width:1024px) {
+  .infobox {
+    min-height: 19em;
+  }
+  .infobox--no-button {
+    min-height: 16em;
+  }
+}
+@media (max-width:1023px) {
+  .infobox {
+    min-height: 22em;
+  }
+  .infobox--no-button {
+    min-height: 21em;
+  }
+}
+
+.infobox {
+  border: 2px solid @mywheels-green;
+  margin: 16px 0 8px 0;
+}
+
+  .infobox--title {
+    color: @mywheels-green;
+    text-align: left;
+  }
+    .infobox--title--icon {
+      color: @mywheels-green;
+    }
+
+    .infobox--title--text {
+      color: @mywheels-green;
+      font-size: 23px;
+    }
+
+  .infobox--content {
+    text-align: left;
+    padding-bottom: 60px;
+    margin: 0 16px;
+  }
+
+  infobox--no-button .infobox--content {
+    padding-bottom: 0;
+  }
+
+  .infobox--button {
+    color: #fff;
+    border: 1px solid #fff;
+    position: absolute;
+    bottom: 16px;
+    right: 32px;
+  }
+
+/* ---------------------- IMAGE BLOCK ------------------- */
+.imageblock {
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+  .imageblock--heading {
+    color: #fff;
+    text-shadow: 0px 1px 3px #444;
+    text-align: center;
+    padding: 40px 0;
+    font-size: 30px;
+    margin: 0 16px;
+    background-image: url('https://MyWheels.nl/branding/img/home-rotate-3.jpg');
+    background-position: center -180px;
+    background-repeat: no-repeat;
+  }
+
+  .imageblock--button {
+    text-align: center;
+    margin: 20px auto;
+    background-color: @mywheels-red;
+    border: 0px;
+    box-shadow: 0px 3px 5px #444;
+    color: #fff;
+    display: block;
+  }
+
+  .imageblock--button:hover {
+    background-color: #B44123;
+    color:#fff;
+  }
