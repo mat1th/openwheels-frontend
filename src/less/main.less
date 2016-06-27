@@ -1,52 +1,50 @@
+/* Vendor */
+@import 'vendor/bootstrap';
+@import 'vendor/font-awesome';
+@import 'vendor/material';
+@import 'vendor/ng-sortable';
+@import 'vendor/pickadate';
+@import 'vendor/fullcalendar';
+@import 'vendor/slick';
 
-// Vendor
+/* Global */
+@import 'constants';
+@import 'colors';
+@import 'global';
+@import 'util';
+@import 'vendor-prefixes';
 
-@import 'bootstrap-vars.less';
-@import 'vendor/vendor.less';
+@import 'transitional-container-sizes';
 
-// Mixins
+/* UI elements */
+@import 'ui/forms';
+@import 'ui/modals';
+@import 'ui/pickadate';
+@import 'ui/alerts';
+@import 'ui/cards';
+@import 'ui/draggable';
+@import 'ui/lists';
+@import 'ui/ng-progress';
+@import 'ui/image';
+@import 'ui/icons';
+@import 'ui/media';
+@import 'ui/paginator';
+@import 'ui/type';
+@import 'ui/tags';
+@import 'ui/booking';
+@import 'ui/datetime';
+@import 'ui/ng-autocomplete';
 
-@import 'vendor-prefixes.less';
-
-// Globals
-
-@import 'bootstrap-overrides.less';
-@import 'colors.less';
-@import 'global.less';
-@import 'util.less';
-
-// UI
-
-@import 'ui/forms.less';
-@import 'ui/modals.less';
-@import 'ui/pickadate.less';
-@import 'ui/navbar.less';
-@import 'ui/alerts.less';
-@import 'ui/cards.less';
-@import 'ui/draggable.less';
-@import 'ui/lists.less';
-@import 'ui/ng-progress.less';
-@import 'ui/image.less';
-@import 'ui/icons.less';
-@import 'ui/maps.less';
-@import 'ui/headroom.less';
-@import 'ui/media.less';
-@import 'ui/paginator.less';
-@import 'ui/type.less';
-@import 'ui/offcanvas.less';
-@import 'ui/tags.less';
-@import 'ui/chat.less';
-
-// Components
-
-@import 'home/home.less';
-@import 'booking/booking.less';
-@import 'booking/datetime.less';
-@import 'invoice/table.less';
-@import 'resource/resource.less';
-@import 'resource/map/resource-map.less';
-@import 'resource/calendar/resource-calendar.less';
-@import 'financial/voucher.less';
-@import 'dashboard/dashboard.less';
-
-@import 'transitional-container-sizes.less';
+/* Component-specific */
+@import 'components/shell';
+@import 'components/footer';
+@import 'components/home';
+@import 'components/dashboard';
+@import 'components/table';
+@import 'components/resource';
+@import 'components/resourceCalendar';
+@import 'components/map';
+@import 'components/voucher';
+@import 'components/chat';
+@import 'components/passwordStrength';
+@import 'components/contractchoice';

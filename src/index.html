@@ -1,41 +1,45 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <title ng-bind="pageTitle"></title>
-  <base href="">
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta property="og:title" content="Huur voordelig een auto" />
+	  <base href="/">
+  <title bind-meta bind-meta-prop="title"></title>
+  <meta name="description" content="" bind-meta bind-meta-attr="content" bind-meta-prop="description"/>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
   <link rel="shortcut icon" type="image/x-icon" href="branding/img/favicon.ico">
-  <link href='//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css' rel='stylesheet' type='text/css'>
   <% styles.forEach( function ( file ) { %>
   <link rel="stylesheet" type="text/css" href="<%= file %>" /><% }); %>
   <link rel="stylesheet" type="text/css" href="branding/style.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+  <!-- OpenGraph -->
+  <meta property="og:type" content="website"/>
+  <meta property="og:url" content="" bind-meta bind-meta-attr="content" bind-meta-prop="url"/>
+  <meta property="og:title" content="Huur voordelig een auto" bind-meta bind-meta-attr="content" bind-meta-prop="title"/>
+  <meta property="og:description" content="" bind-meta bind-meta-attr="content" bind-meta-prop="description"/>
+  <meta property="og:image" content="" bind-meta bind-meta-attr="content" bind-meta-prop="image"/>
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary"/>
+  <meta name="twitter:title" content="" bind-meta bind-meta-attr="content" bind-meta-prop="title"/>
+  <meta name="twitter:description" content="" bind-meta bind-meta-attr="content" bind-meta-prop="description"/>
+  <meta name="twitter:image:src" content="" bind-meta bind-meta-attr="content" bind-meta-prop="image"/>
+
+  <!-- Optimizely -->
+  <script src="https://cdn.optimizely.com/js/5390511383.js"></script>
 </head>
 
-<body>
-  <div ng-include="'alert/alert.tpl.html'"></div>
-  <div class="snap-container">
-    <div class="" ui-view="navigation">
-      <div class="text-center loading" ng-show="loader" type="loader.type"><i class="fa fa-spin fa-2x fa-fw fa-spinner"></i></div>
-    </div>
-    <div class="wrap" snap-content snap-close>
-      <div class="page">
-        <div style="min-height: 600px">
-          <div class="container-full">
-            <div ui-view="main-full"></div>
-          </div>
-          <div class="container container-main">
-            <div ui-view="main"></div>
-          </div>
-        </div>
-        <div ui-view="footer"></div>
-      </div>
-    </div>
+<body layout="column">
+
+  <div ui-view layout-fill>
+    <div class="global-spinner" ng-show="loader" type="loader.type"><i class="fa fa-spin fa-2x fa-fw fa-spinner"></i></div>
   </div>
+  <div ng-controller="LivehelperChatController"></div>
 
   <% scripts.forEach(function (file) { %>
     <script type="text/javascript" src="<%= file %>"></script>
   <% }); %>
+
 </body>
+
 </html>

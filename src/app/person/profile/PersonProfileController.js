@@ -9,6 +9,7 @@ angular.module('owm.person.profile', [])
   $scope.genderText = '';
   $scope.allowLicenseRelated = false;
   $scope.alerts = null;
+  $scope.contactFormProcessing = false;
 
   initPerson(person);
 
@@ -39,7 +40,8 @@ angular.module('owm.person.profile', [])
     var p = $scope.person;
     var alerts = {
       personalData: (!p.firstName || !p.surname || !p.dateOfBirth),
-      contactData : (!p.streetName || !p.streetNumber || !p.city || (!p.phoneNumbers || !p.phoneNumbers.length))
+      contactData : (!p.streetName || !p.streetNumber || !p.city || (!p.phoneNumbers || !p.phoneNumbers.length)),
+      licenseData : (p.status === 'new')
     };
     $scope.alerts = alerts;
   }
@@ -49,7 +51,6 @@ angular.module('owm.person.profile', [])
     alertService.closeAll();
     alertService.load();
     var newProps = $filter('returnDirtyItems')( angular.copy($scope.person), $scope.personalDataForm);
-    // console.log('newProps!', newProps);
     personService.alter({
       id: person.id,
       newProps: newProps
@@ -101,7 +102,7 @@ angular.module('owm.person.profile', [])
 
     alertService.closeAll();
     alertService.load();
-
+    $scope.contactFormProcessing = true;
     personService.alter({
       id: person.id,
       newProps: newProps
@@ -117,6 +118,7 @@ angular.module('owm.person.profile', [])
       alertService.addError(err);
     })
     .finally(function () {
+      $scope.contactFormProcessing = false;
       alertService.loaded();
     });
   };

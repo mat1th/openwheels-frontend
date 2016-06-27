@@ -1,126 +1,150 @@
 <div ng-if="hasPermission">
-<div class="card">
-  <div class="card-heading">
-    <h2 class="card-title">Mijn auto</h2>
-  </div>
-  <div class="card-body">
-    <div ng-include="'resource/partials/resource-header3.tpl.html'"></div>
-  </div>
-</div>
 
-<!-- data -->
-<div class="card">
-  <div class="card-heading">
-    <h3 class="card-title">
-      <a href="" ng-init="isDataCollapsed = true" ng-click="isDataCollapsed = !isDataCollapsed">
-        <i class="fa fa-fw" ng-class="{ 'fa-chevron-right': isDataCollapsed, 'fa-chevron-down': !isDataCollapsed }"></i>
-        {{ 'DATA' | translate }}
-      </a>
-    </h3>
-  </div>
-  <div collapse="isDataCollapsed">
-    <div class="card-body">
+  <md-card>
+    <md-card-header class="blue-header">
+      <md-card-header-text>
+        <span class="md-title">
+          Mijn auto
+        </span>
+      </md-card-header-text>
+    </md-card-header>
+    <md-card-content>
+      <div ng-include="'resource/partials/resource-header3.tpl.html'"></div>
+    </md-card-content>
+  </md-card>
+
+  <!-- data -->
+  <md-card>
+    <md-card-header>
+      <md-card-header-text>
+        <span class="md-title">
+          <a href="" ng-init="isDataCollapsed = true" ng-click="isDataCollapsed = !isDataCollapsed">
+            <i class="fa fa-fw" ng-class="{ 'fa-chevron-right': isDataCollapsed, 'fa-chevron-down': !isDataCollapsed }"></i>
+            {{ 'DATA' | translate }}
+          </a>
+        </span>
+      </md-card-header-text>
+    </md-card-header>
+    <md-card-content uib-collapse="isDataCollapsed">
       <div ng-include="'resource/edit/data/resource-edit-data.tpl.html'"></div>
-    </div>
-  </div>
-</div>
+    </md-card-content>
+  </md-card>
 
-<!-- sharing settings -->
-<div class="card">
-  <div class="card-heading">
-    <h3 class="card-title">
-      <a href="" ng-init="isSharingSettingsCollapsed = true" ng-click="isSharingSettingsCollapsed =!isSharingSettingsCollapsed">
-        <i class="fa fa-fw" ng-class="{ 'fa-chevron-right': isSharingSettingsCollapsed, 'fa-chevron-down': !isSharingSettingsCollapsed }"></i>
-        {{ 'SHARING_SETTINGS' | translate }}
-      </a>
-    </h3>
-  </div>
-  <div collapse="isSharingSettingsCollapsed">
-    <div class="card-body">
+  <!-- sharing settings -->
+  <md-card>
+    <md-card-header>
+      <md-card-header-text>
+        <span class="md-title">
+          <a href="" ng-init="isSharingSettingsCollapsed = true" ng-click="isSharingSettingsCollapsed =!isSharingSettingsCollapsed">
+            <i class="fa fa-fw" ng-class="{ 'fa-chevron-right': isSharingSettingsCollapsed, 'fa-chevron-down': !isSharingSettingsCollapsed }"></i>
+            {{ 'SHARING_SETTINGS' | translate }}
+          </a>
+        </span>
+      </md-card-header-text>
+    </md-card-header>
+    <md-card-content uib-collapse="isSharingSettingsCollapsed">
       <div ng-include="'resource/edit/sharing_settings/resource-edit-sharing_settings.tpl.html'"></div>
-    </div>
-  </div>
-</div>
+    </md-card-content>
+  </md-card>
 
-<!-- price -->
-<!-- NOTE: MAY BE HIDDEN IN BRANDING CSS (based on id=price) -->
-<div class="card" id="price">
-  <div class="card-heading">
-    <h3 class="card-title">
-      <a href="" ng-init="isPriceCollapsed = true" ng-click="isPriceCollapsed = !isPriceCollapsed">
-        <i class="fa fa-fw" ng-class="{ 'fa-chevron-right': isPriceCollapsed, 'fa-chevron-down': !isPriceCollapsed }"></i>
-        {{ 'RESOURCE_PRICE' | translate }}
-      </a>
-    </h3>
-  </div>
-  <div collapse="isPriceCollapsed">
-    <div class="card-body">
-      <div ng-include="'resource/edit/price/resource-edit-price.tpl.html'"></div>
-    </div>
-  </div>
-</div>
+  <!-- price -->
+  <!-- NOTE: MAY BE HIDDEN IN BRANDING CSS (based on id=price) -->
+  <md-card id="price">
+    <md-card-header>
+      <md-card-header-text>
+        <span class="md-title">
+          <a href="" ng-init="isPriceCollapsed = true" ng-click="isPriceCollapsed = !isPriceCollapsed">
+            <i class="fa fa-fw" ng-class="{ 'fa-chevron-right': isPriceCollapsed, 'fa-chevron-down': !isPriceCollapsed }"></i>
+            {{ 'RESOURCE_PRICE' | translate }}
+          </a>
+        </span>
+      </md-card-header-text>
+    </md-card-header>
+    <md-card-content uib-collapse="isPriceCollapsed">
+        <div ng-include="'resource/edit/price/resource-edit-price.tpl.html'"></div>
+    </md-card-content>
+  </md-card>
 
-<!-- photos -->
-<div class="card">
-  <div class="card-heading">
-    <h3 class="card-title">
-      <a href="" ng-init="isPhotosCollapsed = true" ng-click="isPhotosCollapsed = !isPhotosCollapsed">
-        <i class="fa fa-fw" ng-class="{ 'fa-chevron-right': isPhotosCollapsed, 'fa-chevron-down': !isPhotosCollapsed }"></i>
-        {{ 'RESOURCE_PICTURES' | translate }}
-      </a>
-    </h3>
-  </div>
-  <div collapse="isPhotosCollapsed">
-    <div class="card-body">
+  <!-- photos -->
+  <md-card>
+    <md-card-header>
+      <md-card-header-text>
+        <span class="md-title">
+        <a href="" ng-init="isPhotosCollapsed = true" ng-click="isPhotosCollapsed = !isPhotosCollapsed">
+          <i class="fa fa-fw" ng-class="{ 'fa-chevron-right': isPhotosCollapsed, 'fa-chevron-down': !isPhotosCollapsed }"></i>
+          {{ 'RESOURCE_PICTURES' | translate }}
+        </a>
+        </span>
+      </md-card-header-text>
+    </md-card-header>
+    <md-card-content uib-collapse="isPhotosCollapsed">
       <div ng-include="'resource/edit/pictures/resource-edit-pictures.tpl.html'"></div>
-    </div>
-  </div>
-</div>
+    </md-card-content>
+  </md-card>
 
-<!-- location -->
-<div class="card">
-  <div class="card-heading">
-    <h3 class="card-title">
-      <a href="" ng-click="toggleLocation()">
-        <i class="fa fa-fw" ng-class="{ 'fa-chevron-right': isLocationCollapsed, 'fa-chevron-down': !isLocationCollapsed }"></i>
-        {{ 'LOCATION' | translate }}
-      </a>
-    </h3>
-  </div>
-  <div collapse="isLocationCollapsed">
-    <div class="card-body">
+  <!-- location -->
+  <md-card>
+    <md-card-header>
+      <md-card-header-text>
+        <span class="md-title">
+        <a href="" ng-click="toggleLocation()">
+          <i class="fa fa-fw" ng-class="{ 'fa-chevron-right': isLocationCollapsed, 'fa-chevron-down': !isLocationCollapsed }"></i>
+          {{ 'LOCATION' | translate }}
+        </a>
+        </span>
+      </md-card-header-text>
+    </md-card-header>
+    <md-card-content uib-collapse="isLocationCollapsed">
       <div ng-include="'resource/edit/location/resource-edit-location.tpl.html'"></div>
-    </div>
-  </div>
-</div>
+    </md-card-content>
+  </md-card>
 
-<!-- members -->
-<div class="card">
-  <div class="card-heading">
-    <h3 class="card-title">
-      <a href="" ng-init="isMembersCollapsed = true" ng-click="isMembersCollapsed = !isMembersCollapsed">
-        <i class="fa fa-fw" ng-class="{ 'fa-chevron-right': isMembersCollapsed, 'fa-chevron-down': !isMembersCollapsed }"></i>
-        {{ 'RESOURCE_MEMBERS' | translate }}
-      </a>
-    </h3>
-  </div>
-  <div collapse="isMembersCollapsed">
-    <div class="card-body">
+  <!-- members -->
+  <!-- do not show card if the resource is not available for others and if resource provider is not 1 -->
+  <md-card>
+    <md-card-header>
+      <md-card-header-text>
+        <span class="md-title">
+        <a href="" ng-init="isMembersCollapsed = true" ng-click="isMembersCollapsed = !isMembersCollapsed">
+          <i class="fa fa-fw" ng-class="{ 'fa-chevron-right': isMembersCollapsed, 'fa-chevron-down': !isMembersCollapsed }"></i>
+          {{ 'RESOURCE_MEMBERS' | translate }}
+        </a>
+        </span>
+      </md-card-header-text>
+    </md-card-header>
+    <md-card-content uib-collapse="isMembersCollapsed">
       <div ng-include="'resource/edit/members/resource-edit-members.tpl.html'"></div>
-    </div>
-  </div>
-</div>
+    </md-card-content>
+  </md-card>
 
-<!-- calendar -->
-<div class="card">
-  <div class="card-heading">
-    <h3 class="card-title">
-      <a ng-href="{{ $state.href('owm.resource.calendar', { resourceId: resource.id }) }}">
-        {{ 'RESOURCE_EDIT_CALENDAR' | translate }}
-      </a>
-    </h3>
-  </div>
-</div>
+  <!-- discounts -->
+  <md-card ng-if="features.discounts">
+    <md-card-header>
+      <md-card-header-text>
+        <span class="md-title">
+          <a href="" ng-init="isDiscountCollapsed = true" ng-click="isDiscountCollapsed = !isDiscountCollapsed">
+            <i class="fa fa-fw" ng-class="{ 'fa-chevron-right': isDiscountCollapsed, 'fa-chevron-down': !isDiscountCollapsed }"></i>
+            {{ 'RESOURCE_DISCOUNTS' | translate }}
+          </a>
+        </span>
+      </md-card-header-text>
+    </md-card-header>
+    <md-card-content uib-collapse="isDiscountCollapsed">
+      <discount-list me="me" resource="resource" />
+    </md-card-content>
+  </md-card>
 
+  <!-- calendar -->
+  <md-card>
+    <md-card-header>
+      <md-card-header-text>
+        <span class="md-title">
+        <a ng-href="{{ $state.href('owm.resource.calendar', { city: resource.city, resourceId: resource.id }) }}">
+          {{ 'RESOURCE_EDIT_CALENDAR' | translate }}
+        </a>
+        </span>
+      </md-card-header-text>
+    </md-card-header>
+  </md-card>
 
 </div><!-- /hasPermission -->

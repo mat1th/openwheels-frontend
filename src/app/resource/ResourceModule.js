@@ -13,13 +13,13 @@ angular.module('owm.resource', [
   'owm.resource.favoriteIcon'
 ])
 
-  .config(function config($stateProvider, $urlRouterProvider) {
+  .config(function ($stateProvider) {
 
     $stateProvider.state('owm.resource', {
       abstract: true,
-      url: '/resource?lat&lng&start&end&text&radius&options&fuel&lock&seats&type',
+      url: '?lat&lng&start&end&text&radius&options&fuel&lock&seats&type&smartwheels&page',
       views: {
-        'main@': {
+        'main@shell': {
           template: '<div ui-view></div>'
         }
       },
@@ -38,13 +38,22 @@ angular.module('owm.resource', [
     });
 
     $stateProvider.state('owm.resource.search', {
-      url: '',
+      url: '/auto-huren',
       abstract: true,
       reloadOnSearch: false,
       views: {
-        'main-full@': {
+        'main-full@shell': {
           controller: 'ResourceSearchController',
           templateUrl: 'resource/search/resource-search.tpl.html'
+        }
+      },
+      data: {
+        title: 'META_SEARCHPAGE_TITLE',
+        description: 'META_SEARCHPAGE_DESCRIPTION'
+      },
+      resolve: {
+        place: function () {
+          return null;
         }
       }
     });
@@ -57,18 +66,71 @@ angular.module('owm.resource', [
     });
 
     $stateProvider.state('owm.resource.search.map', {
-      url: '/map',
+      url: '/kaart',
       reloadOnSearch: false,
       controller: 'ResourceSearchMapController',
       templateUrl: 'resource/search/map/resource-search-map.tpl.html'
     });
 
+    $stateProvider.state('owm.resource.place', {
+      url: '/auto-huren/:city',
+      abstract: true,
+      reloadOnSearch: false,
+      views: {
+        'main-full@shell': {
+          controller: 'ResourceSearchController',
+          templateUrl: 'resource/search/resource-search.tpl.html'
+        }
+      },
+      resolve: {
+        place: [ '$q', '$stateParams', 'placeService',
+        function ($q ,  $stateParams ,  placeService) {
+          return placeService.search({
+            place: $stateParams.city
+          }).catch(angular.noop); // ignore errors
+        }],
+        metaInfo: ['$translate', 'place', 'metaInfoService',
+         function ( $translate ,  place ,  metaInfoService) {
+          if (!place) { return; }
+          return $translate('SITE_NAME').then(function () {
+            metaInfoService.set({
+              title: $translate.instant('META_CITYPAGE_TITLE', { city: place.name }),
+              description: $translate.instant('META_CITYPAGE_DESCRIPTION', { city: place.name })
+            });
+          });
+        }]
+      }
+    });
+
+    $stateProvider.state('owm.resource.place.list', {
+      url: '',
+      reloadOnSearch: false,
+      controller: 'ResourceSearchListController',
+      templateUrl: 'resource/search/list/resource-search-list.tpl.html',
+      data: {
+        access: {
+          feature: 'cityPages'
+        }
+      }
+    });
+
+    $stateProvider.state('owm.resource.place.map', {
+      url: '/kaart',
+      reloadOnSearch: false,
+      controller: 'ResourceSearchMapController',
+      templateUrl: 'resource/search/map/resource-search-map.tpl.html',
+      data: {
+        access: {
+          feature: 'cityPages'
+        }
+      }
+    });
 
     /**
      * resource/create
      */
     $stateProvider.state('owm.resource.create', {
-      url: '/create',
+      url: '/mijn-auto',
       controller: 'ResourceCreateController',
       templateUrl: 'resource/create/resource-create.tpl.html',
       data: {
@@ -97,9 +159,9 @@ angular.module('owm.resource', [
      * @resolve {promise} resource
      */
     $stateProvider.state('owm.resource.show', {
-      url: '/:resourceId',
+      url: '/auto-huren/:city/:resourceId?discountCode',
       views: {
-        'main-full@': {
+        'main-full@shell': {
           controller: 'ResourceShowController',
           templateUrl: 'resource/show/resource-show.tpl.html',
         }
@@ -115,6 +177,24 @@ angular.module('owm.resource', [
           return authService.userPromise().then(function (user) {
             return user.isAuthenticated ? user.identity : null;
           });
+        }],
+        metaInfo: ['$state', '$translate', '$filter', 'resource', 'metaInfoService', 'appConfig',
+         function ($state  ,  $translate ,  $filter ,  resource ,  metaInfoService ,  appConfig) {
+
+          var substitutions = {
+            city: resource.city,
+            alias: resource.alias,
+            owner: $filter('fullname')(resource.owner)
+          };
+
+          return $translate('SITE_NAME').then(function () {
+            metaInfoService.set({
+              title: $translate.instant('META_RESOURCE_TITLE', substitutions),
+              description: $translate.instant('META_RESOURCE_DESCRIPTION', substitutions),
+              url: appConfig.appUrl + $state.href('owm.resource.show', { resourceId: resource.id }),
+              image: appConfig.serverUrl + '/' + $filter('resourceAvatar')(resource.pictures[0], 'normal')
+            });
+          });
         }]
       }
     });
@@ -125,14 +205,14 @@ angular.module('owm.resource', [
      * @resolve {promise} resource
      */
     $stateProvider.state('owm.resource.calendar', {
-      url: '/:resourceId/calendar?view',
+      url: '/auto-huren/:city/:resourceId/kalender?view',
       controller: 'ResourceShowCalendarController',
       templateUrl: 'resource/show/calendar/resource-show-calendar.tpl.html',
       reloadOnSearch: true,
       resolve: {
         bookings: ['$stateParams', 'authService', 'bookingService', 'API_DATE_FORMAT', function ($stateParams, authService, bookingService, API_DATE_FORMAT) {
           var resourceId = $stateParams.resourceId;
-          var startDate = moment().subtract(7, 'days').isoWeekday(1).hours(0).minutes(0).seconds(0);
+          var startDate = moment().subtract(14, 'days').isoWeekday(1).hours(0).minutes(0).seconds(0);
           var endDate = moment().add(52, 'weeks');
 
           return bookingService.forResource({
@@ -145,7 +225,7 @@ angular.module('owm.resource', [
         }],
         blockings: ['$stateParams', 'calendarService', 'API_DATE_FORMAT', function ($stateParams, calendarService, API_DATE_FORMAT) {
           var resourceId = $stateParams.resourceId;
-          var startDate = moment().subtract(7, 'days').isoWeekday(1).hours(0).minutes(0).seconds(0);
+          var startDate = moment().subtract(14, 'days').isoWeekday(1).hours(0).minutes(0).seconds(0);
           var endDate = moment().add(52, 'weeks');
 
           return calendarService.between({
@@ -164,6 +244,25 @@ angular.module('owm.resource', [
         }],
         resource: ['resourceService', '$stateParams', function (resourceService, $stateParams) {
           return resourceService.get({id: $stateParams.resourceId});
+        }],
+
+        metaInfo: ['$state', '$translate', '$filter', 'resource', 'metaInfoService', 'appConfig',
+         function ($state  ,  $translate ,  $filter ,  resource ,  metaInfoService ,  appConfig) {
+
+          return $translate('SITE_NAME').then(function () {
+            var substitutions = {
+              city: resource.city,
+              alias: resource.alias,
+              owner: $filter('fullname')(resource.owner)
+            };
+            metaInfoService.set({
+              title: $translate.instant('META_RESOURCE_TITLE', substitutions),
+              description: $translate.instant('META_RESOURCE_DESCRIPTION', substitutions),
+              url: appConfig.appUrl + $state.href('owm.resource.show', { resourceId: resource.id }),
+              image: appConfig.serverUrl + '/' + $filter('resourceAvatar')(resource.pictures[0], 'normal')
+            });
+          });
+
         }]
       }
     });
@@ -173,7 +272,7 @@ angular.module('owm.resource', [
      * @resolve {promise} resource
      */
     $stateProvider.state('owm.resource.edit', {
-      url: '/:resourceId/edit',
+      url: '/auto/:resourceId/wijzigen',
       controller: 'ResourceEditController',
       templateUrl: 'resource/edit/resource-edit.tpl.html',
       data: {
@@ -196,9 +295,6 @@ angular.module('owm.resource', [
         }]
       }
     });
-
-
-
   })
 
 ;

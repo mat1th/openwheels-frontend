@@ -22,12 +22,12 @@ angular.module('tokenService', [])
       return this.expiresIn() >= minRemainingSec;
     },
     save: function () {
-      storage[KEY] = JSON.stringify({
+      storage.setItem(KEY, JSON.stringify({
         tokenType   : this.tokenType,
         accessToken : this.accessToken,
         refreshToken: this.refreshToken,
         expiryDate  : this.expiryDate
-      });
+      }));
       return this;
     },
     refresh: function () {
@@ -37,11 +37,17 @@ angular.module('tokenService', [])
 
   tokenService.createToken = function (data) {
     var token = Object.create(tokenPrototype);
+    var expiresIn = data.expiresIn;
+    try {
+      expiresIn = parseInt(expiresIn);
+    } catch (ex) {
+      expiresIn = DEFAULT_EXPIRES_IN;
+    }
     angular.extend(token, {
       tokenType   : data.tokenType,
       accessToken : data.accessToken,
       refreshToken: data.refreshToken,
-      expiryDate  : moment().add(data.expiresIn || DEFAULT_EXPIRES_IN, 'seconds').toDate(),
+      expiryDate  : moment().add(expiresIn, 'seconds').toDate(),
     });
     return token;
   };
@@ -49,7 +55,7 @@ angular.module('tokenService', [])
   tokenService.getToken = function () {
     var data, token;
     try {
-      data = JSON.parse(storage[KEY]);
+      data = JSON.parse(storage.getItem(KEY));
       token = Object.create(tokenPrototype);
       angular.extend(token, {
         // cast to string (prevents errors when storage contains messed up data, such as an Array)
@@ -65,7 +71,7 @@ angular.module('tokenService', [])
   };
 
   tokenService.clearToken = function () {
-    delete storage[KEY];
+    storage.removeItem(KEY);
   };
 
   function refreshToken (token) {

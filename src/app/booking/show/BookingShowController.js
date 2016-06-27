@@ -5,7 +5,7 @@ angular.module('owm.booking.show', [])
 .controller('BookingShowController', function (
   $q, $timeout, $log, $scope, $location, $filter, $translate, $state, appConfig, API_DATE_FORMAT,
   bookingService, resourceService, invoice2Service, alertService, dialogService,
-  authService, boardcomputerService, chatPopupService, linksService,
+  authService, boardcomputerService, discountUsageService, chatPopupService, linksService,
   booking, me) {
 
   /**
@@ -54,7 +54,7 @@ angular.module('owm.booking.show', [])
     $scope.allowAcceptReject  = false;
     $scope.allowBoardComputer = false;
     $scope.allowMap    = false;
-    $scope.allowOvereenkomst = false;
+    $scope.allowOvereenkomst = (booking.approved === null || booking.approved === 'OK') && booking.status === 'accepted';
 
     if ($scope.userPerspective === 'renter') {
 
@@ -94,7 +94,6 @@ angular.module('owm.booking.show', [])
       }());
 
       $scope.allowMap = $scope.allowEdit;
-      $scope.allowOvereenkomst = booking.status === 'accepted';
     }
 
     if ($scope.userPerspective === 'owner') {
@@ -107,17 +106,15 @@ angular.module('owm.booking.show', [])
           moment().isBefore(moment(booking.beginBooking)) // is nog niet begonnen
         );
       }());
-      $scope.allowOvereenkomst = booking.status === 'requested' || booking.status === 'accepted';
-
     }
   }
 
   $scope.hasAcceptedTimeframe = function (booking) {
-    return booking.beginBooking && ( ['cancelled', 'rejected'].indexOf(booking.status) < 0 );
+    return booking.beginBooking && ( ['cancelled', 'owner_cancelled', 'rejected'].indexOf(booking.status) < 0 );
   };
 
   $scope.hasRequestedTimeframe = function (booking) {
-    return booking.beginRequested && ( ['cancelled', 'rejected'].indexOf(booking.status) < 0 );
+    return booking.beginRequested && ( ['cancelled', 'owner_cancelled', 'rejected'].indexOf(booking.status) < 0 );
   };
 
   $scope.setTimeframe = function(booking, addDays) {
@@ -362,6 +359,7 @@ angular.module('owm.booking.show', [])
 
   $scope.price = null;
   $scope.isPriceLoading = false;
+  loadDiscount();
 
   var unbindWatch = $scope.$watch('showBookingForm', function (val) {
     if (val) {
@@ -444,17 +442,23 @@ angular.module('owm.booking.show', [])
     }
   }
 
+  function loadDiscount () {
+    discountUsageService.search({
+      booking: $scope.booking.id
+    })
+    .then(function (discount) {
+      $scope.discount = discount;
+    });
+  }
+
   $scope.priceHtml = function (price) {
     var s = '';
-    if (show(price.rent))      { s+='Huur: '        + $filter('currency')(price.rent) + '<br/>'; }
-    if (show(price.insurance)) { s+='Verzekering: ' + $filter('currency')(price.insurance) + '<br/>'; }
-    if (show(price.fee))       { s+='Fee: '         + $filter('currency')(price.fee) + '<br/>'; }
-    s+='Totaal: '      + $filter('currency')(price.total);
+    if (price.rent > 0) { s += 'Huur: ' + $filter('currency')(price.rent) + '<br/>'; }
+    if (price.insurance > 0) { s += 'Verzekering: ' + $filter('currency')(price.insurance) + '<br/>'; }
+    if (price.booking_fee > 0) { s += 'Boekingskosten: ' + $filter('currency')(price.booking_fee) + '<br/>'; }
+    if (price.redemption > 0) { s+='Afkoop eigen risico: ' + $filter('currency')(price.redemption) + '<br/>'; }
+    s += 'Totaal: ' + $filter('currency')(price.total);
     return s;
-
-    function show (amount) {
-      return (amount && amount !== 0);
-    }
   };
 
 
@@ -472,6 +476,7 @@ angular.module('owm.booking.show', [])
 
   if ($scope.userPerspective === 'owner') {
     loadSentInvoices();
+    loadReceivedInvoices();
   }
 
   function loadReceivedInvoices () {

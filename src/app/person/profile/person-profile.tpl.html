@@ -1,16 +1,16 @@
 <div class="card">
   <div class="card-heading">
-    <h2 class="card-title">Mijn gegevens</h2>
+    <h2 class="card-title">{{ 'MY_PROFILE' | translate }}</h2>
   </div>
 
   <div class="card-body">
     <div class="media">
-      <a class="pull-left">
+      <a class="pull-left" ui-sref="member({ personId: person.id })">
         <img class="media-object img-user-normal" ng-if="!refreshProfileImage" person-profile-image="{ person: person, size: 'small', noCache: true }" />
         <div class="media-object img-user-normal" ng-if="refreshProfileImage" />
       </a>
       <div class="media-body">
-        <h4 class="media-heading">{{ person | fullname }}</h4>
+        <h4 class="media-heading"><a ui-sref="member({ personId: person.id })">{{ person | fullname }}</a></h4>
         <div><small>{{ person.created | memberSince }}</small></div>
         <div><span badge-list="person.badges"></span></div>
       </div>
@@ -30,11 +30,11 @@
            ng-class="{ 'fa-chevron-right': personalIsCollapsed, 'fa-chevron-down': !personalIsCollapsed }"></i>
         {{ 'MY_PROFILE_PERSONAL' | translate }}
       </a>
-      &nbsp;<i class="text-danger fa fa-exclamation-triangle" ng-show="alerts.personalData" tooltip="Vul je gegevens aan"></i>
+      &nbsp;<i class="text-danger fa fa-exclamation-triangle" ng-show="alerts.personalData" uib-tooltip="Vul je gegevens aan"></i>
     </h3>
   </div>
 
-  <div collapse="personalIsCollapsed">
+  <div uib-collapse="personalIsCollapsed">
     <div class="card-body">
       <form name="personalDataForm">
 
@@ -131,6 +131,7 @@
 
 
 <!-- CONTACT DATA  -->
+
 <div class="card" id="contact-data">
   <div class="card-heading">
     <h3 class="card-title">
@@ -139,11 +140,11 @@
          <i class="fa fa-fw" ng-class="{ 'fa-chevron-right': contactIsCollapsed, 'fa-chevron-down': !contactIsCollapsed }"></i>
          {{ 'MY_PROFILE_CONTACT' | translate }}
        </a>
-      &nbsp;<i class="text-danger fa fa-exclamation-triangle" ng-show="alerts.contactData" tooltip="Vul je gegevens aan"></i>
+      &nbsp;<i class="text-danger fa fa-exclamation-triangle" ng-show="alerts.contactData" uib-tooltip="Vul je gegevens aan"></i>
     </h3>
   </div>
 
-  <div collapse="contactIsCollapsed">
+  <div uib-collapse="contactIsCollapsed">
     <div class="card-body">
       <form name="contactDataForm">
 
@@ -212,9 +213,14 @@
           </div>
         </div>
 
+        <div ng-if="person.preference !== 'renter'" class="form-group">
+          {{ 'INFO_MY_PROFILE_CONTACT' | translate }}
+          <a ui-sref="owm.resource.create">{{ 'MY_RESOURCES' | translate }}</a>.
+        </div>
+
         <div ng-repeat="p in person.phoneNumbers">
           <div class="form-group">
-            <label for="number-{{ $index }}">{{ 'PHONENUMBER' | translate }}</label>
+            <label ng-if="$index === 0" for="number-{{ $index }}">{{ 'PHONENUMBER' | translate }}</label>
             <div class="input-group">
               <span class="input-group-btn" ng-if="person.phoneNumbers.length > 1">
                 <button type="button" class="btn btn-default" ng-click="removePhone(p, $index)"><i class="fa fa-trash-o"></i></button>
@@ -237,7 +243,7 @@
         </div>
 
         <button id="submitForm" type="button" class="btn btn-primary"
-          ng-disabled="contactDataForm.$pristine || !contactDataForm.$valid"
+          ng-disabled="contactFormProcessing || contactDataForm.$pristine || !contactDataForm.$valid || !person.phoneNumbers.length || (person.phoneNumbers.length > 0 && !person.phoneNumbers[0].number)"
           ng-click="submitContactDataForm()">
           {{ 'SUBMIT' | translate }}
         </button>
@@ -260,7 +266,7 @@
        </a>
      </h3>
   </div>
-  <div collapse="profileIsCollapsed" >
+  <div uib-collapse="profileIsCollapsed" >
     <div class="panel-body">
       <form name="settingsForm">
 
@@ -387,7 +393,7 @@
 
 <!-- ACCOUNT -->
 
-<div class="card" id="bank-data">
+<div class="card" id="bank-data" ng-if="person.preference !== 'renter' || person.status === 'active'">
   <div class="card-heading">
     <h3 class="card-title">
       <a href="" ng-init="accountIsCollapsed = true"
@@ -397,12 +403,24 @@
        </a>
      </h3>
   </div>
-  <div collapse="accountIsCollapsed" >
+  <div uib-collapse="accountIsCollapsed" >
     <div class="card-body">
       <div ng-include="'person/account/person-account.tpl.html'"></div>
     </div><!--/ card-body -->
   </div><!--/ collapse -->
 </div><!--/ card -->
+
+<!-- upload license -->
+<div id="license-upload" class="card" ng-show="person.status === 'new'">
+  <div class="card-heading">
+    <h3 class="card-title">
+      <a ui-sref="owm.person.license">
+        {{ 'LICENSE_UPLOAD' | translate }}
+      </a>
+      &nbsp;<i class="text-danger fa fa-exclamation-triangle" ng-show="alerts.licenseData" uib-tooltip="Upload je rijbewijs"></i>
+    </h3>
+  </div>
+</div>
 
 <!-- change password -->
 <div class="card">
@@ -415,7 +433,7 @@
   </div>
 </div>
 
-<div class="card" id="menu-item-contracts">
+<div class="card" id="menu-item-contracts" ng-if="person.status != 'new'">
   <div class="card-heading">
     <h3 class="card-title">
       <a href="" ui-sref="owm.person.contract">{{ 'MY_CONTRACTS' | translate }}</a>
@@ -423,7 +441,7 @@
   </div>
 </div>
 
-<div class="card" id="menu-item-chipcards">
+<div class="card" id="menu-item-chipcards" ng-if="person.status != 'new'">
   <div class="card-heading">
     <h3 class="card-title">
       <a href="" ui-sref="owm.person.chipcard">{{ 'MY_CHIPCARDS' | translate }}</a>

@@ -6,7 +6,7 @@ angular.module('bookingDirectives', [])
   return {
     restrict: 'A',
     scope   : { booking: '=bookingApprovalIcon' },
-    template: '<i class="{{ className }}" tooltip="{{ tooltip }}"></i>',
+    template: '<i class="{{ className }}" uib-tooltip="{{ tooltip }}"></i>',
     controller: function ($scope) {
       switch ($scope.booking.approved) {
 
@@ -16,6 +16,7 @@ angular.module('bookingDirectives', [])
           break;
 
         case 'TO_BE_PAID':
+        case 'BUY_VOUCHER':
           $scope.className = 'fa fa-eur text-danger';
           $scope.tooltip = 'Nog te betalen';
           break;

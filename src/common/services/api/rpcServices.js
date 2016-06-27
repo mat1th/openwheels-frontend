@@ -4,13 +4,15 @@ angular.module('rpcServices', [])
 
 .service('personService', function (api) {
   var m = function (name) { return api.createRpcMethod('person.' + name); };
-  this.me                    = m('me');
-  this.validateEmail         = m('validateEmail');
-  this.alter                 = m('alter');
 
   /* REQUIRES parameter version=2 (version 1 deprecated on 13-5-2015) */
   this.get                   = m('get');
 
+  /* REQUIRES parameter version=2 (version 1 deprecated on 19-5-2015) */
+  this.me                    = m('me');
+
+  this.validateEmail         = m('validateEmail');
+  this.alter                 = m('alter');
   this.search                = m('search');
   this.dropPhoneWithPhoneId  = m('dropPhoneWithPhoneId');
   this.alterPhoneWithPhoneId = m('alterPhoneWithPhoneId');
@@ -20,6 +22,13 @@ angular.module('rpcServices', [])
   this.resetPassword         = m('resetPassword');
   this.addLicenseImages      = m('addLicenseImages');
   this.setProfileImage       = m('setProfileImage');
+  this.emailBookingLink      = m('emailBookingLink');
+  this.emailPreferenceToNone = m('emailPreferenceToNone');
+})
+
+.service('placeService', function (api) {
+  var m = function (name) { return api.createRpcMethod('place.' + name); };
+  this.search = m('search');
 })
 
 .service('contractService', function (api) {
@@ -33,6 +42,7 @@ angular.module('rpcServices', [])
   this.addPerson     = m('addPerson');
   this.removePerson  = m('removePerson');
   this.invitePerson  = m('invitePerson');
+  this.requestContract = m('requestContract');
 })
 
 .service('chipcardService', function (api) {
@@ -50,6 +60,7 @@ angular.module('rpcServices', [])
 .service('resourceService', function (api) {
   var m = function (name, isAnonymous) { return api.createRpcMethod('resource.' + name, isAnonymous); };
   this.get               = m('get');
+  this.all               = m('all');
   this.alter             = m('alter');
   this.select            = m('select');
   this.forOwner          = m('forOwner');
@@ -103,6 +114,7 @@ angular.module('rpcServices', [])
   this.calculatePrice = m('calculatePrice');
   this.getSent        = m('getSent');
   this.getReceived    = m('getReceived'); // status = paid | unpaid | both
+  this.createSenderInvoiceGroup = m('createSenderInvoiceGroup');
 })
 
 .service('accountService', function (api) {
@@ -124,13 +136,19 @@ angular.module('rpcServices', [])
 
 .service('voucherService', function (api) {
   var m = function (name) { return api.createRpcMethod('voucher.' + name); };
-  this.getVouchers = m('getVouchers');
+  this.search = m('search');
+  this.calculateRequiredCredit = m('calculateRequiredCredit');
+  this.calculateCredit = m('calculateCredit');
+  this.calculateDebt = m('calculateDebt');
+  this.createVoucher = m('createVoucher');
 })
 
 .service('ratingService', function (api) {
   var m = function (name) { return api.createRpcMethod('rating.' + name); };
   this.getPrefill = m('getPrefill');
-  this.create     = m('create');
+  this.create = m('create');
+  this.getResourceRatings = m('getResourceRatings');
+  this.getDriverRatings = m('getDriverRatings');
 })
 
 .service('anwbService', function (api) {
@@ -142,8 +160,11 @@ angular.module('rpcServices', [])
   var m = function (name) { return api.createRpcMethod('payment.' + name); };
   this.pay              = m('pay');
   this.payBooking       = m('payBooking');
+  this.payVoucher       = m('payVoucher');
   this.payInvoiceGroup  = m('payInvoiceGroup');
   this.getInvoiceGroups = m('getInvoiceGroups');
+  this.payoutVoucher    = m('payoutVoucher');
+  this.payoutInvoiceGroup = m('payoutInvoicegroup');
 })
 
 .service('calendarService', function(api){
@@ -164,4 +185,19 @@ angular.module('rpcServices', [])
   this.getConversationWith = m('getConversationWith');
   this.getMessagesAfter    = m('getMessagesAfter');
   this.getMessagesBefore   = m('getMessagesBefore');
+})
+
+.service('discountService', function (api) {
+  var m = function (name) { return api.createRpcMethod('discount.' + name); };
+  this.create = m('create');
+  this.get = m('get');
+  this.search = m('search');
+  this.isApplicable = m('isApplicable');
+  this.apply = m('apply');
+  this.disable = m('disable');
+})
+
+.service('discountUsageService', function (api) {
+  var m = function (name) { return api.createRpcMethod('discount_usage.' + name); };
+  this.search = m('search');
 });

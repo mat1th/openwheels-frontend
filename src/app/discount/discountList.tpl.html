@@ -1,0 +1,47 @@
+<div ng-bind-html="'RESOURCE_DISCOUNT_INTRO' | translate"></div>
+<br/>
+
+<div layout="row" ng-if="ctrl.selectedRange !== ctrl.ranges.custom">
+  <md-input-container>
+    <md-select ng-model="ctrl.selectedRange" aria-label="Selecteer een periode" ng-change="loadDiscounts()">
+      <md-option ng-value="ctrl.ranges.now">Geldig vanaf nu</md-option>
+      <md-option ng-value="ctrl.ranges.custom">Selecteer een periode</md-option>
+    </md-select>
+  </md-input-container>
+</div>
+
+<div layout="row" style="padding-top: 1px; padding-bottom: 14px" ng-if="ctrl.selectedRange === ctrl.ranges.custom">
+  <md-datepicker ng-model="ctrl.ranges.custom.start" md-placeholder="Geldig vanaf" ng-change="loadDiscounts()"></md-datepicker>
+  <md-datepicker ng-model="ctrl.ranges.custom.end" md-placeholder="t/m" ng-change="loadDiscounts()"></md-datepicker>
+  <md-button class="md-icon-button" ng-click="ctrl.selectedRange = ctrl.ranges.now; loadDiscounts()"><md-icon>close</md-icon></md-button>
+</div>
+
+<table class="table">
+  <tr>
+    <th>Code</th>
+    <th hide-xs>Ontvanger</th>
+    <th>Korting</th>
+    <th hide-xs>Geldig vanaf</th>
+    <th hide-xs>Geldig t/m</th>
+    <th></th>
+    <th></th>
+  </tr>
+  <tr ng-repeat="discount in discounts">
+    <td>{{ discount.code }}</td>
+    <td hide-xs><a ui-sref="member({ personId: discount.recipient.id })">{{ discount.recipient.firstName }}</a></td>
+    <td class="text-left">
+      <span ng-if="discount.percentage">{{ discount.percentage | number:0 }}%</span>
+      <span ng-if="discount.amount">{{ discount.amount | currency }}</span>
+    </td>
+    <td hide-xs>{{ discount.validFrom | amDateFormat:'DD-MM-YY' }}</td>
+    <td hide-xs>{{ discount.validUntil | amDateFormat:'DD-MM-YY' }}</td>
+    <td class="text-right"><a href="" ng-click="discountDetails(discount)"><md-icon>info outline</md-icon></a></td>
+    <td class="text-right"><a href="" ng-click="disableDiscount(discount)"><md-icon>delete</md-icon></a></td>
+  </tr>
+</table>
+
+<div layout="row" layout-align="left">
+  <md-button class="md-raised md-primary md-button md-ink-ripple" ng-click="createDiscount($event)">
+    Toevoegen
+  </md-button>
+</div>

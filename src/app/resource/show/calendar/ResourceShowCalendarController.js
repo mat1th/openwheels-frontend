@@ -7,7 +7,7 @@ angular.module('owm.resource.show.calendar', [
   'owm.models.calendar.blockingEvent'
 ])
 
-  .controller('ResourceShowCalendarController', function ($location, $scope, $state, $stateParams, $filter, $modal, $translate, me, calendarService, bookings, resource, blockings, BlockingEvent, BookingEvent, API_DATE_FORMAT) {
+  .controller('ResourceShowCalendarController', function ($location, $scope, $state, $stateParams, $filter, $uibModal, $translate, me, calendarService, bookings, resource, blockings, BlockingEvent, BookingEvent, API_DATE_FORMAT) {
     $scope.me = me;
     $scope.resource = resource;
     $scope.view = $stateParams.view || 'agendaWeek';
@@ -31,7 +31,7 @@ angular.module('owm.resource.show.calendar', [
 
 
       function editBookingEvent() {
-        $modal.open({
+        $uibModal.open({
           templateUrl: 'resource/show/calendar/booking/resource-show-calendar-booking.tpl.html',
           controller: 'ResourceShowCalendarBookingController',
           resolve: {
@@ -44,7 +44,7 @@ angular.module('owm.resource.show.calendar', [
 
 
       function editBlockingEvent() {
-        $modal.open({
+        $uibModal.open({
           templateUrl: 'resource/show/calendar/blocking/resource-show-calendar-blocking.tpl.html',
           controller: 'ResourceShowCalendarBlockingController',
           resolve: {
@@ -133,7 +133,7 @@ angular.module('owm.resource.show.calendar', [
         return;
       }
       function addBlocking() {
-        $modal.open({
+        $uibModal.open({
           templateUrl: 'resource/show/calendar/blocking/resource-show-calendar-blocking.tpl.html',
           controller: 'ResourceShowCalendarBlockingController',
           resolve: {

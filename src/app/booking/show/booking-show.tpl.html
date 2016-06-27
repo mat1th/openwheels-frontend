@@ -2,9 +2,15 @@
 <div class="card">
   <div class="card-heading">
 
-    <a id="booking-huurovereenkomst-link" ng-if="allowOvereenkomst" class="btn btn-link pull-right" target="_blank" ng-href="{{ overeenkomstUrl }}">
-      <i class="fa fa-download fa-fw"></i>Huurovereenkomst (pdf)
-    </a>
+    <span class="pull-right">
+      <a id="booking-huurovereenkomst-link" ng-if="allowOvereenkomst" class="btn btn-link" target="_blank" ng-href="{{ overeenkomstUrl }}">
+        <i class="fa fa-download fa-fw"></i>Huurovereenkomst (pdf)
+      </a>
+
+      <a ng-if="booking.status==='accepted'" class="btn btn-link" target="_blank" ng-href="{{ linksService.tripDetailsPdf(booking.id) }}">
+        <i class="fa fa-download fa-fw"></i>Ritoverzicht (pdf)
+      </a>
+    </span>
 
     <h2 class="card-title">
       <span ng-if="userPerspective==='owner' && !hasAcceptedTimeframe(booking)">
@@ -33,7 +39,7 @@
     <hr/>
 
     <!-- alert -->
-    <div class="alert alert-warning" ng-if="(booking.status === 'cancelled' || booking.status === 'rejected')">
+    <div class="alert alert-warning" ng-if="['cancelled', 'owner_cancelled', 'rejected'].indexOf(booking.status) >= 0">
       <span>{{ booking.status | bookingStatus }}</span>
     </div>
 
@@ -114,7 +120,7 @@
 </div>
 
 <!-- FORM -->
-<div id="bookingFormContainer" collapse="!showBookingForm">
+<div id="bookingFormContainer" uib-collapse="!showBookingForm">
   <div class="card">
     <div class="card-heading"><h2 class="card-title">Reservering wijzigen</h2></div>
     <div class="card-body">
@@ -164,7 +170,11 @@
           <!-- disclaimer -->
           <div class="alert alert-danger" ng-if="booking.approved==='OK'">
             <i class="fa fa-exclamation-triangle text-danger"></i>&nbsp;
-            {{ 'BOOKING_AMEND_DISCLAIMER' | translate }}
+            <span ng-switch="booking.bookingAlterationStrategy">
+              <span ng-switch-when="default">{{ 'BOOKING_ALTERATION_STRATEGY_DEFAULT' | translate }}</span>
+              <span ng-switch-when="mywheels_go">{{ 'BOOKING_ALTERATION_STRATEGY_MYWHEELS_GO' | translate }}</span>
+              <span ng-switch-when="anwb">{{ 'BOOKING_ALTERATION_STRATEGY_ANWB' | translate }}</span>
+            </span>
           </div>
 
           <!-- availability & price -->
@@ -200,7 +210,7 @@
                 {{ 'STOP_BOOKING' | translate }}
               </button>
 
-              <a target="_blank" ng-href="{{ $state.href('owm.resource.calendar', {resourceId: resource.id}) }}" class="btn btn-default">
+              <a target="_blank" ng-href="{{ $state.href('owm.resource.calendar', {city: resource.city, resourceId: resource.id}) }}" class="btn btn-default">
                 <i class="fa fa-calendar"></i> {{ 'CALENDAR_BUTTON' | translate }}
               </a>
 
@@ -338,7 +348,7 @@
 </div>
 
 <!-- received invoices -->
-<div class="card" ng-if="receivedInvoices.length > 0">
+<div class="card" ng-if="receivedInvoices.length > 0 && sentInvoices.length === 0">
   <div class="card-heading">
     <h3 class="card-title">
       <a href="" ng-click="isInvoicesCollapsed = !isInvoicesCollapsed">
@@ -348,7 +358,7 @@
       </a>
     </h3>
   </div>
-  <div collapse="isInvoicesCollapsed">
+  <div uib-collapse="isInvoicesCollapsed">
     <div class="card-body">
       <table class="table">
         <tr>
@@ -378,11 +388,11 @@
       <a href="" ng-click="isSentInvoicesCollapsed = !isSentInvoicesCollapsed">
         <i class="fa fa-fw" ng-class="{ 'fa-chevron-right': isSentInvoicesCollapsed, 'fa-chevron-down': !isSentInvoicesCollapsed }">
       </i>
-      {{ 'SENT_INVOICES_TITLE' | translate }}
+      {{ 'BOOKING_SENT_INVOICES_TITLE' | translate }}
       </a>
     </h3>
   </div>
-  <div collapse="isSentInvoicesCollapsed">
+  <div uib-collapse="isSentInvoicesCollapsed">
     <div class="card-body">
       <table class="table">
         <tr>
@@ -393,10 +403,14 @@
           <td>{{ invoice.description }}</td>
           <td>{{ invoice.total | currency }}</td>
         </tr>
+        <tr ng-repeat="invoice in receivedInvoices">
+          <td>{{ invoice.description }}</td>
+          <td>{{ -invoice.total | currency }}</td>
+        </tr>
         <tr>
           <td><b>Totaal</b></td>
           <td>
-            <b>{{ sentInvoicesTotalAmount | currency }}</b>
+            <b>{{ sentInvoicesTotalAmount - receivedInvoicesTotalAmount | currency }}</b>
 <!--             &nbsp;<button type="button" class="btn btn-primary pull-right" ng-click="payInvoices()">Betalen</button> -->
           </td>
         </tr>
@@ -461,7 +475,7 @@
 <div class="card">
   <div class="card-heading">
     <h3 class="card-title">
-      {{ resource.brand || 'Onbekend merk'}} <span ng-if="resource.model">, {{ resource.model }}</span>
+      {{ resource.brand || ('UNKNOWN_BRAND' | translate) }} <span ng-if="resource.model">, {{ resource.model }}</span>
     </h3>
   </div>
   <div class="card-body">

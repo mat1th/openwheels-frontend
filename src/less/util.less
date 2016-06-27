@@ -10,6 +10,10 @@
   height: auto !important;
 }
 
+.auto-width {
+  width: auto !important;
+}
+
 .nowrap,
 .no-wrap {
   white-space: nowrap;
@@ -37,5 +41,21 @@
     .hover-toggle-show {
       visibility: visible;
     }
+  }
+}
+
+/**
+ * see https://github.com/angular/angular.js/issues/5172#issuecomment-29834711
+ */
+.disable-ng-animate {
+  .ng-enter,
+  .ng-leave,
+  .ng-animate {
+    -webkit-transition: none !important;
+    transition: none !important;
+  }
+  .ng-animate {
+    -webkit-animation: none 0s;
+    animation: none 0s;
   }
 }

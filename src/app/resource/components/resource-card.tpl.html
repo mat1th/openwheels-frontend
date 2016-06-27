@@ -1,0 +1,74 @@
+<md-card class="ow-card" ng-click="select()">
+    <div class="md-card-image" style="position: relative">
+        <ow-resource-picture resource="resource" size="large"></ow-resource-picture>
+        <div class="price">
+            <h2 class="no-margin" style="color:#fff">
+          {{ resource.price.dayRateTotal | currency }}
+          </h2>
+            <div ng-if="resource.price.kmFree" class="">
+                <small>{{ 'FREE_KM_DAY' | translate }}</small>
+            </div>
+        </div>
+    </div>
+    <div style="position: relative">
+        <md-card-title>
+            <md-card-title-text layout="colum" layout-wrap>
+                <a ui-sref="owm.resource.show({city: resource.city, resourceId: resource.id})">
+                    <h3 class="no-margin" style="font-size: 2rem" flex="100">
+                <span>{{ resource.alias || ('RESOURCE_NO_NAME' | translate) }}</span>
+                </h3>
+                </a>
+
+            </md-card-title-text>
+        </md-card-title>
+        <md-card-body class="ow-list-compact">
+            <md-list class="margin-right">
+                <md-list-item>
+                    <!-- location -->
+                    <md-icon>directions_car</md-icon>
+                    <div flex>
+                        <span ng-if="resource.brand || resource.model" flex="none">{{ (resource.brand + ' ' + resource.model) | toTitleCase }}</span>
+                        <span class="tag tag-warning" ng-if="['smartphone', 'chipcard'].indexOf(resource.locktype) >= 0" flex="none"> {{ 'SMART_WHEELS_TIP' | translate }} </span>
+                        <md-tooltip ng-if="['smartphone', 'chipcard'].indexOf(resource.locktype) >= 0">
+                            {{ 'SMART_WHEELS_INFO' | translate }}
+                        </md-tooltip>
+                    </div>
+                </md-list-item>
+                <md-list-item>
+                    <!-- location -->
+                    <md-icon>location_on</md-icon>
+                    <div flex>
+                        <span> {{ resource.location }}, {{ resource.city }}
+                          <span ng-if="resource.distance_to"> ({{ resource.distance_to | formatKilometers }})</span>
+                        </span>
+                    </div>
+                </md-list-item>
+                <md-list-item>
+                    <!-- person -->
+                    <md-icon>person</md-icon>
+                    <div flex>
+                        {{ resource.owner.firstName }}
+                        <span rating-thumb="{ value : resource.rating.satisfaction, senders: resource.rating.senders }"></span>
+                    </div>
+                </md-list-item>
+                <md-list-item>
+                    <!-- number of bookings -->
+                    <md-icon>check</md-icon>
+                    <div flex>
+                        <span>
+                    {{ resource.numberOfBookings | wasBookedTimes }}
+                </span>
+                    </div>
+                </md-list-item>
+                <md-list-item ng-if="resource.properties.length >= 1">
+                    <span ng-repeat="prop in resource.properties">{{ prop.id | toSentenceCase }}<span ng-if="$index !== resource.properties.length - 1">, </span></span>
+                </md-list-item>
+            </md-list>
+            <div class="next-icon">
+                <a ui-sref="owm.resource.show({city: resource.city, resourceId: resource.id})">
+                    <md-icon>navigate_next</md-icon>
+                </a>
+            </div>
+        </md-card-body>
+    </div>
+</md-card>

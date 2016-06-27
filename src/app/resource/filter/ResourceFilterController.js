@@ -2,7 +2,7 @@
 
 angular.module('owm.resource.filter', [])
 
-  .controller('ResourceFilterController', function ($scope, $stateParams, $modalInstance, $translate, props, filters, options) {
+  .controller('ResourceFilterController', function ($scope, $stateParams, $uibModalInstance, $translate, props, filters, options) {
     $scope.props   = props; // .radius, ...
     $scope.filters = filters;
     $scope.options = options;
@@ -28,14 +28,6 @@ angular.module('owm.resource.filter', [])
       {value: 8, label: 8},
       {value: 9, label: 9},
       {value: 10, label: 10}
-    ];
-
-    $scope.lockTypeOptions = [
-      {value: undefined, label: $translate.instant('LOCKTYPE.ALL')},
-      {value: 'chipcard', label: $translate.instant('LOCKTYPE.CHIPCARD')},
-      {value: 'locker', label: $translate.instant('LOCKTYPE.LOCKER')},
-      {value: 'meeting', label: $translate.instant('LOCKTYPE.MEETING')},
-      {value: 'smartphone', label: $translate.instant('LOCKTYPE.SMARTPHONE')},
     ];
 
     $scope.fuelTypeOptions = [
@@ -69,11 +61,11 @@ angular.module('owm.resource.filter', [])
     };
 
     $scope.ok = function () {
-      $modalInstance.close({filters: $scope.filters, options: $scope.options, props: $scope.props });
+      $uibModalInstance.close({filters: $scope.filters, options: $scope.options, props: $scope.props });
     };
 
     $scope.cancel = function () {
-      $modalInstance.dismiss('cancel');
+      $uibModalInstance.dismiss('cancel');
     };
   })
 

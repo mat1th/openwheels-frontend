@@ -2,7 +2,7 @@
 
   <img class="media-object img-resource-small pull-left" ng-src="{{ resource.pictures[0] | resourceAvatar:'small' }}" />
 
-  <div class="media-body" ui-sref="owm.resource.show({ resourceId: resource.id })">
+  <div class="media-body" ui-sref="owm.resource.show({ resourceId: resource.id, city: resource.city })">
     <div class="resource__alias truncate">
       <span>
         {{ resource.alias || ('RESOURCE_NO_NAME' | translate) }} {{ resource.registrationPlate | surroundWith : '(' : ')' }}
@@ -10,12 +10,12 @@
     </div>
 
     <div class="truncate">
-      <i class="fa fa-map-marker fa-fw"></i> {{ resource.location }} {{ resource.city }}
+      <i class="fa fa-map-marker fa-fw"></i> {{ resource.location }}, {{ resource.city }}
     </div>
 
     <div class="truncate">
       <i class="fa fa-user fa-fw"></i> {{ resource.owner.firstName }}
-      <span ng-if="features.ratings" rating-thumb="{ value : resource.rating.satisfaction, senders : resource.rating.senders }"></span>
+      <span ng-if="features.ratings" rating-thumb="{ value : resource.rating_totals.satisfaction, senders: resource.rating_totals.senders }"></span>
     </div>
 
   </div>

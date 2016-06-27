@@ -3,8 +3,8 @@
 angular.module('owm.resource.show', [])
 
 .controller('ResourceShowController', function ($window, $log, $q, $timeout, $location, $scope, $state, $filter,
-  authService, resourceService, bookingService, invoice2Service, boardcomputerService, alertService, chatPopupService, API_DATE_FORMAT,
-  resource, me, resourceQueryService, featuresService, $stateParams, linksService) {
+  authService, resourceService, bookingService, invoice2Service, boardcomputerService, alertService, chatPopupService,
+  ratingService, API_DATE_FORMAT, resource, me, resourceQueryService, featuresService, $stateParams, linksService) {
 
   /**
    * Warning: 'me' will be null for anonymous users
@@ -23,8 +23,14 @@ angular.module('owm.resource.show', [])
   $scope.shareUrl = featuresService.get('serverSideShare') ? linksService.resourceUrl(resource.id, resource.city) : $window.location.href;
   $log.debug('Share url = ' + $scope.shareUrl);
 
+  /**
+   * Init
+   */
   loadSearchState();
   if (me) { loadFavorite(); } else { $scope.isFavoriteResolved = true; }
+  if (featuresService.get('ratings')) {
+    loadRatings();
+  }
 
   function openChatWith (otherPerson) {
     var otherPersonName = $filter('fullname')(otherPerson);
@@ -37,7 +43,16 @@ angular.module('owm.resource.show', [])
       $scope.booking.beginRequested = timeFrame.startDate;
       $scope.booking.endRequested   = timeFrame.endDate;
     }
-    $location.search(resourceQueryService.createStateParams());
+    $location.search(angular.extend($location.search(), resourceQueryService.createStateParams()));
+    $scope.booking.discountCode = $stateParams.discountCode;
+  }
+
+  function loadRatings () {
+    return ratingService.getResourceRatings({
+      resource: $scope.resource.id
+    }).then(function (result) {
+      $scope.resource.ratings = result;
+    });
   }
 
   angular.extend($scope, {
@@ -104,8 +119,6 @@ angular.module('owm.resource.show', [])
     var dfd = $q.defer();
     dfd.promise.then(function (bool) {
       $scope.isFavorite = bool;
-    })
-    .finally(function () {
       $scope.isFavoriteResolved = true;
     });
 

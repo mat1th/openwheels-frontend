@@ -24,7 +24,7 @@ angular.module('owm.resource.filterDirective', [])
 
       var locals = {
         $scope: scope,
-        $modalInstance: modalInstanceStub,
+        $uibModalInstance: modalInstanceStub,
         props  : scope.props,
         filters: scope.filters,
         options: scope.options

@@ -61,7 +61,7 @@ angular.module('authService', [])
     user.isPending = false;
 
     asyncUser = null; // make sure it never gets resolved;
-    window.location.reload();
+    $window.location.href = $state.href('home', {}, { absolute: true });
   });
 
   this.notifyAnonymous = function () {
@@ -80,7 +80,6 @@ angular.module('authService', [])
 
   this.notifyFreshToken = function (freshToken) {
     var remaining;
-    user.isAuthenticated = true;
     if (asyncToken) {
       asyncToken.resolve(freshToken);
       asyncToken = null;
@@ -88,9 +87,9 @@ angular.module('authService', [])
     if (isFirstAuthenticate) {
       if (moment(freshToken.expiryDate).isValid()) {
         remaining = moment.duration({ seconds: freshToken.expiresIn() });
-        $log.debug('[*] AUTHENTICATED, token expires in ' + remaining.humanize() + ' (' + remaining.asSeconds() + ' sec)');
+        $log.debug('token expires in ' + remaining.humanize() + ' (' + remaining.asSeconds() + ' sec)');
       } else {
-        $log.debug('[*] AUTHENTICATED, assume token not expired (invalid expiry date)');
+        $log.debug('token has invalid expiry date, assume not expired');
       }
       loadIdentity();
       isFirstAuthenticate = false;
@@ -138,17 +137,18 @@ angular.module('authService', [])
     alertService.closeAll();
     alertService.loaded();
 
-    if (isInternetExplorer()) {
-      loginRedirect('/');
-    } else {
+    if (isPopupSupported()) {
       openPopup(authUrl('postMessage', 'postMessage'));
+    } else {
+      loginRedirect('/');
     }
     return loginPromise;
   }
 
-  function isInternetExplorer () {
+  function isPopupSupported () {
     var ua = window.navigator.userAgent;
-    return !!( ~ua.indexOf('MSIE ') || ~ua.indexOf('Trident/') );
+    var ie = !!( ~ua.indexOf('MSIE ') || ~ua.indexOf('Trident/') );
+    return !ie;
   }
 
   function loginRedirect (errorPath, successPath) {
@@ -160,8 +160,10 @@ angular.module('authService', [])
   function loadIdentity () {
     $log.debug('--> ' + (user.identity ? 're-' : '') + 'load identity');
     user.isPending = true;
-    api.invokeRpcMethod('person.me').then(function (identity) {
+    api.invokeRpcMethod('person.me', { version: 2 }).then(function (identity) {
       $log.debug('<-- got identity');
+      $log.debug('[*] AUTHENTICATED');
+      user.isAuthenticated = true;
       user.identity = identity;
       user.isPending = false;
       if (asyncUser) {
@@ -226,13 +228,28 @@ angular.module('authService', [])
     return api.invokeRpcMethod('person.subscribe', params, null, true);
   }
 
+  var that = this;
+  this.oauthSubscribe = function oauthSubscribe(params) {
+    params.clientId = appConfig.appId;
+    return api.invokeRpcMethod('auth.subscribe', params, null, true)
+    .then(function (data) {
+      var token = tokenService.createToken({
+        tokenType   : data.token_type,
+        accessToken : data.access_token,
+        refreshToken: data.refresh_token,
+        expiresIn   : data.expires_in
+      });
+      token.save();
+      return that.authenticatedUser(true);
+    });
+  };
+
   // HELPERS
 
   function authUrl (errorPath, successPath) {
     var oAuth2CallbackUrl =
       $window.location.protocol + '//' +
       $window.location.host +
-      $window.location.pathname +
       $state.href('oauth2callback') +
       '?' +
       ( !successPath ? '' : '&successPath=' + encodeURIComponent(successPath) ) +

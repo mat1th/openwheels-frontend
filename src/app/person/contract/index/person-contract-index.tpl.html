@@ -7,25 +7,57 @@
 
     <!-- own contracts -->
 
-    <div class="alert alert-warning" ng-show="!ownContracts.length">
+    <div class="alert alert-warning" ng-show="!ownContracts.length && !otherContracts.length">
       {{ 'PERSON.CONTRACT.LIST.NO_OWN_CONTRACTS' | translate }}
     </div>
 
     <div class="well" ng-show="ownContracts.length" ng-repeat="contract in ownContracts">
-      <!-- MAY BE HIDDEN BY BRANDING CSS: edit_contract_button -->
-      <div class="pull-right" id="edit_contract_button">
-        <button class="btn btn-primary" ng-click="editContract(contract)">{{ 'EDIT' | translate }}</button>
-      </div>
       <div>
-        <h4>{{ contract.type.name }}&nbsp; {{ getOwnRiskWaiverDescription(contract.ownRiskWaiver) }}</h4>
+        <div class="pull-right" ng-if="contract.type.id !== 60">
+          <button class="btn btn-link" ng-click="blockContract($index)">{{ 'CONTRACT_END_ACTION' | translate }}</button>
+        </div>
+        <div class="pull-right" ng-if="ownContracts.length == 1">
+          <a class="btn btn-link" ui-sref="contractchoice">{{ 'PERSON.CONTRACT.CHANGE_CONTRACT' | translate }}</a>
+        </div>
+
+        <h4>{{ contract.type.name }}</h4>
+
+        <!-- MAY BE HIDDEN BY BRANDING CSS: edit_contract_button -->
+        <div id="edit_contract_button" ng-if="contract.type.id !== 60">
+          <form name="editForm">
+            <div class="form-group">
+              <label>{{ 'CONTRACT.PROP.OWNRISKWAIVER' | translate }}</label>
+              <div class="radio">
+                <label>
+                <input type="radio" value="not" ng-model="contract.ownRiskWaiver" />
+                  {{ 'CONTRACT.PROP.OWNRISKWAIVER.NOT.DESC' | translate }}<br/>
+                </label>
+              </div>
+
+              <div class="radio">
+                <label>
+                <input type="radio" value="booking" ng-model="contract.ownRiskWaiver" />
+                  {{ 'CONTRACT.PROP.OWNRISKWAIVER.BOOKING.DESC' | translate }}<br/>
+                </label>
+              </div>
+            </div>
+            <button class="btn btn-primary" ng-click="saveContract($index, editForm)" ng-disabled="busy || editForm.$pristine">
+              {{ 'SAVE' | translate }}
+            </button>
+          </form>
+          <br/>
+        </div>
 
         <p><b>{{ 'PERSON.CONTRACT.OTHER_CONTRACTS_PERSONS' | translate }}:</b></p>
         <ul class="list-group">
           <!-- persons -->
           <li class="list-group-item" ng-repeat="person in getContractPersons(contract)">
             <a href="" class="pull-right" ng-if="person.id" ng-click="removePerson(contract, person)">{{ 'REMOVE' | translate }}</a>
-            <div>
-              {{ person.firstName }} {{ person.preposition }} {{ person.surname }} &lt;{{ person.email }}&gt;
+            <div ng-if="person.firstName">
+              {{ person.firstName }} {{ person.preposition }} {{ person.surname }} {{ person.email | surroundWith : '&lt;' : '&gt;' }}
+            </div>
+            <div ng-if="!person.firstName">
+              {{ 'PERSON.CONTRACT.INVITED_PERSON' | translate }} {{ person.email | surroundWith : '&lt;' : '&gt;' }}
             </div>
           </li>
         </ul>

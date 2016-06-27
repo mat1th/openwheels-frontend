@@ -7,7 +7,6 @@
           <datetime datetime="{{ b.beginBooking }}"></datetime>
           <datetime datetime="{{ b.endBooking }}"></datetime>
           <span class="tag tag-{{ b.status }}">{{ b.status | bookingStatus }}</span>
-          <i booking-approval-icon="b"></i>
         </div>
       </div>
       <div ng-class="{  'col-sm-6': (b.beginBooking && b.beginRequested), 'col-sm-12': !(b.beginBooking && b.beginRequested) }" ng-if="b.beginRequested">
@@ -16,7 +15,6 @@
           <datetime datetime="{{ b.endRequested }}"></datetime>
           <span ng-if="!b.beginBooking" class="tag tag-{{ b.status }}">{{ b.status | bookingStatus }}</span>
           <span ng-if="b.beginBooking" class="tag tag-requested">{{ 'requested' | bookingStatus }}</span>
-          <i booking-approval-icon="b"></i>
         </div>
       </div>
     </div>
@@ -25,13 +23,15 @@
   <div class="media-body">
 
     <div class="pull-right text-right">
+      <!-- OK ICON -->
+      <span ng-if="b.ok">
+        <i class="fa fa-check-circle fa-2x text-success" uib-tooltip="Deze boeking is akkoord, je kunt de auto meegeven aan de huurder"></i>
+      </span>
+      <span ng-if="!b.ok">
+        <i class="fa fa-exclamation-circle fa-2x text-danger" uib-tooltip="Deze boeking is (nog) niet akkoord, geef de auto niet mee aan de huurder"></i>
+      </span>
       <!-- EDIT BUTTON -->
-      <a ui-sref="owm.booking.show({ bookingId: b.id })" class="btn btn-link"><i class="fa fa-fw fa-cog"></i>{{ 'EDIT' | translate }}</a>
-
-      <!-- TO BE PAID INFO -->
-      <div ng-if="b.approved==='TO_BE_PAID'">
-        <span class="text-danger">Huurder moet nog betalen</span>
-      </div>
+      <a ui-sref="owm.booking.show({ bookingId: b.id })" class="text-muted"><i class="fa fa-2x fa-fw fa-cog text-muted" uib-tooltip="{{ 'EDIT' | translate }}"></i></a>
     </div>
 
     <!-- RESOURCE INFO -->

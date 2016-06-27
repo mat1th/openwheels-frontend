@@ -2,7 +2,7 @@
 
 angular.module('dialogService', [])
 
-.service('dialogService', function($modal) {
+.service('dialogService', function($uibModal) {
 
   var modalDefaults = {
     backdrop: true,
@@ -38,18 +38,18 @@ angular.module('dialogService', [])
     angular.extend(tempModalOptions, modalOptions, customModalOptions);
 
     if (!tempModalDefaults.controller) {
-      tempModalDefaults.controller = ['$scope', '$modalInstance', function ($scope, $modalInstance) {
+      tempModalDefaults.controller = ['$scope', '$uibModalInstance', function ($scope, $uibModalInstance) {
         $scope.modalOptions = tempModalOptions;
         $scope.modalOptions.ok = function (result) {
-          $modalInstance.close(result);
+          $uibModalInstance.close(result);
         };
         $scope.modalOptions.close = function (result) {
-          $modalInstance.dismiss('cancel');
+          $uibModalInstance.dismiss('cancel');
         };
       }];
     }
 
-    return $modal.open(tempModalDefaults).result;
+    return $uibModal.open(tempModalDefaults).result;
   };
 
 })

@@ -4,9 +4,9 @@
  * Renders thumb icon + label based on percentage value
  *
  * USAGE
- * <span rating-thumb="{ value : 0.25, senders : 1}"></span> --> "25%"
- * <span rating-thumb="{ value : 0.25, senders : 9}"></span> --> "25%"
- * <span rating-thumb="{ value : 0.25, senders : 0}"></span> --> "no ratings"
+ * <span rating-thumb="{ value: null }"></span> --> no ratings
+ * <span rating-thumb="{ value: 0 }"></span> --> 0% satisfied
+ * <span rating-thumb="{ value: 0.5 }"></span> --> 50% satisfied
  */
 
 angular.module('ratingThumbDirective', [])
@@ -15,21 +15,30 @@ angular.module('ratingThumbDirective', [])
   return {
     restrict: 'A',
     scope: {},
-    template: '<span class="{{ colorClass }}" tooltip-html-unsafe="{{ tooltipHtml }}">' +
+    template: '<span class="{{ colorClass }}" uib-tooltip-html="tooltipHtml">' +
               '  <i class="{{ iconClass }}"></i>&nbsp;{{ label }}' +
               '</span>',
     link: function (scope, elm, attrs) {
       var options = scope.$parent.$eval(attrs.ratingThumb);
-      var value   = options.value   || 0;
-      var senders = options.senders || 0;
+      var value = options.value;
 
-      if (senders === 0) {
+      /* sanitize to null or number */
+      value = angular.isNumber(value) ? value : null;
+
+      /* maintain compatiblity (always show neutral thumb if no senders, regardless of value) */
+      if (!options.senders) {
+        value = null;
+      }
+
+      if (value === null || value < 0) {
         scope.label = '';
         scope.colorClass = 'text-muted';
         scope.iconClass = 'fa fa-thumbs-up';
-      } else {
+      }
+      else {
+        scope.label = Math.round(value * 100) + '%';
+
         if (value >= 0) {
-          scope.label = Math.round(value * 100) + '%';
           scope.colorClass = 'text-danger';
           scope.iconClass = 'fa fa-thumbs-down';
         }
@@ -48,12 +57,12 @@ angular.module('ratingThumbDirective', [])
         return $translate.use();
       }, function (lang) {
         if (lang) {
-          scope.tooltipHtml = getTooltipHtml();
+          scope.tooltipHtml = createTooltipHtml();
         }
       });
 
-      function getTooltipHtml () {
-        if (value === 0 || senders === 0) {
+      function createTooltipHtml () {
+        if (value === null) {
           return $translate.instant('RESOURCE.RATING.TOOLTIP_NORATING');
         }
         return '<i class=\'fa fa-2x fa-thumbs-up pull-left\' style=\'margin-right:10px\'></i>' +

@@ -3,20 +3,32 @@
 angular.module('owm.person.dashboard', [])
 
 .controller('PersonDashboardController', function ($q, $scope, $sce, $state, me, bookingList, rentalList, actions,
-  authService, bookingService, alertService, boardcomputerService, actionService, resourceService) {
+  authService, bookingService, alertService, boardcomputerService, actionService, resourceService, resourceQueryService, blogItems) {
 
   $scope.me = me;
+  $scope.blogItems = blogItems;
   $scope.bookings = bookingList.bookings;
   $scope.rentals = rentalList.bookings;
   $scope.actions = actions;
   $scope.favoriteResources = null;
-
+  $scope.search = { text: '' };
   if (me.preference !== 'owner') {
     loadFavoriteResources();
   }
 
   $scope.renderHtml = function(html_code) {
     return $sce.trustAsHtml(html_code);
+  };
+
+  $scope.doSearch = function (placeDetails) {
+    if (placeDetails) {
+      resourceQueryService.setText($scope.search.text);
+      resourceQueryService.setLocation({
+        latitude : placeDetails.geometry.location.lat(),
+        longitude: placeDetails.geometry.location.lng()
+      });
+    }
+    $state.go('owm.resource.search.list', resourceQueryService.createStateParams());
   };
 
   $scope.allowBoardComputer = function (booking) {
@@ -96,7 +108,7 @@ angular.module('owm.person.dashboard', [])
   }
 
   $scope.selectFavoriteResource = function (resource) {
-    $state.go('owm.resource.show', { resourceId: resource.id });
+    $state.go('owm.resource.show', { resourceId: resource.id, city: resource.city });
   };
 
 })

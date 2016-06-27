@@ -1,0 +1,14 @@
+<div class="card" ng-if="ready">
+  <div class="card-body">
+
+    <p ng-if="success">
+      Bedankt, je e-mailvoorkeur is aangepast.
+    </p>
+
+    <p ng-if="error">
+      {{ 'GLOBAL.MESSAGE.GENERIC_ERROR' | translate }}
+    </p>
+
+    <a class="btn btn-primary" ui-sref="home">Ga verder</a>
+  </div>
+</div>

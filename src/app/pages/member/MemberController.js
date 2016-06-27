@@ -2,7 +2,7 @@
 angular.module('owm.pages.member',[])
 
 .controller('MemberController', function ($window, $filter, $scope, alertService, authService, resourceService,
-  personService, chatPopupService, user, member) {
+  personService, chatPopupService, featuresService, ratingService, user, member) {
 
   $scope.user = user;
   $scope.person = member;
@@ -13,8 +13,14 @@ angular.module('owm.pages.member',[])
   $scope.openChatWith = openChatWith;
   $scope.login = login;
 
+  /**
+   * Init
+   */
   initLayout();
   loadResources();
+  if (user.isAuthenticated && featuresService.get('ratings')) {
+    loadRatings();
+  }
 
   function initLayout () {
     $scope.showContactInfo = (
@@ -48,6 +54,14 @@ angular.module('owm.pages.member',[])
     .finally(function () {
       alertService.loaded();
       initLayout();
+    });
+  }
+
+  function loadRatings () {
+    return ratingService.getDriverRatings({
+      driver: $scope.person.id
+    }).then(function (result) {
+      $scope.person.ratings = result;
     });
   }
 

@@ -16,7 +16,7 @@
     </div>
 
     <div class="truncate">
-      <a href="" class="resource__alias">{{ resource.alias || ('RESOURCE_NO_NAME' | translate) }}</a>
+      <a ui-sref="owm.resource.show({city: resource.city, resourceId: resource.id})" class="resource__alias">{{ resource.alias || ('RESOURCE_NO_NAME' | translate) }}</a>
       <span ng-if="resource.brand || resource.model"> - {{ (resource.brand + ' ' + resource.model) | toTitleCase }}</span>
     </div>
 
@@ -33,6 +33,9 @@
       <resource-favorite-icon resource="resource"></resource-favorite-icon>
       <div class="tag tag-warning" ng-if="['smartphone', 'chipcard'].indexOf(resource.locktype) >= 0">
         {{ 'SMART_WHEELS_TIP' | translate }}
+        <md-tooltip>
+          {{ 'SMART_WHEELS_INFO' | translate }}
+        </md-tooltip>
       </div>
     </div>
 

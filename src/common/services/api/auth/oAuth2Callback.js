@@ -5,24 +5,23 @@ angular.module('oAuth2Callback', [])
 .config(function ($stateProvider) {
 
   $stateProvider.state('oauth2callback', {
-    url: '/oauth2callback?successPath&errorPath&access_token&expires_in&token_type&refresh_token',
+    url: '/oauth2callback?successPath&errorPath',
     onEnter:  ['$log', '$window', '$location', '$timeout', '$rootScope', '$stateParams', 'authService', 'tokenService', 'appConfig',
       function ($log,   $window,   $location,   $timeout,   $rootScope,   $stateParams,   authService,   tokenService ,  appConfig) {
 
       var DEFAULT_SUCCESS_PATH = '/';
       var DEFAULT_ERROR_PATH   = '/';
 
-      var req = $stateParams;
-
-      var successPath = req.successPath || DEFAULT_SUCCESS_PATH;
-      var errorPath   = req.errorPath   || DEFAULT_ERROR_PATH;
+      var successPath = $stateParams.successPath || DEFAULT_SUCCESS_PATH;
+      var errorPath   = $stateParams.errorPath   || DEFAULT_ERROR_PATH;
       if (successPath === 'postMessage' && !$window.opener) { successPath = DEFAULT_SUCCESS_PATH; }
       if (errorPath   === 'postMessage' && !$window.opener) { errorPath   = DEFAULT_ERROR_PATH; }
 
-      if ($stateParams.access_token) {
+      var req = hashToObject($location.hash());
+      if (req.access_token) {
         handleSuccessResponse(req);
       } else {
-        handleErrorResponse(req);
+        handleErrorResponse();
       }
 
       function handleSuccessResponse (req) {
@@ -30,7 +29,7 @@ angular.module('oAuth2Callback', [])
         var token;
         var tokenData = {
           accessToken : req.access_token,
-          expiresIn   : parseInt(req.expires_in) || 0,
+          expiresIn   : req.expires_in,
           tokenType   : req.token_type,
           refreshToken: req.refresh_token
         };
@@ -54,19 +53,13 @@ angular.module('oAuth2Callback', [])
         }
       }
 
-      function handleErrorResponse (req) {
+      function handleErrorResponse () {
         $log.debug('<-! error response at oauth2callback');
         if (errorPath === 'postMessage') {
           postMessage({
             name: 'oAuthError',
             data: 'auth callback did not return a token'
           });
-        } else {
-          // HACK
-          // Replaces the entire href, otherwise /?error=... will remain visible
-          // Preferred solution would be to use $location.url(), but since the ?error=... in the error callback url appears
-          // before the #, Angular wouldn't remove it..
-          reloadPath(errorPath);
         }
       }
 
@@ -76,14 +69,16 @@ angular.module('oAuth2Callback', [])
         $window.opener.postMessage(JSON.stringify(msgObj), targetOrigin);
       }
 
-      function reloadPath (path) {
-        var url =
-          $window.location.protocol + '//' + $window.location.host +
-          $window.location.pathname + '#' + path;
-        $log.debug('replace entire url', url);
-        $timeout(function () {
-          $window.location.replace(url);
-        }, 0);
+      function hashToObject (hash) {
+        var result = {};
+        if (!angular.isString(hash)) {
+          return result;
+        }
+        hash.split('&').forEach(function (pair) {
+          var items = pair.split('=');
+          result[items[0]] = items[1];
+        });
+        return result;
       }
 
     }] // /onEnter
