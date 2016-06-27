@@ -44,7 +44,7 @@
                     <div id="preference_group" ng-if="!features.hideSignupPreference" class="icon car">
                         <label for="preference">{{ 'USER_PREFERENCE_LABEL' | translate }}</label>
                         <div class="select-icon">
-                            <select id="preference" name="preference" ng-model="user.preference" ng-options="o.value as o.label for o in preferenceOptions" required>
+                            <select id="preference" name="preference" ng-model="user.preference"  ng-options="o.value as o.label for o in preferenceOptions" required>
                             </select>
                         </div>
                     </div>
@@ -56,7 +56,7 @@
                         </div>
                     </div>
                 </div>
-                <md-button class="md-raised md-primary" ng-click="signup()">{{ 'SIGNUP' | translate }}</md-button>
+                <md-button class="md-raised md-primary" ng-click="signup()" ng-disabled="!signupform.$valid">{{ 'SIGNUP' | translate }}</md-button>
             </form>
         </div>
     </section>
