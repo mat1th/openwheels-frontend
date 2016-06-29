@@ -9,9 +9,6 @@ angular.module('owm.linksService', [])
 .factory('linksService', function ($log, $rootScope, appConfig, tokenService, featuresService) {
 
   var linksService = {
-    signupUrl: function () {
-      return process(appConfig.serverUrl + '/signup');
-    },
     bookingAgreementPdf: function (bookingId) {
       return process(appConfig.serverUrl + '/dashboard/reservering/' + bookingId + '/overeenkomst.pdf', true);
     },

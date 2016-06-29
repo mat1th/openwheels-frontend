@@ -31,7 +31,7 @@
                 Jij,
               </span>
               <span ng-if="message.sender.id !== me.id">
-                {{ message.sender | fullname }},
+                <a ui-sref="member({ personId: message.sender.id })" ng-click="dismiss()">{{ message.sender | fullname }}</a>,
               </span>
               <span am-time-ago="message.date"></span>
             </small>
