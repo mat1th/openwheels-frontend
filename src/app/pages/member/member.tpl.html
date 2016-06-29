@@ -5,8 +5,10 @@
   <div class="card card-notice" ng-if="user.identity.id === person.id">
     <div class="card-body">
       <p>
-        {{ 'MEMBER_PROFILE_INTRO' | translate }}
-        <info-icon tooltip-html="'INFO_SELF_PROFILE' | translate" tooltip-placement="bottom"><info-icon>
+      <span ng-if="person.visibility=='public'">{{ 'MEMBER_PROFILE_INTRO_PUBLIC' | translate }}</span>
+      <span ng-if="person.visibility=='rentalrelation_only'">{{ 'MEMBER_PROFILE_INTRO_RENTAL' | translate }}</span>
+      <span ng-if="person.visibility=='members'">{{ 'MEMBER_PROFILE_INTRO_MEMBERS' | translate }}</span>
+      <info-icon tooltip-html="'INFO_SELF_PROFILE' | translate" tooltip-placement="bottom"><info-icon>
       </p>
       <a ui-sref="owm.person.profile">
         {{ 'EDIT_PROFILE' | translate }}
@@ -22,7 +24,7 @@
       <div ng-if="!user.isAuthenticated" class="card">
         <div class="card-body">
           <p><i class="fa fa-fw fa-info-circle text-info"></i>{{ 'MEMBER_SUGGEST_LOGIN' | translate }}</p>
-          <a ng-href="{{ signupUrl }}" class="btn btn-warning">{{ 'SIGNUP_SHORT' | translate }}</a>
+          <a ui-sref="owm.auth.signup" class="btn btn-warning">{{ 'SIGNUP_SHORT' | translate }}</a>
           <button ng-click="login()" type="button" class="btn btn-warning">{{ 'LOGIN_SHORT' | translate }}</button>
         </div>
       </div>
