@@ -1,4 +1,4 @@
-.form-inline .form-group {
+.mywheels-form .form-inline .form-group {
     margin-left: 0;
     margin-right: 0;
 }
@@ -24,12 +24,12 @@
 }
 /*input*/
 .mywheels-form input[type="text"],
-input[type="date"],
-input[type="email"],
-input[type="password"],
-legend,
-select,
-textarea {
+.mywheels-form input[type="date"],
+.mywheels-form input[type="email"],
+.mywheels-form input[type="password"],
+.mywheels-form legend,
+.mywheels-form select,
+.mywheels-form textarea {
     box-sizing: border-box;
     display: block;
     width: 100%;
@@ -38,11 +38,11 @@ textarea {
     appearance: none;
 }
 .mywheels-form input[type="text"],
-input[type="date"],
-input[type="email"],
-input[type="password"],
-select,
-textarea {
+.mywheels-form input[type="date"],
+.mywheels-form input[type="email"],
+.mywheels-form input[type="password"],
+.mywheels-form select,
+.mywheels-form textarea {
     padding: 0.5em;
     box-sizing: border-box;
     width: 100%;
@@ -54,25 +54,25 @@ textarea {
     box-shadow: inset 0 0.0625em 0.0625em rgba(0, 0, 0, 0.08);
 }
 .mywheels-form input[type="text"]:focus,
-input[type="date"]:focus,
-input[type="email"]:focus,
-input[type="password"]:focus,
-select:focus,
-textarea:focus {
+.mywheels-form input[type="date"]:focus,
+.mywheels-form input[type="email"]:focus,
+.mywheels-form input[type="password"]:focus,
+.mywheels-form select:focus,
+.mywheels-form textarea:focus {
     outline: none;
     border-color: @mywheels-blue;
     box-shadow: 0 0 0.3125em rgba(0, 156, 144, 0.2);
 }
-input[type="checkbox"] {
+.mywheels-form input[type="checkbox"] {
     display: inline-block;
 }
 .mywheels-form input[type="text"].error,
-input[type="date"].error,
-input[type="email"].error,
-input[type="password"].error,
-legend.error,
-select.error,
-textarea.error {
+.mywheels-form input[type="date"].error,
+.mywheels-form input[type="email"].error,
+.mywheels-form input[type="password"].error,
+.mywheels-form legend.error,
+.mywheels-form select.error,
+.mywheels-form textarea.error {
     color: @mywheels-red;
     border: 0.08em solid @mywheels-red;
 }
@@ -107,6 +107,12 @@ textarea.error {
 }
 .mywheels-form .password.icon:before {
     content: "lock";
+}
+.mywheels-form .search.icon:before {
+    content: "search";
+}
+.mywheels-form .location.icon:before {
+    content: "location_on";
 }
 .mywheels-form .car.icon:before {
     margin-top: 1.8em;
