@@ -3,25 +3,26 @@
     <div ng-if="!features.homeCarousel" class="hero inverted text-center">
         <div class="hero-overlay"></div>
         <section class="container homepage-baseline">
-            <h1 id="tagline" class="homepage-baseline-header">Huur een auto in de buurt</h1>
-            <!--<p>Met auto's in meer dan 500 plaatsen, vind je altijd wel een auto bij jou in de buurt. Boek een auto, haal de sleutel op en rijden maar! In veel plaatsen staan ook Smartwheels, dat zijn auto's die je opent met je OV-chipkaart of smartphone. Ideaal! Geen vaste abonnementskosten en voordelige tarieven, bij ons betaal je alleen wanneer je een auto gebruikt.</p> -->
+            <h1 id="tagline" class="homepage-baseline-header fadeInDown animated">MyWheels maakt autodelen makkelijk</h1>
+
         </section>
         <section class="homepage-searchbar" ng-include="'home/searchBar.tpl.html'"></section>
     </div>
     <!-- /SEARCHBAR -->
 
 
-    <div class="renter--actions container">
+    <div class="renter--actions">
         <!-- RENTER CALL TO ACTION -->
         <div class="renter--action">
             <section>
                 <h2>Huur in de buurt</h2>
                 <p>Met auto's in meer dan 500 plaatsen, vind je altijd wel een auto bij jou in de buurt. Boek een auto, haal de sleutel op en rijden maar! In veel plaatsen staan ook Smartwheels, dat zijn auto's die je opent met je OV-chipkaart of smartphone.
                     Ideaal! Geen vaste abonnementskosten en voordelige tarieven, bij ons betaal je alleen wanneer je een auto gebruikt.</p>
-                <button type="button" name="button" class="mywheels-btn mywheels-btn-default mywheels-btn-margin-top" ui-sref="list-your-car" md-ink-ripple="#3a6d81">
-                    {{ 'LIST_YOUR_CAR' | translate }}
-                </button>
+                <a type="button" name="button" class="mywheels-btn mywheels-btn-default mywheels-btn-margin-top" href="http://localhost:9000/auto-huren?page=1" md-ink-ripple="#3a6d81">
+                    Bekijk het aanbod
+                </a>
             </section>
+            <div class="renter--action--image renter--action--image--vw"></div>
         </div>
         <!-- /RENTER CALL TO ACTION -->
 
@@ -31,15 +32,14 @@
                 <h2>Verhuur en verdien</h2>
                 <p>Je auto aanbieden is gratis. We vragen een kleine vergoeding zodra deze is verhuurd. En je weet zeker dat je goed verzekerd bent, want dat regelen wij voor je. Vul je kenteken in, plaats een paar mooie foto's en je kunt beginnen. Zo verdien
                     jij iets extra's aan je auto en kunnen jouw buren op pad.</p>
-                      <button type="button" name="button" class="mywheels-btn mywheels-btn-default mywheels-btn-margin-top" ui-sref="list-your-car" md-ink-ripple="#3a6d81">
-                      Bereken je winst
-                      </button>
+                <button type="button" name="button" class="mywheels-btn mywheels-btn-default mywheels-btn-margin-top" ui-sref="list-your-car" md-ink-ripple="#3a6d81">
+                    Meld je auto aan
+                </button>
             </section>
+            <div class="renter--action--image renter--action--image-handshake"></div>
         </div>
         <!-- /RENTER CALL TO ACTION -->
     </div>
-
-
 
 
     <!-- FEATURED SLIDER -->
@@ -72,41 +72,41 @@
         </div>
     </div>
     <!-- /FEATURED SLIDER -->
-</div>
 
-<!-- ADAVANTAGES -->
-<div ng-if="lang" ng-include="'branding/home-content-' + lang + '.html?v=' + version"></div>
-<!-- /ADAVANTAGES -->
+    <!-- ADAVANTAGES -->
+    <div ng-if="lang" ng-include="'branding/home-content-' + lang + '.html?v=' + version"></div>
+    <!-- /ADAVANTAGES -->
 
-<div class="imageblock">
-    <div class="imageblock--content">
-        <h3 class="imageblock--heading">Begin direct met huren</h3>
-        <button class="mywheels-btn mywheels-btn-error mywheels-btn-margin-top" ng-click="signup()" md-ink-ripple="#9a3d26">{{ 'SIGNUP_SHORT' | translate }}</button>
+    <div class="imageblock">
+        <div class="imageblock--content">
+            <h3 class="imageblock--heading">Begin direct met huren</h3>
+            <button class="mywheels-btn mywheels-btn-error mywheels-btn-margin-top" ng-click="signup()" md-ink-ripple="#9a3d26">{{ 'SIGNUP_SHORT' | translate }}</button>
+        </div>
     </div>
-</div>
 
-<div class="footer-logo-row text-center">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-3" hide-xs hide-sm>
-                <h2 class="no-margin footer-logo-row-header">In de media</h2>
-                <img class="grayscale" src="assets/img/media/de_volkskrant_logo.png" />
-                <img class="grayscale" src="assets/img/media/nos_logo.png" />
-            </div>
-            <div class="col-md-3" hide-xs hide-sm>
-                <h2 class="no-margin">&nbsp;</h2>
-                <img class="grayscale" src="assets/img/media/de_telegraaf_logo.png" />
-                <img class="grayscale" src="assets/img/media/financieel_dagblad_logo.png" />
-            </div>
-            <div class="col-xs-6 col-md-3">
-                <h2 class="no-margin">Partners</h2>
-                <img class="grayscale" src="assets/img/partners/centraal_beheer_achmea_logo.png" />
-                <img class="grayscale" src="assets/img/partners/green_deal_logo.png" />
-            </div>
-            <div class="col-xs-6 col-md-3">
-                <h2 class="no-margin">&nbsp;</h2>
-                <img class="grayscale" src="assets/img/partners/peugeot_assistance_logo.png" />
-                <img class="grayscale" src="assets/img/partners/sharenl_logo.png" />
+    <div class="footer-logo-row text-center">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3" hide-xs hide-sm>
+                    <h2 class="no-margin footer-logo-row-header">In de media</h2>
+                    <img class="grayscale" src="assets/img/media/de_volkskrant_logo.png" />
+                    <img class="grayscale" src="assets/img/media/nos_logo.png" />
+                </div>
+                <div class="col-md-3" hide-xs hide-sm>
+                    <h2 class="no-margin">&nbsp;</h2>
+                    <img class="grayscale" src="assets/img/media/de_telegraaf_logo.png" />
+                    <img class="grayscale" src="assets/img/media/financieel_dagblad_logo.png" />
+                </div>
+                <div class="col-xs-6 col-md-3">
+                    <h2 class="no-margin">Partners</h2>
+                    <img class="grayscale" src="assets/img/partners/centraal_beheer_achmea_logo.png" />
+                    <img class="grayscale" src="assets/img/partners/green_deal_logo.png" />
+                </div>
+                <div class="col-xs-6 col-md-3">
+                    <h2 class="no-margin">&nbsp;</h2>
+                    <img class="grayscale" src="assets/img/partners/peugeot_assistance_logo.png" />
+                    <img class="grayscale" src="assets/img/partners/sharenl_logo.png" />
+                </div>
             </div>
         </div>
     </div>

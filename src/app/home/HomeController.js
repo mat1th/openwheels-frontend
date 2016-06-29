@@ -13,18 +13,16 @@ angular.module('owm.home', ['owm.resource', 'slick'])
   });
 
   if($scope.features.featuredSlider) {
-    resourceService.searchV2({onlyFeatured: true})//API CALL NEEDS TO BE FIXED FIRST, EMPTY RESULT SET
+    resourceService.all({'onlyFeatured': 'true'})
     .then(function(res) {
+      console.log(res);
       $scope.resources_slider = res;
     });
     $scope.gotoProfile = function(resource) {
       $state.go('owm.resource.show', {city: resource.city, resourceId: resource.id});
     };
   }
-
-  $scope.howToRent = 'https://mywheels.nl/autodelen/hoe-huren-werkt';
-  $scope.howToLet = 'https://mywheels.nl/autodelen/hoe-verhuren-werkt';
-  $scope.howToCarsharing = 'https://mywheels.nl/autodelen';
+  
   $scope.search = { text: '' };
 
   $scope.doSearch = function (placeDetails) {

@@ -1,6 +1,6 @@
 @hero-height: 29rem;
 .home {
-    background-color: #fff;
+    background-color: #F8F8F8;
     h2 {
         font-size: 2.5em;
     }
@@ -18,9 +18,9 @@
 .homepage-searchbar {
     width: 100%;
     height: 10rem;
-    padding: 1em;
+    padding: 0.8em;
     // max-height: 9rem;
-    background: rgba(0, 0, 0, 0.4);
+    background: rgba(0, 0, 0, 0.5);
     display: flex;
     form {
         // padding: 1em 1em;
@@ -32,7 +32,7 @@
     input[type="text"] {
         display: inline-block;
         color: #333;
-        border-radius: 0;
+        border-radius: 0.21em 0 0 0.21em;
         padding: 1.1rem;
         font-size: 1.1em;
     }
@@ -41,7 +41,7 @@
     }
     .icon:before {
         left: 0.2rem;
-        top: 10%;
+        top: 14%;
         font-size: 1.8em;
     }
     .button {
@@ -53,7 +53,7 @@
         font-weight: 500;
         font-size: 1.1em;
         display: inline-block;
-        border-radius: 0 0 0 0;
+        border-radius: 0 0.21em 0.21em 0;
         padding: 1.1rem;
     }
 }
@@ -73,7 +73,7 @@
     left: 0;
     bottom: 0;
     right: 0;
-    background: rgba(0, 0, 0, .2);
+    background: rgba(0, 0, 0, .15);
     z-index: 0;
 }
 .searchbar {
@@ -89,7 +89,7 @@
         height: 100%;
     }
 }
-@media (min-width:480px) {
+@media (min-width:37.5em) {
     .button {
         min-width: 10em;
     }
@@ -111,9 +111,6 @@
     .searchbar {
         width: 100%;
         max-width: 50em;
-        .button {
-            padding-left: 1em;
-        }
     }
     .container {
         width: 62.25em !important;
@@ -130,44 +127,70 @@
 /* ---------------------- RENTER CALL TO ACTION  ------------------- */
 .renter--actions {
     max-width: 100vw;
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-content: center;
-    align-items: center;
+    width: 100%;
+    max-width: 80em;
+    margin: 0 auto;
+    // flex-wrap: wrap;
+    // justify-content: center;
+    // align-content: center;
+    // align-items: center;
 }
 .renter--action {
-    padding: 3em 1em 4em;
-    max-width: 40em;
-    text-align: center;
-    p {
-        max-width: 50em;
-        margin: 0 auto;
-        font-size: 1.1em;
-    }
-    h2 {
-        margin: 0 0 1em;
-        font-size: 3em;
-    }
-    .md-button {
-        margin: 2em 0;
-        // color: #333;
+    box-shadow: none;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    section {
+        padding: 1em;
+        display: inline-block;
     }
 }
-.renter--action:first-child {
-    border-bottom: 0.1em solid #7a7878;
+.renter--action--image-handshake {
+    background: url('/branding/img/home.jpg');
 }
-@media (min-width:996px) {
+.renter--action--image--vw {
+    background: url('https://mywheels.nl/resource/54fc5ec6a4830.jpeg');
+}
+.renter--action--image {
+    height: 25em;
+    display: inline-block;
+    background-position: 20% auto;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+@media (min-width:40em) {
     .renter--action {
-        padding: 3em;
-    }
-    .renter--actions {
         flex-direction: row;
         flex-wrap: nowrap;
+        section {
+            flex-basis: 50%;
+            padding: 2em;
+        }
+    }
+    .renter--action--image {
+        flex-basis: 50%;
+        display: inline-block;
+        max-width: 100%;
     }
     .renter--action:first-child {
         border-bottom: none;
+    }
+    .renter--action:first-child .renter--action--image {
+        order: -1;
+    }
+}
+@media (min-width:60em) {
+    .renter--action {
+        background: #fff;
+        margin: 3em auto;
+        // box-shadow: 0 8px 9px -5px rgba(0, 0, 0, .1), 0 15px 22px 2px rgba(0, 0, 0, .08), 0 6px 28px 5px rgba(0, 0, 0, .08);
+        box-shadow: 0 0 50px 0 rgba(0, 0, 0, .1);
+    }
+    .renter--action--image {
+        img {
+            width: 100%;
+            height: auto;
+        }
     }
 }
 .action-button:last-child .btn {
@@ -272,6 +295,7 @@
     box-sizing: border-box;
 }
 .infobox {
+    background: #fff;
     box-sizing: border-box;
     flex: 1;
     flex-grow: 0;
@@ -282,6 +306,7 @@
     display: block;
     padding: 1em;
     border: 0.1625rem solid @mywheels-green;
+    box-shadow: 0 0 50px 0 rgba(0, 0, 0, .1);
 }
 @media (min-width:996px) {
     .infoboxes {
