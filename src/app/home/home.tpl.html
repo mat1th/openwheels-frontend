@@ -1,40 +1,7 @@
 <div class="home">
-
-    <!-- <div ng-if="features.homeCarousel" class="hero-container">
-    <div class="searchbar-container">
-      <div class="container">
-        <div class="searchbar branding_home_searchbar">
-          <div ng-include="'home/searchBar.tpl.html'"></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="logo-container">
-      <img src="branding/img/home-logo.png" />
-    </div>
-
-    <uib-carousel interval="6000">
-      <uib-slide>
-        <div class="slide-container" ng-style="imageStyle1">
-          <h1 class="tagline" id="tagline" translate="{{ 'TAGLINE_HOME_1' | translate }}"></h1>
-        </div>
-      </uib-slide>
-      <uib-slide>
-        <div class="slide-container" ng-style="imageStyle2">
-          <h1 class="tagline" id="tagline" translate="{{ 'TAGLINE_HOME_2' | translate }}"></h1>
-        </div>
-      </uib-slide>
-      <uib-slide>
-        <div class="slide-container" ng-style="imageStyle3">
-          <h1 class="tagline" id="tagline" translate="{{ 'TAGLINE_HOME_3' | translate }}"></h1>
-        </div>
-      </uib-slide>
-    </uib-carousel>
-  </div> -->
-
-
     <!-- SEARCHBAR -->
     <div ng-if="!features.homeCarousel" class="hero inverted text-center">
+        <div class="hero-overlay"></div>
         <section class="container homepage-baseline">
             <h1 id="tagline" class="homepage-baseline-header">Huur een auto in de buurt</h1>
             <!--<p>Met auto's in meer dan 500 plaatsen, vind je altijd wel een auto bij jou in de buurt. Boek een auto, haal de sleutel op en rijden maar! In veel plaatsen staan ook Smartwheels, dat zijn auto's die je opent met je OV-chipkaart of smartphone. Ideaal! Geen vaste abonnementskosten en voordelige tarieven, bij ons betaal je alleen wanneer je een auto gebruikt.</p> -->
@@ -43,22 +10,37 @@
     </div>
     <!-- /SEARCHBAR -->
 
-    <!-- RENTER CALL TO ACTION -->
-    <div class="renter--call-to--action inverted">
-        <section>
-            <h2>Verhuur en verdien</h2>
-            <p>Je auto aanbieden is gratis. We vragen een kleine vergoeding zodra deze is verhuurd. En je weet zeker dat je goed verzekerd bent, want dat regelen wij voor je. Vul je kenteken in, plaats een paar mooie foto's en je kunt beginnen. Zo verdien
-                jij iets extra's aan je auto en kunnen jouw buren op pad.</p>
-            <md-button class="md-primary" ui-sref="list-your-car">
-                {{ 'LIST_YOUR_CAR' | translate }}
-            </md-button>
-        </section>
-    </div>
-    <!-- /RENTER CALL TO ACTION -->
 
-    <!-- ADAVANTAGES -->
-    <div ng-if="lang" ng-include="'branding/home-content-' + lang + '.html?v=' + version"></div>
-    <!-- /ADAVANTAGES -->
+    <div class="renter--actions container">
+        <!-- RENTER CALL TO ACTION -->
+        <div class="renter--action">
+            <section>
+                <h2>Huur in de buurt</h2>
+                <p>Met auto's in meer dan 500 plaatsen, vind je altijd wel een auto bij jou in de buurt. Boek een auto, haal de sleutel op en rijden maar! In veel plaatsen staan ook Smartwheels, dat zijn auto's die je opent met je OV-chipkaart of smartphone.
+                    Ideaal! Geen vaste abonnementskosten en voordelige tarieven, bij ons betaal je alleen wanneer je een auto gebruikt.</p>
+                <button type="button" name="button" class="mywheels-btn mywheels-btn-default mywheels-btn-margin-top" ui-sref="list-your-car" md-ink-ripple="#3a6d81">
+                    {{ 'LIST_YOUR_CAR' | translate }}
+                </button>
+            </section>
+        </div>
+        <!-- /RENTER CALL TO ACTION -->
+
+        <!-- RENTER CALL TO ACTION -->
+        <div class="renter--action">
+            <section>
+                <h2>Verhuur en verdien</h2>
+                <p>Je auto aanbieden is gratis. We vragen een kleine vergoeding zodra deze is verhuurd. En je weet zeker dat je goed verzekerd bent, want dat regelen wij voor je. Vul je kenteken in, plaats een paar mooie foto's en je kunt beginnen. Zo verdien
+                    jij iets extra's aan je auto en kunnen jouw buren op pad.</p>
+                      <button type="button" name="button" class="mywheels-btn mywheels-btn-default mywheels-btn-margin-top" ui-sref="list-your-car" md-ink-ripple="#3a6d81">
+                      Bereken je winst
+                      </button>
+            </section>
+        </div>
+        <!-- /RENTER CALL TO ACTION -->
+    </div>
+
+
+
 
     <!-- FEATURED SLIDER -->
     <div class="container-fluid slider" ng-if="features.featuredSlider">
@@ -92,10 +74,14 @@
     <!-- /FEATURED SLIDER -->
 </div>
 
+<!-- ADAVANTAGES -->
+<div ng-if="lang" ng-include="'branding/home-content-' + lang + '.html?v=' + version"></div>
+<!-- /ADAVANTAGES -->
+
 <div class="imageblock">
     <div class="imageblock--content">
         <h3 class="imageblock--heading">Begin direct met huren</h3>
-        <button class="imageblock--button btn btn-lg" ng-click="signup()">{{ 'SIGNUP_SHORT' | translate }}</button>
+        <button class="mywheels-btn mywheels-btn-error mywheels-btn-margin-top" ng-click="signup()" md-ink-ripple="#9a3d26">{{ 'SIGNUP_SHORT' | translate }}</button>
     </div>
 </div>
 

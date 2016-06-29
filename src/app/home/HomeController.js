@@ -13,8 +13,7 @@ angular.module('owm.home', ['owm.resource', 'slick'])
   });
 
   if($scope.features.featuredSlider) {
-    //resourceService.all({onlyFeatured: true}) //API CALL NEEDS TO BE FIXED FIRST, EMPTY RESULT SET
-    resourceService.searchV2({maxresults: 20})
+    resourceService.searchV2({onlyFeatured: true})//API CALL NEEDS TO BE FIXED FIRST, EMPTY RESULT SET
     .then(function(res) {
       $scope.resources_slider = res;
     });

@@ -1,73 +1,26 @@
 @hero-height: 29rem;
 .home {
-    text-align: center;
     background-color: #fff;
-    .hero-container {
-        position: relative;
-        width: 100%;
-        height: @hero-height;
-    }
-    .searchbar-container {
-        z-index: 999;
-        position: absolute;
-        bottom: 1.875em;
-        width: 100%;
-        height: 120px;
-        .searchbar {
-            max-width: @hero-height;
-            margin: 0 auto;
-            opacity: 0.95;
-            .input-group {
-                input {
-                    height: 42px;
-                }
-            }
-            a,
-            button {
-                width: 140px;
-                height: 42px;
-            }
-            a {
-                padding: 10px 12px;
-            }
-        }
-    }
-    .logo-container {
-        //disabled
-        z-index: 999;
-        position: absolute;
-        top: 30px;
-        width: 100%;
-        height: 58px;
-    }
-    .slide-container {
-        width: 100%;
-        height: @hero-height;
-        background-position: 50% 50%;
-        background-repeat: no-repeat;
-        background-size: cover;
-        .tagline {
-            padding-top: 90px;
-            color: #fff;
-            font-size: 52px;
-            text-shadow: 1px 2px 3px rgba(0, 0, 0, 0.5);
-        }
+    h2 {
+        font-size: 2.5em;
     }
 }
 /* ---------------------- HOME PAGE BASELINE ------------------- */
 .homepage-baseline {
-    height: 20rem;
+    height: 19rem;
     display: flex;
+    z-index: 1;
 }
 .homepage-baseline-header {
     margin: 0.5em auto auto;
+    z-index: 1;
 }
 .homepage-searchbar {
     width: 100%;
     height: 10rem;
-    padding: 0.5em;
-    max-height: 9rem;
-    background: rgba(0, 0, 0, 0.6);
+    padding: 1em;
+    // max-height: 9rem;
+    background: rgba(0, 0, 0, 0.4);
     display: flex;
     form {
         // padding: 1em 1em;
@@ -88,7 +41,7 @@
     }
     .icon:before {
         left: 0.2rem;
-        top: 0.5rem;
+        top: 0.6rem;
         font-size: 1.8em;
     }
     .button {
@@ -98,6 +51,7 @@
         max-height: 100%;
         width: 100%;
         font-weight: 500;
+        font-size: 1.1em;
         display: inline-block;
         border-radius: 0 0 0 0;
         padding: 1.1rem;
@@ -109,6 +63,18 @@
     background-repeat: no-repeat;
     background-size: cover;
     height: @hero-height;
+    position: relative;
+}
+.hero-overlay {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: rgba(0, 0, 0, .2);
+    z-index: 0;
 }
 .searchbar {
     width: 100%;
@@ -123,15 +89,24 @@
         height: 100%;
     }
 }
+@media (min-width:480px) {
+    .button {
+        min-width: 10em;
+    }
+}
 @media (min-width:1024px) {
     .home .hero {
-        height: 40rem;
+        height: 55rem;
     }
     .homepage-baseline-header {
         margin: auto;
     }
     .homepage-baseline {
-        height: 31rem;
+        height: 41rem;
+    }
+    .homepage-searchbar {
+        height: 14rem;
+        padding: 2.5em;
     }
     .searchbar {
         width: 100%;
@@ -139,9 +114,6 @@
         .button {
             padding-left: 1em;
         }
-    }
-    .button {
-        min-width: 10em;
     }
     .container {
         width: 62.25em !important;
@@ -156,9 +128,15 @@
     }
 }
 /* ---------------------- RENTER CALL TO ACTION  ------------------- */
-.renter--call-to--action {
-    background: @mywheels-blue;
-    padding: 3em 1em;
+.renter--actions {
+    max-width: 100vw;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+.renter--action {
+    padding: 3em 1em 4em;
+    max-width: 40em;
     text-align: center;
     p {
         max-width: 50em;
@@ -171,11 +149,21 @@
     }
     .md-button {
         margin: 2em 0;
-        background: #fff;
-        color: #333;
+        // color: #333;
     }
-    .md-button:hover {
-        color: #EAE9EA;
+}
+.renter--action:first-child {
+    border-bottom: 0.1em solid #7a7878;
+}
+@media (min-width:996px) {
+    .renter--action {
+        padding: 3em;
+    }
+    .renter--actions {
+        flex-direction: row;
+    }
+    .renter--action:first-child {
+        border-bottom: none;
     }
 }
 .action-button:last-child .btn {
@@ -215,6 +203,7 @@
 /* ---------------------- ADVATAGE ------------------- */
 .advantage-mywheels {
     margin: 3em auto;
+    max-width: 100vw;
 }
 /* ---------------------- SLIDER ------------------- */
 .slider {
@@ -269,10 +258,37 @@
     font-size: 1.2em;
 }
 /* ---------------------- INFO BOX ------------------- */
+.infoboxes {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: flex-start;
+    flex-direction: column;
+    width: 100%;
+    box-sizing: border-box;
+}
 .infobox {
-    margin: 1rem 0 8px;
-    text-align: left;
-    padding: 3em 1em;
+    box-sizing: border-box;
+    flex: 1;
+    flex-grow: 0;
+    flex-shrink: 0;
+    margin: 1rem 0;
+    width: 100%;
+    // flex-basis: 18em;
+    display: block;
+    padding: 1em;
+    border: 0.1625rem solid @mywheels-green;
+}
+@media (min-width:996px) {
+    .infoboxes {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+    .infobox {
+        margin: 1rem;
+        flex-basis: 30em;
+        padding: 2em;
+    }
 }
 .infobox {
     .rend--nearby {
@@ -284,12 +300,27 @@
         background-size: cover;
     }
 }
-.infobox--title--icon {
+.infobox--link {
     color: @mywheels-green;
+    font-weight: bold;
+}
+.infobox--link:hover {
+    color: @mywheels-gray;
+    font-weight: bold;
+}
+.infoboxes--heading {
+    text-align: center;
+}
+.material-icons.infobox--title--icon {
+    padding: 0;
+    font-size: 3em;
+    margin: auto 1em auto 0;
+    color: @mywheels-green;
+    height: auto;
 }
 .infobox--title--text {
     color: @mywheels-green;
-    font-size: 23px;
+    font-size: 1.5em;
 }
 /* ---------------------- IMAGE BLOCK ------------------- */
 .imageblock {
@@ -300,7 +331,7 @@
     width: 100%;
     box-sizing: border-box;
     margin: 0;
-    padding: 0;
+    padding: 3em 1em;
 }
 .imageblock--content {
     text-shadow: 0 1px 3px #444;
@@ -313,17 +344,4 @@
     text-align: center;
     font-size: 2em;
     margin: 0 1rem;
-}
-.imageblock--button {
-    text-align: center;
-    margin: 1em auto;
-    background-color: @mywheels-red;
-    border: 0;
-    box-shadow: 0 3px 5px #444;
-    color: #fff;
-    display: block;
-}
-.imageblock--button:hover {
-    background-color: #B44123;
-    color: #fff;
 }
