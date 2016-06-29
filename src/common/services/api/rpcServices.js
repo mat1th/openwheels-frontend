@@ -60,6 +60,7 @@ angular.module('rpcServices', [])
 
 .service('resourceService', function (api) {
   var m = function (name, isAnonymous) { return api.createRpcMethod('resource.' + name, isAnonymous); };
+  this.all               = m('all');
   this.get               = m('get');
   this.alter             = m('alter');
   this.select            = m('select');
