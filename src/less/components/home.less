@@ -41,7 +41,7 @@
     }
     .icon:before {
         left: 0.2rem;
-        top: 0.6rem;
+        top: 10%;
         font-size: 1.8em;
     }
     .button {
@@ -131,8 +131,11 @@
 .renter--actions {
     max-width: 100vw;
     display: flex;
-    justify-content: center;
     flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
 }
 .renter--action {
     padding: 3em 1em 4em;
@@ -161,6 +164,7 @@
     }
     .renter--actions {
         flex-direction: row;
+        flex-wrap: nowrap;
     }
     .renter--action:first-child {
         border-bottom: none;
