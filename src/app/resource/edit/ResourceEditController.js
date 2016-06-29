@@ -25,6 +25,11 @@ angular.module('owm.resource.edit', [
   $scope.members  = members;
   $scope.isLocationCollapsed = true;
 
+  $scope.hiddenCards = {};
+  if($scope.resource.isAvailableOthers !== false) {
+    $scope.hiddenCards.friends = true;
+  }
+
   $scope.toggleLocation = function () {
     $scope.isLocationCollapsed = !!!$scope.isLocationCollapsed;
     if (!$scope.isLocationCollapsed) {
@@ -34,6 +39,14 @@ angular.module('owm.resource.edit', [
       }, 0);
     }
   };
+
+  $scope.$on('ResourceEditSharingsettings:AvailableOthersChange', function(event, isAvailableOthers) {
+    if(!isAvailableOthers) {
+      delete $scope.hiddenCards.friends;
+    } else {
+      $scope.hiddenCards.friends = true;
+    }
+  });
 
 })
 ;

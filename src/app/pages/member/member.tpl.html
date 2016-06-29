@@ -24,7 +24,7 @@
       <div ng-if="!user.isAuthenticated" class="card">
         <div class="card-body">
           <p><i class="fa fa-fw fa-info-circle text-info"></i>{{ 'MEMBER_SUGGEST_LOGIN' | translate }}</p>
-          <a ng-href="{{ signupUrl }}" class="btn btn-warning">{{ 'SIGNUP_SHORT' | translate }}</a>
+          <a ui-sref="owm.auth.signup" class="btn btn-warning">{{ 'SIGNUP_SHORT' | translate }}</a>
           <button ng-click="login()" type="button" class="btn btn-warning">{{ 'LOGIN_SHORT' | translate }}</button>
         </div>
       </div>
