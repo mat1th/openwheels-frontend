@@ -15,14 +15,13 @@ angular.module('owm.home', ['owm.resource', 'slick'])
   if($scope.features.featuredSlider) {
     resourceService.all({'onlyFeatured': 'true'})
     .then(function(res) {
-      console.log(res);
       $scope.resources_slider = res;
     });
     $scope.gotoProfile = function(resource) {
       $state.go('owm.resource.show', {city: resource.city, resourceId: resource.id});
     };
   }
-  
+
   $scope.search = { text: '' };
 
   $scope.doSearch = function (placeDetails) {
@@ -35,10 +34,6 @@ angular.module('owm.home', ['owm.resource', 'slick'])
     }
     $state.go('owm.resource.search.list', resourceQueryService.createStateParams());
   };
-
-  $scope.imageStyle1 = { 'background-image': 'url(\'branding/img/home-rotate-1.jpg\')' };
-  $scope.imageStyle2 = { 'background-image': 'url(\'branding/img/home-rotate-2.jpg\')' };
-  $scope.imageStyle3 = { 'background-image': 'url(\'branding/img/home-rotate-3.jpg\')' };
 
   $scope.version = VERSION;
 })
