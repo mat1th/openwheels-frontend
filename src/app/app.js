@@ -193,7 +193,6 @@ angular.module('openwheels', [
   $rootScope.$state = $state;
   $rootScope.$stateParams = $stateParams;
   $rootScope.isLanguageLoaded = false;
-  $rootScope.signupUrl = featuresService.get('serverSideSignup') ? linksService.signupUrl() : $state.href('signup');
 
   $rootScope.$on('$stateChangeStart', function (e, toState, toParams, fromState) {
     // show spinner
