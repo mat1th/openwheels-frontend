@@ -4,7 +4,7 @@ md-content {
     height: 100%;
 }
 .disabled {
-  display: none !important;
+    display: none !important;
 }
 .min-content-height {
     min-height: 92%;
@@ -20,10 +20,10 @@ md-content {
     margin: 0;
     width: 100%;
 }
-.footer{
-  z-index: 10;
+.footer {
+    z-index: 10;
 }
-.push{
+.push {
     z-index: -1;
 }
 body,
@@ -97,11 +97,11 @@ ul {
 .pagination,
 [data-ng-click],
 [data-ui-sref],
-a,
 [ng-click],
 [ui-sref],
 [x-ng-click],
-[x-ui-sref] {
+[x-ui-sref],
+a {
     cursor: pointer;
 }
 .modal {
@@ -141,4 +141,8 @@ hr {
 }
 .panel {
     border: none;
+}
+.app-toolbar .app--toolbar--button--text.md-button md-icon,
+.app-toolbar .app--toolbar--button--text span {
+    color: #fff;
 }

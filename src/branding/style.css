@@ -1,22 +1,22 @@
 #resource_roadAssistance {
-  display:none;
+    display: none;
 }
 #resource_minimum_age {
-	display:none;
+    display: none;
 }
 #person_slug_edit {
-	display:none;
+    display: none;
 }
 .home .hero {
     background-position: 35% 80%;
 }
 @media (max-width: 768px) {
-	.home .intro h1 {
-		font-size: 32px;
-	}
+    .home .intro h1 {
+        font-size: 32px;
+    }
 }
 @media (max-width:992px) and (min-width:768px) {
-	.home .intro .cta {
-		padding-top: 105px;
-	}
+    .home .intro .cta {
+        padding-top: 105px;
+    }
 }

@@ -14,18 +14,24 @@
     background-position: 50% 50%;
     background-repeat: no-repeat;
     background-size: cover;
-    height: 500px;
+    height: @hero-height;
     z-index: -10;
 }
 .signup-img img {
     width: 100%;
 }
 .signup-card {
+    max-width: 70em;
+    margin-left: auto;
+    margin-right: auto;
     border: 0;
     margin-top: 13vw;
     display: flex;
     flex-direction: column;
     margin-bottom: 3vw;
+    section {
+        width: 100%;
+    }
 }
 .sign-up-terms {
     font-weight: 300;
@@ -87,5 +93,13 @@
     .signup-advantages {
         width: 50%;
         order: -1;
+    }
+}
+@media all and (min-width: 1024px) {
+    .signup-img {
+        height: 55rem;
+    }
+    .signup-card {
+        margin-top: 15em;
     }
 }
