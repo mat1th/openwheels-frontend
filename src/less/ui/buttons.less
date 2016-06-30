@@ -21,10 +21,19 @@
     z-index: 1;
     background: @mywheels-gray;
 }
-.mywheels-btn-margin-top{
-  margin-top: 1em;
+.mywheels-btn[disabled] {
+    background: #b1adad;
+    cursor: not-allowed;
 }
-.mywheels-btn-normal { //md-ink-ripple is #4b702c
+.mywheels-btn[disabled]:hover {
+    background: #b1adad;
+    cursor: not-allowed;
+}
+.mywheels-btn-margin-top {
+    margin-top: 1em;
+}
+.mywheels-btn-normal {
+    //md-ink-ripple is #4b702c
     color: #fff;
     background: @mywheels-green;
 }
@@ -32,7 +41,8 @@
     background: #699b40;
     color: #fff;
 }
-.mywheels-btn-default  { //md-ink-ripple is #3a6d81
+.mywheels-btn-default {
+    //md-ink-ripple is #3a6d81
     color: #fff;
     background: @mywheels-blue;
 }
@@ -40,7 +50,8 @@
     background: #4a879f;
     color: #fff;
 }
-.mywheels-btn-warning  { //md-ink-ripple is #8f6700
+.mywheels-btn-warning {
+    //md-ink-ripple is #8f6700
     color: #fff;
     background: @mywheels-orange;
 }
@@ -48,7 +59,8 @@
     background: #cd9300;
     color: #fff;
 }
-.mywheels-btn-error  { //md-ink-ripple is #9a3d26
+.mywheels-btn-error {
+    //md-ink-ripple is #9a3d26
     color: #fff;
     background: @mywheels-red;
 }

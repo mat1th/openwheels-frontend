@@ -6,19 +6,19 @@
             <h1 id="tagline" class="homepage-baseline-header fadeInDown animated">MyWheels maakt autodelen makkelijk</h1>
 
         </section>
-        <section class="homepage-searchbar" ng-include="'home/searchBar.tpl.html'"></section>
+        <section ng-if="features.homePage" class="homepage-searchbar" ng-include="'home/searchBar.tpl.html'"></section>
     </div>
     <!-- /SEARCHBAR -->
 
 
-    <div class="renter--actions">
+    <div class="renter--actions" ng-if="features.homePage">
         <!-- RENTER CALL TO ACTION -->
         <div class="renter--action">
             <section>
                 <h2>Huur in de buurt</h2>
                 <p>Met auto's in meer dan 500 plaatsen, vind je altijd wel een auto bij jou in de buurt. Boek een auto, haal de sleutel op en rijden maar! In veel plaatsen staan ook Smartwheels, dat zijn auto's die je opent met je OV-chipkaart of smartphone.
                     Ideaal! Geen vaste abonnementskosten en voordelige tarieven, bij ons betaal je alleen wanneer je een auto gebruikt.</p>
-                <a type="button" name="button" class="mywheels-btn mywheels-btn-default mywheels-btn-margin-top" href="http://localhost:9000/auto-huren?page=1" md-ink-ripple="#3a6d81">
+                <a type="button" name="button" class="mywheels-btn mywheels-btn-default mywheels-btn-margin-top" href="/auto-huren?page=1" md-ink-ripple="#3a6d81">
                     Bekijk het aanbod
                 </a>
             </section>
@@ -72,19 +72,20 @@
         </div>
     </div>
     <!-- /FEATURED SLIDER -->
+    <div ng-if="features.homePage">
+        <!-- ADAVANTAGES -->
+        <div ng-if="lang" ng-include="'branding/home-content-' + lang + '.html?v=' + version"></div>
+        <!-- /ADAVANTAGES -->
 
-    <!-- ADAVANTAGES -->
-    <div ng-if="lang" ng-include="'branding/home-content-' + lang + '.html?v=' + version"></div>
-    <!-- /ADAVANTAGES -->
-
-    <div class="imageblock">
-        <div class="imageblock--content">
-            <h3 class="imageblock--heading">Begin direct met huren</h3>
-            <button class="mywheels-btn mywheels-btn-error mywheels-btn-margin-top" ng-click="signup()" md-ink-ripple="#9a3d26">{{ 'SIGNUP_SHORT' | translate }}</button>
+        <div class="imageblock">
+            <div class="imageblock--content">
+                <h3 class="imageblock--heading">Begin direct met huren</h3>
+                <button class="mywheels-btn mywheels-btn-error mywheels-btn-margin-top" ui-sref="owm.auth.signup" md-ink-ripple="#9a3d26">{{ 'SIGNUP_SHORT' | translate }}</button>
+            </div>
         </div>
     </div>
 
-    <div class="footer-logo-row text-center">
+    <div class="footer-logo-row text-center" ng-if="features.homePage">
         <div class="container">
             <div class="row">
                 <div class="col-md-3" hide-xs hide-sm>

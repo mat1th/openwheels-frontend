@@ -1,129 +1,135 @@
 <div class="container" ng-class="{ 'container-transitional': features.filtersSidebar }">
 
-  <div ng-if="place">
-    <div class="col-xs-12">
-      <div class="card">
-        <!-- image -->
-        <div style="min-height: 340px; overflow: hidden">
-          <img ng-src="{{ place.picture || 'branding/img/bg.jpg' }}" class="img-scale" style="min-width: 400px" />
-        </div>
-
-        <!-- overlay -->
-        <div class="image-overlay">
-          <div>
-            <div class="col-xs-offset-1 col-md-offset-1 col-xs-10 col-md-6">
-              <h1 class="tagline">Autodelen in {{ place.name | toTitleCase }}</h1>
-              <h2 class="lead">{{ place.lead }}</h2>
-            </div>
-
-            <!-- coordinator (big screens) -->
-            <div ng-if="place.coordinator" class="hidden-xs hidden-sm col-md-4">
-              <div class="card">
-                <div class="card-body">
-                  <div class="media">
-                    <img class="media-object pull-left img-user-normal" person-profile-image="{ person: place.coordinator, size: 'normal' }" />
-                    <div class="media-body text-left" ng-bind-html="place.coordinatorBody">
-                    </div>
-                    <a ui-sref="member({ personId: place.coordinator.id })">{{ place.coordinator | fullname }}</a>
-                  </div>
+    <div ng-if="place">
+        <div class="col-xs-12">
+            <div class="card">
+                <!-- image -->
+                <div style="min-height: 340px; overflow: hidden">
+                    <img ng-src="{{ place.picture || 'branding/img/bg.jpg' }}" class="img-scale" style="min-width: 400px" />
                 </div>
-              </div>
+
+                <!-- overlay -->
+                <div class="image-overlay">
+                    <div>
+                        <div class="col-xs-offset-1 col-md-offset-1 col-xs-10 col-md-6">
+                            <h1 class="tagline">Autodelen in {{ place.name | toTitleCase }}</h1>
+                            <h2 class="lead">{{ place.lead }}</h2>
+                        </div>
+
+                        <!-- coordinator (big screens) -->
+                        <div ng-if="place.coordinator" class="hidden-xs hidden-sm col-md-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="media">
+                                        <img class="media-object pull-left img-user-normal" person-profile-image="{ person: place.coordinator, size: 'normal' }" />
+                                        <div class="media-body text-left" ng-bind-html="place.coordinatorBody">
+                                        </div>
+                                        <a ui-sref="member({ personId: place.coordinator.id })">{{ place.coordinator | fullname }}</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- body -->
+                <div class="card-body">
+                    <!-- coordinator (small screens) -->
+                    <div ng-if="place.coordinator" class="media visible-xs visible-sm" style="margin-bottom: 20px">
+                        <img class="media-object pull-left img-user-normal" person-profile-image="{ person: place.coordinator, size: 'normal' }" />
+                        <div class="media-body text-left" ng-bind-html="place.coordinatorBody">
+                        </div>
+                        <a ui-sref="member({ personId: place.coordinator.id })">{{ place.coordinator | fullname }}</a>
+                    </div>
+
+                    <span ng-bind-html="place.body"></span>
+                </div>
             </div>
-          </div>
+            <!-- /card -->
         </div>
+    </div>
+    <!-- /place -->
 
-        <!-- body -->
-        <div class="card-body">
-          <!-- coordinator (small screens) -->
-          <div ng-if="place.coordinator" class="media visible-xs visible-sm" style="margin-bottom: 20px">
-            <img class="media-object pull-left img-user-normal" person-profile-image="{ person: place.coordinator, size: 'normal' }" />
-            <div class="media-body text-left" ng-bind-html="place.coordinatorBody">
+    <div>
+
+        <div ng-if="features.filtersSidebar && isWindowSizeMD" class="hidden-xs hidden-sm col-md-4 col-lg-3">
+            <div class="card">
+                <div class="card-heading">
+                    <h3><i class="fa fa-filter"></i> {{ 'FILTER' | translate }}</h3>
+                </div>
+                <div class="card-body">
+                    <div resource-filter on-change="sidebarFiltersChanged" props="filters.props" filters="filters.filters" options="filters.options"></div>
+                </div>
             </div>
-            <a ui-sref="member({ personId: place.coordinator.id })">{{ place.coordinator | fullname }}</a>
-          </div>
-
-          <span ng-bind-html="place.body"></span>
         </div>
-      </div><!-- /card -->
-    </div>
-  </div><!-- /place -->
 
-  <div>
+        <div ng-class="{ 'col-xs-12 col-md-8 col-lg-9' : features.filtersSidebar }" class="no-padding">
 
-    <div ng-if="features.filtersSidebar && isWindowSizeMD" class="hidden-xs hidden-sm col-md-4 col-lg-3">
-      <div class="card">
-        <div class="card-heading">
-          <h3><i class="fa fa-filter"></i> {{ 'FILTER' | translate }}</h3>
-        </div>
-        <div class="card-body">
-          <div resource-filter on-change="sidebarFiltersChanged" props="filters.props" filters="filters.filters" options="filters.options"></div>
-        </div>
-      </div>
-    </div>
+            <div style="margin-bottom:15px">
+                <form class="resource-search">
+                    <div class="input-group">
 
-    <div ng-class="{ 'col-xs-12 col-md-8 col-lg-9' : features.filtersSidebar }"  class="no-padding">
-
-      <div style="margin-bottom:15px">
-        <form class="resource-search">
-          <div class="input-group">
-
-            <span ng-if="!features.filtersSidebar || !isWindowSizeMD" class="input-group-btn">
+                        <span ng-if="!features.filtersSidebar || !isWindowSizeMD" class="input-group-btn">
               <button class="btn btn-default" type="button" ng-click="setFilters()">
                 <i class="fa fa-filter"></i> <span class="hidden-sm hidden-xs"> {{ 'FILTER' | translate }}</span>
-              </button>
-            </span>
+                        </button>
+                        </span>
 
-            <input type="text" class="form-control" details="placeDetails" placeholder="{{ 'FIND_AVAILABLE_PLACEHOLDER' | translate }}" ow-geocoder="{ onDetails: doSearch }" ng-model="searchText">
+                        <input type="text" class="form-control" details="placeDetails" placeholder="{{ 'FIND_AVAILABLE_PLACEHOLDER' | translate }}" ow-geocoder="{ onDetails: doSearch }" ng-model="searchText">
 
-            <span class="input-group-btn">
+                        <span class="input-group-btn">
               <button class="btn btn-default" type="button" ng-click="selectTimeframe()" title="Datum/tijd">
                 <i class="fa fa-clock-o"></i> <span class="hidden-sm hidden-xs"> {{ 'DATE_TIME' | translate }}</span>
-              </button>
+                        </button>
 
-            </span>
-          </div>
-        </form>
-      </div>
+                        </span>
+                    </div>
+                </form>
+            </div>
 
-      <uib-alert type="info" close="removeTimeframe()" ng-if="booking.beginRequested && booking.endRequested">
-        <i class="fa fa-clock-o"></i>
-        Beschikbare auto's voor <span class="text-success">{{ booking.beginRequested | amCalendar }}</span>
-        tot <span class="text-success">{{ booking.endRequested  | amCalendar }}</span>
-      </uib-alert>
+            <uib-alert type="info" close="removeTimeframe()" ng-if="booking.beginRequested && booking.endRequested">
+                <i class="fa fa-clock-o"></i> Beschikbare auto's voor <span class="text-success">{{ booking.beginRequested | amCalendar }}</span> tot <span class="text-success">{{ booking.endRequested  | amCalendar }}</span>
+            </uib-alert>
 
-      <div class="card" ng-if="!searching && !(resources.length >= 1)">
-        <div class="card-body">
-          Er zijn geen beschikbare auto's gevonden
+            <div class="card" ng-if="!searching && !(resources.length >= 1)">
+                <div class="card-body">
+                    Er zijn geen beschikbare auto's gevonden
+                </div>
+            </div>
+
+            <div ng-if="!searching && (resources.length >= 1)">
+                <div class="card">
+                    <div class="card-heading text-center">
+                        <button type="button" class="btn btn-link" ng-click="toggleMap()" ng-if="!($state.includes('owm.resource.search.map') || $state.includes('owm.resource.place.map'))">
+                            <i class="fa fa-map-marker"></i> {{ 'SHOW_ON_MAP' | translate }}
+                        </button>
+                        <button type="button" class="btn btn-link" ng-click="toggleMap()" ng-if="$state.includes('owm.resource.search.map') || $state.includes('owm.resource.place.map')">
+                            <i class="fa fa-th-list"></i> {{ 'SHOW_AS_LIST' | translate }}
+                        </button>
+                    </div>
+                </div>
+
+                <ui-view />
+
+                <!-- pagination -->
+                <md-card layout="row" layout-padding layout-align="center center">
+                    <div class="backbutton">
+                        <md-button ng-hide="page === 1" ng-click="showPage(page - 1)">
+                            <md-icon>arrow_back</md-icon>
+                        </md-button>
+                    </div>
+                    <div flex-gt-xs="50" flex-xs="33" class="text-center">{{page}}</div>
+                    <md-button ng-disabled="page == last_page" class="btn btn-link" ng-click="showPage(page + 1)">
+                        <md-icon>arrow_forward</md-icon>
+                    </md-button>
+                </md-card>
+                <!-- /pagination -->
+
+            </div>
+
         </div>
-      </div>
-
-      <div ng-if="!searching && (resources.length >= 1)">
-        <div class="card">
-          <div class="card-heading text-center">
-            <button type="button" class="btn btn-link" ng-click="toggleMap()"
-              ng-if="!($state.includes('owm.resource.search.map') || $state.includes('owm.resource.place.map'))">
-              <i class="fa fa-map-marker"></i> {{ 'SHOW_ON_MAP' | translate }}
-            </button>
-            <button type="button" class="btn btn-link" ng-click="toggleMap()"
-              ng-if="$state.includes('owm.resource.search.map') || $state.includes('owm.resource.place.map')">
-              <i class="fa fa-th-list"></i> {{ 'SHOW_AS_LIST' | translate }}
-            </button>
-          </div>
-        </div>
-
-        <ui-view />
-
-        <!-- pagination -->
-        <md-card layout="row" layout-padding layout-align="center center">
-              <md-button ng-disabled="page == 1" ng-click="showPage(page - 1)"><md-icon>arrow_back</md-icon></md-button>
-              <div flex-gt-xs="50" flex-xs="33" class="text-center">{{page}}</div>
-              <md-button ng-disabled="page == last_page" class="btn btn-link" ng-click="showPage(page + 1)"><md-icon>arrow_forward</md-icon></md-button>
-        </md-card>
-        <!-- /pagination -->
-
-      </div>
-
-    </div><!-- /col -->
-  </div><!-- /row -->
+        <!-- /col -->
+    </div>
+    <!-- /row -->
 
 </div>
