@@ -230,6 +230,10 @@ angular.module('openwheels', [
       (featuresService.get('resourceSidebar') && $state.includes('owm.resource.show')) ||
       $state.includes('member')
     );
+    $rootScope.containerHome = (
+      ($state.includes('home'))
+    );
+
 
   });
 

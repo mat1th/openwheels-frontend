@@ -44,7 +44,7 @@
 
     <!-- FEATURED SLIDER -->
     <div class="container-fluid slider" ng-if="features.featuredSlider">
-        <div class="slider--container" layout="column" layout-align="center center">
+        <div class="slider--container container-home" layout="column" layout-align="center center">
             <h2 class="slider--heading">{{'FEATURED_CARS_HEADING' | translate}}</h2>
             <slick dots="false" prev-arrow=".slick--prev" next-arrow=".slick--next" ng-if="resources_slider" responsive="[{breakpoint: 1024, settings: { slidesToShow: 3, slidesToScroll: 3}}, {breakpoint: 768, settings: {slidesToShow: 2, slidesToScroll: 2 }}, {breakpoint: 450, settings: {slidesToShow: 1, slidesToScroll: 1 }}]"
                 slides-to-show="4" slides-to-scroll="4">
@@ -78,6 +78,7 @@
         <!-- /ADAVANTAGES -->
 
         <div class="imageblock">
+          <div class="hero-overlay"></div>
             <div class="imageblock--content">
                 <h3 class="imageblock--heading">Begin direct met huren</h3>
                 <button class="mywheels-btn mywheels-btn-error mywheels-btn-margin-top" ui-sref="owm.auth.signup" md-ink-ripple="#9a3d26">{{ 'SIGNUP_SHORT' | translate }}</button>
@@ -86,7 +87,7 @@
     </div>
 
     <div class="footer-logo-row text-center" ng-if="features.homePage">
-        <div class="container">
+        <div class="container-home">
             <div class="row">
                 <div class="col-md-3" hide-xs hide-sm>
                     <h2 class="no-margin footer-logo-row-header">In de media</h2>
