@@ -62,7 +62,6 @@ angular.module('rpcServices', [])
   var m = function (name, isAnonymous) { return api.createRpcMethod('resource.' + name, isAnonymous); };
   this.all               = m('all');
   this.get               = m('get');
-  this.all               = m('all');
   this.alter             = m('alter');
   this.select            = m('select');
   this.forOwner          = m('forOwner');
