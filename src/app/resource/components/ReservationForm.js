@@ -142,11 +142,9 @@ angular.module('owm.resource.reservationForm', [])
           }
         })
         .then(function (isAvailable) {
-          console.log(2);
           $scope.availability = {
             available: isAvailable ? 'yes' : 'no'
           };
-          console.log($scope.availability);
           dfd.resolve($scope.availability);
         })
         .catch(function () {
@@ -165,12 +163,10 @@ angular.module('owm.resource.reservationForm', [])
   function loadContractsOnce() {
     var dfd = $q.defer();
     if ($scope.contractOptions) {
-      console.log('12');
       dfd.resolve($scope.contractOptions);
     } else if (!$scope.person) {
       $scope.contractOptions = [];
       $scope.booking.contract = null;
-      console.log('23');
       dfd.resolve([]);
     } else {
       contractService.forDriver({
@@ -181,7 +177,6 @@ angular.module('owm.resource.reservationForm', [])
         if (featuresService.get('calculatePrice')) {
           $scope.$watch('booking.contract.id', loadPrice);
         }
-        console.log('sdfsf');
         dfd.resolve(contracts);
       });
     }
@@ -361,7 +356,6 @@ angular.module('owm.resource.reservationForm', [])
         }
       })
       .then(function (response) {
-        console.log(response);
         if (response.beginBooking) {
           alertService.add('success', $filter('translate')('BOOKING_ACCEPTED'), 10000);
         } else {
