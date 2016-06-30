@@ -7,6 +7,7 @@
 }
 /* ---------------------- HOME PAGE BASELINE ------------------- */
 .homepage-baseline {
+    text-shadow: 0.07rem 0.14rem 0.21rem rgba(0, 0, 0, .5);
     height: 19rem;
     display: flex;
     z-index: 1;
@@ -23,6 +24,7 @@
     background: rgba(0, 0, 0, 0.5);
     display: flex;
     form {
+        z-index: 1000;
         // padding: 1em 1em;
         margin: auto;
         padding: 1em;
@@ -112,17 +114,6 @@
         width: 100%;
         max-width: 50em;
     }
-    .container {
-        width: 62.25em !important;
-        padding-top: 1rem;
-        padding-left: 0.5rem;
-        padding-right: 0.5rem;
-    }
-}
-@media (min-width:996px) {
-    .container {
-        width: 80em !important;
-    }
 }
 /* ---------------------- RENTER CALL TO ACTION  ------------------- */
 .renter--actions {
@@ -183,8 +174,7 @@
     .renter--action {
         background: #fff;
         margin: 3em auto;
-        // box-shadow: 0 8px 9px -5px rgba(0, 0, 0, .1), 0 15px 22px 2px rgba(0, 0, 0, .08), 0 6px 28px 5px rgba(0, 0, 0, .08);
-        box-shadow: 0 0 50px 0 rgba(0, 0, 0, .1);
+        box-shadow: 0 0 3.57rem 0 rgba(0, 0, 0, .1);
     }
     .renter--action--image {
         img {
@@ -198,43 +188,47 @@
 }
 .content-white {
     padding: 5%;
-    border: 2px solid @mywheels-green;
+    border: 0.14rem solid @mywheels-green;
     min-height: 19em;
 }
 .content-white h3 {
-    font-size: 27px;
+    font-size: 1.9em;
     color: @mywheels-green;
 }
 .content-white md-icon {
     color: @mywheels-green;
     vertical-align: top;
-    margin: 1px 0.5em 0 0;
+    margin: 0.07rem 0.5em 0 0;
 }
 .content h2 {
-    font-size: 39px;
+    font-size: 2.7rem;
 }
 /* ---------------------- ADVATAGE ------------------- */
 .advantage-mywheels {
+    padding: 1em;
     margin: 3em auto;
     max-width: 100vw;
 }
 /* ---------------------- SLIDER ------------------- */
 .slider {
+    max-width: 100vw;
+    overflow: hidden;
     padding: 3em 1em;
     background: @mywheels-green;
 }
 .slider--container {
     position: relative;
-    padding: 0 45px;
+    padding: 0 3em;
+    margin: 0 auto;
 }
 .slider--heading {
     color: white;
-    padding: 20px 0 10px;
-    font-size: 30px;
+    padding: 1.42rem 0 0.8rem;
+    font-size: 2.14rem;
     margin: 0;
 }
 .slider--slide {
-    padding: 0 5px;
+    padding: 0 0.3rem;
     cursor: pointer;
 }
 .slider--slide--image {
@@ -252,7 +246,7 @@
     border-radius: 0.4em;
     background: rgba(0,0,0,.35);
     color: #fff;
-    padding: 8px;
+    padding: 0.8rem;
     font-family: OmnesMedium;
     font-size: 1.2em;
 }
@@ -260,15 +254,34 @@
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
-    padding: 0 10px 6px;
+    padding: 0 0.8rem 0.5rem;
     font-size: 1em;
 }
 .slider--slide--alias {
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
-    padding: 6px 10px 0;
+    padding: 0.8rem 0.5rem 0;
     font-size: 1.2em;
+}
+@media (min-width:996px) {
+    .advantage-mywheels,
+    .slider--container {
+        width: 62.25em;
+        max-width: 62.25em;
+        padding-top: 1rem;
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+    }
+}
+@media (min-width:80em) {
+    .advantage-mywheels,
+    .slider--container {
+        width: 80em;
+        max-width: 80em;
+        margin-left: auto;
+        margin-right: auto;
+    }
 }
 /* ---------------------- INFO BOX ------------------- */
 .infoboxes {
@@ -292,7 +305,7 @@
     display: block;
     padding: 1em;
     border: 0.1625rem solid @mywheels-green;
-    box-shadow: 0 0 50px 0 rgba(0, 0, 0, .1);
+    box-shadow: 0 0 3.57rem 0 rgba(0, 0, 0, .1);
 }
 @media (min-width:996px) {
     .infoboxes {
@@ -349,13 +362,14 @@
     padding: 3em 1em;
 }
 .imageblock--content {
-    text-shadow: 0 1px 3px #444;
+    text-shadow: 0 0.07rem 0.21rem #444;
     text-align: center;
     padding: 5em 0;
 }
 .imageblock--heading {
+    text-shadow: 0.07rem 0.14rem 0.21rem rgba(0, 0, 0, .5);
     color: #fff;
-    text-shadow: 0 1px 3px #444;
+    text-shadow: 0 0.07rem 0.21rem #444;
     text-align: center;
     font-size: 2em;
     margin: 0 1rem;

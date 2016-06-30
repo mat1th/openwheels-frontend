@@ -1,185 +1,192 @@
 <div class="card" ng-if="!busy && !requiredValue">
-  <div class="card-heading">
-    <h2 class="card-title">
+    <div class="card-heading">
+        <h2 class="card-title">
       <p>
         <i class="fa fa-fw fa-frown-o"></i>
       </p>
-    </h2>
-    We kunnen op dit moment helaas niet zien of je voldoende rijtegoed hebt voor jouw reserveringen. Probeer het later nog eens, of neem contact met ons op.
-  </div>
+    </h2> We kunnen op dit moment helaas niet zien of je voldoende rijtegoed hebt voor jouw reserveringen. Probeer het later nog eens, of neem contact met ons op.
+    </div>
 </div>
 
 
 <div class="card" ng-if="!busy && requiredValue && requiredValue.voucher">
-  <div class="card-heading">
-    <h2 class="card-title">
+    <div class="card-heading">
+        <h2 class="card-title">
       Bijna klaar! Alleen nog rijtegoed kopen
     </h2>
-  </div>
+    </div>
 </div>
-
 <div class="card" ng-if="!busy && requiredValue" ng-repeat="booking in requiredValue.bookings" ng-init="isOpen['_' + $index] = $index <= 1">
-  <div class="card-heading">
-    <span class="pull-right" ng-if="!isOpen['_' + $index]">
-      <b>{{ (booking.booking_price.total + booking.km_price) | currency }}</b>
+    <div class="card-heading">
+        <span class="pull-right" ng-if="booking.isOpen">
+        <md-icon ng-show="booking.statusValue" ng-class="{'text-success': booking.statusValue}">check</md-icon>
+        <b ng-class="{'text-success': booking.statusValue}">{{ (booking.booking_price.total + booking.km_price) | currency }}</b>
     </span>
-    <h3 class="card-title">
-      <a ng-click="isOpen['_' + $index] = !!!isOpen['_' + $index]">
+        <h3 class="card-title">
+      <a ng-click="toggleBookingCards($index)">
         <i class="fa fa-fw" ng-class="{ 'fa-chevron-right': !isOpen['_' + $index], 'fa-chevron-down': isOpen['_' + $index] }"></i>
         Rit op {{ booking.beginBooking | amDateFormat:'DD-MM-YYYY' }}
       </a>
     </h3>
-  </div>
+    </div>
 
-  <div uib-collapse="!isOpen['_' + $index]">
-    <div class="card-body">
-      <div class="media media--small" style="margin-bottom: 15px">
-        <a class="media-object pull-left" ui-sref="owm.booking.show({ bookingId: booking.id })">
-          <img class="media-object img-resource-small" ng-src="{{ resource.pictures[0] | resourceAvatar:'small' }}">
-        </a>
+    <div uib-collapse="booking.isOpen">
+        <div class="card-body">
+            <div class="media media--small" style="margin-bottom: 15px">
+                <a class="media-object pull-left" ui-sref="owm.booking.show({ bookingId: booking.id })">
+                    <img class="media-object img-resource-small" ng-src="{{ resource.pictures[0] | resourceAvatar:'small' }}">
+                </a>
 
-        <div class="media-body">
-          <div class="pull-left">
-            <div class="booking__timeframe">
-              <datetime datetime="{{ booking.beginBooking }}"></datetime>
-              <datetime datetime="{{ booking.endBooking }}"></datetime>
-              <span class="tag tag-{{ booking.status }}">{{ booking.status | bookingStatus }}</span>
-            </div>
-          </div>
+                <div class="media-body">
+                    <div class="pull-left">
+                        <div class="booking__timeframe">
+                            <datetime datetime="{{ booking.beginBooking }}"></datetime>
+                            <datetime datetime="{{ booking.endBooking }}"></datetime>
+                            <span class="tag tag-{{ booking.status }}">{{ booking.status | bookingStatus }}</span>
+                        </div>
+                    </div>
 
-          <div class="pull-left">
-            <div class="truncate">
-              <a ui-sref="owm.booking.show({ bookingId: booking.id })">
+                    <div class="pull-left">
+                        <div class="truncate">
+                            <a ui-sref="owm.booking.show({ bookingId: booking.id })">
                 {{ booking.resource.alias }}
               </a>
+                        </div>
+                        <div class="truncate">
+                            <i class="fa fa-map-marker fa-fw"></i> {{ booking.resource.location }}
+                        </div>
+                        <div class="truncate">
+                            <i class="fa fa-user fa-fw"></i> {{ booking.resource.owner | fullname }}
+                        </div>
+                    </div>
+
+                </div>
             </div>
-            <div class="truncate">
-              <i class="fa fa-map-marker fa-fw"></i> {{ booking.resource.location }}
-            </div>
-            <div class="truncate">
-              <i class="fa fa-user fa-fw"></i>  {{ booking.resource.owner | fullname }}
-            </div>
-          </div>
+
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <td style="width:100%">Huur</td>
+                        <td class="text-right">{{ booking.booking_price.sub_total | currency }}</td>
+                    </tr>
+                    <tr>
+                        <td>Boekingskosten</td>
+                        <td class="text-right">{{ booking.booking_price.booking_fee | currency }}</td>
+                    </tr>
+                    <tr>
+                        <td style="background: #eee; padding: 20px 20px 25px 10px">
+                            <div class="media">
+                                <div class="media-object pull-left">
+                                    <input type="checkbox" ng-disabled="redemptionPending[booking.id]" ng-model="booking.riskReduction" ng-click="toggleRedemption(booking)" />
+                                </div>
+                                <div class="media-body" style="padding:0">
+                                    <b>Eigen risico verlagen</b>
+                                    <br/> Het eigen risico bij schade is in de meeste gevallen 250 euro. Voor slechts 3,50 euro per dag verlaag je het eigen risico met 250 euro en kun je onbezorgd op weg. <a href="https://mywheels.nl/autodelen/hoe-huren-werkt/verzekering/">Lees meer</a>.
+                                </div>
+                            </div>
+                        </td>
+
+                        <td class="text-right" style="background: #eee; padding: 20px 10px 25px 0">
+                            <i ng-if="redemptionPending[booking.id]" class="fa fa-spinner fa-spin fa-fw"></i>
+                            <span ng-if="!redemptionPending[booking.id]">{{ booking.booking_price.redemption | currency }}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Geschatte kilometers
+                            <info-icon tooltip-placement="bottom" tooltip-html="'Dit is een schatting van de kilometerkosten. Na afloop kun je teveel betaald rijtegoed terugvragen.'"></info-icon>
+                        </td>
+                        <td class="text-right">{{ booking.km_price | currency }}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Totale huurprijs</b></td>
+                        <td class="text-right"><b>{{ (booking.booking_price.total + booking.km_price) | currency }}</b></td>
+                    </tr>
+
+                    <tr ng-if="booking.discount > 0">
+                        <td style="padding-top:25px">Af: korting</td>
+                        <td class="text-right" style="padding-top:25px">{{ booking.discount | currency }}</td>
+                    </tr>
+                    <tr ng-if="booking.discount > 0">
+                        <td><b>Totaal</b></td>
+                        <td class="text-right"><b>{{ (booking.booking_price.total + booking.km_price - booking.discount) | currency }}</b></td>
+                    </tr>
+                </tbody>
+            </table>
 
         </div>
-      </div>
+        <!-- /body -->
+    </div>
+    <!-- /collapse -->
 
-      <table class="table">
-        <tbody>
-          <tr>
-            <td style="width:100%">Huur</td><td class="text-right">{{ booking.booking_price.sub_total | currency }}</td>
-          </tr>
-          <tr>
-            <td>Boekingskosten</td><td class="text-right">{{ booking.booking_price.booking_fee | currency }}</td>
-          </tr>
-          <tr>
-            <td style="background: #eee; padding: 20px 20px 25px 10px">
-              <div class="media">
-                <div class="media-object pull-left">
-                  <input type="checkbox" ng-disabled="redemptionPending[booking.id]" ng-model="booking.riskReduction" ng-click="toggleRedemption(booking)" />
-                </div>
-                <div class="media-body" style="padding:0">
-                  <b>Eigen risico verlagen</b><br/>
-                  Het eigen risico bij schade is in de meeste gevallen 250 euro. Voor slechts 3,50 euro per dag verlaag je het eigen risico met 250 euro en kun je onbezorgd op weg. <a href="https://mywheels.nl/autodelen/hoe-huren-werkt/verzekering/">Lees meer</a>.
-                </div>
-              </div>
-            </td>
-
-            <td class="text-right" style="background: #eee; padding: 20px 10px 25px 0">
-              <i ng-if="redemptionPending[booking.id]" class="fa fa-spinner fa-spin fa-fw"></i>
-              <span ng-if="!redemptionPending[booking.id]">{{ booking.booking_price.redemption | currency }}</span>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              Geschatte kilometers
-              <info-icon tooltip-placement="bottom" tooltip-html="'Dit is een schatting van de kilometerkosten. Na afloop kun je teveel betaald rijtegoed terugvragen.'"></info-icon>
-            </td>
-            <td class="text-right">{{ booking.km_price | currency }}</td>
-          </tr>
-          <tr>
-            <td><b>Totale huurprijs</b></td><td class="text-right"><b>{{ (booking.booking_price.total + booking.km_price) | currency }}</b></td>
-          </tr>
-
-          <tr ng-if="booking.discount > 0">
-            <td style="padding-top:25px">Af: korting</td><td class="text-right" style="padding-top:25px">{{ booking.discount | currency }}</td>
-          </tr>
-          <tr ng-if="booking.discount > 0">
-            <td><b>Totaal</b></td><td class="text-right"><b>{{ (booking.booking_price.total + booking.km_price - booking.discount) | currency }}</b></td>
-          </tr>
-        </tbody>
-      </table>
-
-    </div><!-- /body -->
-  </div><!-- /collapse -->
-
-</div><!-- /card -->
+</div>
+<!-- /card -->
 
 <div class="card" ng-if="!busy && requiredValue">
-  <div class="card-heading">
-    <h2 class="card-title">Rijtegoed</h2>
-  </div>
+    <div class="card-heading">
+        <h2 class="card-title">Rijtegoed</h2>
+    </div>
 
-  <div class="card-body">
-    <!-- credit -->
-    <div style="margin-bottom: 15px;">
+    <div class="card-body">
+        <!-- credit -->
+        <div style="margin-bottom: 15px;">
 
-        <table class="table">
-          <tr>
-            <td style="width:100%">Benodigd voor je reserveringen</td>
-            <td class="text-right">{{ requiredValue.sub_total | currency }}</td>
-          </tr>
-          <tr ng-if="requiredValue.debt > 0">
-            <td>Openstaande facturen</td>
-            <td class="text-right">{{ requiredValue.debt | currency }}</td>
-          </tr>
-          <tr>
-            <td>Af: je huidige rijtegoed</td>
-            <td class="text-right">{{ requiredValue.credit | currency }}</td>
-          </tr>
-          <tr>
-            <td ng-if="requiredValue.total >= 0"><b>Te betalen</b></td>
-            <td ng-if="requiredValue.total < 0"><b>Resterend rijtegoed</b></td>
-            <td class="text-right"><b>{{ requiredValue.total | currency }}</b></td>
-          </tr>
-        </table>
+            <table class="table">
+                <tr>
+                    <td style="width:100%">Benodigd voor je reserveringen</td>
+                    <td class="text-right">{{ requiredValue.sub_total | currency }}</td>
+                </tr>
+                <tr ng-if="requiredValue.debt > 0">
+                    <td>Openstaande facturen</td>
+                    <td class="text-right">{{ requiredValue.debt | currency }}</td>
+                </tr>
+                <tr>
+                    <td>Af: je huidige rijtegoed</td>
+                    <td class="text-right">{{ requiredValue.credit | currency }}</td>
+                </tr>
+                <tr>
+                    <td ng-if="requiredValue.total >= 0"><b>Te betalen</b></td>
+                    <td ng-if="requiredValue.total < 0"><b>Resterend rijtegoed</b></td>
+                    <td class="text-right"><b>{{ requiredValue.total | currency }}</b></td>
+                </tr>
+            </table>
 
-        <div ng-show="!showVoucherOptions">
+            <div ng-show="!showVoucherOptions">
 
-          <div ng-if="requiredValue.voucher > 0">
-            <button type="button" class="btn btn-success" ng-click="buyVoucher(requiredValue.voucher)">
-              Koop {{ requiredValue.voucher | currency }} rijtegoed
-            </button>
-            <button type="button" class="btn btn-link" ng-click="toggleVoucherOptions(true)">
-              Ander bedrag
-            </button>
-          </div>
+                <div ng-if="requiredValue.voucher > 0">
+                    <button type="button" class="btn btn-success" ng-click="buyVoucher(requiredValue.voucher)">
+                        Koop {{ requiredValue.voucher | currency }} rijtegoed
+                    </button>
+                    <button type="button" class="btn btn-link" ng-click="toggleVoucherOptions(true)">
+                        Ander bedrag
+                    </button>
+                </div>
 
-          <div ng-if="!(requiredValue.voucher > 0)">
-            <button type="button" class="btn btn-success" ng-click="toggleVoucherOptions(true)">Koop rijtegoed</button>
-          </div>
-        </div>
-
-        <div ng-show="showVoucherOptions">
-          <div class="clearfix" style="margin: 0 -5px 15px -5px">
-            <div ng-repeat="option in voucherOptions" class="pull-left" style="width: 20%; padding: 5px">
-              <button ng-click="buyVoucher(option)" type="button" class="btn btn-block btn-success">{{ option | currency }}</button>
+                <div ng-if="!(requiredValue.voucher > 0)">
+                    <button type="button" class="btn btn-success" ng-click="toggleVoucherOptions(true)">Koop rijtegoed</button>
+                </div>
             </div>
-          </div>
-          <a href="" ng-click="toggleVoucherOptions(false)">Annuleren</a>
-        </div>
 
-      </div>
+            <div ng-show="showVoucherOptions">
+                <div class="clearfix" style="margin: 0 -5px 15px -5px">
+                    <div ng-repeat="option in voucherOptions" class="pull-left" style="width: 20%; padding: 5px">
+                        <button ng-click="buyVoucher(option)" type="button" class="btn btn-block btn-success">{{ option | currency }}</button>
+                    </div>
+                </div>
+                <a href="" ng-click="toggleVoucherOptions(false)">Annuleren</a>
+            </div>
+
+        </div>
 
     </div>
-  </div>
+</div>
 
-  <div class="card" ng-if="!busy && requiredValue">
+<div class="card" ng-if="!busy && requiredValue">
     <div class="card-heading">
-      <h3 class="card-title">
+        <h3 class="card-title">
       <a ui-sref="contractchoice">{{ 'PERSON.CONTRACT.CHANGE_CONTRACT' | translate }}</a>
       </h3>
     </div>
-  </div>
-
-</div><!-- /card -->
+</div>
+<!-- </div> -->
+<!-- /card -->

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module( 'owm.auth', [
+angular.module('owm.auth', [
   'owm.auth.signup',
   'owm.auth.forgotPassword',
   'owm.auth.resetPassword',
@@ -10,11 +10,10 @@ angular.module( 'owm.auth', [
 .config(function config($stateProvider) {
 
   $stateProvider
-
-  .state('owm.auth.signup', {
+    .state('owm.auth.signup', {
     url: '/signup?preference',
     views: {
-      'main@shell':{
+      'main@shell': {
         templateUrl: 'auth/signup/auth-signup.tpl.html',
         controller: 'AuthSignupController'
       }
@@ -22,7 +21,11 @@ angular.module( 'owm.auth', [
     data: {
       title: 'META_SIGNUP_TITLE',
       description: 'META_SIGNUP_DESCRIPTION',
-      access: { deny: { authenticated: true } }
+      access: {
+        deny: {
+          authenticated: true
+        }
+      }
     }
   })
 
@@ -35,7 +38,7 @@ angular.module( 'owm.auth', [
     views: {
       'main@shell': {
         templateUrl: 'auth/forgotPassword/forgotPassword.tpl.html',
-        controller : 'ForgotPasswordController'
+        controller: 'ForgotPasswordController'
       }
     }
   })
@@ -50,7 +53,7 @@ angular.module( 'owm.auth', [
     views: {
       'main@shell': {
         templateUrl: 'auth/resetPassword/resetPassword.tpl.html',
-        controller : 'ResetPasswordController'
+        controller: 'ResetPasswordController'
       }
     },
     resolve: {
@@ -69,11 +72,15 @@ angular.module( 'owm.auth', [
     views: {
       'main@shell': {
         templateUrl: 'auth/alterPassword/alterPassword.tpl.html',
-        controller : 'AlterPasswordController'
+        controller: 'AlterPasswordController'
       }
     },
     data: {
-      access: { deny : { anonymous : true } }
+      access: {
+        deny: {
+          anonymous: true
+        }
+      }
     },
     resolve: {
       me: ['authService', function (authService) {
@@ -85,31 +92,30 @@ angular.module( 'owm.auth', [
   .state('owm.auth.validateEmail', {
     url: '/email/:personId/validate/:code',
     onEnter: ['$state', '$stateParams', '$timeout', '$translate', 'alertService', 'personService',
-    function ( $state ,  $stateParams ,  $timeout ,  $translate ,  alertService ,  personService) {
+      function ($state, $stateParams, $timeout, $translate, alertService, personService) {
 
-      var personId = $stateParams.personId;
-      var code     = $stateParams.code;
+        var personId = $stateParams.personId;
+        var code = $stateParams.code;
 
-      alertService.load();
-      personService.validateEmail({
-        person: personId,
-        hash  : code
-      })
-      .then(function () {
-        alertService.add('success', $translate.instant('AUTH_EMAIL_VALIDATE_SUCCESS'), 8000);
-      })
-      .catch(function (err) {
-        alertService.addError(err);
-      })
-      .finally(function () {
-        alertService.loaded();
-        $timeout(function () {
-          $state.go('owm.person.profile');
-        });
-      });
-    }]
-  })
-  ;
+        alertService.load();
+        personService.validateEmail({
+            person: personId,
+            hash: code
+          })
+          .then(function () {
+            alertService.add('success', $translate.instant('AUTH_EMAIL_VALIDATE_SUCCESS'), 8000);
+          })
+          .catch(function (err) {
+            alertService.addError(err);
+          })
+          .finally(function () {
+            alertService.loaded();
+            $timeout(function () {
+              $state.go('owm.person.profile');
+            });
+          });
+      }
+    ]
+  });
 
-})
-;
+});
