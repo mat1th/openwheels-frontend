@@ -1,35 +1,35 @@
 <div ng-include="'alert/alert.tpl.html'"></div>
 
 <md-sidenav layout="column" class="md-sidenav-left md-whiteframe-z4" md-component-id="sidenavLeft">
-  <md-toolbar class="app-toolbar">
-    <div class="md-toolbar-tools" layout-align="space-between center">
-      <a class="app-logo">
-        <img ng-src="branding/img/logo.png" />
-      </a>
-      <md-button class="md-icon-button" ng-click="closeMenu()">
-        <md-icon>keyboard_arrow_left</md-icon>
-      </md-button>
-    </div>
-  </md-toolbar>
-  <div ui-view="menu"></div>
+    <md-toolbar class="app-toolbar">
+        <div class="md-toolbar-tools" layout-align="space-between center">
+            <a class="app-logo">
+                <img ng-src="branding/img/logo.png" />
+            </a>
+            <md-button class="md-icon-button" ng-click="closeMenu()">
+                <md-icon>keyboard_arrow_left</md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <div ui-view="menu"></div>
 </md-sidenav>
 
 <md-content flex>
 
-  <div id="scroll-to-top-anchor"></div>
+    <div id="scroll-to-top-anchor"></div>
 
-  <div class="app-toolbar-row">
-    <div ui-view="toolbar" layout-fill></div>
-  </div>
-
-  <div class="min-content-height" style="z-index: 1">
-    <div ui-view="main-full"></div>
-    <div class="container container-main">
-      <div ui-view="main"></div>
-        <div class="push"></div>
+    <div class="app-toolbar-row">
+        <div ui-view="toolbar" layout-fill></div>
     </div>
-  </div>
 
-  <div class="footer" ui-view="footer"></div>
+    <div class="min-content-height" style="z-index: 1">
+        <div ui-view="main-full"></div>
+        <div class="container container-main">
+            <div ui-view="main"></div>
+            <div class="push"></div>
+        </div>
+    </div>
+
+    <div class="footer" ui-view="footer"></div>
 
 </md-content>
