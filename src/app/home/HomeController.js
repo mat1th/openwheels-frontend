@@ -12,23 +12,30 @@ angular.module('owm.home', ['owm.resource', 'slick'])
     }
   });
 
-  if($scope.features.featuredSlider) {
-    resourceService.all({'onlyFeatured': 'true'})
-    .then(function(res) {
-      $scope.resources_slider = res;
-    });
-    $scope.gotoProfile = function(resource) {
-      $state.go('owm.resource.show', {city: resource.city, resourceId: resource.id});
+  if ($scope.features.featuredSlider) {
+    resourceService.all({
+        'onlyFeatured': 'true'
+      })
+      .then(function (res) {
+        $scope.resources_slider = res;
+      });
+    $scope.gotoProfile = function (resource) {
+      $state.go('owm.resource.show', {
+        city: resource.city,
+        resourceId: resource.id
+      });
     };
   }
 
-  $scope.search = { text: '' };
+  $scope.search = {
+    text: ''
+  };
 
   $scope.doSearch = function (placeDetails) {
     if (placeDetails) {
       resourceQueryService.setText($scope.search.text);
       resourceQueryService.setLocation({
-        latitude : placeDetails.geometry.location.lat(),
+        latitude: placeDetails.geometry.location.lat(),
         longitude: placeDetails.geometry.location.lng()
       });
     }
@@ -36,5 +43,4 @@ angular.module('owm.home', ['owm.resource', 'slick'])
   };
 
   $scope.version = VERSION;
-})
-;
+});
