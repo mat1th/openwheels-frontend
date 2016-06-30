@@ -10,29 +10,28 @@ angular.module('owm.auth.alterPassword', [])
   $scope.newPasswordRepeat = '';
   $scope.submit = savePassword;
 
-  function savePassword () {
+  function savePassword() {
     var params = {
       person: me.id,
       newProps: {
         oldPassword: $scope.oldPassword,
-        password   : $scope.newPassword
+        password: $scope.newPassword
       }
     };
 
     alertService.load();
     $scope.busy = true;
     personService.alter(params).then(function () {
-      alertService.add('success', $translate.instant('AUTH_CHANGE_PWD_SUCCESS'), 8000);
-      $state.go('owm.person.dashboard');
-    })
-    .catch(function (err) {
-      alertService.addError(err);
-    })
-    .finally(function () {
-      alertService.loaded();
-      $scope.busy = false;
-    });
+        alertService.add('success', $translate.instant('AUTH_CHANGE_PWD_SUCCESS'), 8000);
+        $state.go('owm.person.dashboard');
+      })
+      .catch(function (err) {
+        alertService.addError(err);
+      })
+      .finally(function () {
+        alertService.loaded();
+        $scope.busy = false;
+      });
   }
 
-})
-;
+});
