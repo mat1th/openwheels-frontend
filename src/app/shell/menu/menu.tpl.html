@@ -1,7 +1,7 @@
 <div class="app-menu">
 
   <md-list ng-if="!user.isAuthenticated">
-    <md-list-item class="menu-item-signup" ng-click="signup()">
+    <md-list-item class="menu-item-signup" ng-click="navigate('owm.auth.signup')">
       <md-icon>person_outline</md-icon><p>{{ 'SIGNUP' | translate }}</p>
     </md-list-item>
 

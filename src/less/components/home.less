@@ -1,335 +1,362 @@
-@hero-height: 500px;
-
+@hero-height: 29rem;
 .home {
-  text-align: center;
-  background-color: #fff;
-
-  .hero-container {
-    position: relative;
-    width : 100%;
-    height: @hero-height;
-  }
-
-  .searchbar-container {
-    z-index:999;
-    position: absolute;
-    bottom: 30px;
-    width: 100%;
-    height: 120px;
-
-    .searchbar {
-      max-width: 500px;
-      margin: 0 auto 0 auto;
-      opacity: 0.95;
-      .input-group {
-        input {
-          height: 42px;
-        }
-      }
-      a, button {
-        width: 140px;
-        height: 42px;
-      }
-      a {
-        padding: 10px 12px;
-      }
+    background-color: #F8F8F8;
+    h2 {
+        font-size: 2.5em;
     }
-  }
-
-  .logo-container {
-    z-index: 999;
-    position: absolute;
-    top: 30px;
+}
+/* ---------------------- HOME PAGE BASELINE ------------------- */
+.homepage-baseline {
+    height: 19rem;
+    display: flex;
+    z-index: 1;
+}
+.homepage-baseline-header {
+    margin: 0.5em auto auto;
+    z-index: 1;
+}
+.homepage-searchbar {
     width: 100%;
-    height: 58px;
-  }
-
-  .slide-container {
-    width: 100%;
-    height: @hero-height;
+    height: 10rem;
+    padding: 0.8em;
+    // max-height: 9rem;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    form {
+        // padding: 1em 1em;
+        margin: auto;
+        padding: 1em;
+        text-align: left;
+        display: flex;
+    }
+    input[type="text"] {
+        display: inline-block;
+        color: #333;
+        border-radius: 0.21em 0 0 0.21em;
+        padding: 1.1rem;
+        font-size: 1.1em;
+    }
+    .icon {
+        margin: 0;
+    }
+    .icon:before {
+        left: 0.2rem;
+        top: 14%;
+        font-size: 1.8em;
+    }
+    .button {
+        position: relative;
+    }
+    .button button {
+        max-height: 100%;
+        width: 100%;
+        font-weight: 500;
+        font-size: 1.1em;
+        display: inline-block;
+        border-radius: 0 0.21em 0.21em 0;
+        padding: 1.1rem;
+    }
+}
+.home .hero {
+    background-image: url('../branding/img/bg.jpg');
     background-position: 50% 50%;
     background-repeat: no-repeat;
     background-size: cover;
-
-    .tagline {
-      padding-top: 90px;
-      color: #fff;
-      font-size: 52px;
-      text-shadow: 1px 2px 3px rgba(0, 0, 0, 0.5);
+    height: @hero-height;
+    position: relative;
+}
+.hero-overlay {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: rgba(0, 0, 0, .15);
+    z-index: 0;
+}
+.searchbar {
+    width: 100%;
+    height: 100%;
+    .button {
+        height: 100%;
     }
-  }
-
+    button {
+        height: 100%;
+    }
+    input {
+        height: 100%;
+    }
 }
-
+@media (min-width:37.5em) {
+    .button {
+        min-width: 10em;
+    }
+}
 @media (min-width:1024px) {
-.container {
-  width: 996px!important;
-  padding-top: 16px;
-  padding-left: 8px;
-  padding-right: 8px;
-}
+    .home .hero {
+        height: 55rem;
+    }
+    .homepage-baseline-header {
+        margin: auto;
+    }
+    .homepage-baseline {
+        height: 41rem;
+    }
+    .homepage-searchbar {
+        height: 14rem;
+        padding: 2.5em;
+    }
+    .searchbar {
+        width: 100%;
+        max-width: 50em;
+    }
+    .container {
+        width: 62.25em !important;
+        padding-top: 1rem;
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+    }
 }
 @media (min-width:996px) {
-.container {
-  width: 996px!important;
-}
-}
-
-
-.home .hero {
-  background-image: url('../branding/img/bg.jpg');
-  background-position: 50% 50%;
-  background-repeat: no-repeat;
-  background-size: cover;
-  height: 500px;
-}
-
-.home .intro {
-  padding: 40px 0;
-  h1 {
-    word-spacing:10px;
-    text-shadow: 1px 2px 3px rgba(0, 0, 0, 0.5);
-  }
-  .cta {
-    font-weight: bold;
-    padding: 150px 0;
-    max-width: 500px;
-    margin-left: auto;
-    margin-right: auto;
-
-    .input-group {
-      input { height: 42px; }
+    .container {
+        width: 80em !important;
     }
-    a, button {
-      width: 140px;
-      height: 42px;
+}
+/* ---------------------- RENTER CALL TO ACTION  ------------------- */
+.renter--actions {
+    max-width: 100vw;
+    width: 100%;
+    max-width: 80em;
+    margin: 0 auto;
+    // flex-wrap: wrap;
+    // justify-content: center;
+    // align-content: center;
+    // align-items: center;
+}
+.renter--action {
+    box-shadow: none;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    section {
+        padding: 1em;
+        display: inline-block;
     }
-    a {
-      padding: 10px 12px;
+}
+.renter--action--image-handshake {
+    background: url('/branding/img/home.jpg');
+}
+.renter--action--image--vw {
+    background: url('https://mywheels.nl/resource/54fc5ec6a4830.jpeg');
+}
+.renter--action--image {
+    height: 25em;
+    display: inline-block;
+    background-position: 20% auto;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+@media (min-width:40em) {
+    .renter--action {
+        flex-direction: row;
+        flex-wrap: nowrap;
+        section {
+            flex-basis: 50%;
+            padding: 2em;
+        }
     }
-  }
-
+    .renter--action--image {
+        flex-basis: 50%;
+        display: inline-block;
+        max-width: 100%;
+    }
+    .renter--action:first-child {
+        border-bottom: none;
+    }
+    .renter--action:first-child .renter--action--image {
+        order: -1;
+    }
 }
-
-.home .publications {
-  background-color: #5FA24A;
+@media (min-width:60em) {
+    .renter--action {
+        background: #fff;
+        margin: 3em auto;
+        // box-shadow: 0 8px 9px -5px rgba(0, 0, 0, .1), 0 15px 22px 2px rgba(0, 0, 0, .08), 0 6px 28px 5px rgba(0, 0, 0, .08);
+        box-shadow: 0 0 50px 0 rgba(0, 0, 0, .1);
+    }
+    .renter--action--image {
+        img {
+            width: 100%;
+            height: auto;
+        }
+    }
 }
-
-.vert-pad-large {
-  padding-top: 40px;
-  padding-bottom: 40px;
-}
-
 .action-button:last-child .btn {
-  margin-bottom: 0;
+    margin-bottom: 0;
 }
-
-.content-green {
-  box-shadow: 0px 3px 5px #444; 
-  padding: 5%;
-  font-size: 17px;
-  text-align: justify;
-  background-color: @mywheels-green;
-  p {
-    margin: 0;
-  }
-
-}
-.content-green h3 {
-   color:  #fff;
-   font-size: 27px;
-    }
-.content-green md-icon {
-  color: #fff;
-  vertical-align: top;
-  margin: 1px 10px 0 0;
-}
-
 .content-white {
-   padding: 5%; 
-   border: 2px solid @mywheels-green; 
-   min-height: 19em;
+    padding: 5%;
+    border: 2px solid @mywheels-green;
+    min-height: 19em;
 }
 .content-white h3 {
-   font-size: 27px;
-   color: @mywheels-green;
-    }
+    font-size: 27px;
+    color: @mywheels-green;
+}
 .content-white md-icon {
-  color: @mywheels-green;
-  vertical-align: top;
-  margin: 1px 10px 0 0;
-}
-.call-to-signup {
-  background-color: @mywheels-red;
-  border: 0px;
-  box-shadow: 0px 3px 5px #444;
-  color: #fff;
-}
-.call-to-signup:hover {
-  background-color: #B44123;
-  color:#fff;
-}
-.call-to-signup-text {
-  font-size: 27px;
-  text-shadow: 0px 3px 5px #444;
+    color: @mywheels-green;
+    vertical-align: top;
+    margin: 1px 0.5em 0 0;
 }
 .content h2 {
-  font-size: 39px;
+    font-size: 39px;
 }
-
+/* ---------------------- ADVATAGE ------------------- */
+.advantage-mywheels {
+    margin: 3em auto;
+    max-width: 100vw;
+}
 /* ---------------------- SLIDER ------------------- */
 .slider {
-  background: @mywheels-green;
-  margin: 50px 0 0 0;
+    padding: 3em 1em;
+    background: @mywheels-green;
 }
-
-  .slider--container {
+.slider--container {
     position: relative;
     padding: 0 45px;
-  }
-
-  .slider--heading {
+}
+.slider--heading {
     color: white;
-    padding: 20px 0 10px 0;
+    padding: 20px 0 10px;
     font-size: 30px;
     margin: 0;
-  }
-
-  .slider--slide {
+}
+.slider--slide {
     padding: 0 5px;
     cursor: pointer;
-  }
-
-    .slider--slide--image {
-      position: relative;
-    }
-
-    .slider--slide--image img {
-      width: 100%;
-      height: auto;
-    }
-
-    .slider--slide--price {
-      position: absolute;
-      bottom: 1em;
-      right: 1em;
-      text-align: right;
-      border-radius: .4em;
-      background: rgba(0,0,0,.35);
-      color: #fff;
-      padding: 8px;
-      font-family: OmnesMedium;
-      font-size: 1.2em;
-    }
-
-    .slider--slide--location {
-      text-overflow: ellipsis;
-      overflow: hidden;
-      white-space: nowrap;
-      padding: 0px 10px 6px 10px;
-      font-size: 1em;
-    }
-
-    .slider--slide--alias {
-      text-overflow: ellipsis;
-      overflow: hidden;
-      white-space: nowrap;
-      padding: 6px 10px 0px 10px;
-      font-size: 1.2em;
-    }
-
-
-/* ---------------------- INFO BOX ------------------- */
-.infoboxes {}
-
-.infoboxes--heading {
-  text-align: center;
-  font-size: 30px;
-  margin: 20px 0 10px 0;
 }
-
-@media (min-width:1024px) {
-  .infobox {
-    min-height: 19em;
-  }
-  .infobox--no-button {
-    min-height: 16em;
-  }
+.slider--slide--image {
+    position: relative;
 }
-@media (max-width:1023px) {
-  .infobox {
-    min-height: 22em;
-  }
-  .infobox--no-button {
-    min-height: 21em;
-  }
+.slider--slide--image img {
+    width: 100%;
+    height: auto;
 }
-
-.infobox {
-  border: 2px solid @mywheels-green;
-  margin: 16px 0 8px 0;
-}
-
-  .infobox--title {
-    color: @mywheels-green;
-    text-align: left;
-  }
-    .infobox--title--icon {
-      color: @mywheels-green;
-    }
-
-    .infobox--title--text {
-      color: @mywheels-green;
-      font-size: 23px;
-    }
-
-  .infobox--content {
-    text-align: left;
-    padding-bottom: 60px;
-    margin: 0 16px;
-  }
-
-  infobox--no-button .infobox--content {
-    padding-bottom: 0;
-  }
-
-  .infobox--button {
-    color: #fff;
-    border: 1px solid #fff;
+.slider--slide--price {
     position: absolute;
-    bottom: 16px;
-    right: 32px;
-  }
-
+    bottom: 1em;
+    right: 1em;
+    text-align: right;
+    border-radius: 0.4em;
+    background: rgba(0,0,0,.35);
+    color: #fff;
+    padding: 8px;
+    font-family: OmnesMedium;
+    font-size: 1.2em;
+}
+.slider--slide--location {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    padding: 0 10px 6px;
+    font-size: 1em;
+}
+.slider--slide--alias {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    padding: 6px 10px 0;
+    font-size: 1.2em;
+}
+/* ---------------------- INFO BOX ------------------- */
+.infoboxes {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: flex-start;
+    flex-direction: column;
+    width: 100%;
+    box-sizing: border-box;
+}
+.infobox {
+    background: #fff;
+    box-sizing: border-box;
+    flex: 1;
+    flex-grow: 0;
+    flex-shrink: 0;
+    margin: 1rem 0;
+    width: 100%;
+    // flex-basis: 18em;
+    display: block;
+    padding: 1em;
+    border: 0.1625rem solid @mywheels-green;
+    box-shadow: 0 0 50px 0 rgba(0, 0, 0, .1);
+}
+@media (min-width:996px) {
+    .infoboxes {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+    .infobox {
+        margin: 1rem;
+        flex-basis: 30em;
+        padding: 2em;
+    }
+}
+.infobox {
+    .rend--nearby {
+        position: relative;
+        background-image: url('../branding/img/dashboard.jpg');
+        background-position: 100% auto;
+        height: 3em;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+}
+.infobox--link {
+    color: @mywheels-green;
+    font-weight: bold;
+}
+.infobox--link:hover {
+    color: @mywheels-gray;
+    font-weight: bold;
+}
+.infoboxes--heading {
+    text-align: center;
+}
+.material-icons.infobox--title--icon {
+    padding: 0;
+    font-size: 3em;
+    margin: auto 1em auto 0;
+    color: @mywheels-green;
+    height: auto;
+}
+.infobox--title--text {
+    color: @mywheels-green;
+    font-size: 1.5em;
+}
 /* ---------------------- IMAGE BLOCK ------------------- */
 .imageblock {
-  margin-top: 40px;
-  margin-bottom: 40px;
-}
-
-  .imageblock--heading {
-    color: #fff;
-    text-shadow: 0px 1px 3px #444;
-    text-align: center;
-    padding: 40px 0;
-    font-size: 30px;
-    margin: 0 16px;
-    background-image: url('https://MyWheels.nl/branding/img/home-rotate-3.jpg');
-    background-position: center -180px;
+    background-image: url('../branding/img/dashboard.jpg');
+    background-position: 100% auto;
     background-repeat: no-repeat;
-  }
-
-  .imageblock--button {
+    background-size: cover;
+    width: 100%;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 3em 1em;
+}
+.imageblock--content {
+    text-shadow: 0 1px 3px #444;
     text-align: center;
-    margin: 20px auto;
-    background-color: @mywheels-red;
-    border: 0px;
-    box-shadow: 0px 3px 5px #444;
+    padding: 5em 0;
+}
+.imageblock--heading {
     color: #fff;
-    display: block;
-  }
-
-  .imageblock--button:hover {
-    background-color: #B44123;
-    color:#fff;
-  }
+    text-shadow: 0 1px 3px #444;
+    text-align: center;
+    font-size: 2em;
+    margin: 0 1rem;
+}

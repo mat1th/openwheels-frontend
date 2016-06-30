@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('openwheels', [
-  
+
   /* Framework */
   'ngAria',
   'ngAnimate',
@@ -40,7 +40,7 @@ angular.module('openwheels', [
   'oAuth2Callback',
   'oAuth2MessageListener',
   'stateAuthorizer',
-  
+
   /* Services */
   'alertService',
   'dialogService',
@@ -159,12 +159,12 @@ angular.module('openwheels', [
 })
 
 .config(function (appConfig, facebookProvider, twitterProvider) {
-  if (appConfig.features.facebook && appConfig.fbAppId) {
-    facebookProvider.init(appConfig.fbAppId);
-  }
-  if (appConfig.features.twitter) {
-    twitterProvider.init();
-  }
+  // if (appConfig.features.facebook && appConfig.fbAppId) {
+  //   facebookProvider.init(appConfig.fbAppId);
+  // }
+  // if (appConfig.features.twitter) {
+  //   twitterProvider.init();
+  // }
 })
 /**
  * Disable logging for non-development environments
@@ -193,7 +193,6 @@ angular.module('openwheels', [
   $rootScope.$state = $state;
   $rootScope.$stateParams = $stateParams;
   $rootScope.isLanguageLoaded = false;
-  $rootScope.signupUrl = featuresService.get('serverSideSignup') ? linksService.signupUrl() : $state.href('signup');
 
   $rootScope.$on('$stateChangeStart', function (e, toState, toParams, fromState) {
     // show spinner

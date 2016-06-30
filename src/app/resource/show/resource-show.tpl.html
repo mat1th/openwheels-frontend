@@ -56,7 +56,7 @@
                                     <h3>{{ (resource.brand | toTitleCase) || ('UNKNOWN_BRAND' | translate) }}
                       <span ng-if="resource.model"> {{ resource.model }}</span>
                       <div ng-if="['smartphone', 'chipcard'].indexOf(resource.locktype) >= 0" class="tag tag-warning" style="margin-bottom: 8px"> {{ 'SMART_WHEELS_TIP' | translate }}
-                          <md-tooltip>
+                          <md-tooltip md-direction="bottom" class="multiline">
                               {{ 'SMART_WHEELS_INFO' | translate }}
                           </md-tooltip>
                       </div>
