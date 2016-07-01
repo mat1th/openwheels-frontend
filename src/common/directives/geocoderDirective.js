@@ -12,8 +12,9 @@ angular.module('geocoderDirective', [])
       scope.placeDetails = null;
 
       scope.completePlacesOptions = {
+        watchEnter: true,
         country   : $filter('translateOrDefault')('SEARCH_COUNTRY', 'nl'),
-        watchEnter: true
+        types   : 'geocode',
       };
 
       scope.$watch('placeDetails', function (newVal, oldVal) {

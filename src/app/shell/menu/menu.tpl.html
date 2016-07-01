@@ -1,7 +1,7 @@
 <div class="app-menu">
 
   <md-list ng-if="!user.isAuthenticated">
-    <md-list-item class="menu-item-signup" ng-click="signup()">
+    <md-list-item class="menu-item-signup" ng-click="navigate('owm.auth.signup')">
       <md-icon>person_outline</md-icon><p>{{ 'SIGNUP' | translate }}</p>
     </md-list-item>
 
@@ -52,7 +52,7 @@
       <md-icon>content_paste</md-icon><p>{{ 'MY_CONTRACTS' | translate }}</p>
     </md-list-item>
 
-    <md-list-item class="menu-item-vouchers" ng-click="navigate('owm.finance.vouchers')" ng-if="vouchersEnabled">
+    <md-list-item class="menu-item-vouchers" ng-click="navigate('owm.finance.vouchers')" ng-if="vouchersEnabled && user.identity.preference !== 'owner'">
       <md-icon>payment</md-icon><p>{{ 'MY_VOUCHERS' | translate }}</p>
     </md-list-item>
 

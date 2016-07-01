@@ -1,32 +1,46 @@
 <div class="card">
+    <!-- header -->
     <section class="card-heading">
         <h2 class="card-title">Contract kiezen</h2>
+        <br>
+        <p>Jouw huurverzoek is geaccepteerd door de verhuurder. Je kunt hieronder een contract kiezen om je rit te betalen. Bij <a href="https://mywheels.nl/autodelen/hoe-huren-werkt/tarieven-huren/">tarieven</a> vind je meer informatie. Door te kiezen voor MyWheels Member geef je ons toestemming om per SEPA incasso de ritkosten achteraf te incasseren.</p>
     </section>
-    <section class="card-body ">
-        <div class="row">
-        <article class="col-md-6">
-            <h3 class="">MyWheels Go</h3>
-            <ul>
-                <li>Vooraf betalen</li>
-            </ul>
-        </article>
-        <article class="col-md-6">
-            <h3 class="">MyWheels Member</h3>
-            <ul>
-                <li>Betaal achteraf per incasso</li>
-                <li>Kies zelf of je je eigenrisico afkoopt</li>
-            </ul>
-            <p></p>
-        </article>
-        </div>
-        <div class="row">
-            <article class="col-md-6">
-                <a ui-sref="owm.finance.vouchers" class="btn btn-default">Betaal je rit</a>
-            </article>
-            <article class="col-md-6">
-                <button ng-click="createMember()" class="btn btn-success">Betaal &euro; 250 borg</button>
-            </article>
-        </div>
+    <section layout="row" layout-xs="column" class="card-body contract">
+        <!-- first card -->
+        <section class="contract-choice">
+            <h3>MyWheels Go</h3>
+            <section>
+                <div class="pay">Betaal vooraf met iDeal</div>
+                <ul>
+                    <li>Eigen risico automatisch afgekocht <br><small>3,50 euro per dag</small></li>
+                    <li>Annuleren binnen 24 uur: volledige ritkosten</li>
+                    <li>Annuleren buiten 24 uur: 7,50 euro</li>
+                    <li>Inkorten rit niet mogelijk</li>
+                    <li>Maximaal 1 bestuurder</li>
+                    <li>Geen abonnementskosten</li>
+                    <li>Geen borg</li>
+                </ul>
+            </section>
+            <md-button type="button" ng-if="hasGo" name="button" class="md-raised md-primary" ui-sref="owm.finance.vouchers">Kies dit contract</md-button>
+            <md-button type="button" ng-if="!hasGo" name="button" class="md-raised md-primary" ng-click="createGo()">Kies dit contract</md-button>
+        </section>
+        <!-- second card -->
+        <section class="contract-choice">
+            <h3>MyWheels Member</h3>
+            <section>
+                <div class="pay">Betaal achteraf per SEPA incasso</div>
+                <ul>
+                    <li>Eigen risico optioneel af te kopen <br><small>3,50 euro per dag</small></li>
+                    <li>Annuleren binnen 24 uur: volledige ritkosten</li>
+                    <li>Annuleren buiten 24 uur: 3 euro</li>
+                    <li>Inkorten rit tot maximaal 1 uur</li>
+                    <li>Maximaal 2 bestuurders</li>
+                    <li>Geen abonnementskosten</li>
+                    <li>250 euro borg</li>
+                </ul>
+            </section>
+            <md-button type="button" ng-if="!hasMember" name="button" class="md-raised md-primary" ng-click="createMember()">Kies dit contract</md-button>
+            <md-button type="button" ng-if="hasMember" name="button" class="md-raised md-primary" ui-sref="owm.finance.vouchers">Kies dit contract</md-button>
+        </section>
     </section>
 </div>
-

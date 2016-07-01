@@ -46,18 +46,6 @@ angular.module('owm.newRenter', [
       templateUrl: 'new-renter/new-renter/register.tpl.html'
     });
 
-    $stateProvider.state('newRenter-deposit', {
-      url: '/betaal-borg',
-      parent: 'newRenter',
-      templateUrl: 'new-renter/new-renter/borg.tpl.html',
-      controller: 'NewRenterDepositController',
-      resolve: {
-        me: ['authService', function (authService) {
-          return authService.me();
-        }]
-      }
-    });
-
     $stateProvider.state('newRenter-booking', {
       url: '/boekauto',
       parent: 'newRenter',
@@ -70,5 +58,3 @@ angular.module('owm.newRenter', [
       }
     });
   });
-
-

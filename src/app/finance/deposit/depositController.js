@@ -11,7 +11,8 @@ angular.module('owm.finance.deposit', [])
     $scope.busy = true;
     alertService.load($scope);
     depositService.requestContractAndPay({
-      person: me.id
+      person: me.id,
+      contractType: 65
     })
     .catch(function (err) {
       alertService.addError(err);

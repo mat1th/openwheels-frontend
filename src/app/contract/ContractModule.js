@@ -1,6 +1,7 @@
 'use strict';
 angular.module('owm.contract', [])
-.config(function($stateProvider){
+
+.config(function($stateProvider) {
   $stateProvider.state('contractchoice', {
     url: '/contractkeuze',
     parent: 'owm',
@@ -16,30 +17,48 @@ angular.module('owm.contract', [])
     resolve: {
       person: ['authService', function (authService) {
         return authService.me();
+      }],
+      contracts: ['$stateParams', 'person', 'contractService', function ($stateParams, person, contractService) {
+        return contractService.forContractor({
+          person: person.id
+        });
       }]
     }
   });
 })
-.controller('ContractChoiceController', function ($scope, depositService, person, contractService, $log) {
+
+.controller('ContractChoiceController', function ($scope, $state, alertService, depositService, person, contracts, $log) {
+
+  $scope.hasMember = contracts.some(function (c) { return c.type.id ===  62; });
+  $scope.hasGo     = contracts.some(function (c) { return c.type.id ===  60; });
+
+  if(!$scope.hasMember && !$scope.hasGo) {
+    $state.go('owm.finance.deposit');
+  }
+
   $scope.createMember = function () {
+    alertService.load();
+
     $log.log('requesting 62 contract');
-    contractService.forContractor({
-      person: person.id
-    })
-    .then(function (contracts){
-      $log.log(contracts);
-      if(contracts.length !== 1) {
-        //@todo fix what if more than 1 contract
-        throw 'can\'t handle contracts';
-      }
-      return contracts[0];
-    })
-    .then(function(contract) {
-      return depositService.requestContractAndPay({
+
+    depositService.requestContractAndPay({
         person: person.id,
         contractType: 62,
-        contract: contract.id
+        contract: contracts[0].id
       });
+  };
+
+  $scope.createGo = function () {
+    alertService.load();
+
+    $log.log('requesting 60 contract');
+
+    depositService.requestContractAndPay({
+      person: person.id,
+      contractType: 60,
+      contract: contracts[0].id
+    }).then(function (contractRequest) {
+      $state.go('owm.finance.deposit');
     });
   };
 });

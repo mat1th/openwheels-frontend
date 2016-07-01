@@ -15,15 +15,27 @@ angular.module('owm.resource.edit', [
   // Redirect if not owner or contactperson
   $scope.hasPermission = false;
   if (resource.owner.id !== me.id && resource.contactPerson.id !== me.id) {
-    $state.go('owm.resource.show', { resourceId: resource.id, city: resource.city });
+    $state.go('owm.resource.show', {
+      resourceId: resource.id,
+      city: resource.city
+    });
   } else {
     $scope.hasPermission = true;
   }
 
   $scope.me = me;
   $scope.resource = resource;
-  $scope.members  = members;
+  $scope.members = members;
   $scope.isLocationCollapsed = true;
+
+  $scope.hiddenCards = {};
+
+  if ($scope.resource.isAvailableOthers !== false) {
+    $scope.hiddenCards.friends = true;
+  }
+  if ($scope.features.friendsOfCar !== false) {
+    $scope.hiddenCards.friends = false;
+  }
 
   $scope.toggleLocation = function () {
     $scope.isLocationCollapsed = !!!$scope.isLocationCollapsed;
@@ -35,5 +47,11 @@ angular.module('owm.resource.edit', [
     }
   };
 
-})
-;
+  $scope.$on('ResourceEditSharingsettings:AvailableOthersChange', function (event, isAvailableOthers) {
+    if (!isAvailableOthers) {
+      delete $scope.hiddenCards.friends;
+    } else {
+      $scope.hiddenCards.friends = true;
+    }
+  });
+});

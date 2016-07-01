@@ -14,7 +14,6 @@ angular.module('owm.featuresService', [])
   var enabledFeatures = {
     homeCarousel       : false,
     verhuurTussenscherm: false,
-    serverSideSignup   : false,
     serverSideShare    : true, // use server side links when social-sharing resources (opengraph)
     invoiceModuleV1    : false,
     invoiceModuleV2    : true,
