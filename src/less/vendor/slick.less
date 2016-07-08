@@ -1,0 +1,35 @@
+@import (less) 'slick-carousel/slick/slick.css';
+@import (less) 'slick-carousel/slick/slick-theme.css';
+/* Hacks to make slick fit in in our layout */
+.slick-dots li button:before {
+    font-family: 'slick';
+    font-size: 20px;
+    line-height: 20px;
+}
+.slick-slider {
+    margin-bottom: 0;
+}
+/* Custom buttons */
+.slick--next,
+.slick--prev {
+    position: absolute;
+    top: 50%;
+    cursor: pointer;
+    background: white none repeat scroll 0 0;
+    border: 1px solid rgb(238, 238, 238);
+    z-index: 1000;
+}
+.slick--prev {
+    left: 1em;
+}
+.slick--next {
+    right: 1em;
+}
+@media (min-width:996px) {
+  .slick--prev {
+      left: -1em;
+  }
+  .slick--next {
+      right: -1em;
+  }
+}

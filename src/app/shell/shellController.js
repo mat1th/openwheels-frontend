@@ -20,7 +20,7 @@ angular.module('owm.shell')
     $scope.closeMenu();
     authService.loginPopup().then(function () {
       $log.debug('Successfully logged in');
-      if ($state.current.name === 'home') {
+      if ($state.current.name === 'home' || $state.current.name === 'owm.auth.signup') {
         $state.go('owm.person.dashboard');
       }
     });
@@ -34,8 +34,6 @@ angular.module('owm.shell')
 
   $scope.signup = function () {
     $scope.closeMenu();
-    $window.location.href = $scope.signupUrl;
   };
 
-})
-;
+});

@@ -29,7 +29,7 @@
                     <div flex>
                         <span ng-if="resource.brand || resource.model" flex="none">{{ (resource.brand + ' ' + resource.model) | toTitleCase }}</span>
                         <span class="tag tag-warning" ng-if="['smartphone', 'chipcard'].indexOf(resource.locktype) >= 0" flex="none"> {{ 'SMART_WHEELS_TIP' | translate }} </span>
-                        <md-tooltip ng-if="['smartphone', 'chipcard'].indexOf(resource.locktype) >= 0">
+                        <md-tooltip class="multiline" md-direction="bottom" ng-if="['smartphone', 'chipcard'].indexOf(resource.locktype) >= 0">
                             {{ 'SMART_WHEELS_INFO' | translate }}
                         </md-tooltip>
                     </div>

@@ -9,6 +9,7 @@ angular.module('owm.person.profile', [])
   $scope.genderText = '';
   $scope.allowLicenseRelated = false;
   $scope.alerts = null;
+  $scope.contactFormProcessing = false;
 
   initPerson(person);
 
@@ -101,7 +102,7 @@ angular.module('owm.person.profile', [])
 
     alertService.closeAll();
     alertService.load();
-
+    $scope.contactFormProcessing = true;
     personService.alter({
       id: person.id,
       newProps: newProps
@@ -117,6 +118,7 @@ angular.module('owm.person.profile', [])
       alertService.addError(err);
     })
     .finally(function () {
+      $scope.contactFormProcessing = false;
       alertService.loaded();
     });
   };

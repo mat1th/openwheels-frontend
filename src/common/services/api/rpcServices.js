@@ -34,6 +34,7 @@ angular.module('rpcServices', [])
 .service('contractService', function (api) {
   var m = function (name) { return api.createRpcMethod('contract.' + name); };
   this.get           = m('get');
+  this.all           = m('all');
   this.alter         = m('alter');
   this.create        = m('create');
   this.allTypes      = m('allTypes');
@@ -59,6 +60,7 @@ angular.module('rpcServices', [])
 
 .service('resourceService', function (api) {
   var m = function (name, isAnonymous) { return api.createRpcMethod('resource.' + name, isAnonymous); };
+  this.all               = m('all');
   this.get               = m('get');
   this.alter             = m('alter');
   this.select            = m('select');
