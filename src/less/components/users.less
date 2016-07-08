@@ -1,0 +1,120 @@
+.signup-header {
+    display: inline-block;
+    max-width: 100%;
+}
+.signup-header img {
+    width: 100%;
+}
+.signup-img {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    top: 0;
+    background-image: url('../branding/img/bg.jpg');
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: @hero-height;
+    z-index: -10;
+}
+.signup-img img {
+    width: 100%;
+}
+.signup-card {
+    max-width: 70em;
+    margin-left: auto;
+    margin-right: auto;
+    border: 0;
+    margin-top: 13vw;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 3vw;
+    section {
+        width: 100%;
+    }
+}
+label.sign-up-terms {
+    font-weight: 300;
+    width: 90%;
+    display: block;
+    margin: 0;
+    height: 3em;
+    top: 0;
+    left: 1.5em;
+    position: absolute;
+}
+.signup-term {
+    position: relative;
+    display: block;
+    height: 3em;
+    input {
+        top: 0;
+        position: absolute;
+    }
+}
+.sign-up-form {
+    margin: 1em;
+}
+.signup-advantages {
+    order: 2;
+    min-width: 50%;
+    font-size: 1.1em;
+    padding: 2em;
+    color: #fff;
+    background: @mywheels-green;
+    .logo {
+        text-align: center;
+        img {
+            width: 8em;
+            padding-bottom: 1.8em;
+            border-bottom: 0.1em solid #fff;
+            margin: 0 0 1em;
+        };
+    }
+    h2 {
+        color: #fff;
+        margin: 1em 0 0.3em;
+    }
+    ul {
+        font-weight: 200;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+    md-icon {
+        color: #fff;
+    }
+    span {
+        padding: 0 0 0 0.5em;
+    }
+    .heading h1 {
+        color: #fff;
+        font-size: 1.1em;
+        margin: 1.2em 0 0;
+    }
+    .amount {
+        font-weight: 700;
+        margin: 1em 0 0;
+        span {
+            padding: 0;
+            font-size: 1.6em;
+        }
+    }
+}
+@media all and (min-width: 35em) {
+    .signup-card {
+        flex-direction: row;
+    }
+    .signup-advantages {
+        width: 50%;
+        order: -1;
+    }
+}
+@media all and (min-width: 1024px) {
+    .signup-img {
+        height: 55rem;
+    }
+    .signup-card {
+        margin-top: 15em;
+    }
+}

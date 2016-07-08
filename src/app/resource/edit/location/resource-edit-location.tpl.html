@@ -24,19 +24,14 @@
 
   <form name="form">
     <div class="row">
-      <div class="col-xs-7">
-        <label>{{ 'RESOURCE_LOCATION_ADDRESS_LABEL' | translate }}&nbsp;<info-icon tooltip-html="'RESOURCE_LOCATION_ADDRESS_TOOLTIP' | translate" /></label>
+      <div class="col-xs-12">
+        <label>{{ 'RESOURCE_LOCATION_ADDRESS_LABEL' | translate }}</label>
         <div class="form-group">
-          <input class="form-control" id="location" name="location" ng-model="resource.location" />
-        </div>
-      </div>
-      <div class="col-xs-5">
-        <label>{{ 'RESOURCE_LOCATION_CITY_LABEL' | translate }}</label>
-        <div class="form-group">
-          <input class="form-control" id="city" name="city" ng-model="resource.city" />
+          <input class="form-control" ow-geocoder="{onDetails: newLocationSelectedDropdown}" ng-model="locationtext" />
         </div>
       </div>
     </div>
+    
 
     <div class="form-group">
       <button type="button" class="btn btn-default" ng-disabled="form.$pristine" ng-click="reset()">{{ 'CANCEL' | translate }}</button>

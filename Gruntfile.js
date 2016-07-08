@@ -109,7 +109,7 @@ module.exports = function (grunt) {
       buildAppjs: {
         files: [
           {
-            src: [ '<%= app_files.js %>', 'favicon.ico' ],
+            src: [ '<%= app_files.js %>', '/branding/favicon.ico', '/branding/*.png' ],
             dest: '<%= build_dir %>/',
             cwd: '.',
             expand: true
@@ -119,7 +119,7 @@ module.exports = function (grunt) {
       buildApp: {
         files: [
           {
-            src: [ 'favicon.ico' ],
+            src: [ '/branding/favicon.ico', '/branding/*.png' ],
             dest: '<%= build_dir %>/',
             cwd: '<%= src_dir %>/',
             expand: true
@@ -139,7 +139,7 @@ module.exports = function (grunt) {
       compileApp: {
         files: [
           {
-            src: [ 'favicon.ico', '.htaccess' ],
+            src: [ '/branding/favicon.ico', '.htaccess', '/branding/*.png' ],
             dest: '<%= compile_dir %>/',
             cwd: '<%= src_dir %>/',
             expand: true

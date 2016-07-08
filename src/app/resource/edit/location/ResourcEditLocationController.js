@@ -1,5 +1,5 @@
 'use strict';
-angular.module('owm.resource.edit.location', [])
+angular.module('owm.resource.edit.location', ['geocoderDirective'])
 .controller('ResourceEditLocationController', function ($q, $filter, $timeout, alertService, resourceService, $scope) {
 
   var DEFAULT_LOCATION = { // Utrecht CS
@@ -32,6 +32,7 @@ angular.module('owm.resource.edit.location', [])
       loc = { lat: r.latitude, lng: r.longitude };
       setMarker(loc);
       setCenter(loc);
+      updateLocationText();
     } else {
       setMarker(DEFAULT_LOCATION);
       setCenter(DEFAULT_LOCATION);
@@ -86,6 +87,18 @@ angular.module('owm.resource.edit.location', [])
     }, 0);
   });
 
+  $scope.newLocationSelectedDropdown = function(a) {
+    var address = parseAddressComponents(a.address_components);
+    $scope.resource.city = address.city;
+    $scope.resource.location = address.route + ' ' + address.streetNumber;
+    $scope.resource.latitude = a.geometry.location.lat();
+    $scope.resource.longitude = a.geometry.location.lng();
+
+    setMarker({ lat: $scope.resource.latitude, lng: $scope.resource.longitude});
+    setCenter({ lat: $scope.resource.latitude, lng: $scope.resource.longitude});
+    $scope.form.$setDirty();
+  };
+
   function onMapClick (maps, eventName, args) {
     var latLng, lat, lng;
     if (args.length) {
@@ -119,6 +132,27 @@ angular.module('owm.resource.edit.location', [])
     };
   }
 
+  function parseAddressComponents(ac) {
+    var address = {
+      route: '',
+      streetNumber: '',
+      city: ''
+    };
+
+    for (var i = 0; i < ac.length; i++) {
+      if (ac[i].types[0] === 'route') {
+        address.route = ac[i].long_name;
+      }
+      if (ac[i].types[0] === 'street_number') {
+        address.streetNumber = ac[i].long_name;
+      }
+      if (ac[i].types[0] === 'locality') {
+        address.city = ac[i].long_name;
+      }
+    }
+    return address;
+  }
+
   function reverseGeocode (location) {
     var dfd = $q.defer();
     var geocoder = new google.maps.Geocoder();
@@ -132,24 +166,20 @@ angular.module('owm.resource.edit.location', [])
     geocoder.geocode({ latLng: latLng }, function (results, status) {
       if (status === google.maps.GeocoderStatus.OK) {
         if (results.length) {
-          ac = results[0].address_components;
-
-          for (var i = 0; i < ac.length; i++) {
-            if (ac[i].types[0] === 'route') {
-              address.route = ac[i].long_name;
-            }
-            if (ac[i].types[0] === 'street_number') {
-              address.streetNumber = ac[i].long_name;
-            }
-            if (ac[i].types[0] === 'locality') {
-              address.city = ac[i].long_name;
-            }
-          }
+          address = parseAddressComponents(results[0].address_components);
+          $scope.resource.city = address.city;
+          $scope.resource.location = address.route + ' ' + address.streetNumber;
+          updateLocationText();
           dfd.resolve(address);
         }
       }
     });
     return dfd.promise;
   }
+
+  function updateLocationText() {
+    $scope.locationtext = $scope.resource.location + ', ' + $scope.resource.city;
+  }
+
 
 });
