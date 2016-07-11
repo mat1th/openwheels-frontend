@@ -75,13 +75,14 @@
                         </button>
                         </span>
 
-                        <input type="text" class="form-control" details="placeDetails" placeholder="{{ 'FIND_AVAILABLE_PLACEHOLDER' | translate }}" ow-geocoder="{ onDetails: doSearch }" ng-model="searchText">
-
+                        <input type="text" ng-class="{clearbutton: searchText}" class="form-control" details="placeDetails" placeholder="{{ 'FIND_AVAILABLE_PLACEHOLDER' | translate }}" ow-geocoder="{ onDetails: doSearch }" ng-model="searchText">
                         <span class="input-group-btn">
-              <button class="btn btn-default" type="button" ng-click="selectTimeframe()" title="Datum/tijd">
-                <i class="fa fa-clock-o"></i> <span class="hidden-sm hidden-xs"> {{ 'DATE_TIME' | translate }}</span>
-                        </button>
-
+                          <div ng-show="searchText" class="clearbutton__container" ng-click="searchText = null">
+                            <i class="fa fa-times"></i>
+                          </div>
+                          <button class="btn btn-default" type="button" ng-click="selectTimeframe()" title="Datum/tijd">
+                            <i class="fa fa-clock-o"></i> <span class="hidden-sm hidden-xs"> {{ 'DATE_TIME' | translate }}</span>
+                          </button>
                         </span>
                     </div>
                 </form>
