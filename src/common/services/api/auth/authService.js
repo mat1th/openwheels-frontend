@@ -124,7 +124,10 @@ angular.module('authService', [])
     });
   }
 
-  function loginPopup () {
+  function loginPopup (forceRedirect, successUrl) {
+    if(forceRedirect === undefined) {
+      forceRedirect = false;
+    }
     if (user.isAuthenticated) { throw new Error('already logged in'); }
     if (asyncToken) {
       asyncToken.reject(new Error('token canceled by popup'));
@@ -137,10 +140,10 @@ angular.module('authService', [])
     alertService.closeAll();
     alertService.loaded();
 
-    if (isPopupSupported()) {
+    if (isPopupSupported() && forceRedirect !== true) {
       openPopup(authUrl('postMessage', 'postMessage'));
     } else {
-      loginRedirect('/');
+      loginRedirect('/', successUrl);
     }
     return loginPromise;
   }
@@ -154,7 +157,8 @@ angular.module('authService', [])
   function loginRedirect (errorPath, successPath) {
     if (user.isAuthenticated) { throw new Error('already logged in'); }
     var currentPath = $location.url();
-    $window.location.href = authUrl(errorPath, successPath || currentPath);
+    var url = authUrl(errorPath, successPath || currentPath);
+    $window.location.href = url;
   }
 
   function loadIdentity () {

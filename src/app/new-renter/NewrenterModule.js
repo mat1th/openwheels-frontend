@@ -57,4 +57,40 @@ angular.module('owm.newRenter', [
         }]
       }
     });
+    $stateProvider
+    .state('newrenter2', {
+      abstract: true,
+      parent: 'owm.resource',
+      url: '/boeking',
+      views: {
+        'main@shell': {
+          template: '<div ui-view></div>'
+        }
+      },
+      data: {
+        denyAnonymous: true
+      },
+      resolve: {
+        me: ['authService', function (authService) {
+          return authService.me();
+        }]
+      }
+    })
+    .state('newrenter2.extra-info', {
+      url: '/extra-info',
+      controller: 'NewRenterExtraInfoController',
+      templateUrl: 'new-renter/new-renter2/extra-info.tpl.html'
+    })
+    .state('newrenter2.confirm', {
+      url: '/bevestig',
+      controller: 'NewRenterConfirmController',
+      templateUrl: 'new-renter/new-renter2/confirm.tpl.html',
+      onEnter: ['meHelperService', '$state', 'me', function(meHelper, $state, me) {
+        if(!meHelper.isReadyToStartBooking(me)) {
+          $state.go('newrenter2.extra-info');
+          return false;
+        }
+        return true;
+      }],
+    });
   });
