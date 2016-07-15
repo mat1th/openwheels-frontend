@@ -103,11 +103,10 @@
 
 <div class="container-fluid intro__section">
     <section class="container intro__section__faq">
-        <div layout="column">
-            <h3 flex="100" class="intro__section__faq__heading">Veelgestelde vragen</h3>
-            <div>
-                <div flex-xs flex-gt-xs="50" layout="column">
-
+        <div>
+            <h3 class="intro__section__faq__heading">Veelgestelde vragen</h3>
+            <div class="intro__section__faq__boxes">
+                <div >
                     <div class="intro__section__faq__box">
                         <md-card>
                             <md-card-header ng-click="toggleBox(1)">
@@ -152,7 +151,7 @@
 
                 </div>
 
-                <div flex-xs flex-gt-xs="50" layout="column">
+                <div>
                     <div class="intro__section__faq__box">
                         <md-card>
                             <md-card-header ng-click="toggleBox(4)">
@@ -205,6 +204,7 @@
 </div>
 
 <div class="container-fluid intro__section intro__section--green intro__section--last ">
+  <div class="hero-overlay"></div>
     <section class="container intro__section__footer" layout="column" layout-align="center center">
         <h3>Klaar om te rijden?</h3>
         <a href="" class="mywheels-btn mywheels-btn-error" md-ink-ripple="#9a3d26">Zoek nu uw auto</a>

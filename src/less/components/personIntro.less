@@ -17,24 +17,9 @@
     margin: 0;
     padding: 5rem 1rem;
     color: #fff;
+    text-shadow: 0 0.07rem 0.21rem #444;
     font-size: 2.3em;
     text-align: center;
-}
-@media (min-width: 768px) {
-    .intro__section__heading > h1 {
-        padding: 15rem 1rem;
-    }
-    .intro__section__steps {
-        .infoboxes {
-            flex-direction: row;
-        }
-        .infobox {
-            max-width: 20em;
-            flex-grow: 1;
-            flex-shrink: 0;
-            margin: 1rem;
-        }
-    }
 }
 .triangle--bar {
     position: relative;
@@ -42,7 +27,7 @@
 .triangle--bar:after,
 .triangle--bar:before {
     position: absolute;
-    top: -2em;
+    top: -1.95em;
     right: 0;
     left: 0;
     height: 1em;
@@ -65,6 +50,32 @@
     border-left-width: 1em;
 }
 //FAQ
+.intro__section__faq__boxes {
+    display: flex;
+    flex-direction: column;
+    > div {
+        flex-grow: 1;
+    }
+}
+@media (min-width: 768px) {
+    .intro__section__faq__boxes {
+        flex-direction: row;
+    }
+    .intro__section__heading > h1 {
+        padding: 15rem 1rem;
+    }
+    .intro__section__steps {
+        .infoboxes {
+            flex-direction: row;
+        }
+        .infobox {
+            max-width: 20em;
+            flex-grow: 1;
+            flex-shrink: 0;
+            margin: 1rem;
+        }
+    }
+}
 .intro__section__faq__box {
     padding: 0 0.28rem;
 }
@@ -119,14 +130,17 @@ md-card-header {
 }
 .intro__section--last {
     margin-bottom: -45px;
+    position: relative;
     background: url('https://images.unsplash.com/photo-1465774124747-65ab0913fb9e?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&s=52874f90ee7fa45a81245042d7002278');
     background-position: 50% 100%;
     background-repeat: no-repeat;
     background-size: cover;
 }
 .intro__section__footer {
+    z-index: 10;
     padding: 3em 0;
     h3 {
+        text-shadow: 0 0.07rem 0.21rem #444;
         padding: 0;
         color: white;
         font-size: 2em;
