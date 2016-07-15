@@ -130,15 +130,21 @@ angular.module('openwheels', [
    */
   $stateProvider.state('aanmelden', {
     url: '/aanmelden',
-    onEnter: ['$window', function ($window) { $window.location.reload(); }]
+    onEnter: ['$window', function ($window) {
+      $window.location.reload();
+    }]
   });
   $stateProvider.state('autodelen', {
     url: '/autodelen',
-    onEnter: ['$window', function ($window) { $window.location.reload(); }]
+    onEnter: ['$window', function ($window) {
+      $window.location.reload();
+    }]
   });
   $stateProvider.state('autodelen2', {
     url: '/autodelen/*path',
-    onEnter: ['$window', function ($window) { $window.location.reload(); }]
+    onEnter: ['$window', function ($window) {
+      $window.location.reload();
+    }]
   });
 })
 
@@ -158,28 +164,28 @@ angular.module('openwheels', [
 })
 
 .config(function (appConfig, facebookProvider, twitterProvider) {
-  // if (appConfig.features.facebook && appConfig.fbAppId) {
-  //   facebookProvider.init(appConfig.fbAppId);
-  // }
-  // if (appConfig.features.twitter) {
-  //   twitterProvider.init();
-  // }
+    // if (appConfig.features.facebook && appConfig.fbAppId) {
+    //   facebookProvider.init(appConfig.fbAppId);
+    // }
+    // if (appConfig.features.twitter) {
+    //   twitterProvider.init();
+    // }
 })
-/**
- * Disable logging for non-development environments
- */
-.config(function ($logProvider, ENV) {
-  if (ENV !== 'development') {
-    $logProvider.debugEnabled(false);
-  }
-})
-.config(function(optimizelyProvider) {
-  optimizelyProvider.setKey('5390511383');
-  optimizelyProvider.setActivationEventName('$stateChangeSuccess');
-})
-.run( function(optimizely) {
-  optimizely.loadProject();
-})
+  /**
+   * Disable logging for non-development environments
+   */
+  .config(function ($logProvider, ENV) {
+    if (ENV !== 'development') {
+      $logProvider.debugEnabled(false);
+    }
+  })
+  .config(function (optimizelyProvider) {
+    optimizelyProvider.setKey('5390511383');
+    optimizelyProvider.setActivationEventName('$stateChangeSuccess');
+  })
+  .run(function (optimizely) {
+    optimizely.loadProject();
+  })
 
 
 .run(function (windowSizeService, oAuth2MessageListener, stateAuthorizer, authService, featuresService) {
@@ -225,8 +231,8 @@ angular.module('openwheels', [
      * (can be removed when implemented everywhere)
      */
     $rootScope.containerTransitional = (
-      (featuresService.get('filtersSidebar')  && $state.includes('owm.resource.search')) ||
-      (featuresService.get('filtersSidebar')  && $state.includes('owm.resource.place')) ||
+      (featuresService.get('filtersSidebar') && $state.includes('owm.resource.search')) ||
+      (featuresService.get('filtersSidebar') && $state.includes('owm.resource.place')) ||
       (featuresService.get('resourceSidebar') && $state.includes('owm.resource.show')) ||
       $state.includes('member')
     );
@@ -252,17 +258,16 @@ angular.module('openwheels', [
       alertService.add('danger', error.message || 'Woops, er is iets mis gegaan', 5000);
     }
   });
-})
-;
+});
 
 // MANUAL BOOTSTRAP
 
-(function() {
+(function () {
   var injector = angular.injector(['ng']);
-  var $http    = injector.get('$http');
-  var $window  = injector.get('$window');
-  var $q       = injector.get('$q');
-  var $log     = injector.get('$log');
+  var $http = injector.get('$http');
+  var $window = injector.get('$window');
+  var $q = injector.get('$q');
+  var $log = injector.get('$log');
 
   if (!window.jasmine) {
 
@@ -285,18 +290,18 @@ angular.module('openwheels', [
     }
   }
 
-  function bootstrap (config) {
+  function bootstrap(config) {
     if (isValidConfig(config)) {
       angular.module('openwheels.config', []).constant('appConfig', {
-        appId         : config.app_id,
-        appSecret     : config.app_secret,
-        appUrl        : config.app_url,
-        serverUrl     : config.server_url,
-        authEndpoint  : config.auth_endpoint,
-        tokenEndpoint : config.token_endpoint,
+        appId: config.app_id,
+        appSecret: config.app_secret,
+        appUrl: config.app_url,
+        serverUrl: config.server_url,
+        authEndpoint: config.auth_endpoint,
+        tokenEndpoint: config.token_endpoint,
         gtmContainerId: config.gtm_container_id || null,
-        fbAppId       : config.fb_app_id || null,
-        features      : config.features || {}
+        fbAppId: config.fb_app_id || null,
+        features: config.features || {}
       });
       angular.bootstrap(angular.element('html'), ['openwheels']);
       return true;
@@ -304,7 +309,7 @@ angular.module('openwheels', [
     return false;
   }
 
-  function configFile () {
+  function configFile() {
     var dfd = $q.defer();
     $http.get('branding/config.json?v=' + moment().format('YYMMDDHHmmss')).then(function (response) {
       dfd.resolve(response.data);
@@ -314,7 +319,7 @@ angular.module('openwheels', [
     return dfd.promise;
   }
 
-  function featuresFile () {
+  function featuresFile() {
     var dfd = $q.defer();
     $http.get('branding/features.json?v=' + moment().format('YYMMDDHHmmss')).then(function (response) {
       dfd.resolve(response.data);
@@ -324,7 +329,7 @@ angular.module('openwheels', [
     return dfd.promise;
   }
 
-  function isValidConfig (config) {
+  function isValidConfig(config) {
     return config &&
       config.app_id &&
       config.app_secret &&
@@ -333,5 +338,4 @@ angular.module('openwheels', [
       config.auth_endpoint &&
       config.token_endpoint;
   }
-
 }());
