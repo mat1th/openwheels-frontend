@@ -9,7 +9,7 @@
 .intro__section__heading {
     // background: url('../branding/img/home-rotate-2.jpg');
     background: url('https://images.unsplash.com/photo-1418387128862-717f3c032c7a?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&s=784a55a3df8887b6488f3e52762684fa');
-    background-position: 50% 100%;
+    background-position: 50% 60%;
     background-repeat: no-repeat;
     background-size: cover;
 }
@@ -19,6 +19,22 @@
     color: #fff;
     font-size: 2.3em;
     text-align: center;
+}
+@media (min-width: 768px) {
+    .intro__section__heading > h1 {
+        padding: 15rem 1rem;
+    }
+    .intro__section__steps {
+        .infoboxes {
+            flex-direction: row;
+        }
+        .infobox {
+            max-width: 20em;
+            flex-grow: 1;
+            flex-shrink: 0;
+            margin: 1rem;
+        }
+    }
 }
 .triangle--bar {
     position: relative;
@@ -85,8 +101,15 @@ md-card-header {
 }
 .intro__section__ideals > p {}
 .intro__section__steps__pretext {
-    padding: 1.42em 0;
+    padding: 2em 0;
     text-align: center;
+    color: #fff;
+    font-size: 1.2em;
+    p {
+        max-width: 45em;
+        margin: 0 auto;
+        padding: 0 1em 1em;
+    }
     h2 {
         color: #fff;
     }
@@ -96,11 +119,17 @@ md-card-header {
 }
 .intro__section--last {
     margin-bottom: -45px;
+    background: url('https://images.unsplash.com/photo-1465774124747-65ab0913fb9e?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&s=52874f90ee7fa45a81245042d7002278');
+    background-position: 50% 100%;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
-.intro__section__footer > h3 {
-    margin: 1.42em 0;
-    padding: 0;
-    color: white;
-    font-size: 2em;
-    text-align: center;
+.intro__section__footer {
+    padding: 3em 0;
+    h3 {
+        padding: 0;
+        color: white;
+        font-size: 2em;
+        text-align: center;
+    }
 }
