@@ -23,14 +23,14 @@
     <!-- times -->
     <ul class="list-inline">
       <li>
-        <div class="booking__timeframe booking__timeframe--accepted" ng-if="booking.beginBooking">
-          <datetime datetime="{{ booking.beginBooking }}"></datetime>
-          <datetime datetime="{{ booking.endBooking }}"></datetime>
-        </div>
-        <div class="booking__timeframe booking__timeframe--requested" ng-if="booking.beginRequested">
-          <datetime datetime="{{ booking.beginRequested }}"></datetime>
-          <datetime datetime="{{ booking.endRequested }}"></datetime>
-        </div>
+      <div class="booking__timeframe booking__timeframe--accepted" ng-if="booking.beginBooking">
+        <datetime datetime="{{ booking.beginBooking }}"></datetime>
+        <datetime datetime="{{ booking.endBooking }}"></datetime>
+      </div>
+      <div class="booking__timeframe booking__timeframe--requested" ng-if="booking.beginRequested">
+        <datetime datetime="{{ booking.beginRequested }}"></datetime>
+        <datetime datetime="{{ booking.endRequested }}"></datetime>
+      </div>
       </li>
     </ul>
 
@@ -41,34 +41,90 @@
     </div>
 
     <!-- form -->
-    <form name="form">
+    <form name="form" ng-submit="submit()">
 
       <div class="row">
         <div class="col col-sm-6">
-          <div class="form-group">
+          <div class="form-group" ng-class="{'has-error': form.odoBegin.$invalid && form.odoBegin.$touched}">   
             <label>{{ 'BOOKING.ADMINISTER.ODOBEGIN_LABEL' | translate }}</label>
             <div class="input-group">
-              <input name="odoBegin" type="number" class="form-control" ng-model="trip.odoBegin" required ng-disabled="alreadyFilled" />
+              <input name="odoBegin" step="1" type="number" ng-pattern="/^[0-9]+$/" class="form-control" ng-model="trip.odoBegin" ng-disabled="alreadyFilled" />
               <span class="input-group-addon">km</span>
             </div>
-            <div class="help-block" ng-show="form.odoBegin.$error.required"><span class="text-danger">{{ 'REQUIRED' | translate }}</span></div>
+            <div class="help-block" ng-show="form.odoBegin.$error.required && form.odoBegin.$touched"><span class="text-danger">{{ 'REQUIRED' | translate }}</span></div>
+            <div class="help-block" ng-show="form.odoBegin.$error.pattern"><span class="text-danger">U kunt alleen gehele getallen invoeren</span></div>
           </div>
         </div>
 
         <div class="col col-sm-6">
-          <div class="form-group">
+          <div class="form-group" ng-class="{'has-error': form.odoEnd.$invalid}">
             <label>{{ 'BOOKING.ADMINISTER.ODOEND_LABEL' | translate }}</label>
             <div class="input-group">
-              <input name="odoEnd" type="number" class="form-control" ng-model="trip.odoEnd" ng-disabled="alreadyFilled" />
+              <input name="odoEnd" type="number" step="1" ng-pattern="/^[0-9]+$/" class="form-control" ng-model="trip.odoEnd" ng-disabled="alreadyFilled" />
               <span class="input-group-addon">km</span>
+            </div>
+            <div class="help-block" ng-show="form.odoEnd.$error.pattern"><span class="text-danger">U kunt alleen gehele getallen invoeren</span></div>
+          </div>
+        </div>
+        <div ng-if="trip.odoEnd && trip.odoBegin && form.odoEnd.$touched && form.odoEnd.$dirty" class="col col-sm-6">
+          <p ng-class="{'text-danger': trip.odoEnd < trip.odoBegin, 'text-warning': trip.odoEnd - trip.odoBegin > 5000}">U heeft <strong>{{trip.odoEnd - trip.odoBegin | number}}</strong> km gereden</p>
+        </div>
+      </div>
+      <hr>
+      <div class="row">
+        <div class="col-sm-12">
+          <h2>Tankbonnen</h2>
+        </div>
+        <div class="col-sm-12">
+          <h4>Toegevoegde tankbonnen</h4>
+          <p ng-if="!declarations">Er zijn nog geen tankbonnen toegevoegd voor deze boeking</p>
+          <div class="row">
+            <div class="col-sm-12" ng-repeat="declaration in declarations">
+              <div style="border: 1px solid #e1e1e1; float: left; width: 100%; margin-bottom: -1px;">
+                <div style="float: left; min-height: 100px; width: 150px; background-size: cover; background-repeat: no-repeat; background-color: #f2f2f2; border-right: 1px solid #e1e1e1;" ng-style="{'background-image': 'url(declaration/' + declaration.image + ')'}"></div>
+                <div style="margin: 0.5em 0 0 0.5em; float: left;">
+                  <p style="font-size: 1.8em;">&euro;{{::declaration.amount|number:2}}</p>
+                  <p><small>Toegevoegd op:</small><br>{{::declaration.created}}</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
+        <div class="col-sm-12" style="margin-top: 2em;">
+          <h4>Nieuwe tankbon toevoegen</h4>
+          <p ng-show="declarations.length >= 5" ng-class="{'has-error': form.amount.$invalid}">
+          U kunt niet meer dan vijf tankbonnen toevoegen aan een boeking. Voor vragen of problemen kunt u contact met ons opnemen.
+          </p>
+        </div>
+        <div class="col col-sm-6" ng-show="declarations.length < 5" ng-class="{'has-error': form.amount.$invalid}">
+          <div class="form-group">
+            <label>Bedrag tankbon</label>
+            <div class="input-group">
+              <input type="number" max="200" name="amount" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" class="form-control" ng-model="declaration.amount" placeholder="Bedrag"/>
+              <span class="input-group-addon">&euro;</span>
+            </div>
+            <p ng-if="form.amount.$error.pattern" class="help-block">U{{form.amount}} kunt niet meer dan 2 decimalen invoeren</p>
+            <p ng-if="form.amount.$error.max" class="help-block">Dit bedrag is te hoog</p>
+          </div>
+        </div>
+        <div class="col col-sm-6" ng-show="declarations.length < 5">
+          <div class="form-group">
+            <label>Kopie/foto tankbon</label>
+            <div class="input-group">
+              <p ng-if="declaration.file" class="help-block">
+              Bestand {{declaration.file.name}} geselecteerd
+              <span style="display: block">
+                <button type="button" ng-click="addPicture(undefined)"><i class="fa fa-trash"></i>Ander bestand kiezen</button>
+              </span>
+              </p>
+              <file-input ng-if="!declaration.file" class="form-control" on-change="addPicture"></file-input>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-12" style="margin-top: 2em">
+          <button type="submit" class="btn btn-primary" ng-disabled="form.$pristine || form.$error.required" ng-bind="'SAVE' | translate"></button>
+        </div>
       </div>
-
-      <button ng-if="!alreadyFilled" type="button" class="btn btn-primary" ng-disabled="form.$pristine || form.$error.required"
-        ng-click="submit()" ng-bind="'SAVE' | translate"></button>
     </form>
-
   </div>
 </div>

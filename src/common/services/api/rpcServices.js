@@ -130,6 +130,12 @@ angular.module('rpcServices', [])
   this.delete = m('delete');
 })
 
+.service('declarationService', function (api) {
+  var m = function (name) { return api.createRpcMethod('declaration.' + name); };
+  this.create = m('create');
+  this.forBooking = m('forBooking');
+})
+
 .service('idealService', function (api) {
   var m = function (name) { return api.createRpcMethod('ideal.' + name); };
   this.payInvoiceGroup = m('payInvoiceGroup');

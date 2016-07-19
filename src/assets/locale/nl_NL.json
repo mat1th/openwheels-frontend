@@ -476,6 +476,7 @@
     "BOOKING.ADMINISTER.ODOBEGIN_LABEL": "Beginstand",
     "BOOKING.ADMINISTER.ODOEND_LABEL": "Eindstand",
     "BOOKING.ADMINISTER.SAVE_SUCCESS": "Bedankt voor het doorgeven van de kilometerstanden",
+    "BOOKING.ADMINISTER.SAVE_SUCCESS_DECLARATION": "De tankbon is toegevoegd",
     "BOOKING.ADMINISTER.ALREADY_FILLED": "De kilometerstanden zijn al doorgegeven",
     "BOOKING_ACCEPTED_RENTER": "Mijn reservering",
     "BOOKING_REQUESTED_RENTER": "Mijn reservering",
