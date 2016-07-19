@@ -6,7 +6,7 @@ angular.module('owm.booking.show', [])
   $q, $timeout, $log, $scope, $location, $filter, $translate, $state, appConfig, API_DATE_FORMAT,
   bookingService, resourceService, invoice2Service, alertService, dialogService,
   authService, boardcomputerService, discountUsageService, chatPopupService, linksService,
-  booking, me) {
+  booking, me, declarationService, contractService, $mdDialog) {
 
   /**
    * HACK
@@ -18,6 +18,7 @@ angular.module('owm.booking.show', [])
       booking.resource.price[prop] = booking.resource[prop];
     });
   }
+
 
   $scope.bookingRequest = angular.copy(booking);
   $scope.bookingRequest.beginRequested = booking.beginRequested ? booking.beginRequested : booking.beginBooking;
@@ -39,7 +40,23 @@ angular.module('owm.booking.show', [])
     }
   }());
 
+
   initPermissions();
+  loadDeclarations();
+
+  $scope.showDeclarations = (function() {
+    return !booking.resource.refuelByRenter;
+  }());
+
+  function loadDeclarations() {
+    declarationService.forBooking({booking: booking.id})
+    .then(function(res) {
+      $scope.booking.declarations = res;
+    })
+    .catch(function(err) {
+      alertService.add('danger', 'Tankbonnen konden niet opgehaald worden.', 4000);
+    });
+  }
 
   if ($scope.allowOvereenkomst) {
     $scope.overeenkomstUrl = linksService.bookingAgreementPdf(booking.id);
@@ -527,6 +544,23 @@ angular.module('owm.booking.show', [])
     chatPopupService.openPopup(otherPersonName, otherPerson.id, booking.resource.id, booking.id);
   }
 
+  $scope.openDialog = function($event, declaration) {
+    $mdDialog.show({
+      controller: function($scope, $mdDialog) {
+        $scope.image = 'declaration/' + declaration.image;
+        $scope.declaration = declaration;
+        $scope.hide = function() {
+          $mdDialog.hide();
+        };
+      },
+      templateUrl: 'booking/administer/declarationDialog.tpl.html',
+      parent: angular.element(document.body),
+      targetEvent: $event,
+      clickOutsideToClose:true,
+    })
+    .then(function(res) {
+    });
+  };
 
 })
 ;

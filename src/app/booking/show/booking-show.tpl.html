@@ -348,7 +348,7 @@
 </div>
 
 <!-- received invoices -->
-<div class="card" ng-if="receivedInvoices.length > 0 && sentInvoices.length === 0">
+<div class="card" ng-if="receivedInvoices.length > 0 && (sentInvoices.length === 0 || userPerspective === 'renter')">
   <div class="card-heading">
     <h3 class="card-title">
       <a href="" ng-click="isInvoicesCollapsed = !isInvoicesCollapsed">
@@ -380,6 +380,7 @@
     </div>
   </div>
 </div>
+
 
 <!-- sent invoices -->
 <div class="card" ng-if="sentInvoices.length > 0">
@@ -419,8 +420,41 @@
   </div>
 </div>
 
-<!-- pricing -->
+<!-- declarations -->
+<div class="card" ng-if="showDeclarations">
+  <div class="card-heading">
+    <h3 class="card-title">
+      <a href="" ng-click="isDeclarationsCollapsed = !isDeclarationsCollapsed">
+        <i class="fa fa-fw" ng-class="{ 'fa-chevron-right':isDeclarationsCollapsed, 'fa-chevron-down': !isDeclarationsCollapsed}">
+      </i>
+      Tankbonnen
+      </a>
+    </h3>
+  </div>
+  <div uib-collapse="isDeclarationsCollapsed ">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-sm-12" ng-repeat="declaration in booking.declarations">
+          <div style="border: 1px solid #e1e1e1; float: left; width: 100%; margin-bottom: -1px;">
+            <div style="float: left; min-height: 100px; width: 150px; background-size: cover; background-repeat: no-repeat; background-color: #f2f2f2; border-right: 1px solid #e1e1e1;" ng-style="{'background-image': 'url(declaration/' + declaration.image + ')'}" ng-click="openDialog($event, declaration)"></div>
+            <div style="margin: 0.5em 0 0 0.5em; float: left;">
+              <p style="font-size: 1.8em;">&euro;{{::declaration.amount|number:2}}</p>
+              <p><small>Toegevoegd op:</small><br>{{::declaration.created}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row" ng-if="!booking.declarations">
+        <div class="col-sm-12">Er zijn nog geen tankbonnen toegevoegd</div>
+      </div>
+      <div class="row" style="margin-top: 2em;">
+        <div class="col-sm-12"><a class="btn btn-default" ui-sref="^.administer">Tankbonnen toevoegen</a></div>
+      </div>
+    </div>
+  </div>
+</div>
 
+<!-- pricing -->
 <!--
 <div class="card text-center" ng-if="receivedInvoices && receivedInvoices.length <= 0">
   <div class="card-heading">

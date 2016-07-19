@@ -2,16 +2,19 @@
 
 angular.module('owm.booking.administer', [])
 
-.controller('BookingAdministerController', function ($scope, $state, $translate, alertService, bookingService, booking, declarationService, $anchorScroll) {
-
+.controller('BookingAdministerController', function ($scope, $state, $translate, alertService, bookingService, booking, declarationService, $anchorScroll, $mdDialog, contractService) {
   $scope.booking  = booking;
   $scope.resource = booking.resource;
   $scope.trip     = angular.copy(booking.trip);
-  console.log($scope.trip);
-  $scope.declration = {};
+  $scope.maxDeclarations = 5;
+  $scope.declaration = {};
 
   $scope.alreadyFilled = booking.trip.odoBegin && booking.trip.odoEnd;
   loadDeclarations(booking.id);
+
+  $scope.showDeclarations = (function() {
+    return !booking.resource.refuelByRenter;
+  }());
 
   function loadDeclarations(bookingId) {
     declarationService.forBooking({booking: bookingId})
@@ -58,6 +61,24 @@ angular.module('owm.booking.administer', [])
     $scope.declaration.file = file;
   };
 
+  $scope.openDialog = function($event, declaration) {
+    $mdDialog.show({
+      controller: function($scope, $mdDialog) {
+        $scope.image = 'declaration/' + declaration.image;
+        $scope.declaration = declaration;
+        $scope.hide = function() {
+          $mdDialog.hide();
+        };
+      },
+      templateUrl: 'booking/administer/declarationDialog.tpl.html',
+      parent: angular.element(document.body),
+      targetEvent: $event,
+      clickOutsideToClose:true,
+    })
+    .then(function(res) {
+    });
+  };
+
   function saveDeclaration() {
     if($scope.declaration && $scope.declaration.amount) {
       if(!$scope.declaration.file) {
@@ -89,7 +110,8 @@ angular.module('owm.booking.administer', [])
 
   $scope.submit = function () {
     saveTrip();
-    //saveDeclaration();
+    saveDeclaration();
+    $state.go('^.show');
   };
 
 })

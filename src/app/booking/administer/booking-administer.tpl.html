@@ -71,7 +71,7 @@
         </div>
       </div>
       <hr>
-      <div class="row">
+      <div class="row" ng-if="showDeclarations">
         <div class="col-sm-12">
           <h2>Tankbonnen</h2>
         </div>
@@ -81,7 +81,7 @@
           <div class="row">
             <div class="col-sm-12" ng-repeat="declaration in declarations">
               <div style="border: 1px solid #e1e1e1; float: left; width: 100%; margin-bottom: -1px;">
-                <div style="float: left; min-height: 100px; width: 150px; background-size: cover; background-repeat: no-repeat; background-color: #f2f2f2; border-right: 1px solid #e1e1e1;" ng-style="{'background-image': 'url(declaration/' + declaration.image + ')'}"></div>
+                <div style="float: left; min-height: 100px; width: 150px; background-size: cover; background-repeat: no-repeat; background-color: #f2f2f2; border-right: 1px solid #e1e1e1;" ng-style="{'background-image': 'url(declaration/' + declaration.image + ')'}" ng-click="openDialog($event, declaration)"></div>
                 <div style="margin: 0.5em 0 0 0.5em; float: left;">
                   <p style="font-size: 1.8em;">&euro;{{::declaration.amount|number:2}}</p>
                   <p><small>Toegevoegd op:</small><br>{{::declaration.created}}</p>
@@ -92,11 +92,11 @@
         </div>
         <div class="col-sm-12" style="margin-top: 2em;">
           <h4>Nieuwe tankbon toevoegen</h4>
-          <p ng-show="declarations.length >= 5" ng-class="{'has-error': form.amount.$invalid}">
-          U kunt niet meer dan vijf tankbonnen toevoegen aan een boeking. Voor vragen of problemen kunt u contact met ons opnemen.
+          <p ng-show="declarations.length >= maxDeclarations" ng-class="{'has-error': form.amount.$invalid}">
+          U kunt niet meer dan {{::maxDeclarations}} tankbonnen toevoegen aan een boeking. Voor vragen of problemen kunt u contact met ons opnemen.
           </p>
         </div>
-        <div class="col col-sm-6" ng-show="declarations.length < 5" ng-class="{'has-error': form.amount.$invalid}">
+        <div class="col col-sm-6" ng-show="declarations.length < maxDeclarations" ng-class="{'has-error': form.amount.$invalid}">
           <div class="form-group">
             <label>Bedrag tankbon</label>
             <div class="input-group">
@@ -107,7 +107,7 @@
             <p ng-if="form.amount.$error.max" class="help-block">Dit bedrag is te hoog</p>
           </div>
         </div>
-        <div class="col col-sm-6" ng-show="declarations.length < 5">
+        <div class="col col-sm-6" ng-show="declarations.length < maxDeclarations">
           <div class="form-group">
             <label>Kopie/foto tankbon</label>
             <div class="input-group">
@@ -121,6 +121,8 @@
             </div>
           </div>
         </div>
+      </div>
+      <div class="row">
         <div class="col-sm-12" style="margin-top: 2em">
           <button type="submit" class="btn btn-primary" ng-disabled="form.$pristine || form.$error.required" ng-bind="'SAVE' | translate"></button>
         </div>
