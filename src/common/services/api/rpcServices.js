@@ -40,6 +40,7 @@ angular.module('rpcServices', [])
   this.allTypes      = m('allTypes');
   this.forDriver     = m('forDriver');
   this.forContractor = m('forContractor');
+  this.forBooking    = m('forBooking');
   this.addPerson     = m('addPerson');
   this.removePerson  = m('removePerson');
   this.invitePerson  = m('invitePerson');

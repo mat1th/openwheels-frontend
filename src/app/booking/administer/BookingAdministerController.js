@@ -2,28 +2,27 @@
 
 angular.module('owm.booking.administer', [])
 
-.controller('BookingAdministerController', function ($scope, $state, $translate, alertService, bookingService, booking, declarationService, $anchorScroll, $mdDialog, contractService) {
+.controller('BookingAdministerController', function ($scope, $state, $translate, alertService, bookingService, booking, declarationService, $anchorScroll, $mdDialog, contract) {
   $scope.booking  = booking;
   $scope.resource = booking.resource;
   $scope.trip     = angular.copy(booking.trip);
   $scope.maxDeclarations = 5;
   $scope.declaration = {};
+  $scope.contract = contract;
 
-  $scope.alreadyFilled = booking.trip.odoBegin && booking.trip.odoEnd;
+  $scope.alreadyFilled = (booking.trip.odoBegin && booking.trip.odoEnd) ? true : false;
   loadDeclarations(booking.id);
 
-  $scope.showDeclarations = (function() {
-    return !booking.resource.refuelByRenter;
-  }());
-
   function loadDeclarations(bookingId) {
-    declarationService.forBooking({booking: bookingId})
-    .then(function(res) {
-      $scope.declarations = res;
-    })
-    .catch(function(err) {
-      alertService.add('danger', 'Tankbonnen konden niet opgehaald worden.', 4000);
-    });
+    if(contract.type.canHaveDeclaration) {
+      declarationService.forBooking({booking: bookingId})
+      .then(function(res) {
+        $scope.declarations = res;
+      })
+      .catch(function(err) {
+        alertService.add('danger', 'Tankbonnen konden niet opgehaald worden.', 4000);
+      });
+    }
   }
 
   function saveTrip() {
@@ -34,11 +33,14 @@ angular.module('owm.booking.administer', [])
       };
       // End is NOT required
       if ($scope.trip.odoEnd) {
-        params.odoEnd = $scope.trip.odoEnd;
+        if($scope.trip.odoEnd === 0) {
+          return;
+        }
         if($scope.trip.odoEnd < $scope.trip.odoBegin) {
           alertService.add('danger', 'Je kan geen negatief aantal gereden kilometers doorgeven', 5000);
           return;
         }
+        params.odoEnd = $scope.trip.odoEnd;
       }
 
       alertService.load();
@@ -111,7 +113,7 @@ angular.module('owm.booking.administer', [])
   $scope.submit = function () {
     saveTrip();
     saveDeclaration();
-    $state.go('^.show');
+    $state.go('^.show', null, {reload: true});
   };
 
 })

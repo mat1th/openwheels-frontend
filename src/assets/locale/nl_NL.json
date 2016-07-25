@@ -556,5 +556,17 @@
     "PAYMENT_FAILURE_TITLE": "De betaling is nog niet gelukt",
     "PAYMENT_FAILURE_BODY": "Wil je het opnieuw proberen?",
     "FINANCE_SENT_INVOICES_TITLE": "Verhuuropbrengsten",
-    "FEATURED_CARS_HEADING": "Uitgelichte auto's"
+    "DECLARATION_TITLE": "Tankbonnen",
+    "DECLARATION_HEADING_ADD": "Nieuwe tankbon toevoegen",
+    "DECL_LABEL_AMOUNT": "Bedrag tankbon",
+    "DECL_TOO_MANY_DEC": "U kunt niet meer dan 2 decimalen invoeren",
+    "DECL_TOO_HIGH_AMOUNT": "Dit bedrag is te hoog",
+    "DECL_LABEL_IMAGE": "Kopie/foto tankbon",
+    "DECL_ADDED_HEADING": "Toegevoegde tankbonnen",
+    "DECL_NO_DECL": "Er zijn nog geen tankbonnen toegevoegd voor deze boeking",
+    "DECL_LABEL_DATE": "Toegevoegd op:",
+    "DECL_TOO_MANY_DECL": "U kunt niet meer dan 5 tankbonnen toevoegen aan een boeking. Voor vragen of problemen kunt u contact met ons opnemen.",
+    "TRIP_KM_ONLY_WHOLE_NUM": "U kunt alleen gehele getallen invoeren",
+    "DECL_NO_DEC_SHOW": "Er zijn nog geen tankbonnen toegevoegd",
+    "DECL_ADD": "Tankbonnen toevoegen"
 }
