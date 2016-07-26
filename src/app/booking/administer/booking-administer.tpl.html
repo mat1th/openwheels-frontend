@@ -23,14 +23,14 @@
     <!-- times -->
     <ul class="list-inline">
       <li>
-        <div class="booking__timeframe booking__timeframe--accepted" ng-if="booking.beginBooking">
-          <datetime datetime="{{ booking.beginBooking }}"></datetime>
-          <datetime datetime="{{ booking.endBooking }}"></datetime>
-        </div>
-        <div class="booking__timeframe booking__timeframe--requested" ng-if="booking.beginRequested">
-          <datetime datetime="{{ booking.beginRequested }}"></datetime>
-          <datetime datetime="{{ booking.endRequested }}"></datetime>
-        </div>
+      <div class="booking__timeframe booking__timeframe--accepted" ng-if="booking.beginBooking">
+        <datetime datetime="{{ booking.beginBooking }}"></datetime>
+        <datetime datetime="{{ booking.endBooking }}"></datetime>
+      </div>
+      <div class="booking__timeframe booking__timeframe--requested" ng-if="booking.beginRequested">
+        <datetime datetime="{{ booking.beginRequested }}"></datetime>
+        <datetime datetime="{{ booking.endRequested }}"></datetime>
+      </div>
       </li>
     </ul>
 
@@ -41,34 +41,88 @@
     </div>
 
     <!-- form -->
-    <form name="form">
+    <form name="form" ng-submit="submit()">
 
       <div class="row">
         <div class="col col-sm-6">
-          <div class="form-group">
+          <div class="form-group" ng-class="{'has-error': form.odoBegin.$invalid && form.odoBegin.$touched}">   
             <label>{{ 'BOOKING.ADMINISTER.ODOBEGIN_LABEL' | translate }}</label>
             <div class="input-group">
-              <input name="odoBegin" type="number" class="form-control" ng-model="trip.odoBegin" required ng-disabled="alreadyFilled" />
+              <input name="odoBegin" step="1" type="number" ng-pattern="/^[0-9]+$/" class="form-control" ng-model="trip.odoBegin" ng-disabled="alreadyFilled" />
               <span class="input-group-addon">km</span>
             </div>
-            <div class="help-block" ng-show="form.odoBegin.$error.required"><span class="text-danger">{{ 'REQUIRED' | translate }}</span></div>
+            <div class="help-block" ng-show="form.odoBegin.$error.required && form.odoBegin.$touched"><span class="text-danger">{{ 'REQUIRED' | translate }}</span></div>
+            <div class="help-block" ng-show="form.odoBegin.$error.pattern"><span class="text-danger">{{ 'TRIP_KM_ONLY_WHOLE_NUM' | translate }}</span></div>
           </div>
         </div>
 
         <div class="col col-sm-6">
-          <div class="form-group">
+          <div class="form-group" ng-class="{'has-error': form.odoEnd.$invalid}">
             <label>{{ 'BOOKING.ADMINISTER.ODOEND_LABEL' | translate }}</label>
             <div class="input-group">
-              <input name="odoEnd" type="number" class="form-control" ng-model="trip.odoEnd" ng-disabled="alreadyFilled" />
+              <input name="odoEnd" type="number" step="1" ng-pattern="/^[0-9]+$/" class="form-control" ng-model="trip.odoEnd" ng-disabled="alreadyFilled" />
               <span class="input-group-addon">km</span>
+            </div>
+            <div class="help-block" ng-show="form.odoEnd.$error.pattern"><span class="text-danger">{{ 'TRIP_KM_ONLY_WHOLE_NUM' | translate }}</span></div>
+          </div>
+        </div>
+        <div ng-if="trip.odoEnd && trip.odoBegin && ((form.odoEnd.$touched && form.odoEnd.$dirty) || alreadyFilled)" class="col col-sm-6">
+          <p ng-class="{'text-danger': trip.odoEnd < trip.odoBegin, 'text-warning': trip.odoEnd - trip.odoBegin > 5000}">U heeft <strong>{{trip.odoEnd - trip.odoBegin | number}}</strong> km gereden</p>
+        </div>
+      </div>
+      <hr>
+      <div class="row" ng-if="contract.type.canHaveDeclaration">
+        <div class="col-sm-12">
+          <h2>{{ 'DECLARATION_TITLE' | translate }}</h2>
+        </div>
+        <div class="col-sm-12">
+          <h4>{{ 'DECLARATION_HEADING_ADD' | translate }}</h4>
+          <p ng-show="declarations.length >= maxDeclarations">
+          {{ 'DECL_TOO_MANY_DECL' | translate}}
+          </p>
+        </div>
+        <div class="col col-sm-6" ng-show="declarations.length < maxDeclarations" ng-class="{'has-error': form.amount.$invalid}">
+          <div class="form-group">
+            <label>{{ 'DECL_LABEL_AMOUNT' | translate }}</label>
+            <div class="input-group">
+              <input type="number" max="200" name="amount" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" class="form-control" ng-model="declaration.amount" placeholder="Bedrag"/>
+              <span class="input-group-addon">&euro;</span>
+            </div>
+            <p ng-if="form.amount.$error.pattern" class="help-block">{{ 'DECL_TOO_MANY_DEC' | translate }}</p>
+            <p ng-if="form.amount.$error.max" class="help-block">{{ 'DECL_TOO_HIGH_AMOUNT' | translate }}</p>
+          </div>
+        </div>
+        <div class="col col-sm-6" ng-show="declarations.length < maxDeclarations">
+          <div class="form-group">
+            <label>{{ 'DECL_LABEL_IMAGE' | translate }}</label>
+            <div class="input-group">
+              <file-input reset="noreset" class="form-control" on-change="addPicture"></file-input>
             </div>
           </div>
         </div>
       </div>
-
-      <button ng-if="!alreadyFilled" type="button" class="btn btn-primary" ng-disabled="form.$pristine || form.$error.required"
-        ng-click="submit()" ng-bind="'SAVE' | translate"></button>
+      <div class="row">
+        <div class="col-sm-12">
+          <button type="submit" class="btn btn-primary" ng-disabled="form.$pristine || form.$error.required" ng-bind="'SAVE' | translate"></button>
+        </div>
+      </div>
+      <div class="row declarations">
+        <div class="col-sm-12">
+          <h4 class="declarations__heading">{{ 'DECL_ADDED_HEADING' | translate }}</h4>
+          <p ng-if="!declarations || declarations.length == 0">{{ 'DECL_NO_DECL' | translate }}</p>
+          <div class="row">
+            <div class="col-sm-12" ng-repeat="declaration in declarations">
+              <div class="declarations__item">
+                <div class="declarations__item__image" ng-style="{'background-image': 'url(declaration/' + declaration.image + ')'}" ng-click="openDialog($event, declaration)"></div>
+                <div class="declarations__item__text">
+                  <p class="declarations__item__amount">&euro;{{::declaration.amount|number:2}}</p>
+                  <p><small>{{ 'DECL_LABEL_DATE' | translate }}</small><br>{{::declaration.created}}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </form>
-
   </div>
 </div>
