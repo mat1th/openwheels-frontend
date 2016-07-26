@@ -8,7 +8,6 @@ angular.module('owm.finance', [
   'owm.finance.paymentResult',
   'owm.finance.deposit'
 ])
-
 .controller('FinanceVersionWrapperController', function ($scope, me) {
   dummyData();
   function sortArray(arrayOfSubinvoices) {

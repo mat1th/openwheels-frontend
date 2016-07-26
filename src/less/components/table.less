@@ -29,6 +29,7 @@
   }
   td.second {
     padding-left: 8px;
+    padding-right: 8px;
   }
 }
 tr.lastrow > td
@@ -37,4 +38,13 @@ tr.lastrow > td
 }
 .neg {
   color: #C43D3D;
+}
+.table-hover > tbody > tr:hover {
+  background-color: #ededed;
+}
+.table-hover tr.nohover:hover {
+  background-color: initial !important;
+}
+tr.clickable {
+  cursor: pointer;
 }
