@@ -22,7 +22,13 @@ angular.module('owm.finance.v1InvoiceGroups', [])
         person: me.id
       }
     }).then(function (response) {
-      $scope.invoiceGroups = response.result;
+      var mockData = [
+        {id: 1, total: 122, paid: 122, due: new Date()},
+        {id: 2, total: 22.82, paid: 22.82, due: new Date()},
+        {id: 3, total: 114.15, paid: 114.15, due: new Date()},
+        {id: 4, total: 42.19, paid: 42.19, due: new Date()},
+      ];
+      $scope.invoiceGroups = mockData;
     })
     .catch(function (err) {
       alertService.addError(err);

@@ -11,18 +11,95 @@
   </div>
 </div>
 
-<!-- vouchersEnabled? see navigation controller -->
-<div ng-if="vouchersEnabled"
-  ng-include="'finance/vouchers/voucherList.tpl.html'"
-  ng-controller="VoucherListController">
-</div>
+<!-- Dit deel van de pagina is voor openstaalde opbrengsten uit ritten die nog niet zijn uitbetaald -->
+<!-- Er kunnen ook overige facturen zijn (dwz die niet onder een boeking, bijvoorbeeld omdat het een correctie van een eerder boeking is -->
+<div class="card">
+  <div class="card-heading">
+    <h3 class="card-title">
+      <a href="" ng-click="is3Collapsed = !is3Collapsed">
+        <i class="fa fa-fw" ng-class="{ 'fa-chevron-right': is3Collapsed, 'fa-chevron-down': !is3Collapsed }"></i>
+        Nog niet uitgekeerde opbrengsten
+      </a>
+    </h3>
+  </div>
+  <div uib-collapse="is3Collapsed">
+    <div class="card-body">
+      <table class="table">
+        <tr>
+          <th>Rit</th>
+          <th>Bedrag</th>
+          <th> </th>
+        </tr>
+        <tr ng-click="open=!open" style="outline: none; cursor: pointer;" ng-repeat-start="invoice in openInvoicesRenter">
+          <td>{{'Rit op ' + (invoice.booking.date | amDateFormat:'DD MM YYYY')  + ' door ' + invoice.booking.name }}</td>
+          <td>{{::invoice.total | currency}}</td>
+          <td class="text-right"><i ng-class="{'fa-chevron-right': !open, 'fa-chevron-down': open}" class="fa fa-fw"></i></td>
+        </tr>
+        <tr class="table-subinvoice" ng-show="open" ng-repeat="subinvoice in invoice.invoices" ng-repeat-end ng-class="{'lastrow': $last}">
+          <td class="first sub">{{subinvoice.type}}</td>
+          <td class="second sub" ng-class="{'pos': subinvoice.amount > 0, 'neg': subinvoice.amount < 0}" colspan="2">{{subinvoice.amount | currency }}</td>
+        </tr>
+        <tr>
+          <th style="padding-top: 2em">Overig</th>
+          <th style="padding-top: 2em">Bedrag</th>
+          <th style="padding-top: 2em"> </th>
+        </tr>
+        <tr>
+          <td>Abonnementskosten</td>
+          <td>{{::5.23 | currency}}</td>
+          <td> </td>
+        </tr>
+        <tr>
+          <td>Naheffig aangepaste KM stand</td>
+          <td>{{::8.17 | currency}}</td>
+          <td> </td>
+        </tr>
+      </table>
+      <div class="text-right">
+        <button type="button" class="btn btn-primary" ng-click="payoutInvoices()">
+          {{352.87|currency}} uitbetalen
+        </button>
+      </div>
+    </div>
+  </div>
+</div><!-- /card -->
 
-<div
-  ng-include="'finance/v2/financeV2.tpl.html'"
-  ng-controller="FinanceV2Controller">
-</div>
+<div class="card" ng-init="showMyInvoices=true">
+  <div class="card-heading">
+    <h3 class="card-title">
+      <a href="" ng-click="showMyInvoices = !!!showMyInvoices">
+        <i class="fa fa-fw" ng-class="{ 'fa-chevron-right': !showMyInvoices, 'fa-chevron-down': showMyInvoices }"></i>
+        Uitgekeerde opbrengsten
+        <!-- exclamation mark if there are unpaid invoiceGroups -->
+        <i ng-if="unpaidInvoiceGroups.length > 0" class="fa fa-exclamation-triangle text-danger" uib-tooltip="Tooltip"></i>
+      </a>
+    </h3>
+  </div>
 
-<div
-  ng-include="'finance/v1/financeV1InvoiceGroups.tpl.html'"
-  ng-controller="FinanceV1InvoiceGroupsController">
+  <div uib-collapse="!showMyInvoices">
+    <div class="card-body">
+
+      <table class="table table-responsive table-condensed">
+        <thead>
+          <tr>
+            <th>Factuur</th>
+            <th>Datum</th>
+            <th>Te ontvangen bedrag</th>
+            <th>Status</th>
+            <th>Bekijk details</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="invoiceGroup in payedGroupedInvoices">
+            <td>{{invoiceGroup.id}}</td>
+            <td>{{invoiceGroup.due | amDateFormat:'DD MM YYYY'}}</td>
+            <td>{{invoiceGroup.total | currency}}</td>
+            <td>{{invoiceGroup.status}} <span uib-tooltip="{{::invoiceGroup.status == 'Betaald' ? 'Dit bedrag is overgemaakt naar uw rekening' : 'Deze factuur wordt momenteel verwerkt.'}}" class="text-muted"><i class="fa fa-info-circle"></i></span> </td>
+            <td>Details</td>
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+  </div>
 </div>

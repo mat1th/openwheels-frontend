@@ -10,24 +10,28 @@ angular.module('owm.finance', [
 ])
 
 .controller('FinanceVersionWrapperController', function ($scope, me) {
-  $scope.me = me;
+  dummyData();
 
-  $scope.v1NoData = false;
-  $scope.v2NoData = false;
+  function dummyData () {
+    var openInvoicesRenter = [
+      {booking: {date: new Date(), name: 'Hans Bullewijk'}, total: 135.12, invoices: [{amount: 50, type: 'Kilometers'}, {amount: 60.12, type: 'Huur auto'}, {amount: 25, type: 'Schoonmaak kosten'}, {amount: -2.5, type: 'MyWheels toeslag'}, {amount: -42.32, type: 'Tankbon'}, {amount: -1.26, type: 'Verzekering'}]},
+      {booking: {date: new Date(), name: 'Anne ter Zal'}, total: 122, invoices: [{amount: 50, type: 'Kilometers'}, {amount: 50, type: 'Huur auto'}, {amount: -2.5, type: 'MyWheels toeslag'}, {amount: -0.89, type: 'Verzekering'}]},
+      {booking: {date: new Date(), name: 'Erick Boogaard'}, total: 82.35, invoices: [{amount: 50, type: 'Kilometers'}, {amount: 50, type: 'Huur auto'}, {amount: 22, type: 'Schoonmaak kosten'}, {amount: -2.5, type: 'MyWheels toeslag'}]},
+    ];
+    $scope.openInvoicesRenter = openInvoicesRenter;
 
-  $scope.$on('v1LoadComplete', function (evt, hasData) {
-    $scope.v1NoData = !hasData;
-  });
-
-  $scope.$on('v2LoadComplete', function (evt, hasData) {
-    $scope.v2NoData = !hasData;
-  });
+    var payedGroupedInvoices = [
+      {id: 1, total: 122, paid: 122, status: 'Betaald', due: new Date()},
+      {id: 2, total: 22.82, paid: 22.82, status: 'Betaald', due: new Date()},
+      {id: 3, total: 114.15, paid: 114.15, status: 'Betaald', due: new Date()},
+      {id: 4, total: 42.19, paid: 42.19, status: 'In behandeling', due: new Date()},
+    ];
+    $scope.payedGroupedInvoices = payedGroupedInvoices;
+  }
 })
-
 .config(function config($stateProvider) {
 
   $stateProvider
-
   .state('owm.finance', {
     abstract: true
   })
@@ -35,7 +39,6 @@ angular.module('owm.finance', [
   /**
    * V1
    */
-
   .state('owm.finance.v1Index', {
     url: '/finance/v1',
     views: {
