@@ -18,7 +18,7 @@
     <h3 class="card-title">
       <a href="" ng-click="is3Collapsed = !is3Collapsed">
         <i class="fa fa-fw" ng-class="{ 'fa-chevron-right': is3Collapsed, 'fa-chevron-down': !is3Collapsed }"></i>
-        Nog niet uitgekeerde opbrengsten
+        Te ontvangen verhuuropbrengst
       </a>
     </h3>
   </div>
@@ -69,7 +69,7 @@
     <h3 class="card-title">
       <a href="" ng-click="showMyInvoices = !!!showMyInvoices">
         <i class="fa fa-fw" ng-class="{ 'fa-chevron-right': !showMyInvoices, 'fa-chevron-down': showMyInvoices }"></i>
-        Uitgekeerde opbrengsten
+        Ontvangen verhuuropbrengsten
         <!-- exclamation mark if there are unpaid invoiceGroups -->
         <i ng-if="unpaidInvoiceGroups.length > 0" class="fa fa-exclamation-triangle text-danger" uib-tooltip="Tooltip"></i>
       </a>
@@ -82,7 +82,7 @@
       <table class="table table-responsive table-condensed">
         <thead>
           <tr>
-            <th>Factuur</th>
+            <th>#</th>
             <th>Datum</th>
             <th>Te ontvangen bedrag</th>
             <th>Status</th>
@@ -94,7 +94,7 @@
             <td>{{invoiceGroup.id}}</td>
             <td>{{invoiceGroup.due | amDateFormat:'DD MM YYYY'}}</td>
             <td>{{invoiceGroup.total | currency}}</td>
-            <td>{{invoiceGroup.status}} <span uib-tooltip="{{::invoiceGroup.status == 'Betaald' ? 'Dit bedrag is overgemaakt naar uw rekening' : 'Deze factuur wordt momenteel verwerkt.'}}" class="text-muted"><i class="fa fa-info-circle"></i></span> </td>
+            <td>{{invoiceGroup.status}} <span ng-if="invoiceGroup.status!='Betaald'" uib-tooltip="Dit bedrag kun je binnenkort op je rekening verwachten." class="text-muted"><i class="fa fa-info-circle"></i></span> </td>
             <td>Details</td>
           </tr>
         </tbody>

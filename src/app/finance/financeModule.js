@@ -11,13 +11,49 @@ angular.module('owm.finance', [
 
 .controller('FinanceVersionWrapperController', function ($scope, me) {
   dummyData();
+  function sortArray(arrayOfSubinvoices) {
+    var orderRenter = {
+      'Huur auto': 100,
+      'Kilometers': 90,
+      'Brandstof': 80,
+      '*pos*': 70,
+      'Ritverzekering': 30,
+      'MyWheels Fee': 20,
+      '*neg*': 10
+    };
+
+    function getKey(c) {
+      if(orderRenter[c.type] === undefined) {
+        return (c.amount >= 0 ? '*pos*' : '*neg*');
+      }
+      return c.type;
+    }
+
+    return arrayOfSubinvoices.sort(function(a, b) {
+      return orderRenter[getKey(a)] < orderRenter[getKey(b)];
+    });
+  }
+
+  function calcTotal(arrayOfSubinvoices) {
+    var total = 0;
+
+    arrayOfSubinvoices.forEach(function(invoice) {
+      total += invoice.amount;
+    });
+    return total;
+  }
 
   function dummyData () {
     var openInvoicesRenter = [
-      {booking: {date: new Date(), name: 'Hans Bullewijk'}, total: 135.12, invoices: [{amount: 50, type: 'Kilometers'}, {amount: 60.12, type: 'Huur auto'}, {amount: 25, type: 'Schoonmaak kosten'}, {amount: -2.5, type: 'MyWheels toeslag'}, {amount: -42.32, type: 'Tankbon'}, {amount: -1.26, type: 'Verzekering'}]},
-      {booking: {date: new Date(), name: 'Anne ter Zal'}, total: 122, invoices: [{amount: 50, type: 'Kilometers'}, {amount: 50, type: 'Huur auto'}, {amount: -2.5, type: 'MyWheels toeslag'}, {amount: -0.89, type: 'Verzekering'}]},
-      {booking: {date: new Date(), name: 'Erick Boogaard'}, total: 82.35, invoices: [{amount: 50, type: 'Kilometers'}, {amount: 50, type: 'Huur auto'}, {amount: 22, type: 'Schoonmaak kosten'}, {amount: -2.5, type: 'MyWheels toeslag'}]},
+      {booking: {date: new Date(), name: 'Hans Bullewijk'}, invoices: [{amount: 50, type: 'Kilometers'}, {amount: 60.12, type: 'Huur auto'}, {amount: 25, type: 'Schoonmaakkosten'}, {amount: -2.5, type: 'MyWheels Fee'}, {amount: -42.32, type: 'Brandstof getankt door huurder'}, {amount: -1.26, type: 'Ritverzekering'}]},
+      {booking: {date: new Date(), name: 'Anne ter Zal'}, invoices: [{amount: 50, type: 'Kilometers'}, {amount: 50, type: 'Huur auto'}, {amount: -2.5, type: 'MyWheels Fee'}, {amount: -0.89, type: 'Ritverzekering'}]},
+      {booking: {date: new Date(), name: 'Erick Boogaard'}, invoices: [{amount: 50, type: 'Kilometers'}, {amount: 50, type: 'Huur auto'}, {amount: 22, type: 'Schoonmaakkosten'}, {amount: -2.5, type: 'MyWheels Fee'}]},
     ];
+    openInvoicesRenter.map(function(booking) {
+      booking.invoices = sortArray(booking.invoices);
+      booking.total = calcTotal(booking.invoices);
+      return booking;
+    });
     $scope.openInvoicesRenter = openInvoicesRenter;
 
     var payedGroupedInvoices = [
