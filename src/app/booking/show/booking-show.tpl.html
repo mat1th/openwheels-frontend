@@ -367,12 +367,12 @@
         </tr>
         <tr ng-repeat="invoice in receivedInvoices">
           <td>{{ invoice.description }}</td>
-          <td>{{ invoice.total | currency }}</td>
+          <td ng-class="{'text-neg': invoice.total < 0}">{{ invoice.total | currency }}</td>
         </tr>
         <tr>
-          <td><b>Totaal</b></td>
+          <td><b>Totaal te {{(receivedInvoicesTotalAmount > 0 ? 'betalen' : 'ontvangen')}}</b></td>
           <td>
-            <b>{{ receivedInvoicesTotalAmount | currency }}</b>
+              <b>{{(receivedInvoicesTotalAmount < 0 ? -1 * receivedInvoicesTotalAmount : receivedInvoicesTotalAmount) | currency }}</b>
 <!--             &nbsp;<button type="button" class="btn btn-primary pull-right" ng-click="payInvoices()">Betalen</button> -->
           </td>
         </tr>
@@ -402,16 +402,16 @@
         </tr>
         <tr ng-repeat="invoice in sentInvoices">
           <td>{{ invoice.description }}</td>
-          <td>{{ invoice.total | currency }}</td>
+          <td ng-class="{'text-neg': invoice.total < 0}">{{ invoice.total | currency }}</td>
         </tr>
         <tr ng-repeat="invoice in receivedInvoices">
           <td>{{ invoice.description }}</td>
-          <td>{{ -invoice.total | currency }}</td>
+          <td ng-class="{'text-neg': -invoice.total < 0}">{{ -invoice.total | currency }}</td>
         </tr>
         <tr>
-          <td><b>Totaal</b></td>
+          <td><b>Totaal te {{(sentInvoicesTotalAmount - receivedInvoicesTotalAmount < 0 ? 'betalen' : 'ontvangen')}} </b></td>
           <td>
-            <b>{{ sentInvoicesTotalAmount - receivedInvoicesTotalAmount | currency }}</b>
+            <b>{{ (sentInvoicesTotalAmount - receivedInvoicesTotalAmount < 0 ? -1* (sentInvoicesTotalAmount - receivedInvoicesTotalAmount) : sentInvoicesTotalAmount - receivedInvoicesTotalAmount) | currency }}</b>
 <!--             &nbsp;<button type="button" class="btn btn-primary pull-right" ng-click="payInvoices()">Betalen</button> -->
           </td>
         </tr>
@@ -424,11 +424,7 @@
 <div class="card" ng-if="contract.type.canHaveDeclaration">
   <div class="card-heading">
     <h3 class="card-title">
-      <a href="" ng-click="isDeclarationsCollapsed = !isDeclarationsCollapsed">
-        <i class="fa fa-fw" ng-class="{ 'fa-chevron-right':isDeclarationsCollapsed, 'fa-chevron-down': !isDeclarationsCollapsed}">
-      </i>
       {{ 'DECLARATION_TITLE' | translate }}
-      </a>
     </h3>
   </div>
   <div uib-collapse="isDeclarationsCollapsed ">
