@@ -33,9 +33,6 @@ angular.module('owm.booking.administer', [])
       };
       // End is NOT required
       if ($scope.trip.odoEnd) {
-        if($scope.trip.odoEnd === 0) {
-          return;
-        }
         if($scope.trip.odoEnd < $scope.trip.odoBegin) {
           alertService.add('danger', 'Je kan geen negatief aantal gereden kilometers doorgeven', 5000);
           return;
@@ -55,7 +52,10 @@ angular.module('owm.booking.administer', [])
       })
       .finally(function () {
         alertService.loaded();
+        $state.go('^.show', null, {reload: true});
       });
+    } else {
+      $state.go('^.show', null, {reload: true});
     }
   }
 
@@ -65,13 +65,13 @@ angular.module('owm.booking.administer', [])
 
   $scope.openDialog = function($event, declaration) {
     $mdDialog.show({
-      controller: function($scope, $mdDialog) {
+      controller: ['$scope', '$mdDialog', function($scope, $mdDialog) {
         $scope.image = 'declaration/' + declaration.image;
         $scope.declaration = declaration;
         $scope.hide = function() {
           $mdDialog.hide();
         };
-      },
+      }],
       templateUrl: 'booking/administer/declarationDialog.tpl.html',
       parent: angular.element(document.body),
       targetEvent: $event,
@@ -106,14 +106,15 @@ angular.module('owm.booking.administer', [])
       })
       .finally(function () {
         alertService.loaded();
+        saveTrip();
       });
+    } else {
+      saveTrip();
     }
   }
 
   $scope.submit = function () {
-    saveTrip();
     saveDeclaration();
-    $state.go('^.show', null, {reload: true});
   };
 
 })

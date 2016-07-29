@@ -545,13 +545,13 @@ angular.module('owm.booking.show', [])
 
   $scope.openDialog = function($event, declaration) {
     $mdDialog.show({
-      controller: function($scope, $mdDialog) {
+      controller: ['$scope', '$mdDialog', function($scope, $mdDialog) {
         $scope.image = 'declaration/' + declaration.image;
         $scope.declaration = declaration;
         $scope.hide = function() {
           $mdDialog.hide();
         };
-      },
+      }],
       templateUrl: 'booking/administer/declarationDialog.tpl.html',
       parent: angular.element(document.body),
       targetEvent: $event,
