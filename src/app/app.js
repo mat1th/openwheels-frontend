@@ -150,7 +150,7 @@ angular.module('openwheels', [
 
 .config(function (uiGmapGoogleMapApiProvider) {
   uiGmapGoogleMapApiProvider.configure({
-    key: 'AIzaSyAwytl2OG58LpFCTcIFN13gEBaSTh2aKF0',
+    key: 'AIzaSyC1QrtfmsYNsJAfx9OOl5QX0oNpMVo3fbw',
     v: '3.23.0',
     libraries: 'places',
     language: 'nl'
