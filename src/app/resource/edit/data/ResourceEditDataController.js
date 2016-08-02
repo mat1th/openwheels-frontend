@@ -64,6 +64,7 @@ angular.module('owm.resource.edit.data', [])
     {value: 'car'   , label: $translate.instant('RESOURCE_TYPE.CAR')},
     {value: 'cabrio', label: $translate.instant('RESOURCE_TYPE.CABRIO')},
     {value: 'camper', label: $translate.instant('RESOURCE_TYPE.CAMPER')},
+    {value: 'oldtimer', label: $translate.instant('RESOURCE_TYPE.OLDTIMER')},
     {value: 'van'   , label: $translate.instant('RESOURCE_TYPE.VAN')}
   ];
 
