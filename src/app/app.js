@@ -162,6 +162,11 @@ angular.module('openwheels', [
     googleTagManagerProvider.init(appConfig.gtmContainerId);
   }
 })
+.config(function (appConfig, googleAnalyticsProvider) {
+  if (appConfig.ga_tracking_id) {
+    googleAnalyticsProvider.init(appConfig.ga_tracking_id);
+  }
+})
 
 .config(function (appConfig, facebookProvider, twitterProvider) {
     // if (appConfig.features.facebook && appConfig.fbAppId) {
@@ -171,21 +176,21 @@ angular.module('openwheels', [
     //   twitterProvider.init();
     // }
 })
-  /**
-   * Disable logging for non-development environments
-   */
-  .config(function ($logProvider, ENV) {
-    if (ENV !== 'development') {
-      $logProvider.debugEnabled(false);
-    }
-  })
-  .config(function (optimizelyProvider) {
-    optimizelyProvider.setKey('5390511383');
-    optimizelyProvider.setActivationEventName('$stateChangeSuccess');
-  })
-  .run(function (optimizely) {
-    optimizely.loadProject();
-  })
+/**
+ * Disable logging for non-development environments
+ */
+.config(function ($logProvider, ENV) {
+  if (ENV !== 'development') {
+    $logProvider.debugEnabled(false);
+  }
+})
+.config(function (optimizelyProvider) {
+  optimizelyProvider.setKey('5390511383');
+  optimizelyProvider.setActivationEventName('$stateChangeSuccess');
+})
+.run(function (optimizely) {
+  optimizely.loadProject();
+})
 
 
 .run(function (windowSizeService, oAuth2MessageListener, stateAuthorizer, authService, featuresService) {
@@ -300,6 +305,7 @@ angular.module('openwheels', [
         authEndpoint: config.auth_endpoint,
         tokenEndpoint: config.token_endpoint,
         gtmContainerId: config.gtm_container_id || null,
+        ga_tracking_id: config.ga_tracking_id || null,
         fbAppId: config.fb_app_id || null,
         features: config.features || {}
       });
