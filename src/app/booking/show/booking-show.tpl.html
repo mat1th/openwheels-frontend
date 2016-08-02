@@ -6,10 +6,6 @@
       <a id="booking-huurovereenkomst-link" ng-if="allowOvereenkomst" class="btn btn-link" target="_blank" ng-href="{{ overeenkomstUrl }}">
         <i class="fa fa-download fa-fw"></i>Huurovereenkomst (pdf)
       </a>
-
-      <a ng-if="booking.status==='accepted'" class="btn btn-link" target="_blank" ng-href="{{ linksService.tripDetailsPdf(booking.id) }}">
-        <i class="fa fa-download fa-fw"></i>Ritoverzicht (pdf)
-      </a>
     </span>
 
     <h2 class="card-title">
