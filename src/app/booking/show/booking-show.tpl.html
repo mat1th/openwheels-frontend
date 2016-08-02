@@ -421,7 +421,7 @@
 </div>
 
 <!-- declarations -->
-<div class="card" ng-if="contract.type.canHaveDeclaration">
+<div class="card" ng-if="contract.type.canHaveDeclaration && booking.approved==='OK'">
   <div class="card-heading">
     <h3 class="card-title">
       {{ 'DECLARATION_TITLE' | translate }}
