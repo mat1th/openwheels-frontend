@@ -144,21 +144,6 @@ angular.module('owm.resource.search', [
       var filtersObject = $scope.filters.filters;
       resourceQueryService.setFilters(filtersObject);
 
-
-      if (!isInitialSearch) {
-        // on subsequent searches, jump to normal search page
-        if ($state.includes('owm.resource.place.list')) {
-          return $state.go('owm.resource.search.list');
-        } else if ($state.includes('owm.resource.place.map')) {
-          return $state.go('owm.resource.search.map');
-        }
-        updateUrl();
-      } else {
-        if (!$state.includes('owm.resource.place')) {
-          updateUrl();
-        }
-      }
-
       // construct api call
       var params = {};
       // calculate offset
