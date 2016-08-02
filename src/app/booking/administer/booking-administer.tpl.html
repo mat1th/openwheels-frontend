@@ -66,8 +66,8 @@
             <div class="help-block" ng-show="form.odoEnd.$error.pattern"><span class="text-danger">{{ 'TRIP_KM_ONLY_WHOLE_NUM' | translate }}</span></div>
           </div>
         </div>
-        <div ng-if="trip.odoEnd && trip.odoBegin && ((form.odoEnd.$touched && form.odoEnd.$dirty) || alreadyFilled)" class="col col-sm-6">
-          <p ng-class="{'text-danger': trip.odoEnd < trip.odoBegin, 'text-warning': trip.odoEnd - trip.odoBegin > 5000}">U heeft <strong>{{trip.odoEnd - trip.odoBegin | number}}</strong> km gereden</p>
+        <div ng-if="trip.odoEnd && trip.odoBegin && trip.odoEnd.toString().length >= trip.odoBegin.toString().length" class="col col-sm-6">
+          <p ng-class="{'text-danger': trip.odoEnd < trip.odoBegin, 'text-warning': trip.odoEnd - trip.odoBegin > 5000}" translate="DECL_DISTANCE" translate-values="{dist: trip.odoEnd - trip.odoBegin}"></p>
         </div>
       </div>
       <hr>
@@ -106,7 +106,7 @@
           <button type="submit" class="btn btn-primary" ng-disabled="form.$pristine || form.$error.required" ng-bind="'SAVE' | translate"></button>
         </div>
       </div>
-      <div class="row declarations">
+      <div class="row declarations" ng-if="contract.type.canHaveDeclaration">
         <div class="col-sm-12">
           <h4 class="declarations__heading">{{ 'DECL_ADDED_HEADING' | translate }}</h4>
           <p ng-if="!declarations || declarations.length == 0">{{ 'DECL_NO_DECL' | translate }}</p>

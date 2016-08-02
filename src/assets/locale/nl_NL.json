@@ -568,5 +568,6 @@
     "DECL_TOO_MANY_DECL": "U kunt niet meer dan 5 tankbonnen toevoegen aan een boeking. Voor vragen of problemen kunt u contact met ons opnemen.",
     "TRIP_KM_ONLY_WHOLE_NUM": "U kunt alleen gehele getallen invoeren",
     "DECL_NO_DEC_SHOW": "Er zijn nog geen tankbonnen toegevoegd",
-    "DECL_ADD": "Tankbonnen toevoegen"
+    "DECL_ADD": "Tankbonnen toevoegen",
+    "DECL_DISTANCE": "Er is <strong>{{dist}} km</strong> gereden"
 }

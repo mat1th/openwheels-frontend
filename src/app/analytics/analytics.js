@@ -36,6 +36,11 @@ angular.module('openwheels.analytics', [])
     /* jshint ignore:end */
 
     window.ga('create', trackingId, 'auto');
+
+    window.ga('require', 'pageVisibilityTracker');
+    window.ga('require', 'eventTracker');
+    window.ga('require', 'urlChangeTracker');
+
     window.ga('send', 'pageview');
   };
 
