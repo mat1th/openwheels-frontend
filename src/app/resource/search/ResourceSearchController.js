@@ -216,7 +216,6 @@ angular.module('owm.resource.search', [
     }
 
     $scope.showPage = function(page) {
-      $anchorScroll('topsearch');
       // check page is legal value
       if(page < 1) {
         page = 1;
@@ -229,6 +228,10 @@ angular.module('owm.resource.search', [
       $scope.page = page;
       resourceQueryService.setPage(page);
       updateUrl();
+
+      if(page > 1) {
+        $anchorScroll('topsearch');
+      }
 
       // page can be cached or not
       if($scope.pagedResults[page] !== undefined) { // Hooray, page is already in cache
