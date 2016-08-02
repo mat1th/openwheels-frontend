@@ -12,6 +12,7 @@ angular.module('owm.resource.search', [
       $stateParams,
       $uibModal,
       $filter,
+      $anchorScroll,
       appConfig,
       Geocoder,
       alertService,
@@ -215,6 +216,7 @@ angular.module('owm.resource.search', [
     }
 
     $scope.showPage = function(page) {
+      $anchorScroll('topsearch');
       // check page is legal value
       if(page < 1) {
         page = 1;
