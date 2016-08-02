@@ -58,7 +58,8 @@
             <td>{{ booking.resource.owner | fullname }}</td>
             <td>{{ booking.trip.odoEnd - booking.trip.odoBegin }}</td>
             <td><span booking-approval-icon="booking"></span></td>
-            <td class="text-right"><a target="_blank" ng-href="{{ createTripDetailsLink(booking) }}"><i class="fa fa-fw fa-external-link-square"></i>Details</a></td>
+            <!--<td class="text-right"><a target="_blank" ng-href="{{ createTripDetailsLink(booking) }}"><i class="fa fa-fw fa-external-link-square"></i>Details</a></td>-->
+            <td class="text-right"><a ui-sref="owm.booking.show({bookingId: booking.id})">Details</a></td>
           </tr>
         </tbody>
       </table>
@@ -99,7 +100,8 @@
             <td>{{ booking.person | fullname }}</td>
             <td>{{ booking.trip.odoEnd - booking.trip.odoBegin }}</td>
             <td><span booking-approval-icon="booking"></span></td>
-            <td class="text-right"><a target="_blank" ng-href="{{ createTripDetailsLink(booking) }}"><i class="fa fa-fw fa-external-link-square"></i>Details</a></td>
+            <!--<td class="text-right"><a target="_blank" ng-href="{{ createTripDetailsLink(booking) }}"><i class="fa fa-fw fa-external-link-square"></i>Details</a></td>-->
+            <td class="text-right"><a ui-sref="owm.booking.show({bookingId: booking.id})">Details</a></td>
           </tr>
         </tbody>
       </table>

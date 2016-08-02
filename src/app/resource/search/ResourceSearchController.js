@@ -12,6 +12,7 @@ angular.module('owm.resource.search', [
       $stateParams,
       $uibModal,
       $filter,
+      $anchorScroll,
       appConfig,
       Geocoder,
       alertService,
@@ -227,6 +228,10 @@ angular.module('owm.resource.search', [
       $scope.page = page;
       resourceQueryService.setPage(page);
       updateUrl();
+
+      if(page > 1) {
+        $anchorScroll('topsearch');
+      }
 
       // page can be cached or not
       if($scope.pagedResults[page] !== undefined) { // Hooray, page is already in cache

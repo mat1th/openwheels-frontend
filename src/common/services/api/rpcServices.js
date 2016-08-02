@@ -40,6 +40,7 @@ angular.module('rpcServices', [])
   this.allTypes      = m('allTypes');
   this.forDriver     = m('forDriver');
   this.forContractor = m('forContractor');
+  this.forBooking    = m('forBooking');
   this.addPerson     = m('addPerson');
   this.removePerson  = m('removePerson');
   this.invitePerson  = m('invitePerson');
@@ -128,6 +129,12 @@ angular.module('rpcServices', [])
   var m = function (name) { return api.createRpcMethod('actions.' + name); };
   this.all = m('all');
   this.delete = m('delete');
+})
+
+.service('declarationService', function (api) {
+  var m = function (name) { return api.createRpcMethod('declaration.' + name); };
+  this.create = m('create');
+  this.forBooking = m('forBooking');
 })
 
 .service('idealService', function (api) {

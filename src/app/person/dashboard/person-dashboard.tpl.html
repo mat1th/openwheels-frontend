@@ -26,7 +26,9 @@
 
 <div id="current_bookings" class="card" ng-if="bookings.length > 0">
   <div class="card-heading">
-    <h2 class="card-title">{{ 'CURRENT_BOOKINGS' | translate }}</h2>
+    <h2 class="card-title">{{ 'CURRENT_BOOKINGS' | translate }}
+      <span class="pull-right"><small><a ui-sref="owm.trips">Bekijk ritgeschiedenis</a></small></span>
+    </h2>
   </div>
   <div class="card-body">
     <ul class="list-row booking-list">
@@ -45,7 +47,9 @@
 
 <div id="current_rentals" class="card" ng-if="rentals.length > 0">
   <div class="card-heading">
-    <h2 class="card-title">{{ 'CURRENT_RENTALS' | translate }}</h2>
+    <h2 class="card-title">{{ 'CURRENT_RENTALS' | translate }}
+      <span class="pull-right"><small><a ui-sref="owm.trips">Bekijk verhuurgeschiedenis</a></small></span>
+    </h2>
   </div>
   <div class="card-body" id="resource-info">
     <ul class="list-row booking-list">
