@@ -52,6 +52,7 @@ angular.module('openwheels', [
   'owm.linksService',
   'owm.featuresService',
   'owm.metaInfoService',
+  'owm.meHelperService',
   'ng-optimizely',
 
   /* Directives */

@@ -2,6 +2,7 @@
 
 angular.module('owm.person', [
     'owm.person.dashboard',
+    'owm.person.intro',
     'owm.person.dashboard.v1',
     'owm.person.profile',
     'owm.person.action.payinvoicegroup',
@@ -28,6 +29,19 @@ angular.module('owm.person', [
       }
     });
 
+    $stateProvider.state('owm.person.intro', {
+      abstract: false,
+      url: '/intro',
+      data: {
+        access: { deny: { anonymous: true } }
+      },
+      views: {
+        'main-full@shell': {
+          templateUrl: 'person/intro/person-intro.tpl.html',
+          controller: 'PersonIntroController'
+        }
+      },
+    });
     /**
      * dashboard
      */

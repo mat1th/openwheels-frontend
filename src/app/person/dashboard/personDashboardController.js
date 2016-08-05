@@ -4,6 +4,9 @@ angular.module('owm.person.dashboard', [])
 
 .controller('PersonDashboardController', function ($q, $scope, $sce, $state, me, bookingList, rentalList, actions,
   authService, bookingService, alertService, boardcomputerService, actionService, resourceService, resourceQueryService, blogItems) {
+  if(me.status === 'new') {
+    $state.go('owm.person.intro');
+  }
 
   $scope.me = me;
   $scope.blogItems = blogItems;

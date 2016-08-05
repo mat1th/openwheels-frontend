@@ -19,7 +19,10 @@ angular.module('owm.resource.reservationForm', [])
 .controller('ReservationFormController', function (
   $log, $q, $timeout, $filter, $rootScope, $scope, $state,
   API_DATE_FORMAT, resourceService, invoice2Service, alertService, authService, bookingService, discountService,
-  contractService, featuresService) {
+  contractService, featuresService, $mdDialog, $mdMedia, $translate, $location, $localStorage) {
+
+  // Check if this page is being called after login/singup in booking process
+  handleAuthRedirect();
 
   $scope.features = $rootScope.features;
 
@@ -235,6 +238,7 @@ angular.module('owm.resource.reservationForm', [])
     error: false
   };
 
+
   $scope.validateDiscountCode = validateDiscountCode;
 
   function validateDiscountCode() {
@@ -292,6 +296,51 @@ angular.module('owm.resource.reservationForm', [])
     }, DEBOUNCE_TIMEOUT_MS);
   }
 
+  function handleAuthRedirect() {
+    if($location.search().authredirect) {
+    }
+  }
+
+  function dialogController($scope, authService) {
+    $scope.user = {};
+    $scope.hide = function() {
+      $mdDialog.hide();
+    };
+    $scope.cancel = function() {
+      $mdDialog.cancel();
+    };
+    $scope.answer = function(answer) {
+      $mdDialog.hide(answer);
+    };
+    $scope.login = function() {
+      var successurl = $state.href('newrenter2.confirm');
+      authService.loginPopup(true, successurl).then(function(res) {console.log('fdasfdsa'); console.log(res); });
+    };
+    var initOptions = function () {
+      $scope.preferenceOptions = [{
+        label: '',
+        value: false
+      }, {
+        label: $translate.instant('USER_PREFERENCE_RENTER'),
+        value: 'renter'
+      }, {
+        label: $translate.instant('USER_PREFERENCE_OWNER'),
+        value: 'owner'
+      }, {
+        label: $translate.instant('USER_PREFERENCE_BOTH'),
+        value: 'both'
+      }];
+    };
+    $scope.user.preference = 'renter';
+    $scope.$on('$translateChangeSuccess', function () {
+      initOptions();
+    });
+    $scope.signup = function() {
+      return true;
+    };
+    initOptions();
+  }
+
   $scope.createBooking = function (booking) {
     if (!booking.beginRequested || !booking.endRequested) {
       return alertService.add('danger', $filter('translate')('DATETIME_REQUIRED'), 5000);
@@ -299,19 +348,31 @@ angular.module('owm.resource.reservationForm', [])
 
     // Als je nog niet bent ingelogd is er
     // even een andere flow nodig
-    if (featuresService.get('bookingSignupWizard')) {
-      if (!$scope.person || $scope.person.status === 'new') { // should register, or upload driver's license
-        $state.go('newRenter-register', { // should register
-          city: $scope.resource.city ? $scope.resource.city : 'utrecht',
-          resourceId: $scope.resource.id,
-          startTime: booking.beginRequested,
-          endTime: booking.endRequested,
-          discountCode: booking.discountCode
-        });
-        return;
-      } else if (!booking.contract) { // should pay deposit to get a contract
-        return alertService.add('danger', 'Voordat je een auto kunt boeken, hebben we een borg van je nodig', 5000);
-      }
+    if (!$scope.person) { // not logged in
+
+      $mdDialog.show({
+        controller: dialogController,
+        templateUrl: 'resource/components/ReservationFormDialog.tpl.html',
+        clickOutsideToClose:true,
+        fullscreen: $mdMedia('xs'),
+      })
+      .then(function(answer) {
+      })
+      .catch(function() {
+      });
+      return;
+    }
+    else if ($scope.person.status === 'new') { // upload driver's license
+      $state.go('newRenter-register', { // should register
+        city: $scope.resource.city ? $scope.resource.city : 'utrecht',
+        resourceId: $scope.resource.id,
+        startTime: booking.beginRequested,
+        endTime: booking.endRequested,
+        discountCode: booking.discountCode
+      });
+      return;
+    } else if (!booking.contract) { // should pay deposit to get a contract
+      return alertService.add('danger', 'Voordat je een auto kunt boeken, hebben we een borg van je nodig', 5000);
     }
 
     alertService.load();

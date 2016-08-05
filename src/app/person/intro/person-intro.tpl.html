@@ -1,0 +1,213 @@
+<!-- Top welkom part -->
+
+<div class="intro__section intro__section--white">
+    <section class="intro__section__heading">
+        <h1>{{::me.firstName}}, welkom bij MyWheels</h1>
+    </section>
+    <div class="intro__section__steps__pretext intro__section--green triangle--bar">
+        <h2>
+          Huur een auto in drie stappen
+        </h2>
+        <p>
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+        </p>
+        <!-- call to action buttons -->
+        <div layout="column" layout-align="center center">
+            <a href="" class="mywheels-btn mywheels-btn-light" md-ink-ripple="#ded8d8">Zoek nu uw auto</a>
+            <button type="button" name="button" ui-sref="owm.person.dashboard" class="mywheels-btn mywheels-btn-span">Of vul uw gegevens verder aan</button>
+        </div>
+        <!-- /call to action buttons -->
+
+    </div>
+
+</div>
+<!-- /top welkom part -->
+
+<!-- Hire a car in 3 steps -->
+<div class="intro__section">
+    <section class="intro__section__steps">
+        <div class="infoboxes">
+            <div class="infobox">
+                <div layout="row" layout-align="start center" layout-margin class="infobox--title">
+                    <md-icon class="infobox--title--icon">search</md-icon>
+                    <h3 class="infobox--title--text">1. Zoek een auto</h3>
+                </div>
+                <p class="infobox--content">Bekijk bij Huur een auto alle auto’s in de buurt door je postcode of plaats in te vullen. Klik in het overzicht op een auto die ideaal is voor jouw reis.</p>
+
+            </div>
+            <div class="infobox">
+                <div layout="row" layout-align="start center" layout-margin class="infobox--title">
+                    <md-icon class="infobox--title--icon">date_range</md-icon>
+                    <h3 class="infobox--title--text">2. Reserveer een auto</h3>
+                </div>
+                <p class="infobox--content">Vul de tijden in dat je de auto wilt huren en klik op ‘Maak reservering’. Als je nog geen account hebt, vragen we om gegevens in te vullen zodat we je beter leren kennen. Daarna versturen we je huurverzoek naar de verhuurder. Na acceptatie
+                    van je verzoek kun je een contract kiezen waarop je mag rijden.</p>
+
+            </div>
+            <div class="infobox">
+                <div layout="row" layout-align="start center" layout-margin class="infobox--title">
+                    <md-icon class="infobox--title--icon">directions_car</md-icon>
+                    <h3 class="infobox--title--text">3. Rijden</h3>
+                </div>
+                <p class="infobox--content">Nadat je rit geaccepteerd is, kun je de auto aan het begin van je reservering ophalen. Auto’s met het label ‘Smartwheels’ open je met een OV-chipkaart of smartphone. Auto’s zonder dit label open je gewoon met de sleutel. Spreek dan met
+                    de verhuurder af wanneer je de sleutel ophaalt. Goede reis!</p>
+
+            </div>
+        </div>
+    </section>
+</div>
+<!-- /Hire a car in 3 steps -->
+
+<!-- FEATURED SLIDER -->
+<div class="container-fluid slider" ng-if="features.featuredSlider">
+    <div class="slider--container container-home" layout="column" layout-align="center center">
+        <h2 class="slider--heading">{{'FEATURED_CARS_HEADING' | translate}}</h2>
+        <slick dots="false" prev-arrow=".slick--prev" next-arrow=".slick--next" ng-if="resources_slider" responsive="[{breakpoint: 1024, settings: { slidesToShow: 3, slidesToScroll: 3}}, {breakpoint: 768, settings: {slidesToShow: 2, slidesToScroll: 2 }}, {breakpoint: 450, settings: {slidesToShow: 1, slidesToScroll: 1 }}]"
+            slides-to-show="4" slides-to-scroll="4">
+            <div class="slider--slide" ng-repeat="resource in resources_slider">
+                <md-card ng-click="gotoProfile(resource)">
+                    <div class="slider--slide--image">
+                        <ow-resource-picture alttext="{{::'Huur: ' + resource.alias}}" resource="resource" size="large"></ow-resource-picture>
+                        <span class="slider--slide--price">&euro;{{::resource.price.dayRateTotal}}</span>
+                    </div>
+                    <span title="{{::resource.alias}}" class="md-title slider--slide--alias">{{::resource.alias}}</span>
+                    <span class="md-subhead slider--slide--location">{{::resource.city ? resource.city : ' '}}</span>
+                </md-card>
+            </div>
+        </slick>
+        <md-card>
+            <button type="button" class="slick--prev">
+                <md-icon>keyboard_arrow_left</md-icon>
+            </button>
+        </md-card>
+        <md-card>
+            <button type="button" class="slick--next">
+                <md-icon>keyboard_arrow_right</md-icon>
+            </button>
+        </md-card>
+    </div>
+</div>
+<!-- /FEATURED SLIDER -->
+
+<div class="container-fluid intro__section intro__section--white">
+    <section class="container intro__section__ideals">
+        <h3>Onze Idealen</h3>
+        <p>
+            Sit ducimus molestiae officia nisi vitae accusamus saepe tempore at ratione. Atque quisquam non autem minus ullam modi! Ducimus nostrum saepe veritatis officiis voluptatum accusamus recusandae similique veritatis quo commodi!
+        </p>
+        <p>
+            Sit ducimus molestiae officia nisi vitae accusamus saepe tempore at ratione. Atque quisquam non autem minus ullam modi! Ducimus nostrum saepe veritatis officiis voluptatum accusamus recusandae similique veritatis quo commodi!
+        </p>
+    </section>
+</div>
+
+<div class="container-fluid intro__section">
+    <section class="container intro__section__faq">
+        <div>
+            <h3 class="intro__section__faq__heading">Veelgestelde vragen</h3>
+            <div class="intro__section__faq__boxes">
+                <div >
+                    <div class="intro__section__faq__box">
+                        <md-card>
+                            <md-card-header ng-click="toggleBox(1)">
+                                <md-card-header-text>
+                                    <span class="md-title">Lorem ipsum dolor et?<md-icon class="pull-right">{{openboxes[1] ? 'expand_less' : 'expand_more'}}</md-icon></span>
+                                </md-card-header-text>
+                            </md-card-header>
+                            <md-divider></md-divider>
+                            <md-card-content class="intro__section__faq__answer" ng-show="openboxes[1]">
+                                fdasfsda
+                            </md-card-content>
+                        </md-card>
+                    </div>
+
+                    <div class="intro__section__faq__box">
+                        <md-card>
+                            <md-card-header ng-click="toggleBox(2)">
+                                <md-card-header-text>
+                                    <span class="md-title">Lorem ipsum dolor et?<md-icon class="pull-right">{{openboxes[2] ? 'expand_less' : 'expand_more'}}</md-icon></span>
+                                </md-card-header-text>
+                            </md-card-header>
+                            <md-divider></md-divider>
+                            <md-card-content class="intro__section__faq__answer" ng-show="openboxes[2]">
+                                fdasfsda
+                            </md-card-content>
+                        </md-card>
+                    </div>
+
+                    <div class="intro__section__faq__box">
+                        <md-card>
+                            <md-card-header ng-click="toggleBox(3)">
+                                <md-card-header-text>
+                                    <span class="md-title">Lorem ipsum dolor et?<md-icon class="pull-right">{{openboxes[3] ? 'expand_less' : 'expand_more'}}</md-icon></span>
+                                </md-card-header-text>
+                            </md-card-header>
+                            <md-divider></md-divider>
+                            <md-card-content class="intro__section__faq__answer" ng-show="openboxes[3]">
+                                Auto verhuren via MyWheels
+                            </md-card-content>
+                        </md-card>
+                    </div>
+
+                </div>
+
+                <div>
+                    <div class="intro__section__faq__box">
+                        <md-card>
+                            <md-card-header ng-click="toggleBox(4)">
+                                <md-card-header-text>
+                                    <span class="md-title">Lorem ipsum dolor et?<md-icon class="pull-right">{{openboxes[4] ? 'expand_less' : 'expand_more'}}</md-icon></span>
+                                </md-card-header-text>
+                            </md-card-header>
+                            <md-divider></md-divider>
+                            <md-card-content ng-show="openboxes[4]">
+                                fdasfsda
+                            </md-card-content>
+                        </md-card>
+                    </div>
+
+                    <div class="intro__section__faq__box">
+                        <md-card>
+                            <md-card-header ng-click="toggleBox(5)">
+                                <md-card-header-text>
+                                    <span class="md-title">Lorem ipsum dolor et?<md-icon class="pull-right">{{openboxes[5] ? 'expand_less' : 'expand_more'}}</md-icon></span>
+                                </md-card-header-text>
+                            </md-card-header>
+                            <md-divider></md-divider>
+                            <md-card-content ng-show="openboxes[5]">
+                                fdasfsda
+                            </md-card-content>
+                        </md-card>
+                    </div>
+
+                    <div class="intro__section__faq__box">
+                        <md-card>
+                            <md-card-header ng-click="toggleBox(6)">
+                                <md-card-header-text>
+                                    <span class="md-title">Lorem ipsum dolor et?<md-icon class="pull-right">{{openboxes[6] ? 'expand_less' : 'expand_more'}}</md-icon></span>
+                                </md-card-header-text>
+                            </md-card-header>
+                            <md-divider></md-divider>
+                            <md-card-content ng-show="openboxes[6]">
+                                fdasfsda
+                            </md-card-content>
+                        </md-card>
+                    </div>
+                </div>
+
+            </div>
+            <div class="intro__section__faq__button">
+                <a href="https://mywheels.nl/autodelen/" class="mywheels-btn mywheels-btn-normal" md-ink-ripple="#4b702c">Lees meer in helpcenter</a>
+            </div>
+        </div>
+    </section>
+</div>
+
+<div class="container-fluid intro__section intro__section--green intro__section--last ">
+  <div class="hero-overlay"></div>
+    <section class="container intro__section__footer" layout="column" layout-align="center center">
+        <h3>Klaar om te rijden?</h3>
+        <a href="" class="mywheels-btn mywheels-btn-error" md-ink-ripple="#9a3d26">Zoek nu uw auto</a>
+        <button type="button" name="button" ui-sref="owm.person.dashboard" class="mywheels-btn mywheels-btn-span">Of vul uw gegevens verder aan</button>
+    </section>
+</div>
