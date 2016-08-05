@@ -1,8 +1,8 @@
 'use strict';
 
-angular.module('owm.person.profile', [])
+angular.module('owm.person.details', [])
 
-.controller('PersonProfileController', function ($scope, $filter, $timeout, $translate, person, alertService, personService, authService, dutchZipcodeService) {
+.controller('DetailsProfileController', function ($scope, $filter, $timeout, $translate, person, alertService, personService, authService, dutchZipcodeService) {
 
   var masterPerson = null;
   $scope.person = null;
@@ -324,4 +324,5 @@ angular.module('owm.person.profile', [])
     });
   };
 
-});
+})
+;

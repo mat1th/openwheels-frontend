@@ -1,29 +1,29 @@
 <div class="card">
-  <div class="card-heading">
-    <h2 class="card-title">{{ 'MY_PROFILE' | translate }}</h2>
-  </div>
-
-  <div class="card-body">
-    <div class="media">
-      <a class="pull-left" ui-sref="member({ personId: person.id })">
-        <img class="media-object img-user-normal" ng-if="!refreshProfileImage" person-profile-image="{ person: person, size: 'small', noCache: true }" />
-        <div class="media-object img-user-normal" ng-if="refreshProfileImage" />
-      </a>
-      <div class="media-body">
-        <h4 class="media-heading"><a ui-sref="member({ personId: person.id })">{{ person | fullname }}</a></h4>
-        <div><small>{{ person.created | memberSince }}</small></div>
-        <div><span badge-list="person.badges"></span></div>
-      </div>
+    <div class="card-heading">
+        <h2 class="card-title">{{ 'MY_PROFILE' | translate }}</h2>
     </div>
-  </div>
+
+    <div class="card-body">
+        <div class="media">
+            <a class="pull-left" ui-sref="member({ personId: person.id })">
+                <img class="media-object img-user-normal" ng-if="!refreshProfileImage" person-profile-image="{ person: person, size: 'small', noCache: true }" />
+                <div class="media-object img-user-normal" ng-if="refreshProfileImage" />
+            </a>
+            <div class="media-body">
+                <h4 class="media-heading"><a ui-sref="member({ personId: person.id })">{{ person | fullname }}</a></h4>
+                <div><small>{{ person.created | memberSince }}</small></div>
+                <div><span badge-list="person.badges"></span></div>
+            </div>
+        </div>
+    </div>
 
 </div>
 
 
 <!-- PERSONAL DATA  -->
 <div class="card" id="personal-data">
-  <div class="card-heading" id="personal-data-heading">
-    <h3 class="card-title">
+    <div class="card-heading" id="personal-data-heading">
+        <h3 class="card-title">
       <a href="" ng-init="personalIsCollapsed = true"
          ng-click="personalIsCollapsed = !personalIsCollapsed">
         <i class="fa fa-fw"
@@ -32,109 +32,105 @@
       </a>
       &nbsp;<i class="text-danger fa fa-exclamation-triangle" ng-show="alerts.personalData" uib-tooltip="Vul je gegevens aan"></i>
     </h3>
-  </div>
+    </div>
 
-  <div uib-collapse="personalIsCollapsed">
-    <div class="card-body">
-      <form name="personalDataForm">
+    <div uib-collapse="personalIsCollapsed">
+        <div class="card-body">
+            <form name="personalDataForm">
 
-        <div ng-if="allowLicenseRelated">
-          <div class="form-group">
-            <label for="firstName">{{ 'FIRST_NAME' | translate }}</label>
-            <input type="text" id="firstName" name="firstName" class="form-control" ng-model="person.firstName" required>
-            <p class="help-block" ng-show="personalDataForm.firstName.$error.required"><span class="text-danger">{{ 'REQUIRED' | translate }}</span>
-            </p>
-          </div>
+                <div ng-if="allowLicenseRelated">
+                    <div class="form-group">
+                        <label for="firstName">{{ 'FIRST_NAME' | translate }}</label>
+                        <input type="text" id="firstName" name="firstName" class="form-control" ng-model="person.firstName" required>
+                        <p class="help-block" ng-show="personalDataForm.firstName.$error.required"><span class="text-danger">{{ 'REQUIRED' | translate }}</span>
+                        </p>
+                    </div>
 
-          <div class="form-group">
-            <label for="preposition">{{ 'PREPOSITION' | translate }} & {{ 'SURNAME' | translate }}</label>
-            <div class="row">
-              <div class="col-xs-4">
-                <label for="preposition" class="sr-only">{{ 'PREPOSITION' | translate }}</label>
-                <input type="text" id="preposition" name="preposition" class="form-control" ng-model="person.preposition" null-if-empty>
-              </div>
-              <div class="col-xs-8">
-                <label for="surname" class="sr-only">{{ 'SURNAME' | translate }}</label>
-                <input type="text" id="surname" name="surname" class="form-control" ng-model="person.surname" required>
+                    <div class="form-group">
+                        <label for="preposition">{{ 'PREPOSITION' | translate }} & {{ 'SURNAME' | translate }}</label>
+                        <div class="row">
+                            <div class="col-xs-4">
+                                <label for="preposition" class="sr-only">{{ 'PREPOSITION' | translate }}</label>
+                                <input type="text" id="preposition" name="preposition" class="form-control" ng-model="person.preposition" null-if-empty>
+                            </div>
+                            <div class="col-xs-8">
+                                <label for="surname" class="sr-only">{{ 'SURNAME' | translate }}</label>
+                                <input type="text" id="surname" name="surname" class="form-control" ng-model="person.surname" required>
 
-                <p class="help-block" ng-show="personalDataForm.surname.$error.required"><span class="text-danger">{{ 'REQUIRED' | translate }}</span>
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
+                                <p class="help-block" ng-show="personalDataForm.surname.$error.required"><span class="text-danger">{{ 'REQUIRED' | translate }}</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-        <div ng-if="!allowLicenseRelated">
-          <div class="form-group">
-            <label>{{ 'NAME' | translate }}<info-icon tooltip-html="'INFO_PROFILE_LICENSE_RESTRICT' | translate"></info-icon></label>
-            <input type="text" class="form-control" disabled value="{{ person | fullname }}" />
-          </div>
-        </div>
+                <div ng-if="!allowLicenseRelated">
+                    <div class="form-group">
+                        <label>{{ 'NAME' | translate }}
+                            <info-icon tooltip-html="'INFO_PROFILE_LICENSE_RESTRICT' | translate"></info-icon>
+                        </label>
+                        <input type="text" class="form-control" disabled value="{{ person | fullname }}" />
+                    </div>
+                </div>
 
-        <div class="form-group">
-          <label for="gender">
-            {{ 'GENDER' | translate }}
-            <info-icon ng-if="!allowLicenseRelated" tooltip-html="'INFO_PROFILE_LICENSE_RESTRICT' | translate"></info-icon>
-          </label>
-          <select id="gender" name="male" class="form-control" ng-model="genderText"
-            ng-disabled="!allowLicenseRelated"
-            ng-change="person.male = genderText==='male' ? true : (genderText==='female' ? false : null)">
-            <option value="">{{ 'PICK_A_GENDER' | translate }}</option>
-            <option value="male">{{ 'MALE' | translate }}</option>
-            <option value="female">{{ 'FEMALE' | translate }}</option>
-          </select>
-          <p class="help-block" ng-show="person.male === null"><span class="text-danger">{{ 'REQUIRED' | translate }}</span>
-          </p>
-        </div>
+                <div class="form-group">
+                    <label for="gender">
+                        {{ 'GENDER' | translate }}
+                        <info-icon ng-if="!allowLicenseRelated" tooltip-html="'INFO_PROFILE_LICENSE_RESTRICT' | translate"></info-icon>
+                    </label>
+                    <select id="gender" name="male" class="form-control" ng-model="genderText" ng-disabled="!allowLicenseRelated" ng-change="person.male = genderText==='male' ? true : (genderText==='female' ? false : null)">
+                        <option value="">{{ 'PICK_A_GENDER' | translate }}</option>
+                        <option value="male">{{ 'MALE' | translate }}</option>
+                        <option value="female">{{ 'FEMALE' | translate }}</option>
+                    </select>
+                    <p class="help-block" ng-show="person.male === null"><span class="text-danger">{{ 'REQUIRED' | translate }}</span>
+                    </p>
+                </div>
 
-        <div class="form-group">
-          <label for="dateOfBirth">
-            {{ 'DATE_OF_BIRTH' | translate }}
-            <info-icon ng-if="!allowLicenseRelated" tooltip-html="'INFO_PROFILE_LICENSE_RESTRICT' | translate"></info-icon>
-          </label>
-          <input type="text" name="dateOfBirth" id="dateOfBirth" placeholder="{{ 'PICK_A_DATE' | translate }}"
-            ng-disabled="!allowLicenseRelated"
-            class="form-control pickadate-input" ng-model="person.dateOfBirth" pickadate="dateConfig" required>
+                <div class="form-group">
+                    <label for="dateOfBirth">
+                        {{ 'DATE_OF_BIRTH' | translate }}
+                        <info-icon ng-if="!allowLicenseRelated" tooltip-html="'INFO_PROFILE_LICENSE_RESTRICT' | translate"></info-icon>
+                    </label>
+                    <input type="text" name="dateOfBirth" id="dateOfBirth" placeholder="{{ 'PICK_A_DATE' | translate }}" ng-disabled="!allowLicenseRelated" class="form-control pickadate-input" ng-model="person.dateOfBirth" pickadate="dateConfig" required>
 
-          <p class="help-block" ng-show="personalDataForm.dateOfBirth.$error.required"><span class="text-danger">{{ 'REQUIRED' | translate }}</span>
-          </p>
-        </div>
+                    <p class="help-block" ng-show="personalDataForm.dateOfBirth.$error.required"><span class="text-danger">{{ 'REQUIRED' | translate }}</span>
+                    </p>
+                </div>
 
-        <div class="form-group" id="form-group-company-name">
-          <label for="companyName">
-            {{ 'ARE_YOU_COMPANY' | translate}}
-            <info-icon ng-if="!allowLicenseRelated" tooltip-html="'INFO_PROFILE_LICENSE_RESTRICT' | translate"></info-icon>
-          </label>
-          <div class="input-group">
-            <span class="input-group-addon">
+                <div class="form-group" id="form-group-company-name">
+                    <label for="companyName">
+                        {{ 'ARE_YOU_COMPANY' | translate}}
+                        <info-icon ng-if="!allowLicenseRelated" tooltip-html="'INFO_PROFILE_LICENSE_RESTRICT' | translate"></info-icon>
+                    </label>
+                    <div class="input-group">
+                        <span class="input-group-addon">
               <input type="checkbox" name="isCompany" ng-model="person.isCompany"
                 ng-disabled="!allowLicenseRelated">
             </span>
-            <input type="text" id="companyName" name="companyName" class="form-control" ng-model="person.companyName"
-              ng-disabled="!person.isCompany || !allowLicenseRelated"
-              placeholder="{{ 'COMPANY_NAME' | translate }}" null-if-empty>
-          </div>
-          <p class="help-block" ng-if="allowLicenseRelated">{{ 'USER_COMPANY_HELP_BLOCK' | translate }}</p>
+                        <input type="text" id="companyName" name="companyName" class="form-control" ng-model="person.companyName" ng-disabled="!person.isCompany || !allowLicenseRelated" placeholder="{{ 'COMPANY_NAME' | translate }}" null-if-empty>
+                    </div>
+                    <p class="help-block" ng-if="allowLicenseRelated">{{ 'USER_COMPANY_HELP_BLOCK' | translate }}</p>
+                </div>
+
+                <button id="submitFormPersonal" type="button" class="btn btn-primary" ng-disabled="personalDataForm.$pristine || !personalDataForm.$valid" ng-click="submitPersonalDataForm()" ng-if="allowLicenseRelated">
+                    {{ 'SUBMIT' | translate }}
+                </button>
+
+            </form>
         </div>
-
-        <button id="submitFormPersonal" type="button" class="btn btn-primary"
-          ng-disabled="personalDataForm.$pristine || !personalDataForm.$valid"
-          ng-click="submitPersonalDataForm()"
-          ng-if="allowLicenseRelated">
-          {{ 'SUBMIT' | translate }}
-        </button>
-
-      </form>
-    </div><!--/ card-body -->
-  </div><!--/ collapse -->
-</div><!--/ card -->
+        <!--/ card-body -->
+    </div>
+    <!--/ collapse -->
+</div>
+<!--/ card -->
 
 
 <!-- CONTACT DATA  -->
 
 <div class="card" id="contact-data">
-  <div class="card-heading">
-    <h3 class="card-title">
+    <div class="card-heading">
+        <h3 class="card-title">
       <a href="" ng-init="contactIsCollapsed = true"
          ng-click="contactIsCollapsed = !contactIsCollapsed">
          <i class="fa fa-fw" ng-class="{ 'fa-chevron-right': contactIsCollapsed, 'fa-chevron-down': !contactIsCollapsed }"></i>
@@ -142,310 +138,302 @@
        </a>
       &nbsp;<i class="text-danger fa fa-exclamation-triangle" ng-show="alerts.contactData" uib-tooltip="Vul je gegevens aan"></i>
     </h3>
-  </div>
+    </div>
 
-  <div uib-collapse="contactIsCollapsed">
-    <div class="card-body">
-      <form name="contactDataForm">
+    <div uib-collapse="contactIsCollapsed">
+        <div class="card-body">
+            <form name="contactDataForm">
 
-        <div class="form-group">
-          <label for="email">{{ 'EMAIL' | translate }}</label>
-          <div class="input-group">
-            <input type="text" id="email" class="form-control" ng-model="person.email" disabled>
-            <span class="input-group-addon">
+                <div class="form-group">
+                    <label for="email">{{ 'EMAIL' | translate }}</label>
+                    <div class="input-group">
+                        <input type="text" id="email" class="form-control" ng-model="person.email" disabled>
+                        <span class="input-group-addon">
               <input type="checkbox" name="isEmailConfidential" ng-model="person.isEmailConfidential"> {{ 'CONFIDENTIAL' |
               translate }}
             </span>
-          </div>
-          <p class="help-block">
-            <span class="text-warning" ng-if="!person.emailValid" id="email-not-confirmed-warning">
+                    </div>
+                    <p class="help-block">
+                        <span class="text-warning" ng-if="!person.emailValid" id="email-not-confirmed-warning">
               {{ 'EMAIL_NOT_CONFIRMED' | translate }}
             </span>
-          </p>
-        </div>
+                    </p>
+                </div>
 
-        <div class="form-group">
-          <label for="country">{{ 'COUNTRY' | translate }}</label>
-          <select name="country" class="form-control" id="country" ng-model="person.country">
-            <option ng-repeat="o in countryOptions"
-                    ng-selected="o.value === person.country || ( ! person.country && o.value === 'Nederland')"
-                    value="{{o.value}}">
-              {{ o.label }}
-            </option>
+                <div class="form-group">
+                    <label for="country">{{ 'COUNTRY' | translate }}</label>
+                    <select name="country" class="form-control" id="country" ng-model="person.country">
+                        <option ng-repeat="o in countryOptions" ng-selected="o.value === person.country || ( ! person.country && o.value === 'Nederland')" value="{{o.value}}">
+                            {{ o.label }}
+                        </option>
 
-          </select>
-        </div>
+                    </select>
+                </div>
 
-        <div class="row">
-          <div class="col-xs-4">
-            <div class="form-group">
-              <label for="zipcode">{{ 'ZIPCODE' | translate }}</label>
-              <input type="text" id="zipcode" name="zipcode" class="form-control" ng-model="person.zipcode" required>
+                <div class="row">
+                    <div class="col-xs-4">
+                        <div class="form-group">
+                            <label for="zipcode">{{ 'ZIPCODE' | translate }}</label>
+                            <input type="text" id="zipcode" name="zipcode" class="form-control" ng-model="person.zipcode" required>
 
-              <p class="help-block" ng-show="contactDataForm.zipcode.$error.required"><span class="text-danger">{{ 'REQUIRED' | translate }}</span>
-              </p>
-            </div>
-          </div>
-          <div class="col-xs-8">
-            <label for="streetNumber">{{ 'STREET_NUMBER' | translate }}</label>
-            <input type="text" id="streetNumber" name="streetNumber" class="form-control" ng-model="person.streetNumber"
-                   required>
+                            <p class="help-block" ng-show="contactDataForm.zipcode.$error.required"><span class="text-danger">{{ 'REQUIRED' | translate }}</span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-xs-8">
+                        <label for="streetNumber">{{ 'STREET_NUMBER' | translate }}</label>
+                        <input type="text" id="streetNumber" name="streetNumber" class="form-control" ng-model="person.streetNumber" required>
 
-            <p class="help-block" ng-show="contactDataForm.streetNumber.$error.required"><span class="text-danger">{{ 'REQUIRED' | translate }}</span>
-            </p>
-          </div>
-        </div>
+                        <p class="help-block" ng-show="contactDataForm.streetNumber.$error.required"><span class="text-danger">{{ 'REQUIRED' | translate }}</span>
+                        </p>
+                    </div>
+                </div>
 
-        <div class="row">
-          <div class="col-xs-8">
-            <div class="form-group">
-              <label for="streetName">{{ 'STREET_NAME' | translate }} <i class="fa fa-spin fa-spinner"
-                                                                         ng-if="zipcodeAutocompleting"></i></label>
-              <input type="text" id="streetName" name="streetName" class="form-control" ng-model="person.streetName"
-                     ng-readonly="person.country === 'Nederland'">
-              <p class="help-block" ng-if="!person.city"><span class="text-danger">{{ 'ENTER_ZIPCODE_STREET_NUMBER' | translate }}</span></p>
-            </div>
-          </div>
-          <div class="col-xs-4">
-            <label for="city">{{ 'CITY' | translate }} <i class="fa fa-spin fa-spinner" ng-if="zipcodeAutocompleting"></i></label>
-            <input type="text" id="city" name="city" class="form-control" ng-model="person.city"
-                   ng-readonly="person.country === 'Nederland'">
-          </div>
-        </div>
+                <div class="row">
+                    <div class="col-xs-8">
+                        <div class="form-group">
+                            <label for="streetName">{{ 'STREET_NAME' | translate }} <i class="fa fa-spin fa-spinner" ng-if="zipcodeAutocompleting"></i></label>
+                            <input type="text" id="streetName" name="streetName" class="form-control" ng-model="person.streetName" ng-readonly="person.country === 'Nederland'">
+                            <p class="help-block" ng-if="!person.city"><span class="text-danger">{{ 'ENTER_ZIPCODE_STREET_NUMBER' | translate }}</span></p>
+                        </div>
+                    </div>
+                    <div class="col-xs-4">
+                        <label for="city">{{ 'CITY' | translate }} <i class="fa fa-spin fa-spinner" ng-if="zipcodeAutocompleting"></i></label>
+                        <input type="text" id="city" name="city" class="form-control" ng-model="person.city" ng-readonly="person.country === 'Nederland'">
+                    </div>
+                </div>
 
-        <div ng-if="person.preference !== 'renter'" class="form-group">
-          {{ 'INFO_MY_PROFILE_CONTACT' | translate }}
-          <a ui-sref="owm.resource.create">{{ 'MY_RESOURCES' | translate }}</a>.
-        </div>
+                <div ng-if="person.preference !== 'renter'" class="form-group">
+                    {{ 'INFO_MY_PROFILE_CONTACT' | translate }}
+                    <a ui-sref="owm.resource.create">{{ 'MY_RESOURCES' | translate }}</a>.
+                </div>
 
-        <div ng-repeat="p in person.phoneNumbers">
-          <div class="form-group">
-            <label ng-if="$index === 0" for="number-{{ $index }}">{{ 'PHONENUMBER' | translate }}</label>
-            <div class="input-group">
-              <span class="input-group-btn" ng-if="person.phoneNumbers.length > 1">
+                <div ng-repeat="p in person.phoneNumbers">
+                    <div class="form-group">
+                        <label ng-if="$index === 0" for="number-{{ $index }}">{{ 'PHONENUMBER' | translate }}</label>
+                        <div class="input-group">
+                            <span class="input-group-btn" ng-if="person.phoneNumbers.length > 1">
                 <button type="button" class="btn btn-default" ng-click="removePhone(p, $index)"><i class="fa fa-trash-o"></i></button>
               </span>
-              <input type="text" class="form-control" id="number-{{ $index }}" class="form-control" ng-model="p.number">
-              <span class="input-group-addon">
+                            <input type="text" class="form-control" id="number-{{ $index }}" class="form-control" ng-model="p.number">
+                            <span class="input-group-addon">
                 <input type="checkbox" name="confidential" ng-model="p.confidential"> {{ 'CONFIDENTIAL' | translate }}
             </span>
-            </div>
-          </div>
+                        </div>
+                    </div>
+                </div>
+
+                <p class="help-block" style="margin-top:-10px" ng-show="!person.phoneNumbers.length || (person.phoneNumbers.length === 1 && !person.phoneNumbers[0].number)">
+                    <span class="text-danger">{{ 'REQUIRED' | translate }}</span>
+                </p>
+                <div class="form-group">
+                    <a href="" ng-click="addPhone()" ng-if="person.phoneNumbers.length && person.phoneNumbers[person.phoneNumbers.length-1].number">
+                        <i class="fa fa-plus fa-fw"></i> {{ 'PHONENUMBER_ADD' | translate }}
+                    </a>
+                </div>
+
+                <button id="submitForm" type="button" class="btn btn-primary" ng-disabled="contactFormProcessing || contactDataForm.$pristine || !contactDataForm.$valid || !person.phoneNumbers.length || (person.phoneNumbers.length > 0 && !person.phoneNumbers[0].number)"
+                    ng-click="submitContactDataForm()">
+                    {{ 'SUBMIT' | translate }}
+                </button>
+
+            </form>
         </div>
-
-        <p class="help-block" style="margin-top:-10px" ng-show="!person.phoneNumbers.length || (person.phoneNumbers.length === 1 && !person.phoneNumbers[0].number)">
-          <span class="text-danger">{{ 'REQUIRED' | translate }}</span>
-        </p>
-        <div class="form-group">
-          <a href="" ng-click="addPhone()" ng-if="person.phoneNumbers.length && person.phoneNumbers[person.phoneNumbers.length-1].number">
-            <i class="fa fa-plus fa-fw"></i> {{ 'PHONENUMBER_ADD' | translate }}
-          </a>
-        </div>
-
-        <button id="submitForm" type="button" class="btn btn-primary"
-          ng-disabled="contactFormProcessing || contactDataForm.$pristine || !contactDataForm.$valid || !person.phoneNumbers.length || (person.phoneNumbers.length > 0 && !person.phoneNumbers[0].number)"
-          ng-click="submitContactDataForm()">
-          {{ 'SUBMIT' | translate }}
-        </button>
-
-      </form>
-    </div><!--/ card-body -->
-  </div><!--/ collapse -->
-</div><!--/ card -->
+        <!--/ card-body -->
+    </div>
+    <!--/ collapse -->
+</div>
+<!--/ card -->
 
 
 <!-- PROFILE DATA  -->
 
 <div class="card" id="profile-data">
-  <div class="card-heading">
-    <h3 class="card-title">
+    <div class="card-heading">
+        <h3 class="card-title">
       <a href="" ng-init="profileIsCollapsed = true"
          ng-click="profileIsCollapsed = !profileIsCollapsed">
          <i class="fa fa-fw" ng-class="{ 'fa-chevron-right': profileIsCollapsed, 'fa-chevron-down': !profileIsCollapsed }"></i>
          {{ 'MY_PROFILE_SETTINGS' | translate }}
        </a>
      </h3>
-  </div>
-  <div uib-collapse="profileIsCollapsed" >
-    <div class="panel-body">
-      <form name="settingsForm">
+    </div>
+    <div uib-collapse="profileIsCollapsed">
+        <div class="panel-body">
+            <form name="settingsForm">
 
-        <div class="row">
-          <div class="col-sm-12">
-            <div class="form-group">
-              <label for="preference">{{ 'TYPE_OF_USER' | translate }}</label>
-              <select class="form-control" id="preference" name="preference" ng-model="person.preference" required
-                      ng-options="preference.value as preference.label for preference in preferenceOptions">
-                <option value="">-- {{ 'PICK_PREFERENCE' | translate }} --</option>
-              </select>
-              <p class="help-block">{{ 'USER_PREFERENCE_HELP_BLOCK' | translate }}</p>
-              <p class="help-block" ng-show="settingsForm.preference.$error.required"><span class="text-danger">{{ 'REQUIRED' | translate }}</span>
-              </p>
-            </div>
-          </div>
-        </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label for="preference">{{ 'TYPE_OF_USER' | translate }}</label>
+                            <select class="form-control" id="preference" name="preference" ng-model="person.preference" required ng-options="preference.value as preference.label for preference in preferenceOptions">
+                                <option value="">-- {{ 'PICK_PREFERENCE' | translate }} --</option>
+                            </select>
+                            <p class="help-block">{{ 'USER_PREFERENCE_HELP_BLOCK' | translate }}</p>
+                            <p class="help-block" ng-show="settingsForm.preference.$error.required"><span class="text-danger">{{ 'REQUIRED' | translate }}</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
 
-        <div class="row">
-          <div class="col-sm-6">
-            <div class="form-group">
-              <label for="emailPreference">{{ 'EMAIL_PREFERENCE' | translate }}</label>
-              <select id="emailPreference" name="emailPreference" class="form-control" ng-model="person.emailPreference"
-                      ng-change="selectAction()"
-                      ng-options="preference.value as preference.label for preference in emailPreferenceOptions" required>
-                <option value="">-- {{ 'PICK_PREFERENCE' | translate}} --</option>
-              </select>
-              <p class="help-block" ng-show="settingsForm.emailPreference.$error.required"><span class="text-danger">{{ 'REQUIRED' | translate }}</span>
-              </p>
-            </div>
-          </div>
-          <div class="col-sm-6">
-            <div class="checkbox">
-              <label>
-                <input type="checkbox" name="bookConfirmation" ng-model="person.bookConfirmation"> {{
-                'I_WANT_BOOKING_CONFIRMATION' | translate }}
-              </label>
-            </div>
-          </div>
-        </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="emailPreference">{{ 'EMAIL_PREFERENCE' | translate }}</label>
+                            <select id="emailPreference" name="emailPreference" class="form-control" ng-model="person.emailPreference" ng-change="selectAction()" ng-options="preference.value as preference.label for preference in emailPreferenceOptions" required>
+                                <option value="">-- {{ 'PICK_PREFERENCE' | translate}} --</option>
+                            </select>
+                            <p class="help-block" ng-show="settingsForm.emailPreference.$error.required"><span class="text-danger">{{ 'REQUIRED' | translate }}</span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" name="bookConfirmation" ng-model="person.bookConfirmation"> {{ 'I_WANT_BOOKING_CONFIRMATION' | translate }}
+                            </label>
+                        </div>
+                    </div>
+                </div>
 
-        <div class="form-group">
-          <label for="remark">{{ 'PROFILE_VISIBILITY' | translate }}</label>
-          <select class="form-control" id="visibility" name="visibility" ng-model="person.visibility"
-                  ng-options="visibility.value as visibility.label for visibility in visibilityOptions" required>
-            <option value="">-- {{ 'PICK_VISIBILITY' | translate }} --</option>
-          </select>
-          <p class="help-block">{{ 'USER_VISIBILITY_HELP_BLOCK' | translate }}</p>
-          <p class="help-block" ng-show="settingsForm.visibility.$error.required"><span class="text-danger">{{ 'REQUIRED' | translate }}</span>
-          </p>
-        </div>
+                <div class="form-group">
+                    <label for="remark">{{ 'PROFILE_VISIBILITY' | translate }}</label>
+                    <select class="form-control" id="visibility" name="visibility" ng-model="person.visibility" ng-options="visibility.value as visibility.label for visibility in visibilityOptions" required>
+                        <option value="">-- {{ 'PICK_VISIBILITY' | translate }} --</option>
+                    </select>
+                    <p class="help-block">{{ 'USER_VISIBILITY_HELP_BLOCK' | translate }}</p>
+                    <p class="help-block" ng-show="settingsForm.visibility.$error.required"><span class="text-danger">{{ 'REQUIRED' | translate }}</span>
+                    </p>
+                </div>
 
-        <div class="row">
-          <!-- MAY BE HIDDEN BY BRANDING CSS: "person_slug_edit" -->
-          <div id="person_slug_edit" class="col-sm-12" ng-if="['owner','both'].indexOf(person.preference) >= 0">
-            <div class="form-group">
-              <label for="slug">{{ 'SLUG' | translate }}</label>
-              <div class="input-group">
-                <div class="input-group-addon">mywheels.nl/</div>
-                <input type="text" id="slug" name="slug" class="form-control" ng-model="person.slug"
-                       ng-disabled="person.preference === 'renter'" null-if-empty>
-              </div>
-              <p class="help-block">{{ 'USER_SLUG_HELP_BLOCK' | translate }}</p>
-              <p class="help-block"
-                 ng-show="settingsForm.slug.$error.required && ( person.preference !== 'renter' || person.preference === '' )">
-                <span class="text-danger">{{ 'REQUIRED' | translate }}</span></p>
-            </div>
-          </div>
-        </div>
+                <div class="row">
+                    <!-- MAY BE HIDDEN BY BRANDING CSS: "person_slug_edit" -->
+                    <div id="person_slug_edit" class="col-sm-12" ng-if="['owner','both'].indexOf(person.preference) >= 0">
+                        <div class="form-group">
+                            <label for="slug">{{ 'SLUG' | translate }}</label>
+                            <div class="input-group">
+                                <div class="input-group-addon">mywheels.nl/</div>
+                                <input type="text" id="slug" name="slug" class="form-control" ng-model="person.slug" ng-disabled="person.preference === 'renter'" null-if-empty>
+                            </div>
+                            <p class="help-block">{{ 'USER_SLUG_HELP_BLOCK' | translate }}</p>
+                            <p class="help-block" ng-show="settingsForm.slug.$error.required && ( person.preference !== 'renter' || person.preference === '' )">
+                                <span class="text-danger">{{ 'REQUIRED' | translate }}</span></p>
+                        </div>
+                    </div>
+                </div>
 
-        <div class="form-group">
-          <label>Profielfoto</label>
-          <div class="media" style="margin-top:0">
-            <a class="pull-left">
-              <img class="media-object img-user-small" ng-if="!refreshProfileImage" person-profile-image="{ person: person, size: 'small', noCache: true }" />
-              <div class="media-object img-user-small" ng-if="refreshProfileImage" />
-            </a>
-            <div class="media-body" style="padding-top:0">
-              <div class="form-group">
-                <file-input on-change="uploadProfileImage"></file-input>
-                <i class="fa fa-check text-success" ng-if="profileImageSuccess"></i>
-              </div>
-            </div>
-          </div>
-        </div>
+                <div class="form-group">
+                    <label>Profielfoto</label>
+                    <div class="media" style="margin-top:0">
+                        <a class="pull-left">
+                            <img class="media-object img-user-small" ng-if="!refreshProfileImage" person-profile-image="{ person: person, size: 'small', noCache: true }" />
+                            <div class="media-object img-user-small" ng-if="refreshProfileImage" />
+                        </a>
+                        <div class="media-body" style="padding-top:0">
+                            <div class="form-group">
+                                <file-input on-change="uploadProfileImage"></file-input>
+                                <i class="fa fa-check text-success" ng-if="profileImageSuccess"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-        <div class="form-group">
-          <label for="about">{{ 'ABOUT_ME' | translate }}</label>
-          <textarea id="about" name="about" class="form-control" ng-model="person.about" null-if-empty></textarea>
-          <p class="help-block">{{ 'USER_ABOUT_ME_HELP_BLOCK' | translate }}</p>
-        </div>
+                <div class="form-group">
+                    <label for="about">{{ 'ABOUT_ME' | translate }}</label>
+                    <textarea id="about" name="about" class="form-control" ng-model="person.about" null-if-empty></textarea>
+                    <p class="help-block">{{ 'USER_ABOUT_ME_HELP_BLOCK' | translate }}</p>
+                </div>
 
-<!--         <div class="form-group">
+                <!--         <div class="form-group">
           <label for="facebookUid">{{ 'FACEBOOK_UID' | translate }}</label>
           <input type="text" id="facebookUid" name="facebookUid" class="form-control" ng-model="person.facebookUid" null-if-empty>
         </div> -->
 
-        <div class="form-group">
-          <label for="twitterUid"><i class="fa fa-twitter-square"></i> Twitter</label>
-          <div class="input-group">
-            <div class="input-group-addon"><small>twitter.com/</small></div>
-            <input type="text" id="twitterUid" name="twitterUid" class="form-control" ng-model="person.twitterUid" placeholder="{{ 'TWITTER_UID' | translate }}" null-if-empty>
-          </div>
+                <div class="form-group">
+                    <label for="twitterUid"><i class="fa fa-twitter-square"></i> Twitter</label>
+                    <div class="input-group">
+                        <div class="input-group-addon"><small>twitter.com/</small></div>
+                        <input type="text" id="twitterUid" name="twitterUid" class="form-control" ng-model="person.twitterUid" placeholder="{{ 'TWITTER_UID' | translate }}" null-if-empty>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="linkedinUid"><i class="fa fa-linkedin-square"></i> LinkedIn</label>
+                    <div class="input-group">
+                        <div class="input-group-addon"><small>linkedin.com/in/</small></div>
+                        <input type="text" id="linkedinUid" name="linkedinUid" class="form-control" ng-model="person.linkedinUid" placeholder="{{ 'LINKEDIN_UID' | translate }}" null-if-empty>
+                    </div>
+                </div>
+
+                <button id="submitForm" type="button" class="btn btn-primary" ng-disabled="settingsForm.$pristine || !settingsForm.$valid" ng-click="submitSettingsForm()">
+                    {{ 'SUBMIT' | translate }}
+                </button>
+
+            </form>
         </div>
-
-        <div class="form-group">
-          <label for="linkedinUid"><i class="fa fa-linkedin-square"></i> LinkedIn</label>
-          <div class="input-group">
-            <div class="input-group-addon"><small>linkedin.com/in/</small></div>
-            <input type="text" id="linkedinUid" name="linkedinUid" class="form-control" ng-model="person.linkedinUid" placeholder="{{ 'LINKEDIN_UID' | translate }}" null-if-empty>
-          </div>
-        </div>
-
-        <button id="submitForm" type="button" class="btn btn-primary"
-          ng-disabled="settingsForm.$pristine || !settingsForm.$valid"
-          ng-click="submitSettingsForm()">
-          {{ 'SUBMIT' | translate }}
-        </button>
-
-      </form>
-    </div><!--/ card-body -->
-  </div><!--/ collapse -->
-</div><!--/ card -->
+        <!--/ card-body -->
+    </div>
+    <!--/ collapse -->
+</div>
+<!--/ card -->
 
 <!-- ACCOUNT -->
 
 <div class="card" id="bank-data" ng-if="person.preference !== 'renter' || person.status === 'active'">
-  <div class="card-heading">
-    <h3 class="card-title">
+    <div class="card-heading">
+        <h3 class="card-title">
       <a href="" ng-init="accountIsCollapsed = true"
          ng-click="accountIsCollapsed = !accountIsCollapsed">
          <i class="fa fa-fw" ng-class="{ 'fa-chevron-right': accountIsCollapsed, 'fa-chevron-down': !accountIsCollapsed }"></i>
          {{ 'MY_PROFILE_ACCOUNT' | translate }}
        </a>
      </h3>
-  </div>
-  <div uib-collapse="accountIsCollapsed" >
-    <div class="card-body">
-      <div ng-include="'person/account/person-account.tpl.html'"></div>
-    </div><!--/ card-body -->
-  </div><!--/ collapse -->
-</div><!--/ card -->
+    </div>
+    <div uib-collapse="accountIsCollapsed">
+        <div class="card-body">
+            <div ng-include="'person/account/person-account.tpl.html'"></div>
+        </div>
+        <!--/ card-body -->
+    </div>
+    <!--/ collapse -->
+</div>
+<!--/ card -->
 
 <!-- upload license -->
 <div id="license-upload" class="card" ng-show="person.status === 'new'">
-  <div class="card-heading">
-    <h3 class="card-title">
+    <div class="card-heading">
+        <h3 class="card-title">
       <a ui-sref="owm.person.license">
         {{ 'LICENSE_UPLOAD' | translate }}
       </a>
       &nbsp;<i class="text-danger fa fa-exclamation-triangle" ng-show="alerts.licenseData" uib-tooltip="Upload je rijbewijs"></i>
     </h3>
-  </div>
+    </div>
 </div>
 
 <!-- change password -->
 <div class="card">
-  <div class="card-heading">
-    <h3 class="card-title">
+    <div class="card-heading">
+        <h3 class="card-title">
       <a ui-sref="owm.auth.changePassword">
         {{ 'AUTH_CHANGE_PWD_PAGE_TITLE' | translate }}
       </a>
     </h3>
-  </div>
+    </div>
 </div>
 
 <div class="card" id="menu-item-contracts" ng-if="person.status != 'new'">
-  <div class="card-heading">
-    <h3 class="card-title">
+    <div class="card-heading">
+        <h3 class="card-title">
       <a href="" ui-sref="owm.person.contract">{{ 'MY_CONTRACTS' | translate }}</a>
     </h3>
-  </div>
+    </div>
 </div>
 
 <div class="card" id="menu-item-chipcards" ng-if="person.status != 'new'">
-  <div class="card-heading">
-    <h3 class="card-title">
+    <div class="card-heading">
+        <h3 class="card-title">
       <a href="" ui-sref="owm.person.chipcard">{{ 'MY_CHIPCARDS' | translate }}</a>
     </h3>
-  </div>
+    </div>
 </div>
-

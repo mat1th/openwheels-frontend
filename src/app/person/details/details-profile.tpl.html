@@ -1,0 +1,171 @@
+<div class="progress-steps">
+    <section class="step done" data-section="1"></section>
+    <section class="step selected" data-section="2"></section>
+    <section class="step last-step" data-section="3"></section>
+</div>
+
+<!-- PERSONAL DATA  -->
+<div class="card" id="personal-data">
+    <div class="card-heading" id="personal-data-heading">
+        <h3 class="card-title">
+      Eerst een paar bassisgegevens
+      </h3>
+    </div>
+    <div>
+        <div class="card-body">
+            <form class="mywheels-form" name="personalDataForm">
+                <div class="mywheels-form-margin">
+                    <!-- firstName -->
+                    <div id="firstName_group" class="icon user">
+                        <input type="text" name="firstName" id="firstName" ng-model="person.firstName" placeholder="{{ 'FIRST_NAME' | translate }}" required>
+                        <div class="help-block" ng-show="signupform.$submitted || signupform.firstName.$touched">
+                            <span class="text-danger" ng-show="signupform.firstName.$error.required">{{ 'REQUIRED' | translate }}</span>
+                        </div>
+                    </div>
+                    <!-- /firstName -->
+
+                    <!-- prepostion -->
+                    <div id="prepostion_group" class="icon user">
+                        <input type="text" name="firstName" id="prepostion" ng-model="person.preposition" placeholder="{{ 'PREPOSITION' | translate }}" required="false" null-if-empty>
+                    </div>
+                    <!-- /prepostion -->
+
+                    <!-- surName -->
+                    <div id="surname_group" class="icon user">
+                        <input type="text" name="surName" id="surName" ng-model="person.surname" placeholder="{{ 'SURNAME' | translate }}" required>
+                        <div class="help-block" ng-show="signupform.$submitted || signupform.surName.$touched">
+                            <span class="text-danger" ng-show="signupform.surName.$error.required">{{ 'REQUIRED' | translate }}</span>
+                        </div>
+                    </div>
+                    <!-- /surName -->
+
+                    <!-- dateOfBirth -->
+
+                    <div id="date" class="icon date">
+                        <input type="date" id="dateOfBirth" name="dateOfBirth" ng-model="person.dateOfBirth" placeholder="{{ 'DATE_OF_BIRTH' | translate }}">
+                        <div class="help-block" ng-show="signupform.$submitted || signupform.dateOfBirth.$touched">
+                            <span class="text-danger" ng-show="signupform.dateOfBirth.$error.required">{{ 'REQUIRED' | translate }}</span>
+                        </div>
+                    </div>
+                    <!-- /dateOfBirth -->
+
+                    <!-- gender -->
+
+                    <div class="gender-options" ng-model="genderText" ng-change="person.male = genderText==='male' ? true : (genderText==='female' ? false : null)">
+                        <div class="gender-option">
+                            <input type="radio" name="gender" id="male" value="male">
+                            <label for="male">{{ 'MALE' | translate }}</label>
+                        </div>
+
+                        <div class="gender-option">
+                            <input type="radio" name="gender" value="female" id="female">
+                            <label for="female">{{ 'FEMALE' | translate }}</label>
+                        </div>
+                    </div>
+                    <p class="help-block" ng-show="person.male === null"><span class="text-danger">{{ 'REQUIRED' | translate }}</span>
+                    </p>
+                    <!-- /gender -->
+
+                    <!-- zipcode -->
+
+                    <div id="zipcode_group" class="icon place">
+                        <input type="text" name="zipcode" id="zipcode" ng-model="person.zipcode" placeholder="{{ 'ZIPCODE' | translate }}" required="true">
+                        <md-progress-circular class="md-hue-2" md-diameter="20px" ng-if="zipcodeAutocompleting"></md-progress-circular>
+                        <div class="help-block" ng-show="signupform.$submitted || signupform.zipcode.$touched">
+                            <span class="text-danger" ng-show="signupform.zipcode.$error.required">{{ 'REQUIRED' | translate }}</span>
+                        </div>
+                    </div>
+                    <!-- /zipcode -->
+
+                    <!-- zipcode -->
+
+
+                    <div id="streetNumber_group" class="icon place">
+                        <input type="text" name="streetNumber" id="streetNumber" ng-model="person.streetNumber" placeholder="{{ 'ZIPCODE' | translate }}" required="true">
+
+                        <md-progress-circular class="md-hue-2" md-diameter="20px" ng-if="zipcodeAutocompleting"></md-progress-circular>
+                        <div class="help-block" ng-show="signupform.$submitted || signupform.streetNumber.$touched">
+                            <span class="text-danger" ng-show="signupform.streetNumber.$error.required">{{ 'REQUIRED' | translate }}</span>
+                        </div>
+                    </div>
+                    <!-- /zipcode -->
+
+                    <div ng-show="person.city">{{person.streetName}}, {{person.city}}</div>
+                </div>
+
+
+            </form>
+        </div>
+        <!--/ card-body -->
+    </div>
+    <!--/ collapse -->
+</div>
+<!--/ card -->
+
+<!-- upload license -->
+<div id="license-upload" class="card">
+    <div class="card-heading">
+        <h3 class="card-title">
+       Dan nu je rijbewijs
+       </h3>
+    </div>
+    <div class="card-body">
+        <ul>
+            <li>
+                <md-icon>check</md-icon><span>Alles goed leesbaar</span></li>
+            <li>
+                <md-icon>check</md-icon><span>Voorkant geupload</span></li>
+            <li>
+                <md-icon>check</md-icon><span>Niet verlopen of ongeldig</span></li>
+        </ul>
+        <div class="form-group">
+            <label>Voorkant</label>
+            <input id="licenseFrontFile" type="file" />
+        </div>
+        <button type="button" class="btn btn-primary" ng-click="startUpload()" ng-disabled="!images.front || isBusy">
+            <span class="fa fa-upload"></span> Upload
+        </button>
+
+
+    </div>
+</div>
+
+<!-- PROFILE DATA  -->
+
+<div class="card" id="profile-data">
+    <div class="card-heading">
+        <h3 class="card-title">
+         Gelukt
+     </h3>
+    </div>
+    <div>
+        <div class="panel-body">
+            <form name="settingsForm">
+                <div class="form-group">
+                    <label for="about">{{ 'ABOUT_ME' | translate }}</label>
+                    <textarea id="about" name="about" class="form-control" ng-model="person.about" null-if-empty></textarea>
+                    <p class="help-block">{{ 'USER_ABOUT_ME_HELP_BLOCK' | translate }}</p>
+                </div>
+
+                <div class="form-group">
+                    <label>Profielfoto</label>
+                    <div class="media" style="margin-top:0">
+                        <a class="pull-left">
+                            <img class="media-object img-user-small" ng-if="!refreshProfileImage" person-profile-image="{ person: person, size: 'small', noCache: true }" />
+                            <div class="media-object img-user-small" ng-if="refreshProfileImage" />
+                        </a>
+                        <div class="media-body" style="padding-top:0">
+                            <div class="form-group">
+                                <file-input on-change="uploadProfileImage"></file-input>
+                                <i class="fa fa-check text-success" ng-if="profileImageSuccess"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!--/ card-body -->
+    </div>
+    <!--/ collapse -->
+</div>
+<!--/ card -->

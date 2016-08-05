@@ -1,0 +1,108 @@
+// progress bar top
+.progress-steps {
+    text-align: center;
+    width: 100%;
+    .step {
+        padding: 1em 6em 1em 1em;
+        display: inline-block;
+    }
+    .step,
+    .step[data-section]:before {
+        position: relative;
+    }
+    .step[data-section]:before {
+        display: inline-block;
+        width: 2.5em;
+        height: 2.5em;
+        padding: 0.3em;
+        border: 3px solid #5a5a5a;
+        border-radius: 100%;
+        background: #5a5a5a;
+        color: #fff;
+        font-weight: 400;
+        font-size: 1em;
+        font-weight: 400;
+        content: attr(data-section);
+        z-index: 2;
+    }
+    .step[data-section].selected:before {
+        width: 3em;
+        height: 3em;
+        padding: 0.7em;
+        border: 3px solid @mywheels-green;
+        background: #eee;
+        color: @mywheels-green;
+        font-weight: 400;
+        font-size: 1.2em;
+    }
+      .step[data-section].done:before {
+          display: inline-block;
+          width: 2.5em;
+          height: 2.5em;
+          padding: 0.3em;
+          border: 3px solid @mywheels-green;
+          background: @mywheels-green;
+          color: #fff;
+      }
+    .step[data-section]:after {
+        position: absolute;
+        top: 50%;
+        left: 30%;
+        width: 100%;
+        height: 0;
+        border-top: 3px dotted #5a5a5a;
+        content: '';
+        z-index: 1;
+    }
+    .step[data-section].done:after {
+        border-top: 3px solid @mywheels-green;
+    }
+    .last-step[data-section]:after {
+        display: none;
+        width: 0;
+        height: 0;
+    }
+}
+// gender option toggle
+.gender-options {
+    box-sizing: border-box;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: flex-start;
+    align-items: center;
+    .gender-option {
+        list-style: none;
+        flex-grow: 1;
+        flex-shrink: 0;
+        flex-basis: 200px;
+        margin: 0;
+        width: 50%;
+        text-align: center;
+        label {
+            color: #000;
+            border: 0.1rem solid #bdc5c7;
+            border-radius: 0.1875em;
+            width: 100%;
+            height: 100%;
+            padding: 0.5em;
+        }
+        &:first-child label {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+        &:last-child label {
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+    }
+    input {
+        display: none;
+    }
+    input[type="radio"]:checked + label {
+        background: @mywheels-green;
+        color: #fff;
+    }
+}
