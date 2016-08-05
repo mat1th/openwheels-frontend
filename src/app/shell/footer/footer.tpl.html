@@ -5,7 +5,8 @@
         <div class="col-md-3 col-sm-3 hidden-xs">
           <h4 class="no-margin">{{ 'CAR_SHARING_TITLE' | translate }}</h4>
           <a href="https://mywheels.nl/auto-huren">{{ 'RENT_A_CAR' | translate }}</a><br/>
-          <a href="https://mywheels.nl/auto-verhuren">{{ 'LIST_YOUR_CAR' | translate }}</a><br/>
+          <a ng-if="!user.isAuthenticated" href="https://mywheels.nl/auto-verhuren">{{ 'LIST_YOUR_CAR' | translate }}</a><br ng-if="!user.isAuthenticated"/>
+          <a ng-if="user.isAuthenticated" href="http://mywheels.nl/mijn-auto">{{ 'LIST_YOUR_CAR' | translate }}</a><br ng-if="user.isAuthenticated"/>
           <a href="https://mywheels.nl/autodelen/zakelijk-autodelen/">{{ 'BUSINESS' | translate }}</a><br/>
         </div>
 
