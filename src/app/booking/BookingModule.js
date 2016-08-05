@@ -26,10 +26,26 @@ angular.module('owm.booking', [
     },
     resolve: {
       booking: ['$stateParams', 'authService', 'bookingService', function ($stateParams, authService, bookingService) {
-        return authService.me().then( function(me) {
+        return authService.me()
+        .then( function(me) {
           return bookingService.get({
             id: $stateParams.bookingId
           });
+        });
+      }],
+      contract: ['$stateParams', 'authService', 'contractService', function ($stateParams, authService, contractService) {
+        return authService.me()
+        .then(function(me) {
+            return contractService.forBooking({
+              booking: $stateParams.bookingId
+            });
+          })
+        .then(function(contract) {
+          contract.type.canHaveDeclaration = false;
+          if(contract.type.id === 60 || contract.type.id === 62) {
+            contract.type.canHaveDeclaration = true;
+          }
+          return contract;
         });
       }]
     }
