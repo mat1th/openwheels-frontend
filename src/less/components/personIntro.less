@@ -1,113 +1,149 @@
-.intro__section {
-}
-
+.intro__section {}
 .intro__section--green {
-  background-color: @mywheels-green;
+    background-color: @mywheels-green;
 }
-
 .intro__section--white {
-  background-color: white;
+    background-color: white;
 }
-
-.intro__section--first {
-  margin-top: 4px;
-  padding-top: 20px;
-  padding-bottom: 20px;
+// Top welkom part
+.intro__section__heading {
+    // background: url('../branding/img/home-rotate-2.jpg');
+    background: url('./img/intro/background-car.jpeg');
+    background-position: 50% 60%;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
-
-.intro__section__heading > h3 {
-  font-size: 2.5em;
-  padding: 20px 0 50px 0;
-  margin: 0;
-  text-align: center;
+.intro__section__heading > h1 {
+    margin: 0;
+    padding: 5rem 1rem;
+    color: #fff;
+    text-shadow: 0 0.07rem 0.21rem #444;
+    font-size: 2.3em;
+    text-align: center;
 }
-
+.triangle--bar {
+    position: relative;
+}
+.triangle--bar:after,
+.triangle--bar:before {
+    position: absolute;
+    top: -1.95em;
+    right: 0;
+    left: 0;
+    height: 1em;
+    border: 1em transparent solid;
+    border-right-width: 0;
+    border-left-width: 0;
+    border-bottom-color: @mywheels-green;
+    content: '';
+}
+.triangle--bar:before {
+    right: 50%;
+}
+.triangle--bar:after {
+    left: 50%;
+}
+.triangle--bar:before {
+    border-right-width: 1em;
+}
+.triangle--bar:after {
+    border-left-width: 1em;
+}
+//FAQ
+.intro__section__faq__boxes {
+    display: flex;
+    flex-direction: column;
+    > div {
+        flex-grow: 1;
+    }
+}
+@media (min-width: 768px) {
+    .intro__section__faq__boxes {
+        flex-direction: row;
+    }
+    .intro__section__heading > h1 {
+        padding: 15rem 1rem;
+    }
+    .intro__section__steps {
+        .infoboxes {
+            flex-direction: row;
+        }
+        .infobox {
+            max-width: 20em;
+            flex-grow: 1;
+            flex-shrink: 0;
+            margin: 1rem;
+        }
+    }
+}
 .intro__section__faq__box {
-  padding: 0 5px;
+    padding: 0 0.28rem;
 }
-
 md-card-header {
-  outline: none;
+    outline: none;
 }
-
 .intro__section__faq__button {
-  text-align: center;
-  margin: 16px 0;
+    margin: 16px 0;
+    text-align: center;
 }
-
 .intro__section__slider {
-  padding-top: 0;
-  padding-bottom: 0;
+    padding-top: 0;
+    padding-bottom: 0;
 }
-
 .intro__section__faq__heading {
-  font-size: 2em;
-  color: @mywheels-green;
-  text-align: center;
-  padding: 0;
-  margin: 20px 0;
+    margin: 1.42em 0;
+    padding: 0;
+    color: @mywheels-green;
+    font-size: 2em;
+    text-align: center;
 }
-
 .intro__section__ideals {
-  margin-bottom: 40px;
+    margin-bottom: 40px;
+    h3 {
+        margin: 1.42em 0;
+        padding: 0;
+        color: @mywheels-green;
+        font-size: 2em;
+        text-align: center;
+    }
 }
-
-.intro__section__ideals > h3 {
-  font-size: 2em;
-  color: white;
-  text-align: center;
-  padding: 0;
-  margin: 20px 0;
+.intro__section__steps {
+    margin: 3em 0;
 }
-
-.intro__section__ideals > p {
-}
-
+.intro__section__ideals > p {}
 .intro__section__steps__pretext {
-  padding: 20px 0;
+    padding: 2em 0;
+    text-align: center;
+    color: #fff;
+    font-size: 1.2em;
+    p {
+        max-width: 45em;
+        margin: 0 auto;
+        padding: 0 1em 1em;
+    }
+    h2 {
+        color: #fff;
+    }
 }
-.intro__section__steps__aftertext {
-  margin: 20px 0;
+.intro__section__steps__call-to-action {
+    margin: 1.42em 0;
 }
-
-.intro__section__steps__stepicon {
-  color: @mywheels-green;
-  font-size: 40px;
-
-}
-.intro__section__steps__stepnumber {
-  border-radius: 60px;
-  border: 1px solid @mywheels-green;
-  color: @mywheels-green;
-  padding: 10px;
-  margin: 16px;
-}
-
-.intro__section__steps__step {
-  margin: 1px 0;
-  background-color: white;
-}
-
-.intro__section__steps__steptext {
-  margin: 8px;
-}
-
-.intro__section__steps__steptext > span {
-  font-size: 1.5em;
-  display: block;
-  margin-top: 4px;
-  margin-bottom: 4px;
-  color: @mywheels-green;
-}
-
 .intro__section--last {
-  margin-bottom: -45px;  
+    margin-bottom: -45px;
+    position: relative;
+    background: url('./img/intro/background-way.jpeg');
+    background-position: 50% 100%;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
-
-.intro__section__footer > h3 {
-  font-size: 2em;
-  color: white;
-  text-align: center;
-  padding: 0;
-  margin: 20px 0;
+.intro__section__footer {
+    z-index: 10;
+    padding: 3em 0;
+    h3 {
+        text-shadow: 0 0.07rem 0.21rem #444;
+        padding: 0;
+        color: white;
+        font-size: 2em;
+        text-align: center;
+    }
 }
