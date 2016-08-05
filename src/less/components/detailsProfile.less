@@ -1,9 +1,16 @@
 // progress bar top
 .progress-steps {
     text-align: center;
+    padding: 1em;
     width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
     .step {
-        padding: 1em 6em 1em 1em;
+        padding-right: 6em;
         display: inline-block;
     }
     .step,
@@ -35,15 +42,15 @@
         font-weight: 400;
         font-size: 1.2em;
     }
-      .step[data-section].done:before {
-          display: inline-block;
-          width: 2.5em;
-          height: 2.5em;
-          padding: 0.3em;
-          border: 3px solid @mywheels-green;
-          background: @mywheels-green;
-          color: #fff;
-      }
+    .step[data-section].done:before {
+        display: inline-block;
+        width: 2.5em;
+        height: 2.5em;
+        padding: 0.3em;
+        border: 3px solid @mywheels-green;
+        background: @mywheels-green;
+        color: #fff;
+    }
     .step[data-section]:after {
         position: absolute;
         top: 50%;
@@ -57,10 +64,25 @@
     .step[data-section].done:after {
         border-top: 3px solid @mywheels-green;
     }
+    .last-step {
+        padding: 0;
+        width: 5.5em;
+    }
     .last-step[data-section]:after {
         display: none;
         width: 0;
         height: 0;
+    }
+}
+.checklist {
+    ul {
+        font-weight: 200;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+    md-icon {
+        color: @mywheels-green;
     }
 }
 // gender option toggle
@@ -69,7 +91,7 @@
     padding: 0;
     display: flex;
     flex-direction: row;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     justify-content: center;
     align-content: flex-start;
     align-items: center;
@@ -77,7 +99,6 @@
         list-style: none;
         flex-grow: 1;
         flex-shrink: 0;
-        flex-basis: 200px;
         margin: 0;
         width: 50%;
         text-align: center;
@@ -88,6 +109,7 @@
             width: 100%;
             height: 100%;
             padding: 0.5em;
+            margin: 0;
         }
         &:first-child label {
             border-top-right-radius: 0;
@@ -105,4 +127,11 @@
         background: @mywheels-green;
         color: #fff;
     }
+}
+.adr {
+    background: #eee;
+    padding: 0.5rem;
+    margin: 0 0 1rem 0;
+    width: 100%;
+    max-width: 15em;
 }

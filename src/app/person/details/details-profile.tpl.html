@@ -1,141 +1,167 @@
 <div class="progress-steps">
-    <section class="step done" data-section="1"></section>
-    <section class="step selected" data-section="2"></section>
-    <section class="step last-step" data-section="3"></section>
+    <section class="step selected" data-section="1" title="Bassis gegevens aanvullen"></section>
+    <section class="step" data-section="2" title="Rijbewijs uploaden"></section>
+    <section class="step last-step" data-section="3" title="betalen"></section>
 </div>
 
 <!-- PERSONAL DATA  -->
 <div class="card" id="personal-data">
-    <div class="card-heading" id="personal-data-heading">
-        <h3 class="card-title">
-      Eerst een paar bassisgegevens
-      </h3>
-    </div>
-    <div>
-        <div class="card-body">
-            <form class="mywheels-form" name="personalDataForm">
-                <div class="mywheels-form-margin">
-                    <!-- firstName -->
-                    <div id="firstName_group" class="icon user">
-                        <input type="text" name="firstName" id="firstName" ng-model="person.firstName" placeholder="{{ 'FIRST_NAME' | translate }}" required>
-                        <div class="help-block" ng-show="signupform.$submitted || signupform.firstName.$touched">
-                            <span class="text-danger" ng-show="signupform.firstName.$error.required">{{ 'REQUIRED' | translate }}</span>
-                        </div>
-                    </div>
-                    <!-- /firstName -->
+    <div class="card-body">
+        <h3 class="card-title">1. Eerst een paar bassisgegevens</h3>
+        <form class="mywheels-form" name="personalDataForm" ng-submit="subscribe(credentials, person, license_front)">
 
-                    <!-- prepostion -->
-                    <div id="prepostion_group" class="icon user">
-                        <input type="text" name="firstName" id="prepostion" ng-model="person.preposition" placeholder="{{ 'PREPOSITION' | translate }}" required="false" null-if-empty>
-                    </div>
-                    <!-- /prepostion -->
+            <h4>Basis gegevens</h4>
+            <!-- firstName -->
+            <div id="firstName_group" class="icon user">
+                <input type="text" name="firstName" id="firstName" ng-model="person.firstName" placeholder="{{ 'FIRST_NAME' | translate }}" required>
+                <!-- <div class="help-block" ng-show="personalDataForm.$submitted || personalDataForm.firstName.$touched">
+                    <span class="text-danger" ng-show="personalDataForm.firstName.$error.required">{{ 'REQUIRED' | translate }}</span>
+                </div> -->
+            </div>
+            <!-- /firstName -->
 
-                    <!-- surName -->
-                    <div id="surname_group" class="icon user">
-                        <input type="text" name="surName" id="surName" ng-model="person.surname" placeholder="{{ 'SURNAME' | translate }}" required>
-                        <div class="help-block" ng-show="signupform.$submitted || signupform.surName.$touched">
-                            <span class="text-danger" ng-show="signupform.surName.$error.required">{{ 'REQUIRED' | translate }}</span>
-                        </div>
-                    </div>
-                    <!-- /surName -->
+            <!-- prepostion -->
+            <div id="prepostion_group" class="icon user">
+                <input type="text" name="preposition" id="prepostion" ng-model="person.preposition" placeholder="{{ 'PREPOSITION' | translate }}">
+            </div>
+            <!-- /prepostion -->
 
-                    <!-- dateOfBirth -->
+            <!-- surName -->
+            <div id="surname_group" class="icon user">
+                <input type="text" name="surname" id="surname" ng-model="person.surname" placeholder="{{ 'SURNAME' | translate }}" required>
+                <!-- <div class="help-block" ng-show="personalDataForm.$submitted || personalDataForm.surname.$touched">
+                    <span class="text-danger" ng-show="personalDataForm.surname.$error.required">{{ 'REQUIRED' | translate }}</span>
+                </div> -->
+            </div>
+            <!-- /surName -->
 
-                    <div id="date" class="icon date">
-                        <input type="date" id="dateOfBirth" name="dateOfBirth" ng-model="person.dateOfBirth" placeholder="{{ 'DATE_OF_BIRTH' | translate }}">
-                        <div class="help-block" ng-show="signupform.$submitted || signupform.dateOfBirth.$touched">
-                            <span class="text-danger" ng-show="signupform.dateOfBirth.$error.required">{{ 'REQUIRED' | translate }}</span>
-                        </div>
-                    </div>
-                    <!-- /dateOfBirth -->
+            <!-- dateOfBirth -->
 
-                    <!-- gender -->
+            <div id="date" class="icon date">
+                <input type="date" id="dateOfBirth" name="dateOfBirth" ng-model="person.dateOfBirth" placeholder="{{ 'DATE_OF_BIRTH' | translate }}">
+                <!-- <div class="help-block" ng-show="personalDataForm.$submitted || personalDataForm.dateOfBirth.$touched">
+                    <span class="text-danger" ng-show="personalDataForm.dateOfBirth.$error.required">{{ 'REQUIRED' | translate }}</span>
+                </div> -->
+            </div>
+            <!-- /dateOfBirth -->
 
-                    <div class="gender-options" ng-model="genderText" ng-change="person.male = genderText==='male' ? true : (genderText==='female' ? false : null)">
-                        <div class="gender-option">
-                            <input type="radio" name="gender" id="male" value="male">
-                            <label for="male">{{ 'MALE' | translate }}</label>
-                        </div>
-
-                        <div class="gender-option">
-                            <input type="radio" name="gender" value="female" id="female">
-                            <label for="female">{{ 'FEMALE' | translate }}</label>
-                        </div>
-                    </div>
-                    <p class="help-block" ng-show="person.male === null"><span class="text-danger">{{ 'REQUIRED' | translate }}</span>
-                    </p>
-                    <!-- /gender -->
-
-                    <!-- zipcode -->
-
-                    <div id="zipcode_group" class="icon place">
-                        <input type="text" name="zipcode" id="zipcode" ng-model="person.zipcode" placeholder="{{ 'ZIPCODE' | translate }}" required="true">
-                        <md-progress-circular class="md-hue-2" md-diameter="20px" ng-if="zipcodeAutocompleting"></md-progress-circular>
-                        <div class="help-block" ng-show="signupform.$submitted || signupform.zipcode.$touched">
-                            <span class="text-danger" ng-show="signupform.zipcode.$error.required">{{ 'REQUIRED' | translate }}</span>
-                        </div>
-                    </div>
-                    <!-- /zipcode -->
-
-                    <!-- zipcode -->
-
-
-                    <div id="streetNumber_group" class="icon place">
-                        <input type="text" name="streetNumber" id="streetNumber" ng-model="person.streetNumber" placeholder="{{ 'ZIPCODE' | translate }}" required="true">
-
-                        <md-progress-circular class="md-hue-2" md-diameter="20px" ng-if="zipcodeAutocompleting"></md-progress-circular>
-                        <div class="help-block" ng-show="signupform.$submitted || signupform.streetNumber.$touched">
-                            <span class="text-danger" ng-show="signupform.streetNumber.$error.required">{{ 'REQUIRED' | translate }}</span>
-                        </div>
-                    </div>
-                    <!-- /zipcode -->
-
-                    <div ng-show="person.city">{{person.streetName}}, {{person.city}}</div>
+            <!-- gender -->
+            <h4>Geslacht</h4>
+            <div class="gender-options">
+                <div class="gender-option">
+                    <input type="radio" ng-model="genderText" ng-change="person.male = genderText==='male' ? true : (genderText==='female' ? false : null)" id="male" value="male">
+                    <label for="male">{{ 'MALE' | translate }}</label>
                 </div>
+                <div class="gender-option">
+                    <input type="radio" ng-model="genderText" ng-change="person.male = genderText==='male' ? true : (genderText==='female' ? false : null)" value="female" id="female">
+                    <label for="female">{{ 'FEMALE' | translate }}</label>
+                </div>
+            </div>
+            <!-- <p class="help-block" ng-show="person.male === null">
+                <span class="text-danger">{{ 'REQUIRED' | translate }}</span>
+            </p> -->
+            <!-- /gender -->
 
+            <!-- phone number -->
+            <h4>{{ 'PHONENUMBER' | translate }}</h4>
+            <div ng-repeat="p in person.phoneNumbers">
+                <div class="input-group">
+                    <span class="input-group-btn" ng-if="person.phoneNumbers.length > 1">
+                            <button type="button" class="btn btn-default" ng-click="removePhone(p, $index)"><i class="fa fa-trash-o"></i></button>
+                          </span>
+                    <input type="text" class="form-control" id="number-{{ $index }}" ng-model="p.number">
+                    <span class="input-group-addon">
+                            <input type="checkbox" name="confidential" ng-model="p.confidential"> {{ 'CONFIDENTIAL' | translate }}
+                          </span>
+                </div>
+            </div>
+            <!-- /phone number -->
 
-            </form>
-        </div>
-        <!--/ card-body -->
+            <!-- zipcode -->
+            <h4>Adres gegevens</h4>
+            <div>
+                <div id="zipcode_group" class="icon home">
+                    <input type="text" name="zipcode" id="zipcode" ng-model="person.zipcode" placeholder="{{ 'ZIPCODE' | translate }}" required="true">
+                    <md-progress-circular class="md-hue-2" md-diameter="20px" ng-if="zipcodeAutocompleting"></md-progress-circular>
+                    <!-- <div class="help-block" ng-show="personalDataForm.$submitted || personalDataForm.zipcode.$touched">
+                        <span class="text-danger" ng-show="personalDataForm.zipcode.$error.required">{{ 'REQUIRED' | translate }}</span>
+                    </div> -->
+                </div>
+                <!-- /zipcode -->
+
+                <!-- streetNumber -->
+                <div id="streetNumber_group" class="icon home">
+                    <input type="text" name="streetNumber" id="streetNumber" ng-model="person.streetNumber" placeholder="{{ 'STREET_NUMBER' | translate }}" required="true">
+                    <md-progress-circular class="md-hue-2" md-diameter="20px" ng-if="zipcodeAutocompleting"></md-progress-circular>
+                    <!-- <div class="help-block" ng-show="personalDataForm.$submitted || personalDataForm.streetNumber.$touched">
+                        <span class="text-danger" ng-show="personalDataForm.streetNumber.$error.required">{{ 'REQUIRED' | translate }}</span>
+                    </div> -->
+                </div>
+                <!-- /streetNumber -->
+            </div>
+
+            <div ng-show="person.city" class="adr">
+                <span class="region">{{person.streetName}} {{person.streetNumber}}</span>
+                <br>
+                <span class="postal-code">{{person.zipcode}}, {{person.city}}</span>
+                <br>
+                <span class="country-name">Nederland</span>
+            </div>
+
+            <!-- submit button -->
+            <button id="submitFormPersonal" type="button" class="mywheels-btn mywheels-btn-default" ng-click="submitPersonalDataForm()">
+                Opslaan
+            </button>
+            <!-- /submit button -->
+        </form>
     </div>
-    <!--/ collapse -->
 </div>
 <!--/ card -->
 
 <!-- upload license -->
-<div id="license-upload" class="card">
+<!-- <div id="license-upload" class="card">
     <div class="card-heading">
         <h3 class="card-title">
-       Dan nu je rijbewijs
+       2. Dan nu je rijbewijs
        </h3>
     </div>
     <div class="card-body">
-        <ul>
-            <li>
-                <md-icon>check</md-icon><span>Alles goed leesbaar</span></li>
-            <li>
-                <md-icon>check</md-icon><span>Voorkant geupload</span></li>
-            <li>
-                <md-icon>check</md-icon><span>Niet verlopen of ongeldig</span></li>
-        </ul>
-        <div class="form-group">
+        <div class="checklist">
+            <ul>
+                <li>
+                    <md-icon>check</md-icon><span>Alles goed leesbaar</span></li>
+                <li>
+                    <md-icon>check</md-icon><span>Voorkant geupload</span></li>
+                <li>
+                    <md-icon>check</md-icon><span>Niet verlopen of ongeldig</span></li>
+            </ul>
+        </div>
+        <div class="file-input">
+            <span class="filename" id="filename">Selecteer je rijbewijs</span>
+            <label for="field-file" class="mywheels-btn mywheels-btn-normal " ng-click="startUpload()">Upload
+                <input type="file" name="imageFile" for="hio" value="" id="field-file">
+            </label>
+        </div>
+
+
+      <div class="form-group">
             <label>Voorkant</label>
             <input id="licenseFrontFile" type="file" />
         </div>
-        <button type="button" class="btn btn-primary" ng-click="startUpload()" ng-disabled="!images.front || isBusy">
+        <button type="button" class="btn btn-primary"  ng-disabled="!images.front || isBusy">
             <span class="fa fa-upload"></span> Upload
         </button>
 
 
     </div>
-</div>
+</div> -->
 
 <!-- PROFILE DATA  -->
 
-<div class="card" id="profile-data">
+<!-- <div class="card" id="profile-data">
     <div class="card-heading">
         <h3 class="card-title">
-         Gelukt
+         3. Gelukt
      </h3>
     </div>
     <div>
@@ -164,8 +190,5 @@
                 </div>
             </form>
         </div>
-        <!--/ card-body -->
     </div>
-    <!--/ collapse -->
-</div>
-<!--/ card -->
+</div> -->

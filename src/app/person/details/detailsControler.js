@@ -13,7 +13,7 @@ angular.module('owm.person.details', [])
 
   initPerson(person);
 
-  function initPerson (person) {
+  function initPerson(person) {
     masterPerson = person;
     $scope.person = angular.copy(person);
 
@@ -29,8 +29,8 @@ angular.module('owm.person.details', [])
 
     $timeout(function () {
       $scope.personalDataForm.$setPristine();
-      $scope.contactDataForm.$setPristine();
-      $scope.settingsForm.$setPristine();
+      // $scope.contactDataForm.$setPristine();
+      // $scope.settingsForm.$setPristine();
     }, 0);
 
     initAlerts();
@@ -50,12 +50,15 @@ angular.module('owm.person.details', [])
   $scope.submitPersonalDataForm = function() {
     alertService.closeAll();
     alertService.load();
+    console.log($scope.person);
     var newProps = $filter('returnDirtyItems')( angular.copy($scope.person), $scope.personalDataForm);
+    console.log(newProps);
     personService.alter({
-      id: person.id,
+      person: person.id,
       newProps: newProps
     })
     .then(function (buggyPersonWithoutPhoneNumbers) {
+      console.log(buggyPersonWithoutPhoneNumbers);
       alertService.addSaveSuccess();
       initPerson($scope.person);
     })
@@ -66,11 +69,11 @@ angular.module('owm.person.details', [])
       alertService.loaded();
     });
   };
-
+  console.log($scope.person);
   // CONTACT DATA
   $scope.submitContactDataForm = function() {
     var newProps = $filter('returnDirtyItems')( angular.copy($scope.person), $scope.contactDataForm);
-
+    console.log(newProps);
     //add fields not in form
     if(newProps.zipcode || newProps.streetNumber){
       newProps.streetName = $scope.person.streetName;
@@ -324,5 +327,4 @@ angular.module('owm.person.details', [])
     });
   };
 
-})
-;
+});
