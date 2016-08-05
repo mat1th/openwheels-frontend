@@ -1,0 +1,18 @@
+<md-dialog>
+  <md-toolbar>
+    <div class="md-toolbar-tools">
+      <h2>&euro;{{::declaration.amount | number:2}}</h2>
+      <span flex></span>
+      <md-button class="md-icon-button" ng-click="hide()">
+        <md-icon>close</md-icon>
+      </md-button>
+    </div>
+  </md-toolbar>
+  <md-dialog-content layout-padding>
+    <img alt="Tankbon" style="max-width: 100%" ng-src="{{image}}">
+  </md-dialog-content>
+
+  <md-dialog-actions>
+    <md-button class="md-primary" ng-click="hide()">Sluiten</md-button>
+  </md-dialog-actions>
+</md-dialog>

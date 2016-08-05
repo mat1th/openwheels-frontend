@@ -10,6 +10,7 @@ angular.module('fileInputDirective', [])
     replace: true,
     scope: {
       onChange: '=',
+      reset: '@',
     },
     link: function (scope, elm, attrs) {
 
@@ -24,6 +25,9 @@ angular.module('fileInputDirective', [])
       function onChange (e) {
         scope.$apply(function () {
           scope.onChange(e.target.files[0]);
+          if(scope.reset && scope.reset === 'noreset') {
+            return;
+          }
           elm.val('');
         });
       }
