@@ -154,14 +154,16 @@
             </div>
             <!-- /city -->
 
-            <br>
-            <!-- submit button -->
-            <button id="submitFormPersonal" type="button" class="mywheels-btn mywheels-btn-default btn--navigation__next" ng-click="submitPersonalDataForm()" ng-disabled="personalDataForm.person.firstName.$error.required || personalDataForm.person.surname.$error.required || signupform.person.dateOfBirth.$error.required">
-                Volgende
-                <md-icon class="text-white">navigate_next</md-icon>
-            </button>
+            <div class="details--card--form__navigation-buttons">
+                <div></div>
+                <!-- submit button -->
+                <button id="submitFormPersonal" type="button" class="mywheels-btn mywheels-btn-default btn--navigation__next" ng-click="submitPersonalDataForm()" ng-disabled="personalDataForm.person.firstName.$error.required || personalDataForm.person.surname.$error.required || signupform.person.dateOfBirth.$error.required">
+                    Volgende
+                    <md-icon class="text-white">navigate_next</md-icon>
+                </button>
 
-            <!-- /submit button -->
+                <!-- /submit button -->
+            </div>
         </form>
     </div>
 </div>
@@ -207,9 +209,7 @@
         </section>
         <!-- upload license -->
         <section class="details--card--form">
-            <div class="card-heading">
-                <h2 class="card-title">2. Dan nu je rijbewijs</h2>
-            </div>
+            <h2 class="card-title">2. Dan nu je rijbewijs</h2>
 
             <div class="checklist">
                 <ul>
@@ -221,29 +221,37 @@
                         <md-icon>check</md-icon><span>Niet verlopen of ongeldig</span></li>
                 </ul>
             </div>
-            <div class="file-input">
-                <span class="filename" id="filename">Selecteer je rijbewijs</span>
-                <label for="field-file" class="mywheels-btn mywheels-btn-normal " ng-click="startUpload()">Upload
-                    <input type="file" name="imageFile" for="hio" value="" id="field-file">
+            <div class="file-input" ng-show="!containsLicence">
+                <span class="filename" id="filename"> {{licenceFileName}}</span>
+                <label for="licenseFrontFile" class="mywheels-btn mywheels-btn-normal">Selecteer
+                    <input type="file" name="imageFile" for="licenseFrontFile" value="" class="uploadfile-input" id="licenseFrontFile">
                 </label>
             </div>
 
-            <div class="form-group">
-                <label>Voorkant</label>
-                <input id="licenseFrontFile" type="file" />
-            </div>
-            <button type="button" class="btn btn-primary" ng-disabled="!images.front || isBusy">
-                <span class="fa fa-upload"></span> Upload
-            </button>
 
-            <button id="previous" type="button" class="mywheels-btn mywheels-btn-transparant btn--navigation__previous" md-ink-ripple="#ded8d8" ng-click="submitPersonalDataForm()" ng-disabled="personalDataForm.person.firstName.$error.required || personalDataForm.person.surname.$error.required || signupform.person.dateOfBirth.$error.required">
-                <md-icon>navigate_before</md-icon>
-                {{ 'PREVIOUS' | translate}}
-            </button>
-            <button id="next" type="button" class="mywheels-btn mywheels-btn-default btn--navigation__next" ng-click="submitPersonalDataForm()" ng-disabled="personalDataForm.person.firstName.$error.required || personalDataForm.person.surname.$error.required || signupform.person.dateOfBirth.$error.required">
-                {{ 'NEXT' | translate}}
-                <md-icon class="text-white">navigate_next</md-icon>
-            </button>
+            <div class="details--card--form__preview">
+                <img src="https://mywheels.nl/resource/resource2061_0.jpeg" alt="" id="licence-preview">
+            </div>
+            <div ng-show="containsLicence">
+                <p>Is dit rijbewijs goed leesbaar en geldig?</p>
+                <button type="button" class="mywheels-btn mywheels-btn-normal btn--navigation__previous" md-ink-ripple="#4b702c" ng-disabled="!images.front || isBusy" ng-click="startUpload()">
+                    Ja
+                </button>
+                <button type="button" class="mywheels-btn mywheels-btn-error btn--navigation__previous" md-ink-ripple="#9a3d26" ng-disabled="!images.front || isBusy" ng-click="cancelUpload()">
+                    nee
+                </button>
+            </div>
+
+            <div class="details--card--form__navigation-buttons">
+                <button id="previous" type="button" class="mywheels-btn mywheels-btn-transparant btn--navigation__previous" md-ink-ripple="#ded8d8" ng-click="submitPersonalDataForm()">
+                    <md-icon>navigate_before</md-icon>
+                    {{ 'PREVIOUS' | translate}}
+                </button>
+                <button id="next" type="button" class="mywheels-btn mywheels-btn-default btn--navigation__next" ng-click="submitPersonalDataForm()">
+                    {{ 'NEXT' | translate}}
+                    <md-icon class="text-white">navigate_next</md-icon>
+                </button>
+            </div>
         </section>
     </div>
 </div>
