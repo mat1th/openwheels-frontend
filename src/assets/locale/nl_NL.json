@@ -217,6 +217,7 @@
     "COMPANY_NAME": "Bedrijfsnaam",
     "USER_COMPANY_HELP_BLOCK": "Natuurlijke en rechtspersonen kunnen lid worden.",
     "MY_PROFILE_CONTACT": "Contactgegevens",
+    "MY_PROFILE_ADDRESS": "Adresgegevens",
     "EMAIL_IS_CONFIRMED": "Je hebt je e-mailadres bevestigd",
     "EMAIL_NOT_CONFIRMED": "Je hebt je e-mailadres nog niet bevestigd",
     "CONFIDENTIAL": "Geheim",
@@ -572,5 +573,7 @@
     "TRIP_KM_ONLY_WHOLE_NUM": "U kunt alleen gehele getallen invoeren",
     "DECL_NO_DEC_SHOW": "Er zijn nog geen tankbonnen toegevoegd",
     "DECL_ADD": "Tankbonnen toevoegen",
-    "DECL_DISTANCE": "Er is <strong>{{dist}} km</strong> gereden"
+    "DECL_DISTANCE": "Er is <strong>{{dist}} km</strong> gereden",
+    "NEXT": "volgende",
+    "PREVIOUS": "vorige"
 }
