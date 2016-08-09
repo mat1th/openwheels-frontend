@@ -574,6 +574,7 @@
     "DECL_NO_DEC_SHOW": "Er zijn nog geen tankbonnen toegevoegd",
     "DECL_ADD": "Tankbonnen toevoegen",
     "DECL_DISTANCE": "Er is <strong>{{dist}} km</strong> gereden",
-    "NEXT": "volgende",
-    "PREVIOUS": "vorige"
+    "NEXT": "Volgende",
+    "PREVIOUS": "Vorige",
+    "PAY": "Betaal"
 }

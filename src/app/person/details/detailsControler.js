@@ -2,8 +2,135 @@
 
 angular.module('owm.person.details', [])
 
-.controller('DetailsProfileController', function ($scope, $filter, $timeout, $translate, person, alertService, personService, authService, me, dutchZipcodeService, $log, $state) {
+
+.controller('DetailsProfileController', function ($scope, $filter, $timeout, $translate, $window, person, alertService, personService, authService, me, dutchZipcodeService, voucherService, $q, appConfig, paymentService, bookingService, $log, $state) {
+  //booking
+  var cachedBookings = {};
+  $scope.busy = true;
+  $scope.booking = {};
+  $scope.requiredValue = null;
+  alertService.load($scope);
+
+  getRequiredValue().then(getBookings).finally(function () {
+    alertService.loaded($scope);
+    $scope.busy = false;
+  });
+
+  function getRequiredValue() {
+    return voucherService.calculateRequiredCredit({
+        person: me.id
+      }).then(function (value) {
+        $scope.requiredValue = value;
+        return value;
+      })
+      .catch(function (err) {
+        alertService.addError(err);
+      });
+  }
+
+  function getBookings(requiredValue) {
+    if (!requiredValue.bookings || !requiredValue.bookings.length) {
+      return true;
+    }
+    var results = [];
+    requiredValue.bookings.forEach(function (booking, index) {
+      results.push(cachedBookings[booking.id] ||
+        bookingService.get({
+          booking: booking.id
+        }).then(function (_booking) {
+          cachedBookings[_booking.id] = _booking;
+          _booking.statusValue = checkStatus(_booking.approved);
+
+          angular.extend(booking, _booking);
+        })
+      );
+    });
+    $scope.booking = requiredValue.bookings[0];
+    console.log($scope.booking);
+    return $q.all(results).catch(function (err) {
+      alertService.addError(err);
+    });
+  }
+
+
+  $scope.toggleRedemption = function (booking) {
+    alertService.closeAll();
+    alertService.load($scope);
+
+    /* checkbox is already checked, so new value is now: */
+    var newValue = booking.riskReduction;
+
+    bookingService.alter({
+        booking: booking.id,
+        newProps: {
+          riskReduction: newValue
+        }
+      })
+      .then(function () {
+        /* recalculate amounts */
+        return getRequiredValue();
+      })
+      .then(function (requiredValue) {
+        /* get bookings from cache */
+        return getBookings(requiredValue);
+      })
+      .then(function () {
+        booking.riskReduction = newValue;
+      })
+      .catch(function (err) {
+        /* revert */
+        booking.riskReduction = !!!booking.riskReduction;
+        alertService.addError(err);
+      })
+      .finally(function () {
+        alertService.loaded($scope);
+      });
+  };
+  $scope.buyVoucher = function (value) {
+    if (!value || value < 0) {
+      return;
+    }
+    alertService.load($scope);
+    voucherService.createVoucher({
+        person: me.id,
+        value: value
+      })
+      .then(function (voucher) {
+        return paymentService.payVoucher({
+          voucher: voucher.id
+        });
+      })
+      .then(function (data) {
+        if (!data.url) {
+          throw new Error('Er is een fout opgetreden');
+        }
+        /* redirect to payment url */
+        redirect(data.url);
+      })
+      .catch(function (err) {
+        alertService.addError(err);
+      })
+      .finally(function () {
+        alertService.loaded($scope);
+      });
+  };
+
+  function redirect(url) {
+    var redirectTo = appConfig.appUrl + $state.href('owm.finance.payment-result');
+    $window.location.href = url + '?redirectTo=' + encodeURIComponent(redirectTo);
+  }
+
+  function checkStatus(approvedStatus) {
+    if (approvedStatus === 'OK') {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  //person info
   var masterPerson = null;
+
   $scope.person = null;
   $scope.genderText = '';
   $scope.allowLicenseRelated = false;
@@ -58,6 +185,14 @@ angular.module('owm.person.details', [])
     }
     newProps.male = $scope.person.male;
 
+    var firstName = $scope.person.firstName,
+      surname = $scope.person.surname,
+      dateOfBirth = $scope.person.dateOfBirth,
+      male = $scope.genderText,
+      phoneNumbers = $scope.person.phoneNumbers,
+      zipcode = $scope.person.zipcode,
+      streetNumber = $scope.person.streetNumber;
+
     // add phone numbers (not automatically included by 'returnDirtyItems')
     var shouldSavePhoneNumbers = $scope.person.phoneNumbers && (!angular.equals(masterPerson.phoneNumbers, $scope.person.phoneNumbers));
     if (shouldSavePhoneNumbers) {
@@ -79,21 +214,36 @@ angular.module('owm.person.details', [])
       }
     }
     $scope.contactFormProcessing = true;
-    personService.alter({
-        person: person.id,
-        newProps: newProps
-      })
-      .then(function (buggyPersonWithoutPhoneNumbers) {
-        alertService.addSaveSuccess();
-        initPerson($scope.person);
-      })
-      .catch(function (err) {
-        alertService.addError(err);
-      })
-      .finally(function () {
-        $scope.contactFormProcessing = false;
+    if (firstName && surname && dateOfBirth && male) {
+      if (phoneNumbers) {
+        if (streetNumber && zipcode) {
+          personService.alter({
+              person: person.id,
+              newProps: newProps
+            })
+            .then(function (buggyPersonWithoutPhoneNumbers) {
+              alertService.addSaveSuccess();
+              initPerson($scope.person);
+            })
+            .catch(function (err) {
+              alertService.addError(err);
+            })
+            .finally(function () {
+              $scope.contactFormProcessing = false;
+              alertService.loaded();
+            });
+        } else {
+          alertService.add('danger', 'Vul je adres in zodat we je post kunnen sturen.', 10000);
+          alertService.loaded();
+        }
+      } else {
+        alertService.add('danger', 'Vul je telefoon nummmer in zodat we je kunnen berijken.', 10000);
         alertService.loaded();
-      });
+      }
+    } else {
+      alertService.add('danger', 'Voordat je de auto kan huren moet je je persoonsgegevens invullen.', 10000);
+      alertService.loaded();
+    }
   };
 
   $scope.dateConfig = {
@@ -186,7 +336,7 @@ angular.module('owm.person.details', [])
     }
   }
 
-  // licence
+  // licence images
   var images = {
     front: null
   };
@@ -212,7 +362,6 @@ angular.module('owm.person.details', [])
     if (!images.front) {
       return;
     }
-
     $scope.isBusy = true;
     alertService.load();
 
@@ -246,6 +395,7 @@ angular.module('owm.person.details', [])
         alertService.loaded();
         $scope.isBusy = false;
       });
+
   };
 
 });

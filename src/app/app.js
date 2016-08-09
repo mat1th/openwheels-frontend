@@ -66,6 +66,7 @@ angular.module('openwheels', [
   'ratingThumbBinaryDirective',
   'badgeListDirective',
   'infoIconDirective',
+  'vouchersDirective',
   'fileInputDirective',
   'resourceCarouselDirective',
   'bookingDirectives',
