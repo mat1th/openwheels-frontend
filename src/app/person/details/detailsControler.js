@@ -321,8 +321,16 @@ angular.module('owm.person.details', [])
     return voucherService.calculateRequiredCredit({
         person: me.id
       }).then(function (value) {
-        $scope.requiredValue = value;
-        return value;
+
+        if (value.bookings.length < 1) {
+          // invoice2service.createBooking({
+          //   booking: booking.id
+          // }).then
+        } else {
+          $scope.requiredValue = value;
+          return value;
+        }
+
       })
       .catch(function (err) {
         alertService.addError(err);
@@ -346,8 +354,8 @@ angular.module('owm.person.details', [])
         })
       );
     });
+    console.log(requiredValue.bookings);
     $scope.booking = requiredValue.bookings[0];
-    console.log($scope.booking);
     return $q.all(results).catch(function (err) {
       alertService.addError(err);
     });

@@ -12,6 +12,7 @@ angular.module('vouchersDirective', [])
     templateUrl: 'directives/vouchers/vouchers.tpl.html',
     controller: function ($window, $q, $state, $scope, appConfig, alertService, voucherService,
       paymentService, bookingService) {
+      console.log($scope.data);
       if ($scope.data !== undefined) {
         $scope.booking = JSON.parse($scope.data);
       }

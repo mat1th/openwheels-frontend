@@ -17,9 +17,7 @@ angular.module('owm.resource.reservationForm', [])
 })
 
 .controller('ReservationFormController', function (
-  $log, $q, $timeout, $filter, $rootScope, $scope, $state,
-  API_DATE_FORMAT, resourceService, invoice2Service, alertService, authService, bookingService, discountService,
-  contractService, featuresService, $mdDialog, $mdMedia, $translate, $location, $localStorage) {
+  $log, $q, $timeout, $filter, $rootScope, $scope, $state, API_DATE_FORMAT, resourceService, invoice2Service, alertService, authService, bookingService, discountService, contractService, featuresService, $mdDialog, $mdMedia, $translate, $location, $localStorage) {
 
   // Check if this page is being called after login/singup in booking process
   handleAuthRedirect();
@@ -297,24 +295,26 @@ angular.module('owm.resource.reservationForm', [])
   }
 
   function handleAuthRedirect() {
-    if($location.search().authredirect) {
-    }
+    if ($location.search().authredirect) {}
   }
 
   function dialogController($scope, authService) {
     $scope.user = {};
-    $scope.hide = function() {
+    $scope.hide = function () {
       $mdDialog.hide();
     };
-    $scope.cancel = function() {
+    $scope.cancel = function () {
       $mdDialog.cancel();
     };
-    $scope.answer = function(answer) {
+    $scope.answer = function (answer) {
       $mdDialog.hide(answer);
     };
-    $scope.login = function() {
+    $scope.login = function () {
       var successurl = $state.href('newrenter2.confirm');
-      authService.loginPopup(true, successurl).then(function(res) {console.log('fdasfdsa'); console.log(res); });
+      authService.loginPopup(true, successurl).then(function (res) {
+        console.log('fdasfdsa');
+        console.log(res);
+      });
     };
     var initOptions = function () {
       $scope.preferenceOptions = [{
@@ -335,7 +335,7 @@ angular.module('owm.resource.reservationForm', [])
     $scope.$on('$translateChangeSuccess', function () {
       initOptions();
     });
-    $scope.signup = function() {
+    $scope.signup = function () {
       return true;
     };
     initOptions();
@@ -351,19 +351,16 @@ angular.module('owm.resource.reservationForm', [])
     if (!$scope.person) { // not logged in
 
       $mdDialog.show({
-        controller: dialogController,
-        templateUrl: 'resource/components/ReservationFormDialog.tpl.html',
-        clickOutsideToClose:true,
-        fullscreen: $mdMedia('xs'),
-      })
-      .then(function(answer) {
-      })
-      .catch(function() {
-      });
+          controller: dialogController,
+          templateUrl: 'resource/components/ReservationFormDialog.tpl.html',
+          clickOutsideToClose: true,
+          fullscreen: $mdMedia('xs'),
+        })
+        .then(function (answer) {})
+        .catch(function () {});
       return;
-    }
-    else if ($scope.person.status === 'new') { // upload driver's license
-      $state.go('newRenter-register', { // should register
+    } else if ($scope.person.status === 'new') { // upload driver's license
+      $state.go('owm.person.details', { // should register
         city: $scope.resource.city ? $scope.resource.city : 'utrecht',
         resourceId: $scope.resource.id,
         startTime: booking.beginRequested,

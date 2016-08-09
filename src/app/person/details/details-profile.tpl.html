@@ -232,7 +232,7 @@
                     </label>
                 </div>
                 <div class="details--card--form__preview">
-                    <img src="https://mywheels.nl/resource/resource2061_0.jpeg" alt="" id="licence-preview">
+                    <img src="assets/img/rijbewijs_voorbeeld.jpg" alt="" id="licence-preview">
                 </div>
                 <div ng-show="containsLicence || LicenceUploaded">
                     <p>Is dit rijbewijs goed leesbaar en geldig?</p>
@@ -296,8 +296,19 @@
                 </section>
             </section>
             <section class="details--card--form">
-                <h2 class="card-title">3. Je bent er bijna!</h2>
+                {{ booking }}
+                <h2 class="card-title">3. Je bent er bijna!</h2> {{booking.booking_price}}
+                <p ng-if="booking.approved ===  'BUY_VOUCHER' ">
+                    We hebben de boeking voor je gemaakt. Betaal de huurkosten via iDeal en de boeking is definitief!
+                </p>
+                <p ng-if="booking.approved !==  'BUY_VOUCHER' ">
+                    We hebben het huurverzoek naar {{person.firstName}} {{person.preposition}} {{person.surname}} gestuurd. Je kunt de rit hieronder alvast betalen. De boeking is dan definitief na acceptatie door *naam verhuurder*.
+                </p>
                 <voucher data="{{ booking }}" ng-if="!busy"></voucher>
+                <p ng-if="booking.approved !==  'BUY_VOUCHER' ">
+                    Wil je de rit nog niet betalen? Klik dan hier om je profiel aan te vullen.
+                    <button type="button" name="button" type="button" class="mywheels-btn mywheels-btn-default btn--navigation__next">Vul aan</button>
+                </p>
                 <div class="details--card--form__navigation-buttons">
                     <button rel="prev" type="button" class="mywheels-btn mywheels-btn-transparant btn--navigation__previous" md-ink-ripple="#ded8d8" ng-click="prevSection(1, 2)">
                         <md-icon>navigate_before</md-icon>
