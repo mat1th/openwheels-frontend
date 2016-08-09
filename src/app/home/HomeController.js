@@ -17,6 +17,7 @@ angular.module('owm.home', ['owm.resource', 'slick'])
         'onlyFeatured': 'true'
       })
       .then(function (res) {
+        alert(res);
         $scope.resources_slider = res;
       });
     $scope.gotoProfile = function (resource) {
