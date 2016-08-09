@@ -2,19 +2,16 @@
 
 <div class="intro__section intro__section--white">
     <section class="intro__section__heading">
-        <h1>{{::me.firstName}}, welkom bij MyWheels</h1>
+        <h1>Welkom bij MyWheels, {{::me.firstName}}!</h1>
     </section>
     <div class="intro__section__steps__pretext intro__section--green triangle--bar">
-        <h2>
-          Huur een auto in drie stappen
-        </h2>
-        <p>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-        </p>
+
+        <p>Maak direct je eerste boeking! Je kunt kiezen uit een groot aantal auto's in de buurt. Auto's met het label Smartwheels open je met een OV-chipkaart of smartphone, auto’s zonder dit label open je met de sleutel. Spreek dan even met de verhuurder af wanneer je de sleutel ophaalt.</p>
+
         <!-- call to action buttons -->
         <div layout="column" layout-align="center center">
-            <a href="" class="mywheels-btn mywheels-btn-light" md-ink-ripple="#ded8d8">Zoek nu uw auto</a>
-            <button type="button" name="button" ui-sref="owm.person.dashboard" class="mywheels-btn mywheels-btn-span">Of vul uw gegevens verder aan</button>
+            <a href="" class="mywheels-btn mywheels-btn-light" ui-sref="owm.resource.search.list" md-ink-ripple="#ded8d8">Zoek nu een auto</a>
+            <button type="button" name="button" ui-sref="owm.person.profile" class="mywheels-btn mywheels-btn-span">Of vul je gegevens aan</button>
         </div>
         <!-- /call to action buttons -->
 
@@ -26,22 +23,22 @@
 <!-- Hire a car in 3 steps -->
 <div class="intro__section">
     <section class="intro__section__steps">
+        <h2>Huur een auto in drie stappen</h2>
         <div class="infoboxes">
             <div class="infobox">
                 <div layout="row" layout-align="start center" layout-margin class="infobox--title">
                     <md-icon class="infobox--title--icon">search</md-icon>
                     <h3 class="infobox--title--text">1. Zoek een auto</h3>
                 </div>
-                <p class="infobox--content">Bekijk bij Huur een auto alle auto’s in de buurt door je postcode of plaats in te vullen. Klik in het overzicht op een auto die ideaal is voor jouw reis.</p>
+                <p class="infobox--content">Bekijk de auto’s in je buurt en boek de ideale auto voor je rit.</p>
 
             </div>
             <div class="infobox">
                 <div layout="row" layout-align="start center" layout-margin class="infobox--title">
-                    <md-icon class="infobox--title--icon">date_range</md-icon>
-                    <h3 class="infobox--title--text">2. Reserveer een auto</h3>
+                    <md-icon class="infobox--title--icon">person_outline</md-icon>
+                    <h3 class="infobox--title--text">2. Vul je gegevens aan</h3>
                 </div>
-                <p class="infobox--content">Vul de tijden in dat je de auto wilt huren en klik op ‘Maak reservering’. Als je nog geen account hebt, vragen we om gegevens in te vullen zodat we je beter leren kennen. Daarna versturen we je huurverzoek naar de verhuurder. Na acceptatie
-                    van je verzoek kun je een contract kiezen waarop je mag rijden.</p>
+                <p class="infobox--content">We leren je graag beter kennen voordat je op pad gaat.</p>
 
             </div>
             <div class="infobox">
@@ -49,8 +46,7 @@
                     <md-icon class="infobox--title--icon">directions_car</md-icon>
                     <h3 class="infobox--title--text">3. Rijden</h3>
                 </div>
-                <p class="infobox--content">Nadat je rit geaccepteerd is, kun je de auto aan het begin van je reservering ophalen. Auto’s met het label ‘Smartwheels’ open je met een OV-chipkaart of smartphone. Auto’s zonder dit label open je gewoon met de sleutel. Spreek dan met
-                    de verhuurder af wanneer je de sleutel ophaalt. Goede reis!</p>
+                <p class="infobox--content">Nadat je boeking geaccepteerd is, kun je aan het begin van de reservering de auto ophalen.</p>
 
             </div>
         </div>
@@ -91,12 +87,9 @@
 
 <div class="container-fluid intro__section intro__section--white">
     <section class="container intro__section__ideals">
-        <h3>Onze Idealen</h3>
+        <h3>Onze idealen</h3>
         <p>
-            Sit ducimus molestiae officia nisi vitae accusamus saepe tempore at ratione. Atque quisquam non autem minus ullam modi! Ducimus nostrum saepe veritatis officiis voluptatum accusamus recusandae similique veritatis quo commodi!
-        </p>
-        <p>
-            Sit ducimus molestiae officia nisi vitae accusamus saepe tempore at ratione. Atque quisquam non autem minus ullam modi! Ducimus nostrum saepe veritatis officiis voluptatum accusamus recusandae similique veritatis quo commodi!
+            MyWheels is het voordeligste autodeelplatform van Nederland. Onze tarieven zijn zo laag omdat we een not-for-profit­organisatie zijn. Wij vinden leefbare buurten belangrijker dan winstmaximalisatie. Vanwege onze idealen heeft MyWheels al meer dan 30.000 autodelers. Help je mee ons idealen te verwezenlijken?
         </p>
     </section>
 </div>
@@ -111,12 +104,12 @@
                         <md-card>
                             <md-card-header ng-click="toggleBox(1)">
                                 <md-card-header-text>
-                                    <span class="md-title">Lorem ipsum dolor et?<md-icon class="pull-right">{{openboxes[1] ? 'expand_less' : 'expand_more'}}</md-icon></span>
+                                    <span class="md-title">Kan ik huren zonder borg?<md-icon class="pull-right">{{openboxes[1] ? 'expand_less' : 'expand_more'}}</md-icon></span>
                                 </md-card-header-text>
                             </md-card-header>
                             <md-divider></md-divider>
                             <md-card-content class="intro__section__faq__answer" ng-show="openboxes[1]">
-                                fdasfsda
+                                Je hoeft bij MyWheels geen borg te betalen en geen machtiging voor automatische incasso af te geven. Je betaalt de ritkosten vooraf veilig en snel met iDeal.
                             </md-card-content>
                         </md-card>
                     </div>
@@ -125,12 +118,12 @@
                         <md-card>
                             <md-card-header ng-click="toggleBox(2)">
                                 <md-card-header-text>
-                                    <span class="md-title">Lorem ipsum dolor et?<md-icon class="pull-right">{{openboxes[2] ? 'expand_less' : 'expand_more'}}</md-icon></span>
+                                    <span class="md-title">Hoe koppel ik mijn OV-chipkaart aan mijn account?<md-icon class="pull-right">{{openboxes[2] ? 'expand_less' : 'expand_more'}}</md-icon></span>
                                 </md-card-header-text>
                             </md-card-header>
                             <md-divider></md-divider>
                             <md-card-content class="intro__section__faq__answer" ng-show="openboxes[2]">
-                                fdasfsda
+                                Om jouw OV-chipkaart aan je account te koppelen, heb je een viercijferige pincode nodig. Je ontvangt deze pincode automatisch als je voor het eerst een auto reserveert die je met een OV-chipkaart opent.
                             </md-card-content>
                         </md-card>
                     </div>
@@ -139,12 +132,12 @@
                         <md-card>
                             <md-card-header ng-click="toggleBox(3)">
                                 <md-card-header-text>
-                                    <span class="md-title">Lorem ipsum dolor et?<md-icon class="pull-right">{{openboxes[3] ? 'expand_less' : 'expand_more'}}</md-icon></span>
+                                    <span class="md-title">Hoe ben ik verzekerd als ik huur?<md-icon class="pull-right">{{openboxes[3] ? 'expand_less' : 'expand_more'}}</md-icon></span>
                                 </md-card-header-text>
                             </md-card-header>
                             <md-divider></md-divider>
                             <md-card-content class="intro__section__faq__answer" ng-show="openboxes[3]">
-                                Auto verhuren via MyWheels
+                                De auto die je via MyWheels huurt, is automatisch goed verzekerd tegen schade, vernieling en diefstal. We sluiten namelijk voor elke rit een allrisk verzekering bij Centraal Beheer Achmea af. Zo loop jij geen risico als je in een deelauto rijdt. De tarieven van de auto zijn altijd inclusief verzekeringskosten.
                             </md-card-content>
                         </md-card>
                     </div>
@@ -156,12 +149,12 @@
                         <md-card>
                             <md-card-header ng-click="toggleBox(4)">
                                 <md-card-header-text>
-                                    <span class="md-title">Lorem ipsum dolor et?<md-icon class="pull-right">{{openboxes[4] ? 'expand_less' : 'expand_more'}}</md-icon></span>
+                                    <span class="md-title">Wat betekent het label Smartwheels?<md-icon class="pull-right">{{openboxes[4] ? 'expand_less' : 'expand_more'}}</md-icon></span>
                                 </md-card-header-text>
                             </md-card-header>
                             <md-divider></md-divider>
                             <md-card-content ng-show="openboxes[4]">
-                                fdasfsda
+                                Auto’s met het label Smartwheels hebben een boordcomputer en open je met een OV-chipkaart of met je smartphone. De auto's zijn 24 uur per dag beschikbaar. Daarnaast hoef je bij een Smartwheels auto geen kilometerstanden te noteren, de boordcomputer registreert de gereden kilometers automatisch. In het huuroverzicht zie je dit label staan.
                             </md-card-content>
                         </md-card>
                     </div>
@@ -170,12 +163,12 @@
                         <md-card>
                             <md-card-header ng-click="toggleBox(5)">
                                 <md-card-header-text>
-                                    <span class="md-title">Lorem ipsum dolor et?<md-icon class="pull-right">{{openboxes[5] ? 'expand_less' : 'expand_more'}}</md-icon></span>
+                                    <span class="md-title">Wat voor auto's worden via MyWheels gedeeld?<md-icon class="pull-right">{{openboxes[5] ? 'expand_less' : 'expand_more'}}</md-icon></span>
                                 </md-card-header-text>
                             </md-card-header>
                             <md-divider></md-divider>
                             <md-card-content ng-show="openboxes[5]">
-                                fdasfsda
+                                Je kunt kiezen uit een groot aantal auto's in de buurt. Een busje voor een verhuizing, een familieauto voor een kinderfeestje of een oldimter voor een bruiloft. Voor elke rit vind je de ideale auto!
                             </md-card-content>
                         </md-card>
                     </div>
@@ -184,12 +177,12 @@
                         <md-card>
                             <md-card-header ng-click="toggleBox(6)">
                                 <md-card-header-text>
-                                    <span class="md-title">Lorem ipsum dolor et?<md-icon class="pull-right">{{openboxes[6] ? 'expand_less' : 'expand_more'}}</md-icon></span>
+                                    <span class="md-title">Kan ik met de auto naar het buitenland?<md-icon class="pull-right">{{openboxes[6] ? 'expand_less' : 'expand_more'}}</md-icon></span>
                                 </md-card-header-text>
                             </md-card-header>
                             <md-divider></md-divider>
                             <md-card-content ng-show="openboxes[6]">
-                                fdasfsda
+                                De verzekering is van kracht in alle Europese landen, je kunt met een auto dus ook bijvoorbeeld naar Duitsland, België of Frankrijk. Ook in het buitenland kun je rekenen op hulp bij pech.
                             </md-card-content>
                         </md-card>
                     </div>
@@ -197,7 +190,7 @@
 
             </div>
             <div class="intro__section__faq__button">
-                <a href="https://mywheels.nl/autodelen/" class="mywheels-btn mywheels-btn-normal" md-ink-ripple="#4b702c">Lees meer in helpcenter</a>
+                <a href="https://mywheels.nl/autodelen/" class="mywheels-btn mywheels-btn-normal" md-ink-ripple="#4b702c">Alle veelgestelde vragen</a>
             </div>
         </div>
     </section>
@@ -207,7 +200,7 @@
   <div class="hero-overlay"></div>
     <section class="container intro__section__footer" layout="column" layout-align="center center">
         <h3>Klaar om te rijden?</h3>
-        <a href="" class="mywheels-btn mywheels-btn-error" md-ink-ripple="#9a3d26">Zoek nu uw auto</a>
-        <button type="button" name="button" ui-sref="owm.person.dashboard" class="mywheels-btn mywheels-btn-span">Of vul uw gegevens verder aan</button>
+        <a href="" class="mywheels-btn mywheels-btn-error" ui-sref="owm.resource.search.list" md-ink-ripple="#9a3d26">Zoek nu een auto</a>
+        <button type="button" name="button" ui-sref="owm.person.profile" class="mywheels-btn mywheels-btn-span">Of vul je gegevens aan</button>
     </section>
 </div>
