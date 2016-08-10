@@ -9,43 +9,7 @@
 
     <div class="card animated section-transion details--card__section" id="personal-data" ng-show="showFirst">
         <div class="card-body details--card">
-            <section class="details--profile__sidebar" role="presentation">
-                <h3 class="details--profile__sidebar__heading" ng-if="isWindowSizeSM">Jouw boeking</h3>
-                <img ng-src="https://mywheels.nl/resource/resource2061_0.jpeg" class="details--profile__image">
-                <section class="">
-                    <h3 class="text-success">Ronald test owner</h3>
-                    <span>Mercedes-benz C 180 Kompressor</span>
-                </section>
-                <md-divider></md-divider>
-                <section ng-if="isWindowSizeSM">
-                    <h3>Kenmerken:</h3>
-                    <ul class="list-unstyled list-spaced list-responsive">
-                        <li>
-                            <md-icon class="text-success list-margin">event_available</md-icon>
-                            Minder dan 3 keer verhuurd</li>
-                        <li>
-                            <md-icon class="text-success list-margin">vpn_key</md-icon>
-                            <span ng-if="resource.locktype">{{  ('LOCKTYPE.' + resource.locktype) | translateOrDefault : resource.locktype }}</span>
-                            <span ng-if="!resource.locktype">{{ 'UKNOWN_LOCKTYPE' | translate }}</span>
-                        </li>
-                    </ul>
-                </section>
-                <md-divider></md-divider>
-                <section ng-if="isWindowSizeSM">
-                    <h3>Tijden:</h3>
-                    <ul class="list-unstyled list-spaced list-responsive">
-                        <li>
-                            <!-- <md-icon class="text-success">access_time</md-icon> -->
-                            <span>Maandag 8 augustus 12:30</span>
-                        </li>
-                        <li>
-                            <!-- <md-icon class="text-success">access_time</md-icon> -->
-                            <span>Maandag 8 augustus 18:30</span>
-                        </li>
-                    </ul>
-                </section>
-
-            </section>
+            <section resource-sidebar class="details--profile__sidebar"></section>
             <form class="mywheels-form details--profile--form" name="personalDataForm" ng-submit="subscribe(credentials, person, license_front)">
                 <h2 class="card-title">1. Eerst een paar bassisgegevens</h2>
                 <h3>{{ 'MY_PROFILE_PERSONAL' | translate }}</h3>
@@ -175,42 +139,7 @@
     <!-- card -->
     <div class="card animated section-transion details--card__section" id="license-upload" ng-show="showSecond">
         <div class="card-body details--license-upload details--card">
-            <section class="details--profile__sidebar" role="presentation">
-                <h3 class="details--profile__sidebar__heading" ng-if="isWindowSizeSM">Jouw boeking</h3>
-                <img ng-src="https://mywheels.nl/resource/resource2061_0.jpeg" class="details--profile__image">
-                <section class="">
-                    <h3 class="text-success">Ronald test owner</h3>
-                    <span>Mercedes-benz C 180 Kompressor</span>
-                </section>
-                <md-divider></md-divider>
-                <section ng-if="isWindowSizeSM">
-                    <h3>Kenmerken:</h3>
-                    <ul class="list-unstyled list-spaced list-responsive">
-                        <li>
-                            <md-icon class="text-success list-margin">event_available</md-icon>
-                            Minder dan 3 keer verhuurd
-                        </li>
-                        <li>
-                            <md-icon class="text-success list-margin">vpn_key</md-icon>
-                            <span ng-if="resource.locktype">{{  ('LOCKTYPE.' + resource.locktype) | translateOrDefault : resource.locktype }}</span>
-                            <span ng-if="!resource.locktype">{{ 'UKNOWN_LOCKTYPE' | translate }}</span>
-                        </li>
-                    </ul>
-                </section>
-                <md-divider></md-divider>
-                <section ng-if="isWindowSizeSM">
-                    <h3>Tijden:</h3>
-                    <ul class="list-unstyled list-spaced list-responsive">
-                        <li>
-                            <span>Maandag 8 augustus 12:30</span>
-                        </li>
-                        <li>
-                            <span>Maandag 8 augustus 18:30</span>
-                        </li>
-                    </ul>
-                </section>
-
-            </section>
+            <section resource-sidebar class="details--profile__sidebar"></section>
             <!-- upload license -->
             <section class="details--card--form">
                 <h2 class="card-title">2. Dan nu je rijbewijs</h2>
@@ -261,42 +190,8 @@
     <!-- card -->
     <div class="card animated section-transion details--card__section" ng-show="showThird">
         <div class="card-body details--card">
-            <section class="details--profile__sidebar" role="presentation">
-                <h3 class="details--profile__sidebar__heading" ng-if="isWindowSizeSM">Jouw boeking</h3>
-                <img ng-src="https://mywheels.nl/resource/resource2061_0.jpeg" class="details--profile__image">
-                <section class="">
-                    <h3 class="text-success">Ronald test owner</h3>
-                    <span>Mercedes-benz C 180 Kompressor</span>
-                </section>
-                <md-divider></md-divider>
-                <section ng-if="isWindowSizeSM">
-                    <h3>Kenmerken:</h3>
-                    <ul class="list-unstyled list-spaced list-responsive">
-                        <li>
-                            <md-icon class="text-success list-margin">event_available</md-icon>
-                            Minder dan 3 keer verhuurd</li>
-                        <li>
-                            <md-icon class="text-success list-margin">vpn_key</md-icon>
-                            <span ng-if="resource.locktype">{{  ('LOCKTYPE.' + resource.locktype) | translateOrDefault : resource.locktype }}</span>
-                            <span ng-if="!resource.locktype">{{ 'UKNOWN_LOCKTYPE' | translate }}</span>
-                        </li>
-                    </ul>
-                </section>
-                <md-divider></md-divider>
-                <section ng-if="isWindowSizeSM">
-                    <h3>Tijden:</h3>
-                    <ul class="list-unstyled list-spaced list-responsive">
-                        <li>
-                            <span>Maandag 8 augustus 12:30</span>
-                        </li>
-                        <li>
-                            <span>Maandag 8 augustus 18:30</span>
-                        </li>
-                    </ul>
-                </section>
-            </section>
+            <section resource-sidebar class="details--profile__sidebar"></section>
             <section class="details--card--form">
-                {{ booking }}
                 <h2 class="card-title">3. Je bent er bijna!</h2> {{booking.booking_price}}
                 <p ng-if="booking.approved ===  'BUY_VOUCHER' ">
                     We hebben de boeking voor je gemaakt. Betaal de huurkosten via iDeal en de boeking is definitief!

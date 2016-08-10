@@ -67,6 +67,7 @@ angular.module('openwheels', [
   'badgeListDirective',
   'infoIconDirective',
   'vouchersDirective',
+  'resourceSidebarDirective',
   'fileInputDirective',
   'resourceCarouselDirective',
   'bookingDirectives',
@@ -114,6 +115,7 @@ angular.module('openwheels', [
 ])
 
 .constant('API_DATE_FORMAT', 'YYYY-MM-DD HH:mm')
+.constant('FRONT_DATE_FORMAT', 'dddd DD MMMM HH:mm')
 
 .config(function ($locationProvider, $stateProvider, $urlRouterProvider) {
   $locationProvider.html5Mode(true);

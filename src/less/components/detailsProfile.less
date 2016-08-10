@@ -1,6 +1,6 @@
-.details--profile__overview{
-  position: relative;
-  display: block;
+.details--profile__overview {
+    position: relative;
+    display: block;
 }
 // progress bar top
 .progress--steps {
@@ -121,7 +121,7 @@
         white-space: nowrap;
     }
 }
-.details--profile__image {
+.details--profile__image img {
     max-width: 100%;
     height: auto;
     width: 5em;
@@ -165,7 +165,7 @@
         flex-grow: 1;
         min-width: 65%;
     }
-    .details--profile__image {
+    .details--profile__image img {
         width: auto;
     }
 }
@@ -210,6 +210,12 @@
         height: 100%;
         padding: 0.5em;
         margin: 0;
+    }
+    label:active{
+      background: #699b40;
+    }
+    label:hover {
+        background: rgba(0, 0, 0, 0.12);
     }
     &:first-child label {
         border-top-right-radius: 0;

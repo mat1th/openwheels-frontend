@@ -1,0 +1,36 @@
+<section role="presentation">
+    <h3 class="details--profile__sidebar__heading" ng-if="$root.isWindowSizeSM">Jouw boeking</h3>
+    <ow-resource-picture resource="resource" size="large" class="details--profile__image"></ow-resource-picture>
+    <section class="">
+        <h3 class="text-success">{{resource.alias}}</h3>
+        <span>{{resource.model}}</span>
+    </section>
+    <md-divider></md-divider>
+    <section ng-if="$root.isWindowSizeSM">
+        <h3>Kenmerken:</h3>
+        <ul class="list-unstyled list-spaced list-responsive">
+            <li>
+                <md-icon class="text-success list-margin">event_available</md-icon>
+                {{ resource.numberOfBookings | wasBookedTimes }}
+            </li>
+            <!-- lock type -->
+            <li>
+                <md-icon class="text-success list-margin">vpn_key</md-icon>
+                <span ng-if="resource.locktype">{{  ('LOCKTYPE.' + resource.locktype) | translateOrDefault : resource.locktype }}</span>
+                <span ng-if="!resource.locktype">{{ 'UKNOWN_LOCKTYPE' | translate }}</span>
+            </li>
+        </ul>
+    </section>
+    <md-divider></md-divider>
+    <section ng-if="$root.isWindowSizeSM">
+        <h3>Tijden:</h3>
+        <ul class="list-unstyled list-spaced list-responsive">
+            <li>
+                <span>{{startTime}}</span>
+            </li>
+            <li>
+                <span>{{endTime}}</span>
+            </li>
+        </ul>
+    </section>
+</section>

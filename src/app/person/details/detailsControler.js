@@ -3,8 +3,7 @@
 angular.module('owm.person.details', [])
 
 
-.controller('DetailsProfileController', function ($scope, $filter, $timeout, $translate, $window, person, alertService, personService, authService, me, dutchZipcodeService, voucherService, $q, appConfig, paymentService, bookingService, $log, $state) {
-  console.log($scope);
+.controller('DetailsProfileController', function ($scope, $filter, $timeout, $translate, $window, person, alertService, personService, authService, me, dutchZipcodeService, voucherService, $q, appConfig, paymentService, bookingService, $log, $state, $stateParams) {
   //person info
   var masterPerson = null;
   $scope.detailNumber = 0;
@@ -354,7 +353,7 @@ angular.module('owm.person.details', [])
         })
       );
     });
-    console.log(requiredValue.bookings);
+    // console.log(requiredValue.bookings);
     $scope.booking = requiredValue.bookings[0];
     return $q.all(results).catch(function (err) {
       alertService.addError(err);
