@@ -142,19 +142,19 @@ angular.module('owm.person.details', [])
               alertService.addError(err);
             })
             .finally(function () {
-              alertService.loaded($scope);
+              alertService.loaded();
             });
         } else {
           alertService.add('danger', 'Vul je adres in zodat we je post kunnen sturen.', 10000);
-          alertService.loaded($scope);
+          alertService.loaded();
         }
       } else {
         alertService.add('danger', 'Vul je telefoon nummmer in zodat we je kunnen berijken.', 10000);
-        alertService.loaded($scope);
+        alertService.loaded();
       }
     } else {
       alertService.add('danger', 'Voordat je de auto kan huren moet je je persoonsgegevens invullen.', 10000);
-      alertService.loaded($scope);
+      alertService.loaded();
     }
   };
 
@@ -304,7 +304,7 @@ angular.module('owm.person.details', [])
         alertService.addError(err);
       })
       .finally(function () {
-        alertService.loaded($scope);
+        alertService.loaded();
         $scope.isBusy = false;
       });
   };

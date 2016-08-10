@@ -203,6 +203,10 @@
     "DASHBOARD_INTRO_TEXT": "Welkom bij MyWheels.",
     "LICENSE_UPLOAD": "Upload je rijbewijs",
     "LICENSEUPLOAD_INFO": "Met app KopieID van de Rijksoverheid kun je een watermerk toevoegen voordat je je rijbewijs uploadt, om de kans op fraude te beperken. Klik <a target=\"_blank\" href=\"http://www.rijksoverheid.nl/nieuws/2014/11/04/kopieid-app-maakt-misbruik-met-kopie-identiteitsbewijs-moeilijker.html\">hier</a> voor meer informatie. Om de geldigheid van jouw rijbewijs te controleren, hebben we je rijbewijsnummer nodig. Zorg er daarom voor dat jouw rijbewijsnummer duidelijk leesbaar is.",
+    "LICENSE_READABLE": "Alles goed leesbaar",
+    "LICENSE_FRONT": "Voorkant geupload",
+    "LICENSE_VALID": "Niet verlopen of ongeldig",
+    "LICENSE_CONFIRM": "Is dit rijbewijs goed leesbaar en geldig?",
     "CURRENT_BOOKINGS": "Mijn reserveringen",
     "CURRENT_RENTALS": "Mijn verhuringen",
     "MY_PROFILE_PERSONAL": "Persoonsgegevens",
@@ -248,7 +252,6 @@
     "FACEBOOK_UID": "Facebook gebruikersnaam",
     "TWITTER_UID": "Twitter gebruikersnaam",
     "LINKEDIN_UID": "LinkedIn gebruikersnaam",
-    "DASHBOARD_INTRO_TEXT": "Welkom bij MyWheels.",
     "CREATE_RESOURCE_TITLE": "Voeg je auto toe om te delen",
     "CREATE_RESOURCE_MISSING_ADDRESS": "Vul eerst je adres in, zodat we je auto op de kaart kunnen zetten.",
     "CREATE_RESOURCE_ADVERTISEMENT1": "Vind je het zonde dat jouw auto zo vaak stil staat? Wil je andere mensen helpen die niet zo mobiel zijn? Of wil je geld verdienen om je autokosten terug te verdienen? Volg duizenden voor je en voeg je auto toe om te delen.",
@@ -578,5 +581,13 @@
     "NEXT": "Volgende",
     "PREVIOUS": "Vorige",
     "FILL_PERSON_INFO": "Vul profiel aan",
-    "PAY": "Betaal"
+    "PAY": "Betaal",
+    "YES": "Ja",
+    "NO": "Nee",
+    "DETAILS_PROFILE_BASIC": "1. Eerst een paar bassisgegevens",
+    "DETAILS_PROFILE_LICENCE": "2. Dan nu je rijbewijs",
+    "DETAILS_PROFILE_NEARLY": "3. Je bent er bijna!",
+    "DETAILS_PROFILE_PAY_APPROVED": "We hebben de boeking voor je gemaakt. Betaal de huurkosten via iDeal en de boeking is definitief!",
+    "DETAILS_PROFILE_PAY_NOT_APPROVED": "We hebben het huurverzoek naar {{firstName}} {{preposition}} {{surname}} gestuurd. Je kunt de rit hieronder alvast betalen. De boeking is dan definitief na acceptatie door {{renter}}",
+    "DETAILS_PROFILE_PAY_NOT_APPROVED_OTHER": "Wil je de rit nog niet betalen? Klik dan hier om je profiel aan te vullen."
 }
