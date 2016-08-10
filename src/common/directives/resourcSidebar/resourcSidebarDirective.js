@@ -14,9 +14,9 @@ angular.module('resourceSidebarDirective', [])
       var city = $stateParams.city,
         resourceId = $stateParams.resourceId,
         discountCode = $stateParams.discountCode;
-        
-      $scope.startTime = moment($stateParams.startTime).format(FRONT_DATE_FORMAT);
-      $scope.endTime = moment($stateParams.endTime).format(FRONT_DATE_FORMAT);
+
+      $scope.startDate = moment($stateParams.startDate).format(FRONT_DATE_FORMAT);
+      $scope.endDate = moment($stateParams.endDate).format(FRONT_DATE_FORMAT);
 
       $scope.resource = {};
       resourceService.get({

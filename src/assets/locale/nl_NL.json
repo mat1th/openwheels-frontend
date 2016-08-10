@@ -25,6 +25,7 @@
     "LOGIN": "Log in",
     "LOGIN_SHORT": "Inloggen",
     "CREATE_ACCOUNT": "Gratis aanmelden",
+    "CREATE_ACCOUNT_TWO": "Maak een account aan",
     "LOGIN_TROUBLE": "Problemen met inloggen?",
     "LOGIN_TROUBLE_URL": "https://mywheels.nl/autodelen/help",
     "FORGOTTEN": "Wachtwoord vergeten?",
@@ -576,5 +577,6 @@
     "DECL_DISTANCE": "Er is <strong>{{dist}} km</strong> gereden",
     "NEXT": "Volgende",
     "PREVIOUS": "Vorige",
+    "FILL_PERSON_INFO": "Vul profiel aan",
     "PAY": "Betaal"
 }

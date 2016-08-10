@@ -6,7 +6,6 @@ angular.module('owm.finance.vouchers', [])
   paymentService, bookingService, me) {
   $scope.me = me;
   var cachedBookings = {};
-  console.log($scope.booking);
   $scope.busy = true;
   $scope.requiredValue = null;
   $scope.voucherOptions = [25, 50, 100, 250, 500];
@@ -114,6 +113,7 @@ angular.module('owm.finance.vouchers', [])
    */
   function getBookings(requiredValue) {
     if (!requiredValue.bookings || !requiredValue.bookings.length) {
+      console.log(requiredValue);
       return true;
     }
     var results = [];

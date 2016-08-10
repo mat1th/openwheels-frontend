@@ -299,7 +299,7 @@ angular.module('owm.resource.reservationForm', [])
   }
 
   function dialogController($scope, authService) {
-    $scope.user = {};
+    $scope.url = 'owm.person.details';
     $scope.hide = function () {
       $mdDialog.hide();
     };
@@ -309,69 +309,41 @@ angular.module('owm.resource.reservationForm', [])
     $scope.answer = function (answer) {
       $mdDialog.hide(answer);
     };
-    $scope.login = function () {
-      var successurl = $state.href('newrenter2.confirm');
-      authService.loginPopup(true, successurl).then(function (res) {
-        console.log('fdasfdsa');
-        console.log(res);
-      });
-    };
-    var initOptions = function () {
-      $scope.preferenceOptions = [{
-        label: '',
-        value: false
-      }, {
-        label: $translate.instant('USER_PREFERENCE_RENTER'),
-        value: 'renter'
-      }, {
-        label: $translate.instant('USER_PREFERENCE_OWNER'),
-        value: 'owner'
-      }, {
-        label: $translate.instant('USER_PREFERENCE_BOTH'),
-        value: 'both'
-      }];
-    };
-    $scope.user.preference = 'renter';
-    $scope.$on('$translateChangeSuccess', function () {
-      initOptions();
-    });
-    $scope.signup = function () {
-      return true;
-    };
-    initOptions();
   }
 
   $scope.createBooking = function (booking) {
     if (!booking.beginRequested || !booking.endRequested) {
       return alertService.add('danger', $filter('translate')('DATETIME_REQUIRED'), 5000);
     }
-
     // Als je nog niet bent ingelogd is er
     // even een andere flow nodig
     if (!$scope.person) { // not logged in
-
       $mdDialog.show({
           controller: dialogController,
           templateUrl: 'resource/components/ReservationFormDialog.tpl.html',
           clickOutsideToClose: true,
+          scope: $scope,
           fullscreen: $mdMedia('xs'),
         })
         .then(function (answer) {})
         .catch(function () {});
       return;
+
     } else if ($scope.person.status === 'new') { // upload driver's license
       $state.go('owm.person.details', { // should register
         city: $scope.resource.city ? $scope.resource.city : 'utrecht',
         resourceId: $scope.resource.id,
-        startTime: booking.beginRequested,
-        endTime: booking.endRequested,
-        discountCode: booking.discountCode
+        startDate: booking.beginRequested,
+        endDate: booking.endRequested,
+        discountCode: booking.discountCode,
+        remarkRequester: booking.remarkRequester,
+        riskReduction: booking.riskReduction
       });
       return;
+
     } else if (!booking.contract) { // should pay deposit to get a contract
       return alertService.add('danger', 'Voordat je een auto kunt boeken, hebben we een borg van je nodig', 5000);
     }
-
     alertService.load();
 
     return authService.me().then(function (me) {

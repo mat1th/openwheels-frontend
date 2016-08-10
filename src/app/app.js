@@ -57,6 +57,7 @@ angular.module('openwheels', [
 
   /* Directives */
   'form.validation',
+  'signupFormDirective',
   'pickadate',
   'timeframe',
   'datetimeDirective',

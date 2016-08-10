@@ -3,7 +3,9 @@
 angular.module('owm.person.details', [])
 
 
-.controller('DetailsProfileController', function ($scope, $filter, $timeout, $translate, $window, person, alertService, personService, authService, me, dutchZipcodeService, voucherService, $q, appConfig, paymentService, bookingService, $log, $state, $stateParams) {
+.controller('DetailsProfileController', function ($scope, $filter, $timeout, $translate, $window, $log, $state, $stateParams, person, alertService, personService, authService, me, dutchZipcodeService, voucherService, $q, appConfig, paymentService, bookingService, invoice2Service, discountService, API_DATE_FORMAT) {
+
+  $scope.isBusy = false;
   //person info
   var masterPerson = null;
   $scope.detailNumber = 0;
@@ -16,22 +18,26 @@ angular.module('owm.person.details', [])
   $scope.alerts = null;
 
   $scope.nextSection = function () {
-    $scope.detailNumber++;
+    if ($scope.detailNumber < 2) {
+      $scope.detailNumber++;
+    }
     // setHeight($scope.detailNumber);
   };
   $scope.prevSection = function (elementNumber, elementNumberTwo) {
-    var number = JSON.parse(elementNumber);
-    var numberTwo = JSON.parse(elementNumberTwo);
+    if ($scope.detailNumber > 0) {
+      var number = JSON.parse(elementNumber);
+      var numberTwo = JSON.parse(elementNumberTwo);
 
-    angular.element('.details--card__section')[number].classList.add('prevSection');
-    angular.element('.details--card__section')[numberTwo].classList.add('prevSection');
-    $timeout(function () {
-      angular.element('.details--card__section')[number].classList.remove('prevSection');
-      angular.element('.details--card__section')[numberTwo].classList.remove('prevSection');
-    }, 2000);
-    $scope.detailNumber--;
-
+      angular.element('.details--card__section')[number].classList.add('prevSection');
+      angular.element('.details--card__section')[numberTwo].classList.add('prevSection');
+      $timeout(function () {
+        angular.element('.details--card__section')[number].classList.remove('prevSection');
+        angular.element('.details--card__section')[numberTwo].classList.remove('prevSection');
+      }, 2000);
+      $scope.detailNumber--;
+    }
   };
+
   var setHeight = function (elementNumber) {
     angular.element('.details--profile__overview')[0].style.height = angular.element('#personal-data')[0].clientHeight + 'px';
   };
@@ -73,6 +79,7 @@ angular.module('owm.person.details', [])
       contactData: (!p.streetName || !p.streetNumber || !p.city || (!p.phoneNumbers || !p.phoneNumbers.length)),
       licenseData: (p.status === 'new')
     };
+    alertService.loaded($scope);
     $scope.alerts = alerts;
   }
 
@@ -135,19 +142,19 @@ angular.module('owm.person.details', [])
               alertService.addError(err);
             })
             .finally(function () {
-              alertService.loaded();
+              alertService.loaded($scope);
             });
         } else {
           alertService.add('danger', 'Vul je adres in zodat we je post kunnen sturen.', 10000);
-          alertService.loaded();
+          alertService.loaded($scope);
         }
       } else {
         alertService.add('danger', 'Vul je telefoon nummmer in zodat we je kunnen berijken.', 10000);
-        alertService.loaded();
+        alertService.loaded($scope);
       }
     } else {
       alertService.add('danger', 'Voordat je de auto kan huren moet je je persoonsgegevens invullen.', 10000);
-      alertService.loaded();
+      alertService.loaded($scope);
     }
   };
 
@@ -248,7 +255,6 @@ angular.module('owm.person.details', [])
   };
 
   $scope.images = images;
-  $scope.isBusy = false;
   $scope.containsLicence = false;
   $scope.LicenceUploaded = false;
   $scope.licenceFileName = 'Selecteer je rijbewijs';
@@ -291,49 +297,91 @@ angular.module('owm.person.details', [])
             $log.debug('error', err);
           })
           .finally(function () {
-            // $state.go('owm.person.dashboard');
-
+            $scope.createBooking();
           });
-
       })
       .catch(function (err) {
         alertService.addError(err);
       })
       .finally(function () {
-        alertService.loaded();
+        alertService.loaded($scope);
         $scope.isBusy = false;
       });
   };
   //booking
   var cachedBookings = {};
-  $scope.busy = true;
+  $scope.priceCalculated = false;
   $scope.booking = {};
   $scope.requiredValue = null;
-  alertService.load($scope);
 
-  getRequiredValue().then(getBookings).finally(function () {
-    alertService.loaded($scope);
-    $scope.busy = false;
-  });
+  $scope.createBooking = function () {
+    var resourceId = $stateParams.resourceId,
+      discountCode = $stateParams.discountCode,
+      remarkRequester = $stateParams.remarkRequester,
+      riskReduction = $stateParams.riskReduction,
+      timeFrame = {
+        startDate: moment($stateParams.startDate).format(API_DATE_FORMAT),
+        endDate: moment($stateParams.endDate).format(API_DATE_FORMAT)
+      };
 
-  function getRequiredValue() {
-    return voucherService.calculateRequiredCredit({
-        person: me.id
-      }).then(function (value) {
-
-        if (value.bookings.length < 1) {
-          // invoice2service.createBooking({
-          //   booking: booking.id
-          // }).then
-        } else {
-          $scope.requiredValue = value;
-          return value;
-        }
-
-      })
-      .catch(function (err) {
-        alertService.addError(err);
+    bookingService.create({
+      resource: resourceId,
+      timeFrame: timeFrame,
+      person: me.id,
+      remark: remarkRequester
+    }).then(function (value) {
+      if (discountCode !== undefined) {
+        //set the discount
+        discountService.apply({
+          booking: value.id,
+          discount: discountCode
+        }).catch(function (err) {
+          alertService.addError(err);
+        });
+      }
+      return value;
+    }).then(function (value) {
+      $scope.nextSection();
+      getRequiredValue(value).then(getBookings).finally(function () {
+        alertService.loaded($scope);
+        $scope.booking = $scope.requiredValue.bookings[0];
+        $scope.priceCalculated = true;
       });
+    }).catch(function (err) {
+      alertService.addError(err);
+    });
+  };
+  function getRequiredValue(bookingData) {
+    var bookingObject = {};
+    if (bookingData.approved === 'BUY_VOUCHER') {
+      return voucherService.calculateRequiredCredit({
+          person: me.id
+        }).then(function (value) {
+          $scope.requiredValue = value;
+
+          return value;
+        })
+        .catch(function (err) {
+          alertService.addError(err);
+        });
+    } else {
+      return invoice2Service.calculateBookingPrice({
+        booking: bookingData.id
+      }).then(function (value) {
+        bookingObject = {
+          bookings: [{
+            id: bookingData.id,
+            title: 'Rit op ',
+            booking_price: value,
+            km_price: 0,
+            discount: 0,
+            paid_amount: 0
+          }]
+        };
+        $scope.requiredValue = bookingObject;
+        return bookingObject;
+      });
+    }
   }
 
   function getBookings(requiredValue) {
@@ -341,6 +389,7 @@ angular.module('owm.person.details', [])
       return true;
     }
     var results = [];
+
     requiredValue.bookings.forEach(function (booking, index) {
       results.push(cachedBookings[booking.id] ||
         bookingService.get({
@@ -348,13 +397,10 @@ angular.module('owm.person.details', [])
         }).then(function (_booking) {
           cachedBookings[_booking.id] = _booking;
           _booking.statusValue = checkStatus(_booking.approved);
-
           angular.extend(booking, _booking);
         })
       );
     });
-    // console.log(requiredValue.bookings);
-    $scope.booking = requiredValue.bookings[0];
     return $q.all(results).catch(function (err) {
       alertService.addError(err);
     });
@@ -437,5 +483,5 @@ angular.module('owm.person.details', [])
   }
   //change status
 
-
+  console.log($scope);
 });
