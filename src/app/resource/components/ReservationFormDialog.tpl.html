@@ -1,4 +1,4 @@
-<md-dialog flex-xs="100" flex-sm="70" flex-md="50" flex-lg="30" flex-xl="15">
+<md-dialog flex-xs="100" flex-sm="70" flex-md="50" flex-lg="30" flex-xl="15" >
   <md-toolbar>
   <div class="md-toolbar-tools">
     <h2>Accountinformatie</h2>
@@ -11,7 +11,7 @@
   <md-dialog-content layout="column" class="md-dialog-content">
   <div flex>
   </div>
-  <div flex layout="row" layout-align="center">
+  <div flex layout="row" layout-align="center" style="min-height: 20em;">
     <div flex>
       <h2>Maak een account aan</h2>
       <form role="form" class="mywheels-form" ng-submit="signup()" name="signupform">
@@ -41,7 +41,7 @@
         <button type="submit" name="button" class="mywheels-btn mywheels-btn-default mywheels-btn-margin-top" ng-click="signup()" md-ink-ripple="#3a6d81" ng-disabled="signupform.email.$error.required || signupform.firstName.$error.email || signupform.password.$error.required">
             {{ 'SIGNUP' | translate }}
         </button>
-      </form>   
+      </form>
       <span style="margin: 15px 0; color: #999;" layout="row"><hr style="margin-right: 8px" flex/> of <hr style="margin-left: 8px" flex/></span>
         <button type="button" ng-click="login()" class="mywheels-btn mywheels-btn-default" md-ink-ripple="#3a6d81">
           {{ 'LOGIN' | translate }}
