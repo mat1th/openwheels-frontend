@@ -11,8 +11,8 @@ angular.module('owm.person.intro', [])
     loadFeaturedSlider();
   }
 
-  $scope.toggleBox = function(box) {
-    if(!$scope.openboxes[box]) {
+  $scope.toggleBox = function (box) {
+    if (!$scope.openboxes[box]) {
       $scope.openboxes[box] = true;
     } else {
       $scope.openboxes[box] = !$scope.openboxes[box];
@@ -21,11 +21,11 @@ angular.module('owm.person.intro', [])
 
   function loadFeaturedSlider() {
     resourceService.all({
-      'onlyFeatured': 'true'
-    })
-    .then(function (res) {
-      $scope.resources_slider = res;
-    });
+        'onlyFeatured': 'true'
+      })
+      .then(function (res) {
+        $scope.resources_slider = res;
+      });
     $scope.gotoProfile = function (resource) {
       $state.go('owm.resource.show', {
         city: resource.city,

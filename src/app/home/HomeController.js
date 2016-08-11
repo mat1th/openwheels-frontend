@@ -15,7 +15,7 @@ angular.module('owm.home', ['owm.resource', 'slick'])
   if ($scope.features.featuredSlider) {
     resourceService.all({
         'onlyFeatured': 'true'
-      }) 
+      })
       .then(function (res) {
         $scope.resources_slider = res;
       });

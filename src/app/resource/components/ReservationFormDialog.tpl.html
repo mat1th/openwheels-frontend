@@ -1,61 +1,20 @@
 <md-dialog flex-xs="100" flex-sm="70" flex-md="50" flex-lg="30" flex-xl="15">
-  <md-toolbar>
-  <div class="md-toolbar-tools">
-    <h2>Accountinformatie</h2>
-    <span flex></span>
-    <md-button class="md-icon-button" ng-click="cancel()">
-    <md-icon>close</md-icon>
-    </md-button>
-  </div>
-  </md-toolbar>
-  <md-dialog-content layout="column" class="md-dialog-content">
-  <div flex>
-  </div>
-  <div flex layout="row" layout-align="center">
-    <div flex>
-      <h2>Maak een account aan</h2>
-      <form role="form" class="mywheels-form" ng-submit="signup()" name="signupform">
-        <div id="firstName_group" class="icon user">
-          <input type="text" ng-class="{'input-error': signupform.firstName.$invalid && signupform.firstName.$touched}" autocomplete="off" name="firstName" id="firstName" ng-model="user.firstName" placeholder="{{ 'FIRST_NAME' | translate }}" required>
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h2>{{'CREATE_ACCOUNT_TWO' | translate }}</h2>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="cancel()">
+                <md-icon>close</md-icon>
+            </md-button>
         </div>
-        <div id="email_group" class="icon email">
-          <input type="email" ng-class="{'input-error': signupform.email.$invalid && signupform.email.$touched}" autocomplete="off" id="email" name="email" ng-model="auth.email" placeholder="{{ 'EMAIL' | translate }}" required>
-          <div class="help-block" ng-show="signupform.$submitted || signupform.email.$touched">
-            <span class="text-danger" ng-show="signupform.email.$error.email">{{ 'EMAIL_NOT_VALID' | translate }}</span>
-          </div>
+    </md-toolbar>
+    <md-dialog-content layout="column" class="md-dialog-content">
+        <div flex>
         </div>
-        <div id="password_group" class="icon password">
-          <input type="password" autocomplete="off" id="password" placeholder="{{ 'PASSWORD' | translate }}" name="password" required ng-model="auth.password" password-strength>
+        <div flex layout="row" layout-align="center" style="min-height: 25em;">
+            <div flex>
+                <div signup-form></div>
+            </div>
         </div>
-        <div id="preference_group" ng-if="!features.hideSignupPreference" class="icon car">
-          <label for="preference">{{ 'USER_PREFERENCE_LABEL' | translate }}</label>
-          <div class="select-icon">
-            <select id="preference" name="preference" ng-model="user.preference" ng-options="o.value as o.label for o in preferenceOptions" required>
-            </select>
-          </div>
-        </div>
-        <div class="signup-term">
-          <input type="checkbox" id="signup-term" name="signupterm" ng-model="auth.terms" required>
-          <label for="signup-term" ng-class="{'input-error': signupform.$submitted && !auth.terms}" class="text-muted sign-up-terms" ng-bind-html="'SIGNUP_TERMS_NEW' | translate"></label>
-        </div>
-        <button type="submit" name="button" class="mywheels-btn mywheels-btn-default mywheels-btn-margin-top" ng-click="signup()" md-ink-ripple="#3a6d81" ng-disabled="signupform.email.$error.required || signupform.firstName.$error.email || signupform.password.$error.required">
-            {{ 'SIGNUP' | translate }}
-        </button>
-      </form>   
-      <span style="margin: 15px 0; color: #999;" layout="row"><hr style="margin-right: 8px" flex/> of <hr style="margin-left: 8px" flex/></span>
-        <button type="button" ng-click="login()" class="mywheels-btn mywheels-btn-default" md-ink-ripple="#3a6d81">
-          {{ 'LOGIN' | translate }}
-        </button>
-        <p style="margin: 10px 0; color: #b1adad;">Wanneer u al een account heeft</p>
-    </div>
-  </div>
-  </md-dialog-content>
-<!--
-  <md-dialog-actions layout="row">
-    <span flex></span>
-    <md-button ng-click="cancel()">
-      Sluiten
-    </md-button>
-  </md-dialog-actions>
--->
+    </md-dialog-content>
 </md-dialog>
