@@ -8,11 +8,7 @@ angular.module('signupFormDirective', [])
     replace: true,
     transclude: true,
     templateUrl: 'directives/signupFormDirective/signupFormDirective.tpl.html',
-    controller: function ($scope, $rootScope, $state, $stateParams, $translate, $q, authService, featuresService, alertService) {
-      console.log($rootScope);
-      console.log($scope);
-      console.log($scope.resource);
-      console.log($scope.booking);
+    controller: function ($scope, $rootScope, $state, $stateParams, $translate, $q, authService, featuresService, alertService, personService) {
       $scope.auth = {};
       $scope.user = {};
       $scope.me = {};
@@ -48,6 +44,14 @@ angular.module('signupFormDirective', [])
           $scope.user.preference = false;
         }
       }
+      $scope.login = function () {
+        $scope.cancel();
+        authService.loginPopup().then(function () {
+          if ($state.current.name === 'home' || $state.current.name === 'owm.auth.signup') {
+            $state.go('owm.person.dashboard');
+          }
+        });
+      };
 
       $scope.signup = function () {
         alertService.load();
