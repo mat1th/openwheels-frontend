@@ -10,6 +10,10 @@ angular.module('owm.booking.administer', [])
   $scope.declaration = {};
   $scope.contract = contract;
 
+  if(booking.resource.refuelByRenter) {
+    $scope.contract.type.canHaveDeclaration = false;
+  }
+
   $scope.alreadyFilled = (booking.trip.odoBegin && booking.trip.odoEnd) ? true : false;
   loadDeclarations(booking.id);
 
@@ -84,9 +88,13 @@ angular.module('owm.booking.administer', [])
   function saveDeclaration() {
     if($scope.declaration && $scope.declaration.amount) {
       if(!$scope.declaration.file) {
-        alertService.add('danger', 'Je moet de foto/scan van de tankbon nog toevoegen');
-        return;
+        return alertService.add('danger', 'Je moet de foto/scan van de tankbon nog toevoegen', 6000);
       }
+      var alreadyHasAmount = _.find($scope.declarations, function(declaration) { return declaration.amount === $scope.declaration.amount; });
+      if(alreadyHasAmount !== undefined) {
+        return alertService.add('danger', 'Er is al een tankbon met dit bedrag toegevoegd', 6000);
+      }
+
       alertService.load();
       var params = {
         booking : $scope.booking.id,
