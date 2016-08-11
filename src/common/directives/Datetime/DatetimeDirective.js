@@ -2,7 +2,7 @@
 
 angular.module('datetimeDirective', [])
 
-.directive('datetime', function(){
+.directive('datetime', function () {
   return {
     restrict: 'E',
     scope: {
@@ -11,6 +11,4 @@ angular.module('datetimeDirective', [])
     replace: true,
     templateUrl: 'directives/Datetime/datetime.tpl.html'
   };
-})
-
-;
+});

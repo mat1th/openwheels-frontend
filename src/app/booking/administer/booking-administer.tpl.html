@@ -45,7 +45,7 @@
 
       <div class="row">
         <div class="col col-sm-6">
-          <div class="form-group" ng-class="{'has-error': form.odoBegin.$invalid && form.odoBegin.$touched}">   
+          <div class="form-group" ng-class="{'has-error': form.odoBegin.$invalid && form.odoBegin.$touched}">
             <label>{{ 'BOOKING.ADMINISTER.ODOBEGIN_LABEL' | translate }}</label>
             <div class="input-group">
               <input name="odoBegin" step="1" type="number" ng-pattern="/^[0-9]+$/" class="form-control" ng-model="trip.odoBegin" ng-disabled="alreadyFilled" />

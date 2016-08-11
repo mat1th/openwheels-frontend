@@ -1,0 +1,40 @@
+<form role="form" class="mywheels-form" ng-submit="signup()" name="signupform">
+    <div class="mywheels-form-margin">
+        <div id="firstName_group" class="icon user">
+            <input type="text" autocomplete="off" name="firstName" id="firstName" ng-model="user.firstName" placeholder="{{ 'FIRST_NAME' | translate }}" required>
+            <div class="help-block" ng-show="signupform.$submitted || signupform.firstName.$touched">
+                <span class="text-danger" ng-show="signupform.firstName.$error.required">{{ 'REQUIRED' | translate }}</span>
+            </div>
+        </div>
+        <div id="email_group" class="icon email">
+            <input type="email" autocomplete="off" id="email" name="email" ng-model="auth.email" placeholder="{{ 'EMAIL' | translate }}" required>
+            <div class="help-block" ng-show="signupform.$submitted || signupform.email.$touched">
+                <span class="text-danger" ng-show="signupform.email.$error.required">{{ 'REQUIRED' | translate }}</span>
+                <span class="text-danger" ng-show="signupform.email.$error.email">{{ 'EMAIL_NOT_VALID' | translate }}</span>
+            </div>
+        </div>
+        <div id="password_group" class="icon password">
+            <input type="password" autocomplete="off" id="password" placeholder="{{ 'PASSWORD' | translate }}" name="password" required ng-model="auth.password" password-strength>
+        </div>
+        <div id="preference_group" ng-if="!features.hideSignupPreference" class="icon car">
+            <label for="preference">{{ 'USER_PREFERENCE_LABEL' | translate }}</label>
+            <div class="select-icon">
+                <select id="preference" name="preference" ng-model="user.preference" ng-options="o.value as o.label for o in preferenceOptions" required>
+                </select>
+            </div>
+        </div>
+        <div class="signup-term">
+            <input type="checkbox" id="signup-term" name="signupterm" ng-model="auth.terms" required>
+            <label for="signup-term" class="text-muted sign-up-terms" ng-bind-html="'SIGNUP_TERMS_NEW' | translate"></label>
+            <div class="help-block" ng-show="signupform.$submitted">
+                <span class="text-danger">{{ 'REQUIRED' | translate }}</span>
+            </div>
+        </div>
+    </div>
+    <button type="button" name="button" class="mywheels-btn mywheels-btn-default mywheels-btn-form-margin" ng-click="signup()" md-ink-ripple="#3a6d81" ng-disabled="signupform.email.$error.required || signupform.firstName.$error.email || signupform.password.$error.required">
+        {{ 'SIGNUP' | translate }}
+    </button>
+    <button type="button" ng-click="login()" class="mywheels-btn mywheels-btn-transparant mywheels-btn-form-margin" md-ink-ripple="#fff" ng-if="url != 'owm.person.dashboard'">
+        {{ 'LOGIN' | translate }}
+    </button>
+</form>
