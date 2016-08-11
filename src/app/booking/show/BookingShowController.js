@@ -33,6 +33,10 @@ angular.module('owm.booking.show', [])
     acceptRejectRemark: ''
   };
 
+  if(booking.resource.refuelByRenter) {
+    $scope.contract.type.canHaveDeclaration = false;
+  }
+
   $scope.userPerspective = (function () {
     if (booking.person.id === me.id) {
       return 'renter';
