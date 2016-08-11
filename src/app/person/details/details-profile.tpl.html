@@ -191,7 +191,7 @@
     <div class="card animated section-transion details--card__section" ng-show="showThird">
         <div class="card-body details--card">
             <section resource-sidebar class="details--profile__sidebar" ng-if="isbooking"></section>
-            <section class="details--card--form" ng-if="isbooking">
+            <section class="details--card--form" ng-if="isbooking" ng-hide="!isAvailable">
                 <h2 class="card-title">{{ 'DETAILS_PROFILE_NEARLY' | translate }}</h2>
                 <p ng-if="booking.approved ===  'BUY_VOUCHER' ">
                     {{ 'DETAILS_PROFILE_PAY_APPROVED' | translate }}
@@ -220,8 +220,7 @@
                 </div>
             </section>
             <section ng-if="!isbooking" class="details--card--form">
-
-                <h2 class="card-title">{{ 'FILL_PERSON_INFO' | translate }}</h2>
+                <h2 class="card-title">{{ 'DETAILS_PROFILE_PHOTO' | translate }}</h2>
                 <p>{{ 'DETAILS_PROFILE_SEARCH' | translate }} </p>
 
                 <!-- call to action buttons -->
@@ -232,6 +231,23 @@
                     </button>
                     <button type="button" name="button" ui-sref="owm.resource.search.list" class="mywheels-btn mywheels-btn-default btn--navigation__next">
                         Zoek nu een auto
+                        <md-icon class="text-white">navigate_next</md-icon>
+                    </button>
+                </div>
+                <!-- /call to action buttons -->
+            </section>
+            <section ng-if="!isAvailable" class="details--card--form">
+                <h2 class="card-title">{{ 'DETAILS_PROFILE_NOT_AVAILABLE' | translate }}</h2>
+                <p>{{ 'DETAILS_PROFILE_NOT_AVAILABLE_text' | translate }} </p>
+
+                <!-- call to action buttons -->
+                <div class="details--card--form__navigation-buttons">
+                    <button rel="prev" type="button" class="mywheels-btn mywheels-btn-transparant btn--navigation__previous" md-ink-ripple="#ded8d8" ng-click="prevSection(1, 2)">
+                        <md-icon>navigate_before</md-icon>
+                        {{ 'PREVIOUS' | translate}}
+                    </button>
+                    <button type="button" name="button" ui-sref="owm.resource.search.list" class="mywheels-btn mywheels-btn-default btn--navigation__next">
+                        {{ 'SEARCH_CAR' | translate }}
                         <md-icon class="text-white">navigate_next</md-icon>
                     </button>
                 </div>

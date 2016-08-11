@@ -39,6 +39,7 @@ angular.module('owm.person.details', [])
   $scope.priceCalculated = false;
   $scope.booking = {};
   $scope.requiredValue = null;
+  $scope.isAvailable = false;
   $scope.isbooking = $stateParams.resourceId !== undefined ? true : false;
   //licence upload sections
   // licence images
@@ -295,7 +296,6 @@ angular.module('owm.person.details', [])
       })
       .then(function () {
         $scope.LicenceUploaded = true;
-        alertService.add('success', 'Bedankt voor het uploaden van je rijbewijs', 5000);
         // reload user info (status may have changed as a result of uploading license)
         personService.me({
             version: 2
@@ -328,13 +328,14 @@ angular.module('owm.person.details', [])
         startDate: moment($stateParams.startDate).format(API_DATE_FORMAT),
         endDate: moment($stateParams.endDate).format(API_DATE_FORMAT)
       };
-    if ($scope.isbooking) {
+    if ($scope.isbooking && !$scope.priceCalculated) {
       bookingService.create({
         resource: resourceId,
         timeFrame: timeFrame,
         person: me.id,
         remark: remarkRequester
       }).then(function (value) {
+        $scope.isAvailable = true;
         if (discountCode !== undefined) {
           //set the discount
           discountService.apply({
@@ -353,9 +354,15 @@ angular.module('owm.person.details', [])
           $scope.priceCalculated = true;
         });
       }).catch(function (err) {
+        console.log();
+        if (err.message === 'De auto is niet beschikbaar') {
+          $scope.isAvailable = false;
+          $scope.nextSection();
+        }
         alertService.addError(err);
       });
     } else {
+      $scope.isAvailable = true;
       $scope.nextSection();
     }
   };
