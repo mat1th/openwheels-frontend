@@ -14,11 +14,11 @@ angular.module('owm.home', ['owm.resource', 'slick'])
 
   if ($scope.features.featuredSlider) {
     resourceService.all({
-        'onlyFeatured': 'true'
-      }) 
-      .then(function (res) {
-        $scope.resources_slider = res;
-      });
+      'onlyFeatured': 'true'
+    })
+    .then(function (res) {
+      $scope.resources_slider = res;
+    });
     $scope.gotoProfile = function (resource) {
       $state.go('owm.resource.show', {
         city: resource.city,
