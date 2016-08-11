@@ -35,12 +35,16 @@ angular.module('owm.person.details', [])
   };
 
   //booking section
+  var URL_DATE_TIME_FORMAT = 'YYMMDDHHmm';
   var cachedBookings = {};
   $scope.priceCalculated = false;
   $scope.booking = {};
   $scope.requiredValue = null;
   $scope.isAvailable = false;
   $scope.isbooking = $stateParams.resourceId !== undefined ? true : false;
+  $scope.bookingStart = moment($stateParams.startDate).format(URL_DATE_TIME_FORMAT);
+  $scope.bookingEnd = moment($stateParams.endDate).format(URL_DATE_TIME_FORMAT);
+
   //licence upload sections
   // licence images
   var images = {
@@ -307,7 +311,7 @@ angular.module('owm.person.details', [])
             $log.debug('error', err);
           })
           .finally(function () {
-            $scope.createBooking();
+
           });
       })
       .catch(function (err) {
@@ -316,10 +320,13 @@ angular.module('owm.person.details', [])
       .finally(function () {
         alertService.loaded();
         $scope.isBusy = false;
+        $scope.createBooking();
       });
   };
   //booking
   $scope.createBooking = function () {
+    alertService.load();
+    $scope.isBusy = true;
     var resourceId = $stateParams.resourceId,
       discountCode = $stateParams.discountCode,
       remarkRequester = $stateParams.remarkRequester,
@@ -352,11 +359,14 @@ angular.module('owm.person.details', [])
           alertService.loaded($scope);
           $scope.booking = $scope.requiredValue.bookings[0];
           $scope.priceCalculated = true;
+          alertService.loaded();
+          $scope.isBusy = false;
         });
       }).catch(function (err) {
-        console.log();
         if (err.message === 'De auto is niet beschikbaar') {
           $scope.isAvailable = false;
+          alertService.loaded();
+          $scope.isBusy = false;
           $scope.nextSection();
         }
         alertService.addError(err);
@@ -364,6 +374,8 @@ angular.module('owm.person.details', [])
     } else {
       $scope.isAvailable = true;
       $scope.nextSection();
+      alertService.loaded();
+      $scope.isBusy = false;
     }
   };
 
@@ -421,14 +433,14 @@ angular.module('owm.person.details', [])
       alertService.addError(err);
     });
   }
-
+  $scope.redemptionPending = {}; /* by booking id */
 
   $scope.toggleRedemption = function (booking) {
     alertService.closeAll();
     alertService.load($scope);
 
     /* checkbox is already checked, so new value is now: */
-    var newValue = booking.riskReduction;
+    var newValue = $scope.booking.riskReduction;
 
     bookingService.alter({
         booking: booking.id,
@@ -445,17 +457,18 @@ angular.module('owm.person.details', [])
         return getBookings(requiredValue);
       })
       .then(function () {
-        booking.riskReduction = newValue;
+        $scope.booking.riskReduction = newValue;
       })
       .catch(function (err) {
         /* revert */
-        booking.riskReduction = !!!booking.riskReduction;
+        $scope.booking.riskReduction = !!!$scope.booking.riskReduction;
         alertService.addError(err);
       })
       .finally(function () {
         alertService.loaded($scope);
       });
   };
+
   $scope.buyVoucher = function (value) {
     if (!value || value < 0) {
       return;

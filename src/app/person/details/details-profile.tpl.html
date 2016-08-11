@@ -3,7 +3,6 @@
     <section class="step" data-section="2" title="Rijbewijs uploaden" ng-class="{'selected': detailNumber === 1 ? true : false, 'done': detailNumber > 1 ? true : false}"></section>
     <section class="step last-step" data-section="3" title="betalen" ng-class="{'selected': detailNumber === 2 ? true : false, 'done': detailNumber > 2 ? true : false }"></section>
 </div>
-
 <section class="details--profile__overview">
     <!-- PERSONAL DATA  -->
     <div class="card animated section-transion details--card__section" id="personal-data" ng-show="showFirst">
@@ -21,6 +20,7 @@
                         <span class="text-danger" ng-show="personalDataForm.firstName.$error.required">{{ 'REQUIRED' | translate }}</span>
                     </div>
                 </div>
+
                 <!-- /firstName -->
                 <div class="responsive">
                     <!-- prepostion -->
@@ -128,7 +128,6 @@
                         {{ 'NEXT' | translate }}
                         <md-icon class="text-white">navigate_next</md-icon>
                     </button>
-
                     <!-- /submit button -->
                 </div>
             </form>
@@ -197,8 +196,8 @@
                     {{ 'DETAILS_PROFILE_PAY_APPROVED' | translate }}
                 </p>
                 <p ng-if="booking.approved !==  'BUY_VOUCHER'" translate="DETAILS_PROFILE_PAY_NOT_APPROVED" translate-values="{firstName: person.firstName,preposition: person.preposition,surname: person.surname,renter: person.firstName }"></p>
-
-                <voucher data="{{ booking }}" ng-if="priceCalculated && isbooking"></voucher>
+                {{toggleRedemption}}
+                <voucher data="{{ booking }}" toggleRedemption="toggleRedemption" ng-if="priceCalculated && isbooking && toggleRedemption"></voucher>
                 <p ng-if="booking.approved !==  'BUY_VOUCHER' ">
                     {{ 'DETAILS_PROFILE_PAY_NOT_APPROVED_OTHER' | translate }}
                 </p>
@@ -230,7 +229,7 @@
                         {{ 'PREVIOUS' | translate}}
                     </button>
                     <button type="button" name="button" ui-sref="owm.resource.search.list" class="mywheels-btn mywheels-btn-default btn--navigation__next">
-                        Zoek nu een auto
+                        {{ 'SEARCH_CAR' | translate }}
                         <md-icon class="text-white">navigate_next</md-icon>
                     </button>
                 </div>
@@ -246,7 +245,7 @@
                         <md-icon>navigate_before</md-icon>
                         {{ 'PREVIOUS' | translate}}
                     </button>
-                    <button type="button" name="button" ui-sref="owm.resource.search.list" class="mywheels-btn mywheels-btn-default btn--navigation__next">
+                    <button type="button" name="button" ui-sref="owm.resource.search.list({ start: bookingStart ,end: bookingEnd})" class="mywheels-btn mywheels-btn-default btn--navigation__next">
                         {{ 'SEARCH_CAR' | translate }}
                         <md-icon class="text-white">navigate_next</md-icon>
                     </button>
