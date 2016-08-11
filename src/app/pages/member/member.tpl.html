@@ -88,7 +88,7 @@
 
           <p ng-if="user.isAuthenticated">
             <button ng-if="user.isAuthenticated" ng-click="openChatWith(person)" type="button" class="btn btn-block btn-primary">
-              <i class="fa fa-comment"></i> Stuur een bericht
+              <i class="fa fa-comment"></i> {{ 'SEND_MESSAGE' | translate }}
             </button>
           </p>
           <ul class="list-unstyled list-block list-spaced fa-ul">

@@ -135,7 +135,7 @@
                             <div><span badge-list="resource.owner.badges"></span></div>
 
                             <button ng-if="me" type="button" class="btn btn-link" ng-click="openChatWith(resource.owner)">
-                                <i class="fa fa-comment fa-fw"></i> Stuur een bericht
+                                <i class="fa fa-comment fa-fw"></i> {{ 'SEND_MESSAGE' | translate }}
                             </button>
                         </div>
                     </div>
@@ -166,7 +166,7 @@
                             <div><span badge-list="resource.contactPerson.badges"></span></div>
 
                             <button ng-if="me" type="button" class="btn btn-link" ng-click="openChatWith(resource.contactPerson)">
-                                <i class="fa fa-comment fa-fw"></i> Stuur een bericht
+                                <i class="fa fa-comment fa-fw"></i> {{ 'SEND_MESSAGE' | translate }}
                             </button>
                         </div>
                     </div>
