@@ -58,7 +58,7 @@
 
 <div class="chat-footer">
   <form name="form">
-    <textarea class="chat-input" placeholder="Stuur een bericht" ng-model="message" required></textarea>
+    <textarea class="chat-input" placeholder="{{ 'SEND_MESSAGE' | translate }}" ng-model="message" required></textarea>
     <button type="button" class="btn btn-primary chat-send-button" ng-disabled="!form.$valid || isLoading"
       ng-click="sendMessage(message)">
       <i class="fa fa-send fa-fw"></i>
