@@ -315,9 +315,13 @@ angular.module('owm.resource.reservationForm', [])
     if (!booking.beginRequested || !booking.endRequested) {
       return alertService.add('danger', $filter('translate')('DATETIME_REQUIRED'), 5000);
     }
-    // Als je nog niet bent ingelogd is er
-    // even een andere flow nodig
-    if (!$scope.person) { // not logged in
+
+    if (!$scope.features.signupFlow && !$scope.person) { // not logged in
+      $state.go('owm.auth.signup');
+      return;
+    } else if (!$scope.person) { // not logged in
+      // Als je nog niet bent ingelogd is er
+      // even een andere flow nodig
       $mdDialog.show({
           controller: dialogController,
           templateUrl: 'resource/components/ReservationFormDialog.tpl.html',
@@ -325,11 +329,10 @@ angular.module('owm.resource.reservationForm', [])
           scope: $scope,
           fullscreen: $mdMedia('xs'),
         })
-        .then(function (answer) {})
-        .catch(function () {});
+        .then(function (answer) {});
       return;
 
-    } else if ($scope.person.status === 'new') { // upload driver's license
+    } else if ($scope.person.status === 'new' && $scope.features.signupFlow) { // upload driver's license
       $state.go('owm.person.details', { // should register
         city: $scope.resource.city ? $scope.resource.city : 'utrecht',
         resourceId: $scope.resource.id,
@@ -341,6 +344,8 @@ angular.module('owm.resource.reservationForm', [])
       });
       return;
 
+    } else if ($scope.person.status === 'new' && !$scope.features.signupFlow) {
+      return alertService.add('danger', 'Voordat je een auto kunt boeken, hebben we nog wat gegevens van je nodig.', 5000);
     } else if (!booking.contract) { // should pay deposit to get a contract
       return alertService.add('danger', 'Voordat je een auto kunt boeken, hebben we een borg van je nodig', 5000);
     }
