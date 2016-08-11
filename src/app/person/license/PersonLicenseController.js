@@ -18,40 +18,43 @@ angular.module('owm.person.license', [])
   });
 
   $scope.startUpload = function () {
-    if (!images.front) { return; }
+    if (!images.front) {
+      return;
+    }
 
     $scope.isBusy = true;
     alertService.load();
 
     personService.addLicenseImages({
-      person: me.id
-    }, {
-      frontImage: images.front
-    })
-    .then(function () {
-      alertService.add('success', 'Bedankt voor het uploaden van je rijbewijs', 5000);
-
-      // reload user info (status may have changed as a result of uploading license)
-      personService.me({ version: 2 }).then(function (person) {
-        angular.extend(authService.user.identity, person);
+        person: me.id
+      }, {
+        frontImage: images.front
       })
-     // silently fail
+      .then(function () {
+        alertService.add('success', 'Bedankt voor het uploaden van je rijbewijs', 5000);
+
+        // reload user info (status may have changed as a result of uploading license)
+        personService.me({
+            version: 2
+          }).then(function (person) {
+            angular.extend(authService.user.identity, person);
+          })
+          // silently fail
+          .catch(function (err) {
+            $log.debug('error', err);
+          })
+          .finally(function () {
+            $state.go('owm.person.dashboard');
+          });
+
+      })
       .catch(function (err) {
-        $log.debug('error', err);
+        alertService.addError(err);
       })
       .finally(function () {
-        $state.go('owm.person.dashboard');
+        alertService.loaded();
+        $scope.isBusy = false;
       });
-
-    })
-    .catch(function (err) {
-      alertService.addError(err);
-    })
-    .finally(function () {
-      alertService.loaded();
-      $scope.isBusy = false;
-    });
   };
 
-})
-;
+});
