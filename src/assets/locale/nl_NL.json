@@ -589,5 +589,7 @@
     "DETAILS_PROFILE_NEARLY": "3. Je bent er bijna!",
     "DETAILS_PROFILE_PAY_APPROVED": "We hebben de boeking voor je gemaakt. Betaal de huurkosten via iDeal en de boeking is definitief!",
     "DETAILS_PROFILE_PAY_NOT_APPROVED": "We hebben het huurverzoek naar {{firstName}} {{preposition}} {{surname}} gestuurd. Je kunt de rit hieronder alvast betalen. De boeking is dan definitief na acceptatie door {{renter}}",
-    "DETAILS_PROFILE_PAY_NOT_APPROVED_OTHER": "Wil je de rit nog niet betalen? Klik dan hier om je profiel aan te vullen."
+    "DETAILS_PROFILE_PAY_NOT_APPROVED_OTHER": "Wil je de rit nog niet betalen? Klik dan hier om je profiel aan te vullen.",
+    "DETAILS_PROFILE_BASIC_TEXT": "{{firstName}}, je eerste boeking is bijna gemaakt! We leren je eerst graag nog wat beter kennen, wil je onderstaande gegevens aanvullen?",
+    "DETAILS_PROFILE_SEARCH": "We kennen jullie nu een stuk beter: tijd om je eerste boeking te maken! Je kunt kiezen uit een groot aantal auto's in de buurt. Auto's met het label Smartwheels open je met een OV-chipkaart of smartphone, auto’s zonder dit label open je met de sleutel. Spreek dan even met de verhuurder af wanneer je de sleutel ophaalt."
 }

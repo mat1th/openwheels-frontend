@@ -11,6 +11,7 @@
             <section resource-sidebar class="details--profile__sidebar" ng-if="isbooking"></section>
             <form class="mywheels-form details--profile--form" name="personalDataForm" ng-submit="subscribe(credentials, person, license_front)">
                 <h2 class="card-title">{{ 'DETAILS_PROFILE_BASIC' | translate }}</h2>
+                <p ng-if="isbooking" translate="DETAILS_PROFILE_BASIC_TEXT" translate-values="{firstName: person.firstName}"> </p>
                 <h3>{{ 'MY_PROFILE_PERSONAL' | translate }}</h3>
 
                 <!-- firstName -->
@@ -221,8 +222,7 @@
             <section ng-if="!isbooking" class="details--card--form">
 
                 <h2 class="card-title">{{ 'FILL_PERSON_INFO' | translate }}</h2>
-                <p>Maak direct je eerste boeking! Je kunt kiezen uit een groot aantal auto's in de buurt. Auto's met het label Smartwheels open je met een OV-chipkaart of smartphone, auto’s zonder dit label open je met de sleutel. Spreek dan even met de
-                    verhuurder af wanneer je de sleutel ophaalt.</p>
+                <p>{{ 'DETAILS_PROFILE_SEARCH' | translate }} </p>
 
                 <!-- call to action buttons -->
                 <div class="details--card--form__navigation-buttons">
