@@ -17,6 +17,41 @@ angular.module('owm.person.details', [])
   $scope.allowLicenseRelated = false;
   $scope.alerts = null;
 
+  //details section vars
+  $scope.addPhone = addPhone;
+  $scope.dateConfig = {
+    //model
+    modelFormat: 'YYYY-MM-DD',
+    formatSubmit: 'yyyy-mm-dd',
+
+    //view
+    viewFormat: 'DD-MM-YYYY',
+    format: 'dd-mm-yyyy',
+
+    //options
+    selectMonths: true,
+    selectYears: '100',
+    max: true
+  };
+
+  //booking section
+  var cachedBookings = {};
+  $scope.priceCalculated = false;
+  $scope.booking = {};
+  $scope.requiredValue = null;
+  $scope.isbooking = $stateParams.resourceId !== undefined ? true : false;
+  //licence upload sections
+  // licence images
+  var images = {
+    front: null
+  };
+
+  $scope.images = images;
+  $scope.containsLicence = false;
+  $scope.LicenceUploaded = false;
+  $scope.licenceFileName = 'Selecteer je rijbewijs';
+
+  // toggle the sections
   $scope.nextSection = function () {
     if ($scope.detailNumber < 2) {
       $scope.detailNumber++;
@@ -37,6 +72,7 @@ angular.module('owm.person.details', [])
       $scope.detailNumber--;
     }
   };
+  // toggle the sections
 
   var setHeight = function (elementNumber) {
     angular.element('.details--profile__overview')[0].style.height = angular.element('#personal-data')[0].clientHeight + 'px';
@@ -159,21 +195,6 @@ angular.module('owm.person.details', [])
   };
 
 
-  $scope.dateConfig = {
-    //model
-    modelFormat: 'YYYY-MM-DD',
-    formatSubmit: 'yyyy-mm-dd',
-
-    //view
-    viewFormat: 'DD-MM-YYYY',
-    format: 'dd-mm-yyyy',
-
-    //options
-    selectMonths: true,
-    selectYears: '100',
-    max: true
-  };
-
   /*
    * remove all spaces
    */
@@ -184,7 +205,6 @@ angular.module('owm.person.details', [])
     }
     return out;
   }
-  $scope.addPhone = addPhone;
 
   function addPhone() {
     $scope.person.phoneNumbers = $scope.person.phoneNumbers || [];
@@ -249,16 +269,6 @@ angular.module('owm.person.details', [])
     }
   }
 
-  // licence images
-  var images = {
-    front: null
-  };
-
-  $scope.images = images;
-  $scope.containsLicence = false;
-  $scope.LicenceUploaded = false;
-  $scope.licenceFileName = 'Selecteer je rijbewijs';
-
   angular.element('#licenseFrontFile').on('change', function (e) {
     $scope.$apply(function () {
       images.front = e.target.files[0];
@@ -309,11 +319,6 @@ angular.module('owm.person.details', [])
       });
   };
   //booking
-  var cachedBookings = {};
-  $scope.priceCalculated = false;
-  $scope.booking = {};
-  $scope.requiredValue = null;
-
   $scope.createBooking = function () {
     var resourceId = $stateParams.resourceId,
       discountCode = $stateParams.discountCode,
@@ -323,34 +328,38 @@ angular.module('owm.person.details', [])
         startDate: moment($stateParams.startDate).format(API_DATE_FORMAT),
         endDate: moment($stateParams.endDate).format(API_DATE_FORMAT)
       };
-
-    bookingService.create({
-      resource: resourceId,
-      timeFrame: timeFrame,
-      person: me.id,
-      remark: remarkRequester
-    }).then(function (value) {
-      if (discountCode !== undefined) {
-        //set the discount
-        discountService.apply({
-          booking: value.id,
-          discount: discountCode
-        }).catch(function (err) {
-          alertService.addError(err);
+    if ($scope.isbooking) {
+      bookingService.create({
+        resource: resourceId,
+        timeFrame: timeFrame,
+        person: me.id,
+        remark: remarkRequester
+      }).then(function (value) {
+        if (discountCode !== undefined) {
+          //set the discount
+          discountService.apply({
+            booking: value.id,
+            discount: discountCode
+          }).catch(function (err) {
+            alertService.addError(err);
+          });
+        }
+        return value;
+      }).then(function (value) {
+        $scope.nextSection();
+        getRequiredValue(value).then(getBookings).finally(function () {
+          alertService.loaded($scope);
+          $scope.booking = $scope.requiredValue.bookings[0];
+          $scope.priceCalculated = true;
         });
-      }
-      return value;
-    }).then(function (value) {
-      $scope.nextSection();
-      getRequiredValue(value).then(getBookings).finally(function () {
-        alertService.loaded($scope);
-        $scope.booking = $scope.requiredValue.bookings[0];
-        $scope.priceCalculated = true;
+      }).catch(function (err) {
+        alertService.addError(err);
       });
-    }).catch(function (err) {
-      alertService.addError(err);
-    });
+    } else {
+      $scope.nextSection();
+    }
   };
+
   function getRequiredValue(bookingData) {
     var bookingObject = {};
     if (bookingData.approved === 'BUY_VOUCHER') {
@@ -482,6 +491,4 @@ angular.module('owm.person.details', [])
     }
   }
   //change status
-
-  console.log($scope);
 });

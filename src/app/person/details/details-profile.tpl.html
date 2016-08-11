@@ -8,7 +8,7 @@
     <!-- PERSONAL DATA  -->
     <div class="card animated section-transion details--card__section" id="personal-data" ng-show="showFirst">
         <div class="card-body details--card">
-            <section resource-sidebar class="details--profile__sidebar"></section>
+            <section resource-sidebar class="details--profile__sidebar" ng-if="isbooking"></section>
             <form class="mywheels-form details--profile--form" name="personalDataForm" ng-submit="subscribe(credentials, person, license_front)">
                 <h2 class="card-title">{{ 'DETAILS_PROFILE_BASIC' | translate }}</h2>
                 <h3>{{ 'MY_PROFILE_PERSONAL' | translate }}</h3>
@@ -138,7 +138,7 @@
     <!-- card -->
     <div class="card animated section-transion details--card__section" id="license-upload" ng-show="showSecond">
         <div class="card-body details--license-upload details--card">
-            <section resource-sidebar class="details--profile__sidebar"></section>
+            <section resource-sidebar class="details--profile__sidebar" ng-if="isbooking"></section>
             <!-- upload license -->
             <section class="details--card--form">
                 <h2 class="card-title">{{ 'DETAILS_PROFILE_LICENCE' | translate }}</h2>
@@ -189,15 +189,15 @@
     <!-- card -->
     <div class="card animated section-transion details--card__section" ng-show="showThird">
         <div class="card-body details--card">
-            <section resource-sidebar class="details--profile__sidebar"></section>
-            <section class="details--card--form">
+            <section resource-sidebar class="details--profile__sidebar" ng-if="isbooking"></section>
+            <section class="details--card--form" ng-if="isbooking">
                 <h2 class="card-title">{{ 'DETAILS_PROFILE_NEARLY' | translate }}</h2>
                 <p ng-if="booking.approved ===  'BUY_VOUCHER' ">
                     {{ 'DETAILS_PROFILE_PAY_APPROVED' | translate }}
                 </p>
                 <p ng-if="booking.approved !==  'BUY_VOUCHER'" translate="DETAILS_PROFILE_PAY_NOT_APPROVED" translate-values="{firstName: person.firstName,preposition: person.preposition,surname: person.surname,renter: person.firstName }"></p>
 
-                <voucher data="{{ booking }}" ng-if="priceCalculated"></voucher>
+                <voucher data="{{ booking }}" ng-if="priceCalculated && isbooking"></voucher>
                 <p ng-if="booking.approved !==  'BUY_VOUCHER' ">
                     {{ 'DETAILS_PROFILE_PAY_NOT_APPROVED_OTHER' | translate }}
                 </p>
@@ -207,7 +207,7 @@
                         {{ 'PREVIOUS' | translate}}
                     </button>
                     <div>
-                        <button type="button" name="button" class="mywheels-btn mywheels-btn-default btn--navigation__next" ng-if="booking.approved !==  'BUY_VOUCHER' ">
+                        <button type="button" name="button" class="mywheels-btn mywheels-btn-default btn--navigation__next" ng-if="booking.approved !==  'BUY_VOUCHER' " ui-sref="owm.person.profile">
                             {{ 'FILL_PERSON_INFO' | translate }}
                             <md-icon class="text-white">navigate_next</md-icon>
                         </button>
@@ -217,6 +217,25 @@
                         </button>
                     </div>
                 </div>
+            </section>
+            <section ng-if="!isbooking" class="details--card--form">
+
+                <h2 class="card-title">{{ 'FILL_PERSON_INFO' | translate }}</h2>
+                <p>Maak direct je eerste boeking! Je kunt kiezen uit een groot aantal auto's in de buurt. Auto's met het label Smartwheels open je met een OV-chipkaart of smartphone, auto’s zonder dit label open je met de sleutel. Spreek dan even met de
+                    verhuurder af wanneer je de sleutel ophaalt.</p>
+
+                <!-- call to action buttons -->
+                <div class="details--card--form__navigation-buttons">
+                    <button rel="prev" type="button" class="mywheels-btn mywheels-btn-transparant btn--navigation__previous" md-ink-ripple="#ded8d8" ng-click="prevSection(1, 2)">
+                        <md-icon>navigate_before</md-icon>
+                        {{ 'PREVIOUS' | translate}}
+                    </button>
+                    <button type="button" name="button" ui-sref="owm.resource.search.list" class="mywheels-btn mywheels-btn-default btn--navigation__next">
+                        Zoek nu een auto
+                        <md-icon class="text-white">navigate_next</md-icon>
+                    </button>
+                </div>
+                <!-- /call to action buttons -->
             </section>
         </div>
     </div>

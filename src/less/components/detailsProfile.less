@@ -2,6 +2,10 @@
     position: relative;
     display: block;
 }
+.details--card__section {
+    width: 100%;
+    margin: 0 auto;
+}
 // progress bar top
 .progress--steps {
     text-align: center;
@@ -145,7 +149,7 @@
             margin-bottom: 14px;
         }
         section {
-            margin-top: 1em;
+            margin: 1em 0 0;
         }
         span {
             white-space: normal;
@@ -161,6 +165,8 @@
     }
     .details--card--form,
     .details--profile--form {
+        max-width: 35em;
+        margin: 0 auto;
         flex-basis: 65%;
         flex-grow: 1;
         min-width: 65%;
@@ -174,6 +180,7 @@
     min-height: 23em;
     img {
         max-width: 100%;
+        max-height: 30em;
     }
 }
 // gender option toggle
@@ -211,8 +218,8 @@
         padding: 0.5em;
         margin: 0;
     }
-    label:active{
-      background: #699b40;
+    label:active {
+        background: #699b40;
     }
     label:hover {
         background: rgba(0, 0, 0, 0.12);
