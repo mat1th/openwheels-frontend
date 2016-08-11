@@ -323,7 +323,7 @@ angular.module('owm.resource.reservationForm', [])
       // Als je nog niet bent ingelogd is er
       // even een andere flow nodig
       $mdDialog.show({
-          controller: dialogController,
+          controller: ['$scope', 'authService', dialogController],
           templateUrl: 'resource/components/ReservationFormDialog.tpl.html',
           clickOutsideToClose: true,
           scope: $scope,
