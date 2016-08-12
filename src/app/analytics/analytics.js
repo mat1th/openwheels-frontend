@@ -23,31 +23,113 @@ angular.module('openwheels.analytics', [])
   }];
 })
 
+  .config(function(AnalyticsProvider, appConfig) {
+    AnalyticsProvider
+    .setAccount(appConfig.ga_tracking_id)
+    .trackUrlParams(true)
+    .ignoreFirstPageLoad(true)
+    .setPageEvent('$stateChangeSuccess')
+    .useDisplayFeatures(true)
+    ;
+  })
+  ;
+/*
+LIST OF ALL EVENTS
 
-.provider('googleAnalytics', function() {
+BOOKING
+  + created
+    - label: (boolean) isAuthenticated
+    - value: fix number 11 iif owner 282
+    - triggers:
+        - reservationForm.tpl click button
+          * condition: button not disabled
+    
+  + cancelled_renter
+    - label: booking.id
+    - value:
+    - triggers:
+        - BookingShowController.js then after bookingService.cancel
+  
+  + cancelled_owner
+    - label: booking.id
+    - value:
+    - triggers:
+        - BookingShowController.js then after bookingService.cancel
+  
+  + rejected
+    - label: booking.id
+    - value:
+    - triggers
+      - BookingModule.js OnEnter state owm.booking.reject
+      - BookingShowController.js then after bookingService.rejectRequest
+  
+  + accepted
+    - label: booking.id
+    - value: 4
+    - triggers
+      - BookingModule.js OnEnter state owm.booking.accept
+      - BookingShowController.js then after bookingService.acceptRequest
+  
+  + form_interaction
+    - label:
+    - value:
+  
+  + discount_applied
+    - label:
+    - value:
+    - triggers
+      - ReservationFrom.js then after discountService.isApplicable
+  
+  
+RESOURCE
+  + resource_created
+    - label: resource.id
+    - triggers
+      - ResourceCreateController then after resourceService.create
 
-  this.init = function (trackingId) {
+  + discount_created
+    - label: resource.id
+    - triggers
+      - discountList.js then after $mdDialog.show
 
-    /* jshint ignore:start */
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-    /* jshint ignore:end */
+  + picture_uploaded
+    - label: resource.id
+    - triggers
+      - ResourceEditPicturesController then after resourceService.addPicture
 
-    window.ga('create', trackingId, 'auto');
+  + info_edited
+    - label: resource.id
+    - triggers
+      - ResourceEditSharingsettingsController then after resourceService.alter
 
-    window.ga('require', 'pageVisibilityTracker');
-    window.ga('require', 'eventTracker');
-    window.ga('require', 'urlChangeTracker');
+  + calendar_edited
+    - label: resource.id
+    - triggers
+      - ResourceShowCalendarController then after calendarService.createPeriodic and calendarService.createBlock
 
-    window.ga('send', 'pageview');
-  };
 
-  this.$get = ['$log', function ($log) {
-    return window.ga || function() {
-      $log.debug('google analytics (disabled): ', arguments);
-    };
-  }];
-});
+PERSON
+  + created
+  + edited
+  + driverlicense_uploaded
+  + profilepicture_uploaded
+  + tripdata_entered
+  + contract_ended
+  
 
+DISCOVERY
+  + search
+  + filters_applied
+  + show_car
+    - label: resource_id
+  + show_calendar
+    - label: resource_id
+  + send_message
+    - label: resource.id
+
+  
+  PAYMENT
+  + Payment tried
+  + Payment made but failed
+  + Payment succeeded (LABEL waarde voor Payments)
+*/
