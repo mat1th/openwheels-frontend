@@ -7,7 +7,7 @@ angular.module('owm.resource.show.calendar', [
   'owm.models.calendar.blockingEvent'
 ])
 
-  .controller('ResourceShowCalendarController', function ($location, $scope, $state, $stateParams, $filter, $uibModal, $translate, me, calendarService, bookings, resource, blockings, BlockingEvent, BookingEvent, API_DATE_FORMAT) {
+  .controller('ResourceShowCalendarController', function ($location, $scope, $state, $stateParams, $filter, $uibModal, $translate, me, calendarService, bookings, resource, blockings, BlockingEvent, BookingEvent, API_DATE_FORMAT, Analytics) {
     $scope.me = me;
     $scope.resource = resource;
     $scope.view = $stateParams.view || 'agendaWeek';
@@ -161,9 +161,11 @@ angular.module('owm.resource.show.calendar', [
               calendarService.createPeriodic({
                 resource: resource.id,
                 otherProps: otherProps
-              }).then(
-                reload
-              );
+              }).then(function(result) {
+                  reload(result);
+                  Analytics.trackEvent('resource', 'calendar_edited', resource.id);
+                  return;
+                });
             } else {
               calendarService.createBlock({
                 otherProps: {
@@ -172,6 +174,7 @@ angular.module('owm.resource.show.calendar', [
                 },
                 resource: resource.id
               }).then(function (blocking) {
+                Analytics.trackEvent('resource', 'calendar_edited', resource.id);
                 $scope.events.push(new BlockingEvent(blocking));
                 renderCalendar();
               });

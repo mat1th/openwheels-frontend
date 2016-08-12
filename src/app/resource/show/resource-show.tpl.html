@@ -95,10 +95,10 @@
                     <div class="text-center" ng-if="showBookingFormToggle">
                         <p>
                             <button ng-if="!me" class="btn btn-success" ng-click="toggleBookingForm()">
-                              1233{{ 'CREATE_BOOKING' | translate }}{{me}}!
+                              1233{{ 'CREATE_BOOKING' | translate }}
                             </button>
                             <button ng-if="me" class="btn btn-success" ng-click="toggleBookingForm()">
-                              456{{ 'CREATE_BOOKING' | translate }}{{me}}?
+                              {{ 'CREATE_BOOKING' | translate }}
                             </button>
                             <a class="btn btn-default" ui-sref="owm.resource.calendar({city: resource.city, resourceId: resource.id})">
                                 <i class="fa fa-calendar"></i> {{ 'CALENDAR_BUTTON' | translate }}
