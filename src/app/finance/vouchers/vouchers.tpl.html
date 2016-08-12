@@ -63,56 +63,7 @@
                 </div>
             </div>
 
-            <table class="table">
-                <tbody>
-                    <tr>
-                        <td style="width:100%">Huur</td>
-                        <td class="text-right">{{ booking.booking_price.sub_total | currency }}</td>
-                    </tr>
-                    <tr>
-                        <td>Boekingskosten</td>
-                        <td class="text-right">{{ booking.booking_price.booking_fee | currency }}</td>
-                    </tr>
-                    <tr>
-                        <td style="background: #eee; padding: 20px 20px 25px 10px">
-                            <div class="media">
-                                <div class="media-object pull-left">
-                                    <input type="checkbox" ng-disabled="redemptionPending[booking.id]" ng-model="booking.riskReduction" ng-click="toggleRedemption(booking)" />
-                                </div>
-                                <div class="media-body" style="padding:0">
-                                    <b>Eigen risico verlagen</b>
-                                    <br/> Het eigen risico bij schade is in de meeste gevallen 250 euro. Voor slechts 3,50 euro per dag verlaag je het eigen risico met 250 euro en kun je onbezorgd op weg. <a href="https://mywheels.nl/autodelen/hoe-huren-werkt/verzekering/">Lees meer</a>.
-                                </div>
-                            </div>
-                        </td>
-
-                        <td class="text-right" style="background: #eee; padding: 20px 10px 25px 0">
-                            <i ng-if="redemptionPending[booking.id]" class="fa fa-spinner fa-spin fa-fw"></i>
-                            <span ng-if="!redemptionPending[booking.id]">{{ booking.booking_price.redemption | currency }}</span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            Geschatte kilometers
-                            <info-icon tooltip-placement="bottom" tooltip-html="'Dit is een schatting van de kilometerkosten. Na afloop kun je teveel betaald rijtegoed terugvragen.'"></info-icon>
-                        </td>
-                        <td class="text-right">{{ booking.km_price | currency }}</td>
-                    </tr>
-                    <tr>
-                        <td><b>Totale huurprijs</b></td>
-                        <td class="text-right"><b>{{ (booking.booking_price.total + booking.km_price) | currency }}</b></td>
-                    </tr>
-
-                    <tr ng-if="booking.discount > 0">
-                        <td style="padding-top:25px">Af: korting</td>
-                        <td class="text-right" style="padding-top:25px">{{ booking.discount | currency }}</td>
-                    </tr>
-                    <tr ng-if="booking.discount > 0">
-                        <td><b>Totaal</b></td>
-                        <td class="text-right"><b>{{ (booking.booking_price.total + booking.km_price - booking.discount) | currency }}</b></td>
-                    </tr>
-                </tbody>
-            </table>
+            <voucher data="{{ booking }}"></voucher>
 
         </div>
         <!-- /body -->
@@ -174,6 +125,11 @@
                     </div>
                 </div>
                 <a href="" ng-click="toggleVoucherOptions(false)">Annuleren</a>
+            </div>
+            <div ng-if="me.numberOfBookings <= 2">
+              <p class="mywheels-btn-margin-top">
+                <b>Let op:</b> om je betaling te kunnen verwerken moet de naam van de rekening overeenkomen met de naam op je account.
+              </p>
             </div>
 
         </div>

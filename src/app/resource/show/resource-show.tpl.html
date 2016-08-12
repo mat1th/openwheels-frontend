@@ -95,10 +95,10 @@
                     <div class="text-center" ng-if="showBookingFormToggle">
                         <p>
                             <button ng-if="!me" class="btn btn-success" ng-click="toggleBookingForm()">
-                              1233{{ 'CREATE_BOOKING' | translate }}{{me}}!
+                              {{ 'CREATE_BOOKING' | translate }}
                             </button>
                             <button ng-if="me" class="btn btn-success" ng-click="toggleBookingForm()">
-                              456{{ 'CREATE_BOOKING' | translate }}{{me}}?
+                              {{ 'CREATE_BOOKING' | translate }}
                             </button>
                             <a class="btn btn-default" ui-sref="owm.resource.calendar({city: resource.city, resourceId: resource.id})">
                                 <i class="fa fa-calendar"></i> {{ 'CALENDAR_BUTTON' | translate }}
@@ -135,7 +135,7 @@
                             <div><span badge-list="resource.owner.badges"></span></div>
 
                             <button ng-if="me" type="button" class="btn btn-link" ng-click="openChatWith(resource.owner)">
-                                <i class="fa fa-comment fa-fw"></i> Stuur een bericht
+                                <i class="fa fa-comment fa-fw"></i> {{ 'SEND_MESSAGE' | translate }}
                             </button>
                         </div>
                     </div>
@@ -166,7 +166,7 @@
                             <div><span badge-list="resource.contactPerson.badges"></span></div>
 
                             <button ng-if="me" type="button" class="btn btn-link" ng-click="openChatWith(resource.contactPerson)">
-                                <i class="fa fa-comment fa-fw"></i> Stuur een bericht
+                                <i class="fa fa-comment fa-fw"></i> {{ 'SEND_MESSAGE' | translate }}
                             </button>
                         </div>
                     </div>

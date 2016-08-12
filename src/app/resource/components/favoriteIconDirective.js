@@ -21,24 +21,25 @@ angular.module('owm.resource.favoriteIcon', [])
       $scope.toggle = function (bool, $event) {
         $event.stopPropagation();
 
-        var params = { resource: $scope.resource.id };
+        var params = {
+          resource: $scope.resource.id
+        };
         var method = bool ? resourceService.addFavorite : resourceService.removeFavorite;
 
         $scope.busy = true;
         method(params).then(function () {
-          $scope.isFavorite = bool;
-        })
-        .catch(function (err) {
-          alertService.addError(err);
-        })
-        .finally(function () {
-          $scope.busy = false;
-        });
+            $scope.isFavorite = bool;
+          })
+          .catch(function (err) {
+            alertService.addError(err);
+          })
+          .finally(function () {
+            $scope.busy = false;
+          });
       };
     },
 
     link: function (scope, elm, attrs) {
-
       if (scope.resource.label) {
         $compile(tpl)(scope, function (clone) {
           elm.replaceWith(clone);
@@ -47,7 +48,5 @@ angular.module('owm.resource.favoriteIcon', [])
         elm.remove();
       }
     },
-
-
   };
 });
