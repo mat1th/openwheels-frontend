@@ -36,7 +36,7 @@ angular.module('openwheels.analytics', [])
 /*
 LIST OF ALL EVENTS
 
-BOOKING
+BOOKING - DONE
   + created
     - label: (boolean) isAuthenticated
     - value: fix number 11 iif owner 282
@@ -79,46 +79,72 @@ BOOKING
     - value:
     - triggers
       - ReservationFrom.js then after discountService.isApplicable
+
+  + tripdata_entered
+    - label: booking.id
+    - value:
+    - triggers
+      - BookingAdministerController then after bookingService.setTrip
+
   
-  
-RESOURCE
+RESOURCE - DONE
   + resource_created
     - label: resource.id
+    - value:
     - triggers
       - ResourceCreateController then after resourceService.create
 
   + discount_created
     - label: resource.id
+    - value:
     - triggers
       - discountList.js then after $mdDialog.show
 
   + picture_uploaded
     - label: resource.id
+    - value:
     - triggers
       - ResourceEditPicturesController then after resourceService.addPicture
 
   + info_edited
     - label: resource.id
+    - value:
     - triggers
       - ResourceEditSharingsettingsController then after resourceService.alter
 
   + calendar_edited
     - label: resource.id
+    - value:
     - triggers
       - ResourceShowCalendarController then after calendarService.createPeriodic and calendarService.createBlock
 
 
-PERSON
+PERSON - DONE
   + created
+    > postponed untill new flow has been finished
+
   + edited
+    > postponed untill new flow has been finished
+
   + driverlicense_uploaded
+    > postponed untill new flow has been finished
+
   + profilepicture_uploaded
-  + tripdata_entered
+    > postponed untill new flow has been finished
+
   + contract_ended
-  
+    - label: contract.id
+    - value:
+    - triggers
+      - PersonContractIndexController then after contractService.alter
 
 DISCOVERY
   + search
+    - label: (boolean) isAuthenticated
+    - value:
+    - triggers
+      - ResourcheSearchController then after resourceService.searchV2
+
   + filters_applied
   + show_car
     - label: resource_id
