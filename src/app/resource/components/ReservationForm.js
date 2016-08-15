@@ -23,7 +23,6 @@ angular.module('owm.resource.reservationForm', [])
   handleAuthRedirect();
 
   $scope.features = $rootScope.features;
-
   $scope.dateConfig = {
     modelFormat: API_DATE_FORMAT,
     formatSubmit: 'yyyy-mm-dd',
@@ -239,8 +238,8 @@ angular.module('owm.resource.reservationForm', [])
     error: false
   };
 
-  $scope.riskReductionChanged = function() {
-    if($scope.booking.riskReduction) {
+  $scope.riskReductionChanged = function () {
+    if ($scope.booking.riskReduction) {
       $scope.price.redemption = 3.5;
       $scope.price.total += 3.5;
     } else {
@@ -312,7 +311,8 @@ angular.module('owm.resource.reservationForm', [])
   }
 
   function dialogController($scope, authService) {
-    $scope.url = 'owm.person.details';
+    $scope.url = 'owm.person.details({pageNumber: \'1\'})';
+
     $scope.hide = function () {
       $mdDialog.hide();
     };
@@ -323,30 +323,35 @@ angular.module('owm.resource.reservationForm', [])
       $mdDialog.hide(answer);
     };
   }
-
+  $scope.createBookings = function () {
+    console.log('hoi');
+  };
   $scope.createBooking = function (booking) {
+    console.log('createBooking');
     if (!booking.beginRequested || !booking.endRequested) {
       return alertService.add('danger', $filter('translate')('DATETIME_REQUIRED'), 5000);
     }
-
+    console.log('hopi9');
     if (!$scope.features.signupFlow && !$scope.person) { // not logged in
       $state.go('owm.auth.signup');
       return;
     } else if (!$scope.person) { // not logged in
       // Als je nog niet bent ingelogd is er
       // even een andere flow nodig
-      $mdDialog.show({
+      return $mdDialog.show({
           controller: ['$scope', 'authService', dialogController],
           templateUrl: 'resource/components/ReservationFormDialog.tpl.html',
           clickOutsideToClose: true,
           scope: $scope,
           fullscreen: $mdMedia('xs'),
         })
-        .then(function (answer) {});
-      return;
+        .then(function (answer) {
+          console.log();
+        });
 
     } else if ($scope.person.status === 'new' && $scope.features.signupFlow) { // upload driver's license
-      $state.go('owm.person.details', { // should register
+      return $state.go('owm.person.details', { // should register
+        pageNumber: '1',
         city: $scope.resource.city ? $scope.resource.city : 'utrecht',
         resourceId: $scope.resource.id,
         startDate: booking.beginRequested,
@@ -355,7 +360,7 @@ angular.module('owm.resource.reservationForm', [])
         remarkRequester: booking.remarkRequester,
         riskReduction: booking.riskReduction
       });
-      return;
+
 
     } else if ($scope.person.status === 'new' && !$scope.features.signupFlow) {
       return alertService.add('danger', 'Voordat je een auto kunt boeken, hebben we nog wat gegevens van je nodig.', 5000);

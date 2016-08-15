@@ -30,6 +30,7 @@ angular.module('signupFormDirective', [])
           value: 'both'
         }];
       };
+
       $scope.$on('$translateChangeSuccess', function () {
         initOptions();
       });
@@ -55,11 +56,16 @@ angular.module('signupFormDirective', [])
 
       $scope.signup = function () {
         alertService.load();
+        if ($scope.url === 'owm.person.details({pageNumber: \'1\'})') {
+          $scope.user.preference = 'renter';
+        }
+        
         var email = $scope.auth.email,
           password = $scope.auth.password,
           user = $scope.user,
           terms = $scope.auth.terms,
           preference = user.preference;
+
 
         if (email && password && user) {
           if (preference) {
@@ -69,10 +75,11 @@ angular.module('signupFormDirective', [])
                   password: password,
                   other: user
                 }).then(function () {
-                  if ($scope.url === 'owm.person.details') {
+                  if ($scope.url === 'owm.person.details({pageNumber: \'1\'})') {
                     var booking = $scope.booking;
                     var resource = $scope.resource;
                     $state.go('owm.person.details', { // should register
+                      pageNumber: '1',
                       city: resource.city ? resource.city : 'utrecht',
                       resourceId: resource.id,
                       startDate: booking.beginRequested,
