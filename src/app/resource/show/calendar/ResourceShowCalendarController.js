@@ -12,6 +12,8 @@ angular.module('owm.resource.show.calendar', [
     $scope.resource = resource;
     $scope.view = $stateParams.view || 'agendaWeek';
 
+    Analytics.trackEvent('discovery', 'show_calendar', resource.id);
+
     function renderCalendar() {
       $scope.calendar.fullCalendar('render');
     }

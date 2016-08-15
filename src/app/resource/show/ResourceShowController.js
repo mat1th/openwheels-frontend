@@ -6,6 +6,7 @@ angular.module('owm.resource.show', [])
   authService, resourceService, bookingService, invoice2Service, boardcomputerService, alertService, chatPopupService,
   ratingService, API_DATE_FORMAT, resource, me, resourceQueryService, featuresService, $stateParams, linksService, Analytics) {
 
+  Analytics.trackEvent('discovery', 'show_car', resource.id);
   /**
    * Warning: 'me' will be null for anonymous users
    */
@@ -23,7 +24,6 @@ angular.module('owm.resource.show', [])
   $scope.shareUrl = featuresService.get('serverSideShare') ? linksService.resourceUrl(resource.id, resource.city) : $window.location.href;
   $log.debug('Share url = ' + $scope.shareUrl);
 
-  Analytics.trackEvent('discovery', 'show_car', resource.id);
 
   /**
    * Init
