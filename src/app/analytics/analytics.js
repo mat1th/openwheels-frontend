@@ -116,10 +116,11 @@ RESOURCE - DONE
     - label: resource.id
     - value:
     - triggers
-      - ResourceShowCalendarController then after calendarService.createPeriodic and calendarService.createBlock
+      - ResourceShowCalendarController then after calendarService.createPeriodic
+      - ResourceShowCalendarController then after calendarService.createBlock
 
 
-PERSON - DONE
+PERSON - PARTLY DONE + PARTLY POSPONED
   + created
     > postponed untill new flow has been finished
 
@@ -138,24 +139,57 @@ PERSON - DONE
     - triggers
       - PersonContractIndexController then after contractService.alter
 
-DISCOVERY
+
+DISCOVERY - DONE
   + search
     - label: (boolean) isAuthenticated
     - value:
     - triggers
-      - ResourcheSearchController then after resourceService.searchV2
+      - ResourceSearchController then after resourceService.searchV2
 
   + filters_applied
+    - label:
+    - value:
+    - triggers
+      - ResourceSearchController in sidebarFiltersChanged()
+      - ResourceSearchController then after results
+
   + show_car
     - label: resource_id
+    - value:
+    - triggers
+      - ResourceShowController first lines of controller
+
   + show_calendar
-    - label: resource_id
-  + send_message
     - label: resource.id
+    - value:
+    - triggers
+      - ResourceShowCalendarController first lines of controller
+
+  + send_message
+    - label: resource_id
+    - value:
+    - triggers
+      - chatPopupController then after messageService.sendMessageTo
 
   
-  PAYMENT
-  + Payment tried
-  + Payment made but failed
-  + Payment succeeded (LABEL waarde voor Payments)
+PAYMENT - DONE
+  + started
+    - label:
+    - value:
+    - triggers
+      - vouchersController in buyVoucher()
+
+  + failed
+    - label:
+    - value:
+    - triggers
+      - paymentResultController in init()
+
+  + success
+    - label:
+    - value:
+    - triggers
+      - paymentResultController in init()
+
 */
