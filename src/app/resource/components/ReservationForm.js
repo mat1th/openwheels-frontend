@@ -310,9 +310,10 @@ angular.module('owm.resource.reservationForm', [])
     if ($location.search().authredirect) {}
   }
 
-  function dialogController($scope, authService) {
+  function dialogController($scope, $mdDialog, authService, booking, resource) {
     $scope.url = 'owm.person.details({pageNumber: \'1\'})';
-
+    $scope.booking = booking;
+    $scope.resource = resource;
     $scope.hide = function () {
       $mdDialog.hide();
     };
@@ -323,32 +324,25 @@ angular.module('owm.resource.reservationForm', [])
       $mdDialog.hide(answer);
     };
   }
-  $scope.createBookings = function () {
-    console.log('hoi');
-  };
   $scope.createBooking = function (booking) {
-    console.log('createBooking');
     if (!booking.beginRequested || !booking.endRequested) {
       return alertService.add('danger', $filter('translate')('DATETIME_REQUIRED'), 5000);
     }
-    console.log('hopi9');
     if (!$scope.features.signupFlow && !$scope.person) { // not logged in
-      $state.go('owm.auth.signup');
-      return;
+      return $state.go('owm.auth.signup');
     } else if (!$scope.person) { // not logged in
       // Als je nog niet bent ingelogd is er
       // even een andere flow nodig
       return $mdDialog.show({
-          controller: ['$scope', 'authService', dialogController],
-          templateUrl: 'resource/components/ReservationFormDialog.tpl.html',
-          clickOutsideToClose: true,
-          scope: $scope,
-          fullscreen: $mdMedia('xs'),
-        })
-        .then(function (answer) {
-          console.log();
-        });
-
+        controller: ['$scope', '$mdDialog', 'authService', 'booking', 'resource', dialogController],
+        templateUrl: 'resource/components/ReservationFormDialog.tpl.html',
+        clickOutsideToClose: true,
+        locals: {
+          booking: $scope.booking,
+          resource: $scope.resource
+        },
+        fullscreen: $mdMedia('xs')
+      });
     } else if ($scope.person.status === 'new' && $scope.features.signupFlow) { // upload driver's license
       return $state.go('owm.person.details', { // should register
         pageNumber: '1',
@@ -360,8 +354,6 @@ angular.module('owm.resource.reservationForm', [])
         remarkRequester: booking.remarkRequester,
         riskReduction: booking.riskReduction
       });
-
-
     } else if ($scope.person.status === 'new' && !$scope.features.signupFlow) {
       return alertService.add('danger', 'Voordat je een auto kunt boeken, hebben we nog wat gegevens van je nodig.', 5000);
     } else if (!booking.contract) { // should pay deposit to get a contract
@@ -370,26 +362,26 @@ angular.module('owm.resource.reservationForm', [])
     alertService.load();
 
     return authService.me().then(function (me) {
-      /**
-       * Create booking
-       */
-      return bookingService.create({
-        resource: $scope.resource.id,
-        timeFrame: {
-          startDate: booking.beginRequested,
-          endDate: booking.endRequested
-        },
-        person: me.id,
-        contract: booking.contract.id,
-        remark: booking.remarkRequester,
-        riskReduction: booking.riskReduction
-      });
-    })
-
-    /**
-     * Apply discount (only if we have a discount code)
-     */
-    .then(function (response) {
+        /**
+         * Create booking
+         */
+        return bookingService.create({
+          resource: $scope.resource.id,
+          timeFrame: {
+            startDate: booking.beginRequested,
+            endDate: booking.endRequested
+          },
+          person: me.id,
+          contract: booking.contract.id,
+          remark: booking.remarkRequester,
+          riskReduction: booking.riskReduction
+        });
+      })
+      //
+      // /**
+      //  * Apply discount (only if we have a discount code)
+      //  */
+      .then(function (response) {
         if (!booking.discountCode) {
           return response;
         } else {
