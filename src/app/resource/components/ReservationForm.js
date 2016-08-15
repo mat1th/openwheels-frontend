@@ -215,13 +215,16 @@ angular.module('owm.resource.reservationForm', [])
   $scope.priceHtml = function (price) {
     var s = '';
     if (price.rent > 0) {
-      s += 'Huur: ' + $filter('currency')(price.rent) + '<br/>';
+      s += 'Huuur: ' + $filter('currency')(price.rent) + '<br/>';
     }
     if (price.insurance > 0) {
       s += 'Verzekering: ' + $filter('currency')(price.insurance) + '<br/>';
     }
     if (price.booking_fee > 0) {
       s += 'Boekingskosten: ' + $filter('currency')(price.booking_fee) + '<br/>';
+    }
+    if (price.redemption > 0) {
+      s += 'Afkoop eigenrisico: ' + $filter('currency')(price.redemption) + '<br/>';
     }
     s += 'Totaal: ' + $filter('currency')(price.total);
     return s;
@@ -234,6 +237,16 @@ angular.module('owm.resource.reservationForm', [])
     showSpinner: false,
     success: false,
     error: false
+  };
+
+  $scope.riskReductionChanged = function() {
+    if($scope.booking.riskReduction) {
+      $scope.price.redemption = 3.5;
+      $scope.price.total += 3.5;
+    } else {
+      $scope.price.redemption = 0;
+      $scope.price.total -= 3.5;
+    }
   };
 
 
@@ -323,7 +336,7 @@ angular.module('owm.resource.reservationForm', [])
       // Als je nog niet bent ingelogd is er
       // even een andere flow nodig
       $mdDialog.show({
-          controller: dialogController,
+          controller: ['$scope', 'authService', dialogController],
           templateUrl: 'resource/components/ReservationFormDialog.tpl.html',
           clickOutsideToClose: true,
           scope: $scope,
