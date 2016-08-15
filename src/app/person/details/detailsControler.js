@@ -363,6 +363,7 @@ angular.module('owm.person.details', [])
   $scope.createBookingFlow = function () {
     alertService.load();
     $scope.isBusy = true;
+    console.log(1);
     var resourceId = $stateParams.resourceId,
       discountCode = $stateParams.discountCode,
       remarkRequester = $stateParams.remarkRequester,
@@ -385,6 +386,7 @@ angular.module('owm.person.details', [])
             booking: value.id,
             discount: discountCode
           }).catch(function (err) {
+            $scope.isBusy = false;
             alertService.addError(err);
           });
         }
@@ -395,25 +397,24 @@ angular.module('owm.person.details', [])
           alertService.loaded($scope);
           $scope.booking = $scope.requiredValue.bookings[0];
           $scope.priceCalculated = true;
-
-          $scope.isBusy = false;
         });
       }).catch(function (err) {
         if (err.message === 'De auto is niet beschikbaar') {
           $scope.isAvailable = false;
-
           $scope.isBusy = false;
           $scope.nextSection();
         }
         alertService.addError(err);
+        alertService.loaded();
+        $scope.isBusy = false;
       });
     } else {
       $scope.isAvailable = true;
       $scope.nextSection();
-
       $scope.isBusy = false;
     }
   };
+
   $scope.skipFlow = function () {
     personService.emailBookingLink({
       person: me.id,
