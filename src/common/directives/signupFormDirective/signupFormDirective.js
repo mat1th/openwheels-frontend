@@ -8,7 +8,7 @@ angular.module('signupFormDirective', [])
     replace: true,
     transclude: true,
     templateUrl: 'directives/signupFormDirective/signupFormDirective.tpl.html',
-    controller: function ($scope, $rootScope, $state, $stateParams, $translate, $q, authService, featuresService, alertService, personService) {
+    controller: function ($scope, $rootScope, $state, $stateParams, $translate, $q, authService, featuresService, alertService, personService, $mdDialog) {
       $scope.auth = {};
       $scope.user = {};
       $scope.me = {};
@@ -30,6 +30,7 @@ angular.module('signupFormDirective', [])
           value: 'both'
         }];
       };
+
       $scope.$on('$translateChangeSuccess', function () {
         initOptions();
       });
@@ -55,6 +56,10 @@ angular.module('signupFormDirective', [])
 
       $scope.signup = function () {
         alertService.load();
+        if ($scope.url === 'owm.person.details({pageNumber: \'1\'})') {
+          $scope.user.preference = 'renter';
+        }
+
         var email = $scope.auth.email,
           password = $scope.auth.password,
           user = $scope.user,
@@ -69,10 +74,12 @@ angular.module('signupFormDirective', [])
                   password: password,
                   other: user
                 }).then(function () {
-                  if ($scope.url === 'owm.person.details') {
+                  if ($scope.url === 'owm.person.details({pageNumber: \'1\'})') {
                     var booking = $scope.booking;
                     var resource = $scope.resource;
+                    $mdDialog.cancel();
                     $state.go('owm.person.details', { // should register
+                      pageNumber: '1',
                       city: resource.city ? resource.city : 'utrecht',
                       resourceId: resource.id,
                       startDate: booking.beginRequested,
