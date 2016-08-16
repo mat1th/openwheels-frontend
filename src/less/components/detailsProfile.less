@@ -195,10 +195,15 @@
     align-content: flex-start;
     align-items: center;
     input {
-        display: none;
+        position: absolute;
+        left: -100000px;
     }
     input[type="radio"]:checked + label {
         background: @mywheels-green;
+        color: #fff;
+    }
+    input[type="radio"]:focus + label {
+        background: rgba(0, 0, 0, 0.12);
         color: #fff;
     }
 }
