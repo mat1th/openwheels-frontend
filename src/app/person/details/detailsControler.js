@@ -4,7 +4,6 @@ angular.module('owm.person.details', [])
 
 
 .controller('DetailsProfileController', function ($scope, $filter, $timeout, $translate, $window, $log, $state, $stateParams, person, alertService, personService, authService, me, dutchZipcodeService, voucherService, $q, appConfig, paymentService, bookingService, invoice2Service, discountService, API_DATE_FORMAT, $anchorScroll) {
-  // console.log($scope);
   $scope.isBusy = false;
 
   //person info
@@ -114,7 +113,6 @@ angular.module('owm.person.details', [])
     // Gender dropdown is bound to $scope.genderText instead of person.male
     // Binding to person.male doesn't work, because ng-options doesn't differentiate between false and null
     $scope.genderText = (person.male === true ? 'male' : (person.male === false ? 'female' : ''));
-    console.log($scope.person);
 
     $scope.date = {
       day: Number(moment($scope.person.dateOfBirth).format('DD')),
@@ -209,7 +207,6 @@ angular.module('owm.person.details', [])
     if (firstName && surname && year && month && day && male) {
 
       if (phoneNumbers) {
-        // console.log($scope.person);
         if (streetNumber && zipcode) {
           personService.alter({
               person: person.id,
@@ -363,7 +360,6 @@ angular.module('owm.person.details', [])
   $scope.createBookingFlow = function () {
     alertService.load();
     $scope.isBusy = true;
-    console.log(1);
     var resourceId = $stateParams.resourceId,
       discountCode = $stateParams.discountCode,
       remarkRequester = $stateParams.remarkRequester,
