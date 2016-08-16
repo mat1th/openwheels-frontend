@@ -325,12 +325,19 @@ angular.module('owm.resource.reservationForm', [])
     };
   }
   $scope.createBooking = function (booking) {
+
+
+    $rootScope.$watch(function isAuthenticated() {
+      console.log(authService.identity);
+      $scope.person = authService.identity;
+    });
     if (!booking.beginRequested || !booking.endRequested) {
       return alertService.add('danger', $filter('translate')('DATETIME_REQUIRED'), 5000);
     }
     if (!$scope.features.signupFlow && !$scope.person) { // not logged in
       return $state.go('owm.auth.signup');
     } else if (!$scope.person) { // not logged in
+      console.log('!person');
       // Als je nog niet bent ingelogd is er
       // even een andere flow nodig
       return $mdDialog.show({
