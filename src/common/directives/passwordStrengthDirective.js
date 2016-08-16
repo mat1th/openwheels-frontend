@@ -75,7 +75,7 @@ angular.module('passwordStrengthDirective', [])
         spanError: function (options, key) {
           var msg = options.ui.errorMessages[key];
           if (!msg) { return ''; }
-          return '<span class="help-block text-danger">' + msg + '</span>';
+          return '<span class="help-block">' + msg + '</span>';
         }
       };
 

@@ -3,15 +3,16 @@
 angular.module('owm.person.details', [])
 
 
-.controller('DetailsProfileController', function ($scope, $filter, $timeout, $translate, $window, $log, $state, $stateParams, person, alertService, personService, authService, me, dutchZipcodeService, voucherService, $q, appConfig, paymentService, bookingService, invoice2Service, discountService, API_DATE_FORMAT) {
-
+.controller('DetailsProfileController', function ($scope, $filter, $timeout, $translate, $window, $log, $state, $stateParams, person, alertService, personService, authService, me, dutchZipcodeService, voucherService, $q, appConfig, paymentService, bookingService, invoice2Service, discountService, API_DATE_FORMAT, $anchorScroll) {
+  // console.log($scope);
   $scope.isBusy = false;
+
   //person info
   var masterPerson = null;
-  $scope.detailNumber = 0;
-  $scope.showFirst = $scope.detailNumber === 0 ? true : false;
-  $scope.showSecond = $scope.detailNumber === 1 ? true : false;
-  $scope.showThird = $scope.detailNumber === 2 ? true : false;
+  $scope.pageNumber = JSON.parse($stateParams.pageNumber);
+  $scope.showFirst = $scope.pageNumber === 1 ? true : false;
+  $scope.showSecond = $scope.pageNumber === 2 ? true : false;
+  $scope.showThird = $scope.pageNumber === 3 ? true : false;
   $scope.person = null;
   $scope.genderText = '';
   $scope.allowLicenseRelated = false;
@@ -40,7 +41,7 @@ angular.module('owm.person.details', [])
   $scope.priceCalculated = false;
   $scope.booking = {};
   $scope.requiredValue = null;
-  $scope.isAvailable = false;
+  $scope.isAvailable = true;
   $scope.isbooking = $stateParams.resourceId !== undefined ? true : false;
   $scope.bookingStart = moment($stateParams.startDate).format(URL_DATE_TIME_FORMAT);
   $scope.bookingEnd = moment($stateParams.endDate).format(URL_DATE_TIME_FORMAT);
@@ -58,13 +59,17 @@ angular.module('owm.person.details', [])
 
   // toggle the sections
   $scope.nextSection = function () {
-    if ($scope.detailNumber < 2) {
-      $scope.detailNumber++;
+    if ($scope.pageNumber < 3) {
+      $scope.pageNumber++;
+      $state.transitionTo('owm.person.details', {
+        pageNumber: $scope.pageNumber
+      });
+      $anchorScroll('scroll-to-top-anchor');
     }
-    // setHeight($scope.detailNumber);
+    // setHeight($scope.pageNumber);
   };
   $scope.prevSection = function (elementNumber, elementNumberTwo) {
-    if ($scope.detailNumber > 0) {
+    if ($scope.pageNumber > 1) {
       var number = JSON.parse(elementNumber);
       var numberTwo = JSON.parse(elementNumberTwo);
 
@@ -74,7 +79,11 @@ angular.module('owm.person.details', [])
         angular.element('.details--card__section')[number].classList.remove('prevSection');
         angular.element('.details--card__section')[numberTwo].classList.remove('prevSection');
       }, 2000);
-      $scope.detailNumber--;
+      $scope.pageNumber--;
+      $state.transitionTo('owm.person.details', {
+        pageNumber: $scope.pageNumber
+      });
+      $anchorScroll('scroll-to-top-anchor');
     }
   };
   // toggle the sections
@@ -84,11 +93,11 @@ angular.module('owm.person.details', [])
   };
 
   var unbindWatch = $scope.$watch('detailNumber', function (val) {
-    $scope.showFirst = $scope.detailNumber === 0 ? true : false;
-    $scope.showSecond = $scope.detailNumber === 1 ? true : false;
-    $scope.showThird = $scope.detailNumber === 2 ? true : false;
+    $scope.showFirst = $scope.pageNumber === 1 ? true : false;
+    $scope.showSecond = $scope.pageNumber === 2 ? true : false;
+    $scope.showThird = $scope.pageNumber === 3 ? true : false;
   });
-  setHeight($scope.detailNumber);
+  setHeight($scope.pageNumber);
 
   initPerson(person);
 
@@ -105,6 +114,13 @@ angular.module('owm.person.details', [])
     // Gender dropdown is bound to $scope.genderText instead of person.male
     // Binding to person.male doesn't work, because ng-options doesn't differentiate between false and null
     $scope.genderText = (person.male === true ? 'male' : (person.male === false ? 'female' : ''));
+    console.log($scope.person);
+
+    $scope.date = {
+      day: Number(moment($scope.person.dateOfBirth).format('DD')),
+      month: Number(moment($scope.person.dateOfBirth).format('MM')),
+      year: Number(moment($scope.person.dateOfBirth).format('YYYY'))
+    };
 
     $timeout(function () {
       $scope.personalDataForm.$setPristine();
@@ -124,10 +140,29 @@ angular.module('owm.person.details', [])
     $scope.alerts = alerts;
   }
 
+  //date input field
+  var autoDateInput = angular.element('.autoDateInput')[0];
+  autoDateInput.onkeyup = function (e) {
+    var target = e.srcElement;
+    var maxLength = parseInt(target.attributes.maxlength.value, 10);
+    var myLength = target.value.length;
+    if (myLength >= maxLength) {
+      var next = target;
+      next = next.nextElementSibling;
+      if (next !== null) {
+        if (next.tagName.toLowerCase() === 'input') {
+          next.focus();
+        }
+      }
+    }
+  };
+
+
   // PERSONAL DATA
   $scope.submitPersonalDataForm = function () {
     alertService.closeAll();
     alertService.load();
+    $scope.person.dateOfBirth = $scope.date.year + '-' + $scope.date.month + '-' + $scope.date.day;
     var newProps = $filter('returnDirtyItems')(angular.copy($scope.person), $scope.personalDataForm);
 
     //add fields not in form
@@ -137,11 +172,15 @@ angular.module('owm.person.details', [])
       newProps.latitude = $scope.person.latitude;
       newProps.longitude = $scope.person.longitude;
     }
+
     newProps.male = $scope.person.male;
+    newProps.dateOfBirth = $scope.person.dateOfBirth;
 
     var firstName = $scope.person.firstName,
       surname = $scope.person.surname,
-      dateOfBirth = $scope.person.dateOfBirth,
+      year = $scope.date.year,
+      month = $scope.date.month,
+      day = $scope.date.day,
       male = $scope.genderText,
       phoneNumbers = $scope.person.phoneNumbers,
       zipcode = $scope.person.zipcode,
@@ -167,24 +206,23 @@ angular.module('owm.person.details', [])
         return;
       }
     }
-    if (firstName && surname && dateOfBirth && male) {
+    if (firstName && surname && year && month && day && male) {
+
       if (phoneNumbers) {
+        // console.log($scope.person);
         if (streetNumber && zipcode) {
           personService.alter({
               person: person.id,
               newProps: newProps
             })
             .then(function (buggyPersonWithoutPhoneNumbers) {
-              alertService.addSaveSuccess();
               initPerson($scope.person);
               $scope.nextSection();
             })
             .catch(function (err) {
               alertService.addError(err);
             })
-            .finally(function () {
-              alertService.loaded();
-            });
+            .finally(function () {});
         } else {
           alertService.add('danger', 'Vul je adres in zodat we je post kunnen sturen.', 10000);
           alertService.loaded();
@@ -198,7 +236,6 @@ angular.module('owm.person.details', [])
       alertService.loaded();
     }
   };
-
 
   /*
    * remove all spaces
@@ -318,15 +355,15 @@ angular.module('owm.person.details', [])
         alertService.addError(err);
       })
       .finally(function () {
-        alertService.loaded();
         $scope.isBusy = false;
-        $scope.createBooking();
+        $scope.createBookingFlow();
       });
   };
   //booking
-  $scope.createBooking = function () {
+  $scope.createBookingFlow = function () {
     alertService.load();
     $scope.isBusy = true;
+    console.log(1);
     var resourceId = $stateParams.resourceId,
       discountCode = $stateParams.discountCode,
       remarkRequester = $stateParams.remarkRequester,
@@ -349,6 +386,7 @@ angular.module('owm.person.details', [])
             booking: value.id,
             discount: discountCode
           }).catch(function (err) {
+            $scope.isBusy = false;
             alertService.addError(err);
           });
         }
@@ -359,24 +397,41 @@ angular.module('owm.person.details', [])
           alertService.loaded($scope);
           $scope.booking = $scope.requiredValue.bookings[0];
           $scope.priceCalculated = true;
-          alertService.loaded();
-          $scope.isBusy = false;
         });
       }).catch(function (err) {
         if (err.message === 'De auto is niet beschikbaar') {
           $scope.isAvailable = false;
-          alertService.loaded();
           $scope.isBusy = false;
           $scope.nextSection();
         }
         alertService.addError(err);
+        alertService.loaded();
+        $scope.isBusy = false;
       });
     } else {
       $scope.isAvailable = true;
       $scope.nextSection();
-      alertService.loaded();
       $scope.isBusy = false;
     }
+  };
+
+  $scope.skipFlow = function () {
+    personService.emailBookingLink({
+      person: me.id,
+      url: $state.href('owm.person.details', {
+        pageNumber: $scope.pageNumber,
+        city: $stateParams.city,
+        resourceId: $stateParams.resourceId,
+        startDate: $stateParams.startDate,
+        endDate: $stateParams.endDate,
+        discountCode: $stateParams.discountCode,
+        remarkRequester: $stateParams.remarkRequester,
+        riskReduction: $stateParams.riskReduction
+      }, {
+        absolute: true
+      })
+    });
+    $state.go('owm.person.intro');
   };
 
   function getRequiredValue(bookingData) {
@@ -464,9 +519,7 @@ angular.module('owm.person.details', [])
         $scope.booking.riskReduction = !!!$scope.booking.riskReduction;
         alertService.addError(err);
       })
-      .finally(function () {
-        alertService.loaded($scope);
-      });
+      .finally(function () {});
   };
 
   $scope.buyVoucher = function (value) {
