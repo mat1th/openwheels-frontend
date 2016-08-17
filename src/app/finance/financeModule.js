@@ -8,10 +8,27 @@ angular.module('owm.finance', [
   'owm.finance.paymentResult',
   'owm.finance.deposit'
 ])
-.controller('FinanceVersionWrapperController', function ($scope, me, $stateParams) {
+.controller('FinanceVersionWrapperController', function ($scope, me, $stateParams, invoice2Service) {
   $scope.showVouchers = true;
   $scope.showInvoices = true;
   $scope.view = $stateParams.view || 'both';
+
+  var sent, received;
+  invoice2Service.getSent({person: me.id, grouped: 'ungrouped', max: 200})
+  .then(function(res) {
+    sent = res;
+    return invoice2Service.getReceived({person: me.id, grouped: 'grouped', max: 200});
+  })
+  .then(function(res) {
+    received = res;
+    return true;
+  })
+  .then(function(res) {
+    console.log(sent);
+    console.log(received);
+    return true;
+  })
+  ;
 
   dummyData();
   function sortArray(arrayOfSubinvoices) {
@@ -22,7 +39,8 @@ angular.module('owm.finance', [
       '*pos*': 70,
       'Ritverzekering': 30,
       'MyWheels Fee': 20,
-      '*neg*': 10
+      '*neg*': 10,
+      '_': 0,
     };
 
     function getKey(c) {
@@ -48,19 +66,20 @@ angular.module('owm.finance', [
 
   function dummyData () {
     var orderBookings = function(booking) {
+      booking.invoices.push({amount: 0, type: '_'});
       booking.invoices = sortArray(booking.invoices);
       booking.total = calcTotal(booking.invoices);
       return booking;
     };
     var openBookingInvoicesRenter = [
-      {booking: {date: new Date(), name: 'Hans Bullewijk'}, invoices: [{amount: 50, type: 'Kilometers'}, {amount: 60.12, type: 'Huur auto'}, {amount: 25, type: 'Schoonmaakkosten'}, {amount: -2.5, type: 'MyWheels Fee'}, {amount: -42.32, type: 'Brandstof getankt door huurder'}, {amount: -1.26, type: 'Ritverzekering'}]},
-      {booking: {date: new Date(), name: 'Anne ter Zal'}, invoices: [{amount: 50, type: 'Kilometers'}, {amount: 50, type: 'Huur auto'}, {amount: -2.5, type: 'MyWheels Fee'}, {amount: -0.89, type: 'Ritverzekering'}]},
-      {booking: {date: new Date(), name: 'Erick Boogaard'}, invoices: [{amount: 50, type: 'Kilometers'}, {amount: 50, type: 'Huur auto'}, {amount: 22, type: 'Schoonmaakkosten'}, {amount: -2.5, type: 'MyWheels Fee'}]},
+      {booking: {date: new Date(), name: 'Hans Bullewijk', booking_id: 100,}, invoices: [{amount: 50, type: 'Kilometers'}, {amount: 60.12, type: 'Huur auto'}, {amount: 25, type: 'Schoonmaakkosten'}, {amount: -2.5, type: 'MyWheels Fee'}, {amount: -42.32, type: 'Brandstof getankt door huurder'}, {amount: -1.26, type: 'Ritverzekering'}]},
+      {booking: {date: new Date(), name: 'Anne ter Zal', booking_id: 100,}, invoices: [{amount: 50, type: 'Kilometers'}, {amount: 50, type: 'Huur auto'}, {amount: -2.5, type: 'MyWheels Fee'}, {amount: -0.89, type: 'Ritverzekering'}]},
+      {booking: {date: new Date(), name: 'Erick Boogaard', booking_id: 100,}, invoices: [{amount: 50, type: 'Kilometers'}, {amount: 50, type: 'Huur auto'}, {amount: 22, type: 'Schoonmaakkosten'}, {amount: -2.5, type: 'MyWheels Fee'}]},
     ];
     var openBookingInvoicesOwner = [
-      {booking: {date: new Date(), name: 'Freek Boutkan'}, invoices: [{amount: 40, type: 'Kilometers'}, {amount: 60.12, type: 'Huur auto'}, {amount: 25, type: 'Schoonmaakkosten'}, {amount: -2.5, type: 'MyWheels Fee'}, {amount: -42.32, type: 'Brandstof getankt door huurder'}, {amount: -1.26, type: 'Ritverzekering'}]},
-      {booking: {date: new Date(), name: 'Tonny van het Reeve'}, invoices: [{amount: 33, type: 'Kilometers'}, {amount: 12, type: 'Huur auto'}, {amount: -2.5, type: 'MyWheels Fee'}, {amount: -0.89, type: 'Ritverzekering'}]},
-      {booking: {date: new Date(), name: 'Marie Antoinette Eick'}, invoices: [{amount: 62, type: 'Kilometers'}, {amount: 23, type: 'Huur auto'}, {amount: 17, type: 'Schoonmaakkosten'}, {amount: -2.5, type: 'MyWheels Fee'}]},
+      {booking: {date: new Date(), name: 'Freek Boutkan', booking_id: 100,}, invoices: [{amount: 40, type: 'Kilometers'}, {amount: 60.12, type: 'Huur auto'}, {amount: 25, type: 'Schoonmaakkosten'}, {amount: -2.5, type: 'MyWheels Fee'}, {amount: -42.32, type: 'Brandstof getankt door huurder'}, {amount: -1.26, type: 'Ritverzekering'}]},
+      {booking: {date: new Date(), name: 'Tonny van het Reeve', booking_id: 100,}, invoices: [{amount: 33, type: 'Kilometers'}, {amount: 12, type: 'Huur auto'}, {amount: -2.5, type: 'MyWheels Fee'}, {amount: -0.89, type: 'Ritverzekering'}]},
+      {booking: {date: new Date(), name: 'Marie Antoinette Eick', booking_id: 6,}, invoices: [{amount: 62, type: 'Kilometers'}, {amount: 23, type: 'Huur auto'}, {amount: 17, type: 'Schoonmaakkosten'}, {amount: -2.5, type: 'MyWheels Fee'}]},
     ];
 
     openBookingInvoicesRenter.map(orderBookings);
