@@ -28,8 +28,7 @@
     "bootstrap": "3.3.6",
     "ng-optimizely": "^2.0.0",
     "angular-slick": "~0.2.1",
-    "slick-carousel": "1.6.0",
-    "angular-google-analytics": "~1.1.7"
+    "slick-carousel": "1.6.0"
   },
   "resolutions": {
     "jquery": "~2.x",

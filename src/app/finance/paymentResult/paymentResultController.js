@@ -1,7 +1,7 @@
 'use strict';
 angular.module('owm.finance.paymentResult', [])
 
-.controller('PaymentResultController', function ($scope, $state, $window, orderStatusId, account2Service, alertService, voucherService, me, paymentService, bookingService, chipcardService, linksService, API_DATE_FORMAT, Analytics) {
+.controller('PaymentResultController', function ($scope, $state, $window, orderStatusId, account2Service, alertService, voucherService, me, paymentService, bookingService, chipcardService, linksService, API_DATE_FORMAT) {
 
   var afterPayment;
   $scope.isBusy = true;
@@ -110,7 +110,6 @@ angular.module('owm.finance.paymentResult', [])
     }
     sessionStorage.removeItem('afterPayment');
 
-<<<<<<< HEAD
     account2Service.forMe({}).then(function (data) {
       data.every(function (elm) {
         if (elm.approved === true) {
@@ -124,15 +123,6 @@ angular.module('owm.finance.paymentResult', [])
       });
       $scope.isBusy = false;
     });
-=======
-    if(afterPayment) {
-      if(orderStatusId > 0) {
-        Analytics.trackEvent('payment', 'success');
-      } else {
-        Analytics.trackEvent('payment', 'failed');
-      }
-    }
->>>>>>> MyWheels/develop
   }
 
   function redirect(url) {

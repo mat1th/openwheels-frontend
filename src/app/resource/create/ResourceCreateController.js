@@ -2,7 +2,7 @@
 
 angular.module('owm.resource.create', [])
 
-.controller('ResourceCreateController', function ($scope, $filter, $state, $translate, resources, resourceService, authService, alertService, dialogService, me, Analytics) {
+.controller('ResourceCreateController', function ($scope, $filter, $state, $translate, resources, resourceService, authService, alertService, dialogService, me) {
   $scope.resources = resources;
   $scope.me = me;
 
@@ -14,7 +14,6 @@ angular.module('owm.resource.create', [])
           'owner': me.id,
           'registrationPlate': resource.registrationPlate
         }).then(function (resource) {
-            Analytics.trackEvent('resource', 'resource_created', resource.id);
             alertService.add('success', $filter('translate')('RESOURCE_CREATED'), 3000);
             $state.go('owm.resource.edit', {'resourceId': resource.id});
           }, function (error) {

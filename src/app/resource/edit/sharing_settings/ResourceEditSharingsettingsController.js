@@ -2,7 +2,7 @@
 
 angular.module('owm.resource.edit.sharing_settings', [])
 
-.controller('ResourceEditSharingSettingsController', function ($timeout, $translate, $scope, $filter, alertService, resourceService, Analytics) {
+.controller('ResourceEditSharingSettingsController', function ($timeout, $translate, $scope, $filter, alertService, resourceService) {
   // expects to see $scope.$parent
   var resource = $scope.$parent.resource;
 
@@ -137,10 +137,6 @@ angular.module('owm.resource.edit.sharing_settings', [])
       masterResource = resource;
       $scope.cancel();
       $scope.editResourceForm.$setPristine();
-
-      if(newProps.advertisement) {
-        Analytics.trackEvent('resource', 'info_edited', masterResource.id);
-      }
     })
     .catch(function (err) {
       alertService.addError(err);

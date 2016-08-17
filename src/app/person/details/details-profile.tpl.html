@@ -219,13 +219,10 @@
         </div>
     </div>
     <!--/ card -->
-    <!-- {{priceCalculated && isbooking && toggleRedemption}} -->
-    {{priceCalculated}}
-    <!-- {{toggleRedemption}} -->
+
     <!-- card -->
     <div class="card animated section-transion details--card__section" ng-show="showThird">
         <div class="card-body details--card">
-
             <section resource-sidebar class="details--profile__sidebar" ng-if="isbooking"></section>
             <section class="details--card--form" ng-if="isbooking" ng-hide="!isAvailable">
                 <h2 class="card-title">{{ 'DETAILS_PROFILE_NEARLY' | translate }}</h2>

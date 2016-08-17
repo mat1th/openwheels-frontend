@@ -3,7 +3,7 @@
 angular.module('owm.person.details', [])
 
 
-.controller('DetailsProfileController', function ($scope, $rootScope, $filter, $timeout, $translate, $window, $log, $state, $stateParams, person, alertService, personService, authService, me, dutchZipcodeService, voucherService, $q, appConfig, paymentService, bookingService, invoice2Service, discountService, API_DATE_FORMAT, $anchorScroll) {
+.controller('DetailsProfileController', function ($scope, $filter, $timeout, $translate, $window, $log, $state, $stateParams, person, alertService, personService, authService, me, dutchZipcodeService, voucherService, $q, appConfig, paymentService, bookingService, invoice2Service, discountService, API_DATE_FORMAT, $anchorScroll) {
   $scope.isBusy = false;
 
   //person info
@@ -12,10 +12,6 @@ angular.module('owm.person.details', [])
   $scope.showFirst = $scope.pageNumber === 1 ? true : false;
   $scope.showSecond = $scope.pageNumber === 2 ? true : false;
   $scope.showThird = $scope.pageNumber === 3 ? true : false;
-  if ($rootScope.flowBookingId === undefined) {
-    $rootScope.flowBookingId = false;
-  }
-  console.log($rootScope.flowBookingId);
   $scope.person = null;
   $scope.genderText = '';
   $scope.checkedLater = false;
@@ -49,6 +45,7 @@ angular.module('owm.person.details', [])
   $scope.isbooking = $stateParams.resourceId !== undefined ? true : false;
   $scope.bookingStart = moment($stateParams.startDate).format(URL_DATE_TIME_FORMAT);
   $scope.bookingEnd = moment($stateParams.endDate).format(URL_DATE_TIME_FORMAT);
+
   //licence upload sections
   // licence images
   var images = {
@@ -329,7 +326,6 @@ angular.module('owm.person.details', [])
       $scope.containsLicence = true;
     });
   });
-
   $scope.cancelUpload = function () {
     $scope.containsLicence = false;
   };
@@ -370,7 +366,6 @@ angular.module('owm.person.details', [])
         $scope.createBookingFlow();
       });
   };
-
   //booking
   $scope.createBookingFlow = function () {
     alertService.load();
@@ -383,16 +378,13 @@ angular.module('owm.person.details', [])
         startDate: moment($stateParams.startDate).format(API_DATE_FORMAT),
         endDate: moment($stateParams.endDate).format(API_DATE_FORMAT)
       };
-
-
-    if ($scope.isbooking && $rootScope.flowBookingId === false) {
+    if ($scope.isbooking && !$scope.priceCalculated) {
       bookingService.create({
         resource: resourceId,
         timeFrame: timeFrame,
         person: me.id,
         remark: remarkRequester
       }).then(function (value) {
-        $rootScope.flowBookingId = value.id;
         $scope.isAvailable = true;
         if (discountCode !== undefined) {
           //set the discount
@@ -450,55 +442,35 @@ angular.module('owm.person.details', [])
 
   function getRequiredValue(bookingData) {
     var bookingObject = {};
-    return voucherService.calculateRequiredCreditForBooking({
-      booking: bookingData.id
-    }).then(function (value) {
-      console.log(value);
-      bookingObject = {
-        bookings: [{
-          id: bookingData.id,
-          title: 'Rit op ',
-          booking_price: value,
-          km_price: value.kmPrice,
-          discount: value.discount
-        }]
-      };
-      $scope.requiredValue = bookingObject;
-      return bookingObject;
-    }).catch(function (err) {
-      alertService.addError(err);
-    });
-    // return voucherService.calculateRequiredCredit({
-    //     person: me.id
-    //   }).then(function (value) {
-    //     console.log(value);
-    //     $scope.requiredValue = value;
-    //     return value;
-    //   })
-    //   .catch(function (err) {
-    //     alertService.addError(err);
-    //   });
+    if (bookingData.approved === 'BUY_VOUCHER') {
+      return voucherService.calculateRequiredCredit({
+          person: me.id
+        }).then(function (value) {
+          $scope.requiredValue = value;
 
-    // if (bookingData.approved === 'BUY_VOUCHER') {
-
-    // } else {
-    //   return invoice2Service.calculateBookingPrice({
-    //     booking: bookingData.id
-    //   }).then(function (value) {
-    //     bookingObject = {
-    //       bookings: [{
-    //         id: bookingData.id,
-    //         title: 'Rit op ',
-    //         booking_price: value,
-    //         km_price: 0,
-    //         discount: 0,
-    //         paid_amount: 0
-    //       }]
-    //     };
-    //     $scope.requiredValue = bookingObject;
-    //     return bookingObject;
-    // });
-    // }
+          return value;
+        })
+        .catch(function (err) {
+          alertService.addError(err);
+        });
+    } else {
+      return invoice2Service.calculateBookingPrice({
+        booking: bookingData.id
+      }).then(function (value) {
+        bookingObject = {
+          bookings: [{
+            id: bookingData.id,
+            title: 'Rit op ',
+            booking_price: value,
+            km_price: 0,
+            discount: 0,
+            paid_amount: 0
+          }]
+        };
+        $scope.requiredValue = bookingObject;
+        return bookingObject;
+      });
+    }
   }
 
   function getBookings(requiredValue) {
