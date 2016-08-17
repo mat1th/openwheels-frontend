@@ -1,7 +1,7 @@
 'use strict';
 angular.module('owm.finance.paymentResult', [])
 
-.controller('PaymentResultController', function ($scope, $state, orderStatusId) {
+.controller('PaymentResultController', function ($scope, $state, orderStatusId, Analytics) {
 
   var afterPayment;
 
@@ -30,6 +30,14 @@ angular.module('owm.finance.paymentResult', [])
       $scope.afterPayment = afterPayment = null;
     }
     sessionStorage.removeItem('afterPayment');
+
+    if(afterPayment) {
+      if(orderStatusId > 0) {
+        Analytics.trackEvent('payment', 'success');
+      } else {
+        Analytics.trackEvent('payment', 'failed');
+      }
+    }
   }
 
 });
