@@ -1,11 +1,8 @@
 <div class="datetime">
-  <span class="datetime__date">
-    <span class="datetime__date--ddd">{{ datetime | amDateFormat:'ddd' }}</span>
-    <span class="datetime__date--DD">{{ datetime | amDateFormat:'DD' }}</span>
-    <span class="datetime__date--MMM">{{ datetime | amDateFormat:'MMM' }}</span>
+    <span ng-if="$root.isWindowSizeSM">
+  {{ datetime | amDateFormat:'dddd DD MMM HH:mm' }}
   </span>
-  <span class="datetime__time">
-    <span class="datetime__time--HH">{{ datetime | amDateFormat:'HH' }}</span>
-    <span class="datetime__time--mm">{{ datetime | amDateFormat:'mm' }}</span>
-  </span>
+    <span ng-if="!$root.isWindowSizeSM">
+    {{ datetime | amDateFormat:'ddd DD MMM HH:mm' }}
+    </span>
 </div>
