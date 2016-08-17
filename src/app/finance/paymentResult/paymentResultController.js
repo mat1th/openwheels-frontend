@@ -15,7 +15,7 @@ angular.module('owm.finance.paymentResult', [])
     success: (orderStatusId > 0)
   };
 
-  $scope.buyVoucher = function (value) {
+  $scope.buyVoucher = function (value) { //buy a vouchure from 0.01 cents
     if (!value || value < 0) {
       return;
     }
@@ -43,14 +43,6 @@ angular.module('owm.finance.paymentResult', [])
         alertService.loaded($scope);
       });
   };
-  $scope.openboxes = {};
-  $scope.toggleBox = function (box) {
-    if (!$scope.openboxes[box]) {
-      $scope.openboxes[box] = true;
-    } else {
-      $scope.openboxes[box] = !$scope.openboxes[box];
-    }
-  };
 
   $scope.goAfterPayment = function () {
     if (!afterPayment) {
@@ -64,7 +56,7 @@ angular.module('owm.finance.paymentResult', [])
     }
   };
 
-  function getBookings() {
+  function getBookings() { //get all the bookings from the user
     $scope.isBusy = true;
     alertService.load($scope);
 
@@ -80,8 +72,7 @@ angular.module('owm.finance.paymentResult', [])
       .then(function (bookings) {
         var data = [];
         bookings.forEach(function (elm) {
-          console.log(elm);
-          if (elm.approved === 'OK') {
+          if (elm.approved === 'OK') { //only aproved ones in the list
             if (elm.resource.locktype === 'chipcards') {
               chipcardService.getFish({
                 person: me.id
@@ -98,8 +89,6 @@ angular.module('owm.finance.paymentResult', [])
         });
         return data;
       }).then(function (bookings) {
-        // bookings
-
         $scope.bookings = bookings;
       }).catch(function (err) {
 

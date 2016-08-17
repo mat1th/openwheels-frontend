@@ -14,6 +14,7 @@ angular.module('owm.person.details', [])
   $scope.showThird = $scope.pageNumber === 3 ? true : false;
   $scope.person = null;
   $scope.genderText = '';
+  $scope.checkedLater = false;
   $scope.allowLicenseRelated = false;
   $scope.alerts = null;
 
@@ -60,9 +61,7 @@ angular.module('owm.person.details', [])
   $scope.nextSection = function () {
     if ($scope.pageNumber < 3) {
       $scope.pageNumber++;
-      $state.transitionTo('owm.person.details', {
-        pageNumber: $scope.pageNumber
-      });
+      goToNextState($scope.pageNumber);
       $anchorScroll('scroll-to-top-anchor');
     }
     // setHeight($scope.pageNumber);
@@ -79,12 +78,23 @@ angular.module('owm.person.details', [])
         angular.element('.details--card__section')[numberTwo].classList.remove('prevSection');
       }, 2000);
       $scope.pageNumber--;
-      $state.transitionTo('owm.person.details', {
-        pageNumber: $scope.pageNumber
-      });
+      goToNextState($scope.pageNumber);
       $anchorScroll('scroll-to-top-anchor');
     }
   };
+
+  function goToNextState(stateNumber) {
+    $state.transitionTo('owm.person.details', { // should register
+      pageNumber: stateNumber,
+      city: $stateParams.city,
+      resourceId: $stateParams.resourceId,
+      startDate: $stateParams.startDate,
+      endDate: $stateParams.endDate,
+      discountCode: $stateParams.discountCode,
+      remarkRequester: $stateParams.remarkRequester,
+      riskReduction: $stateParams.riskReduction
+    });
+  }
   // toggle the sections
 
   var setHeight = function (elementNumber) {
@@ -181,6 +191,7 @@ angular.module('owm.person.details', [])
       day = $scope.date.day,
       male = $scope.genderText,
       phoneNumbers = $scope.person.phoneNumbers,
+      city = $scope.person.city,
       zipcode = $scope.person.zipcode,
       streetNumber = $scope.person.streetNumber;
 
@@ -205,9 +216,8 @@ angular.module('owm.person.details', [])
       }
     }
     if (firstName && surname && year && month && day && male) {
-
       if (phoneNumbers) {
-        if (streetNumber && zipcode) {
+        if (streetNumber && zipcode && city) {
           personService.alter({
               person: person.id,
               newProps: newProps
@@ -427,7 +437,7 @@ angular.module('owm.person.details', [])
         absolute: true
       })
     });
-    $state.go('owm.person.intro');
+    $scope.checkedLater = true;
   };
 
   function getRequiredValue(bookingData) {

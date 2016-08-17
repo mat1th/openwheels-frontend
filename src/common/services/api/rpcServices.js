@@ -184,6 +184,7 @@ angular.module('rpcServices', [])
   this.calculateCredit = m('calculateCredit');
   this.calculateDebt = m('calculateDebt');
   this.createVoucher = m('createVoucher');
+  this.calculateRequiredCreditForBooking = m('calculateRequiredCreditForBooking');
 })
 
 .service('ratingService', function (api) {
