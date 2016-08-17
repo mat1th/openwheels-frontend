@@ -8,7 +8,11 @@ angular.module('owm.finance', [
   'owm.finance.paymentResult',
   'owm.finance.deposit'
 ])
-.controller('FinanceVersionWrapperController', function ($scope, me) {
+.controller('FinanceVersionWrapperController', function ($scope, me, $stateParams) {
+  $scope.showVouchers = true;
+  $scope.showInvoices = true;
+  $scope.view = $stateParams.view || 'both';
+
   dummyData();
   function sortArray(arrayOfSubinvoices) {
     var orderRenter = {
@@ -43,25 +47,79 @@ angular.module('owm.finance', [
   }
 
   function dummyData () {
-    var openInvoicesRenter = [
+    var orderBookings = function(booking) {
+      booking.invoices = sortArray(booking.invoices);
+      booking.total = calcTotal(booking.invoices);
+      return booking;
+    };
+    var openBookingInvoicesRenter = [
       {booking: {date: new Date(), name: 'Hans Bullewijk'}, invoices: [{amount: 50, type: 'Kilometers'}, {amount: 60.12, type: 'Huur auto'}, {amount: 25, type: 'Schoonmaakkosten'}, {amount: -2.5, type: 'MyWheels Fee'}, {amount: -42.32, type: 'Brandstof getankt door huurder'}, {amount: -1.26, type: 'Ritverzekering'}]},
       {booking: {date: new Date(), name: 'Anne ter Zal'}, invoices: [{amount: 50, type: 'Kilometers'}, {amount: 50, type: 'Huur auto'}, {amount: -2.5, type: 'MyWheels Fee'}, {amount: -0.89, type: 'Ritverzekering'}]},
       {booking: {date: new Date(), name: 'Erick Boogaard'}, invoices: [{amount: 50, type: 'Kilometers'}, {amount: 50, type: 'Huur auto'}, {amount: 22, type: 'Schoonmaakkosten'}, {amount: -2.5, type: 'MyWheels Fee'}]},
     ];
-    openInvoicesRenter.map(function(booking) {
-      booking.invoices = sortArray(booking.invoices);
-      booking.total = calcTotal(booking.invoices);
-      return booking;
-    });
-    $scope.openInvoicesRenter = openInvoicesRenter;
+    var openBookingInvoicesOwner = [
+      {booking: {date: new Date(), name: 'Freek Boutkan'}, invoices: [{amount: 40, type: 'Kilometers'}, {amount: 60.12, type: 'Huur auto'}, {amount: 25, type: 'Schoonmaakkosten'}, {amount: -2.5, type: 'MyWheels Fee'}, {amount: -42.32, type: 'Brandstof getankt door huurder'}, {amount: -1.26, type: 'Ritverzekering'}]},
+      {booking: {date: new Date(), name: 'Tonny van het Reeve'}, invoices: [{amount: 33, type: 'Kilometers'}, {amount: 12, type: 'Huur auto'}, {amount: -2.5, type: 'MyWheels Fee'}, {amount: -0.89, type: 'Ritverzekering'}]},
+      {booking: {date: new Date(), name: 'Marie Antoinette Eick'}, invoices: [{amount: 62, type: 'Kilometers'}, {amount: 23, type: 'Huur auto'}, {amount: 17, type: 'Schoonmaakkosten'}, {amount: -2.5, type: 'MyWheels Fee'}]},
+    ];
+
+    openBookingInvoicesRenter.map(orderBookings);
+    openBookingInvoicesOwner.map(orderBookings);
+    $scope.openBookingInvoicesRenter = openBookingInvoicesRenter;
+    $scope.openBookingInvoicesOwner = openBookingInvoicesOwner;
+
+    $scope.total = 123.45;
+
+    $scope.openOtherInvoices = [
+      {desc: 'Verkeersboete', amount: -20,},
+      {desc: 'Rectificatie tankbon ', amount: 12,},
+    ];
 
     var payedGroupedInvoices = [
-      {id: 1, total: 122, paid: 122, status: 'Betaald', due: new Date()},
-      {id: 2, total: 22.82, paid: 22.82, status: 'Betaald', due: new Date()},
-      {id: 3, total: 114.15, paid: 114.15, status: 'Betaald', due: new Date()},
-      {id: 4, total: 42.19, paid: 42.19, status: 'In behandeling', due: new Date()},
+      {id: 4, total: 122, paid: 122, status: 2, due: new Date()},
+      {id: 3, total: 22.82, paid: 22.82, status: 1, due: new Date()},
+      {id: 2, total: 114.15, paid: 114.15, status: 1, due: new Date()},
+      {id: 1, total: 42.19, paid: 42.19, status: 1, due: new Date()},
     ];
     $scope.payedGroupedInvoices = payedGroupedInvoices;
+
+    var vouchers = [
+      {id: 1, total: 100, unused: 20.20, bought: new Date()},
+      {id: 2, total: 200, unused: 100, bought: new Date()},
+      {id: 3, total: 200, unused: 0, bought: new Date()},
+      {id: 4, total: 100, unused: 0, bought: new Date()},
+      {id: 5, total: 75, unused: 0, bought: new Date()},
+      {id: 6, total: 75, unused: 0, bought: new Date()},
+    ];
+    $scope.vouchers = vouchers;
+
+    $scope.statusToText = function(status) {
+      if($scope.view === 'renter') {
+        if(status === 1) {
+          return 'Betaling ontvangen';
+        }
+        if(status === 2) {
+          return 'In behandeling';
+        }
+      }
+      if($scope.view === 'owner') {
+        if(status === 1) {
+          return 'Uitbetaald';
+        }
+        if(status === 2) {
+          return 'In behandeling';
+        }
+      }
+      if($scope.view === 'both') {
+        if(status === 1) {
+          return 'Verwerkt';
+        }
+        if(status === 2) {
+          return 'In behandeling';
+        }
+      }
+
+    };
   }
 })
 .config(function config($stateProvider) {
@@ -125,7 +183,7 @@ angular.module('owm.finance', [
    */
 
   .state('owm.finance.v3Index', {
-    url: '/finance',
+    url: '/finance?view',
     views: {
       'main@shell': {
         templateUrl: 'finance/v3/index.tpl.html',
