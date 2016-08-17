@@ -25,6 +25,7 @@ angular.module('openwheels', [
   'geocoder',
   'ngAutocomplete',
   'ngScrollTo',
+  'angular-google-analytics',
 
   /* Auto-generated */
   'templates-app',
@@ -163,16 +164,15 @@ angular.module('openwheels', [
 })
 
 .config(function (appConfig, googleTagManagerProvider) {
-    if (appConfig.gtmContainerId) {
-      googleTagManagerProvider.init(appConfig.gtmContainerId);
-    }
-  })
-  .config(function (appConfig, googleAnalyticsProvider) {
-    if (appConfig.ga_tracking_id) {
-      googleAnalyticsProvider.init(appConfig.ga_tracking_id);
-    }
-  })
-
+  if (appConfig.gtmContainerId) {
+    googleTagManagerProvider.init(appConfig.gtmContainerId);
+  }
+})
+//.config(function (appConfig, googleAnalyticsProvider) {
+//  if (appConfig.ga_tracking_id) {
+//    googleAnalyticsProvider.init(appConfig.ga_tracking_id);
+//  }
+//})
 .config(function (appConfig, facebookProvider, twitterProvider) {
     // if (appConfig.features.facebook && appConfig.fbAppId) {
     //   facebookProvider.init(appConfig.fbAppId);
@@ -198,7 +198,7 @@ angular.module('openwheels', [
   })
 
 
-.run(function (windowSizeService, oAuth2MessageListener, stateAuthorizer, authService, featuresService) {
+.run(function (windowSizeService, oAuth2MessageListener, stateAuthorizer, authService, featuresService, Analytics) {
   /* Intentionally left blank */
 })
 

@@ -3,8 +3,9 @@
 angular.module('owm.finance.vouchers', [])
 
 .controller('VouchersController', function ($window, $q, $state, $scope, appConfig, alertService, voucherService,
-  paymentService, bookingService, me) {
+  paymentService, bookingService, me, Analytics) {
   $scope.me = me;
+
   var cachedBookings = {};
   $scope.busy = true;
   $scope.requiredValue = null;
@@ -31,6 +32,7 @@ angular.module('owm.finance.vouchers', [])
     $scope.showVoucherOptions = toggle;
   };
   $scope.buyVoucher = function (value) {
+    Analytics.trackEvent('payment', 'started');
     if (!value || value < 0) {
       return;
     }

@@ -9,7 +9,7 @@ angular.module('owm.resource.reservationForm', [])
       person: '=',
       resource: '=',
       booking: '=', // { beginRequested, endRequested, remarkRequester, contract }
-      showPrice: '='
+      showPrice: '=',
     },
     templateUrl: 'resource/components/reservationForm.tpl.html',
     controller: 'ReservationFormController'
@@ -17,12 +17,16 @@ angular.module('owm.resource.reservationForm', [])
 })
 
 .controller('ReservationFormController', function (
-  $log, $q, $timeout, $filter, $rootScope, $scope, $state, API_DATE_FORMAT, resourceService, invoice2Service, alertService, authService, bookingService, discountService, contractService, featuresService, $mdDialog, $mdMedia, $translate, $location, $localStorage) {
+  $log, $q, $timeout, $filter, $rootScope, $scope, $state,
+  API_DATE_FORMAT, resourceService, invoice2Service, alertService, authService, bookingService, discountService,
+  contractService, featuresService, $mdDialog, $mdMedia, $translate, $location, $localStorage, Analytics) {
 
   // Check if this page is being called after login/singup in booking process
   handleAuthRedirect();
 
   $scope.features = $rootScope.features;
+  $scope.user = authService.user;
+
   $scope.dateConfig = {
     modelFormat: API_DATE_FORMAT,
     formatSubmit: 'yyyy-mm-dd',
@@ -285,6 +289,7 @@ angular.module('owm.resource.reservationForm', [])
           if (!validation.busy || code !== $scope.booking.discountCode) {
             return;
           }
+          Analytics.trackEvent('booking', 'discount_applied');
           validation.success = result.applicable;
           validation.error = !validation.success;
         })
