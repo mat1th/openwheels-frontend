@@ -34,6 +34,7 @@
 /*input*/
 .mywheels-form input[type="date"],
 .mywheels-form input[type="email"],
+.mywheels-form input[type="number"],
 .mywheels-form input[type="password"],
 .mywheels-form input[type="text"],
 .mywheels-form legend,
@@ -42,12 +43,14 @@
     box-sizing: border-box;
     display: block;
     width: 100%;
+    min-height: 2em;
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
 }
 .mywheels-form input[type="date"],
 .mywheels-form input[type="email"],
+.mywheels-form input[type="number"],
 .mywheels-form input[type="password"],
 .mywheels-form input[type="text"],
 .mywheels-form select,
@@ -64,6 +67,7 @@
 }
 .mywheels-form input[type="date"]:focus,
 .mywheels-form input[type="email"]:focus,
+.mywheels-form input[type="number"]:focus,
 .mywheels-form input[type="password"]:focus,
 .mywheels-form input[type="text"]:focus,
 .mywheels-form select:focus,
@@ -77,6 +81,7 @@
 }
 .mywheels-form input[type="date"].error,
 .mywheels-form input[type="email"].error,
+.mywheels-form input[type="number"].error,
 .mywheels-form input[type="password"].error,
 .mywheels-form input[type="text"].error,
 .mywheels-form legend.error,
@@ -87,6 +92,7 @@
 }
 .mywheels-form input[type="date"]:read-only,
 .mywheels-form input[type="email"]:read-only,
+.mywheels-form input[type="number"]:read-only,
 .mywheels-form input[type="password"]:read-only,
 .mywheels-form input[type="text"]:read-only,
 .mywheels-form legend:read-only,
@@ -99,7 +105,7 @@
     margin: 1em 0 0;
     position: relative;
 }
-.mywheels-form .icon input,
+.mywheels-form .icon input:first-child,
 .mywheels-form .icon select,
 .mywheels-form .icon textarea {
     padding-left: 2.3em !important;
@@ -110,6 +116,33 @@
     float: right;
     top: 20%;
     right: 1em;
+}
+.mywheels-form .autoDateInput div {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    h4 {
+        font-size: 1em;
+    }
+    #day {
+        margin-right: 0.5em;
+    }
+    #month {
+        margin-right: 0.5em;
+    }
+    @media (min-width: 500px) {
+        #day {
+            width: 20%;
+            margin-right: 0.5em;
+        }
+        #month {
+            width: 20%;
+            margin-right: 0.5em;
+        }
+        #year {
+            width: 60%;
+        }
+    }
 }
 //checkboxes and radio buttons
 //
