@@ -1,12 +1,10 @@
 <!-- PROFILE DATA  -->
 <md-card>
-    <md-card-title>
-        <md-card-title-text>
-            <h2>  {{ 'DASHBOARD_INTRO_TREE_STEPS_TWO' | translate }}</h2>
-        </md-card-title-text>
-    </md-card-title>
+
     <md-card-content>
+
         <form class="mywheels-form" name="aboutMeForm">
+            <h2>  {{ 'DASHBOARD_INTRO_TREE_STEPS_TWO' | translate }}</h2>
             <h3>{{ 'PROFILE_PICTURE' | translate }}</h3>
             <section class="upload-profile-image">
                 <img class="media-object " ng-if="!refreshProfileImage" person-profile-image="{ person: person, size: 'small', noCache: true }" />
