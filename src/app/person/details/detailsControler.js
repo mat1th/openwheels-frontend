@@ -236,11 +236,11 @@ angular.module('owm.person.details', [])
           alertService.loaded();
         }
       } else {
-        alertService.add('danger', 'Vul je telefoon nummmer in zodat we je kunnen berijken.', 10000);
+        alertService.add('danger', 'Vul je telefoonnummmer in zodat we je kunnen bellen.', 10000);
         alertService.loaded();
       }
     } else {
-      alertService.add('danger', 'Voordat je de auto kan huren moet je je persoonsgegevens invullen.', 10000);
+      alertService.add('danger', 'Voordat je de auto kunt huren, moet je je persoonsgegevens invullen.', 10000);
       alertService.loaded();
     }
   };

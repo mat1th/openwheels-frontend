@@ -100,7 +100,7 @@ angular.module('signupFormDirective', [])
                   alertService.loaded();
                 });
             } else {
-              alertService.add('danger', 'Voordat je je kan aanmelden, moet je de voorwaarden accepteren.', 10000);
+              alertService.add('danger', 'Voordat je je kunt aanmelden, moet je de algemene voorwaarden accepteren.', 10000);
               alertService.loaded();
             }
           } else {
