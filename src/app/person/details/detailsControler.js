@@ -83,11 +83,12 @@ angular.module('owm.person.details', [])
     }
   };
 
-  function goToNextState(stateNumber) {
+  function goToNextState(stateNumber, bookingId) {
     $state.transitionTo('owm.person.details', { // should register
       pageNumber: stateNumber,
       city: $stateParams.city,
       resourceId: $stateParams.resourceId,
+      bookingId: bookingId || $stateParams.bookingId,
       startDate: $stateParams.startDate,
       endDate: $stateParams.endDate,
       discountCode: $stateParams.discountCode,
@@ -366,61 +367,6 @@ angular.module('owm.person.details', [])
         $scope.createBookingFlow();
       });
   };
-  //booking
-  $scope.createBookingFlow = function () {
-    alertService.load();
-    $scope.isBusy = true;
-    var resourceId = $stateParams.resourceId,
-      discountCode = $stateParams.discountCode,
-      remarkRequester = $stateParams.remarkRequester,
-      riskReduction = $stateParams.riskReduction,
-      timeFrame = {
-        startDate: moment($stateParams.startDate).format(API_DATE_FORMAT),
-        endDate: moment($stateParams.endDate).format(API_DATE_FORMAT)
-      };
-    if ($scope.isbooking && !$scope.priceCalculated) {
-      bookingService.create({
-        resource: resourceId,
-        timeFrame: timeFrame,
-        person: me.id,
-        remark: remarkRequester
-      }).then(function (value) {
-        $scope.isAvailable = true;
-        if (discountCode !== undefined) {
-          //set the discount
-          discountService.apply({
-            booking: value.id,
-            discount: discountCode
-          }).catch(function (err) {
-            $scope.isBusy = false;
-            alertService.addError(err);
-          });
-        }
-        return value;
-      }).then(function (value) {
-        $scope.nextSection();
-        getRequiredValue(value).then(getBookings).finally(function () {
-          alertService.loaded($scope);
-          $scope.booking = $scope.requiredValue.bookings[0];
-          $scope.priceCalculated = true;
-        });
-      }).catch(function (err) {
-        if (err.message === 'De auto is niet beschikbaar') {
-          $scope.isAvailable = false;
-          $scope.isBusy = false;
-          $scope.nextSection();
-        }
-        alertService.addError(err);
-        alertService.loaded();
-        $scope.isBusy = false;
-      });
-    } else {
-      $scope.isAvailable = true;
-      $scope.nextSection();
-      $scope.isBusy = false;
-    }
-  };
-
   $scope.skipFlow = function () {
     personService.emailBookingLink({
       person: me.id,
@@ -440,60 +386,17 @@ angular.module('owm.person.details', [])
     $scope.checkedLater = true;
   };
 
-  function getRequiredValue(bookingData) {
-    var bookingObject = {};
-    if (bookingData.approved === 'BUY_VOUCHER') {
-      return voucherService.calculateRequiredCredit({
-          person: me.id
-        }).then(function (value) {
-          $scope.requiredValue = value;
 
           return value;
-        })
-        .catch(function (err) {
-          alertService.addError(err);
         });
-    } else {
-      return invoice2Service.calculateBookingPrice({
-        booking: bookingData.id
-      }).then(function (value) {
-        bookingObject = {
-          bookings: [{
-            id: bookingData.id,
-            title: 'Rit op ',
-            booking_price: value,
-            km_price: 0,
-            discount: 0,
-            paid_amount: 0
-          }]
-        };
-        $scope.requiredValue = bookingObject;
-        return bookingObject;
-      });
     }
   }
 
-  function getBookings(requiredValue) {
-    if (!requiredValue.bookings || !requiredValue.bookings.length) {
-      return true;
-    }
-    var results = [];
 
-    requiredValue.bookings.forEach(function (booking, index) {
-      results.push(cachedBookings[booking.id] ||
-        bookingService.get({
-          booking: booking.id
-        }).then(function (_booking) {
-          cachedBookings[_booking.id] = _booking;
-          _booking.statusValue = checkStatus(_booking.approved);
-          angular.extend(booking, _booking);
-        })
-      );
-    });
-    return $q.all(results).catch(function (err) {
       alertService.addError(err);
     });
   }
+
   $scope.redemptionPending = {}; /* by booking id */
 
   $scope.toggleRedemption = function (booking) {
@@ -511,11 +414,6 @@ angular.module('owm.person.details', [])
       })
       .then(function () {
         /* recalculate amounts */
-        return getRequiredValue();
-      })
-      .then(function (requiredValue) {
-        /* get bookings from cache */
-        return getBookings(requiredValue);
       })
       .then(function () {
         $scope.booking.riskReduction = newValue;
@@ -556,18 +454,9 @@ angular.module('owm.person.details', [])
         alertService.loaded($scope);
       });
   };
-
   function redirect(url) {
     var redirectTo = appConfig.appUrl + $state.href('owm.finance.payment-result');
     $window.location.href = url + '?redirectTo=' + encodeURIComponent(redirectTo);
   }
 
-  function checkStatus(approvedStatus) {
-    if (approvedStatus === 'OK') {
-      return true;
-    } else {
-      return false;
-    }
-  }
-  //change status
 });

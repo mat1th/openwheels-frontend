@@ -230,8 +230,9 @@
                     {{ 'DETAILS_PROFILE_PAY_APPROVED' | translate }}
                 </p>
                 <p ng-if="booking.approved !==  'BUY_VOUCHER'" translate="DETAILS_PROFILE_PAY_NOT_APPROVED" translate-values="{firstName: person.firstName, preposition: person.preposition,surname: person.surname,renter: person.firstName }"></p>
-                {{toggleRedemption}}
-                <voucher data="{{ booking }}" toggleRedemption="toggleRedemption" ng-if="priceCalculated && isbooking && toggleRedemption"></voucher>
+                <voucher data="{{ booking }}" toggleRedemption="toggleRedemption" ng-if="priceCalculated && isbooking"></voucher>
+                {{priceCalculated}}
+                {{isbooking}}
                 <p ng-if="booking.approved !==  'BUY_VOUCHER' ">
                     {{ 'DETAILS_PROFILE_PAY_NOT_APPROVED_OTHER' | translate }}
                 </p>

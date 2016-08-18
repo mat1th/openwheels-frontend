@@ -101,7 +101,6 @@ angular.module('owm.finance.paymentResult', [])
   }
   getBookings();
 
-
   function init() {
     try {
       $scope.afterPayment = afterPayment = JSON.parse(sessionStorage.getItem('afterPayment'));
