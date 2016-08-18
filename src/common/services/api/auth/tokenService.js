@@ -48,8 +48,6 @@ angular.module('tokenService', [])
     createCookie(name, '', -1);
   };
   createCookie('ppkcookie', 'testcookie2', 7);
-  console.log(readCookie('ppkcookie'));
-  console.log(storageEnabled());
 
   var tokenPrototype = {
     isExpired: function () {
@@ -115,10 +113,8 @@ angular.module('tokenService', [])
         refreshToken: data.refreshToken ? data.refreshToken + '' : null,
         expiryDate: moment(data.expiryDate).toDate()
       });
-      console.log('done');
       return token;
     } catch (e) {
-      console.log(e);
       return null;
     }
   };
