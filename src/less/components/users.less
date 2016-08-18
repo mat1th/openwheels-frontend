@@ -122,3 +122,28 @@ label.sign-up-terms {
         margin-top: 15em;
     }
 }
+.upload-profile-image {
+    display: flex;
+    flex-direction: column;
+    img {
+        flex-grow: 1;
+    }
+    .file-input {
+        display: block;
+        flex-grow: 1;
+    }
+}
+@media all and (min-width: 35em) {
+    .upload-profile-image {
+        display: flex;
+        flex-direction: row;
+        img {
+            flex-grow: 0;
+        }
+        .file-input {
+            display: block;
+            flex-grow: 1;
+            margin-left: 1em;
+        }
+    }
+}
