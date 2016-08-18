@@ -145,6 +145,12 @@ angular.module('rpcServices', [])
   this.get = m('get');
   this.alter = m('alter');
 })
+.service('account2Service', function (api) {
+  var m = function (name) {
+    return api.createRpcMethod('account2.' + name);
+  };
+  this.forMe = m('forMe');
+})
 
 .service('actionService', function (api) {
   var m = function (name) {
@@ -178,6 +184,7 @@ angular.module('rpcServices', [])
   this.calculateCredit = m('calculateCredit');
   this.calculateDebt = m('calculateDebt');
   this.createVoucher = m('createVoucher');
+  this.calculateRequiredCreditForBooking = m('calculateRequiredCreditForBooking');
 })
 
 .service('ratingService', function (api) {
