@@ -72,7 +72,7 @@ angular.module('owm.finance.paymentResult', [])
       .then(function (bookings) {
         var data = [];
         bookings.forEach(function (elm) {
-          if (elm.approved === 'OK') { //only aproved ones in the list
+          if (me.numberOfBookings <= 1 || elm.approved === 'OK') { //only aproved ones in the list
             if (elm.resource.locktype === 'chipcards') {
               chipcardService.getFish({
                 person: me.id

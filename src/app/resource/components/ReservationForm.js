@@ -223,7 +223,7 @@ angular.module('owm.resource.reservationForm', [])
       s += 'Boekingskosten: ' + $filter('currency')(price.booking_fee) + '<br/>';
     }
     if (price.redemption > 0) {
-      s += 'Afkoop eigenrisico: ' + $filter('currency')(price.redemption) + '<br/>';
+      s += 'Afkoop eigen risico: ' + $filter('currency')(price.redemption) + '<br/>';
     }
     s += 'Totaal: ' + $filter('currency')(price.total);
     return s;
@@ -420,9 +420,7 @@ angular.module('owm.resource.reservationForm', [])
           } else {
             alertService.add('info', $filter('translate')('BOOKING_REQUESTED'), 5000);
           }
-          if (response.approved === 'BUY_VOUCHER' && response.person.numberOfBookings <= 1) {
-            return $state.go('contractchoice');
-          } else if (response.approved === 'BUY_VOUCHER') {
+          if (response.approved === 'BUY_VOUCHER') {
             return $state.go('owm.finance.vouchers');
           } else {
             return $state.go('owm.person.dashboard');
