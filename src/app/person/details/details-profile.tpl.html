@@ -162,6 +162,7 @@
                             <md-icon>check</md-icon><span>{{ 'LICENSE_VALID' | translate }}</span></li>
                     </ul>
                 </div>
+                  {{!licenceUploaded}} {{!containsLicence}}
                 <div class="file-input" ng-show="!containsLicence">
                     <span class="filename" id="filename"> {{licenceFileName}}</span>
                     <label for="licenseFrontFile" class="mywheels-btn mywheels-btn-normal">Selecteer
@@ -169,11 +170,12 @@
                     </label>
                 </div>
                 <div class="details--card--form__preview">
-                    <img src="assets/img/rijbewijs_voorbeeld.jpg" alt="" id="licence-preview">
+                    <img ng-src="{{licenceImage}}" alt="lincence preview" id="licence-preview">
                 </div>
+
                 <div ng-show="containsLicence || LicenceUploaded">
                     <p>{{ 'LICENSE_CONFIRM' | translate }}</p>
-                    <button title="upload" type="button" class="mywheels-btn mywheels-btn-normal btn--navigation__previous mywheels-btn-big" md-ink-ripple="#4b702c" ng-disabled="!images.front || isBusy" ng-click="startUpload()">
+                    <button title="upload" type="button" class="mywheels-btn mywheels-btn-normal btn--navigation__previous mywheels-btn-big" md-ink-ripple="#4b702c" ng-disabled="isBusy" ng-click="startUpload()">
                         {{'YES' | translate }}
                     </button>
                     <button type="button" class="mywheels-btn mywheels-btn-error btn--navigation__previous mywheels-btn-big" md-ink-ripple="#9a3d26" ng-click="cancelUpload()">
@@ -231,8 +233,6 @@
                 </p>
                 <p ng-if="booking.approved !==  'BUY_VOUCHER'" translate="DETAILS_PROFILE_PAY_NOT_APPROVED" translate-values="{firstName: person.firstName, preposition: person.preposition,surname: person.surname,renter: person.firstName }"></p>
                 <voucher data="{{ booking }}" toggleRedemption="toggleRedemption" ng-if="priceCalculated && isbooking"></voucher>
-                {{priceCalculated}}
-                {{isbooking}}
                 <p ng-if="booking.approved !==  'BUY_VOUCHER' ">
                     {{ 'DETAILS_PROFILE_PAY_NOT_APPROVED_OTHER' | translate }}
                 </p>

@@ -53,8 +53,9 @@ angular.module('owm.person.details', [])
   };
 
   $scope.images = images;
-  $scope.containsLicence = false;
-  $scope.LicenceUploaded = false;
+  $scope.containsLicence = me.driverLicense !== null ? true : false;
+  $scope.licenceUploaded = me.driverLicense !== null ? true : false;
+  $scope.licenceImage = me.driverLicense || 'assets/img/rijbewijs_voorbeeld.jpg'; //WHAT IS THE URL??
   $scope.licenceFileName = 'Selecteer je rijbewijs';
 
   // toggle the sections
@@ -323,7 +324,7 @@ angular.module('owm.person.details', [])
     $scope.$apply(function () {
       images.front = e.target.files[0];
       $scope.licenceFileName = e.target.files[0].name;
-      angular.element('#licence-preview')[0].src = URL.createObjectURL(event.target.files[0]);
+      $scope.licenceImage = URL.createObjectURL(event.target.files[0]);
       $scope.containsLicence = true;
     });
   });
@@ -332,40 +333,44 @@ angular.module('owm.person.details', [])
   };
 
   $scope.startUpload = function () {
-    if (!images.front) {
-      return;
+    if (me.driverLicense === null) {
+      if (!images.front) {
+        return;
+      }
+      $scope.isBusy = true;
+      alertService.load();
+
+      personService.addLicenseImages({
+          person: me.id
+        }, {
+          frontImage: images.front
+        })
+        .then(function () {
+          $scope.LicenceUploaded = true;
+          // reload user info (status may have changed as a result of uploading license)
+          personService.me({
+              version: 2
+            }).then(function (person) {
+              angular.extend(authService.user.identity, person);
+            })
+            // silently fail
+            .catch(function (err) {
+              $log.debug('error', err);
+            })
+            .finally(function () {
+
+            });
+        })
+        .catch(function (err) {
+          alertService.addError(err);
+        })
+        .finally(function () {
+          $scope.isBusy = false;
+          $scope.createBookingFlow();
+        });
+    } else {
+      $scope.createBookingFlow();
     }
-    $scope.isBusy = true;
-    alertService.load();
-
-    personService.addLicenseImages({
-        person: me.id
-      }, {
-        frontImage: images.front
-      })
-      .then(function () {
-        $scope.LicenceUploaded = true;
-        // reload user info (status may have changed as a result of uploading license)
-        personService.me({
-            version: 2
-          }).then(function (person) {
-            angular.extend(authService.user.identity, person);
-          })
-          // silently fail
-          .catch(function (err) {
-            $log.debug('error', err);
-          })
-          .finally(function () {
-
-          });
-      })
-      .catch(function (err) {
-        alertService.addError(err);
-      })
-      .finally(function () {
-        $scope.isBusy = false;
-        $scope.createBookingFlow();
-      });
   };
   //the button on the upload linece page
   $scope.skipFlow = function () {
@@ -392,6 +397,7 @@ angular.module('owm.person.details', [])
   $scope.createBookingFlow = function () {
     alertService.load();
     $scope.isBusy = true;
+    console.log($scope.isbooking);
     var resourceId = $stateParams.resourceId,
       bookingId = $stateParams.bookingId,
       discountCode = $stateParams.discountCode,
@@ -442,6 +448,10 @@ angular.module('owm.person.details', [])
           $scope.nextSection();
         });
       }
+    } else {
+      alertService.loaded();
+      $scope.isBusy = false;
+      $scope.nextSection();
     }
   };
   if (JSON.parse($stateParams.pageNumber) === 3) {
