@@ -367,6 +367,7 @@ angular.module('owm.person.details', [])
         $scope.createBookingFlow();
       });
   };
+  //the button on the upload linece page
   $scope.skipFlow = function () {
     personService.emailBookingLink({
       person: me.id,
@@ -374,6 +375,7 @@ angular.module('owm.person.details', [])
         pageNumber: $scope.pageNumber,
         city: $stateParams.city,
         resourceId: $stateParams.resourceId,
+        bookingId: $stateParams.bookingId,
         startDate: $stateParams.startDate,
         endDate: $stateParams.endDate,
         discountCode: $stateParams.discountCode,
@@ -385,17 +387,94 @@ angular.module('owm.person.details', [])
     });
     $scope.checkedLater = true;
   };
+  //booking
 
+  $scope.createBookingFlow = function () {
+    alertService.load();
+    $scope.isBusy = true;
+    var resourceId = $stateParams.resourceId,
+      bookingId = $stateParams.bookingId,
+      discountCode = $stateParams.discountCode,
+      remarkRequester = $stateParams.remarkRequester,
+      riskReduction = $stateParams.riskReduction,
+      timeFrame = {
+        startDate: moment($stateParams.startDate).format(API_DATE_FORMAT),
+        endDate: moment($stateParams.endDate).format(API_DATE_FORMAT)
+      };
 
-          return value;
+    if ($scope.isbooking) { //check if the recoure id is in the url
+      if (bookingId) { //check if there is a bookingId in the url
+        bookingService.get({
+          booking: bookingId
+        }).then(function (value) {
+          $scope.isAvailable = true;
+          getVoucherPrice(value.id);
         });
+      } else { //if there is no booking Id in the url
+        bookingService.create({ //creat a booking
+          resource: resourceId,
+          timeFrame: timeFrame,
+          person: me.id,
+          remark: remarkRequester
+        }).then(function (value) {
+          if (discountCode !== undefined) { //check if there is a discount code
+            //set the discount
+            discountService.apply({ //apply the discount code
+              booking: value.id,
+              discount: discountCode
+            }).catch(function (err) {
+              $scope.isBusy = false;
+              alertService.addError(err); //if there is something wrong show a err
+            });
+          }
+          return value;
+        }).then(function (value) { //go to an other state
+          goToNextState(3, value.id); //set the booking id in the url
+          $scope.isAvailable = true; //set isAvailable to true to render the table
+        }).catch(function (err) {
+          if (err.message === 'De auto is niet beschikbaar') {
+            $scope.isAvailable = false; //set isAvailable to false to show the trip is not Available page
+          } else {
+            alertService.addError(err); //there is something wrong so show a error
+          }
+          alertService.loaded();
+          $scope.isBusy = false;
+          $scope.nextSection();
+        });
+      }
     }
+  };
+  if (JSON.parse($stateParams.pageNumber) === 3) {
+    $scope.createBookingFlow();
   }
 
+  function getVoucherPrice(bookingId) {
+    var bookingObject = {};
+    return voucherService.calculateRequiredCreditForBooking({
+      booking: bookingId
+    }).then(function (value) {
+      bookingObject = {
+        bookings: [{
+          id: bookingId,
+          title: 'Rit op ',
+          booking_price: value,
+          km_price: value.kmPrice,
+          discount: value.discount
+        }]
+      };
+      $scope.requiredValue = bookingObject;
+      $scope.booking = bookingObject.bookings[0];
 
+      return bookingObject;
+    }).then(function () {
+      $scope.priceCalculated = true;
+      alertService.loaded();
+      $scope.isBusy = false;
+    }).catch(function (err) {
       alertService.addError(err);
     });
   }
+
 
   $scope.redemptionPending = {}; /* by booking id */
 
@@ -414,6 +493,7 @@ angular.module('owm.person.details', [])
       })
       .then(function () {
         /* recalculate amounts */
+        return getVoucherPrice();
       })
       .then(function () {
         $scope.booking.riskReduction = newValue;
@@ -426,6 +506,7 @@ angular.module('owm.person.details', [])
       .finally(function () {});
   };
 
+  // to buy the vouchure
   $scope.buyVoucher = function (value) {
     if (!value || value < 0) {
       return;
@@ -454,6 +535,7 @@ angular.module('owm.person.details', [])
         alertService.loaded($scope);
       });
   };
+  //redireceht to the pay service
   function redirect(url) {
     var redirectTo = appConfig.appUrl + $state.href('owm.finance.payment-result');
     $window.location.href = url + '?redirectTo=' + encodeURIComponent(redirectTo);
