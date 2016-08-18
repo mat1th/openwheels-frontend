@@ -10,7 +10,7 @@
         <!-- call to action buttons -->
         <div layout="column" layout-align="center center">
             <a href="" class="mywheels-btn mywheels-btn-light mywheels-btn-big" ui-sref="owm.resource.search.list" md-ink-ripple="#ded8d8">{{ 'SEARCH_CAR' | translate }}</a>
-            <button type="button" name="button" ui-sref="owm.person.details" class="mywheels-btn mywheels-btn-span">{{ 'DETAILS_PERSON_DATA' | translate }} </button>
+            <button type="button" name="button" ui-sref="owm.person.details({pageNumber: '1'})" class="mywheels-btn mywheels-btn-span">{{ 'DETAILS_PERSON_DATA' | translate }} </button>
         </div>
         <!-- /call to action buttons -->
     </div>
@@ -201,7 +201,7 @@
         <a href="" class="mywheels-btn mywheels-btn-error mywheels-btn-big" ui-sref="owm.resource.search.list" md-ink-ripple="#9a3d26">
           {{ 'SEARCH_CAR' | translate }}
         </a>
-        <button type="button" name="button" ui-sref="owm.person.details" class="mywheels-btn mywheels-btn-span">
+        <button type="button" name="button" ui-sref="owm.person.details({pageNumber: '1'})" class="mywheels-btn mywheels-btn-span">
             {{ 'DETAILS_PERSON_DATA' | translate }}
         </button>
     </section>

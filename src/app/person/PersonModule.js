@@ -57,7 +57,7 @@ angular.module('owm.person', [
    * dashboard/details
    */
   $stateProvider.state('owm.person.details', {
-    url: '/details?city&resourceId&startDate&endDate&discountCode&remarkRequester&riskReduction',
+    url: '/details/:pageNumber?city&resourceId&bookingId&startDate&endDate&discountCode&remarkRequester&riskReduction',
     views: {
       'main@shell': {
         templateUrl: 'person/details/details-profile.tpl.html',
