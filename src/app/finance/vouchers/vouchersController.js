@@ -113,7 +113,6 @@ angular.module('owm.finance.vouchers', [])
    */
   function getBookings(requiredValue) {
     if (!requiredValue.bookings || !requiredValue.bookings.length) {
-      console.log(requiredValue);
       return true;
     }
     var results = [];
@@ -150,8 +149,6 @@ angular.module('owm.finance.vouchers', [])
   }
 
   function isOpenStatus(index, statusValue) {
-    // console.log('----------');
-    // console.log(statusValue);
     if (index <= 1 && statusValue === false) {
       return false;
     } else {

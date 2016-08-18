@@ -325,10 +325,16 @@ angular.module('owm.resource.reservationForm', [])
     };
   }
   $scope.createBooking = function (booking) {
-
+    // console.log(booking.contract);
+    // console.log(booking.beginRequested);
+    // console.log(booking.endRequested);
+    // console.log($scope.features.signupFlow);
+    // console.log($scope.person);
+    // console.log($scope.person.status);
+    // console.log($scope.features.signupFlow);
+    // console.log(booking.contract);
 
     $rootScope.$watch(function isAuthenticated() {
-      console.log(authService.identity);
       $scope.person = authService.identity;
     });
     if (!booking.beginRequested || !booking.endRequested) {
@@ -337,7 +343,7 @@ angular.module('owm.resource.reservationForm', [])
     if (!$scope.features.signupFlow && !$scope.person) { // not logged in
       return $state.go('owm.auth.signup');
     } else if (!$scope.person) { // not logged in
-      console.log('!person');
+
       // Als je nog niet bent ingelogd is er
       // even een andere flow nodig
       return $mdDialog.show({
@@ -350,6 +356,8 @@ angular.module('owm.resource.reservationForm', [])
         },
         fullscreen: $mdMedia('xs')
       });
+    } else if ($scope.person.status === 'new' && !$scope.features.signupFlow) {
+      return alertService.add('danger', 'Voordat je een auto kunt boeken, hebben we nog wat gegevens van je nodig.', 5000);
     } else if ($scope.person.status === 'new' && $scope.features.signupFlow) { // upload driver's license
       return $state.go('owm.person.details', { // should register
         pageNumber: '1',
@@ -361,68 +369,68 @@ angular.module('owm.resource.reservationForm', [])
         remarkRequester: booking.remarkRequester,
         riskReduction: booking.riskReduction
       });
-    } else if ($scope.person.status === 'new' && !$scope.features.signupFlow) {
-      return alertService.add('danger', 'Voordat je een auto kunt boeken, hebben we nog wat gegevens van je nodig.', 5000);
     } else if (!booking.contract) { // should pay deposit to get a contract
+      console.log(booking);
       return alertService.add('danger', 'Voordat je een auto kunt boeken, hebben we een borg van je nodig', 5000);
-    }
-    alertService.load();
+    } else {
+      alertService.load();
 
-    return authService.me().then(function (me) {
-        /**
-         * Create booking
-         */
-        return bookingService.create({
-          resource: $scope.resource.id,
-          timeFrame: {
-            startDate: booking.beginRequested,
-            endDate: booking.endRequested
-          },
-          person: me.id,
-          contract: booking.contract.id,
-          remark: booking.remarkRequester,
-          riskReduction: booking.riskReduction
-        });
-      })
-      //
-      // /**
-      //  * Apply discount (only if we have a discount code)
-      //  */
-      .then(function (response) {
-        if (!booking.discountCode) {
-          return response;
-        } else {
-          return discountService.apply({
-              booking: response.id,
-              discount: booking.discountCode
-            })
-            .then(function (discountResponse) {
-              $log.debug('successfully applied discount');
-              return response; // <-- the response from bookingService.create
-            })
-            .catch(function (err) {
-              $log.debug('error applying discount');
-              alertService.addError(err);
-              return response; // <-- continue, although the discount has not been applied!
-            });
-        }
-      })
-      .then(function (response) {
-        if (response.beginBooking) {
-          alertService.add('success', $filter('translate')('BOOKING_ACCEPTED'), 10000);
-        } else {
-          alertService.add('info', $filter('translate')('BOOKING_REQUESTED'), 5000);
-        }
-        if (response.approved === 'BUY_VOUCHER' && response.person.numberOfBookings <= 1) {
-          return $state.go('contractchoice');
-        } else if (response.approved === 'BUY_VOUCHER') {
-          return $state.go('owm.finance.vouchers');
-        } else {
-          return $state.go('owm.person.dashboard');
-        }
-      })
-      .catch(alertService.addError)
-      .finally(alertService.loaded);
+      return authService.me().then(function (me) {
+          /**
+           * Create booking
+           */
+          return bookingService.create({
+            resource: $scope.resource.id,
+            timeFrame: {
+              startDate: booking.beginRequested,
+              endDate: booking.endRequested
+            },
+            person: me.id,
+            contract: booking.contract.id,
+            remark: booking.remarkRequester,
+            riskReduction: booking.riskReduction
+          });
+        })
+        //
+        // /**
+        //  * Apply discount (only if we have a discount code)
+        //  */
+        .then(function (response) {
+          if (!booking.discountCode) {
+            return response;
+          } else {
+            return discountService.apply({
+                booking: response.id,
+                discount: booking.discountCode
+              })
+              .then(function (discountResponse) {
+                $log.debug('successfully applied discount');
+                return response; // <-- the response from bookingService.create
+              })
+              .catch(function (err) {
+                $log.debug('error applying discount');
+                alertService.addError(err);
+                return response; // <-- continue, although the discount has not been applied!
+              });
+          }
+        })
+        .then(function (response) {
+          if (response.beginBooking) {
+            alertService.add('success', $filter('translate')('BOOKING_ACCEPTED'), 10000);
+          } else {
+            alertService.add('info', $filter('translate')('BOOKING_REQUESTED'), 5000);
+          }
+          if (response.approved === 'BUY_VOUCHER' && response.person.numberOfBookings <= 1) {
+            return $state.go('contractchoice');
+          } else if (response.approved === 'BUY_VOUCHER') {
+            return $state.go('owm.finance.vouchers');
+          } else {
+            return $state.go('owm.person.dashboard');
+          }
+        })
+        .catch(alertService.addError)
+        .finally(alertService.loaded);
+    }
   };
 
 });

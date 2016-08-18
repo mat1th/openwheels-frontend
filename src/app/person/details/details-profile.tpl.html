@@ -1,8 +1,9 @@
 <div class="progress--steps">
     <section class="step" data-section="1" title="Basisgegevens" ng-class="{'selected': pageNumber === 1 ? true : false, 'done': pageNumber > 1 ? true : false }" ui-sref="owm.person.details({pageNumber: '1'})"></section>
     <section class="step" data-section="2" title="Rijbewijs uploaden" ng-class="{'selected': pageNumber === 2 ? true : false, 'done': pageNumber > 2 ? true : false}" ui-sref="owm.person.details({pageNumber: '2'})"></section>
-    <section class="step last-step" data-section="3" title="Betalen" ng-class="{'selected': pageNumber === 3 ? true : false, 'done': pageNumber > 3 ? true : false }" ng-click="createBookingFlow()"></section>
+    <section class="step last-step" data-section="3" title="{{isbooking !== true ? 'Auto zoeken' : 'Betalen'}}" ng-class="{'selected': pageNumber === 3 ? true : false, 'done': pageNumber > 3 ? true : false }" ng-click="createBookingFlow()"></section>
 </div>
+
 <section class="details--profile__overview">
     <!-- PERSONAL DATA  -->
     <div class="card animated section-transion details--card__section" id="personal-data" ng-show="showFirst">
@@ -16,7 +17,7 @@
                 <!-- firstName -->
                 <div id="firstName_group" class="icon user">
                     <input type="text" name="firstName" id="firstName" ng-model="person.firstName" placeholder="{{ 'FIRST_NAME' | translate }}" required>
-                    <div class="help-block" ng-show="personalDataForm.$submitted || personalDataForm.firstName.$touched">
+                    <div class="err-block" ng-show="personalDataForm.$submitted || personalDataForm.firstName.$touched">
                         <span class="text-danger" ng-show="personalDataForm.firstName.$error.required">{{ 'REQUIRED' | translate }}</span>
                     </div>
                 </div>
@@ -25,14 +26,14 @@
                 <div class="responsive">
                     <!-- prepostion -->
                     <div id="prepostion_group" class="icon user smallfrom" flex="33">
-                        <input type="text" name="preposition" id="prepostion" ng-model="person.preposition" placeholder="{{ 'PREPOSITION' | translate }}">
+                        <input type="text" name="preposition" id="prepostion" ng-model="person.preposition" placeholder="{{ 'PREPOSITION' | translate }}" required>
                     </div>
                     <!-- /prepostion -->
 
                     <!-- surName -->
                     <div id="surname_group" class="icon user" flex="77">
                         <input type="text" name="surname" id="surname" ng-model="person.surname" placeholder="{{ 'SURNAME' | translate }}" required>
-                        <div class="help-block" ng-show="personalDataForm.$submitted || personalDataForm.surname.$touched">
+                        <div class="err-block" ng-show="personalDataForm.$submitted || personalDataForm.surname.$touched">
                             <span class="text-danger" ng-show="personalDataForm.surname.$error.required">{{ 'REQUIRED' | translate }}</span>
                         </div>
                     </div>
@@ -47,7 +48,7 @@
                         <input type="number" id="month" name="month" inputmode="numeric" pattern="[0-9]*" ng-model="date.month" placeholder="MM" maxlength="2" max="12" min="0" required>
                         <input type="number" id="year" name="year" inputmode="numeric" pattern="[0-9]*" ng-model="date.year" placeholder="JJJJ" maxlength="4" max="2016" min="1900" required>
                     </div>
-                    <div class="help-block" ng-show="personalDataForm.$submitted || personalDataForm.dateOfBirth.$touched || personalDataForm.year.$error.maxlength || personalDataForm.year.$error.max">
+                    <div class="err-block" ng-show="personalDataForm.$submitted || personalDataForm.dateOfBirth.$touched || personalDataForm.year.$error.maxlength || personalDataForm.year.$error.max">
                         <span class="text-danger" ng-show="personalDataForm.day.$error.required || personalDataForm.month.$error.required || personalDataForm.year.$error.required || personalDataForm.day.$error.maxlength || personalDataForm.month.$error.maxlength">{{ 'REQUIRED' | translate }}</span>
                         <span class="text-danger" ng-show="personalDataForm.day.$error.maxlength || personalDataForm.day.$error.required">De dag is ongeldig</span>
                         <span class="text-danger" ng-show="personalDataForm.month.$error.maxlength || personalDataForm.month.$error.required">De maand is ongeldig</span>
@@ -68,7 +69,7 @@
                         <label for="female">{{ 'FEMALE' | translate }}</label>
                     </div>
                 </div>
-                <p class="help-block" ng-show="personalDataForm.$submitted || personalDataForm.genderText.$touched">
+                <p class="err-block" ng-show="personalDataForm.$submitted || personalDataForm.genderText.$touched">
                     <span class="text-danger">{{ 'REQUIRED' | translate }}</span>
                 </p>
                 <!-- /gender -->
@@ -82,7 +83,7 @@
                     </span>
                         <input type="tel" class="form-control" id="number-{{ $index }}" ng-model="p.number">
                         <span class="input-group-addon">
-                            <input type="checkbox" name="confidential" ng-model="p.confidential"> {{ 'CONFIDENTIAL' | translate }}
+                            <input type="checkbox" name="confidential" ng-model="p.confidential" required> {{ 'CONFIDENTIAL' | translate }}
                     </span>
                     </div>
                 </div>
@@ -92,9 +93,9 @@
                 <h3>{{ 'MY_PROFILE_ADDRESS' | translate }}</h3>
                 <div class="responsive">
                     <div id="zipcode_group" class="icon home field">
-                        <input type="text" name="zipcode" id="zipcode" ng-model="person.zipcode" placeholder="{{ 'ZIPCODE' | translate }}" required="true" ng-pattern="/^[1-9][0-9]{3} ?[A-Z,a-z]{2}$/">
+                        <input type="text" name="zipcode" id="zipcode" ng-model="person.zipcode" placeholder="{{ 'ZIPCODE' | translate }}" required ng-pattern="/^[1-9][0-9]{3} ?[A-Z,a-z]{2}$/">
                         <md-progress-circular class="md-hue-2" md-diameter="20px" ng-if="zipcodeAutocompleting"></md-progress-circular>
-                        <div class="help-block" ng-show="personalDataForm.$submitted || personalDataForm.zipcode.$touched">
+                        <div class="err-block" ng-show="personalDataForm.$submitted || personalDataForm.zipcode.$touched">
                             <span class="text-danger" ng-show="personalDataForm.zipcode.$error.required">{{ 'REQUIRED' | translate }}</span>
                             <span class="text-danger" ng-show="personalDataForm.zipcode.$error.pattern">Verkeerd formaat</span>
                         </div>
@@ -103,9 +104,9 @@
 
                     <!-- streetNumber -->
                     <div id="streetNumber_group" class="icon home field">
-                        <input type="text" name="streetNumber" id="streetNumber" ng-model="person.streetNumber" placeholder="{{ 'STREET_NUMBER' | translate }}" required="true">
+                        <input type="text" name="streetNumber" id="streetNumber" ng-model="person.streetNumber" placeholder="{{ 'STREET_NUMBER' | translate }}" required>
                         <md-progress-circular class="md-hue-2" md-diameter="20px" ng-if="zipcodeAutocompleting"></md-progress-circular>
-                        <div class="help-block" ng-show="personalDataForm.$submitted || personalDataForm.streetNumber.$touched">
+                        <div class="err-block" ng-show="personalDataForm.$submitted || personalDataForm.streetNumber.$touched">
                             <span class="text-danger" ng-show="personalDataForm.streetNumber.$error.required">{{ 'REQUIRED' | translate }}</span>
                         </div>
                     </div>
@@ -113,9 +114,8 @@
                 </div>
                 <!-- streetName -->
                 <div id="streetName_group" class="icon home field">
-                    <input type="text" name="streetName" id="streetName" ng-model="person.streetName" placeholder="{{ 'STREET_NAME' | translate }} " required="true" ng-readonly="person.country === 'Nederland'">
-                    <div class="help-block" ng-show="personalDataForm.$submitted || personalDataForm.zipcode.$touched">
-                        <span class="text-danger" ng-show="personalDataForm.streetName.$error.required">{{ 'REQUIRED' | translate }}</span>
+                    <input type="text" name="streetName" id="streetName" ng-model="person.streetName" placeholder="{{ 'STREET_NAME' | translate }} " required ng-readonly="person.country === 'Nederland'">
+                    <div class="err-block" ng-show="personalDataForm.$submitted || personalDataForm.zipcode.$touched">
                         <span class="text-danger" ng-show="!person.streetName || personalDataForm.zipcode.$error.pattern">{{ 'ENTER_ZIPCODE_STREET_NUMBER' | translate }}</span>
                     </div>
                 </div>
@@ -123,9 +123,8 @@
 
                 <!-- city -->
                 <div id="city_group" class="icon home field">
-                    <input type="text" name="city" id="city" ng-model="person.city" placeholder="{{ 'CITY' | translate }} " required="true" ng-readonly="person.country === 'Nederland'">
-                    <div class="help-block" ng-show="personalDataForm.$submitted || personalDataForm.city.$touched">
-                        <span class="text-danger" ng-show="personalDataForm.city.$error.required">{{ 'REQUIRED' | translate }}</span>
+                    <input type="text" name="city" id="city" ng-model="person.city" placeholder="{{ 'CITY' | translate }} " required ng-readonly="person.country === 'Nederland'">
+                    <div class="err-block" ng-show="personalDataForm.$submitted || personalDataForm.city.$touched">
                         <span class="text-danger" ng-if="!person.city">{{ 'ENTER_ZIPCODE_STREET_NUMBER' | translate }}</span>
                     </div>
                 </div>
@@ -150,7 +149,7 @@
         <div class="card-body details--license-upload details--card">
             <section resource-sidebar class="details--profile__sidebar" ng-if="isbooking"></section>
             <!-- upload license -->
-            <section class="details--card--form">
+            <section class="details--card--form" ng-show="!checkedLater">
                 <h2 class="card-title">{{ 'DETAILS_PROFILE_LICENCE' | translate }}</h2>
 
                 <div class="checklist">
@@ -181,20 +180,39 @@
                         {{'NO' | translate }}
                     </button>
                 </div>
+
                 <div class="details--card--form__navigation-buttons">
                     <button rel="prev" type="button" class="mywheels-btn mywheels-btn-transparant btn--navigation__previous" md-ink-ripple="#ded8d8" ng-click="prevSection(0, 1)">
                         <md-icon>navigate_before</md-icon>
                         {{ 'PREVIOUS' | translate}}
                     </button>
                     <div>
-                        <button rel="prev" type="button" class="mywheels-btn mywheels-btn-transparant btn--navigation__previous" md-ink-ripple="#ded8d8" ng-click="skipFlow()">
-                            later
+                        <button rel="prev" type="button" class="mywheels-btn mywheels-btn-transparant btn--navigation__previous" md-ink-ripple="#ded8d8" ng-click="skipFlow()" ng-show="$root.isWindowSizeSM && !containsLicence || $root.isWindowSizeSM && !LicenceUploaded">
+                            {{ 'LATER' | translate}}
                             <md-icon>navigate_next</md-icon>
                         </button>
                         <button rel="next" type="button" class="mywheels-btn mywheels-btn-default btn--navigation__next" ng-click="createBookingFlow()" ng-disabled="!LicenceUploaded">
                             {{ 'NEXT' | translate}}
                             <md-icon class="text-white">navigate_next</md-icon>
                         </button>
+                    </div>
+                </div>
+                <button rel="prev" type="button" class="mywheels-btn mywheels-btn-transparant btn--navigation__previous" md-ink-ripple="#ded8d8" ng-click="skipFlow()" ng-show="!$root.isWindowSizeSM && !containsLicence || !$root.isWindowSizeSM && !LicenceUploaded" style="float: right; margin: 1em 0 0 0;">
+                    {{ 'LATER' | translate}}
+                    <md-icon>navigate_next</md-icon>
+                </button>
+            </section>
+            <section class="details--card--form" ng-show="checkedLater">
+                <h2 class="card-title">{{ 'DETAILS_PROFILE_LATER' | translate }}</h2>
+                <p>{{ 'DETAILS_PROFILE_LATER_TEXT' | translate }}</p>
+
+                <div class="details--card--form__navigation-buttons">
+                    <button rel="prev" type="button" class="mywheels-btn mywheels-btn-transparant btn--navigation__previous" md-ink-ripple="#ded8d8" ng-click="prevSection(0, 1)">
+                        <md-icon>navigate_before</md-icon>
+                        {{ 'PREVIOUS' | translate}}
+                    </button>
+                    <div>
+
                     </div>
                 </div>
             </section>
@@ -211,9 +229,10 @@
                 <p ng-if="booking.approved ===  'BUY_VOUCHER' ">
                     {{ 'DETAILS_PROFILE_PAY_APPROVED' | translate }}
                 </p>
-                <p ng-if="booking.approved !==  'BUY_VOUCHER'" translate="DETAILS_PROFILE_PAY_NOT_APPROVED" translate-values="{firstName: person.firstName,preposition: person.preposition,surname: person.surname,renter: person.firstName }"></p>
-                {{toggleRedemption}}
-                <voucher data="{{ booking }}" toggleRedemption="toggleRedemption" ng-if="priceCalculated && isbooking && toggleRedemption"></voucher>
+                <p ng-if="booking.approved !==  'BUY_VOUCHER'" translate="DETAILS_PROFILE_PAY_NOT_APPROVED" translate-values="{firstName: person.firstName, preposition: person.preposition,surname: person.surname,renter: person.firstName }"></p>
+                <voucher data="{{ booking }}" toggleRedemption="toggleRedemption" ng-if="priceCalculated && isbooking"></voucher>
+                {{priceCalculated}}
+                {{isbooking}}
                 <p ng-if="booking.approved !==  'BUY_VOUCHER' ">
                     {{ 'DETAILS_PROFILE_PAY_NOT_APPROVED_OTHER' | translate }}
                 </p>

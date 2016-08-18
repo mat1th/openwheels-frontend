@@ -1,0 +1,93 @@
+.payment-result {
+    display: block;
+    flex-direction: column;
+}
+.payment-result__card {
+    .datetime {
+        display: inline-block;
+    }
+    md-card-body {
+        display: flex;
+        div {
+            flex-grow: 1;
+            flex-basis: 50%;
+        }
+    }
+    .payment-result__padding {
+        padding: 1em;
+    }
+    md-tab-content {
+        padding: 1.3em;
+    }
+    .after-tabs-area > span {
+        margin-top: 1.78em;
+        padding-right: 1.1em;
+        vertical-align: middle;
+        line-height: 2em;
+        // height: 3em;
+    }
+    .after-tabs-area > md-checkbox {
+        margin-top: 1.8em;
+        margin-left: 0;
+    }
+      md-tabs .md-tab md-icon {
+          color: @mywheels-green;
+      }
+    md-tabs .md-tab.md-active md-icon {
+        color: @mywheels-blue;
+    }
+    md-tabs md-ink-bar {
+        color: @mywheels-blue;
+        background: @mywheels-blue;
+    }
+}
+@media (min-width: 768px) {
+    .payment-result {
+        flex-grow: 0;
+        display: flex;
+        flex-direction: row;
+    }
+    .payment-result__card {
+        flex-grow: 1;
+        flex-basis: 50%;
+        &:first-child {
+            margin: 0 1em 0 0;
+        }
+    }
+    .payment-result__middle {
+        margin: 0 1em 0 0;
+    }
+    .payment-result__only-one.payment-result__card {
+        margin: 0;
+        md-card {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            md-tabs:not(.md-no-tab-content):not(.md-dynamic-height) {
+                min-height: 15em;
+            }
+            div {
+                flex-basis: 50%;
+            }
+        }
+    }
+}
+.payment-result__booking {
+    display: flex;
+    margin: 0 0 1em;
+    flex-wrap: wrap;
+    flex-direction: row;
+    section {
+        margin-left: 0.5em;
+    }
+}
+.payment-result__booking--location {
+    font-size: 1em;
+}
+.payment-result__booking--image {
+    width: 100%;
+    display: inline-block;
+}
+.payment-result__booking--content {
+    margin: 0 0 1em;
+}
