@@ -3,7 +3,7 @@
 angular.module('owm.person.details', [])
 
 
-.controller('DetailsProfileController', function ($scope, $filter, $timeout, $translate, $window, $log, $state, $stateParams, person, alertService, personService, authService, me, dutchZipcodeService, voucherService, $q, appConfig, paymentService, bookingService, invoice2Service, discountService, API_DATE_FORMAT, $anchorScroll) {
+.controller('DetailsProfileController', function ($scope, $filter, $timeout, $translate, $window, $log, $state, $stateParams, $mdDialog, discountService, contractService, account2Service, person, alertService, personService, authService, me, dutchZipcodeService, voucherService, $q, appConfig, paymentService, bookingService, invoice2Service, API_DATE_FORMAT, $anchorScroll) {
   $scope.isBusy = false;
 
   //person info
@@ -17,6 +17,7 @@ angular.module('owm.person.details', [])
   $scope.checkedLater = false;
   $scope.allowLicenseRelated = false;
   $scope.alerts = null;
+  $scope.accountApproved = false;
 
   //details section vars
   $scope.addPhone = addPhone;
@@ -53,8 +54,8 @@ angular.module('owm.person.details', [])
   };
 
   $scope.images = images;
-  $scope.containsLicence = me.driverLicense !== null ? true : false;
-  $scope.licenceUploaded = me.driverLicense !== null ? true : false;
+  $scope.containsLicence = me.driverLicense !== (null || undefined) ? true : false;
+  $scope.licenceUploaded = me.driverLicense !== (null || undefined) ? true : false;
   $scope.licenceImage = me.driverLicense || 'assets/img/rijbewijs_voorbeeld.jpg'; //WHAT IS THE URL??
   $scope.licenceFileName = 'Selecteer je rijbewijs';
 
@@ -135,6 +136,15 @@ angular.module('owm.person.details', [])
     $timeout(function () {
       $scope.personalDataForm.$setPristine();
     }, 0);
+
+    account2Service.forMe({
+      'onlyApproved': true
+    }).then(function (value) {
+      if (value.length > 0) {
+        $scope.accountApproved = true;
+      }
+
+    });
 
     initAlerts();
   }
@@ -331,9 +341,9 @@ angular.module('owm.person.details', [])
   $scope.cancelUpload = function () {
     $scope.containsLicence = false;
   };
-
+  console.log(me.driverLicense);
   $scope.startUpload = function () {
-    if (me.driverLicense === null) {
+    if (me.driverLicense === null || me.driverLicense === undefined) {
       if (!images.front) {
         return;
       }
@@ -400,6 +410,7 @@ angular.module('owm.person.details', [])
     console.log($scope.isbooking);
     var resourceId = $stateParams.resourceId,
       bookingId = $stateParams.bookingId,
+      city = $stateParams.city,
       discountCode = $stateParams.discountCode,
       remarkRequester = $stateParams.remarkRequester,
       riskReduction = $stateParams.riskReduction,
@@ -425,12 +436,14 @@ angular.module('owm.person.details', [])
         }).then(function (value) {
           if (discountCode !== undefined) { //check if there is a discount code
             //set the discount
-            discountService.apply({ //apply the discount code
-              booking: value.id,
-              discount: discountCode
-            }).catch(function (err) {
-              $scope.isBusy = false;
-              alertService.addError(err); //if there is something wrong show a err
+            verifyDiscountCode().then(function () {
+              discountService.apply({ //apply the discount code
+                booking: value.id,
+                discount: discountCode
+              }).catch(function (err) {
+                $scope.isBusy = false;
+                alertService.addError(err); //if there is something wrong show a err
+              });
             });
           }
           return value;
@@ -453,7 +466,59 @@ angular.module('owm.person.details', [])
       $scope.isBusy = false;
       $scope.nextSection();
     }
+    //check if the discount is applicable
+    function verifyDiscountCode() {
+      if (!$stateParams.discountCode) {
+        return;
+      }
+      return contractService.forDriver({
+        person: person.id
+      }).then(function getFirstContract(contracts) {
+        if (contracts && contracts.length) {
+
+          return contracts[0];
+        } else {
+          $log.debug('error: new user should have at least one contract');
+          return $q.reject();
+        }
+      }).then(function (contract) {
+        return discountService.isApplicable({
+            resource: resourceId,
+            person: me.id,
+            contract: contract.id,
+            discount: discountCode,
+            timeFrame: timeFrame
+          })
+          .then(function (result) {
+            if (result && result.applicable) {
+              $log.debug('discount code is applicable');
+              return $q.when(true); // resolve
+            } else {
+              $log.debug('discount code not applicable');
+              return $q.reject(new Error('De kortingscode die je had opgegeven kon niet worden toegepast.'));
+            }
+          }).catch(function (err) {
+            var confirm = $mdDialog.confirm()
+              .title('kortingscode')
+              .textContent('De kortingscode die je hebt ingevuld is helaas niet van toepassing op deze rit. Wil je de boeking alsnog maken?')
+              .ok('Ja')
+              .cancel('Nee');
+            $mdDialog.show(confirm).then(function () {
+              $scope.nextSection();
+            }, function () {
+              $state.go('owm.resource.show', {
+                resourceId: resourceId,
+                city: city
+              });
+            });
+            return false;
+          });
+      });
+
+    }
   };
+
+
   if (JSON.parse($stateParams.pageNumber) === 3) {
     $scope.createBookingFlow();
   }
@@ -550,5 +615,7 @@ angular.module('owm.person.details', [])
     var redirectTo = appConfig.appUrl + $state.href('owm.finance.payment-result');
     $window.location.href = url + '?redirectTo=' + encodeURIComponent(redirectTo);
   }
+
+
 
 });

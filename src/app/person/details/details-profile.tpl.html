@@ -116,7 +116,7 @@
                 <div id="streetName_group" class="icon home field">
                     <input type="text" name="streetName" id="streetName" ng-model="person.streetName" placeholder="{{ 'STREET_NAME' | translate }} " required ng-readonly="person.country === 'Nederland'">
                     <div class="err-block" ng-show="personalDataForm.$submitted || personalDataForm.zipcode.$touched">
-                        <span class="text-danger" ng-show="!person.streetName || personalDataForm.zipcode.$error.pattern">{{ 'ENTER_ZIPCODE_STREET_NUMBER' | translate }}</span>
+                        <span ng-show="!person.streetName || personalDataForm.zipcode.$error.pattern">{{ 'ENTER_ZIPCODE_STREET_NUMBER' | translate }}</span>
                     </div>
                 </div>
                 <!-- /streetName -->
@@ -125,7 +125,7 @@
                 <div id="city_group" class="icon home field">
                     <input type="text" name="city" id="city" ng-model="person.city" placeholder="{{ 'CITY' | translate }} " required ng-readonly="person.country === 'Nederland'">
                     <div class="err-block" ng-show="personalDataForm.$submitted || personalDataForm.city.$touched">
-                        <span class="text-danger" ng-if="!person.city">{{ 'ENTER_ZIPCODE_STREET_NUMBER' | translate }}</span>
+                        <span ng-if="!person.city">{{ 'ENTER_ZIPCODE_STREET_NUMBER' | translate }}</span>
                     </div>
                 </div>
                 <!-- /city -->
@@ -162,7 +162,6 @@
                             <md-icon>check</md-icon><span>{{ 'LICENSE_VALID' | translate }}</span></li>
                     </ul>
                 </div>
-                  {{!licenceUploaded}} {{!containsLicence}}
                 <div class="file-input" ng-show="!containsLicence">
                     <span class="filename" id="filename"> {{licenceFileName}}</span>
                     <label for="licenseFrontFile" class="mywheels-btn mywheels-btn-normal">Selecteer
@@ -213,9 +212,6 @@
                         <md-icon>navigate_before</md-icon>
                         {{ 'PREVIOUS' | translate}}
                     </button>
-                    <div>
-
-                    </div>
                 </div>
             </section>
         </div>
@@ -233,6 +229,11 @@
                 </p>
                 <p ng-if="booking.approved !==  'BUY_VOUCHER'" translate="DETAILS_PROFILE_PAY_NOT_APPROVED" translate-values="{firstName: person.firstName, preposition: person.preposition,surname: person.surname,renter: person.firstName }"></p>
                 <voucher data="{{ booking }}" toggleRedemption="toggleRedemption" ng-if="priceCalculated && isbooking"></voucher>
+                <div ng-if="accountApproved">
+                    <p class="mywheels-btn-margin-top">
+                        <b>Let op:</b> om de betaling te kunnen verwerken, moet de tenaamstelling van de rekening overeenkomen met je accountnaam.
+                    </p>
+                </div>
                 <p ng-if="booking.approved !==  'BUY_VOUCHER' ">
                     {{ 'DETAILS_PROFILE_PAY_NOT_APPROVED_OTHER' | translate }}
                 </p>
