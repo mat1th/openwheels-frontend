@@ -33,3 +33,8 @@
     <div class="footer" ui-view="footer"></div>
 
 </md-content>
+
+<div class="cookiebar" ng-if="$root.cookieBar !== 'false'">
+    <span translate="COOKIES_TERMS"></span>
+    <button type="button" name="button" ng-click="acceptCookie()" class="mywheels-btn mywheels-btn-normal">{{'ACCEPT' | translate}}</button>
+</div>
