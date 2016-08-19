@@ -2,7 +2,7 @@
 
 angular.module('owm.finance.vouchers', [])
 
-.controller('VouchersController', function ($window, $q, $state, $scope, appConfig, alertService, voucherService,
+.controller('VouchersController', function ($window, $q, $state, $scope, account2Service, appConfig, alertService, voucherService,
   paymentService, bookingService, me) {
   $scope.me = me;
   var cachedBookings = {};
@@ -11,6 +11,15 @@ angular.module('owm.finance.vouchers', [])
   $scope.voucherOptions = [25, 50, 100, 250, 500];
   $scope.showVoucherOptions = false;
   $scope.redemptionPending = {}; /* by booking id */
+  $scope.accountApproved = false;
+  account2Service.forMe({
+    'onlyApproved': true
+  }).then(function (value) {
+    if (value.length > 0) {
+      $scope.accountApproved = true;
+    }
+
+  });
 
   alertService.load($scope);
   getRequiredValue().then(getBookings).finally(function () {
