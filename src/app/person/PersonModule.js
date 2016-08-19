@@ -6,6 +6,7 @@ angular.module('owm.person', [
   'owm.person.dashboard.v1',
   'owm.person.profile',
   'owm.person.details',
+  'owm.person.aboutme',
   'owm.person.action.payinvoicegroup',
   'owm.person.license',
   'owm.person.anwbId',
@@ -52,6 +53,26 @@ angular.module('owm.person', [
         controller: 'PersonIntroController'
       }
     },
+  });
+  /**
+   * dashboard/aboutme
+   */
+  $stateProvider.state('owm.person.aboutme', {
+    url: '/aboutme',
+    views: {
+      'main@shell': {
+        templateUrl: 'person/aboutme/about-me.tpl.html',
+        controller: 'aboutMeController'
+      }
+    },
+    resolve: {
+      person: ['personService', function (personService) {
+        console.log('jpo');
+        return personService.me({
+          version: 2
+        });
+      }]
+    }
   });
   /**
    * dashboard/details
@@ -181,6 +202,7 @@ angular.module('owm.person', [
       }]
     }
   });
+
 
   /**
    * action
