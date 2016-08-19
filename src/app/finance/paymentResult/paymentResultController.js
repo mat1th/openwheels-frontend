@@ -1,7 +1,7 @@
 'use strict';
 angular.module('owm.finance.paymentResult', [])
 
-.controller('PaymentResultController', function ($scope, $state, $window, orderStatusId, account2Service, alertService, voucherService, me, paymentService, bookingService, chipcardService, linksService, API_DATE_FORMAT) {
+.controller('PaymentResultController', function ($scope, $state, $window, appConfig, orderStatusId, account2Service, alertService, voucherService, me, paymentService, bookingService, chipcardService, linksService, API_DATE_FORMAT) {
 
   var afterPayment;
   $scope.isBusy = true;
@@ -111,10 +111,10 @@ angular.module('owm.finance.paymentResult', [])
 
     account2Service.forMe({}).then(function (data) {
       data.every(function (elm) {
+        $scope.name = elm.lastName;
+        $scope.person = elm.person;
         if (elm.approved === true) {
           $scope.isApproved = true;
-          $scope.name = elm.lastName;
-          $scope.person = elm.person;
           return false;
         } else {
           return true;
@@ -125,8 +125,10 @@ angular.module('owm.finance.paymentResult', [])
   }
 
   function redirect(url) {
-    $window.location.replace(url, '_top');
+    var redirectTo = appConfig.appUrl + '/payment-result';
+    $window.location.href = url + '?redirectTo=' + encodeURIComponent(redirectTo);
   }
+
   //start page
   init();
 
