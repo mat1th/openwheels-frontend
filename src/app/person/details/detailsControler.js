@@ -559,6 +559,7 @@ angular.module('owm.person.details', [])
       bookingObject = {
         bookings: [{
           riskReduction: booking.riskReduction,
+          resource: booking.resource,
           id: booking.id,
           title: 'Rit op ',
           booking_price: value,

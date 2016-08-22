@@ -229,7 +229,7 @@
                 <p ng-if="booking.approved ===  'BUY_VOUCHER' ">
                     {{ 'DETAILS_PROFILE_PAY_APPROVED' | translate }}
                 </p>
-                <p ng-if="booking.approved !==  'BUY_VOUCHER'" translate="DETAILS_PROFILE_PAY_NOT_APPROVED" translate-values="{firstName: booking.resource.owner.firstName, preposition: booking.resource.owner.preposition,surname: booking.resource.owner.surname, renter: person.firstName }"></p>
+                <p ng-if="booking.approved !==  'BUY_VOUCHER'" translate="DETAILS_PROFILE_PAY_NOT_APPROVED" translate-values="{firstName: booking.resource.owner.firstName }"></p>
                 <voucher data="{{ booking }}" toggleRedemption="toggleRedemption" vouchureError="vouchureError" ng-if="priceCalculated && isbooking"></voucher>
                 <div ng-if="!accountApproved">
                     <p class="mywheels-btn-margin-top">
