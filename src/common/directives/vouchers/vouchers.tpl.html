@@ -1,4 +1,4 @@
-<table class="table" >
+<table class="table">
     <tbody>
         <tr>
             <td style="width:100%">Huur</td>
@@ -10,6 +10,7 @@
             <td class="text-right">{{ booking.booking_price.booking_fee | currency }}</td>
         </tr>
         <tr>
+
             <td style="background: #eee; padding: 20px 20px 25px 10px">
                 <div class="media">
                     <div class="media-object pull-left">
@@ -17,7 +18,9 @@
                     </div>
                     <div class="media-body" style="padding:0">
                         <b>Eigen risico verlagen</b>
-                        <br/> Het eigen risico bij schade is in de meeste gevallen 250 euro. Voor slechts 3,50 euro per dag verlaag je het eigen risico met 250 euro en kun je onbezorgd op weg. <a href="https://mywheels.nl/autodelen/hoe-huren-werkt/verzekering/" target="_blank">Lees meer</a>.
+                        <br/> Het eigen risico bij schade is in de meeste gevallen 250 euro. Voor slechts 3,50 euro per dag verlaag je het eigen risico met 250 euro en kun je onbezorgd op weg. <a href="https://mywheels.nl/autodelen/hoe-huren-werkt/verzekering/"
+                            target="_blank">Lees meer</a>.
+                            <p class="text-danger" ng-show="vouchureError.show">{{vouchureError.message}} <a ui-sref="contractchoice">Kies een ander contract</a></p>
                     </div>
                 </div>
             </td>

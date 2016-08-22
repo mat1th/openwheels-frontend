@@ -8,9 +8,6 @@ angular.module('owm.shell')
 
   $scope.user = authService.user;
   $rootScope.cookieBar = $cookies.get('cookieBar');
-  console.log($cookies.get('cookieBar'));
-  console.log($rootScope.cookieBar);
-
   $scope.openMenu = function () {
     $mdSidenav(id).open();
   };
@@ -19,10 +16,8 @@ angular.module('owm.shell')
     $mdSidenav(id).close();
   };
   $scope.acceptCookie = function () {
-    console.log('hoi');
     $cookies.put('cookieBar', false);
     $rootScope.cookieBar = 'false';
-    console.log($rootScope.cookieBar);
   };
 
   $scope.login = function () {

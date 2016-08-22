@@ -52,11 +52,15 @@
                 </div>
             </div>
             <p class="help-block">{{ 'USER_VISIBILITY_HELP_BLOCK' | translate }}</p>
-
-            <button id="submitForm" type="button" class="btn btn-primary" ng-disabled="aboutMeForm.$pristine || !aboutMeForm.$valid" ng-click="submitAboutMeForm()">
-                {{ 'SUBMIT' | translate }}
-            </button>
-
+            <div class="details--card--form__navigation-buttons">
+                <button rel="prev" type="button" class="mywheels-btn mywheels-btn-transparant btn--navigation__previous" md-ink-ripple="#ded8d8" ng-click="back()">
+                    <md-icon>navigate_before</md-icon>
+                    {{ 'PREVIOUS' | translate}}
+                </button>
+                <button id="submitForm" type="button" class="btn btn-primary" ng-disabled="aboutMeForm.$pristine || !aboutMeForm.$valid" ng-click="submitAboutMeForm()">
+                    {{ 'SUBMIT' | translate }}
+                </button>
+            </div>
         </form>
     </md-card-content>
 </md-card>
