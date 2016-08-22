@@ -371,7 +371,7 @@ angular.module('owm.person.details', [])
           frontImage: images.front
         })
         .then(function () {
-          $scope.LicenceUploaded = true;
+          $scope.licenceUploaded = true;
           // reload user info (status may have changed as a result of uploading license)
           personService.me({
               version: 2
