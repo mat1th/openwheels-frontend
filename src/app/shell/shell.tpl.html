@@ -34,7 +34,10 @@
 
 </md-content>
 
-<div class="cookiebar" ng-if="$root.cookieBar !== 'false'">
-    <span translate="COOKIES_TERMS"></span>
-    <button type="button" name="button" ng-click="acceptCookie()" class="mywheels-btn mywheels-btn-normal">{{'ACCEPT' | translate}}</button>
+<div class="cookiebar">
+    <div class="cookiebar--content" ng-if="$root.cookieBar !== 'false'">
+        <span translate="COOKIES_TERMS"></span>
+        <button ng-click="acceptCookie()" class="cookiebar--btn"><span>{{'COOKIES_ACCEPT' | translate}}</span> <md-icon class="text-white">close</md-icon></button>
+
+    </div>
 </div>
