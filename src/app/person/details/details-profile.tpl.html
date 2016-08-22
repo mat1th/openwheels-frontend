@@ -188,7 +188,7 @@
                         {{ 'PREVIOUS' | translate}}
                     </button>
                     <div>
-                        <button rel="prev" type="button" class="mywheels-btn mywheels-btn-transparant btn--navigation__previous" md-ink-ripple="#ded8d8" ng-click="skipFlow()" ng-show="$root.isWindowSizeSM && !containsLicence || $root.isWindowSizeSM && !LicenceUploaded">
+                        <button rel="prev" type="button" class="mywheels-btn mywheels-btn-transparant btn--navigation__previous" md-ink-ripple="#ded8d8" ng-click="skipFlow()" ng-show="$root.isWindowSizeSM && !containsLicence && isbooking|| $root.isWindowSizeSM && !LicenceUploaded && isbooking">
                             {{ 'LATER' | translate}}
                             <md-icon>navigate_next</md-icon>
                         </button>
@@ -198,7 +198,8 @@
                         </button>
                     </div>
                 </div>
-                <button rel="prev" type="button" class="mywheels-btn mywheels-btn-transparant btn--navigation__previous" md-ink-ripple="#ded8d8" ng-click="skipFlow()" ng-show="!$root.isWindowSizeSM && !containsLicence || !$root.isWindowSizeSM && !LicenceUploaded" style="float: right; margin: 1em 0 0 0;">
+
+                <button rel="prev" type="button" class="mywheels-btn mywheels-btn-transparant btn--navigation__previous" md-ink-ripple="#ded8d8" ng-click="skipFlow()" ng-show="!$root.isWindowSizeSM && !containsLicence && isbooking || !$root.isWindowSizeSM && !LicenceUploaded && isbooking" style="float: right; margin: 1em 0 0 0;">
                     {{ 'LATER' | translate}}
                     <md-icon>navigate_next</md-icon>
                 </button>
@@ -228,7 +229,7 @@
                     {{ 'DETAILS_PROFILE_PAY_APPROVED' | translate }}
                 </p>
                 <p ng-if="booking.approved !==  'BUY_VOUCHER'" translate="DETAILS_PROFILE_PAY_NOT_APPROVED" translate-values="{firstName: booking.resource.owner.firstName, preposition: booking.resource.owner.preposition,surname: booking.resource.owner.surname, renter: person.firstName }"></p>
-                <voucher data="{{ booking }}" toggleRedemption="toggleRedemption" ng-if="priceCalculated && isbooking"></voucher>
+                <voucher data="{{ booking }}" toggleRedemption="toggleRedemption" vouchureError="vouchureError" ng-if="priceCalculated && isbooking"></voucher>
                 <div ng-if="!accountApproved">
                     <p class="mywheels-btn-margin-top">
                         <b>Let op:</b> om de betaling te kunnen verwerken, moet de tenaamstelling van de rekening overeenkomen met je accountnaam.

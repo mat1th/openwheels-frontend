@@ -18,6 +18,21 @@ angular.module('owm.person.details', [])
   $scope.allowLicenseRelated = false;
   $scope.alerts = null;
   $scope.accountApproved = false;
+  $scope.vouchureError = {
+    show: false,
+    message: ''
+  };
+
+  var resourceId = $stateParams.resourceId,
+    bookingId = $stateParams.bookingId,
+    city = $stateParams.city,
+    discountCode = $stateParams.discountCode,
+    remarkRequester = $stateParams.remarkRequester,
+    riskReduction = $stateParams.riskReduction,
+    timeFrame = {
+      startDate: moment($stateParams.startDate).format(API_DATE_FORMAT),
+      endDate: moment($stateParams.endDate).format(API_DATE_FORMAT)
+    };
 
   //details section vars
   $scope.addPhone = addPhone;
@@ -145,7 +160,6 @@ angular.module('owm.person.details', [])
       }
 
     });
-
     initAlerts();
   }
 
@@ -176,7 +190,6 @@ angular.module('owm.person.details', [])
       }
     }
   };
-
 
   // PERSONAL DATA
   $scope.submitPersonalDataForm = function () {
@@ -338,9 +351,11 @@ angular.module('owm.person.details', [])
       $scope.containsLicence = true;
     });
   });
+
   $scope.cancelUpload = function () {
     $scope.containsLicence = false;
   };
+
   $scope.startUpload = function () {
     if (me.driverLicense === null || me.driverLicense === undefined) {
       if (!images.front) {
@@ -402,16 +417,7 @@ angular.module('owm.person.details', [])
     $scope.checkedLater = true;
   };
   //booking
-  var resourceId = $stateParams.resourceId,
-    bookingId = $stateParams.bookingId,
-    city = $stateParams.city,
-    discountCode = $stateParams.discountCode,
-    remarkRequester = $stateParams.remarkRequester,
-    riskReduction = $stateParams.riskReduction,
-    timeFrame = {
-      startDate: moment($stateParams.startDate).format(API_DATE_FORMAT),
-      endDate: moment($stateParams.endDate).format(API_DATE_FORMAT)
-    };
+
   $scope.createBookingFlow = function () {
     alertService.load();
     $scope.isBusy = true;
@@ -421,7 +427,7 @@ angular.module('owm.person.details', [])
           booking: bookingId
         }).then(function (value) {
           $scope.isAvailable = true;
-          getVoucherPrice(value.id);
+          getVoucherPrice(value);
         });
       } else { //if there is no booking Id in the url
         if (discountCode !== undefined) { //check if there is a discount code
@@ -516,12 +522,13 @@ angular.module('owm.person.details', [])
     });
   }
 
-  function showDialog(content) {
+  function showDialog(content) { //show a dialog
     var confirm = $mdDialog.confirm()
       .title('kortingscode')
       .textContent(content)
       .ok('Ja')
       .cancel('Nee');
+
     $mdDialog.show(confirm).then(function () {
       return createBooking().then(function (value) {
         // final
@@ -542,14 +549,15 @@ angular.module('owm.person.details', [])
     $scope.createBookingFlow();
   }
 
-  function getVoucherPrice(bookingId) {
+  function getVoucherPrice(booking) {
     var bookingObject = {};
     return voucherService.calculateRequiredCreditForBooking({
-      booking: bookingId
+      booking: booking.id
     }).then(function (value) {
       bookingObject = {
         bookings: [{
-          id: bookingId,
+          riskReduction: booking.riskReduction,
+          id: booking.id,
           title: 'Rit op ',
           booking_price: value,
           km_price: value.kmPrice,
@@ -578,6 +586,7 @@ angular.module('owm.person.details', [])
 
     /* checkbox is already checked, so new value is now: */
     var newValue = $scope.booking.riskReduction;
+    $scope.redemptionPending[booking.id] = true;
 
     bookingService.alter({
         booking: booking.id,
@@ -585,19 +594,39 @@ angular.module('owm.person.details', [])
           riskReduction: newValue
         }
       })
-      .then(function () {
+      .then(function (value) {
+
         /* recalculate amounts */
-        return getVoucherPrice();
+        return getVoucherPrice(booking);
+      })
+      .then(function (requiredValue) {
+
+        /* get bookings from cache */
+        // return getBookings(requiredValue);
       })
       .then(function () {
+
+        $scope.vouchureError.show = false;
         $scope.booking.riskReduction = newValue;
       })
       .catch(function (err) {
+        if (err.message === 'Bij je huidige contract is verlaging van het eigen risico verplicht.') {
+          $scope.vouchureError = {
+            show: true,
+            message: err.message
+          };
+        } else {
+          alertService.addError(err);
+        }
         /* revert */
         $scope.booking.riskReduction = !!!$scope.booking.riskReduction;
-        alertService.addError(err);
+
       })
-      .finally(function () {});
+      .finally(function () {
+        $scope.redemptionPending = {};
+        alertService.loaded($scope);
+        $scope.isBusy = false;
+      });
   };
 
   // to buy the vouchure
