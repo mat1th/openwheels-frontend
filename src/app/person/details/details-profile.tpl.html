@@ -182,6 +182,7 @@
                     </button>
                 </div>
 
+
                 <div class="details--card--form__navigation-buttons">
                     <button rel="prev" type="button" class="mywheels-btn mywheels-btn-transparant btn--navigation__previous" md-ink-ripple="#ded8d8" ng-click="prevSection(0, 1)">
                         <md-icon>navigate_before</md-icon>
@@ -192,7 +193,7 @@
                             {{ 'LATER' | translate}}
                             <md-icon>navigate_next</md-icon>
                         </button>
-                        <button rel="next" type="button" class="mywheels-btn mywheels-btn-default btn--navigation__next" ng-click="createBookingFlow()" ng-disabled="!LicenceUploaded">
+                        <button rel="next" type="button" class="mywheels-btn mywheels-btn-default btn--navigation__next" ng-click="createBookingFlow()" ng-disabled="LicenceUploaded === true">
                             {{ 'NEXT' | translate}}
                             <md-icon class="text-white">navigate_next</md-icon>
                         </button>
