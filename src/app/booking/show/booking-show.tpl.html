@@ -6,10 +6,6 @@
       <a id="booking-huurovereenkomst-link" ng-if="allowOvereenkomst" class="btn btn-link" target="_blank" ng-href="{{ overeenkomstUrl }}">
         <i class="fa fa-download fa-fw"></i>Huurovereenkomst (pdf)
       </a>
-
-      <a ng-if="booking.status==='accepted'" class="btn btn-link" target="_blank" ng-href="{{ linksService.tripDetailsPdf(booking.id) }}">
-        <i class="fa fa-download fa-fw"></i>Ritoverzicht (pdf)
-      </a>
     </span>
 
     <h2 class="card-title">
@@ -280,7 +276,7 @@
         <div><span badge-list="booking.person.badges"></span></div>
         <button type="button" class="btn btn-link" ng-click="openChatWith(booking.person)">
           <i class="fa fa-comment fa-fw"></i>
-          Stuur een bericht
+          {{ 'SEND_MESSAGE' | translate }}
         </button>
       </div>
     </div>
@@ -302,7 +298,7 @@
         <div><span badge-list="resource.owner.badges"></span></div>
         <button type="button" class="btn btn-link" ng-click="openChatWith(resource.owner)">
           <i class="fa fa-comment fa-fw"></i>
-          Stuur een bericht
+          {{ 'SEND_MESSAGE' | translate }}
         </button>
       </div>
     </div>
@@ -334,7 +330,7 @@
         <div><span badge-list="resource.contactPerson.badges"></span></div>
         <button type="button" class="btn btn-link" ng-click="openChatWith(resource.contactPerson)">
           <i class="fa fa-comment fa-fw"></i>
-          Stuur een bericht
+          {{ 'SEND_MESSAGE' | translate }}
         </button>
       </div>
     </div>
@@ -421,7 +417,7 @@
 </div>
 
 <!-- declarations -->
-<div class="card" ng-if="contract.type.canHaveDeclaration">
+<div class="card" ng-if="contract.type.canHaveDeclaration && booking.approved==='OK'">
   <div class="card-heading">
     <h3 class="card-title">
       {{ 'DECLARATION_TITLE' | translate }}

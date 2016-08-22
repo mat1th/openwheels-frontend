@@ -1,0 +1,66 @@
+<!-- PROFILE DATA  -->
+<md-card>
+
+    <md-card-content>
+
+        <form class="mywheels-form" name="aboutMeForm">
+            <h2>  {{ 'DASHBOARD_INTRO_TREE_STEPS_TWO' | translate }}</h2>
+            <h3>{{ 'PROFILE_PICTURE' | translate }}</h3>
+            <section class="upload-profile-image">
+                <img class="media-object " ng-if="!refreshProfileImage" person-profile-image="{ person: person, size: 'small', noCache: true }" />
+                <div class="file-input">
+                    <span class="filename" id="filename"><md-icon class="text-success" ng-if="profileImageSuccess">check</md-icon> {{profileFileName}} </span>
+                    <label for="ProfileImage" class="mywheels-btn mywheels-btn-normal">Selecteer
+                        <input type="file" name="imageFile" for="ProfileImage" class="uploadfile-input" id="ProfileImage" accept="image/x-png, image/gif, image/jpeg, image/jpg, application/pdf">
+                    </label>
+                </div>
+            </section>
+
+            <h3>{{ 'ABOUT_ME' | translate }}</h3>
+            <div id="about" class="icon user">
+                <textarea name="about" class="form-control" ng-model="person.about" placeholder="{{ 'ABOUT_ME' | translate }}" null-if-empty></textarea>
+                <div class="err-block" ng-show="aboutMeForm.$submitted || aboutMeForm.twitterUid.$touched">
+                    <span class="text-danger" ng-show="aboutMeForm.twitterUid.$error.required">{{ 'REQUIRED' | translate }}</span>
+                </div>
+            </div>
+
+            <p class="help-block">{{ 'USER_ABOUT_ME_HELP_BLOCK' | translate }}</p>
+            <h3 for="remark">{{ 'SOCIAL' | translate }}</h3>
+            <div id="twitter" class="icon twitter input-addon">
+                <input type="text" name="twitterUid" id="twitterUid" ng-model="person.twitterUid" placeholder="{{ 'TWITTER_UID' | translate }}" null-if-empty>
+                <small>twitter.com/</small>
+                <div class="err-block" ng-show="aboutMeForm.$submitted || aboutMeForm.twitterUid.$touched">
+                    <span class="text-danger" ng-show="aboutMeForm.twitterUid.$error.required">{{ 'REQUIRED' | translate }}</span>
+                </div>
+            </div>
+            <div id="linkedin" class="icon linkedin input-addon">
+                <input type="text" name="linkedinUid" id="linkedinUid" ng-model="person.linkedinUid" placeholder="{{ 'LINKEDIN_UID' | translate }}" null-if-empty>
+                <small>linkedin.com/in/</small>
+                <div class="err-block" ng-show="aboutMeForm.$submitted || aboutMeForm.linkedinUid.$touched">
+                    <span class="text-danger" ng-show="aboutMeForm.linkedinUid.$error.required">{{ 'REQUIRED' | translate }}</span>
+                </div>
+            </div>
+            <h3 for="remark">{{ 'PROFILE_VISIBILITY' | translate }}</h3>
+            <div id="visibility" class="icon safety">
+                <div class="select-icon">
+                    <select id="preference" name="remark" ng-model="person.remark" ng-options="o.value as o.label for o in visibilityOptions" required>
+                        <option value="">-- {{ 'PICK_VISIBILITY' | translate }} --</option>
+                    </select>
+                </div>
+                <div class="err-block" ng-show="aboutMeForm.$submitted || aboutMeForm.visibility.$touched">
+                    <span class="text-danger" ng-show="aboutMeForm.visibility.$error.required">{{ 'REQUIRED' | translate }}</span>
+                </div>
+            </div>
+            <p class="help-block">{{ 'USER_VISIBILITY_HELP_BLOCK' | translate }}</p>
+            <div class="details--card--form__navigation-buttons">
+                <button rel="prev" type="button" class="mywheels-btn mywheels-btn-transparant btn--navigation__previous" md-ink-ripple="#ded8d8" ng-click="back()">
+                    <md-icon>navigate_before</md-icon>
+                    {{ 'PREVIOUS' | translate}}
+                </button>
+                <button id="submitForm" type="button" class="btn btn-primary" ng-disabled="aboutMeForm.$pristine || !aboutMeForm.$valid" ng-click="submitAboutMeForm()">
+                    {{ 'SUBMIT' | translate }}
+                </button>
+            </div>
+        </form>
+    </md-card-content>
+</md-card>

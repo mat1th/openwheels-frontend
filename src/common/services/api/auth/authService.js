@@ -12,17 +12,17 @@ angular.module('authService', [])
   var isFirstAuthenticate = true;
 
   var user = {
-    isPending      : true,
+    isPending: true,
     isAuthenticated: false,
-    identity       : null
+    identity: null
   };
 
-  this.loginPopup        = loginPopup;
-  this.loginRedirect     = loginRedirect;
-  this.logout            = logout;
-  this.logoutRedirect    = logoutRedirect;
-  this.subscribe         = subscribe;
-  this.user              = user;
+  this.loginPopup = loginPopup;
+  this.loginRedirect = loginRedirect;
+  this.logout = logout;
+  this.logoutRedirect = logoutRedirect;
+  this.subscribe = subscribe;
+  this.user = user;
   this.authenticatedUser = authenticatedUser;
 
   // return user, authenticated or not
@@ -61,7 +61,9 @@ angular.module('authService', [])
     user.isPending = false;
 
     asyncUser = null; // make sure it never gets resolved;
-    $window.location.href = $state.href('home', {}, { absolute: true });
+    $window.location.href = $state.href('home', {}, {
+      absolute: true
+    });
   });
 
   this.notifyAnonymous = function () {
@@ -86,7 +88,9 @@ angular.module('authService', [])
     }
     if (isFirstAuthenticate) {
       if (moment(freshToken.expiryDate).isValid()) {
-        remaining = moment.duration({ seconds: freshToken.expiresIn() });
+        remaining = moment.duration({
+          seconds: freshToken.expiresIn()
+        });
         $log.debug('token expires in ' + remaining.humanize() + ' (' + remaining.asSeconds() + ' sec)');
       } else {
         $log.debug('token has invalid expiry date, assume not expired');
@@ -104,7 +108,7 @@ angular.module('authService', [])
   };
 
   // ! Use only in direct response to user interaction, may trigger login popup
-  function authenticatedUser (forceReload) {
+  function authenticatedUser(forceReload) {
     if (forceReload) {
       // reject pending
       if (asyncUser) {
@@ -124,8 +128,13 @@ angular.module('authService', [])
     });
   }
 
-  function loginPopup () {
-    if (user.isAuthenticated) { throw new Error('already logged in'); }
+  function loginPopup(forceRedirect, successUrl) {
+    if (forceRedirect === undefined) {
+      forceRedirect = false;
+    }
+    if (user.isAuthenticated) {
+      throw new Error('already logged in');
+    }
     if (asyncToken) {
       asyncToken.reject(new Error('token canceled by popup'));
       asyncToken = null;
@@ -136,53 +145,53 @@ angular.module('authService', [])
     });
     alertService.closeAll();
     alertService.loaded();
-
-    if (isPopupSupported()) {
-      openPopup(authUrl('postMessage', 'postMessage'));
-    } else {
-      loginRedirect('/');
-    }
+    loginRedirect('/', successUrl);
     return loginPromise;
   }
 
-  function isPopupSupported () {
+  function isPopupSupported() {
     var ua = window.navigator.userAgent;
-    var ie = !!( ~ua.indexOf('MSIE ') || ~ua.indexOf('Trident/') );
+    var ie = !!(~ua.indexOf('MSIE ') || ~ua.indexOf('Trident/'));
     return !ie;
   }
 
-  function loginRedirect (errorPath, successPath) {
-    if (user.isAuthenticated) { throw new Error('already logged in'); }
+  function loginRedirect(errorPath, successPath) {
+    if (user.isAuthenticated) {
+      throw new Error('already logged in');
+    }
     var currentPath = $location.url();
-    $window.location.href = authUrl(errorPath, successPath || currentPath);
+    var url = authUrl(errorPath, successPath || currentPath);
+    $window.location.href = url;
   }
 
-  function loadIdentity () {
+  function loadIdentity() {
     $log.debug('--> ' + (user.identity ? 're-' : '') + 'load identity');
     user.isPending = true;
-    api.invokeRpcMethod('person.me', { version: 2 }).then(function (identity) {
-      $log.debug('<-- got identity');
-      $log.debug('[*] AUTHENTICATED');
-      user.isAuthenticated = true;
-      user.identity = identity;
-      user.isPending = false;
-      if (asyncUser) {
-        asyncUser.resolve(user);
-      }
-    })
-    .catch(function (err) {
-      $log.debug('<!! got identity error');
-      user.isPending = false;
-      user.isAuthenticated = false;
-      user.identity = null;
-      if (asyncUser) {
-        asyncUser.reject(err);
-      }
-    });
+    api.invokeRpcMethod('person.me', {
+        version: 2
+      }).then(function (identity) {
+        $log.debug('<-- got identity');
+        $log.debug('[*] AUTHENTICATED');
+        user.isAuthenticated = true;
+        user.identity = identity;
+        user.isPending = false;
+        if (asyncUser) {
+          asyncUser.resolve(user);
+        }
+      })
+      .catch(function (err) {
+        $log.debug('<!! got identity error');
+        user.isPending = false;
+        user.isAuthenticated = false;
+        user.identity = null;
+        if (asyncUser) {
+          asyncUser.reject(err);
+        }
+      });
   }
 
   // server side / platform logout
-  function logoutRedirect () {
+  function logoutRedirect() {
     $log.debug('redirect to logout');
     tokenService.clearToken();
     var logoutUrl = appConfig.serverUrl + '/logout?redirect_to=' + encodeURIComponent(appConfig.appUrl);
@@ -190,7 +199,7 @@ angular.module('authService', [])
   }
 
   // revoke access token by calling auth.logout
-  function logout () {
+  function logout() {
     var dfd = $q.defer();
 
     if (asyncToken) {
@@ -201,30 +210,30 @@ angular.module('authService', [])
     $log.debug('--> logout');
     user.isPending = true;
     api.invokeRpcMethod('auth.logout').then(function () {
-      $log.debug('<-- logged out');
-      user.isAuthenticated = false;
-      user.identity = null;
-      user.isPending = false;
-      tokenService.clearToken();
-      if (asyncUser) {
-        asyncUser.resolve(user);
-      }
-      dfd.resolve();
-    })
-    .catch(function () {
-      $log.debug('<!! error logging out, clear user anyway');
-      user.isAuthenticated = false;
-      user.identity = null;
-      user.isPending = false;
-      tokenService.clearToken();
-      if (asyncUser) {
-        asyncUser.resolve(user);
-      }
-    });
+        $log.debug('<-- logged out');
+        user.isAuthenticated = false;
+        user.identity = null;
+        user.isPending = false;
+        tokenService.clearToken();
+        if (asyncUser) {
+          asyncUser.resolve(user);
+        }
+        dfd.resolve();
+      })
+      .catch(function () {
+        $log.debug('<!! error logging out, clear user anyway');
+        user.isAuthenticated = false;
+        user.identity = null;
+        user.isPending = false;
+        tokenService.clearToken();
+        if (asyncUser) {
+          asyncUser.resolve(user);
+        }
+      });
     return dfd.promise;
   }
 
-  function subscribe (params) {
+  function subscribe(params) {
     return api.invokeRpcMethod('person.subscribe', params, null, true);
   }
 
@@ -232,37 +241,38 @@ angular.module('authService', [])
   this.oauthSubscribe = function oauthSubscribe(params) {
     params.clientId = appConfig.appId;
     return api.invokeRpcMethod('auth.subscribe', params, null, true)
-    .then(function (data) {
-      var token = tokenService.createToken({
-        tokenType   : data.token_type,
-        accessToken : data.access_token,
-        refreshToken: data.refresh_token,
-        expiresIn   : data.expires_in
+      .then(function (data) {
+        var token = tokenService.createToken({
+          tokenType: data.token_type,
+          accessToken: data.access_token,
+          refreshToken: data.refresh_token,
+          expiresIn: data.expires_in
+        });
+        token.save();
+        return that.authenticatedUser(true);
       });
-      token.save();
-      return that.authenticatedUser(true);
-    });
   };
 
   // HELPERS
 
-  function authUrl (errorPath, successPath) {
+  function authUrl(errorPath, successPath) {
     var oAuth2CallbackUrl =
       $window.location.protocol + '//' +
       $window.location.host +
       $state.href('oauth2callback') +
       '?' +
-      ( !successPath ? '' : '&successPath=' + encodeURIComponent(successPath) ) +
-      ( !errorPath   ? '' : '&errorPath=' + encodeURIComponent(errorPath) );
+      (!successPath ? '' : '&successPath=' + encodeURIComponent(successPath)) +
+      (!errorPath ? '' : '&errorPath=' + encodeURIComponent(errorPath));
 
     return appConfig.authEndpoint +
-      '?client_id='     + appConfig.appId +
+      '?client_id=' + appConfig.appId +
       '&response_type=' + 'token' +
-      '&redirect_uri='  + encodeURIComponent(oAuth2CallbackUrl);
+      '&redirect_uri=' + encodeURIComponent(oAuth2CallbackUrl);
   }
 
   var closeTimer;
-  function openPopup (url) {
+
+  function openPopup(url) {
     closePopup();
     var w = 800;
     var h = 510;
@@ -288,7 +298,7 @@ angular.module('authService', [])
     return popupElm;
   }
 
-  function closePopup () {
+  function closePopup() {
     if (popupElm) {
       popupElm.close();
       popupElm = null;

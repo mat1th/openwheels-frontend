@@ -1,20 +1,20 @@
 .mywheels-form .form-inline .form-group {
-    margin-left: 0;
     margin-right: 0;
+    margin-left: 0;
 }
-.mywheels-form {
-    max-width: 35em;
+.mywheels-form h3 {
+    margin: 1em 0 0;
 }
 .mywheels-form label {
-    font-size: 1em;
-    margin: 0.8em 0 0;
     // color: ;
     display: inline-block;
+    margin: 0.8em 0 0;
+    font-size: 1em;
 }
 .mywheels-form textarea {
     min-height: 5em;
-    resize: vertical;
     overflow: auto;
+    resize: vertical;
 }
 .mywheels-form-margin {
     margin: 0.5em;
@@ -22,85 +22,292 @@
 .mywheels-form input {
     padding-bottom: 0.3em;
 }
-/*input*/
-.mywheels-form input[type="text"],
+@media (min-width: 768px) {
+    .mywheels-form h3 {
+        margin: 1.5em 0 0;
+    }
+    .mywheels-form {
+        max-width: 35em;
+        margin: 0 auto;
+    }
+}
+/* input */
 .mywheels-form input[type="date"],
 .mywheels-form input[type="email"],
+.mywheels-form input[type="number"],
 .mywheels-form input[type="password"],
+.mywheels-form input[type="text"],
 .mywheels-form legend,
 .mywheels-form select,
 .mywheels-form textarea {
-    box-sizing: border-box;
-    display: block;
-    width: 100%;
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
+    box-sizing: border-box;
+    display: block;
+    width: 100%;
+    min-height: 2em;
 }
-.mywheels-form input[type="text"],
 .mywheels-form input[type="date"],
 .mywheels-form input[type="email"],
+.mywheels-form input[type="number"],
 .mywheels-form input[type="password"],
+.mywheels-form input[type="text"],
 .mywheels-form select,
 .mywheels-form textarea {
-    padding: 0.5em;
     box-sizing: border-box;
-    width: 100%;
     display: block;
-    font-size: 1.1em;
-    background-color: #fff;
+    width: 100%;
+    padding: 0.5em;
+    border: 1px solid rgb(189, 197, 199);
     border-radius: @border-raduis;
-    border: 0.08em solid rgb(189, 197, 199);
+    background-color: #fff;
+    font-size: 1.1em;
     box-shadow: inset 0 0.0625em 0.0625em rgba(0, 0, 0, 0.08);
 }
-.mywheels-form input[type="text"]:focus,
 .mywheels-form input[type="date"]:focus,
 .mywheels-form input[type="email"]:focus,
+.mywheels-form input[type="number"]:focus,
 .mywheels-form input[type="password"]:focus,
+.mywheels-form input[type="text"]:focus,
 .mywheels-form select:focus,
 .mywheels-form textarea:focus {
-    outline: none;
     border-color: @mywheels-blue;
+    outline: none;
     box-shadow: 0 0 0.3125em rgba(0, 156, 144, 0.2);
 }
 .mywheels-form input[type="checkbox"] {
     display: inline-block;
 }
-.mywheels-form input[type="text"].error,
 .mywheels-form input[type="date"].error,
 .mywheels-form input[type="email"].error,
+.mywheels-form input[type="number"].error,
 .mywheels-form input[type="password"].error,
+.mywheels-form input[type="text"].error,
 .mywheels-form legend.error,
 .mywheels-form select.error,
 .mywheels-form textarea.error {
+    border: 1px solid @mywheels-red;
     color: @mywheels-red;
-    border: 0.08em solid @mywheels-red;
+}
+.mywheels-form input[type="date"]:read-only,
+.mywheels-form input[type="email"]:read-only,
+.mywheels-form input[type="number"]:read-only,
+.mywheels-form input[type="password"]:read-only,
+.mywheels-form input[type="text"]:read-only,
+.mywheels-form legend:read-only,
+.mywheels-form select:read-only,
+.mywheels-form textarea:read-only {
+    border: 1px solid rgb(209, 217, 219);
+    color: #585656;
 }
 .mywheels-form .icon {
-    margin: 1em 0;
     position: relative;
+    margin: 1em 0 0;
 }
-.mywheels-form .icon input,
+.mywheels-form .icon input:first-child,
 .mywheels-form .icon select,
 .mywheels-form .icon textarea {
     padding-left: 2.3em !important;
 }
+.mywheels-form .icon md-progress-circular {
+    display: inline-block;
+    position: absolute;
+    top: 20%;
+    right: 1em;
+    float: right;
+}
+.mywheels-form .autoDateInput div {
+    h4 {
+        font-size: 1em;
+    }
+    #day {
+        margin-right: 0.5em;
+    }
+    #month {
+        margin-right: 0.5em;
+    }
+    @media (min-width: 500px) {
+        #day {
+            width: 20%;
+            margin-right: 0.5em;
+        }
+        #month {
+            width: 20%;
+            margin-right: 0.5em;
+        }
+        #year {
+            width: 60%;
+        }
+    }
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+// checkboxes and radio buttons
+//
+// .mywheels-form .mywheels-form-list li {
+//     display: block;
+//     position: relative;
+//     -webkit-user-select: none;
+//     -moz-user-select: none;
+//     -ms-user-select: none;
+//     user-select: none;
+//     margin: 0 26px 16px 0;
+//
+// }
+// .mywheels-form input[type=checkbox],
+// .mywheels-form input[type=radio] {
+//     position: absolute;
+//     left: 0;
+//     top: 50%;
+//     -webkit-transform: translateY(-50%);
+//     -moz-transform: translateY(-50%);
+//     -ms-transform: translateY(-50%);
+//     -o-transform: translateY(-50%);
+//     transform: translateY(-50%);
+//     margin: 0;
+//     padding: 0;
+//     opacity: 0;
+//     z-index: 2;
+// }
+// .mywheels-form input[type="checkbox"] + label,
+// .mywheels-form input[type="radio"] + label {
+//     padding-left: 24px;
+// }
+// .mywheels-form input[type="checkbox"] + label::after,
+// .mywheels-form input[type="checkbox"] + label::before,
+// .mywheels-form input[type="radio"] + label::after,
+// .mywheels-form input[type="radio"] + label::before {
+//     /* custom radio and check boxes
+//     content: '';
+//     display: block;
+//     position: absolute;
+//     left: 0;
+//     top: 50%;
+//     margin-top: -8px;
+//     width: 16px;
+//     height: 16px;
+// }
+// .mywheels-form input[type="checkbox"] + label::before,
+// .mywheels-form input[type="radio"] + label::before {
+//     border: 1px solid #cfd9db;
+//     background: #ffffff;
+//     box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.08);
+// }
+// .mywheels-form input[type="radio"] + label::after,
+// .mywheels-form input[type="radio"] + label::before {
+//     border-radius: 50%;
+// }
+// .mywheels-form input[type="checkbox"] + label::after,
+// .mywheels-form input[type="checkbox"] + label::before {
+//     border-radius: 0.25em;
+// }
+// .mywheels-form input[type="checkbox"] + label::after,
+// .mywheels-form input[type="radio"] + label::after {
+//     background-color: @mywheels-blue;
+//     background-position: center center;
+//     background-repeat: no-repeat;
+//     box-shadow: 0 0 5px rgba(44, 151, 222, 0.4);
+//     display: none;
+// }
+// // .mywheels-form input[type="radio"] + label::after {
+// //   /* custom image for radio button
+// //   background-image: url("../img/cd-icon-radio.svg");
+// // }
+// // .mywheels-form input[type="checkbox"] + label::after {
+// //   /* custom image for checkbox
+// //   background-image: url("../img/cd-icon-check.svg");
+// // }
+// .mywheels-form input[type="checkbox"]:focus + label::before,
+// .mywheels-form input[type="radio"]:focus + label::before {
+//     /* add focus effect for radio and check buttons
+//     box-shadow: 0 0 5px rgba(44, 151, 222, 0.6);
+// }
+// .mywheels-form input[type="checkbox"]:checked + label::after,
+// .mywheels-form input[type="radio"]:checked + label::after {
+//     display: block;
+// }
+// .mywheels-form input[type="checkbox"]:checked + label::after,
+// .mywheels-form input[type="checkbox"]:checked + label::before,
+// .mywheels-form input[type="radio"]:checked + label::after,
+// .mywheels-form input[type="radio"]:checked + label::before {
+//     -webkit-animation: cd-bounce 0.3s;
+//     -moz-animation: cd-bounce 0.3s;
+//     animation: cd-bounce 0.3s;
+// }
+/* file upload */
+.uploadfile-input {
+    position: absolute;
+    left: -999em;
+}
+.file-input {
+    display: flex;
+    margin: 1em 0;
+}
+.file-input label[for="ProfileImage"],
+.file-input label[for="licenseFrontFile"] {
+    display: inline-block;
+    width: 30%;
+    height: 36px;
+    margin: 0;
+    padding: 0.5em;
+    float: right;
+    border-radius: 0 @border-raduis @border-raduis 0;
+    cursor: pointer;
+}
+.file-input span.filename {
+    box-sizing: border-box;
+    display: inline-block;
+    width: 70%;
+    padding: 0.5em;
+    overflow: hidden;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: @border-raduis 0 0 @border-raduis;
+    border-color: rgb(189, 197, 199);
+    background: #fff;
+    font-size: 1em;
+    white-space: nowrap;
+    box-shadow: inset 0 0.0625em 0.0625em rgba(0, 0, 0, 0.08);
+}
+// addon
+.mywheels-form .input-addon small {
+    position: absolute;
+    top: 0;
+    min-width: 11em;
+    height: 100%;
+    text-align: right;
+    padding: 1em 0.5em 0 3em;
+    border: 1px solid rgb(189, 197, 199);
+    border-radius: @border-raduis 0 0 @border-raduis;
+    color: rgb(110, 119, 121);
+    z-index: 1;
+}
+.mywheels-form .input-addon input[type="text"] {
+    padding-left: 9em !important;
+}
+// icons
 .mywheels-form .icon:before {
     position: absolute;
-    font-family: 'Material Icons';
-    width: 1em;
-    left: 0.3em;
     top: 0.3em;
-    color: rgb(189, 197, 199);
+    left: 0.3em;
+    width: 1em;
     margin: 0.2em;
-    font-weight: normal;
-    font-style: normal;
+    color: #bdc5c7;
+    font-family: 'Material Icons';
     font-size: 1.4em;
+    font-style: normal;
+    font-weight: normal;
     line-height: 1;
     text-rendering: optimizeLegibility;
+    z-index: 2;
 }
 .mywheels-form .user.icon:before {
     content: "person";
+}
+.mywheels-form .home.icon:before {
+    content: "home";
 }
 .mywheels-form .email.icon:before {
     content: "email";
@@ -114,40 +321,79 @@
 .mywheels-form .location.icon:before {
     content: "location_on";
 }
+.mywheels-form .date.icon:before {
+    content: "today";
+}
+.mywheels-form .place.icon:before {
+    content: "place";
+}
 .mywheels-form .car.icon:before {
     margin-top: 1.8em;
     content: "directions_car";
     z-index: 100;
 }
-/*select*/
+.mywheels-form .safety.icon:before {
+    content: "security";
+    z-index: 100;
+}
+.mywheels-form .twitter.icon:before {
+    content: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IArs4c6QAAAipJREFUOBHVVEFoE0EU/W83u0ZBo1gFRayHKkjqRQNd01LamsaD3gRvFURvHrx47Ek8imelqBdRCVgPUlvQuBBJGjUHRYsHa09tQVFBwSo2O98/W6ZM01TMTQeG/+b9N29mduYv0b/e0MoGwzBMcCJ5iB06SOBXKd9/kclkFrVHYWrKP5lO/4oNw7DWxt5i70DP4dG1Fgir1V0qUhNESFuaaQZfBuEYEd88ks3ed3Qy8us5Bt0plqunLfEKKGbXG8x0vgOMq1DkQWFPrVbzYkOCSknSl1VuiOntUqm0zXYrlsvtYpa3ORszEBBTRR8/PvLjp8/2wVFvRbS0ANEPwUUAD5jUGDPvBDnPbRMbM2Eo1x3c0tzSkReSc2AetkTrBR8Xo2vEmBWzcSu3CkLxV0PGht7G7ydk2+eEjG/MJK241cKroHJ51pCxoXLdMSE2SfdMooX4bYvvvzH62DDX1fVZrv+UkD9NooU4at6inhMbavAllXoo3/GiwI96/JeNFfiKrV021K+c4RyQ5HZb8CfMxCOD2exrW7NsqMmFdYmzEkakr3U5WmbadJLVBTMwsWktP6lUjjI7d+WhbzbChjgfuejLB8G7Bp4ShULBbdvR3ikPeDfAnVKCfcwYFLOmi4Fpok7RmXzQM99opsfxpEeTk/vdCOflpoeE29BMKNXwUr7PpYHu4F6zvOFW7EJ+T0ny/Q4F7BWB1C99QIQZ1L33/f2ZT2bS/x1/AwTmtIBpFHkjAAAAAElFTkSuQmCC');
+}
+.mywheels-form .linkedin.icon:before {
+    content: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IArs4c6QAAAVxJREFUOBFjYKAyYASZt/foCTcGhv8tDIwMTAz/GGqdbSy3k2sPC0Tjv+kMDIxKDP+BJAPDVKCYErkGMoE0/mdgZIUZ8J8RZCb5AGwg03/GDKAxJ4HuO/6f8X8m+cbRQCc0Uo4DQw8BnK0tGXfuvMjNyvu9DCH675CTldXePUePmgLjzh0YTDZAuadAvNvZynwlIyMj2AxopCC0wVhMwr9Z/v/8XwfjA4Nj9r4jxwKBBmWDxBhBMQgBSfuPnQgAMiNAXHAYQsRRyd+vXv1AFWGI/c8IMQxNHGR0+N5jxwJB4jgNPOXp+RtNIweQ/w2oeRLD//89QDd+QJH/z5AD4uM0sIGR8R+KBiAH6N14F2vLfGcbq1LG//+TUeUZLUB8nAaiKobwvrOzbIOJ/+Vg3QtjQ2kuEE2Sgb4mJt9ghriamHyEsZFpkgxE1oiLPWogrpAhXpzqYUi81USqBAAzklRr44tEHQAAAABJRU5ErkJggg==');
+}
+/* select */
 .mywheels-form .select-icon {
     position: relative;
 }
 .mywheels-form .select-icon::after {
-    content: 'keyboard_arrow_down';
-    font-family: 'Material Icons';
-    text-rendering: optimizelegibility;
-    font-feature-settings: 'liga' 1;
-    font-style: normal;
-    text-transform: none;
-    line-height: 1;
-    color: @mywheels-blue;
-    font-size: 2em;
-    display: inline-block;
-    overflow: hidden;
     -webkit-font-smoothing: antialiased;
-    position: absolute;
-    z-index: 1;
-    right: 0.3em;
-    top: 15%;
+    display: inline-block;
     display: block;
+    position: absolute;
+    top: 15%;
+    right: 0.3em;
     width: 1em;
     height: 1em;
+    overflow: hidden;
+    color: @mywheels-blue;
+    font-family: 'Material Icons';
+    font-feature-settings: 'liga' 1;
+    font-size: 2em;
+    font-style: normal;
+    line-height: 1;
+    text-rendering: optimizelegibility;
+    text-transform: none;
+    content: 'keyboard_arrow_down';
     pointer-events: none;
+    z-index: 1;
 }
 .mywheels-form select {
     cursor: pointer;
 }
 .mywheels-form select::-ms-expand {
     display: none;
+}
+.mywheels-form .field-margin {
+    margin: 1em 0 0;
+}
+.err-block span {
+    display: block;
+    margin: 0.5em 0 0 0.5em;
+}
+// responsive
+@media (min-width: 768px) {
+    .mywheels-form .responsive {
+        display: flex;
+    }
+    .mywheels-form .responsive div {
+        flex-grow: 1;
+    }
+    .mywheels-form .responsive div.smallfrom {
+        flex-basis: 33%;
+        flex-grow: 0;
+    }
+    .mywheels-form .responsive div:first-child {
+        margin-right: 1em;
+    }
 }

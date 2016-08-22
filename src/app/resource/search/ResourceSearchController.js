@@ -144,21 +144,6 @@ angular.module('owm.resource.search', [
       var filtersObject = $scope.filters.filters;
       resourceQueryService.setFilters(filtersObject);
 
-
-      if (!isInitialSearch) {
-        // on subsequent searches, jump to normal search page
-        if ($state.includes('owm.resource.place.list')) {
-          return $state.go('owm.resource.search.list');
-        } else if ($state.includes('owm.resource.place.map')) {
-          return $state.go('owm.resource.search.map');
-        }
-        updateUrl();
-      } else {
-        if (!$state.includes('owm.resource.place')) {
-          updateUrl();
-        }
-      }
-
       // construct api call
       var params = {};
       // calculate offset
@@ -216,7 +201,6 @@ angular.module('owm.resource.search', [
     }
 
     $scope.showPage = function(page) {
-      $anchorScroll('topsearch');
       // check page is legal value
       if(page < 1) {
         page = 1;
@@ -229,6 +213,10 @@ angular.module('owm.resource.search', [
       $scope.page = page;
       resourceQueryService.setPage(page);
       updateUrl();
+
+      if(page > 1) {
+        $anchorScroll('topsearch');
+      }
 
       // page can be cached or not
       if($scope.pagedResults[page] !== undefined) { // Hooray, page is already in cache
