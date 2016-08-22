@@ -1,0 +1,294 @@
+<div class="progress--steps">
+    <section class="step" data-section="1" title="Basisgegevens" ng-class="{'selected': pageNumber === 1 ? true : false, 'done': pageNumber > 1 ? true : false }" ui-sref="owm.person.details({pageNumber: '1'})"></section>
+    <section class="step" data-section="2" title="Rijbewijs uploaden" ng-class="{'selected': pageNumber === 2 ? true : false, 'done': pageNumber > 2 ? true : false}" ui-sref="owm.person.details({pageNumber: '2'})"></section>
+    <section class="step last-step" data-section="3" title="{{isbooking !== true ? 'Auto zoeken' : 'Betalen'}}" ng-class="{'selected': pageNumber === 3 ? true : false, 'done': pageNumber > 3 ? true : false }" ng-click="createBookingFlow()"></section>
+</div>
+
+<section class="details--profile__overview">
+    <!-- PERSONAL DATA  -->
+    <div class="card animated section-transion details--card__section" id="personal-data" ng-show="showFirst">
+        <div class="card-body details--card">
+            <section resource-sidebar class="details--profile__sidebar" ng-if="isbooking"></section>
+            <form class="mywheels-form details--profile--form" name="personalDataForm" ng-submit="subscribe(credentials, person, license_front)">
+                <h2 class="card-title">{{ 'DETAILS_PROFILE_BASIC' | translate }}</h2>
+                <p ng-if="isbooking" translate="DETAILS_PROFILE_BASIC_TEXT" translate-values="{firstName: person.firstName}"> </p>
+                <h3>{{ 'MY_PROFILE_PERSONAL' | translate }}</h3>
+
+                <!-- firstName -->
+                <div id="firstName_group" class="icon user">
+                    <input type="text" name="firstName" id="firstName" ng-model="person.firstName" placeholder="{{ 'FIRST_NAME' | translate }}" required>
+                    <div class="err-block" ng-show="personalDataForm.$submitted || personalDataForm.firstName.$touched">
+                        <span class="text-danger" ng-show="personalDataForm.firstName.$error.required">{{ 'REQUIRED' | translate }}</span>
+                    </div>
+                </div>
+
+                <!-- /firstName -->
+                <div class="responsive">
+                    <!-- prepostion -->
+                    <div id="prepostion_group" class="icon user smallfrom" flex="33">
+                        <input type="text" name="preposition" id="prepostion" ng-model="person.preposition" placeholder="{{ 'PREPOSITION' | translate }}" required>
+                    </div>
+                    <!-- /prepostion -->
+
+                    <!-- surName -->
+                    <div id="surname_group" class="icon user" flex="77">
+                        <input type="text" name="surname" id="surname" ng-model="person.surname" placeholder="{{ 'SURNAME' | translate }}" required>
+                        <div class="err-block" ng-show="personalDataForm.$submitted || personalDataForm.surname.$touched">
+                            <span class="text-danger" ng-show="personalDataForm.surname.$error.required">{{ 'REQUIRED' | translate }}</span>
+                        </div>
+                    </div>
+                    <!-- /surName -->
+                </div>
+                <!-- dateOfBirth -->
+
+                <div class="autoDateInput">
+                    <h3>{{ 'DATE_OF_BIRTH' | translate }}</h3>
+                    <div id="date" class="icon date">
+                        <input type="number" id="day" name="day" inputmode="numeric" pattern="[0-9]*" ng-model="date.day" placeholder="DD" maxlength="2" max="31" min="0" required>
+                        <input type="number" id="month" name="month" inputmode="numeric" pattern="[0-9]*" ng-model="date.month" placeholder="MM" maxlength="2" max="12" min="0" required>
+                        <input type="number" id="year" name="year" inputmode="numeric" pattern="[0-9]*" ng-model="date.year" placeholder="JJJJ" maxlength="4" max="2016" min="1900" required>
+                    </div>
+                    <div class="err-block" ng-show="personalDataForm.$submitted || personalDataForm.dateOfBirth.$touched || personalDataForm.year.$error.maxlength || personalDataForm.year.$error.max">
+                        <span class="text-danger" ng-show="personalDataForm.day.$error.required || personalDataForm.month.$error.required || personalDataForm.year.$error.required || personalDataForm.day.$error.maxlength || personalDataForm.month.$error.maxlength">{{ 'REQUIRED' | translate }}</span>
+                        <span class="text-danger" ng-show="personalDataForm.day.$error.maxlength || personalDataForm.day.$error.required">De dag is ongeldig</span>
+                        <span class="text-danger" ng-show="personalDataForm.month.$error.maxlength || personalDataForm.month.$error.required">De maand is ongeldig</span>
+                        <span class="text-danger" ng-show="personalDataForm.year.$error.maxlength || personalDataForm.year.$error.required || personalDataForm.year.$error.max">Het jaar is ongeldig</span>
+                    </div>
+                </div>
+
+                <!-- /dateOfBirth -->
+
+                <!-- gender -->
+                <div class="gender--options">
+                    <div class="gender--options__option">
+                        <input type="radio" ng-model="genderText" ng-change="person.male = genderText==='male' ? true : (genderText==='female' ? false : null)" id="male" value="male">
+                        <label for="male">{{ 'MALE' | translate }}</label>
+                    </div>
+                    <div class="gender--options__option">
+                        <input type="radio" ng-model="genderText" ng-change="person.male = genderText==='male' ? true : (genderText==='female' ? false : null)" value="female" id="female">
+                        <label for="female">{{ 'FEMALE' | translate }}</label>
+                    </div>
+                </div>
+                <p class="err-block" ng-show="personalDataForm.$submitted || personalDataForm.genderText.$touched">
+                    <span class="text-danger">{{ 'REQUIRED' | translate }}</span>
+                </p>
+                <!-- /gender -->
+
+                <!-- phone number -->
+                <h3>{{ 'PHONENUMBER' | translate }}</h3>
+                <div ng-repeat="p in person.phoneNumbers" class="field-margin">
+                    <div class="input-group">
+                        <span class="input-group-btn" ng-if="person.phoneNumbers.length > 1">
+                            <button type="button" class="btn btn-default" ng-click="removePhone(p, $index)"><i class="fa fa-trash-o"></i></button>
+                    </span>
+                        <input type="tel" class="form-control" id="number-{{ $index }}" ng-model="p.number">
+                        <span class="input-group-addon">
+                            <input type="checkbox" name="confidential" ng-model="p.confidential" required> {{ 'CONFIDENTIAL' | translate }}
+                    </span>
+                    </div>
+                </div>
+                <!-- /phone number -->
+
+                <!-- zipcode -->
+                <h3>{{ 'MY_PROFILE_ADDRESS' | translate }}</h3>
+                <div class="responsive">
+                    <div id="zipcode_group" class="icon home field">
+                        <input type="text" name="zipcode" id="zipcode" ng-model="person.zipcode" placeholder="{{ 'ZIPCODE' | translate }}" required ng-pattern="/^[1-9][0-9]{3} ?[A-Z,a-z]{2}$/">
+                        <md-progress-circular class="md-hue-2" md-diameter="20px" ng-if="zipcodeAutocompleting"></md-progress-circular>
+                        <div class="err-block" ng-show="personalDataForm.$submitted || personalDataForm.zipcode.$touched">
+                            <span class="text-danger" ng-show="personalDataForm.zipcode.$error.required">{{ 'REQUIRED' | translate }}</span>
+                            <span class="text-danger" ng-show="personalDataForm.zipcode.$error.pattern">Verkeerd formaat</span>
+                        </div>
+                    </div>
+                    <!-- /zipcode -->
+
+                    <!-- streetNumber -->
+                    <div id="streetNumber_group" class="icon home field">
+                        <input type="text" name="streetNumber" id="streetNumber" ng-model="person.streetNumber" placeholder="{{ 'STREET_NUMBER' | translate }}" required>
+                        <md-progress-circular class="md-hue-2" md-diameter="20px" ng-if="zipcodeAutocompleting"></md-progress-circular>
+                        <div class="err-block" ng-show="personalDataForm.$submitted || personalDataForm.streetNumber.$touched">
+                            <span class="text-danger" ng-show="personalDataForm.streetNumber.$error.required">{{ 'REQUIRED' | translate }}</span>
+                        </div>
+                    </div>
+                    <!-- /streetNumber -->
+                </div>
+                <!-- streetName -->
+                <div id="streetName_group" class="icon home field">
+                    <input type="text" name="streetName" id="streetName" ng-model="person.streetName" placeholder="{{ 'STREET_NAME' | translate }} " required ng-readonly="person.country === 'Nederland'">
+                    <div class="err-block" ng-show="personalDataForm.$submitted || personalDataForm.zipcode.$touched">
+                        <span ng-show="!person.streetName || personalDataForm.zipcode.$error.pattern">{{ 'ENTER_ZIPCODE_STREET_NUMBER' | translate }}</span>
+                    </div>
+                </div>
+                <!-- /streetName -->
+
+                <!-- city -->
+                <div id="city_group" class="icon home field">
+                    <input type="text" name="city" id="city" ng-model="person.city" placeholder="{{ 'CITY' | translate }} " required ng-readonly="person.country === 'Nederland'">
+                    <div class="err-block" ng-show="personalDataForm.$submitted || personalDataForm.city.$touched">
+                        <span ng-if="!person.city">{{ 'ENTER_ZIPCODE_STREET_NUMBER' | translate }}</span>
+                    </div>
+                </div>
+                <!-- /city -->
+
+                <div class="details--card--form__navigation-buttons">
+                    <div></div>
+                    <!-- submit button -->
+                    <button id="submitFormPersonal" type="button" class="mywheels-btn mywheels-btn-default btn--navigation__next" ng-click="submitPersonalDataForm()" ng-disabled="personalDataForm.firstName.$error.required || personalDataForm.surname.$error.required || signupform.dateOfBirth.$error.required">
+                        {{ 'NEXT' | translate }}
+                        <md-icon class="text-white">navigate_next</md-icon>
+                    </button>
+                    <!-- /submit button -->
+                </div>
+            </form>
+        </div>
+    </div>
+    <!--/ card -->
+
+    <!-- card -->
+    <div class="card animated section-transion details--card__section" id="license-upload" ng-show="showSecond">
+        <div class="card-body details--license-upload details--card">
+            <section resource-sidebar class="details--profile__sidebar" ng-if="isbooking"></section>
+            <!-- upload license -->
+            <section class="details--card--form" ng-show="!checkedLater">
+                <h2 class="card-title">{{ 'DETAILS_PROFILE_LICENCE' | translate }}</h2>
+
+                <div class="checklist">
+                    <ul>
+                        <li>
+                            <md-icon>check</md-icon><span>{{ 'LICENSE_READABLE' | translate }}</span></li>
+                        <li>
+                            <md-icon>check</md-icon><span>{{ 'LICENSE_FRONT' | translate }}</span></li>
+                        <li>
+                            <md-icon>check</md-icon><span>{{ 'LICENSE_VALID' | translate }}</span></li>
+                    </ul>
+                </div>
+                <div class="file-input" ng-show="!containsLicence">
+                    <span class="filename" id="filename"> {{licenceFileName}}</span>
+                    <label for="licenseFrontFile" class="mywheels-btn mywheels-btn-normal">Selecteer
+                        <input type="file" name="imageFile" for="licenseFrontFile" value="" class="uploadfile-input" id="licenseFrontFile" accept="image/x-png, image/gif, image/jpeg, image/jpg, application/pdf">
+                    </label>
+                </div>
+                <div class="details--card--form__preview">
+                    <img ng-src="{{licenceImage}}" alt="lincence preview" id="licence-preview">
+                </div>
+
+                <div ng-show="containsLicence || LicenceUploaded">
+                    <p>{{ 'LICENSE_CONFIRM' | translate }}</p>
+                    <button title="upload" type="button" class="mywheels-btn mywheels-btn-normal btn--navigation__previous mywheels-btn-big" md-ink-ripple="#4b702c" ng-disabled="isBusy" ng-click="startUpload()">
+                        {{'YES' | translate }}
+                    </button>
+                    <button type="button" class="mywheels-btn mywheels-btn-error btn--navigation__previous mywheels-btn-big" md-ink-ripple="#9a3d26" ng-click="cancelUpload()">
+                        {{'NO' | translate }}
+                    </button>
+                </div>
+
+                <div class="details--card--form__navigation-buttons">
+                    <button rel="prev" type="button" class="mywheels-btn mywheels-btn-transparant btn--navigation__previous" md-ink-ripple="#ded8d8" ng-click="prevSection(0, 1)">
+                        <md-icon>navigate_before</md-icon>
+                        {{ 'PREVIOUS' | translate}}
+                    </button>
+                    <div>
+                        <button rel="prev" type="button" class="mywheels-btn mywheels-btn-transparant btn--navigation__previous" md-ink-ripple="#ded8d8" ng-click="skipFlow()" ng-show="$root.isWindowSizeSM && !containsLicence || $root.isWindowSizeSM && !LicenceUploaded">
+                            {{ 'LATER' | translate}}
+                            <md-icon>navigate_next</md-icon>
+                        </button>
+                        <button rel="next" type="button" class="mywheels-btn mywheels-btn-default btn--navigation__next" ng-click="createBookingFlow()" ng-disabled="!LicenceUploaded">
+                            {{ 'NEXT' | translate}}
+                            <md-icon class="text-white">navigate_next</md-icon>
+                        </button>
+                    </div>
+                </div>
+                <button rel="prev" type="button" class="mywheels-btn mywheels-btn-transparant btn--navigation__previous" md-ink-ripple="#ded8d8" ng-click="skipFlow()" ng-show="!$root.isWindowSizeSM && !containsLicence || !$root.isWindowSizeSM && !LicenceUploaded" style="float: right; margin: 1em 0 0 0;">
+                    {{ 'LATER' | translate}}
+                    <md-icon>navigate_next</md-icon>
+                </button>
+            </section>
+            <section class="details--card--form" ng-show="checkedLater">
+                <h2 class="card-title">{{ 'DETAILS_PROFILE_LATER' | translate }}</h2>
+                <p>{{ 'DETAILS_PROFILE_LATER_TEXT' | translate }}</p>
+
+                <div class="details--card--form__navigation-buttons">
+                    <button rel="prev" type="button" class="mywheels-btn mywheels-btn-transparant btn--navigation__previous" md-ink-ripple="#ded8d8" ng-click="prevSection(0, 1)">
+                        <md-icon>navigate_before</md-icon>
+                        {{ 'PREVIOUS' | translate}}
+                    </button>
+                </div>
+            </section>
+        </div>
+    </div>
+    <!--/ card -->
+
+    <!-- card -->
+    <div class="card animated section-transion details--card__section" ng-show="showThird">
+        <div class="card-body details--card">
+            <section resource-sidebar class="details--profile__sidebar" ng-if="isbooking"></section>
+            <section class="details--card--form" ng-if="isbooking" ng-hide="!isAvailable">
+                <h2 class="card-title">{{ 'DETAILS_PROFILE_NEARLY' | translate }}</h2>
+                <p ng-if="booking.approved ===  'BUY_VOUCHER' ">
+                    {{ 'DETAILS_PROFILE_PAY_APPROVED' | translate }}
+                </p>
+                <p ng-if="booking.approved !==  'BUY_VOUCHER'" translate="DETAILS_PROFILE_PAY_NOT_APPROVED" translate-values="{firstName: person.firstName, preposition: person.preposition,surname: person.surname,renter: person.firstName }"></p>
+                <voucher data="{{ booking }}" toggleRedemption="toggleRedemption" ng-if="priceCalculated && isbooking"></voucher>
+                <div ng-if="accountApproved">
+                    <p class="mywheels-btn-margin-top">
+                        <b>Let op:</b> om de betaling te kunnen verwerken, moet de tenaamstelling van de rekening overeenkomen met je accountnaam.
+                    </p>
+                </div>
+                <p ng-if="booking.approved !==  'BUY_VOUCHER' ">
+                    {{ 'DETAILS_PROFILE_PAY_NOT_APPROVED_OTHER' | translate }}
+                </p>
+                <div class="details--card--form__navigation-buttons">
+                    <button rel="prev" type="button" class="mywheels-btn mywheels-btn-transparant btn--navigation__previous" md-ink-ripple="#ded8d8" ng-click="prevSection(1, 2)">
+                        <md-icon>navigate_before</md-icon>
+                        {{ 'PREVIOUS' | translate}}
+                    </button>
+                    <div>
+                        <button type="button" name="button" class="mywheels-btn mywheels-btn-default btn--navigation__next" ng-if="booking.approved !==  'BUY_VOUCHER' " ui-sref="owm.person.aboutme">
+                            {{ 'FILL_PERSON_INFO' | translate }}
+                            <md-icon class="text-white">navigate_next</md-icon>
+                        </button>
+                        <button rel="next" type="button" class="mywheels-btn mywheels-btn-default btn--navigation__next" ng-click="buyVoucher(booking.booking_price.total + booking.km_price)">
+                            {{ 'PAY' | translate}}
+                            <md-icon class="text-white">navigate_next</md-icon>
+                        </button>
+                    </div>
+                </div>
+            </section>
+            <section ng-if="!isbooking" class="details--card--form">
+                <h2 class="card-title">{{ 'DETAILS_PROFILE_PHOTO' | translate }}</h2>
+                <p>{{ 'DETAILS_PROFILE_SEARCH' | translate }} </p>
+
+                <!-- call to action buttons -->
+                <div class="details--card--form__navigation-buttons">
+                    <button rel="prev" type="button" class="mywheels-btn mywheels-btn-transparant btn--navigation__previous" md-ink-ripple="#ded8d8" ng-click="prevSection(1, 2)">
+                        <md-icon>navigate_before</md-icon>
+                        {{ 'PREVIOUS' | translate}}
+                    </button>
+                    <button type="button" name="button" ui-sref="owm.resource.search.list" class="mywheels-btn mywheels-btn-default btn--navigation__next">
+                        {{ 'SEARCH_CAR' | translate }}
+                        <md-icon class="text-white">navigate_next</md-icon>
+                    </button>
+                </div>
+                <!-- /call to action buttons -->
+            </section>
+            <section ng-if="!isAvailable" class="details--card--form">
+                <h2 class="card-title">{{ 'DETAILS_PROFILE_NOT_AVAILABLE' | translate }}</h2>
+                <p>{{ 'DETAILS_PROFILE_NOT_AVAILABLE_text' | translate }} </p>
+
+                <!-- call to action buttons -->
+                <div class="details--card--form__navigation-buttons">
+                    <button rel="prev" type="button" class="mywheels-btn mywheels-btn-transparant btn--navigation__previous" md-ink-ripple="#ded8d8" ng-click="prevSection(1, 2)">
+                        <md-icon>navigate_before</md-icon>
+                        {{ 'PREVIOUS' | translate}}
+                    </button>
+                    <button type="button" name="button" ui-sref="owm.resource.search.list({ start: bookingStart ,end: bookingEnd})" class="mywheels-btn mywheels-btn-default btn--navigation__next">
+                        {{ 'SEARCH_CAR' | translate }}
+                        <md-icon class="text-white">navigate_next</md-icon>
+                    </button>
+                </div>
+                <!-- /call to action buttons -->
+            </section>
+        </div>
+    </div>
+    <!--/ card -->
+</section>

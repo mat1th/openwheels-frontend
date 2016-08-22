@@ -2,11 +2,14 @@
 
 angular.module('owm.shell')
 
-.controller('ShellController', function ($window, $log, $state, $scope, $mdSidenav, alertService, authService) {
+.controller('ShellController', function ($window, $log, $state, $cookies, $scope, $rootScope, $mdSidenav, alertService, authService) {
 
   var id = 'sidenavLeft';
 
   $scope.user = authService.user;
+  $rootScope.cookieBar = $cookies.get('cookieBar');
+  console.log($cookies.get('cookieBar'));
+  console.log($rootScope.cookieBar);
 
   $scope.openMenu = function () {
     $mdSidenav(id).open();
@@ -14,6 +17,12 @@ angular.module('owm.shell')
 
   $scope.closeMenu = function () {
     $mdSidenav(id).close();
+  };
+  $scope.acceptCookie = function () {
+    console.log('hoi');
+    $cookies.put('cookieBar', false);
+    $rootScope.cookieBar = 'false';
+    console.log($rootScope.cookieBar);
   };
 
   $scope.login = function () {

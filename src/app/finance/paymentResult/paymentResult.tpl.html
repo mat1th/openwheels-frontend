@@ -1,38 +1,122 @@
-<div ng-if="result.success" class="card">
-  <div class="card-body">
-    <h2 class="card-title">
-    <i class="fa fa-fw fa-check text-success"></i>
-      {{ 'PAYMENT_SUCCESS_TITLE' | translate }}
-    </h2>
-    <p>
-      {{ 'PAYMENT_SUCCESS_BODY' | translate }}
-    </p>
-    <button ng-if="afterPayment" ng-click="goAfterPayment()" type="button" class="btn btn-primary">
-      Ga verder
-    </button>
-    <button ng-if="!afterPayment" ui-sref="home" type="button" class="btn btn-primary">
-      {{ 'OK' | translate }}
-    </button>
-  </div>
-</div>
+<div ng-if="result.success" ng-cloak ng-show="!isBusy">
+    <!-- if not approved -->
+    <section ng-if="!isApproved" class="card" ng-cloak>
+        <div class="card-body">
+            <h2 class="card-title">
+            <md-icon class="text-success">check</md-icon>
+            {{ 'PAYMENT_NOT_APROVED_TITLE' | translate }}
+          </h2>
+            <p translate="PAYMENT_NOT_APROVED_BODY" translate-values="{name: name, surname: person.surname}"></p>
 
-<div ng-if="!result.success" class="card">
-  <div class="card-body">
-    <h2 class="card-title">
-      <i class="fa fa-fw fa-exclamation-triangle text-warning"></i>
-      {{ 'PAYMENT_FAILURE_TITLE' | translate }}
-    </h2>
-    <p>
-      {{ 'PAYMENT_FAILURE_BODY' | translate }}
-    </p>
+            <button ng-if="!afterPayment" type="button" class="mywheels-btn mywheels-btn-default" ng-click="buyVoucher('0.01')" md-ink-ripple="#3a6d81">
+                {{ 'PAY' | translate }}
+            </button>
 
-    <button ng-if="afterPayment" ng-click="goAfterPayment()" type="button" class="btn btn-primary">
-      Ga verder
-    </button>
+            <p translate="PAYMENT_NOT_APROVED_FOOTER" translate-values="{lidnumber: person.id}" class="mywheels-btn-margin-top"> </p>
+            <!-- /repeat bookings -->
+        </div>
+    </section>
+    <!-- /if not approved -->
 
-    <div ng-if="!afterPayment">
-		<button ui-sref="owm.person.dashboard" class="btn btn-primary">{{ 'MY_DASHBOARD' | translate }}</button>
+    <!-- if approved -->
+    <div ng-if="isApproved" ng-cloak>
+        <section class="card">
+            <div class="card-body">
+                <h2 class="card-title">
+                <md-icon class="text-success">check</md-icon>
+                {{ 'PAYMENT_APROVED_TITLE' | translate }}
+                </h2>
+                <p> <span>{{ 'PAYMENT_APROVED_BODY' | translate }}</span>
+                    <span ng-if="bookings.length > 0 && bookings[0].person.status === 'book-only'" translate="PAYMENT_APROVED_PAYED_LICENCE"></span>
+                    <span ng-if="bookings.length > 0 && bookings[0].person.status === 'active'">{{ 'PAYMENT_APROVED_NICE_TRIP' | translate }}</span>
+                </p>
+                <button ui-sref="owm.person.dashboard" class="btn btn-primary">{{ 'MY_DASHBOARD' | translate }}</button>
+            </div>
+        </section>
+        <div class="payment-result">
+            <!-- repeat bookings -->
+            <section ng-repeat="booking in bookings | limitTo: 3" class="payment-result__card" ng-class="{'payment-result__only-one': bookings.length === 1, 'payment-result__middle': bookings.length === 3 && $middle }">
+                <md-card>
+                    <div>
+                        <md-card-header class="blue-header">
+                            <md-card-header-text>
+                                <span class="md-title">
+                                  {{ booking.resource.alias || ('RESOURCE_NO_NAME' | translate) }}
+                              </span>
+                            </md-card-header-text>
+                        </md-card-header>
+                        <section class="md-card-image">
+                            <img class="media-object payment-result__booking--image" ng-src="{{ booking.pictures[0] | resourceAvatar:'normal' }}" />
+                        </section>
+                    </div>
+                    <div>
+                        <md-card-header ng-class="{'blue-header': $root.isWindowSizeSM == true && bookings.length === 1}">
+                            <span><datetime datetime="{{ booking.beginBooking || booking.beginRequested }}"></datetime> <span ng-if="$root.isWindowSizeSM == true && bookings.length === 1">tot</span>
+                            <br ng-if="$root.isWindowSizeSM == true && bookings.length > 1">
+                            <datetime datetime="{{ booking.endBooking || booking.endRequested }}"></datetime>
+                            </span>
+                        </md-card-header>
+                        <md-divider></md-divider>
+                        <md-tabs md-selected="data.selectedIndex" md-align-tabs="top">
+                            <md-tab id="tab1" ng-if="booking.resource.locktype === 'chipcard'">
+                                <md-tab-label title="Eerste keer OV-chipkaart" class="text-success">
+                                    <md-icon class="text-success">credit_card</md-icon><span>{{ 'LOCKTYPE.ophalen' | translate }}</span>
+                                </md-tab-label>
+                                <md-tab-body>
+                                    <p ng-if="fish" translate="PAYMENT_APROVED_PAYED_FISH" translate-values="{pincode: fish.pincode, location: booking.resource.location, city: booking.resource.city }"></p>
+                                    <p ng-if="!fish" translate="PAYMENT_APROVED_PAYED_NO_FISH" translate-values="{location: booking.resource.location, city: booking.resource.city }"></p>
+                                </md-tab-body>
+                            </md-tab>
+                            <md-tab id="tab2" ng-if="booking.resource.locktype === 'smartphone'">
+                                <md-tab-label title="Openen met smartphone" class="text-succes">
+                                    <md-icon class="text-success">smartphone</md-icon><span>{{ 'LOCKTYPE.ophalen' | translate }}</span>
+                                </md-tab-label>
+                                <md-tab-body>
+                                    <p translate="PAYMENT_APROVED_PAYED_SMARTPHONE" translate-values="{location: booking.resource.location, city: booking.resource.city }"></p>
+                                </md-tab-body>
+                            </md-tab>
+                            <md-tab id="tab3" ng-if="booking.resource.locktype === 'meeting'">
+                                <md-tab-label title="Afspraak" class="text-success">
+                                    <md-icon class="text-success">vpn_key</md-icon> <span>{{ 'LOCKTYPE.ophalen' | translate }}</span>
+                                </md-tab-label>
+                                <md-tab-body>
+                                    <p ng-if="booking.status === 'requested'">{{ 'PAYMENT_APROVED_PAYED_FUEL_KEY_WAIT' | translate }}</p>
+                                    <p translate="PAYMENT_APROVED_PAYED_FUEL_KEY" translate-values="{link: booking.link, location: booking.resource.location, city: booking.resource.city }" ng-if="booking.status === 'accepted' && booking.approved === 'OK'"></p>
+                                    <p translate="PAYMENT_APROVED_PAYED_FUEL_KEY_NOT_APPROVED" translate-values="{link: booking.link, location: booking.resource.location, city: booking.resource.city }" ng-if="booking.approved !== 'OK'"></p>
+                                    <a type="button" name="button" ng-if="booking.status === 'accepted' && booking.approved === 'OK'" class="mywheels-btn mywheels-btn-default" href="{{booking.link}}">{{'PAYMENT_APROVED_PAYED_FUEL_KEY_BUTTON' | translate }}</a>
+                                </md-tab-body>
+                            </md-tab>
+                            <md-tab id="tab4">
+                                <md-tab-label title="Brandstof" class="text-success">
+                                    <md-icon class="text-success">local_gas_station</md-icon> <span>{{ 'DRIVE' | translate }}</span>
+                                </md-tab-label>
+                                <md-tab-body>
+                                    <p ng-if="booking.resource.fuelCardCode" translate="PAYMENT_APROVED_PAYED_FUEL_CARD" translate-values="{ code: booking.resource.fuelCardCode }"></p>
+                                    <p ng-if="booking.resource.refuelByRenter && !booking.resource.fuelCardCode" translate="PAYMENT_APROVED_PAYED_FUEL_RENTER" translate-values="{renter: booking.resource.owner.firstName}"></p>
+                                    <p ng-if="!booking.resource.refuelByRenter && !booking.resource.fuelCardCode" translate="PAYMENT_APROVED_PAYED_FUEL_PRICE" translate-values="{price: booking.resource.price.fuelPerKilometer}"></p>
+                                </md-tab-body>
+                            </md-tab>
+                        </md-tabs>
+                    </div>
+                </md-card>
+            </section>
+        </div>
     </div>
-
-  </div>
+    <!-- /if  approved -->
 </div>
+
+<section ng-if="!result.success" class="card" ng-cloak>
+    <div class="card-body">
+        <h2 class="card-title">
+          <md-icon class="text-warning">warning</md-icon> {{ 'PAYMENT_FAILURE_TITLE' | translate }} </h2>
+        <p>{{ 'PAYMENT_FAILURE_BODY' | translate }}</p>
+
+        <button ng-if="afterPayment" ng-click="goAfterPayment()" type="button" class="mywheels-btn mywheels-btn-default" md-ink-ripple="#3a6d81">
+            {{ 'GO' | translate }}
+        </button>
+
+        <div ng-if="!afterPayment">
+            <button ui-sref="owm.finance.voucherList" class="mywheels-btn mywheels-btn-default" md-ink-ripple="#3a6d81">{{ 'MY_VOUCHERS' | translate }}</button>
+        </div>
+    </div>
+</section>

@@ -1,52 +1,49 @@
 <!-- Top welkom part -->
-
-<div class="intro__section intro__section--white">
-    <section class="intro__section__heading">
-        <h1>Welkom bij MyWheels, {{::me.firstName}}!</h1>
+<div class="intro-section intro-section--white">
+    <section class="intro-section__heading">
+        <h1 translate="DASHBOARD_INTRO_TEXT" translate-values="{firstName: me.firstName}"></h1>
     </section>
-    <div class="intro__section__steps__pretext intro__section--green triangle--bar">
+    <div class="intro-section__steps__pretext intro-section--green triangle--bar">
 
-        <p>Maak direct je eerste boeking! Je kunt kiezen uit een groot aantal auto's in de buurt. Auto's met het label Smartwheels open je met een OV-chipkaart of smartphone, auto’s zonder dit label open je met de sleutel. Spreek dan even met de verhuurder af wanneer je de sleutel ophaalt.</p>
+        <p class="intro__page">{{'DASHBOARD_INTRO_BOOKING' | translate }}</p>
 
         <!-- call to action buttons -->
         <div layout="column" layout-align="center center">
-            <a href="" class="mywheels-btn mywheels-btn-light" ui-sref="owm.resource.search.list" md-ink-ripple="#ded8d8">Zoek nu een auto</a>
-            <button type="button" name="button" ui-sref="owm.person.profile" class="mywheels-btn mywheels-btn-span">Of vul je gegevens aan</button>
+            <a href="" class="mywheels-btn mywheels-btn-light mywheels-btn-big" ui-sref="owm.resource.search.list" md-ink-ripple="#ded8d8">{{ 'SEARCH_CAR' | translate }}</a>
+            <button type="button" name="button" ui-sref="owm.person.details({pageNumber: '1'})" class="mywheels-btn mywheels-btn-span">{{ 'DETAILS_PERSON_DATA' | translate }} </button>
         </div>
         <!-- /call to action buttons -->
-
     </div>
-
 </div>
 <!-- /top welkom part -->
 
 <!-- Hire a car in 3 steps -->
-<div class="intro__section">
-    <section class="intro__section__steps">
-        <h2>Huur een auto in drie stappen</h2>
+<div class="intro-section intro__page">
+    <section class="intro-section__steps">
+        <h2>{{'DASHBOARD_INTRO_TREE_STEPS' | translate }}</h2>
         <div class="infoboxes">
-            <div class="infobox">
+            <div class="infobox infobox__line">
                 <div layout="row" layout-align="start center" layout-margin class="infobox--title">
                     <md-icon class="infobox--title--icon">search</md-icon>
-                    <h3 class="infobox--title--text">1. Zoek een auto</h3>
+                    <h3 class="infobox--title--text">{{ 'DASHBOARD_INTRO_TREE_STEPS_ONE' | translate}}</h3>
                 </div>
-                <p class="infobox--content">Bekijk de auto’s in je buurt en boek de ideale auto voor je rit.</p>
+                <p class="infobox--content">{{ 'DASHBOARD_INTRO_TREE_STEPS_ONE_TEXT' | translate }}</p>
 
             </div>
-            <div class="infobox">
+            <div class="infobox infobox__line">
                 <div layout="row" layout-align="start center" layout-margin class="infobox--title">
                     <md-icon class="infobox--title--icon">person_outline</md-icon>
-                    <h3 class="infobox--title--text">2. Vul je gegevens aan</h3>
+                    <h3 class="infobox--title--text">{{'DASHBOARD_INTRO_TREE_STEPS_TWO'| translate }}</h3>
                 </div>
-                <p class="infobox--content">We leren je graag beter kennen voordat je op pad gaat.</p>
+                <p class="infobox--content">{{'DASHBOARD_INTRO_TREE_STEPS_TWO_TEXT'| translate }}</p>
 
             </div>
             <div class="infobox">
                 <div layout="row" layout-align="start center" layout-margin class="infobox--title">
                     <md-icon class="infobox--title--icon">directions_car</md-icon>
-                    <h3 class="infobox--title--text">3. Rijden</h3>
+                    <h3 class="infobox--title--text">{{'DASHBOARD_INTRO_TREE_STEPS_TREE'| translate }}</h3>
                 </div>
-                <p class="infobox--content">Nadat je boeking geaccepteerd is, kun je aan het begin van de reservering de auto ophalen.</p>
+                <p class="infobox--content">{{'DASHBOARD_INTRO_TREE_STEPS_TREE_TEXT'| translate }}</p>
 
             </div>
         </div>
@@ -55,8 +52,8 @@
 <!-- /Hire a car in 3 steps -->
 
 <!-- FEATURED SLIDER -->
-<div class="container-fluid slider" ng-if="features.featuredSlider">
-    <div class="slider--container container-home" layout="column" layout-align="center center">
+<div class="slider intro-section__slider" ng-if="features.featuredSlider">
+    <div class="slider--container intro__page" layout="column" layout-align="center center">
         <h2 class="slider--heading">{{'FEATURED_CARS_HEADING' | translate}}</h2>
         <slick dots="false" prev-arrow=".slick--prev" next-arrow=".slick--next" ng-if="resources_slider" responsive="[{breakpoint: 1024, settings: { slidesToShow: 3, slidesToScroll: 3}}, {breakpoint: 768, settings: {slidesToShow: 2, slidesToScroll: 2 }}, {breakpoint: 450, settings: {slidesToShow: 1, slidesToScroll: 1 }}]"
             slides-to-show="4" slides-to-scroll="4">
@@ -85,122 +82,127 @@
 </div>
 <!-- /FEATURED SLIDER -->
 
-<div class="container-fluid intro__section intro__section--white">
-    <section class="container intro__section__ideals">
-        <h3>Onze idealen</h3>
-        <p>
-            MyWheels is het voordeligste autodeelplatform van Nederland. Onze tarieven zijn zo laag omdat we een not-for-profit­organisatie zijn. Wij vinden leefbare buurten belangrijker dan winstmaximalisatie. Vanwege onze idealen heeft MyWheels al meer dan 30.000 autodelers. Help je mee ons idealen te verwezenlijken?
+<div class="intro-section intro-section--white container-fluid">
+    <section class="intro-section__ideals">
+        <h3>{{ 'OUR_IDEALS' | translate}}</h3>
+        <p class="intro__page">
+            {{ 'OUR_IDEALS_TEXT' | translate }}
         </p>
+        <a href="https://mywheels.nl/autodelen/community/onze-idealen/" class="mywheels-btn mywheels-btn-default mywheels-btn-big mywheels-btn-margin-top ">{{ 'MORE_INFO' | translate }} </a>
     </section>
 </div>
 
-<div class="container-fluid intro__section">
-    <section class="container intro__section__faq">
-        <div>
-            <h3 class="intro__section__faq__heading">Veelgestelde vragen</h3>
-            <div class="intro__section__faq__boxes">
-                <div >
-                    <div class="intro__section__faq__box">
+<div class="intro-section">
+    <section class="intro-section__faq">
+        <div class="intro__page">
+            <h2 class="intro-section__faq__heading">{{'FAQ' | translate}}</h2>
+            <div class="intro-section__faq__boxes">
+                <div class="intro-section__faq__boxes_divider">
+                    <div class="intro-section__faq__box">
                         <md-card>
                             <md-card-header ng-click="toggleBox(1)">
                                 <md-card-header-text>
-                                    <span class="md-title">Kan ik huren zonder borg?<md-icon class="pull-right">{{openboxes[1] ? 'expand_less' : 'expand_more'}}</md-icon></span>
+                                    <span class="md-title">{{ 'FAQ_ESCROW' | translate}}<md-icon class="pull-right">{{openboxes[1] ? 'expand_less' : 'expand_more'}}</md-icon></span>
                                 </md-card-header-text>
                             </md-card-header>
                             <md-divider></md-divider>
-                            <md-card-content class="intro__section__faq__answer" ng-show="openboxes[1]">
-                                Je hoeft bij MyWheels geen borg te betalen en geen machtiging voor automatische incasso af te geven. Je betaalt de ritkosten vooraf veilig en snel met iDeal.
+                            <md-card-content class="intro-section__faq__answer" ng-show="openboxes[1]">
+                                {{ 'FAQ_ESCRO_TEXT' | translate}}
                             </md-card-content>
                         </md-card>
                     </div>
 
-                    <div class="intro__section__faq__box">
+                    <div class="intro-section__faq__box">
                         <md-card>
                             <md-card-header ng-click="toggleBox(2)">
                                 <md-card-header-text>
-                                    <span class="md-title">Hoe koppel ik mijn OV-chipkaart aan mijn account?<md-icon class="pull-right">{{openboxes[2] ? 'expand_less' : 'expand_more'}}</md-icon></span>
+                                    <span class="md-title">  {{ 'FAQ_CARS' | translate}}<md-icon class="pull-right">{{openboxes[2] ? 'expand_less' : 'expand_more'}}</md-icon></span>
                                 </md-card-header-text>
                             </md-card-header>
                             <md-divider></md-divider>
-                            <md-card-content class="intro__section__faq__answer" ng-show="openboxes[2]">
-                                Om jouw OV-chipkaart aan je account te koppelen, heb je een viercijferige pincode nodig. Je ontvangt deze pincode automatisch als je voor het eerst een auto reserveert die je met een OV-chipkaart opent.
+                            <md-card-content class="intro-section__faq__answer" ng-show="openboxes[2]">
+                                {{ 'FAQ_CARS_TEXT' | translate}}
                             </md-card-content>
                         </md-card>
                     </div>
 
-                    <div class="intro__section__faq__box">
+                    <div class="intro-section__faq__box">
                         <md-card>
                             <md-card-header ng-click="toggleBox(3)">
                                 <md-card-header-text>
-                                    <span class="md-title">Hoe ben ik verzekerd als ik huur?<md-icon class="pull-right">{{openboxes[3] ? 'expand_less' : 'expand_more'}}</md-icon></span>
+                                    <span class="md-title">  {{ 'FAQ_INSURANCE' | translate}}<md-icon class="pull-right">{{openboxes[3] ? 'expand_less' : 'expand_more'}}</md-icon></span>
                                 </md-card-header-text>
                             </md-card-header>
                             <md-divider></md-divider>
-                            <md-card-content class="intro__section__faq__answer" ng-show="openboxes[3]">
-                                De auto die je via MyWheels huurt, is automatisch goed verzekerd tegen schade, vernieling en diefstal. We sluiten namelijk voor elke rit een allrisk verzekering bij Centraal Beheer Achmea af. Zo loop jij geen risico als je in een deelauto rijdt. De tarieven van de auto zijn altijd inclusief verzekeringskosten.
+                            <md-card-content class="intro-section__faq__answer" ng-show="openboxes[3]">
+                                {{ 'FAQ_INSURANCE_TEXT' | translate}}
                             </md-card-content>
                         </md-card>
                     </div>
 
                 </div>
 
-                <div>
-                    <div class="intro__section__faq__box">
+                <div class="intro-section__faq__boxes_divider">
+                    <div class="intro-section__faq__box">
                         <md-card>
                             <md-card-header ng-click="toggleBox(4)">
                                 <md-card-header-text>
-                                    <span class="md-title">Wat betekent het label Smartwheels?<md-icon class="pull-right">{{openboxes[4] ? 'expand_less' : 'expand_more'}}</md-icon></span>
+                                    <span class="md-title">  {{ 'FAQ_SMARTWHEELS' | translate}}<md-icon class="pull-right">{{openboxes[4] ? 'expand_less' : 'expand_more'}}</md-icon></span>
                                 </md-card-header-text>
                             </md-card-header>
                             <md-divider></md-divider>
                             <md-card-content ng-show="openboxes[4]">
-                                Auto’s met het label Smartwheels hebben een boordcomputer en open je met een OV-chipkaart of met je smartphone. De auto's zijn 24 uur per dag beschikbaar. Daarnaast hoef je bij een Smartwheels auto geen kilometerstanden te noteren, de boordcomputer registreert de gereden kilometers automatisch. In het huuroverzicht zie je dit label staan.
+                                {{ 'FAQ_SMARTWHEELS_TEXT' | translate}}
                             </md-card-content>
                         </md-card>
                     </div>
 
-                    <div class="intro__section__faq__box">
+                    <div class="intro-section__faq__box">
                         <md-card>
                             <md-card-header ng-click="toggleBox(5)">
                                 <md-card-header-text>
-                                    <span class="md-title">Wat voor auto's worden via MyWheels gedeeld?<md-icon class="pull-right">{{openboxes[5] ? 'expand_less' : 'expand_more'}}</md-icon></span>
+                                    <span class="md-title">  {{ 'FAQ_OV' | translate}}<md-icon class="pull-right">{{openboxes[5] ? 'expand_less' : 'expand_more'}}</md-icon></span>
                                 </md-card-header-text>
                             </md-card-header>
                             <md-divider></md-divider>
                             <md-card-content ng-show="openboxes[5]">
-                                Je kunt kiezen uit een groot aantal auto's in de buurt. Een busje voor een verhuizing, een familieauto voor een kinderfeestje of een oldimter voor een bruiloft. Voor elke rit vind je de ideale auto!
+                                {{ 'FAQ_OV_TEXT' | translate}}
                             </md-card-content>
                         </md-card>
                     </div>
 
-                    <div class="intro__section__faq__box">
+                    <div class="intro-section__faq__box">
                         <md-card>
                             <md-card-header ng-click="toggleBox(6)">
                                 <md-card-header-text>
-                                    <span class="md-title">Kan ik met de auto naar het buitenland?<md-icon class="pull-right">{{openboxes[6] ? 'expand_less' : 'expand_more'}}</md-icon></span>
+                                    <span class="md-title">  {{ 'FAQ_COUNTRY' | translate}}<md-icon class="pull-right">{{openboxes[6] ? 'expand_less' : 'expand_more'}}</md-icon></span>
                                 </md-card-header-text>
                             </md-card-header>
                             <md-divider></md-divider>
                             <md-card-content ng-show="openboxes[6]">
-                                De verzekering is van kracht in alle Europese landen, je kunt met een auto dus ook bijvoorbeeld naar Duitsland, België of Frankrijk. Ook in het buitenland kun je rekenen op hulp bij pech.
+                                {{ 'FAQ_COUNTRY_TEXT' | translate}}
                             </md-card-content>
                         </md-card>
                     </div>
                 </div>
 
             </div>
-            <div class="intro__section__faq__button">
-                <a href="https://mywheels.nl/autodelen/" class="mywheels-btn mywheels-btn-normal" md-ink-ripple="#4b702c">Alle veelgestelde vragen</a>
+            <div class="intro-section__faq__button">
+                <a href="https://mywheels.nl/autodelen/" class="mywheels-btn mywheels-btn-normal" md-ink-ripple="#4b702c">{{ 'FAQ_ALL' | translate }}</a>
             </div>
         </div>
     </section>
 </div>
 
-<div class="container-fluid intro__section intro__section--green intro__section--last ">
-  <div class="hero-overlay"></div>
-    <section class="container intro__section__footer" layout="column" layout-align="center center">
-        <h3>Klaar om te rijden?</h3>
-        <a href="" class="mywheels-btn mywheels-btn-error" ui-sref="owm.resource.search.list" md-ink-ripple="#9a3d26">Zoek nu een auto</a>
-        <button type="button" name="button" ui-sref="owm.person.profile" class="mywheels-btn mywheels-btn-span">Of vul je gegevens aan</button>
+<div class="intro-section intro-section--green intro-section--last ">
+    <div class="hero-overlay"></div>
+    <section class="intro-section__footer" layout="column" layout-align="center center">
+        <h3>{{ 'READY_TO_DRIVE' | translate}}</h3>
+        <a href="" class="mywheels-btn mywheels-btn-error mywheels-btn-big" ui-sref="owm.resource.search.list" md-ink-ripple="#9a3d26">
+          {{ 'SEARCH_CAR' | translate }}
+        </a>
+        <button type="button" name="button" ui-sref="owm.person.details({pageNumber: '1'})" class="mywheels-btn mywheels-btn-span">
+            {{ 'DETAILS_PERSON_DATA' | translate }}
+        </button>
     </section>
 </div>

@@ -2,16 +2,24 @@
 
 angular.module('owm.finance.vouchers', [])
 
-.controller('VouchersController', function ($window, $q, $state, $scope, appConfig, alertService, voucherService,
-  paymentService, bookingService, me, Analytics) {
-
+.controller('VouchersController', function ($window, $q, $state, $scope, account2Service, appConfig, alertService, voucherService,
+  paymentService, bookingService, me) {
+  $scope.me = me;
   var cachedBookings = {};
-
   $scope.busy = true;
   $scope.requiredValue = null;
   $scope.voucherOptions = [25, 50, 100, 250, 500];
   $scope.showVoucherOptions = false;
   $scope.redemptionPending = {}; /* by booking id */
+  $scope.accountApproved = false;
+  account2Service.forMe({
+    'onlyApproved': true
+  }).then(function (value) {
+    if (value.length > 0) {
+      $scope.accountApproved = true;
+    }
+
+  });
 
   alertService.load($scope);
   getRequiredValue().then(getBookings).finally(function () {
@@ -32,7 +40,6 @@ angular.module('owm.finance.vouchers', [])
     $scope.showVoucherOptions = toggle;
   };
   $scope.buyVoucher = function (value) {
-    Analytics.trackEvent('payment', 'started');
     if (!value || value < 0) {
       return;
     }
@@ -151,8 +158,6 @@ angular.module('owm.finance.vouchers', [])
   }
 
   function isOpenStatus(index, statusValue) {
-    // console.log('----------');
-    // console.log(statusValue);
     if (index <= 1 && statusValue === false) {
       return false;
     } else {

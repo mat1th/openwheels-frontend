@@ -23,173 +23,31 @@ angular.module('openwheels.analytics', [])
   }];
 })
 
-.config(function(AnalyticsProvider, appConfig) {
-  AnalyticsProvider
-  .setAccount(appConfig.ga_tracking_id)
-  .trackUrlParams(true)
-  .ignoreFirstPageLoad(true)
-  .setPageEvent('$stateChangeSuccess')
-  .useDisplayFeatures(true)
-  ;
-})
-;
-/*
-LIST OF ALL EVENTS
 
-BOOKING - DONE
-  + created
-    - label: (boolean) isAuthenticated
-    - value: fix number 11 iif owner 282
-    - triggers:
-        - reservationForm.tpl click button
-          * condition: button not disabled
-    
-  + cancelled_renter
-    - label: booking.id
-    - value:
-    - triggers:
-        - BookingShowController.js then after bookingService.cancel
-  
-  + cancelled_owner
-    - label: booking.id
-    - value:
-    - triggers:
-        - BookingShowController.js then after bookingService.cancel
-  
-  + rejected
-    - label: booking.id
-    - value:
-    - triggers
-      - BookingModule.js OnEnter state owm.booking.reject
-      - BookingShowController.js then after bookingService.rejectRequest
-  
-  + accepted
-    - label: booking.id
-    - value: 4
-    - triggers
-      - BookingModule.js OnEnter state owm.booking.accept
-      - BookingShowController.js then after bookingService.acceptRequest
-  
-  + form_interaction
-    - label:
-    - value:
-  
-  + discount_applied
-    - label:
-    - value:
-    - triggers
-      - ReservationFrom.js then after discountService.isApplicable
+.provider('googleAnalytics', function() {
 
-  + tripdata_entered
-    - label: booking.id
-    - value:
-    - triggers
-      - BookingAdministerController then after bookingService.setTrip
+  this.init = function (trackingId) {
 
-  
-RESOURCE - DONE
-  + resource_created
-    - label: resource.id
-    - value:
-    - triggers
-      - ResourceCreateController then after resourceService.create
+    /* jshint ignore:start */
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    /* jshint ignore:end */
 
-  + discount_created
-    - label: resource.id
-    - value:
-    - triggers
-      - discountList.js then after $mdDialog.show
+    window.ga('create', trackingId, 'auto');
 
-  + picture_uploaded
-    - label: resource.id
-    - value:
-    - triggers
-      - ResourceEditPicturesController then after resourceService.addPicture
+    window.ga('require', 'pageVisibilityTracker');
+    window.ga('require', 'eventTracker');
+    window.ga('require', 'urlChangeTracker');
 
-  + info_edited
-    - label: resource.id
-    - value:
-    - triggers
-      - ResourceEditSharingsettingsController then after resourceService.alter
+    window.ga('send', 'pageview');
+  };
 
-  + calendar_edited
-    - label: resource.id
-    - value:
-    - triggers
-      - ResourceShowCalendarController then after calendarService.createPeriodic
-      - ResourceShowCalendarController then after calendarService.createBlock
+  this.$get = ['$log', function ($log) {
+    return window.ga || function() {
+      $log.debug('google analytics (disabled): ', arguments);
+    };
+  }];
+});
 
-
-PERSON - PARTLY DONE + PARTLY POSPONED
-  + created
-    > postponed untill new flow has been finished
-
-  + edited
-    > postponed untill new flow has been finished
-
-  + driverlicense_uploaded
-    > postponed untill new flow has been finished
-
-  + profilepicture_uploaded
-    > postponed untill new flow has been finished
-
-  + contract_ended
-    - label: contract.id
-    - value:
-    - triggers
-      - PersonContractIndexController then after contractService.alter
-
-
-DISCOVERY - DONE
-  + search
-    - label: (boolean) isAuthenticated
-    - value:
-    - triggers
-      - ResourceSearchController then after resourceService.searchV2
-
-  + filters_applied
-    - label:
-    - value:
-    - triggers
-      - ResourceSearchController in sidebarFiltersChanged()
-      - ResourceSearchController then after results
-
-  + show_car
-    - label: resource_id
-    - value:
-    - triggers
-      - ResourceShowController first lines of controller
-
-  + show_calendar
-    - label: resource.id
-    - value:
-    - triggers
-      - ResourceShowCalendarController first lines of controller
-
-  + send_message
-    - label: resource_id
-    - value:
-    - triggers
-      - chatPopupController then after messageService.sendMessageTo
-
-  
-PAYMENT - DONE
-  + started
-    - label:
-    - value:
-    - triggers
-      - vouchersController in buyVoucher()
-
-  + failed
-    - label:
-    - value:
-    - triggers
-      - paymentResultController in init()
-
-  + success
-    - label:
-    - value:
-    - triggers
-      - paymentResultController in init()
-
-*/

@@ -1,5 +1,5 @@
 .input-error {
-  border-color: #e65a37 !important;
+    border-color: #e65a37 !important;
 }
 .signup-header {
     display: inline-block;
@@ -47,6 +47,7 @@ label.sign-up-terms {
     position: absolute;
 }
 .signup-term {
+    margin-top: 0.8em;
     position: relative;
     display: block;
     height: 3em;
@@ -119,5 +120,30 @@ label.sign-up-terms {
     }
     .signup-card {
         margin-top: 15em;
+    }
+}
+.upload-profile-image {
+    display: flex;
+    flex-direction: column;
+    img {
+        flex-grow: 1;
+    }
+    .file-input {
+        display: block;
+        flex-grow: 1;
+    }
+}
+@media all and (min-width: 35em) {
+    .upload-profile-image {
+        display: flex;
+        flex-direction: row;
+        img {
+            flex-grow: 0;
+        }
+        .file-input {
+            display: block;
+            flex-grow: 1;
+            margin-left: 1em;
+        }
     }
 }

@@ -1,4 +1,4 @@
-<div class="container" ng-class="{ 'container-transitional': containerTransitional, 'container-home': containerHome }">
+<div class="container" ng-class="{ 'container-transitional': containerTransitional, 'container-home': containerHome, 'intro__page': containerIntro }">
   <md-toolbar class="app-toolbar">
 
     <div class="md-toolbar-tools">
@@ -11,7 +11,7 @@
       <md-button hide-gt-xs class="md-icon-button" ng-click="openMenu()">
         <md-icon>menu</md-icon>
       </md-button>
-      <md-button ga-track-event-if="true" hide-xs ng-click="openMenu()" ga-track-event="['video', 'play', 'django.mp4']" >
+      <md-button hide-xs ng-click="openMenu()">
         <md-icon>menu</md-icon>
         <span>Menu</span>
       </md-button>

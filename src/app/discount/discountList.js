@@ -14,7 +14,7 @@ angular.module('owm.discount')
   };
 })
 
-.controller('DiscountListController', function ($log, $q, $uibModal, $mdDialog, $scope, API_DATE_FORMAT, discountService, alertService, Analytics) {
+.controller('DiscountListController', function ($log, $q, $uibModal, $mdDialog, $scope, API_DATE_FORMAT, discountService, alertService) {
   var ctrl = $scope.ctrl = {};
 
   ctrl.ranges = {
@@ -52,7 +52,6 @@ angular.module('owm.discount')
     })
     .then(function (discount) {
       $log.debug('discount created', discount);
-      Analytics.trackEvent('resource', 'discount_created', $scope.resource.id);
       $scope.loadDiscounts();
     });
   };

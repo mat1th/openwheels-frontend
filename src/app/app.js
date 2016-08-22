@@ -25,7 +25,6 @@ angular.module('openwheels', [
   'geocoder',
   'ngAutocomplete',
   'ngScrollTo',
-  'angular-google-analytics',
 
   /* Auto-generated */
   'templates-app',
@@ -58,6 +57,7 @@ angular.module('openwheels', [
 
   /* Directives */
   'form.validation',
+  'signupFormDirective',
   'pickadate',
   'timeframe',
   'datetimeDirective',
@@ -67,6 +67,8 @@ angular.module('openwheels', [
   'ratingThumbBinaryDirective',
   'badgeListDirective',
   'infoIconDirective',
+  'vouchersDirective',
+  'resourceSidebarDirective',
   'fileInputDirective',
   'resourceCarouselDirective',
   'bookingDirectives',
@@ -107,13 +109,13 @@ angular.module('openwheels', [
   'owm.trips',
   'owm.chat',
   'owm.message',
-  'owm.newRenter',
   'owm.livehelperchat',
   'owm.discount',
   'owm.contract'
 ])
 
 .constant('API_DATE_FORMAT', 'YYYY-MM-DD HH:mm')
+  .constant('FRONT_DATE_FORMAT', 'dddd DD MMMM HH:mm')
 
 .config(function ($locationProvider, $stateProvider, $urlRouterProvider) {
   $locationProvider.html5Mode(true);
@@ -160,15 +162,16 @@ angular.module('openwheels', [
 })
 
 .config(function (appConfig, googleTagManagerProvider) {
-  if (appConfig.gtmContainerId) {
-    googleTagManagerProvider.init(appConfig.gtmContainerId);
-  }
-})
-//.config(function (appConfig, googleAnalyticsProvider) {
-//  if (appConfig.ga_tracking_id) {
-//    googleAnalyticsProvider.init(appConfig.ga_tracking_id);
-//  }
-//})
+    if (appConfig.gtmContainerId) {
+      googleTagManagerProvider.init(appConfig.gtmContainerId);
+    }
+  })
+  .config(function (appConfig, googleAnalyticsProvider) {
+    if (appConfig.ga_tracking_id) {
+      googleAnalyticsProvider.init(appConfig.ga_tracking_id);
+    }
+  })
+
 .config(function (appConfig, facebookProvider, twitterProvider) {
     // if (appConfig.features.facebook && appConfig.fbAppId) {
     //   facebookProvider.init(appConfig.fbAppId);
@@ -177,24 +180,24 @@ angular.module('openwheels', [
     //   twitterProvider.init();
     // }
 })
-/**
- * Disable logging for non-development environments
- */
-.config(function ($logProvider, ENV) {
-  if (ENV !== 'development') {
-    $logProvider.debugEnabled(false);
-  }
-})
-.config(function (optimizelyProvider) {
-  optimizelyProvider.setKey('5390511383');
-  optimizelyProvider.setActivationEventName('$stateChangeSuccess');
-})
-.run(function (optimizely) {
-  optimizely.loadProject();
-})
+  /**
+   * Disable logging for non-development environments
+   */
+  .config(function ($logProvider, ENV) {
+    if (ENV !== 'development') {
+      $logProvider.debugEnabled(false);
+    }
+  })
+  .config(function (optimizelyProvider) {
+    optimizelyProvider.setKey('5390511383');
+    optimizelyProvider.setActivationEventName('$stateChangeSuccess');
+  })
+  .run(function (optimizely) {
+    optimizely.loadProject();
+  })
 
 
-.run(function (windowSizeService, oAuth2MessageListener, stateAuthorizer, authService, featuresService, Analytics) {
+.run(function (windowSizeService, oAuth2MessageListener, stateAuthorizer, authService, featuresService) {
   /* Intentionally left blank */
 })
 
@@ -245,8 +248,9 @@ angular.module('openwheels', [
     $rootScope.containerHome = (
       ($state.includes('home'))
     );
-
-
+    $rootScope.containerIntro = (
+      ($state.includes('owm.person.intro'))
+    );
   });
 
   // show an error on state change error
