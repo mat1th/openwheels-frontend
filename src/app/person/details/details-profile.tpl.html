@@ -1,7 +1,7 @@
 <div class="progress--steps">
     <section class="step" data-section="1" title="Basisgegevens" ng-class="{'selected': pageNumber === 1 ? true : false, 'done': pageNumber > 1 ? true : false }" ui-sref="owm.person.details({pageNumber: '1'})"></section>
     <section class="step" data-section="2" title="Rijbewijs uploaden" ng-class="{'selected': pageNumber === 2 ? true : false, 'done': pageNumber > 2 ? true : false}" ui-sref="owm.person.details({pageNumber: '2'})"></section>
-    <section class="step last-step" data-section="3" title="{{isbooking !== true ? 'Auto zoeken' : 'Betalen'}}" ng-class="{'selected': pageNumber === 3 ? true : false, 'done': pageNumber > 3 ? true : false }" ng-click="createBookingFlow()"></section>
+    <section class="step last-step" data-section="3" title="{{isbooking !== true ? 'Auto zoeken' : 'Betalen'}}" ng-class="{'selected': pageNumber === 3 ? true : false, 'done': pageNumber > 3 ? true : false }" ng-click="nextSection()"></section>
 </div>
 
 <section class="details--profile__overview">
@@ -172,7 +172,7 @@
                     <img ng-src="{{licenceImage}}" alt="lincence preview" id="licence-preview">
                 </div>
 
-                <div ng-show="containsLicence || LicenceUploaded">
+                <div ng-show="containsLicence || licenceUploaded">
                     <p>{{ 'LICENSE_CONFIRM' | translate }}</p>
                     <button title="upload" type="button" class="mywheels-btn mywheels-btn-normal btn--navigation__previous mywheels-btn-big" md-ink-ripple="#4b702c" ng-disabled="isBusy" ng-click="startUpload()">
                         {{'YES' | translate }}
@@ -189,18 +189,18 @@
                         {{ 'PREVIOUS' | translate}}
                     </button>
                     <div>
-                        <button rel="prev" type="button" class="mywheels-btn mywheels-btn-transparant btn--navigation__previous" md-ink-ripple="#ded8d8" ng-click="skipFlow()" ng-show="$root.isWindowSizeSM && !containsLicence && isbooking|| $root.isWindowSizeSM && !LicenceUploaded && isbooking">
+                        <button rel="prev" type="button" class="mywheels-btn mywheels-btn-transparant btn--navigation__previous" md-ink-ripple="#ded8d8" ng-click="skipFlow()" ng-show="$root.isWindowSizeSM && !containsLicence && isbooking|| $root.isWindowSizeSM && !licenceUploaded && isbooking">
                             {{ 'LATER' | translate}}
                             <md-icon>navigate_next</md-icon>
                         </button>
-                        <button rel="next" type="button" class="mywheels-btn mywheels-btn-default btn--navigation__next" ng-click="createBookingFlow()" ng-disabled="LicenceUploaded === true">
+                        <button rel="next" type="button" class="mywheels-btn mywheels-btn-default btn--navigation__next" ng-click="nextSection()" ng-disabled="!licenceUploaded">
                             {{ 'NEXT' | translate}}
                             <md-icon class="text-white">navigate_next</md-icon>
                         </button>
                     </div>
                 </div>
 
-                <button rel="prev" type="button" class="mywheels-btn mywheels-btn-transparant btn--navigation__previous" md-ink-ripple="#ded8d8" ng-click="skipFlow()" ng-show="!$root.isWindowSizeSM && !containsLicence && isbooking || !$root.isWindowSizeSM && !LicenceUploaded && isbooking" style="float: right; margin: 1em 0 0 0;">
+                <button rel="prev" type="button" class="mywheels-btn mywheels-btn-transparant btn--navigation__previous" md-ink-ripple="#ded8d8" ng-click="skipFlow()" ng-show="!$root.isWindowSizeSM && !containsLicence && isbooking || !$root.isWindowSizeSM && !licenceUploaded && isbooking" style="float: right; margin: 1em 0 0 0;">
                     {{ 'LATER' | translate}}
                     <md-icon>navigate_next</md-icon>
                 </button>
