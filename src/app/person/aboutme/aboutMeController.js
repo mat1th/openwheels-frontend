@@ -3,7 +3,7 @@
 angular.module('owm.person.aboutme', [])
 
 
-.controller('aboutMeController', function ($scope, $translate, $filter, alertService, personService, person) {
+.controller('aboutMeController', function ($scope, $translate, $filter, $window, alertService, personService, person) {
 
   var masterPerson = null;
   initPerson(person);
@@ -28,6 +28,10 @@ angular.module('owm.person.aboutme', [])
       }];
     }
   });
+  $scope.back = function () {
+    $window.history.back();
+  };
+  
   $scope.submitAboutMeForm = function () {
     alertService.closeAll();
     alertService.load();

@@ -47,7 +47,6 @@ angular.module('tokenService', [])
   var eraseCookie = function (name) {
     createCookie(name, '', -1);
   };
-  createCookie('ppkcookie', 'testcookie2', 7);
 
   var tokenPrototype = {
     isExpired: function () {

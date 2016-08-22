@@ -22,7 +22,7 @@
     <div ng-if="isApproved" ng-cloak>
         <section class="card">
             <div class="card-body">
-                <h2 class="card-title">
+                <h2 class="card-title" ng-if="isApproved">
                 <md-icon class="text-success">check</md-icon>
                 {{ 'PAYMENT_APROVED_TITLE' | translate }}
                 </h2>

@@ -33,3 +33,11 @@
     <div class="footer" ui-view="footer"></div>
 
 </md-content>
+
+<div class="cookiebar">
+    <div class="cookiebar--content" ng-if="$root.cookieBar !== 'false'">
+        <span translate="COOKIES_TERMS"></span>
+        <button ng-click="acceptCookie()" class="cookiebar--btn"><span>{{'COOKIES_ACCEPT' | translate}}</span> <md-icon class="text-white">close</md-icon></button>
+
+    </div>
+</div>
