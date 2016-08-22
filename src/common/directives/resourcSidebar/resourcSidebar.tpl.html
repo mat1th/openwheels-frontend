@@ -1,6 +1,6 @@
 <section role="presentation">
     <h3 class="details--profile__sidebar__heading" ng-if="$root.isWindowSizeSM">Jouw boeking</h3>
-    <ow-resource-picture resource="resource" size="large" class="details--profile__image"></ow-resource-picture>
+      <img class="details--profile__image" ng-src="{{ resource.pictures[0] | resourceAvatar:'small' }}">
     <section class="">
         <h3 class="text-success">{{resource.alias}}</h3>
         <span>{{resource.model}}</span>

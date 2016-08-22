@@ -341,7 +341,6 @@ angular.module('owm.person.details', [])
   $scope.cancelUpload = function () {
     $scope.containsLicence = false;
   };
-  console.log(me.driverLicense);
   $scope.startUpload = function () {
     if (me.driverLicense === null || me.driverLicense === undefined) {
       if (!images.front) {
@@ -376,10 +375,10 @@ angular.module('owm.person.details', [])
         })
         .finally(function () {
           $scope.isBusy = false;
-          $scope.createBookingFlow();
+          $scope.nextSection();
         });
     } else {
-      $scope.createBookingFlow();
+      $scope.nextSection();
     }
   };
   //the button on the upload linece page
@@ -403,22 +402,19 @@ angular.module('owm.person.details', [])
     $scope.checkedLater = true;
   };
   //booking
-
+  var resourceId = $stateParams.resourceId,
+    bookingId = $stateParams.bookingId,
+    city = $stateParams.city,
+    discountCode = $stateParams.discountCode,
+    remarkRequester = $stateParams.remarkRequester,
+    riskReduction = $stateParams.riskReduction,
+    timeFrame = {
+      startDate: moment($stateParams.startDate).format(API_DATE_FORMAT),
+      endDate: moment($stateParams.endDate).format(API_DATE_FORMAT)
+    };
   $scope.createBookingFlow = function () {
     alertService.load();
     $scope.isBusy = true;
-    console.log($scope.isbooking);
-    var resourceId = $stateParams.resourceId,
-      bookingId = $stateParams.bookingId,
-      city = $stateParams.city,
-      discountCode = $stateParams.discountCode,
-      remarkRequester = $stateParams.remarkRequester,
-      riskReduction = $stateParams.riskReduction,
-      timeFrame = {
-        startDate: moment($stateParams.startDate).format(API_DATE_FORMAT),
-        endDate: moment($stateParams.endDate).format(API_DATE_FORMAT)
-      };
-
     if ($scope.isbooking) { //check if the recoure id is in the url
       if (bookingId) { //check if there is a bookingId in the url
         bookingService.get({
@@ -428,96 +424,119 @@ angular.module('owm.person.details', [])
           getVoucherPrice(value.id);
         });
       } else { //if there is no booking Id in the url
-        bookingService.create({ //creat a booking
-          resource: resourceId,
-          timeFrame: timeFrame,
-          person: me.id,
-          remark: remarkRequester
-        }).then(function (value) {
-          if (discountCode !== undefined) { //check if there is a discount code
-            //set the discount
-            verifyDiscountCode().then(function () {
-              discountService.apply({ //apply the discount code
-                booking: value.id,
-                discount: discountCode
-              }).catch(function (err) {
-                $scope.isBusy = false;
-                alertService.addError(err); //if there is something wrong show a err
+        if (discountCode !== undefined) { //check if there is a discount code
+          //set the discount
+          return verifyDiscountCode().then(function (value) {
+            if (value === true) {
+              return createBooking().then(function (value) {
+                return addDiscount(value).then(function (value) {
+                  // final
+                  alertService.loaded();
+                  $scope.isBusy = false;
+                  $scope.nextSection();
+                });
               });
-            });
-          }
-          return value;
-        }).then(function (value) { //go to an other state
-          goToNextState(3, value.id); //set the booking id in the url
-          $scope.isAvailable = true; //set isAvailable to true to render the table
-        }).catch(function (err) {
-          if (err.message === 'De auto is niet beschikbaar') {
-            $scope.isAvailable = false; //set isAvailable to false to show the trip is not Available page
-          } else {
-            alertService.addError(err); //there is something wrong so show a error
-          }
-          alertService.loaded();
-          $scope.isBusy = false;
-          $scope.nextSection();
-        });
-      }
-    } else {
-      alertService.loaded();
-      $scope.isBusy = false;
-      $scope.nextSection();
-    }
-    //check if the discount is applicable
-    function verifyDiscountCode() {
-      if (!$stateParams.discountCode) {
-        return;
-      }
-      return contractService.forDriver({
-        person: person.id
-      }).then(function getFirstContract(contracts) {
-        if (contracts && contracts.length) {
-
-          return contracts[0];
-        } else {
-          $log.debug('error: new user should have at least one contract');
-          return $q.reject();
-        }
-      }).then(function (contract) {
-        return discountService.isApplicable({
-            resource: resourceId,
-            person: me.id,
-            contract: contract.id,
-            discount: discountCode,
-            timeFrame: timeFrame
-          })
-          .then(function (result) {
-            if (result && result.applicable) {
-              $log.debug('discount code is applicable');
-              return $q.when(true); // resolve
             } else {
-              $log.debug('discount code not applicable');
-              return $q.reject(new Error('De kortingscode die je had opgegeven kon niet worden toegepast.'));
+              showDialog('De kortingscode die je hebt ingevuld is helaas niet van toepassing op deze rit. Wil je de boeking alsnog maken?');
             }
-          }).catch(function (err) {
-            var confirm = $mdDialog.confirm()
-              .title('kortingscode')
-              .textContent('De kortingscode die je hebt ingevuld is helaas niet van toepassing op deze rit. Wil je de boeking alsnog maken?')
-              .ok('Ja')
-              .cancel('Nee');
-            $mdDialog.show(confirm).then(function () {
-              $scope.nextSection();
-            }, function () {
-              $state.go('owm.resource.show', {
-                resourceId: resourceId,
-                city: city
-              });
-            });
-            return false;
           });
-      });
-
+        } else {
+          return createBooking().then(function (value) {});
+        }
+      }
     }
   };
 
+  function createBooking() {
+    return bookingService.create({ //creat a booking
+      resource: resourceId,
+      timeFrame: timeFrame,
+      person: me.id,
+      remark: remarkRequester
+    }).then(function (value) { //go to an other state
+      goToNextState(3, value.id); //set the booking id in the url
+      $scope.isAvailable = true; //set isAvailable to true to render the table
+      return value;
+    }).catch(function (err) {
+      if (err.message === 'De auto is niet beschikbaar') {
+        $scope.isAvailable = false; //set isAvailable to false to show the trip is not Available page
+      } else {
+        alertService.addError(err); //there is something wrong so show a error
+      }
+      alertService.loaded();
+      $scope.isBusy = false;
+      $scope.nextSection();
+    });
+  }
+
+  function addDiscount(value) {
+    return discountService.apply({ //apply the discount code
+      booking: value.id,
+      discount: discountCode
+    }).catch(function (err) {
+      $scope.isBusy = false;
+      alertService.addError(err); //if there is something wrong show a err
+    });
+  }
+
+
+  //check if the discount is applicable
+  function verifyDiscountCode() {
+    if (!$stateParams.discountCode) {
+      return;
+    }
+    return contractService.forDriver({
+      person: person.id
+    }).then(function getFirstContract(contracts) {
+      if (contracts && contracts.length) {
+
+        return contracts[0];
+      } else {
+        return false;
+      }
+    }).then(function (contract) {
+      return discountService.isApplicable({
+          resource: resourceId,
+          person: me.id,
+          contract: contract.id,
+          discount: discountCode,
+          timeFrame: timeFrame
+        })
+        .then(function (result) {
+          if (result && result.applicable) {
+            $log.debug('discount code is applicable');
+            return true; // resolve
+          } else {
+            $log.debug('discount code not applicable');
+            return false;
+          }
+        }).catch(function (err) {
+          return false;
+        });
+    });
+  }
+
+  function showDialog(content) {
+    var confirm = $mdDialog.confirm()
+      .title('kortingscode')
+      .textContent(content)
+      .ok('Ja')
+      .cancel('Nee');
+    $mdDialog.show(confirm).then(function () {
+      return createBooking().then(function (value) {
+        // final
+        alertService.loaded();
+        $scope.isBusy = false;
+        $scope.nextSection();
+      });
+    }, function () {
+      $state.go('owm.resource.show', {
+        resourceId: resourceId,
+        city: city
+      });
+      return false;
+    });
+  }
 
   if (JSON.parse($stateParams.pageNumber) === 3) {
     $scope.createBookingFlow();
