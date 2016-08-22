@@ -73,8 +73,6 @@ angular.module('owm.person.details', [])
   $scope.licenceUploaded = me.status === 'book-only' ? true : false;
   $scope.licenceImage = me.status === 'book-only' ? 'assets/img/rijbewijs_uploaded.jpg' : 'assets/img/rijbewijs_voorbeeld.jpg'; //WHAT IS THE URL??
   $scope.licenceFileName = 'Selecteer je rijbewijs';
-  console.log(me);
-  console.log($scope.licenceUploaded);
   // toggle the sections
   $scope.nextSection = function () {
     if ($scope.pageNumber < 3) {
@@ -451,6 +449,9 @@ angular.module('owm.person.details', [])
           return createBooking().then(function (value) {});
         }
       }
+    } else {
+      $scope.isBusy = false;
+      alertService.loaded();
     }
   };
 
