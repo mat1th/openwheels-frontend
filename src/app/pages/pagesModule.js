@@ -2,7 +2,6 @@
 
 angular.module('owm.pages', [
   'owm.pages.list-your-car',
-  'owm.pages.list-your-car-login',
   'owm.pages.member',
   'owm.pages.emailPreference',
 ])

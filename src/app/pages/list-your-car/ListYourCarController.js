@@ -55,7 +55,9 @@ angular.module('owm.pages.list-your-car', [])
   $scope.beginRentingOut = function () {
     if ($scope.user.identity !== undefined && $scope.user.identity !== null) {
       $state.go('owm.resource.create', { // should fill in the details
-
+        licencePlate: $scope.licencePlate.content,
+        dayPrice: $scope.calculateYourPrice.dayPrice,
+        numberOfDays: $scope.calculateYourPrice.numberOfDays
       });
     } else {
       $mdDialog.show({

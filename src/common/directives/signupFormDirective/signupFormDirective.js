@@ -39,7 +39,7 @@ angular.module('signupFormDirective', [])
       if (featuresService.get('hideSignupPreference')) {
         $scope.user.preference = 'both';
       } else {
-        if ($state.previous.name === 'owm.resource.create') {
+        if ($state.previous.name === 'owm.resource.own') {
           $scope.user.preference = 'owner';
         } else {
           $scope.user.preference = false;
@@ -94,10 +94,11 @@ angular.module('signupFormDirective', [])
                     var licencePlate = $scope.licencePlate;
                     var calculateYourPrice = $scope.calculateYourPrice;
                     $mdDialog.cancel();
-                    console.log(calculateYourPrice);
-                    console.log(licencePlate);
-                    $state.go('owm.resource.create', { // should fill in the details
 
+                    $state.go('owm.resource.create', { // should fill in the details
+                      licencePlate: licencePlate.content,
+                      dayPrice: calculateYourPrice.dayPrice,
+                      numberOfDays: calculateYourPrice.numberOfDays
                     });
                   } else {
                     $state.go($scope.url);

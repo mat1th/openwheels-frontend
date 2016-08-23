@@ -38,8 +38,11 @@ angular.module('licencePlateInfoDirective', [])
                   datum_eerste_toelating: moment(responseCarData.data[0].datum_eerste_toelating, 'DD/MM/YYYY').format('ddd DD MMM'),
                   kleur: responseCarData.data[0].eerste_kleur
                 };
+                showError(false);
+              } else {
+                showError(true);
               }
-              showError(false);
+
             }).catch(function (err) {
               showError(true);
             });
