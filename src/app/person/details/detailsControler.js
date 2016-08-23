@@ -442,7 +442,7 @@ angular.module('owm.person.details', [])
                 });
               });
             } else {
-              showDialog('De kortingscode die je hebt ingevuld is helaas niet van toepassing op deze rit. Wil je de boeking alsnog maken?');
+              showDialog('De kortingscode die je hebt ingevuld, is helaas niet van toepassing op deze rit. Wil je de boeking alsnog maken?');
             }
           });
         } else {
@@ -560,10 +560,11 @@ angular.module('owm.person.details', [])
         bookings: [{
           riskReduction: booking.riskReduction,
           resource: booking.resource,
+          approved: booking.approved,
           id: booking.id,
           title: 'Rit op ',
-          booking_price: value,
-          km_price: value.kmPrice,
+          booking_price: value.booking_price,
+          km_price: value.km_price,
           discount: value.discount
         }]
       };

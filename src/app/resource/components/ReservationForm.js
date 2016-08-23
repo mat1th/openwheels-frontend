@@ -223,7 +223,7 @@ angular.module('owm.resource.reservationForm', [])
       s += 'Boekingskosten: ' + $filter('currency')(price.booking_fee) + '<br/>';
     }
     if (price.redemption > 0) {
-      s += 'Afkoop eigen risico: ' + $filter('currency')(price.redemption) + '<br/>';
+      s += 'Verlagen eigen risico: ' + $filter('currency')(price.redemption) + '<br/>';
     }
     s += 'Totaal: ' + $filter('currency')(price.total);
     return s;
@@ -325,14 +325,6 @@ angular.module('owm.resource.reservationForm', [])
     };
   }
   $scope.createBooking = function (booking) {
-    // console.log(booking.contract);
-    // console.log(booking.beginRequested);
-    // console.log(booking.endRequested);
-    // console.log($scope.features.signupFlow);
-    // console.log($scope.person);
-    // console.log($scope.person.status);
-    // console.log($scope.features.signupFlow);
-    // console.log(booking.contract);
 
     $rootScope.$watch(function isAuthenticated() {
       $scope.person = authService.identity;
@@ -370,7 +362,6 @@ angular.module('owm.resource.reservationForm', [])
         riskReduction: booking.riskReduction
       });
     } else if (!booking.contract) { // should pay deposit to get a contract
-      console.log(booking);
       return alertService.add('danger', 'Voordat je een auto kunt boeken, hebben we een borg van je nodig', 5000);
     } else {
       alertService.load();

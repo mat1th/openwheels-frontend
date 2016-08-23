@@ -34,7 +34,7 @@
         <div class="card-body">
             <div class="media media--small" style="margin-bottom: 15px">
                 <a class="media-object pull-left" ui-sref="owm.booking.show({ bookingId: booking.id })">
-                    <img class="media-object img-resource-small" ng-src="{{ resource.pictures[0] | resourceAvatar:'small' }}">
+                    <img class="media-object img-resource-small" ng-src="{{ booking.resource.pictures[0] | resourceAvatar:'small' }}">
                 </a>
 
                 <div class="media-body">
