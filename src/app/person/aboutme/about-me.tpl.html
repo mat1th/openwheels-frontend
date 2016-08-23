@@ -40,10 +40,10 @@
                     <span class="text-danger" ng-show="aboutMeForm.linkedinUid.$error.required">{{ 'REQUIRED' | translate }}</span>
                 </div>
             </div>
-            <h3 for="remark">{{ 'PROFILE_VISIBILITY' | translate }}</h3>
+            <h3 for="visibility">{{ 'PROFILE_VISIBILITY' | translate }}</h3>
             <div id="visibility" class="icon safety">
                 <div class="select-icon">
-                    <select id="preference" name="remark" ng-model="person.remark" ng-options="o.value as o.label for o in visibilityOptions" required>
+                    <select id="preference" name="visibility" ng-model="person.visibility" ng-options="o.value as o.label for o in visibilityOptions" required>
                         <option value="">-- {{ 'PICK_VISIBILITY' | translate }} --</option>
                     </select>
                 </div>
