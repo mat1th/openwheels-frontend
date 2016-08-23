@@ -58,7 +58,7 @@ angular.module('signupFormDirective', [])
         alertService.load();
         if ($scope.url === 'owm.person.details({pageNumber: \'1\'})') {
           $scope.user.preference = 'renter';
-        } else if ($scope.url === '') {
+        } else if ($scope.url === 'owm.resource.create') {
           $scope.user.preference = 'owner';
         }
 
@@ -91,6 +91,11 @@ angular.module('signupFormDirective', [])
                       riskReduction: booking.riskReduction
                     });
                   } else if ($scope.url === 'owm.resource.create') {
+                    var licencePlate = $scope.licencePlate;
+                    var calculateYourPrice = $scope.calculateYourPrice;
+                    $mdDialog.cancel();
+                    console.log(calculateYourPrice);
+                    console.log(licencePlate);
                     $state.go('owm.resource.create', { // should fill in the details
 
                     });

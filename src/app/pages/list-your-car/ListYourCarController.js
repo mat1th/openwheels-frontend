@@ -38,10 +38,10 @@ angular.module('owm.pages.list-your-car', [])
     }
   };
 
-  function dialogController($scope, $mdDialog, authService, booking, resource) {
+  function dialogController($scope, $mdDialog, authService, calculateYourPrice, licencePlate) {
     $scope.url = 'owm.resource.create';
-    $scope.booking = booking;
-    $scope.resource = resource;
+    $scope.calculateYourPrice = calculateYourPrice;
+    $scope.licencePlate = licencePlate;
     $scope.hide = function () {
       $mdDialog.hide();
     };
@@ -59,12 +59,12 @@ angular.module('owm.pages.list-your-car', [])
       });
     } else {
       $mdDialog.show({
-        controller: ['$scope', '$mdDialog', 'authService', 'booking', 'resource', dialogController],
+        controller: ['$scope', '$mdDialog', 'authService', 'calculateYourPrice', 'licencePlate', dialogController],
         templateUrl: 'pages/list-your-car/listYourCarDialog.tpl.html',
         clickOutsideToClose: true,
         locals: {
-          booking: $scope.booking,
-          resource: $scope.resource
+          licencePlate: $scope.licencePlate,
+          calculateYourPrice: $scope.calculateYourPrice
         },
         fullscreen: $mdMedia('xs')
       });
