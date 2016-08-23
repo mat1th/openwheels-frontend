@@ -1,41 +1,72 @@
-<div class="bg-primary inverted">
-  <div class="container section">
+<div class="list-your-car">
+    <section class="list-your-car--container">
+        <h1>Vul je inkomsten aan door je auto te delen</h1>
+        <ul class="list-unstyled list-spaced list-responsive">
+            <li>
+                <md-icon class="text-success list-margin">check</md-icon>Laagste bemiddelingskosten
+            </li>
+            <li>
+                <md-icon class="text-success list-margin">check</md-icon>Gratis aanmelden
+            </li>
+            <li>
+                <md-icon class="text-success list-margin">check</md-icon>Centraal Beheer verzekert alle verhuringen. (all risk in heel Europa)
+            </li>
+            <li>
+                <md-icon class="text-success list-margin">check</md-icon>No-clain bescherming
+            </li>
+            <li>
+                <md-icon class="text-success list-margin">check</md-icon>Vertrouwde community
+            </li>
+        </ul>
+        <section license-plate-info>
+        </section>
+    </section>
+    <section ng-if="licencePlate.data">
+        <div>
+            {{licencePlate.data.merk | toTitleCase}} {{licencePlate.data.handelsbenaming | toTitleCase}}
+        </div>
+        <div>
+            {{licencePlate.data.brandstof}}
+        </div>
+        <div>
+            {{licencePlate.data.datum_eerste_toelating}}
+        </div>
+        <div>
+            {{licencePlate.data.kleur| toTitleCase}}
+        </div>
+    </section>
+    <section class="list-your-car--calculate-your-price">
 
-    <button ui-sref="list-your-car-login" type="button" class="btn btn-warning pull-right">Voeg je auto toe</button>
+        <div class="list-your-car--calculate-your-price__your-price">
+            <h2>€ {{calculateYourPrice.total}}<sup>Per jaar *</sup></h2>
+            <span>* Inclusief gemiddelde extra kilometerprijs</span>
+        </div>
+        <form class="list-your-car--calculate-your-price__toggles" name="calculateYourPriceForm">
+            <div>
+                <h3>Dagprijs</h3>
+                <button class="mywheels-btn mywheels-btn-transparant">
+                    <md-icon>add</md-icon>
+                </button>
+                <input type="number" ng-model="calculateYourPrice.dayPrice" inputmode="numeric" pattern="[0-9]*" maxlength="3" max="150" step="1" min="0" required>
+                <button class="mywheels-btn mywheels-btn-transparant">
+                    <md-icon>remove</md-icon>
+                </button>
+            </div>
+            <div>
+                <h3>Dagen per maand</h3>
+                <button class="mywheels-btn mywheels-btn-transparant">
+                    <md-icon>add</md-icon>
+                </button>
+                <input class="mywheels-btn-number" type="number" ng-model="calculateYourPrice.numberOfDays" inputmode="numeric" pattern="[0-9]*" maxlength="2" max="31" min="0" step="1" required>
+                <button class=" mywheels-btn mywheels-btn-transparant">
+                    <md-icon>remove</md-icon>
+                </button>
+            </div>
+        </form>
+        <button type="button" name="button" class="mywheels-btn mywheels-btn-default">Begin met verhuren</button>
+    </section>
 
-    <h2>Een auto verhuren in 3 stappen</h2>
-
-    <div class="row">
-
-      <div class="col col-sm-4">
-        <img src="assets/img/step-pen.png" />
-        <h3><a ui-sref="owm.auth.signup" class="hover-underline">1. Word gratis lid</a></h3>
-        <p>
-        <a ui-sref="owm.auth.signup" class="underline">Word gratis lid</a> en vul je gegevens aan. Daarna kun je je auto verhuren.
-        </p>
-      </div>
-
-      <div class="col col-sm-4">
-        <img src="assets/img/step-eurosign.png" />
-        <h3>2. Voeg je auto toe en kies je prijs</h3>
-        <p>
-        Voeg je auto toe door het kenteken in te voeren. Geef informatie over je auto, dit maakt het aantrekkelijker om te huren. Bij MyWheels bepaal jij wat je gaat verdienen. Kies een prijs per uur en per kilometer en je vergoeding voor de benzine. Je auto is tijdens de verhuur altijd allrisk verzekerd.
-        </p>
-      </div>
-
-      <div class="col col-sm-4">
-        <img src="assets/img/step-shakinghands.png" />
-        <h3>3. Stem af met de huurder</h3>
-        <p>
-        Op je smartphone of per email krijg je een bericht als iemand jouw auto wil huren. Jij beslist of je de reserveringsaanvraag accepteert of niet.
-        </p>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col col-sm-12">
+    <section>
         <a ng-href="{{ 'NAVBAR.LIST_YOUR_CAR_URL' | translate }}" class="btn btn-link">Lees de verhuurtips »</a>
-      </div>
-    </div>
-
+    </section>
 </div>
