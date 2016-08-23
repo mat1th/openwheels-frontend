@@ -31,6 +31,46 @@
             </td>
         </tr>
         <tr>
+            <td style="background: #eee; padding: 20px 20px 0 10px">
+                <div class="media">
+                    <div class="media-object pull-left">
+                        <input type="checkbox" ng-model="extraDrivers.check" ng-click="toggleExtraDrivers()" />
+                    </div>
+                    <div class="media-body" style="padding:0">
+                      <form class="mywheels-form" name="formExtraDriver" ng-submit="formExtraDriver.$valid && addExtraDriver()" novalidate>
+                        <b>Voeg extra bestuurders toe</b>
+                        <br/> Voor een klein bedrag is het mogelijk om extra bestuurders (max 3) toe te voegen aan deze boeking. Vul hier het emailadres in van de bestuurders die je wilt toevoegen.
+                        <div class="input-group form-extra-drivers__first" uib-tooltip="Je kan niet meer dan drie extra bestuurders toevoegen" tooltip-enable="extraDrivers.drivers.length === 3">
+                          <input ng-disabled="extraDrivers.drivers.length >= 3" name="email" type="email" class="form-control" placeholder="Emailadres extra bestuurder" ng-model-options="{ debounce: 200 }" ng-focus="toggleExtraDrivers(true)" ng-blur="toggleExtraDrivers(false)" ng-model="extraDrivers.new">
+                          <span class="input-group-btn">
+                            <button type="submit" class="btn btn-default"><i class="fa fa-fw fa-plus"></i></button>
+                          </span>
+                        </div>
+                        <p ng-show="formExtraDriver.$submitted && formExtraDriver.email.$invalid && formExtraDriver.email.$touched" class="text-danger">Ongeldig emailadres</p>
+                        <ul class="list-unstyled" ng-if="extraDrivers.check">
+                          <li ng-repeat="driver in extraDrivers.drivers">
+                            <span class="label label-primary label-bigger">{{driver}}
+                              <button type="button" class="btn btn-link text-white" ng-click="removeExtraDriver(driver)"><i class="fa fa-fw fa-times"></i></button>
+                            </span>
+                          </li>
+                        </ul>
+                      </form>
+                    </div>
+                </div>
+            </td>
+
+            <td class="text-right" style="background: #eee; padding: 20px 10px 25px 0">
+              <span>{{ extraDrivers.price | currency }}<br>p.p.</span>
+            </td>
+        </tr>
+        <tr ng-if="extraDrivers.drivers.length > 0 && extraDrivers.check">
+            <td style="background: #eee; padding: 0; border-top: none;">
+            </td>
+            <td class="text-right" style="background: #eee; padding: 0px 10px 15px 0; border-top: none;">
+              <span>{{ extraDrivers.price * extraDrivers.drivers.length | currency }}</span>
+            </td>
+        </tr>
+        <tr>
             <td>
                 Geschatte kilometers
                 <info-icon tooltip-placement="bottom" tooltip-html="'Dit is een schatting van de kilometerkosten. Na afloop kun je teveel betaald rijtegoed terugvragen.'"></info-icon>
@@ -39,7 +79,7 @@
         </tr>
         <tr>
             <td><b>Totale huurprijs</b></td>
-            <td class="text-right"><b>{{ (booking.booking_price.total + booking.km_price) | currency }}</b></td>
+            <td class="text-right"><b>{{ ((extraDrivers.check ? extraDrivers.drivers.length * extraDrivers.price : 0) + booking.booking_price.total + booking.km_price) | currency }}</b></td>
         </tr>
 
         <tr ng-if="booking.discount > 0">
@@ -48,7 +88,7 @@
         </tr>
         <tr ng-if="booking.discount > 0">
             <td><b>Totaal</b></td>
-            <td class="text-right"><b>{{ (booking.booking_price.total + booking.km_price - booking.discount) | currency }}</b></td>
+            <td class="text-right"><b>{{ ((extraDrivers.check ? extraDrivers.drivers.length * extraDrivers.price : 0) + booking.booking_price.total + booking.km_price - booking.discount) | currency }}</b></td>
         </tr>
     </tbody>
 </table>

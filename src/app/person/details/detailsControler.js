@@ -17,6 +17,7 @@ angular.module('owm.person.details', [])
   $scope.checkedLater = false;
   $scope.allowLicenseRelated = false;
   $scope.alerts = null;
+  $scope.extraDrivers = {price: 1.25, check: false, drivers: [], new: ''};
   $scope.accountApproved = false;
   $scope.vouchureError = {
     show: false,
@@ -629,6 +630,37 @@ angular.module('owm.person.details', [])
         alertService.loaded($scope);
         $scope.isBusy = false;
       });
+  };
+
+  $scope.toggleExtraDrivers = function(state) {
+    if(state === true) {
+      $scope.extraDrivers.check = true;
+    }
+    if(state === false) {
+      if($scope.extraDrivers.drivers.length === 0) {
+        $scope.extraDrivers.check = false;
+      } else {
+        $scope.extraDrivers.check = true;
+      }
+    }
+  };
+
+  $scope.addExtraDriver = function() {
+    if($scope.extraDrivers.new === '') {
+      return;
+    }
+    if($scope.extraDrivers.drivers.indexOf($scope.extraDrivers.new) < 0) {
+      $scope.extraDrivers.drivers.push($scope.extraDrivers.new);
+    }
+    $scope.extraDrivers.new = '';
+    $scope.extraDrivers.check = true;
+  };
+
+  $scope.removeExtraDriver = function(driver) {
+    var index = $scope.extraDrivers.drivers.indexOf(driver);
+    if(index >= 0) {
+      $scope.extraDrivers.drivers.splice(index, 1);
+    }
   };
 
   // to buy the vouchure
