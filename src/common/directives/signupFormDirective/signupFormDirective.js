@@ -58,6 +58,8 @@ angular.module('signupFormDirective', [])
         alertService.load();
         if ($scope.url === 'owm.person.details({pageNumber: \'1\'})') {
           $scope.user.preference = 'renter';
+        } else if ($scope.url === '') {
+          $scope.user.preference = 'owner';
         }
 
         var email = $scope.auth.email,
@@ -78,7 +80,7 @@ angular.module('signupFormDirective', [])
                     var booking = $scope.booking;
                     var resource = $scope.resource;
                     $mdDialog.cancel();
-                    $state.go('owm.person.details', { // should register
+                    $state.go('owm.person.details', { // should fill in the details
                       pageNumber: '1',
                       city: resource.city ? resource.city : 'utrecht',
                       resourceId: resource.id,
@@ -87,6 +89,10 @@ angular.module('signupFormDirective', [])
                       discountCode: booking.discountCode,
                       remarkRequester: booking.remarkRequester,
                       riskReduction: booking.riskReduction
+                    });
+                  } else if ($scope.url === 'owm.resource.create') {
+                    $state.go('owm.resource.create', { // should fill in the details
+
                     });
                   } else {
                     $state.go($scope.url);

@@ -24,20 +24,21 @@ angular.module('licencePlateInfoDirective', [])
         $http.get(url)
           .then(function (responseCarData) {
             if (responseCarData.data.length > 0) {
-
               return responseCarData;
             } else {
               showError(true);
             }
           }).then(function (responseCarData) {
             $http.get(urlFuel).then(function (response) {
-              $scope.licencePlate.data = {
-                merk: responseCarData.data[0].merk,
-                brandstof: response.data[0].brandstof_omschrijving,
-                handelsbenaming: responseCarData.data[0].handelsbenaming,
-                datum_eerste_toelating: moment(responseCarData.data[0].datum_eerste_toelating, 'DD/MM/YYYY').format('ddd DD MMM HH:mm'),
-                kleur: responseCarData.data[0].eerste_kleur
-              };
+              if (response.data.length > 0) {
+                $scope.licencePlate.data = {
+                  merk: responseCarData.data[0].merk,
+                  brandstof: response.data[0].brandstof_omschrijving,
+                  handelsbenaming: responseCarData.data[0].handelsbenaming,
+                  datum_eerste_toelating: moment(responseCarData.data[0].datum_eerste_toelating, 'DD/MM/YYYY').format('ddd DD MMM HH:mm'),
+                  kleur: responseCarData.data[0].eerste_kleur
+                };
+              }
               showError(false);
             }).catch(function (err) {
               showError(true);
