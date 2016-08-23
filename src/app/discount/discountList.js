@@ -57,7 +57,6 @@ angular.module('owm.discount')
   };
 
   $scope.discountDetails = function ($event) {
-    console.log($event);
     $mdDialog.show({
       autoWrap: false,
       targetEvent: $event,

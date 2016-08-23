@@ -67,7 +67,6 @@ angular.module('owm.person', [
     },
     resolve: {
       person: ['personService', function (personService) {
-        console.log('jpo');
         return personService.me({
           version: 2
         });
