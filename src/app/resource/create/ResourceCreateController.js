@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owm.resource.create', ['owm.resource.create.carInfo', 'owm.resource.create.location'])
+angular.module('owm.resource.create', ['owm.resource.create.carInfo', 'owm.resource.create.location', 'owm.resource.create.carPhotos', 'owm.resource.create.details'])
 
 .controller('ResourceCreateController', function ($scope, $filter, $state, $log, $stateParams, $translate, resources, resourceService, authService, alertService, dialogService, me) {
 
@@ -74,8 +74,10 @@ angular.module('owm.resource.create', ['owm.resource.create.carInfo', 'owm.resou
         $scope.pageNumber = 1;
       } else if ($state.current.name === 'owm.resource.create.location') {
         $scope.pageNumber = 2;
-      } else {
+      } else if ($state.current.name === 'owm.resource.create.carPhotos') {
         $scope.pageNumber = 3;
+      } else {
+        $scope.pageNumber = 4;
       }
     }
   };

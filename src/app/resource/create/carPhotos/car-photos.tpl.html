@@ -1,0 +1,25 @@
+<md-card class="card">
+    <md-card-title>
+        <md-card-title-text layout="colum" layout-wrap>
+            <h3 class="no-margin" style="font-size: 2rem" flex="100">
+            <span>Foto's auto</span>
+            </h3>
+        </md-card-title-text>
+    </md-card-title>
+    <md-card-body class="card-body mywheels-form">
+      <p>Verhoog je kans op verhuur: auto’s met foto’s worden 700% vaker gehuurd! Voeg daarom vier liggende foto’s toe.</p>
+        <div ng-include="'resource/edit/pictures/resource-edit-pictures.tpl.html'"></div>
+        <!-- call to action buttons -->
+        <div class="details--card--form__navigation-buttons">
+            <button rel="prev" type="button" class="mywheels-btn mywheels-btn-transparant btn--navigation__previous" ng-click="reset()" md-ink-ripple="#ded8d8" ui-sref="owm.resource.create.location">
+                <md-icon>navigate_before</md-icon>
+                {{ 'PREVIOUS' | translate}}
+            </button>
+            <button type="submit" name="button" ng-disabled="editResourceForm.$pristine" ng-click="submit()" class="mywheels-btn mywheels-btn-default btn--navigation__next" ui-sref="owm.resource.create.carPhotos">
+                {{ 'NEXT' | translate }}
+                <md-icon class="text-white">navigate_next</md-icon>
+            </button>
+        </div>
+        <!-- /call to action buttons -->
+    </md-card-body>
+</md-card>

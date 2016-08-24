@@ -216,7 +216,7 @@ angular.module('owm.resource', [
   });
 
   /**
-   * /mijn-auto/create?licencePlate=23sdwe&dayPrice=26&numberOfDays=5
+   * /mijn-auto/create/location?licencePlate=23sdwe&dayPrice=26&numberOfDays=5
    */
 
   $stateProvider.state('owm.resource.create.location', {
@@ -226,17 +226,27 @@ angular.module('owm.resource', [
     templateUrl: 'resource/create/location/location.tpl.html'
   });
 
-  // $stateProvider.state('owm.resource.place.map', {
-  //   url: '/kaart',
-  //   reloadOnSearch: false,
-  //   controller: 'ResourceSearchMapController',
-  //   templateUrl: 'resource/search/map/resource-search-map.tpl.html',
-  //   data: {
-  //     access: {
-  //       feature: 'cityPages'
-  //     }
-  //   }
-  // });
+  /**
+   * /mijn-auto/create/phots?licencePlate=23sdwe&dayPrice=26&numberOfDays=5
+   */
+
+  $stateProvider.state('owm.resource.create.carPhotos', {
+    url: '/photos',
+    reloadOnSearch: false,
+    controller: 'carPhotosControler',
+    templateUrl: 'resource/create/carPhotos/car-photos.tpl.html'
+  });
+  /**
+   * /mijn-auto/create/details?licencePlate=23sdwe&dayPrice=26&numberOfDays=5
+   */
+
+  $stateProvider.state('owm.resource.create.details', {
+    url: '/details',
+    reloadOnSearch: false,
+    controller: 'carPersonDetailsControler',
+    templateUrl: 'resource/create/details/details.tpl.html'
+  });
+
 
 
   /**
