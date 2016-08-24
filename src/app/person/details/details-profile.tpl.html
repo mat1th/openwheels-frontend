@@ -172,7 +172,7 @@
                     <img ng-src="{{licenceImage}}" alt="lincence preview" id="licence-preview">
                 </div>
 
-                <div ng-show="containsLicence || licenceUploaded">
+                <div ng-show="containsLicence && !licenceUploaded">
                     <p>{{ 'LICENSE_CONFIRM' | translate }}</p>
                     <button title="upload" type="button" class="mywheels-btn mywheels-btn-normal btn--navigation__previous mywheels-btn-big" md-ink-ripple="#4b702c" ng-disabled="isBusy" ng-click="startUpload()">
                         {{'YES' | translate }}
@@ -246,9 +246,9 @@
                         {{ 'PREVIOUS' | translate}}
                     </button>
                     <div>
-                        <button type="button" name="button" class="mywheels-btn mywheels-btn-default btn--navigation__next" ng-if="booking.approved !== 'BUY_VOUCHER' " ui-sref="owm.person.aboutme">
+                        <button type="button" name="button" class="mywheels-btn mywheels-btn-transparant btn--navigation__next" ng-if="booking.approved !== 'BUY_VOUCHER' " ui-sref="owm.person.aboutme">
                             {{ 'FILL_PERSON_INFO' | translate }}
-                            <md-icon class="text-white">navigate_next</md-icon>
+                            <md-icon>navigate_next</md-icon>
                         </button>
                         <button rel="next" type="button" class="mywheels-btn mywheels-btn-default btn--navigation__next" ng-click="buyVoucher(booking.booking_price.total + booking.km_price - booking.discount)">
                             {{ 'PAY' | translate}}
