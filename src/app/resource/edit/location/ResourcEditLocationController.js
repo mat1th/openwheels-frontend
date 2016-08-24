@@ -1,8 +1,8 @@
 'use strict';
 angular.module('owm.resource.edit.location', ['geocoderDirective'])
-  .controller('ResourceEditLocationController', function ($q, $filter, $timeout, alertService, resourceService, $scope, $state) {
+  .controller('ResourceEditLocationController', function ($q, $filter, $timeout, alertService, personService, resourceService, $scope, $state) {
     $scope.renterflow = $state.current.name === 'owm.resource.create.location' ? true : false;
-    // console.log(renterflow);
+
     var DEFAULT_LOCATION = { // Utrecht CS
       lat: 52.08950077150554,
       lng: 5.110294818878174
@@ -42,7 +42,6 @@ angular.module('owm.resource.edit.location', ['geocoderDirective'])
         setCenter(DEFAULT_LOCATION);
       }
     }
-
     $scope.reset = function () {
       reset();
       $scope.form.$setPristine();
@@ -77,6 +76,19 @@ angular.module('owm.resource.edit.location', ['geocoderDirective'])
         .finally(function () {
           alertService.loaded();
         });
+      if ($scope.renterflow) {
+        setPersonLocation();
+      }
+    };
+    var setPersonLocation = function () {
+      personService.alter({
+        person: $scope.me.id,
+        newProps: {
+          city: $scope.me.city,
+          streetName: $scope.me.streetName,
+          streetNumber: $scope.me.streetNumber
+        }
+      });
     };
 
     $scope.$on('collapseContainerVisible', function () {
@@ -100,7 +112,12 @@ angular.module('owm.resource.edit.location', ['geocoderDirective'])
       $scope.resource.location = address.route + ' ' + address.streetNumber;
       $scope.resource.latitude = a.geometry.location.lat();
       $scope.resource.longitude = a.geometry.location.lng();
-
+      if ($scope.renterflow) { //if in the renterflow
+        //set me
+        $scope.me.city = address.city;
+        $scope.me.streetName = address.route;
+        $scope.me.streetNumber = address.streetNumber;
+      }
       setMarker({
         lat: $scope.resource.latitude,
         lng: $scope.resource.longitude
@@ -118,7 +135,6 @@ angular.module('owm.resource.edit.location', ['geocoderDirective'])
         latLng = args[0].latLng;
         lat = latLng.lat();
         lng = latLng.lng();
-
         $scope.resource.latitude = lat;
         $scope.resource.longitude = lng;
 
@@ -134,6 +150,13 @@ angular.module('owm.resource.edit.location', ['geocoderDirective'])
             location: address.route + ' ' + address.streetNumber,
             city: address.city
           });
+
+          if ($scope.renterflow) { //if in the renterflow
+            //set me
+            $scope.me.city = address.city;
+            $scope.me.streetName = address.route;
+            $scope.me.streetNumber = address.streetNumber;
+          }
           $scope.form.$setDirty();
         });
       }
@@ -190,6 +213,7 @@ angular.module('owm.resource.edit.location', ['geocoderDirective'])
             address = parseAddressComponents(results[0].address_components);
             $scope.resource.city = address.city;
             $scope.resource.location = address.route + ' ' + address.streetNumber;
+
             updateLocationText();
             dfd.resolve(address);
           }

@@ -52,14 +52,19 @@ angular.module('owm.resource.create', ['owm.resource.create.carInfo', 'owm.resou
     checkLicence: function () { //checks the lince if it is already added by the user
       var re = new RegExp('-', 'g');
       var plate = $stateParams.licencePlate.toLowerCase();
-
+      $log.debug(this.fromUser);
+      $log.debug(this.fromUser.length);
       return this.fromUser.every(function (elm, index) {
-        if (elm.registrationPlate.replace(re, '').toLowerCase() === plate) {
-          $scope.resource = elm;
-          $log.debug('same number!');
-          return false;
+        if (elm.registrationPlate !== undefined && elm.registrationPlate !== null) {
+          if (elm.registrationPlate.replace(re, '').toLowerCase() === plate) {
+            $scope.resource = elm;
+            $log.debug('same number!');
+            return false;
+          } else {
+            return true;
+          }
         } else {
-          return true;
+          return false;
         }
       });
     },
@@ -67,7 +72,7 @@ angular.module('owm.resource.create', ['owm.resource.create.carInfo', 'owm.resou
       $scope.pageNumber = 1;
       if ($state.current.name === 'owm.resource.create.carInfo') {
         $scope.pageNumber = 1;
-      } else if ($state.current.name === 'owm.resource.create.location'){
+      } else if ($state.current.name === 'owm.resource.create.location') {
         $scope.pageNumber = 2;
       } else {
         $scope.pageNumber = 3;

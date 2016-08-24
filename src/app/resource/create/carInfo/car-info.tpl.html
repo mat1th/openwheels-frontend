@@ -26,14 +26,14 @@
                     <input type="text" id="brand" name="brand" ng-model="resource.brand" placeholder="{{ 'BRAND' | translate }}" ng-disabled="disabledFields.brand" required>
 
                     <div class="help-block" ng-show="editResourceForm.$submitted || editResourceForm.brand.$touched">
-                        <span class="text-danger" ng-show="editResourceForm.alias.$error.required">{{ 'REQUIRED' | translate }}</span>
+                        <span class="text-danger" ng-show="editResourceForm.brand.$error.required">{{ 'REQUIRED' | translate }}</span>
                     </div>
                 </div>
                 <div class="icon car">
                     <input type="text" id="model" name="model" ng-model="resource.model" placeholder="{{ 'MODEL' | translate }}" ng-disabled="disabledFields.model" required>
 
                     <div class="help-block" ng-show="editResourceForm.$submitted || editResourceForm.model.$touched">
-                        <span class="text-danger" ng-show="editResourceForm.alias.$error.required">{{ 'REQUIRED' | translate }}</span>
+                        <span class="text-danger" ng-show="editResourceForm.model.$error.required">{{ 'REQUIRED' | translate }}</span>
                     </div>
                 </div>
             </div>
@@ -41,7 +41,7 @@
                 <input type="text" id="color" name="color" ng-model="resource.color" placeholder="{{ 'COLOR' | translate }}" ng-disabled="disabledFields.color" required>
 
                 <div class="help-block" ng-show="editResourceForm.$submitted || editResourceForm.color.$touched">
-                    <span class="text-danger" ng-show="editResourceForm.alias.$error.required">{{ 'REQUIRED' | translate }}</span>
+                    <span class="text-danger" ng-show="editResourceForm.color.$error.required">{{ 'REQUIRED' | translate }}</span>
                 </div>
             </div>
             <div class="icon seat select">
@@ -49,12 +49,11 @@
 
                 <div class="select-icon">
                     <select id="numberOfSeats" name="numberOfSeats" class="form-control" ng-model="resource.numberOfSeats" ng-options="option.value as option.label for option in minSeatOptions" ng-disabled="disabledFields.numberOfSeats">
-
                     </select>
                 </div>
             </div>
             <div class="help-block" ng-show="editResourceForm.$submitted || editResourceForm.numberOfSeats.$touched">
-                <span class="text-danger" ng-show="editResourceForm.alias.$error.required">{{ 'REQUIRED' | translate }}</span>
+                <span class="text-danger" ng-show="editResourceForm.numberOfSeats.$error.required">{{ 'REQUIRED' | translate }}</span>
             </div>
 
             <div class="icon fuel select">

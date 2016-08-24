@@ -1,6 +1,6 @@
 <div ng-controller="ResourceEditLocationController">
 
-    <label>{{ 'RESOURCE_LOCATION_INTRO' | translate }}</label>
+    <h3>{{ 'RESOURCE_LOCATION_INTRO' | translate }}</h3>
 
     <ui-gmap-google-map center="map.center" control="map.control" zoom="map.zoom" draggable="true" dragging="map.dragging" bounds="map.bounds" events="map.events" options="map.options">
         <!-- prefedined markers -->
@@ -15,21 +15,15 @@
     <br/>
 
     <form name="form">
-        <div class="row">
-            <div class="col-xs-12">
-                <label>{{ 'RESOURCE_LOCATION_ADDRESS_LABEL' | translate }}</label>
-                <div class="form-group">
-                    <input class="form-control" ow-geocoder="{onDetails: newLocationSelectedDropdown}" ng-model="locationtext" />
-                </div>
-            </div>
+        <div class="icon location">
+            <input class="form-control" ow-geocoder="{onDetails: newLocationSelectedDropdown}" placeholder="{{ 'RESOURCE_LOCATION_ADDRESS_LABEL' | translate }}" ng-model="locationtext" />
         </div>
-
 
         <div class="form-group" ng-if="!renterflow">
             <button type="button" class="btn btn-default" ng-disabled="form.$pristine" ng-click="reset()">{{ 'CANCEL' | translate }}</button>
             <button type="submit" class="btn btn-primary" ng-disabled="form.$pristine" ng-click="submit()">{{ 'SUBMIT' | translate }}</button>
         </div>
-        
+
         <!-- call to action buttons -->
         <div class="details--card--form__navigation-buttons" ng-if="renterflow">
             <button rel="prev" type="button" class="mywheels-btn mywheels-btn-transparant btn--navigation__previous" ng-click="reset()" md-ink-ripple="#ded8d8" ui-sref="owm.resource.create.location">
@@ -42,7 +36,5 @@
             </button>
         </div>
         <!-- /call to action buttons -->
-
-
     </form>
 </div>
