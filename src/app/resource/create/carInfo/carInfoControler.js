@@ -6,8 +6,6 @@ angular.module('owm.resource.create.carInfo', [])
   var resource = $scope.resource;
   var masterResource = resource;
   var masterResourceProperties = createResourceProperties(resource);
-  $log.debug(resource);
-  $log.debug(resource.properties);
 
   $scope.radiusOptions = [{
     value: undefined,
@@ -189,7 +187,6 @@ angular.module('owm.resource.create.carInfo', [])
 
   function createResourceProperties(resource) {
     var resourceProperties = {};
-    console.log(resource.properties);
     angular.forEach(resource.properties, function (resourceProperty) {
       resourceProperties[resourceProperty.id] = true;
     });
@@ -199,8 +196,6 @@ angular.module('owm.resource.create.carInfo', [])
   function saveResourceProperties() {
     var pending = [];
     angular.forEach($scope.resourceProperties, function (value, propertyName) {
-      console.log(masterResourceProperties);
-      console.log(propertyName);
       if (value === true && !masterResourceProperties[propertyName]) {
         pending.push(resourceService.addProperty({
           resource: resource.id,
@@ -217,5 +212,4 @@ angular.module('owm.resource.create.carInfo', [])
     });
     return $q.all(pending);
   }
-
 });

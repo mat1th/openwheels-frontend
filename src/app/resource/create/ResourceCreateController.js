@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owm.resource.create', ['owm.resource.create.carInfo', 'owm.resource.filterDirective'])
+angular.module('owm.resource.create', ['owm.resource.create.carInfo', 'owm.resource.create.location'])
 
 .controller('ResourceCreateController', function ($scope, $filter, $state, $log, $stateParams, $translate, resources, resourceService, authService, alertService, dialogService, me) {
 
@@ -19,10 +19,10 @@ angular.module('owm.resource.create', ['owm.resource.create.carInfo', 'owm.resou
           var dayPrice = $stateParams.dayPrice || 25;
           resource.create($stateParams.licencePlate, dayPrice);
         } else {
-          console.log('the licencePlate is already in the database');
+          $log.debug('the licencePlate is already in the database');
         }
       } else {
-        console.log('there is no licencePlate defined');
+        $log.debug('there is no licencePlate defined');
       }
     },
     create: function (licencePlate, dayPrice) { //creates the resource with the standart parammeters
@@ -67,8 +67,10 @@ angular.module('owm.resource.create', ['owm.resource.create.carInfo', 'owm.resou
       $scope.pageNumber = 1;
       if ($state.current.name === 'owm.resource.create.carInfo') {
         $scope.pageNumber = 1;
-      } else {
+      } else if ($state.current.name === 'owm.resource.create.location'){
         $scope.pageNumber = 2;
+      } else {
+        $scope.pageNumber = 3;
       }
     }
   };
