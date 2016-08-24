@@ -6,8 +6,6 @@ angular.module('owm.discount')
 
   $scope.discount = discount;
 
-  console.log(discount);
-
   $scope.cancelDialog = function () {
     $mdDialog.cancel();
   };

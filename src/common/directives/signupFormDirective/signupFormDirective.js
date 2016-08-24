@@ -103,24 +103,23 @@ angular.module('signupFormDirective', [])
                   } else {
                     $state.go($scope.url);
                   }
-
                 })
                 .catch(function (err) {
-                  alertService.add(err.level, err.message, 5000);
+                  alertService.add(err.level, err.message, 4000);
                 })
                 .finally(function () {
                   alertService.loaded();
                 });
             } else {
-              alertService.add('danger', 'Voordat je je kunt aanmelden, moet je de algemene voorwaarden accepteren.', 10000);
+              alertService.add('danger', $translate.instant('SIGNUP_AGREE_TO_TERMS_ALERT'), 4000);
               alertService.loaded();
             }
           } else {
-            alertService.add('danger', 'Kies huren of verhuren.', 10000);
+            alertService.add('danger', $translate.instant('SIGNUP_RENTER_OWNER_CHOICE_ALERT'), 4000);
             alertService.loaded();
           }
         } else {
-          alertService.add('danger', 'Vul alle velden in.', 10000);
+          alertService.add('danger', $translate.instant('SIGNUP_FILL_IN_FIELDS_ALERT'), 4000);
           alertService.loaded();
         }
       };
