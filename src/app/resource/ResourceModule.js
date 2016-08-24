@@ -170,9 +170,15 @@ angular.module('owm.resource', [
    * resource/create
    */
   $stateProvider.state('owm.resource.create', {
-    url: '/mijn-auto/create/1?licencePlate&dayPrice&numberOfDays',
-    controller: 'ResourceCreateController',
-    templateUrl: 'resource/create/resource-create.tpl.html',
+    url: '/mijn-auto/create?licencePlate&dayPrice&numberOfDays',
+    abstract: true,
+    reloadOnSearch: false,
+    views: {
+      'main-full@shell': {
+        controller: 'ResourceCreateController',
+        templateUrl: 'resource/create/resource-create.tpl.html'
+      }
+    },
     data: {
       access: {
         deny: {
@@ -197,6 +203,40 @@ angular.module('owm.resource', [
       }]
     }
   });
+
+  /**
+   * /mijn-auto/create?licencePlate=23sdwe&dayPrice=26&numberOfDays=5
+   */
+
+  $stateProvider.state('owm.resource.create.carInfo', {
+    url: '',
+    reloadOnSearch: false,
+    controller: 'carInfoControler',
+    templateUrl: 'resource/create/carInfo/car-info.tpl.html'
+  });
+
+  /**
+   * /mijn-auto/create?licencePlate=23sdwe&dayPrice=26&numberOfDays=5
+   */
+
+  $stateProvider.state('owm.resource.create.location', {
+    url: '/location',
+    reloadOnSearch: false,
+    controller: 'locationControler',
+    templateUrl: 'resource/create/location/location.tpl.html'
+  });
+
+  // $stateProvider.state('owm.resource.place.map', {
+  //   url: '/kaart',
+  //   reloadOnSearch: false,
+  //   controller: 'ResourceSearchMapController',
+  //   templateUrl: 'resource/search/map/resource-search-map.tpl.html',
+  //   data: {
+  //     access: {
+  //       feature: 'cityPages'
+  //     }
+  //   }
+  // });
 
 
   /**

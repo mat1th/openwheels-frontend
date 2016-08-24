@@ -94,7 +94,7 @@
                 <div class="responsive">
                     <div id="zipcode_group" class="icon home field">
                         <input type="text" name="zipcode" id="zipcode" ng-model="person.zipcode" placeholder="{{ 'ZIPCODE' | translate }}" required ng-pattern="/^[1-9][0-9]{3} ?[A-Z,a-z]{2}$/">
-                        <md-progress-circular class="md-hue-2" md-diameter="20px" ng-if="zipcodeAutocompleting"></md-progress-circular>
+                        <md-progress-circular class="md-hue-2 right-addon" md-diameter="20px" ng-if="zipcodeAutocompleting"></md-progress-circular>
                         <div class="err-block" ng-show="personalDataForm.$submitted || personalDataForm.zipcode.$touched">
                             <span class="text-danger" ng-show="personalDataForm.zipcode.$error.required">{{ 'REQUIRED' | translate }}</span>
                             <span class="text-danger" ng-show="personalDataForm.zipcode.$error.pattern">Verkeerd formaat</span>
@@ -105,7 +105,7 @@
                     <!-- streetNumber -->
                     <div id="streetNumber_group" class="icon home field">
                         <input type="text" name="streetNumber" id="streetNumber" ng-model="person.streetNumber" placeholder="{{ 'STREET_NUMBER' | translate }}" required>
-                        <md-progress-circular class="md-hue-2" md-diameter="20px" ng-if="zipcodeAutocompleting"></md-progress-circular>
+                        <md-progress-circular class="md-hue-2 right-addon" md-diameter="20px" ng-if="zipcodeAutocompleting"></md-progress-circular>
                         <div class="err-block" ng-show="personalDataForm.$submitted || personalDataForm.streetNumber.$touched">
                             <span class="text-danger" ng-show="personalDataForm.streetNumber.$error.required">{{ 'REQUIRED' | translate }}</span>
                         </div>

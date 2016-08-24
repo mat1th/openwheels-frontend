@@ -1,74 +1,76 @@
 'use strict';
 
-angular.module('owm.resource.create', [])
+angular.module('owm.resource.create', ['owm.resource.create.carInfo', 'owm.resource.filterDirective'])
 
-.controller('ResourceCreate1Controller', function ($scope, $filter, $state, $stateParams, $translate, resources, resourceService, authService, alertService, dialogService, me) {
-  console.log($stateParams.dayPrice);
-  console.log($stateParams.numberOfDays);
-  $scope.resources = resources;
-  $scope.me = me;
-  $scope.isLicencePlate = $stateParams.licencePlate !== undefined ? true : false;
-  console.log($scope.isLicencePlate);
+.controller('ResourceCreateController', function ($scope, $filter, $state, $log, $stateParams, $translate, resources, resourceService, authService, alertService, dialogService, me) {
 
-  // $scope.save = function (resource) {
-  //   var createResource = function() {
-  //     return authService.me()
-  //     .then(function (me) {
-  //       resourceService.create({
-  //         'owner': me.id,
-  //         'registrationPlate': resource.registrationPlate
-  //       }).then(function (resource) {
-  //           alertService.add('success', $filter('translate')('RESOURCE_CREATED'), 3000);
-  //           $state.go('owm.resource.edit', {'resourceId': resource.id});
-  //         }, function (error) {
-  //           alertService.add('danger', error.message, 5000);
-  //         });
-  //     });
-  //   };
-  //
-  //   //show dialog if user already has resources
-  //   if(resources.length > 0) {
-  //     dialogService.showModal(null, {
-  //       closeButtonText: $translate.instant('CANCEL'),
-  //       actionButtonText: $translate.instant('OK'),
-  //       headerText: $translate.instant('CREATE_RESOURCE_TITLE'),
-  //       bodyText: $translate.instant('ADD_MORE_THAN_ONE_RESOURCE')
-  //     })
-  //     .then(createResource);
-  //   } else {
-  //     createResource();
-  //   }
-  //
-  // };
-  //
-  // $scope.setResourceAvailability = function (resource, value) {
-  //   dialogService.showModal(null, {
-  //     closeButtonText: $translate.instant('CLOSE'),
-  //     actionButtonText: $translate.instant('OK'),
-  //     headerText: $translate.instant('IS_AVAILABLE_RESOURCE_TITLE'),
-  //     bodyText: $translate.instant('IS_AVAILABLE_RESOURCE')
-  //   })
-  //   .then(function () {
-  //     resourceService.alter({
-  //       resource: resource.id,
-  //       newProps: {
-  //         'isAvailableOthers': value,
-  //         'isAvailableFriends': value
-  //       }
-  //     })
-  //     .then(function () {
-  //       alertService.add('success', $filter('translate')('IS_AVAILABLE_RESOURCE_SAVE_SUCCESS'), 3000);
-  //       resource.isAvailableOthers = value;
-  //       resource.isAvailableFriends = value;
-  //     })
-  //     .catch(function (err) {
-  //       alertService.addError(err);
-  //     })
-  //     .finally(function () {
-  //       alertService.loaded();
-  //     });
-  //   });
-  //
-  // };
+  var resource = {
+    fromUser: resources,
+    init: function () { //the start function that checks the state of the licencePlate
+      $scope.isBusy = false;
+      $scope.me = me;
+      $scope.isLicencePlate = $stateParams.licencePlate !== undefined ? true : false;
+      $scope.resource = {};
+      $scope.licenceAlreadyListed = false;
+      this.ceckCurrentRoute();
 
+      if ($scope.isLicencePlate) { //check if the parammeter licencePlate is defined
+        if (this.checkLicence()) { //checks if the licenceplate is
+          var dayPrice = $stateParams.dayPrice || 25;
+          resource.create($stateParams.licencePlate, dayPrice);
+        } else {
+          console.log('the licencePlate is already in the database');
+        }
+      } else {
+        console.log('there is no licencePlate defined');
+      }
+    },
+    create: function (licencePlate, dayPrice) { //creates the resource with the standart parammeters
+      $scope.isBusy = true;
+      resourceService.create({
+        'owner': me.id,
+        'registrationPlate': licencePlate,
+        'otherProps': {
+          'isAvailableOthers': false,
+          'isAvailableFriends': false,
+          'refuelByRenter': true,
+          'kmFree': true,
+          'hourRate': '10',
+          'kilometerRate': dayPrice / 10
+        }
+      }).then(function (resource) {
+        $scope.resource = resource;
+        $log.debug(resource);
+        $scope.isBusy = false;
+      }).catch(function (err) {
+        if (err.message === 'Een auto met dit kenteken bestaat al') {
+          $scope.licenceAlreadyListed = true;
+        }
+        $scope.isBusy = false;
+      });
+    },
+    checkLicence: function () { //checks the lince if it is already added by the user
+      var re = new RegExp('-', 'g');
+      var plate = $stateParams.licencePlate.toLowerCase();
+
+      return this.fromUser.every(function (elm, index) {
+        if (elm.registrationPlate.replace(re, '').toLowerCase() === plate) {
+          $scope.resource = elm;
+          $log.debug('same number!');
+          return false;
+        } else {
+          return true;
+        }
+      });
+    },
+    ceckCurrentRoute: function () {
+      $scope.pageNumber = 1;
+      if ($state.current.name === 'owm.resource.create.carInfo') {
+        $scope.pageNumber = 1;
+      } else {
+        $scope.pageNumber = 2;
+      }
+    }
+  };
+  resource.init();
 });
