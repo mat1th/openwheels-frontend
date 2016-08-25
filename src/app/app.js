@@ -78,6 +78,7 @@ angular.module('openwheels', [
   'geocoderDirective',
   'socialDirectives',
   'bindMetaDirective',
+  'personalDataDirective',
 
   /* Filters */
   'filters.util',

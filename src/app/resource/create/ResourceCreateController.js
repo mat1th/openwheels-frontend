@@ -2,17 +2,21 @@
 
 angular.module('owm.resource.create', ['owm.resource.create.carInfo', 'owm.resource.create.location', 'owm.resource.create.carPhotos', 'owm.resource.create.details'])
 
-.controller('ResourceCreateController', function ($scope, $filter, $state, $log, $stateParams, $translate, resources, resourceService, authService, alertService, dialogService, me) {
+.controller('ResourceCreateController', function ($scope, $rootScope, $filter, $state, $log, $stateParams, $translate, resources, resourceService, authService, alertService, dialogService, me) {
 
   var resource = {
     fromUser: resources,
     init: function () { //the start function that checks the state of the licencePlate
+      var _this = this;
       $scope.isBusy = false;
       $scope.me = me;
       $scope.isLicencePlate = $stateParams.licencePlate !== undefined ? true : false;
       $scope.resource = {};
       $scope.licenceAlreadyListed = false;
       this.ceckCurrentRoute();
+      $rootScope.$on('$stateChangeSuccess', function () {
+        _this.ceckCurrentRoute();
+      });
 
       if ($scope.isLicencePlate) { //check if the parammeter licencePlate is defined
         if (this.checkLicence()) { //checks if the licenceplate is
@@ -40,7 +44,7 @@ angular.module('owm.resource.create', ['owm.resource.create.carInfo', 'owm.resou
         }
       }).then(function (resource) {
         $scope.resource = resource;
-        $log.debug(resource);
+        // $log.debug(resource);
         $scope.isBusy = false;
       }).catch(function (err) {
         if (err.message === 'Een auto met dit kenteken bestaat al') {
@@ -52,8 +56,8 @@ angular.module('owm.resource.create', ['owm.resource.create.carInfo', 'owm.resou
     checkLicence: function () { //checks the lince if it is already added by the user
       var re = new RegExp('-', 'g');
       var plate = $stateParams.licencePlate.toLowerCase();
-      $log.debug(this.fromUser);
-      $log.debug(this.fromUser.length);
+      // $log.debug(this.fromUser);
+      // $log.debug(this.fromUser.length);
       return this.fromUser.every(function (elm, index) {
         if (elm.registrationPlate !== undefined && elm.registrationPlate !== null) {
           if (elm.registrationPlate.replace(re, '').toLowerCase() === plate) {

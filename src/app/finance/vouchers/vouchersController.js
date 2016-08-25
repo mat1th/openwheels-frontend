@@ -131,7 +131,6 @@ angular.module('owm.finance.vouchers', [])
         bookingService.get({
           booking: booking.id
         }).then(function (_booking) {
-          console.log(_booking);
           cachedBookings[_booking.id] = _booking;
           _booking.statusValue = checkStatus(_booking.approved);
           _booking.isOpen = isOpenStatus(index, _booking.statusValue);
