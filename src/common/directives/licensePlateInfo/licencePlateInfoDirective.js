@@ -19,8 +19,10 @@ angular.module('licencePlateInfoDirective', [])
         }
       }
       $scope.getLicencePlateInfo = function () {
-        var url = 'https://opendata.rdw.nl/resource/m9d7-ebf2.json?kenteken=' + $scope.licencePlate.content.toUpperCase() + '&$$app_token=' + appConfig.appTokenRdw;
-        var urlFuel = 'https://opendata.rdw.nl/resource/8ys7-d773.json?kenteken=' + $scope.licencePlate.content.toUpperCase() + '&$$app_token=' + appConfig.appTokenRdw;
+        var re = new RegExp('-', 'g');
+        var licencePlate = $scope.licencePlate.content.replace(re, '').toUpperCase();
+        var url = 'https://opendata.rdw.nl/resource/m9d7-ebf2.json?kenteken=' + licencePlate + '&$$app_token=' + appConfig.appTokenRdw;
+        var urlFuel = 'https://opendata.rdw.nl/resource/8ys7-d773.json?kenteken=' + licencePlate + '&$$app_token=' + appConfig.appTokenRdw;
         $http.get(url)
           .then(function (responseCarData) {
             if (responseCarData.data.length > 0) {
