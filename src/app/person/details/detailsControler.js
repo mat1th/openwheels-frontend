@@ -13,7 +13,7 @@ angular.module('owm.person.details', [])
   $scope.showSecond = $scope.pageNumber === 2 ? true : false;
   $scope.showThird = $scope.pageNumber === 3 ? true : false;
   $scope.person = null;
-  $scope.genderText = '';
+
   $scope.checkedLater = false;
   $scope.allowLicenseRelated = false;
   $scope.alerts = null;
@@ -34,8 +34,7 @@ angular.module('owm.person.details', [])
       endDate: moment($stateParams.endDate).format(API_DATE_FORMAT)
     };
 
-  //details section vars
-  $scope.addPhone = addPhone;
+
   $scope.dateConfig = {
     //model
     modelFormat: 'YYYY-MM-DD',
@@ -114,16 +113,11 @@ angular.module('owm.person.details', [])
   }
   // toggle the sections
 
-  var setHeight = function (elementNumber) {
-    angular.element('.details--profile__overview')[0].style.height = angular.element('#personal-data')[0].clientHeight + 'px';
-  };
-
   var unbindWatch = $scope.$watch('detailNumber', function (val) {
     $scope.showFirst = $scope.pageNumber === 1 ? true : false;
     $scope.showSecond = $scope.pageNumber === 2 ? true : false;
     $scope.showThird = $scope.pageNumber === 3 ? true : false;
   });
-  setHeight($scope.pageNumber);
 
   initPerson(person);
 
@@ -134,9 +128,6 @@ angular.module('owm.person.details', [])
     // certain fields may only be edited if driver license is not yet checked by the office (see template)
     $scope.allowLicenseRelated = (person.driverLicenseStatus !== 'ok');
 
-    // always show at least one phone number field
-    ensurePhoneNumber();
-
     // Gender dropdown is bound to $scope.genderText instead of person.male
     // Binding to person.male doesn't work, because ng-options doesn't differentiate between false and null
     $scope.genderText = (person.male === true ? 'male' : (person.male === false ? 'female' : ''));
@@ -146,10 +137,6 @@ angular.module('owm.person.details', [])
       month: Number(moment($scope.person.dateOfBirth).format('MM')),
       year: Number(moment($scope.person.dateOfBirth).format('YYYY'))
     };
-
-    $timeout(function () {
-      $scope.personalDataForm.$setPristine();
-    }, 0);
 
     account2Service.forMe({
       'onlyApproved': true
@@ -165,181 +152,11 @@ angular.module('owm.person.details', [])
   function initAlerts() {
     var p = $scope.person;
     var alerts = {
-      personalData: (!p.firstName || !p.surname || !p.dateOfBirth),
       contactData: (!p.streetName || !p.streetNumber || !p.city || (!p.phoneNumbers || !p.phoneNumbers.length)),
       licenseData: (p.status === 'new')
     };
     alertService.loaded($scope);
     $scope.alerts = alerts;
-  }
-
-  //date input field
-  var autoDateInput = angular.element('.autoDateInput')[0];
-  autoDateInput.onkeyup = function (e) {
-    var target = e.srcElement;
-    var maxLength = parseInt(target.attributes.maxlength.value, 10);
-    var myLength = target.value.length;
-    if (myLength >= maxLength) {
-      var next = target;
-      next = next.nextElementSibling;
-      if (next !== null) {
-        if (next.tagName.toLowerCase() === 'input') {
-          next.focus();
-        }
-      }
-    }
-  };
-
-  // PERSONAL DATA
-  $scope.submitPersonalDataForm = function () {
-    alertService.closeAll();
-    alertService.load();
-    $scope.person.dateOfBirth = $scope.date.year + '-' + $scope.date.month + '-' + $scope.date.day;
-    var newProps = $filter('returnDirtyItems')(angular.copy($scope.person), $scope.personalDataForm);
-
-    //add fields not in form
-    if (newProps.zipcode || newProps.streetNumber) {
-      newProps.streetName = $scope.person.streetName;
-      newProps.city = $scope.person.city;
-      newProps.latitude = $scope.person.latitude;
-      newProps.longitude = $scope.person.longitude;
-    }
-
-    newProps.male = $scope.person.male;
-    newProps.dateOfBirth = $scope.person.dateOfBirth;
-
-    var firstName = $scope.person.firstName,
-      surname = $scope.person.surname,
-      year = $scope.date.year,
-      month = $scope.date.month,
-      day = $scope.date.day,
-      male = $scope.genderText,
-      phoneNumbers = $scope.person.phoneNumbers,
-      city = $scope.person.city,
-      zipcode = $scope.person.zipcode,
-      streetNumber = $scope.person.streetNumber;
-
-    // add phone numbers (not automatically included by 'returnDirtyItems')
-    var shouldSavePhoneNumbers = $scope.person.phoneNumbers && (!angular.equals(masterPerson.phoneNumbers, $scope.person.phoneNumbers));
-    if (shouldSavePhoneNumbers) {
-      angular.forEach($scope.person.phoneNumbers, function (phoneNumber) {
-        if (phoneNumber.number) {
-          newProps.phoneNumbers = newProps.phoneNumbers || [];
-          newProps.phoneNumbers.push({
-            id: phoneNumber.id,
-            number: phoneNumber.number,
-            confidential: phoneNumber.confidential
-          });
-        }
-      });
-
-      if (!Object.keys(newProps).length) {
-        // nothing to save
-        $scope.personalDataForm.$setPristine();
-        return;
-      }
-    }
-    if (firstName && surname && year && month && day && male) {
-      if (phoneNumbers) {
-        if (streetNumber && zipcode && city) {
-          personService.alter({
-              person: person.id,
-              newProps: newProps
-            })
-            .then(function (buggyPersonWithoutPhoneNumbers) {
-              initPerson($scope.person);
-              $scope.nextSection();
-            })
-            .catch(function (err) {
-              alertService.addError(err);
-            })
-            .finally(function () {});
-        } else {
-          alertService.add('danger', 'Vul je adres in zodat we je post kunnen sturen.', 10000);
-          alertService.loaded();
-        }
-      } else {
-        alertService.add('danger', 'Vul je telefoonnummmer in zodat we je kunnen bellen.', 10000);
-        alertService.loaded();
-      }
-    } else {
-      alertService.add('danger', 'Voordat je de auto kunt huren, moet je je persoonsgegevens invullen.', 10000);
-      alertService.loaded();
-    }
-  };
-
-  /*
-   * remove all spaces
-   */
-  function stripWhitespace(str) {
-    var out = str;
-    while (out.indexOf(' ') >= 0) {
-      out = out.replace(' ', '');
-    }
-    return out;
-  }
-
-  function addPhone() {
-    $scope.person.phoneNumbers = $scope.person.phoneNumbers || [];
-    $scope.person.phoneNumbers.push({
-      number: '',
-      type: 'mobile'
-    });
-  }
-
-  $scope.$watch('[person.zipcode, person.streetNumber]', function (newValue, oldValue) {
-    var country;
-
-    if (newValue !== oldValue) {
-      if (!(newValue[0] && newValue[1])) {
-        return;
-      }
-      switch (($scope.person.country || '').toLowerCase()) {
-      case 'nl':
-      case 'nederland':
-        country = 'nl';
-        break;
-      case 'be':
-      case 'belgie':
-      case 'belgië':
-        country = 'be';
-        break;
-      default:
-        country = 'nl';
-      }
-
-      $scope.zipcodeAutocompleting = true;
-      dutchZipcodeService.autocomplete({
-          country: country,
-          zipcode: stripWhitespace(newValue[0]),
-          streetNumber: newValue[1]
-        })
-        .then(function (data) {
-          /*jshint sub: true */
-          $scope.person.city = data[0].city;
-          $scope.person.streetName = data[0].street;
-          $scope.person.latitude = data[0].lat;
-          $scope.person.longitude = data[0].lng;
-        }, function (error) {
-          if ($scope.person.zipcode !== newValue[0] || $scope.person.streetNumber !== newValue[1]) {
-            //resolved too late
-            return;
-          }
-          $scope.person.city = null;
-          $scope.person.streetName = null;
-          $scope.person.latitude = null;
-          $scope.person.longitude = null;
-        })
-        .finally(function () {
-          $scope.zipcodeAutocompleting = false;
-        });
-    }
-  }, true);
-
-  function ensurePhoneNumber() {
-    if (!$scope.person.phoneNumbers || !$scope.person.phoneNumbers.length) {
-      addPhone();
-    }
   }
 
   angular.element('#licenseFrontFile').on('change', function (e) {

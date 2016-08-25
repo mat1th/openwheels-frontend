@@ -28,7 +28,7 @@
     <md-list-item class="menu-item-rent-a-car" ng-click="navigate('owm.resource.search.list')">
       <md-icon>search</md-icon><p>{{ 'RENT_A_CAR' | translate }}</p>
     </md-list-item>
-    <md-list-item class="menu-item-resources" ng-click="navigate('owm.resource.create')" ng-if="user.isAuthenticated">
+    <md-list-item class="menu-item-resources" ng-click="navigate('owm.resource.own')" ng-if="user.isAuthenticated">
       <md-icon>directions_car</md-icon><p>{{ 'MY_RESOURCES' | translate }}</p>
     </md-list-item>
     <md-list-item class="menu-item-list-your-car" ng-click="navigate('list-your-car')" ng-if="!user.isAuthenticated">

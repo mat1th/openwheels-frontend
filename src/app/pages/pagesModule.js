@@ -2,7 +2,6 @@
 
 angular.module('owm.pages', [
   'owm.pages.list-your-car',
-  'owm.pages.list-your-car-login',
   'owm.pages.member',
   'owm.pages.emailPreference',
 ])
@@ -11,7 +10,7 @@ angular.module('owm.pages', [
 
   $stateProvider
 
-  .state('home', {
+    .state('home', {
     url: '/',
     parent: 'owm',
     views: {
@@ -21,7 +20,11 @@ angular.module('owm.pages', [
       }
     },
     data: {
-      access: { deny: { authenticated: true } }
+      access: {
+        deny: {
+          authenticated: true
+        }
+      }
     }
   })
 
@@ -38,31 +41,13 @@ angular.module('owm.pages', [
     url: '/auto-verhuren',
     views: {
       'main-full@shell': {
-        templateUrl: 'pages/list-your-car/list-your-car.tpl.html',
-        controller : 'ListYourCarController'
+        templateUrl: 'pages/list-your-car/listYourCar.tpl.html',
+        controller: 'listYourCarController'
       }
     },
     data: {
       title: 'META_LISTYOURCAR_TITLE',
       description: 'META_LISTYOURCAR_DESCRIPTION',
-      access: {
-        feature: 'verhuurTussenscherm'
-      }
-    }
-  })
-
-  .state('list-your-car-login', {
-    parent: 'owm.pages',
-    url: '/auto-verhuren/deel-auto-aanmelden',
-    views: {
-      'main-full@shell': {
-        templateUrl: 'pages/list-your-car/list-your-car-login.tpl.html',
-        controller : 'ListYourCarLoginController'
-      }
-    },
-    data: {
-      title: 'META_LISTYOURCAR2_TITLE',
-      description: 'META_LISTYOURCAR2_DESCRIPTION',
       access: {
         feature: 'verhuurTussenscherm'
       }
@@ -80,7 +65,10 @@ angular.module('owm.pages', [
     },
     resolve: {
       member: ['$stateParams', 'personService', function ($stateParams, personService) {
-        return personService.get({ version: 2, person: $stateParams.personId });
+        return personService.get({
+          version: 2,
+          person: $stateParams.personId
+        });
       }]
     }
   })
@@ -95,5 +83,4 @@ angular.module('owm.pages', [
       }
     }
   });
-
 });
