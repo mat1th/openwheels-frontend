@@ -42,9 +42,10 @@ angular.module('owm.resource.edit.location', ['geocoderDirective'])
         setCenter(DEFAULT_LOCATION);
       }
     }
+
     $scope.reset = function () {
       reset();
-      $scope.form.$setPristine();
+      // $scope.locationForm.$setPristine();
     };
 
     $scope.submit = function () {
@@ -126,7 +127,7 @@ angular.module('owm.resource.edit.location', ['geocoderDirective'])
         lat: $scope.resource.latitude,
         lng: $scope.resource.longitude
       });
-      $scope.form.$setDirty();
+      $scope.locationForm.$setDirty();
     };
 
     function onMapClick(maps, eventName, args) {
@@ -157,7 +158,7 @@ angular.module('owm.resource.edit.location', ['geocoderDirective'])
             $scope.me.streetName = address.route;
             $scope.me.streetNumber = address.streetNumber;
           }
-          $scope.form.$setDirty();
+          $scope.locationForm.$setDirty();
         });
       }
     }

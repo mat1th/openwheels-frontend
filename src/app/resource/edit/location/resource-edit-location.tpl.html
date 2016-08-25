@@ -14,14 +14,14 @@
 
     <br/>
 
-    <form name="form">
+    <form name="locationForm" class="mywheels-form">
         <div class="icon location">
             <input class="form-control" ow-geocoder="{onDetails: newLocationSelectedDropdown}" placeholder="{{ 'RESOURCE_LOCATION_ADDRESS_LABEL' | translate }}" ng-model="locationtext" />
         </div>
 
         <div class="form-group" ng-if="!renterflow">
-            <button type="button" class="btn btn-default" ng-disabled="form.$pristine" ng-click="reset()">{{ 'CANCEL' | translate }}</button>
-            <button type="submit" class="btn btn-primary" ng-disabled="form.$pristine" ng-click="submit()">{{ 'SUBMIT' | translate }}</button>
+            <button type="button" class="btn btn-default" ng-disabled="locationForm.$pristine" ng-click="reset()">{{ 'CANCEL' | translate }}</button>
+            <button type="submit" class="btn btn-primary" ng-disabled="locationForm.$pristine" ng-click="submit()">{{ 'SUBMIT' | translate }}</button>
         </div>
 
         <!-- call to action buttons -->
@@ -30,7 +30,7 @@
                 <md-icon>navigate_before</md-icon>
                 {{ 'PREVIOUS' | translate}}
             </button>
-            <button type="submit" name="button" ng-disabled="editResourceForm.$pristine" ng-click="submit()" class="mywheels-btn mywheels-btn-default btn--navigation__next" ui-sref="owm.resource.create.carPhotos">
+            <button type="submit" name="button" ng-disabled="locationForm.$pristine" ng-click="submit()" class="mywheels-btn mywheels-btn-default btn--navigation__next" ui-sref="owm.resource.create.carPhotos">
                 {{ 'NEXT' | translate }}
                 <md-icon class="text-white">navigate_next</md-icon>
             </button>
