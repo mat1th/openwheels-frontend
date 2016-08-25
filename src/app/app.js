@@ -61,6 +61,7 @@ angular.module('openwheels', [
   'pickadate',
   'timeframe',
   'datetimeDirective',
+  'licencePlateInfoDirective',
   'formGroupDirective',
   'bindingDirectives',
   'ratingThumbDirective',
@@ -77,6 +78,7 @@ angular.module('openwheels', [
   'geocoderDirective',
   'socialDirectives',
   'bindMetaDirective',
+  'personalDataDirective',
 
   /* Filters */
   'filters.util',
@@ -306,6 +308,7 @@ angular.module('openwheels', [
         appId: config.app_id,
         appSecret: config.app_secret,
         appUrl: config.app_url,
+        appTokenRdw: config.app_token_rdw,
         serverUrl: config.server_url,
         authEndpoint: config.auth_endpoint,
         tokenEndpoint: config.token_endpoint,

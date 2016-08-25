@@ -11,7 +11,7 @@ angular.module('owm.resource.edit.data', [])
 
   $scope.searchPlace = {};
 
-  function createResourceProperties (resource) {
+  function createResourceProperties(resource) {
     var resourceProperties = {};
     angular.forEach(resource.properties, function (resourceProperty) {
       resourceProperties[resourceProperty.id] = true;
@@ -26,7 +26,7 @@ angular.module('owm.resource.edit.data', [])
 
   $scope.cancel();
 
-  var resetCenter = function() {
+  var resetCenter = function () {
     $scope.map.center = {
       latitude: $scope.resource.latitude || 52.5575,
       longitude: $scope.resource.longitude || 5.6500
@@ -37,59 +37,125 @@ angular.module('owm.resource.edit.data', [])
     };
   };
 
-  $scope.fuelTypeOptions = [
-    {value: 'benzine'   , label: $translate.instant('FUEL_TYPE.BENZINE')},
-    {value: 'diesel'    , label: $translate.instant('FUEL_TYPE.DIESEL')},
-    {value: 'lpg'       , label: $translate.instant('FUEL_TYPE.LPG')},
-    {value: 'elektrisch', label: $translate.instant('FUEL_TYPE.ELECTRIC')},
-    {value: 'hybride'   , label: $translate.instant('FUEL_TYPE.HYBRID')},
-    {value: 'cng'       , label: $translate.instant('FUEL_TYPE.CNG')},
-  ];
+  $scope.fuelTypeOptions = [{
+    value: 'benzine',
+    label: $translate.instant('FUEL_TYPE.BENZINE')
+  }, {
+    value: 'diesel',
+    label: $translate.instant('FUEL_TYPE.DIESEL')
+  }, {
+    value: 'lpg',
+    label: $translate.instant('FUEL_TYPE.LPG')
+  }, {
+    value: 'elektrisch',
+    label: $translate.instant('FUEL_TYPE.ELECTRIC')
+  }, {
+    value: 'hybride',
+    label: $translate.instant('FUEL_TYPE.HYBRID')
+  }, {
+    value: 'cng',
+    label: $translate.instant('FUEL_TYPE.CNG')
+  }, ];
 
-  $scope.locktypeOptions = [
-    {label: 'Afspraak maken', value: 'meeting'},
-    {label: 'Sleutelkluis', value: 'locker'},
-    {label: 'Chipcard', value: 'chipcard'},
-    {label: 'Smartphone', value: 'smartphone'}
-  ];
+  $scope.locktypeOptions = [{
+    label: 'Afspraak maken',
+    value: 'meeting'
+  }, {
+    label: 'Sleutelkluis',
+    value: 'locker'
+  }, {
+    label: 'Chipcard',
+    value: 'chipcard'
+  }, {
+    label: 'Smartphone',
+    value: 'smartphone'
+  }];
 
-  $scope.insurancePolicyOptions = [
-    {label: 'CB deelauto', value: 'CB_deelauto'},
-    {label: 'CB normaal', value: 'CB'},
-    {label: 'Deelauto OK', value: 'deelauto_OK'},
-    {label: 'Elders', value: 'elders'}
-  ];
+  $scope.insurancePolicyOptions = [{
+    label: 'CB deelauto',
+    value: 'CB_deelauto'
+  }, {
+    label: 'CB normaal',
+    value: 'CB'
+  }, {
+    label: 'Deelauto OK',
+    value: 'deelauto_OK'
+  }, {
+    label: 'Elders',
+    value: 'elders'
+  }];
 
-  $scope.resourceTypeOptions = [
-    {value: 'car'   , label: $translate.instant('RESOURCE_TYPE.CAR')},
-    {value: 'cabrio', label: $translate.instant('RESOURCE_TYPE.CABRIO')},
-    {value: 'camper', label: $translate.instant('RESOURCE_TYPE.CAMPER')},
-    {value: 'van'   , label: $translate.instant('RESOURCE_TYPE.VAN')},
-    {value: 'oldtimer', label: $translate.instant('RESOURCE_TYPE.OLDTIMER')}
-  ];
+  $scope.resourceTypeOptions = [{
+    value: 'car',
+    label: $translate.instant('RESOURCE_TYPE.CAR')
+  }, {
+    value: 'cabrio',
+    label: $translate.instant('RESOURCE_TYPE.CABRIO')
+  }, {
+    value: 'camper',
+    label: $translate.instant('RESOURCE_TYPE.CAMPER')
+  }, {
+    value: 'van',
+    label: $translate.instant('RESOURCE_TYPE.VAN')
+  }, {
+    value: 'oldtimer',
+    label: $translate.instant('RESOURCE_TYPE.OLDTIMER')
+  }];
 
-  $scope.numberOfSeatsOptions = [
-    {value: 2   , label: '2'},
-    {value: 3   , label: '3'},
-    {value: 4   , label: '4'},
-    {value: 5   , label: '5'},
-    {value: 6   , label: '6'},
-    {value: 7   , label: '7'},
-    {value: 8   , label: '8'},
-    {value: 9   , label: '9'}
-  ];
+  $scope.numberOfSeatsOptions = [{
+    value: 2,
+    label: '2'
+  }, {
+    value: 3,
+    label: '3'
+  }, {
+    value: 4,
+    label: '4'
+  }, {
+    value: 5,
+    label: '5'
+  }, {
+    value: 6,
+    label: '6'
+  }, {
+    value: 7,
+    label: '7'
+  }, {
+    value: 8,
+    label: '8'
+  }, {
+    value: 9,
+    label: '9'
+  }];
 
-  $scope.resourcePropertyOptions = [
-    { value: 'airconditioning'    , label: $translate.instant('ACCESSORIES.AIRCONDITIONING') },
-    { value: 'automaat'           , label: $translate.instant('ACCESSORIES.AUTOMATICTRANSMISSION') },
-    { value: 'fietsendrager'      , label: $translate.instant('ACCESSORIES.BIKE_CARRIER') },
-    { value: 'kinderzitje'        , label: $translate.instant('ACCESSORIES.CHILD_SEAT') },
-    { value: 'mp3-aansluiting'    , label: $translate.instant('ACCESSORIES.MP3_CONNECTION') },
-    { value: 'navigatie'          , label: $translate.instant('ACCESSORIES.NAVIGATION') },
-    { value: 'rolstoelvriendelijk', label: $translate.instant('ACCESSORIES.WHEELCHAIR_FRIENDLY') },
-    { value: 'trekhaak'           , label: $translate.instant('ACCESSORIES.TOW_BAR') },
-    { value: 'winterbanden'       , label: $translate.instant('ACCESSORIES.WINTER_TIRES') }
-  ];
+  $scope.resourcePropertyOptions = [{
+    value: 'airconditioning',
+    label: $translate.instant('ACCESSORIES.AIRCONDITIONING')
+  }, {
+    value: 'automaat',
+    label: $translate.instant('ACCESSORIES.AUTOMATICTRANSMISSION')
+  }, {
+    value: 'fietsendrager',
+    label: $translate.instant('ACCESSORIES.BIKE_CARRIER')
+  }, {
+    value: 'kinderzitje',
+    label: $translate.instant('ACCESSORIES.CHILD_SEAT')
+  }, {
+    value: 'mp3-aansluiting',
+    label: $translate.instant('ACCESSORIES.MP3_CONNECTION')
+  }, {
+    value: 'navigatie',
+    label: $translate.instant('ACCESSORIES.NAVIGATION')
+  }, {
+    value: 'rolstoelvriendelijk',
+    label: $translate.instant('ACCESSORIES.WHEELCHAIR_FRIENDLY')
+  }, {
+    value: 'trekhaak',
+    label: $translate.instant('ACCESSORIES.TOW_BAR')
+  }, {
+    value: 'winterbanden',
+    label: $translate.instant('ACCESSORIES.WINTER_TIRES')
+  }];
 
   //google maps places config
   $scope.completePlacesOptions = {
@@ -98,25 +164,25 @@ angular.module('owm.resource.edit.data', [])
   };
 
   //update resource properties als een plaats is gevonden
-  $scope.$watch('searchPlace.details', function(newVal, oldVal) {
-    if(newVal === oldVal) {
+  $scope.$watch('searchPlace.details', function (newVal, oldVal) {
+    if (newVal === oldVal) {
       return;
     }
 
     var ac = $scope.searchPlace.details.address_components;
-    var address={};
-    for(var i=0; i<ac.length; ++i) {
-      if(ac[i].types[0] === 'route') {
+    var address = {};
+    for (var i = 0; i < ac.length; ++i) {
+      if (ac[i].types[0] === 'route') {
         address.route = ac[i].long_name;
       }
-      if(ac[i].types[0] === 'street_number') {
+      if (ac[i].types[0] === 'street_number') {
         address.streetNumber = ac[i].long_name;
       }
-      if(ac[i].types[0] === 'locality') {
+      if (ac[i].types[0] === 'locality') {
         address.city = ac[i].long_name;
       }
     }
-    if(! (address.route && address.streetNumber && address.city) ) {
+    if (!(address.route && address.streetNumber && address.city)) {
       return alertService.add('danger', 'Please select a full address: including a street name, street number and city', 3000);
     }
 
@@ -128,7 +194,7 @@ angular.module('owm.resource.edit.data', [])
   });
 
   //reset map center als een nieuwe locatie is geselecteerd
-  $scope.$watch('[resource.latitude, resource.longitude]', function() {
+  $scope.$watch('[resource.latitude, resource.longitude]', function () {
     resetCenter();
   }, true);
 
@@ -153,35 +219,37 @@ angular.module('owm.resource.edit.data', [])
   });
 
   $scope.save = function () {
-    var newProps = $filter('returnDirtyItems')( angular.copy($scope.resource), $scope.editResourceForm, ['location', 'city', 'latitude', 'longitude']);
+    var newProps = $filter('returnDirtyItems')(angular.copy($scope.resource), $scope.editResourceForm, ['location', 'city', 'latitude', 'longitude']);
 
     alertService.load();
     resourceService.alter({
-      resource: resource.id,
-      newProps: newProps
-    })
-    .then(function (resource) {
-      if (!angular.equals($scope.resourceProperties, masterResourceProperties)) {
-        return saveResourceProperties().then(function () { return resource; });
-      } else {
-        return resource;
-      }
-    })
-    .then(function (resource) {
-      alertService.addSaveSuccess();
-      masterResource = resource;
-      masterResourceProperties = $scope.resourceProperties;
-      $scope.cancel();
-    })
-    .catch(function (err) {
-      alertService.addError(err);
-    })
-    .finally(function () {
-      alertService.loaded();
-    });
+        resource: resource.id,
+        newProps: newProps
+      })
+      .then(function (resource) {
+        if (!angular.equals($scope.resourceProperties, masterResourceProperties)) {
+          return saveResourceProperties().then(function () {
+            return resource;
+          });
+        } else {
+          return resource;
+        }
+      })
+      .then(function (resource) {
+        alertService.addSaveSuccess();
+        masterResource = resource;
+        masterResourceProperties = $scope.resourceProperties;
+        $scope.cancel();
+      })
+      .catch(function (err) {
+        alertService.addError(err);
+      })
+      .finally(function () {
+        alertService.loaded();
+      });
   };
 
-  function saveResourceProperties () {
+  function saveResourceProperties() {
     var pending = [];
     angular.forEach($scope.resourceProperties, function (value, propertyName) {
       if (value === true && !masterResourceProperties[propertyName]) {
@@ -190,6 +258,7 @@ angular.module('owm.resource.edit.data', [])
           property: propertyName
         }));
       }
+      
       if (value === false && masterResourceProperties[propertyName]) {
         pending.push(resourceService.removeProperty({
           resource: resource.id,
@@ -203,12 +272,12 @@ angular.module('owm.resource.edit.data', [])
   $scope.disabledFields = (function () {
     return {
       registrationPlate: true,
-      brand            : false,
-      model            : false,
-      color            : false,
-      numberOfSeats    : false,
-      fuelType         : false,
-      resourceType     : false
+      brand: false,
+      model: false,
+      color: false,
+      numberOfSeats: false,
+      fuelType: false,
+      resourceType: false
     };
   }());
 

@@ -215,7 +215,7 @@
 
         <div ng-if="person.preference !== 'renter'" class="form-group">
           {{ 'INFO_MY_PROFILE_CONTACT' | translate }}
-          <a ui-sref="owm.resource.create">{{ 'MY_RESOURCES' | translate }}</a>.
+          <a ui-sref="owm.resource.own">{{ 'MY_RESOURCES' | translate }}</a>.
         </div>
 
         <div ng-repeat="p in person.phoneNumbers">

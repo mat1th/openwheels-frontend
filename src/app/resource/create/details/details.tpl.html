@@ -1,0 +1,29 @@
+<md-card class="card">
+    <md-card-title>
+        <md-card-title-text layout="colum" layout-wrap>
+            <h3 class="no-margin" style="font-size: 2rem" flex="100">
+            <span ng-show="!$root.personSubmited">Persoon gegevens</span>
+            <span ng-show="$root.personSubmited">Klaar</span>
+            </h3>
+        </md-card-title-text>
+    </md-card-title>
+    <md-card-body class="card-body mywheels-form">
+        <p ng-show="!$root.personSubmited">Voordat we je auto online zetten, leren we je graag nog wat beter kennen.</p>
+        <section ng-show="$root.personSubmited">
+            <p>Bekijk je auto zoals de huurders hem te zien krijgen.</p>
+            <button type="button" name="button" class="mywheels-btn mywheels-btn-default">Bekijk je advertentie</button>
+
+            <div class="card-body">
+                {{ 'SOCIAL_SHARE_RESOURCE' | translateOrDefault }}
+                <br/>
+                <div share-buttons url="shareUrl" resource="resource"></div>
+            </div>
+            <a href="">Pas de beschikbaarheid aan</a>
+        </section>
+
+        <!-- HERE -->
+        <personal-data></personal-data>
+
+        <!-- /call to action buttons -->
+    </md-card-body>
+</md-card>
