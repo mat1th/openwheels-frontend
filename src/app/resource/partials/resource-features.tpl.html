@@ -1,10 +1,13 @@
 <ul class="list-unstyled list-spaced list-responsive">
     <li ng-if="resource.fuelCardCode">
-        <md-icon class="text-success list-margin">credit_card</md-icon>{{ 'FUEL_CARD_CODE' | translate}}: {{ resource.fuelCardCode }}</li>
+        <md-icon class="text-success list-margin">credit_card</md-icon><span>{{ 'FUEL_CARD_CODE' | translate}}: {{ resource.fuelCardCode }}</span></li>
     <li>
-        <md-icon class="text-success list-margin">people</md-icon>{{ resource.numberOfSeats }} {{ 'SEATS' | translate }}</li>
+        <md-icon class="text-success list-margin">people</md-icon><span>{{ resource.numberOfSeats }} {{ 'SEATS' | translate }}</span></li>
     <li>
-        <md-icon class="text-success list-margin">local_gas_station</md-icon><span ng-if="resource.fuelType">{{  resource.fuelType | translate }}</span> <span ng-if="!resource.fuelType">{{ 'UNKNOWN_FUELTYPE' | translate }}</span></li>
+        <md-icon class="text-success list-margin">local_gas_station</md-icon>
+        <span ng-if="resource.fuelType">
+        {{  resource.fuelType | translate }}
+        </span> <span ng-if="!resource.fuelType">{{ 'UNKNOWN_FUELTYPE' | translate }}</span></li>
 
     <!-- lock type -->
     <li>
@@ -12,13 +15,12 @@
         <span ng-if="resource.locktype">{{  ('LOCKTYPE.' + resource.locktype) | translateOrDefault : resource.locktype }}</span>
         <span ng-if="!resource.locktype">{{ 'UKNOWN_LOCKTYPE' | translate }}</span>
     </li>
-
     <li ng-if="resource.properties.length >= 1">
         <md-icon class="text-success list-margin">star_rate</md-icon>
         <span ng-repeat="prop in resource.properties">{{ prop.id | toSentenceCase }}<span ng-if="$index !== resource.properties.length - 1">, </span></span>
     </li>
     <li>
-        <md-icon class="text-success list-margin">event_available</md-icon>{{ resource.numberOfBookings | wasBookedTimes }}</li>
+        <md-icon class="text-success list-margin">event_available</md-icon><span>{{ resource.numberOfBookings | wasBookedTimes }}</span></li>
     <li>
-        <md-icon class="text-success list-margin">check</md-icon>{{ resource.response_accept | percentage : 0 }} {{ 'ACCEPTED_REQUESTS' | translate}}</li>
+        <md-icon class="text-success list-margin">check</md-icon><span>{{ resource.response_accept | percentage : 0 }} {{ 'ACCEPTED_REQUESTS' | translate}}</span></li>
 </ul>

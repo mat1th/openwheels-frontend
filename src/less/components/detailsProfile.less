@@ -98,6 +98,7 @@
     flex-direction: column;
 }
 .details--profile__sidebar {
+    max-width: 40em;
     flex-direction: row;
     display: flex;
     flex-wrap: wrap;
@@ -115,6 +116,7 @@
     h3 {
         // margin: 1em 0 0.3em;
         padding: 0;
+        overflow: hidden;
     }
     span {
         // display: inline-block;
@@ -125,7 +127,7 @@
         white-space: nowrap;
     }
 }
-.details--profile__image img{
+.details--profile__image img {
     max-width: 100%;
     height: auto;
     width: 5em;
@@ -171,7 +173,7 @@
         flex-grow: 1;
         min-width: 65%;
     }
-    .details--profile__image img{
+    .details--profile__image img {
         width: auto;
     }
 }
@@ -206,8 +208,8 @@
         color: #fff;
     }
     label::after,
-    label::before{
-      display: none !important;
+    label::before {
+        display: none !important;
     }
 }
 .gender--options__option {

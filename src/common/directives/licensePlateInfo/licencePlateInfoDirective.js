@@ -18,6 +18,9 @@ angular.module('licencePlateInfoDirective', [])
           $scope.licencePlate.showError = false;
         }
       }
+      $scope.resetlicencePlate = function () {
+        $scope.licencePlate.data = false;
+      };
       $scope.getLicencePlateInfo = function () {
         var re = new RegExp('-', 'g');
         var licencePlate = $scope.licencePlate.content.replace(re, '').toUpperCase();
@@ -37,7 +40,7 @@ angular.module('licencePlateInfoDirective', [])
                   merk: responseCarData.data[0].merk,
                   brandstof: response.data[0].brandstof_omschrijving,
                   handelsbenaming: responseCarData.data[0].handelsbenaming,
-                  datum_eerste_toelating: moment(responseCarData.data[0].datum_eerste_toelating, 'DD/MM/YYYY').format('ddd DD MMM'),
+                  datum_eerste_toelating: moment(responseCarData.data[0].datum_eerste_toelating, 'DD/MM/YYYY').format('YYYY'),
                   kleur: responseCarData.data[0].eerste_kleur
                 };
                 showError(false);
