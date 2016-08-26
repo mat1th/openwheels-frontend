@@ -59,7 +59,6 @@ angular.module('owm.person.aboutme', [])
     });
   });
   var uploadProfileImage = function (file) {
-    console.log(file);
     $scope.profileImageSuccess = false;
     if (!file) {
       return;

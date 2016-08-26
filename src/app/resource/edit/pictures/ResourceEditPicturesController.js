@@ -25,7 +25,7 @@ angular.module('owm.resource.edit.pictures', [])
   function initPhotos () {
     $scope.photos = createArray(resource.pictures);
     $scope.emptySlots = [];
-    for (var i=1; i <= (3 - $scope.photos.length); i++) {
+    for (var i=1; i <= (4 - $scope.photos.length); i++) {
       $scope.emptySlots.push(i);
     }
   }

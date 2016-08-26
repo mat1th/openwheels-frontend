@@ -1,0 +1,106 @@
+<md-card class="card">
+    <md-card-title>
+        <md-card-title-text layout="colum" layout-wrap>
+            <h3 class="no-margin" style="font-size: 2rem" flex="100">
+            <span>Kenmerken auto</span>
+            </h3>
+        </md-card-title-text>
+    </md-card-title>
+    <md-card-body class="card-body">
+      <p>Wil je onderstaande kenmerken van de auto controleren en waar nodig aanvullen?</p>
+        <form name="editResourceForm" ng-submit="save(resource)" class="mywheels-form">
+
+            <div class="icon car">
+                <input type="text" id="alias" name="alias" ng-model="resource.alias" placeholder="{{ 'ALIAS' | translate }}" required>
+                <md-icon class="right-addon">info
+                    <md-tooltip md-direction="top" class="multiline">
+                        {{ 'INFO_RESOURCE_ALIAS' | translate }}
+                    </md-tooltip>
+                </md-icon>
+                <div class="help-block" ng-show="editResourceForm.$submitted || editResourceForm.alias.$touched">
+                    <span class="text-danger" ng-show="editResourceForm.alias.$error.required">{{ 'REQUIRED' | translate }}</span>
+                </div>
+            </div>
+            <div class="responsive">
+                <div class="icon car">
+                    <input type="text" id="brand" name="brand" ng-model="resource.brand" placeholder="{{ 'BRAND' | translate }}" ng-disabled="disabledFields.brand" required>
+
+                    <div class="help-block" ng-show="editResourceForm.$submitted || editResourceForm.brand.$touched">
+                        <span class="text-danger" ng-show="editResourceForm.brand.$error.required">{{ 'REQUIRED' | translate }}</span>
+                    </div>
+                </div>
+                <div class="icon car">
+                    <input type="text" id="model" name="model" ng-model="resource.model" placeholder="{{ 'MODEL' | translate }}" ng-disabled="disabledFields.model" required>
+
+                    <div class="help-block" ng-show="editResourceForm.$submitted || editResourceForm.model.$touched">
+                        <span class="text-danger" ng-show="editResourceForm.model.$error.required">{{ 'REQUIRED' | translate }}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="icon color">
+                <input type="text" id="color" name="color" ng-model="resource.color" placeholder="{{ 'COLOR' | translate }}" ng-disabled="disabledFields.color" required>
+
+                <div class="help-block" ng-show="editResourceForm.$submitted || editResourceForm.color.$touched">
+                    <span class="text-danger" ng-show="editResourceForm.color.$error.required">{{ 'REQUIRED' | translate }}</span>
+                </div>
+            </div>
+            <div class="icon seat select">
+                <label for="numberOfSeats">{{ 'NUMBER_OF_SEATS' | translate }}</label>
+
+                <div class="select-icon">
+                    <select id="numberOfSeats" name="numberOfSeats" class="form-control" ng-model="resource.numberOfSeats" ng-options="option.value as option.label for option in minSeatOptions" ng-disabled="disabledFields.numberOfSeats">
+                    </select>
+                </div>
+            </div>
+            <div class="help-block" ng-show="editResourceForm.$submitted || editResourceForm.numberOfSeats.$touched">
+                <span class="text-danger" ng-show="editResourceForm.numberOfSeats.$error.required">{{ 'REQUIRED' | translate }}</span>
+            </div>
+
+            <div class="icon fuel select">
+                <label for="fuelType">{{ 'FUEL_TYPE' | translate }}</label>
+
+                <div class="select-icon">
+                    <select id="fuelType" name="fuelType" class="form-control" ng-model="resource.fuelType" ng-options="option.value as option.label for option in fuelTypeOptions" ng-disabled="disabledFields.fuelType">
+                    </select>
+                </div>
+            </div>
+
+            <div class="icon car select">
+                <label for="resourceType">{{ 'RESOURCE_TYPE' | translate }}</label>
+
+                <div class="select-icon">
+                    <select id="resourceType" name="resourceType" class="form-control" ng-model="resource.resourceType" ng-options="option.value as option.label for option in resourceTypeOptions" ng-disabled="disabledFields.resourceType">
+                    </select>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label>{{ 'RESOURCE_PROPERTIES' | translate }}</label>
+                <div class="checkbox" ng-repeat="option in resourcePropertyOptions">
+                    <input type="checkbox" ng-model="resourceProperties[option.value]" id="{{ option.value }}" />
+                    <label for="{{ option.value }}">
+                        {{ option.label }}
+                    </label>
+                </div>
+            </div>
+            <div class="icon edit">
+                <textarea name="advertisement" rows="8" cols="40" ng-model="resource.advertisement" placeholder="{{ 'ADVERTISEMENT' | translate }}" required></textarea>
+
+                <div class="help-block" ng-show="editResourceForm.$submitted || editResourceForm.color.$touched">
+                    <span class="text-danger" ng-show="editResourceForm.advertisement.$error.required">{{ 'REQUIRED' | translate }}</span>
+                </div>
+            </div>
+
+            <!-- call to action buttons -->
+            <div class="details--card--form__navigation-buttons">
+                <div></div>
+                <button type="submit" name="button" ng-disabled="editResourceForm.$pristine" ui-sref="owm.resource.create.location" class="mywheels-btn mywheels-btn-default btn--navigation__next">
+                    {{ 'NEXT' | translate }}
+                    <md-icon class="text-white">navigate_next</md-icon>
+                </button>
+            </div>
+            <!-- /call to action buttons -->
+        </form>
+    </md-card-body>
+</md-card>

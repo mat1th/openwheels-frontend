@@ -110,7 +110,7 @@
 .mywheels-form .icon textarea {
     padding-left: 2.3em !important;
 }
-.mywheels-form .icon md-progress-circular {
+.mywheels-form .icon .right-addon {
     display: inline-block;
     position: absolute;
     top: 20%;
@@ -145,97 +145,94 @@
     width: 100%;
 }
 // checkboxes and radio buttons
-//
-// .mywheels-form .mywheels-form-list li {
-//     display: block;
-//     position: relative;
-//     -webkit-user-select: none;
-//     -moz-user-select: none;
-//     -ms-user-select: none;
-//     user-select: none;
-//     margin: 0 26px 16px 0;
-//
-// }
-// .mywheels-form input[type=checkbox],
-// .mywheels-form input[type=radio] {
-//     position: absolute;
-//     left: 0;
-//     top: 50%;
-//     -webkit-transform: translateY(-50%);
-//     -moz-transform: translateY(-50%);
-//     -ms-transform: translateY(-50%);
-//     -o-transform: translateY(-50%);
-//     transform: translateY(-50%);
-//     margin: 0;
-//     padding: 0;
-//     opacity: 0;
-//     z-index: 2;
-// }
-// .mywheels-form input[type="checkbox"] + label,
-// .mywheels-form input[type="radio"] + label {
-//     padding-left: 24px;
-// }
-// .mywheels-form input[type="checkbox"] + label::after,
-// .mywheels-form input[type="checkbox"] + label::before,
-// .mywheels-form input[type="radio"] + label::after,
-// .mywheels-form input[type="radio"] + label::before {
-//     /* custom radio and check boxes
-//     content: '';
-//     display: block;
-//     position: absolute;
-//     left: 0;
-//     top: 50%;
-//     margin-top: -8px;
-//     width: 16px;
-//     height: 16px;
-// }
-// .mywheels-form input[type="checkbox"] + label::before,
-// .mywheels-form input[type="radio"] + label::before {
-//     border: 1px solid #cfd9db;
-//     background: #ffffff;
-//     box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.08);
-// }
-// .mywheels-form input[type="radio"] + label::after,
-// .mywheels-form input[type="radio"] + label::before {
-//     border-radius: 50%;
-// }
-// .mywheels-form input[type="checkbox"] + label::after,
-// .mywheels-form input[type="checkbox"] + label::before {
-//     border-radius: 0.25em;
-// }
-// .mywheels-form input[type="checkbox"] + label::after,
-// .mywheels-form input[type="radio"] + label::after {
-//     background-color: @mywheels-blue;
-//     background-position: center center;
-//     background-repeat: no-repeat;
-//     box-shadow: 0 0 5px rgba(44, 151, 222, 0.4);
-//     display: none;
-// }
-// // .mywheels-form input[type="radio"] + label::after {
-// //   /* custom image for radio button
-// //   background-image: url("../img/cd-icon-radio.svg");
-// // }
-// // .mywheels-form input[type="checkbox"] + label::after {
-// //   /* custom image for checkbox
-// //   background-image: url("../img/cd-icon-check.svg");
-// // }
-// .mywheels-form input[type="checkbox"]:focus + label::before,
-// .mywheels-form input[type="radio"]:focus + label::before {
-//     /* add focus effect for radio and check buttons
-//     box-shadow: 0 0 5px rgba(44, 151, 222, 0.6);
-// }
-// .mywheels-form input[type="checkbox"]:checked + label::after,
-// .mywheels-form input[type="radio"]:checked + label::after {
-//     display: block;
-// }
-// .mywheels-form input[type="checkbox"]:checked + label::after,
-// .mywheels-form input[type="checkbox"]:checked + label::before,
-// .mywheels-form input[type="radio"]:checked + label::after,
-// .mywheels-form input[type="radio"]:checked + label::before {
-//     -webkit-animation: cd-bounce 0.3s;
-//     -moz-animation: cd-bounce 0.3s;
-//     animation: cd-bounce 0.3s;
-// }
+.mywheels-form input[type=checkbox],
+.mywheels-form input[type=radio] {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    -o-transform: translateY(-50%);
+    transform: translateY(-50%);
+    margin: 0;
+    padding: 0;
+    opacity: 0;
+    z-index: 2;
+}
+.mywheels-form input[type="checkbox"] + label,
+.mywheels-form input[type="radio"] + label {
+    padding-left: 24px;
+}
+.mywheels-form input[type="checkbox"] + label::after,
+.mywheels-form input[type="checkbox"] + label::before,
+.mywheels-form input[type="radio"] + label::after,
+.mywheels-form input[type="radio"] + label::before {
+    // /* custom radio and check boxes
+    content: '';
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 50%;
+    margin-top: -4px;
+    width: 16px;
+    height: 16px;
+}
+.mywheels-form input[type="checkbox"] + label::before,
+.mywheels-form input[type="radio"] + label::before {
+    border: 1px solid #cfd9db;
+    background: #ffffff;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.08);
+}
+.mywheels-form input[type="radio"] + label::after,
+.mywheels-form input[type="radio"] + label::before {
+    border-radius: 50%;
+}
+.mywheels-form input[type="checkbox"] + label::after,
+.mywheels-form input[type="checkbox"] + label::before {
+    border-radius: 0.25em;
+}
+.mywheels-form input[type="checkbox"] + label::after,
+.mywheels-form input[type="radio"] + label::after {
+    background-color: @mywheels-blue;
+    background-position: center center;
+    background-repeat: no-repeat;
+    box-shadow: 0 0 5px rgba(44, 151, 222, 0.4);
+    display: none;
+    font-family: 'Material Icons';
+    color: #fff;
+    font-size: 1.2em;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
+    text-rendering: optimizeLegibility;
+}
+.mywheels-form input[type="radio"] + label::after {
+    // /* custom image for radio button
+    // background-image: url("../img/cd-icon-radio.svg");
+    content: 'check';
+}
+.mywheels-form input[type="checkbox"] + label::after {
+    // /* custom image for checkbox
+    content: 'check';
+}
+.mywheels-form input[type="checkbox"]:focus + label::before,
+.mywheels-form input[type="radio"]:focus + label::before {
+    // /* add focus effect for radio and check buttons
+    box-shadow: 0 0 5px rgba(44, 151, 222, 0.6);
+}
+.mywheels-form input[type="checkbox"]:checked + label::after,
+.mywheels-form input[type="radio"]:checked + label::after {
+    display: block;
+}
+.mywheels-form input[type="checkbox"]:checked + label::after,
+.mywheels-form input[type="checkbox"]:checked + label::before,
+.mywheels-form input[type="radio"]:checked + label::after,
+.mywheels-form input[type="radio"]:checked + label::before {
+    -webkit-animation: cd-bounce 0.3s;
+    -moz-animation: cd-bounce 0.3s;
+    animation: cd-bounce 0.3s;
+}
 /* file upload */
 .uploadfile-input {
     position: absolute;
@@ -306,11 +303,17 @@
 .mywheels-form .user.icon:before {
     content: "person";
 }
+.mywheels-form .color.icon:before {
+    content: "color_lens";
+}
 .mywheels-form .home.icon:before {
     content: "home";
 }
 .mywheels-form .email.icon:before {
     content: "email";
+}
+.mywheels-form .bank.icon:before {
+    content: "account_balance";
 }
 .mywheels-form .password.icon:before {
     content: "lock";
@@ -328,12 +331,22 @@
     content: "place";
 }
 .mywheels-form .car.icon:before {
-    margin-top: 1.8em;
     content: "directions_car";
-    z-index: 100;
 }
 .mywheels-form .safety.icon:before {
     content: "security";
+    z-index: 100;
+}
+.mywheels-form .fuel.icon:before {
+    content: "local_gas_station";
+    z-index: 100;
+}
+.mywheels-form .seat.icon:before {
+    content: "event_seat";
+    z-index: 100;
+}
+.mywheels-form .edit.icon:before {
+    content: "edit";
     z-index: 100;
 }
 .mywheels-form .twitter.icon:before {
@@ -341,6 +354,10 @@
 }
 .mywheels-form .linkedin.icon:before {
     content: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IArs4c6QAAAVxJREFUOBFjYKAyYASZt/foCTcGhv8tDIwMTAz/GGqdbSy3k2sPC0Tjv+kMDIxKDP+BJAPDVKCYErkGMoE0/mdgZIUZ8J8RZCb5AGwg03/GDKAxJ4HuO/6f8X8m+cbRQCc0Uo4DQw8BnK0tGXfuvMjNyvu9DCH675CTldXePUePmgLjzh0YTDZAuadAvNvZynwlIyMj2AxopCC0wVhMwr9Z/v/8XwfjA4Nj9r4jxwKBBmWDxBhBMQgBSfuPnQgAMiNAXHAYQsRRyd+vXv1AFWGI/c8IMQxNHGR0+N5jxwJB4jgNPOXp+RtNIweQ/w2oeRLD//89QDd+QJH/z5AD4uM0sIGR8R+KBiAH6N14F2vLfGcbq1LG//+TUeUZLUB8nAaiKobwvrOzbIOJ/+Vg3QtjQ2kuEE2Sgb4mJt9ghriamHyEsZFpkgxE1oiLPWogrpAhXpzqYUi81USqBAAzklRr44tEHQAAAABJRU5ErkJggg==');
+}
+.mywheels-form .select.icon:before {
+    margin-top: 1.8em;
+    z-index: 100;
 }
 /* select */
 .mywheels-form .select-icon {
