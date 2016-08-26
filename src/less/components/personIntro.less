@@ -41,8 +41,20 @@ p.intro__page {
     border: 1em transparent solid;
     border-right-width: 0;
     border-left-width: 0;
-    border-bottom-color: @mywheels-green;
     content: '';
+}
+.triangle--bar.triangle--bar-green:after,
+.triangle--bar.triangle--bar-green:before {
+    border-bottom-color: @mywheels-green;
+}
+.triangle--bar-white {
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+}
+.triangle--bar.triangle--bar-white:after,
+.triangle--bar.triangle--bar-white:before {
+    border-bottom-color: #fff;
 }
 .triangle--bar:before {
     right: 50%;

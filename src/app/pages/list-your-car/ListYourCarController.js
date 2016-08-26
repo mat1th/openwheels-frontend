@@ -55,7 +55,7 @@ angular.module('owm.pages.list-your-car', [])
           calculateYourPrice: $scope.calculateYourPrice
         },
         fullscreen: $mdMedia('xs'),
-        templateUrl: 'pages/list-your-car/listYourCarDialog.tpl.html',
+        templateUrl: 'pages/list-your-car/list-your-car-dialog.tpl.html',
         controller: ['$scope', '$mdDialog', 'authService', 'calculateYourPrice', 'licencePlate', function ($scope, $mdDialog, authService, calculateYourPrice, licencePlate) {
           $scope.url = 'owm.resource.create.carInfo';
           $scope.calculateYourPrice = calculateYourPrice;

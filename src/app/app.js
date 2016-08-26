@@ -248,7 +248,7 @@ angular.module('openwheels', [
       $state.includes('member')
     );
     $rootScope.containerHome = (
-      ($state.includes('home'))
+      ($state.includes('home')) || ($state.$current.self.url === '/auto-verhuren')
     );
     $rootScope.containerIntro = (
       ($state.includes('owm.person.intro'))

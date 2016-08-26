@@ -1,0 +1,113 @@
+<div class="list-your-car">
+
+    <section class="list-your-car--heading">
+        <h1>{{ 'LIST_YOUR_CAR_TITLE' | translate }}</h1>
+    </section>
+    <div class="triangle--bar triangle--bar-white">
+        <button type="button" name="button" class="mywheels-btn mywheels-btn-light mywheels-btn-full-width " ng-show="licencePlate.data" ng-click="resetlicencePlate()">{{'OTHER_REGISTRATION_PLATE' | translate }}</button>
+        <!-- list-your-car container -->
+        <section ng-show="!licencePlate.data" class="list-your-car--container container-home">
+            <div class="">
+                <div license-plate-info class="list-your-car--licenceplate"> </div>
+            </div>
+            <div class="list-your-car--advatage">
+                <h2>Waarom Mywheels?</h2>
+                <ul class="list-unstyled list-spaced list-normal">
+                    <li>
+                        <md-icon class="text-success list-margin">check</md-icon><span>{{'LIST_YOUR_CAR_ADVANTAGE_COSTS' | translate }}</span>
+                    </li>
+                    <li>
+                        <md-icon class="text-success list-margin">check</md-icon><span>{{ 'CREATE_ACCOUNT' | translate }}</span>
+                    </li>
+                    <li>
+                        <md-icon class="text-success list-margin">check</md-icon><span>{{ 'LIST_YOUR_CAR_ADVANTAGE_RISK' | translate }}</span>
+                    </li>
+                    <li>
+                        <md-icon class="text-success list-margin">check</md-icon><span>{{'LIST_YOUR_CAR_ADVANTAGE_NO_CLAIM' | translate }}</span>
+                    </li>
+                    <li>
+                        <md-icon class="text-success list-margin">check</md-icon><span>{{'LIST_YOUR_CAR_ADVANTAGE_COMMUNITY' | translate }}</span>
+                    </li>
+                </ul>
+            </div>
+        </section>
+        <!-- /list-your-car container -->
+
+        <!-- list-your-car container -->
+        <section class="list-your-car--container container-home" ng-show="licencePlate.data">
+            <div class="list-your-car--car-info-list">
+                <ul>
+                    <li class="list-your-car--car-info-list--item">
+                        <div class="list-your-car-item__icon">
+                            <md-icon>directions_car</md-icon>
+                        </div>
+                        <div class="list-your-car-item__info">
+                            <h2>{{'BRAND' | translate}} / {{'MODEL' | translate}}</h2> <span>{{(licencePlate.data.merk | toTitleCase) || 'Onbekend' }} {{licencePlate.data.handelsbenaming | toTitleCase}}</span>
+                        </div>
+                    </li>
+                    <li class="list-your-car--car-info-list--item">
+                        <div class="list-your-car-item__icon">
+                            <md-icon>local_gas_station</md-icon>
+                        </div>
+                        <div class="list-your-car-item__info">
+                            <h2>{{'RESOURCE_REFUEL_BY_RENTER_LABEL' | translate}}</h2><span> {{licencePlate.data.brandstof || 'Onbekend' }}</span>
+                        </div>
+                    </li>
+                    <li class="list-your-car--car-info-list--item">
+                        <div class="list-your-car-item__icon">
+                            <md-icon>today</md-icon>
+                        </div>
+                        <div class="list-your-car-item__info">
+                            <h2>{{'TIME_OF_ORGIN' | translate}}</h2> <span>{{licencePlate.data.datum_eerste_toelating || 'Onbekend' }}</span>
+                        </div>
+                    </li>
+                    <li class="list-your-car--car-info-list--item">
+                        <div class="list-your-car-item__icon">
+                            <md-icon>color_lens</md-icon>
+                        </div>
+                        <div class="list-your-car-item__info">
+                            <h2>{{'COLOR' | translate }}</h2> <span>{{ (licencePlate.data.kleur| toTitleCase) || 'Onbekend' }}</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div>
+                <div class="list-your-car--calculate-your-price">
+                    <div class="list-your-car--calculate-your-price__your-price">
+                        <h2>€ {{calculateYourPrice.total}} <sup>per/j*</sup></h2>
+                        <span>* Inclusief gemiddelde extra kilometerprijs</span>
+                    </div>
+                    <form class="list-your-car--calculate-your-price__toggles" name="calculateYourPriceForm">
+                        <div>
+                            <h3>Dagprijs</h3>
+                            <button class="mywheels-btn mywheels-btn-transparant" ng-click="changePrice($event, '-', 'dayPrice')" ng-disabled="calculateYourPriceForm.dayPrice.$modelValue === 0">
+                                <md-icon>remove</md-icon>
+                            </button>
+                            <input class="mywheels-btn-number" type="number" name="dayPrice" ng-model="calculateYourPrice.dayPrice" inputmode="numeric" pattern="[0-9]*" maxlength="3" max="150" step="1" min="0" required>
+                            <button class="mywheels-btn mywheels-btn-transparant" ng-click="changePrice($event, '+', 'dayPrice', 150)" ng-disabled="calculateYourPriceForm.dayPrice.$modelValue === 150">
+                                <md-icon>add</md-icon>
+                            </button>
+                        </div>
+                        <div>
+                            <h3>Dagen per maand</h3>
+                            <button class="mywheels-btn mywheels-btn-transparant" ng-click="changePrice($event, '-', 'numberOfDays')" ng-disabled="calculateYourPriceForm.numberOfDays.$modelValue === 0">
+                                <md-icon>remove</md-icon>
+                            </button>
+                            <input class="mywheels-btn-number" type="number" name="numberOfDays" ng-model="calculateYourPrice.numberOfDays" inputmode="numeric" pattern="[0-9]*" maxlength="2" max="31" min="0" step="1" required>
+                            <button class=" mywheels-btn mywheels-btn-transparant" ng-click="changePrice($event, '+', 'numberOfDays', 31)" ng-disabled="calculateYourPriceForm.numberOfDays.$modelValue === 31">
+                                <md-icon>add</md-icon>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <button type="button" name="button" class="mywheels-btn mywheels-btn-default mywheels-btn-full-width" ng-click="beginRentingOut()" ng-disabled="!licencePlate.data">Begin met verhuren</button>
+            </div>
+        </section>
+        <!-- /list-your-car container -->
+    </div>
+
+
+    <section class="container-home">
+        <a ng-href="{{ 'NAVBAR.LIST_YOUR_CAR_URL' | translate }}" class="mywheels-btn-span">Lees de verhuurtips »</a>
+    </section>
+</div>

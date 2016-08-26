@@ -41,7 +41,7 @@ angular.module('owm.pages', [
     url: '/auto-verhuren',
     views: {
       'main-full@shell': {
-        templateUrl: 'pages/list-your-car/listYourCar.tpl.html',
+        templateUrl: 'pages/list-your-car/list-your-car.tpl.html',
         controller: 'listYourCarController'
       }
     },
@@ -78,7 +78,7 @@ angular.module('owm.pages', [
     url: '/email-uitschrijven?person&hash',
     views: {
       'main@shell': {
-        templateUrl: 'pages/email-preference/emailPreference.tpl.html',
+        templateUrl: 'pages/email-preference/email-preference.tpl.html',
         controller: 'EmailPreferenceController'
       }
     }

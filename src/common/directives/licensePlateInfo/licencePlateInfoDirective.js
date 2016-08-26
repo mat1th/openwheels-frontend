@@ -18,9 +18,14 @@ angular.module('licencePlateInfoDirective', [])
           $scope.licencePlate.showError = false;
         }
       }
+      $scope.resetlicencePlate = function () {
+        $scope.licencePlate.data = false;
+      };
       $scope.getLicencePlateInfo = function () {
-        var url = 'https://opendata.rdw.nl/resource/m9d7-ebf2.json?kenteken=' + $scope.licencePlate.content.toUpperCase() + '&$$app_token=' + appConfig.appTokenRdw;
-        var urlFuel = 'https://opendata.rdw.nl/resource/8ys7-d773.json?kenteken=' + $scope.licencePlate.content.toUpperCase() + '&$$app_token=' + appConfig.appTokenRdw;
+        var re = new RegExp('-', 'g');
+        var licencePlate = $scope.licencePlate.content.replace(re, '').toUpperCase();
+        var url = 'https://opendata.rdw.nl/resource/m9d7-ebf2.json?kenteken=' + licencePlate + '&$$app_token=' + appConfig.appTokenRdw;
+        var urlFuel = 'https://opendata.rdw.nl/resource/8ys7-d773.json?kenteken=' + licencePlate + '&$$app_token=' + appConfig.appTokenRdw;
         $http.get(url)
           .then(function (responseCarData) {
             if (responseCarData.data.length > 0) {
@@ -35,7 +40,7 @@ angular.module('licencePlateInfoDirective', [])
                   merk: responseCarData.data[0].merk,
                   brandstof: response.data[0].brandstof_omschrijving,
                   handelsbenaming: responseCarData.data[0].handelsbenaming,
-                  datum_eerste_toelating: moment(responseCarData.data[0].datum_eerste_toelating, 'DD/MM/YYYY').format('ddd DD MMM'),
+                  datum_eerste_toelating: moment(responseCarData.data[0].datum_eerste_toelating, 'DD/MM/YYYY').format('YYYY'),
                   kleur: responseCarData.data[0].eerste_kleur
                 };
                 showError(false);
