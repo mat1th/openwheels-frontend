@@ -1,6 +1,6 @@
 <md-card class="card">
     <md-card-title>
-        <md-card-title-text layout="colum" layout-wrap>
+        <md-card-title-text layout="colum" layout-wrap class="list-your-car--title">
             <h3 class="no-margin" style="font-size: 2rem" flex="100">
             <span>Foto's auto</span>
             </h3>
@@ -15,7 +15,7 @@
                 <md-icon>navigate_before</md-icon>
                 {{ 'PREVIOUS' | translate}}
             </button>
-            <button type="submit" name="button" ng-disabled="editResourceForm.$pristine" ng-click="submit()" class="mywheels-btn mywheels-btn-default btn--navigation__next" ui-sref="owm.resource.create.details">
+            <button type="submit" name="button" ng-click="submit()" class="mywheels-btn mywheels-btn-default btn--navigation__next" ui-sref="owm.resource.create.details">
                 {{ 'NEXT' | translate }}
                 <md-icon class="text-white">navigate_next</md-icon>
             </button>

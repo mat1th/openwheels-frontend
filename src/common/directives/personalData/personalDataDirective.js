@@ -6,6 +6,9 @@ angular.module('personalDataDirective', [])
   return {
     restrict: 'E',
     replace: true,
+    scope: {
+      next: '&'
+    },
     templateUrl: 'directives/personalData/personalData.tpl.html',
     controller: function ($scope, $rootScope, $log, $state, $stateParams, $filter, personService, resourceService, $timeout, alertService, account2Service, accountService, dutchZipcodeService) {
       //person info
@@ -16,7 +19,7 @@ angular.module('personalDataDirective', [])
       $scope.genderText = '';
       $scope.person = null;
       $scope.submitPersonalDataForm = null;
-      $scope.renterflow = false;
+      $scope.ownerflow = false;
       $rootScope.personSubmited = false;
       $scope.ibanIsDefined = true;
 
@@ -26,7 +29,7 @@ angular.module('personalDataDirective', [])
       var personPage = {
         init: function () {
           $scope.submitPersonalDataForm = personPage.submitDataForm;
-          $scope.renterflow = $state.current.name === 'owm.resource.create.details' ? true : false;
+          $scope.ownerflow = $state.current.name === 'owm.resource.create.details' ? true : false;
           this.initPerson();
           that = this;
         },
@@ -89,7 +92,7 @@ angular.module('personalDataDirective', [])
                   })
                   .then(function (buggyPersonWithoutPhoneNumbers) {
                     that.initPerson($scope.person);
-
+                    $scope.next();
                   })
                   .catch(function (err) {
                     alertService.addError(err);
@@ -115,7 +118,7 @@ angular.module('personalDataDirective', [])
 
           if ($state.current.name === 'owm.resource.create.details' && !$scope.ibanIsDefined) {
             accountService.alter({
-                'id': $scope.person.id,
+                'id': $scope.account.id,
                 'newProps': {
                   'iban': $scope.person.iban
                 }
@@ -138,7 +141,7 @@ angular.module('personalDataDirective', [])
               });
           }
         },
-        initAcount: function (person) {
+        initAccount: function (person) {
           if ($state.current.name === 'owm.resource.create.details') {
             alertService.load();
             accountService.get({
@@ -163,7 +166,7 @@ angular.module('personalDataDirective', [])
             version: 2
           }).then(function (person) {
             masterPerson = person;
-            _this.initAcount(person);
+            _this.initAccount(person);
             $scope.person = angular.copy(person);
             // certain fields may only be edited if driver license is not yet checked by the office (see template)
             $scope.allowLicenseRelated = (person.driverLicenseStatus !== 'ok');

@@ -2,30 +2,11 @@
 
 angular.module('owm.resource.create.carInfo', [])
 
-.controller('carInfoControler', function ($scope, $filter, $state, $log, $q, $stateParams, $translate, resources, resourceService, authService, alertService, dialogService, me) {
+.controller('carInfoControler', function ($scope, $filter, $state, $log, $q, $stateParams, $translate, resource, resourceService, authService, alertService, dialogService, me) {
   var resource = $scope.resource;
+  console.log(resource);
   var masterResource = resource;
   var masterResourceProperties = createResourceProperties(resource);
-
-  $scope.radiusOptions = [{
-    value: undefined,
-    label: ''
-  }, {
-    value: 1000,
-    label: '< 1 km'
-  }, {
-    value: 5000,
-    label: '< 5 km'
-  }, {
-    value: 10000,
-    label: '< 10 km'
-  }, {
-    value: 25000,
-    label: '< 25 km'
-  }, {
-    value: 50000,
-    label: '< 50 km'
-  }];
 
   $scope.minSeatOptions = [{
     value: undefined,
@@ -63,9 +44,6 @@ angular.module('owm.resource.create.carInfo', [])
   }];
 
   $scope.fuelTypeOptions = [{
-    value: undefined,
-    label: $translate.instant('FUEL_TYPE.ALL')
-  }, {
     value: 'benzine',
     label: $translate.instant('FUEL_TYPE.BENZINE')
   }, {
@@ -86,9 +64,6 @@ angular.module('owm.resource.create.carInfo', [])
   }];
 
   $scope.resourceTypeOptions = [{
-    value: undefined,
-    label: $translate.instant('RESOURCE_TYPE.ALL')
-  }, {
     value: 'car',
     label: $translate.instant('RESOURCE_TYPE.CAR')
   }, {
@@ -171,7 +146,6 @@ angular.module('owm.resource.create.carInfo', [])
         }
       })
       .then(function (resource) {
-        alertService.addSaveSuccess();
         masterResource = resource;
         masterResourceProperties = $scope.resourceProperties;
         $scope.cancel();

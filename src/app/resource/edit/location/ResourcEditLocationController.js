@@ -1,7 +1,9 @@
 'use strict';
 angular.module('owm.resource.edit.location', ['geocoderDirective'])
   .controller('ResourceEditLocationController', function ($q, $filter, $timeout, alertService, personService, resourceService, $scope, $state) {
-    $scope.renterflow = $state.current.name === 'owm.resource.create.location' ? true : false;
+    
+    $scope.ownerflow = $state.current.name === 'owm.resource.create.location' ? true : false;
+    $scope.locationtext = null;
 
     var DEFAULT_LOCATION = { // Utrecht CS
       lat: 52.08950077150554,
@@ -63,7 +65,9 @@ angular.module('owm.resource.edit.location', ['geocoderDirective'])
           newProps: newProps
         })
         .then(function (resource) {
-          alertService.addSaveSuccess();
+          if (!$scope.ownerflow) {
+            alertService.addSaveSuccess();
+          }
           angular.extend(masterResource, resource);
           $scope.reset();
         })
@@ -77,7 +81,7 @@ angular.module('owm.resource.edit.location', ['geocoderDirective'])
         .finally(function () {
           alertService.loaded();
         });
-      if ($scope.renterflow) {
+      if ($scope.ownerflow) {
         setPersonLocation();
       }
     };
@@ -113,7 +117,7 @@ angular.module('owm.resource.edit.location', ['geocoderDirective'])
       $scope.resource.location = address.route + ' ' + address.streetNumber;
       $scope.resource.latitude = a.geometry.location.lat();
       $scope.resource.longitude = a.geometry.location.lng();
-      if ($scope.renterflow) { //if in the renterflow
+      if ($scope.ownerflow) { //if in the ownerflow
         //set me
         $scope.me.city = address.city;
         $scope.me.streetName = address.route;
@@ -152,7 +156,7 @@ angular.module('owm.resource.edit.location', ['geocoderDirective'])
             city: address.city
           });
 
-          if ($scope.renterflow) { //if in the renterflow
+          if ($scope.ownerflow) { //if in the ownerflow
             //set me
             $scope.me.city = address.city;
             $scope.me.streetName = address.route;
@@ -224,6 +228,8 @@ angular.module('owm.resource.edit.location', ['geocoderDirective'])
     }
 
     function updateLocationText() {
-      $scope.locationtext = $scope.resource.location + ', ' + $scope.resource.city;
+      if ($scope.resource.location || $scope.resource.city) {
+        $scope.locationtext = $scope.resource.location + ', ' + $scope.resource.city;
+      }
     }
   });

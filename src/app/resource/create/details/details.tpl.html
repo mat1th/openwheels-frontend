@@ -1,14 +1,14 @@
 <md-card class="card">
     <md-card-title>
-        <md-card-title-text layout="colum" layout-wrap>
+        <md-card-title-text layout="colum" layout-wrap class="list-your-car--title">
             <h3 class="no-margin" style="font-size: 2rem" flex="100">
-            <span ng-show="!$root.personSubmited">Persoon gegevens</span>
+            <span ng-show="!$root.personSubmited">Persoonsgegevens</span>
             <span ng-show="$root.personSubmited">Klaar</span>
             </h3>
         </md-card-title-text>
     </md-card-title>
     <md-card-body class="card-body mywheels-form">
-        <p ng-show="!$root.personSubmited">Voordat we je auto online zetten, leren we je graag nog wat beter kennen.</p>
+        <p ng-show="!$root.personSubmited">Voordat we je auto online kunnen zetten, leren we je graag beter kennen.</p>
         <section ng-show="$root.personSubmited">
             <p>Bekijk je auto zoals de huurders hem te zien krijgen.</p>
             <button type="button" name="button" class="mywheels-btn mywheels-btn-default">Bekijk je advertentie</button>

@@ -1,7 +1,8 @@
 'use strict';
 angular.module('owm.resource.edit.pictures', [])
-.controller('ResourceEditPicturesController', function ($q, $timeout, $filter, $scope, alertService, resourceService) {
+.controller('ResourceEditPicturesController', function ($q, $timeout, $filter, $scope, $state, alertService, resourceService) {
 
+  $scope.ownerflow = $state.current.name === 'owm.resource.create.carPhotos' ? true : false;
   var resource = $scope.$parent.resource;
 
   // scope exports

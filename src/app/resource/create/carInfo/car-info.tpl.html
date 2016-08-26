@@ -1,12 +1,12 @@
 <md-card class="card">
     <md-card-title>
-        <md-card-title-text layout="colum" layout-wrap>
+        <md-card-title-text layout="colum" layout-wrap class="list-your-car--title">
             <h3 class="no-margin" style="font-size: 2rem" flex="100">
             <span>Kenmerken auto</span>
             </h3>
         </md-card-title-text>
     </md-card-title>
-    <md-card-body class="card-body">
+    <md-card-body class="card-body mywheels-form">
       <p>Wil je onderstaande kenmerken van de auto controleren en waar nodig aanvullen?</p>
         <form name="editResourceForm" ng-submit="save(resource)" class="mywheels-form">
 
@@ -95,7 +95,7 @@
             <!-- call to action buttons -->
             <div class="details--card--form__navigation-buttons">
                 <div></div>
-                <button type="submit" name="button" ng-disabled="editResourceForm.$pristine" ui-sref="owm.resource.create.location" class="mywheels-btn mywheels-btn-default btn--navigation__next">
+                <button type="submit" name="button" ng-click="save()" ng-disabled="!editResourceForm.$valid" ui-sref="owm.resource.create.location" class="mywheels-btn mywheels-btn-default btn--navigation__next">
                     {{ 'NEXT' | translate }}
                     <md-icon class="text-white">navigate_next</md-icon>
                 </button>

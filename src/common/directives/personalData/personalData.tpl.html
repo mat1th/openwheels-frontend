@@ -1,7 +1,6 @@
 <div ng-show="!$root.personSubmited">
     <form class="mywheels-form details--profile--form" name="personalDataForm" ng-submit="subscribe(credentials, person, license_front)">
 
-
         <!-- firstName -->
         <div id="firstName_group" class="icon user">
             <input type="text" name="firstName" id="firstName" ng-model="person.firstName" placeholder="{{ 'FIRST_NAME' | translate }}" required>
@@ -28,7 +27,6 @@
             <!-- /surName -->
         </div>
         <!-- dateOfBirth -->
-
         <div class="autoDateInput">
             <h3>{{ 'DATE_OF_BIRTH' | translate }}</h3>
             <div id="date" class="icon date">
@@ -43,7 +41,6 @@
                 <span class="text-danger" ng-show="personalDataForm.year.$error.maxlength || personalDataForm.year.$error.required || personalDataForm.year.$error.max">Het jaar is ongeldig</span>
             </div>
         </div>
-
         <!-- /dateOfBirth -->
 
         <!-- gender -->
@@ -77,7 +74,6 @@
         </div>
         <!-- /phone number -->
 
-        <!-- zipcode -->
         <h3>{{ 'MY_PROFILE_ADDRESS' | translate }}</h3>
         <div class="responsive">
             <div id="zipcode_group" class="icon home field">
@@ -119,24 +115,24 @@
         <!-- /city -->
 
         <!-- iban -->
-        <div class="icon bank" ng-if="!ibanIsDefined" ng-show="renterflow">
-            <input type="text" name="iban" id="iban" ng-model="account.iban" placeholder="{{ 'IBAN_NUMBER' | translate }}" required>
+        <div class="icon bank" ng-if="!ibanIsDefined" ng-show="ownerflow">
+            <input type="text" name="iban" id="iban" ng-model="person.iban" placeholder="{{ 'IBAN_NUMBER' | translate }}" required>
             <div class="err-block" ng-show="personalDataForm.$submitted || personalDataForm.iban.$touched">
                 <span class="text-danger" ng-show="personalDataForm.iban.$error.required">{{ 'REQUIRED' | translate }}</span>
             </div>
         </div>
         <!-- /iban -->
 
-        <div class="details--card--form__navigation-buttons" ng-if="!renterflow" >
+        <div class="details--card--form__navigation-buttons" ng-if="!ownerflow" >
             <div></div>
             <!-- submit button -->
-            <button id="submitFormPersonal" type="button" class="mywheels-btn mywheels-btn-default btn--navigation__next" ng-click="submitPersonalDataForm()" ng-disabled="personalDataForm.firstName.$error.required || personalDataForm.surname.$error.required || signupform.dateOfBirth.$error.required">
+            <button type="button" class="mywheels-btn mywheels-btn-default btn--navigation__next" ng-click="submitPersonalDataForm()" ng-disabled="personalDataForm.firstName.$error.required || personalDataForm.surname.$error.required || signupform.dateOfBirth.$error.required">
                 {{ 'NEXT' | translate }}
                 <md-icon class="text-white">navigate_next</md-icon>
             </button>
             <!-- /submit button -->
         </div>
-        <div class="details--card--form__navigation-buttons" ng-if="renterflow">
+        <div class="details--card--form__navigation-buttons" ng-if="ownerflow">
             <button rel="prev" type="button" class="mywheels-btn mywheels-btn-transparant btn--navigation__previous" md-ink-ripple="#ded8d8" ui-sref="owm.resource.create.carPhotos">
                 <md-icon>navigate_before</md-icon>
                 {{ 'PREVIOUS' | translate}}

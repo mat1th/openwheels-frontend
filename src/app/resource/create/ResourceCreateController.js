@@ -19,7 +19,7 @@ angular.module('owm.resource.create', ['owm.resource.create.carInfo', 'owm.resou
       });
 
       if ($scope.isLicencePlate) { //check if the parammeter licencePlate is defined
-        if (this.checkLicence()) { //checks if the licenceplate is
+        if (!this.checkLicence()) { //checks if the licenceplate is
           var dayPrice = $stateParams.dayPrice || 25;
           resource.create($stateParams.licencePlate, dayPrice);
         } else {
