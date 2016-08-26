@@ -99,6 +99,9 @@ angular.module('rpcServices', [])
     return api.createRpcMethod('booking.' + name);
   };
   this.alterRequest = m('alterRequest');
+  this.addDriver = m('addDriver');
+  this.removeDriver = m('removeDriver');
+  this.driversForBooking = m('driversForBooking');
   this.acceptRequest = m('acceptRequest');
   this.rejectRequest = m('rejectRequest');
   this.create = m('create');

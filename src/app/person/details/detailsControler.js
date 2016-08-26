@@ -423,11 +423,25 @@ angular.module('owm.person.details', [])
     $scope.isBusy = true;
     if ($scope.isbooking) { //check if the recoure id is in the url
       if (bookingId) { //check if there is a bookingId in the url
+        var _booking;
         bookingService.get({
           booking: bookingId
         }).then(function (value) {
+          _booking = value;
           $scope.isAvailable = true;
-          getVoucherPrice(value);
+          return contractService.forBooking({booking: _booking.id});
+        })
+        .then(function(contract) {
+          _booking.contract = contract;
+          if(contract.type.id === 60) {
+            return bookingService.driversForBooking({booking: _booking.id});
+          } else {
+            return [];
+          }
+        })
+        .then(function(drivers) {
+          _booking.drivers = drivers;
+          getVoucherPrice(_booking);
         });
       } else { //if there is no booking Id in the url
         if (discountCode !== undefined) { //check if there is a discount code
@@ -553,6 +567,7 @@ angular.module('owm.person.details', [])
   }
 
   function getVoucherPrice(booking) {
+    var drivers = booking.drivers.length;
     var bookingObject = {};
     return voucherService.calculateRequiredCreditForBooking({
       booking: booking.id
@@ -563,6 +578,8 @@ angular.module('owm.person.details', [])
           id: booking.id,
           title: 'Rit op ',
           booking_price: value,
+          contract_type: booking.contract.type.id,
+          drivers_count: drivers,
           km_price: value.kmPrice,
           discount: value.discount
         }]
@@ -632,6 +649,7 @@ angular.module('owm.person.details', [])
       });
   };
 
+  /* EXTRA DRIVER FOR GO CONTRACT */
   $scope.toggleExtraDrivers = function(state) {
     if(state === true) {
       $scope.extraDrivers.check = true;
@@ -646,22 +664,47 @@ angular.module('owm.person.details', [])
   };
 
   $scope.addExtraDriver = function() {
+    alertService.closeAll();
+    alertService.load();
     if($scope.extraDrivers.new === '') {
       return;
     }
     if($scope.extraDrivers.drivers.indexOf($scope.extraDrivers.new) < 0) {
-      $scope.extraDrivers.drivers.push($scope.extraDrivers.new);
+      bookingService.addDriver({booking: $scope.booking.id, email: $scope.extraDrivers.new})
+      .then(function(booking) {
+        $scope.extraDrivers.drivers.push($scope.extraDrivers.new);
+        $scope.extraDrivers.new = '';
+        $scope.extraDrivers.check = true;
+      })
+      .catch(function(e) {
+        $scope.extraDrivers.new = '';
+        $scope.extraDrivers.check = true;
+        alertService.addError(e);
+      })
+      .finally(function() {
+        alertService.loaded();
+      });
     }
-    $scope.extraDrivers.new = '';
-    $scope.extraDrivers.check = true;
   };
 
   $scope.removeExtraDriver = function(driver) {
+    alertService.closeAll();
+    alertService.load();
     var index = $scope.extraDrivers.drivers.indexOf(driver);
     if(index >= 0) {
-      $scope.extraDrivers.drivers.splice(index, 1);
+      bookingService.removeDriver({booking: $scope.booking.id, email: $scope.extraDrivers.drivers[index]})
+      .then(function(booking) {
+        $scope.extraDrivers.drivers.splice(index, 1);
+      })
+      .catch(function(e) {
+        alertService.addError(e);
+      })
+      .finally(function() {
+        alertService.loaded();
+      });
     }
   };
+  /* //end//EXTRA DRIVER FOR GO CONTRACT */
 
   // to buy the vouchure
   $scope.buyVoucher = function (value) {
