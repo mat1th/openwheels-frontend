@@ -40,9 +40,8 @@
                     </div>
                     <div class="media-body" style="padding:0">
                       <form class="mywheels-form" name="formExtraDriver" ng-submit="formExtraDriver.$valid && addExtraDriver()" novalidate>
-                        <b>Voeg extra bestuurders toe</b>
-                        <br/> Voor een klein bedrag is het mogelijk om extra bestuurders (max 3) toe te voegen aan deze boeking. Vul hier het emailadres in van de bestuurders die je wilt toevoegen.
-                        <div class="input-group form-extra-drivers__first" uib-tooltip="Je kan niet meer dan drie extra bestuurders toevoegen" tooltip-enable="booking.drivers_count + extraDrivers.drivers.length === 3">
+                        <b>Voeg extra bestuurders toe (&euro;1.25 p.p.)</b>
+                        <div ng-if="extraDrivers.check" class="input-group form-extra-drivers__first" uib-tooltip="Je kan niet meer dan drie extra bestuurders toevoegen" tooltip-enable="booking.drivers_count + extraDrivers.drivers.length === 3">
                           <input ng-disabled="booking.drivers_count + extraDrivers.drivers.length >= 3" name="email" type="email" class="form-control" placeholder="Emailadres extra bestuurder" ng-model-options="{ debounce: 200 }" ng-focus="toggleExtraDrivers(true)" ng-blur="toggleExtraDrivers(false)" ng-model="extraDrivers.new">
                           <span class="input-group-btn">
                             <button type="submit" class="btn btn-default"><i class="fa fa-fw fa-plus"></i></button>
@@ -63,14 +62,7 @@
             </td>
 
             <td class="text-right" style="background: #eee; padding: 20px 10px 25px 0">
-              <span>{{ extraDrivers.price | currency }}<br>p.p.</span>
-            </td>
-        </tr>
-        <tr ng-if="extraDrivers.drivers.length > 0 && extraDrivers.check && booking.contract_type === 60">
-            <td style="background: #eee; padding: 0; border-top: none;">
-            </td>
-            <td class="text-right" style="background: #eee; padding: 0px 10px 15px 0; border-top: none;">
-              <span>{{ extraDrivers.price * (booking.drivers_count + extraDrivers.drivers.length) | currency }}</span>
+              <span>{{ extraDrivers.check ? (extraDrivers.price * (booking.drivers_count + extraDrivers.drivers.length)) : 0 | currency }}</span>
             </td>
         </tr>
         <!-- //EXTRA DRIVER -->
