@@ -2,7 +2,7 @@
 
 angular.module('owm.resource.create.carInfo', [])
 
-.controller('carInfoControler', function ($scope, $filter, $state, $log, $q, $stateParams, $translate, resource, resourceService, authService, alertService, dialogService, me) {
+.controller('carInfoControler', function ($scope, $filter, $state, $log, $q, $stateParams, $translate, resources, resourceService, authService, alertService, dialogService, me) {
   var resource = $scope.resource;
   console.log(resource);
   var masterResource = resource;
