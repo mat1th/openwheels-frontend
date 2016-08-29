@@ -1,0 +1,193 @@
+<div class="card">
+  <div class="card-heading">
+    <h2 class="card-title">
+      {{ 'MY_FINANCE' | translate }}
+    </h2>
+  </div>
+</div>
+
+<md-tabs md-selected="0" class="md-primary" md-dynamic-height >
+  
+  <md-tab label="Facturen">
+    <div class="card">
+      <div class="card-heading">
+        <h3 class="card-title">
+          <a href="" ng-click="is3Collapsed = !is3Collapsed">
+            <i class="fa fa-fw" ng-class="{ 'fa-chevron-right': is3Collapsed, 'fa-chevron-down': !is3Collapsed }"></i>
+            {{view == 'both' ? 'Openstaande kosten en opbrengsten' : (view == 'owner' ? 'Te ontvangen verhuuropbrengsten' : 'Gemaakte kosten')}}
+          </a>
+        </h3>
+      </div>
+      <div uib-collapse="is3Collapsed">
+        <div class="card-body">
+          <table class="table table-hover" ng-if="view == 'both' || view == 'owner'">
+            <thead>
+              <tr>
+                <th class="finance-col-1">Ritten in jouw auto's</th>
+                <th class="finance-col-2 text-right">Opbrengsten</th>
+                <th class="finance-col-3"> </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-click="open=!open" class="clickable" ng-repeat-start="invoice in openBookingInvoicesRenter">
+                <td>{{'Rit op ' + (invoice.booking.date | amDateFormat:'DD-MM-YYYY')  + ' door ' + invoice.booking.name }}</td>
+                <td class="text-right" ng-class="{'text-bold': open}">{{::invoice.total | currency}}</td>
+                <td class="text-right">
+                  <md-icon ng-if="!open">arrow_drop_down</md-icon>
+                  <md-icon ng-if="open">arrow_drop_up</md-icon>
+                </td>
+              </tr>
+              <tr class="table-subinvoice nohover" ng-show="open" ng-repeat="subinvoice in invoice.invoices" ng-repeat-end ng-class="{'lastrow': $last}">
+                <td ng-show="subinvoice.type != '_'" class="first sub">{{subinvoice.type}}</td>
+                <td ng-show="subinvoice.type != '_'" class="second sub text-right" ng-class="{'neg': subinvoice.amount < 0}">{{subinvoice.amount | currency }}</td>
+                <td ng-show="subinvoice.type != '_'" class="sub"></td>
+                <td ng-show="subinvoice.type == '_'" class="first sub " colspan="3">
+                  <a ui-sref="owm.booking.show({bookingId: invoice.booking.booking_id})">Bekijk ritdetails<i class="fa fa-fw fa-chevron-right"></i></a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <table class="table table-hover" ng-if="view == 'both' || view == 'renter'">
+            <thead>
+              <tr>
+                <th class="finance-col-1">Gemaakte ritten</th>
+                <th class="finance-col-2 text-right">Kosten</th>
+                <th class="finance-col-3"> </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-click="open=!open" class="clickable" ng-repeat-start="invoice in openBookingInvoicesOwner">
+                <td>{{'Rit op ' + (invoice.booking.date | amDateFormat:'DD-MM-YYYY')  + ' door ' + invoice.booking.name }}</td>
+                <td class="text-right" ng-class="{'text-bold': open}">{{::invoice.total | currency}}</td>
+                <td class="text-right">
+                  <md-icon ng-if="!open">arrow_drop_down</md-icon>
+                  <md-icon ng-if="open">arrow_drop_up</md-icon>
+                </td>
+              </tr>
+              <tr class="table-subinvoice nohover" ng-show="open" ng-repeat="subinvoice in invoice.invoices" ng-repeat-end ng-class="{'lastrow': $last}">
+                <td ng-show="subinvoice.type != '_'" class="first sub">{{subinvoice.type}}</td>
+                <td ng-show="subinvoice.type != '_'" class="second sub text-right" ng-class="{'pos': subinvoice.amount < 0}">{{subinvoice.amount | currency }}</td>
+                <td ng-show="subinvoice.type != '_'" class="sub" ></td>
+                <td ng-show="subinvoice.type == '_'" class="first sub " colspan="3">
+                  <a ui-sref="owm.booking.show({bookingId: invoice.booking.booking_id})">Bekijk ritdetails<i class="fa fa-fw fa-chevron-right"></i></a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th class="finance-col-1">
+                  {{view == 'both' ? 'Overige kosten en opbrensten' : (view == 'owner' ? 'Overige opbrensten' : 'Overige kosten')}}
+                </th>
+                <th class="text-right finance-col-2">
+                  {{view == 'both' ? 'Bedrag' : (view == 'owner' ? 'Opbrensten' : 'Kosten')}}
+                </th>
+                <th class="finance-col-3"> </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="otherInvoice in openOtherInvoices">
+                <td>{{::otherInvoice.desc}}</td>
+                <td class="text-right" ng-class="{'neg': view == 'owner' && otherInvoice.amount < 0, 'pos': view == 'renter' && otherInvoice.amount < 0}">{{::otherInvoice.amount | currency}}</td>
+                <td> <i class="fa fa-fw"></i></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="text-right">
+            <button ng-if="(view == 'renter' && total >= 0) || (view == 'owner' && total < 0) || (view == 'both' && total >= 0)" type="button" class="btn btn-primary">
+              Betaal {{::total | currency}}
+            </button>
+            <button ng-if="(view == 'renter' && total < 0) || (view == 'owner' && total >= 0) || (view == 'both' && total < 0)" type="button" class="btn btn-primary">
+              Laat {{::total | currency}} uitbetalen
+            </button>
+          </div>
+        </div>
+      </div>
+    </div><!-- /card -->
+
+    <div class="card" ng-init="showMyInvoices=true">
+      <div class="card-heading">
+        <h3 class="card-title">
+          <a href="" ng-click="showMyInvoices = !showMyInvoices">
+            <i class="fa fa-fw" ng-class="{ 'fa-chevron-right': !showMyInvoices, 'fa-chevron-down': showMyInvoices }"></i>
+            {{view == 'both' ? 'Reeds afgesloten facturen' : (view == 'owner' ? 'Reeds ontvangen verhuuropbrengsten' : 'Reeds betaalde facturen')}}
+          </a>
+        </h3>
+      </div>
+
+      <div uib-collapse="!showMyInvoices">
+        <div class="card-body">
+
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Datum</th>
+                <th>Status</th>
+                <th class="text-right">Bedrag</th>
+                <th> </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="clickable" ng-repeat="invoiceGroup in payedGroupedInvoices">
+                <td>{{invoiceGroup.id}}</td>
+                <td>{{invoiceGroup.due | amDateFormat:'DD-MM-YYYY'}}</td>
+                <td>{{statusToText(invoiceGroup.status)}} <span ng-if="invoiceGroup.status!=1" uib-tooltip="Dit bedrag kun je binnenkort op je rekening verwachten." class="text-muted"><i class="fa fa-info-circle"></i></span> </td>
+                <td class="text-right">{{invoiceGroup.total | currency}}</td>
+                <td class="text-right"><i title="Download pdf" class="fa fa-fw fa-file-pdf-o"></i></td>
+              </tr>
+            </tbody>
+          </table>
+
+        </div>
+      </div>
+    </div><!--/card-->
+  </md-tab>
+
+  <md-tab label="Rijtegoed">
+    <div class="card">
+      <div class="card-heading">
+        <h3 class="card-title">
+          <a href="" ng-click="isCollapsed2 = !isCollapsed2">
+            <i class="fa fa-fw" ng-class="{ 'fa-chevron-right': isCollapsed2, 'fa-chevron-down': !isCollapsed2 }"></i>
+            Huidig rijtegoed
+          </a>
+        </h3>
+      </div>
+      <div class="card-body" uib-collapse="isCollapsed2">
+        <div style="float: left">
+          <md-button style="width: 100%" class="md-raised">Bijkopen</md-button><br>
+          <md-button style="width: 100%" class="md-raised md-primary">Uitbetalen</md-button>
+        </div>
+        <span style="float: right;"><span style="color: #255a6f; font-size: 5em; text-align: right;">{{120.12|currency}}</span></span>
+        <span class="clearfix"></span>
+        <p style="margin-top: 16px;">
+          Elit quod nobis sit soluta facere ipsam amet. Necessitatibus non eaque aliquid tempore reiciendis! Explicabo repellendus quasi quo est nobis magnam consectetur quasi fugit pariatur. Voluptatum veniam labore numquam sint?
+        </p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-heading">
+        <h3 class="card-title">
+          <a href="" ng-click="isCollapsed = !isCollapsed">
+            <i class="fa fa-fw" ng-class="{ 'fa-chevron-right': !isCollapsed, 'fa-chevron-down': isCollapsed }"></i>
+            Aankoopgeschiedenis
+          </a>
+        </h3>
+      </div>
+      <div class="card-body" uib-collapse="!isCollapsed">
+        <table class="table table-condensed">
+          <tbody>
+            <tr ng-class="{'text-muted': voucher.unused == 0}" ng-repeat="voucher in vouchers">
+              <td><strong>{{voucher.total | currency}}</strong></td>
+              <td>waarvan {{voucher.unused | currency}} resterend</td>
+              <td>gekocht op {{voucher.bought | amDateFormat:'DD-MM-YYYY'}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </md-tab>
+
+</md-tabs>

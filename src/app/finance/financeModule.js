@@ -32,7 +32,6 @@ angular.module('owm.finance', [
         deny: {
           anonymous: true
         },
-        feature: 'invoiceModuleV4'
       }
     },
     resolve: {
