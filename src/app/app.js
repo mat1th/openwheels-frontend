@@ -93,6 +93,7 @@ angular.module('openwheels', [
   'filters.bookingStatus',
   'filters.booking',
   'filters.translateOrDefault',
+  'filters.currency2',
 
   /* Components */
   'openwheels.analytics',
@@ -215,9 +216,11 @@ angular.module('openwheels', [
     alertService.load();
   });
 
-  $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState) {
+  $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
     $state.previous = fromState;
 
+    $rootScope.previousState = fromState;
+    $rootScope.previousStateParams = fromParams;
     // hide spinner
     alertService.loaded();
 

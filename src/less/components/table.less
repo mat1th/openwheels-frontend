@@ -15,3 +15,50 @@
     }
   }
 };
+
+/* New finance pages. Needs cleanup, just a proto type */
+.table-subinvoice {
+  padding-bottom: 2em;
+  td.sub {
+    padding: 0.4em 2px 0.4em 2px;
+    border: none;
+  }
+  td.first {
+    padding-left: 2em;
+    vertical-align: middle;
+  }
+  td.second {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+}
+tr.lastrow > td
+{
+  padding-bottom: 2em !important;
+}
+.neg {
+  color: #C43D3D;
+}
+.pos {
+ color: green;
+}
+.table-hover > tbody > tr:hover {
+  background-color: #ededed;
+}
+.table-hover tr.nohover:hover {
+  background-color: initial !important;
+}
+tr.clickable {
+  cursor: pointer;
+  outline: none;
+}
+
+th.finance-col-1 {
+  width: 75%;
+}
+th.finance-col-2 {
+  width: 15%;
+}
+th.finance-col-3 {
+  width: 10%;
+}
