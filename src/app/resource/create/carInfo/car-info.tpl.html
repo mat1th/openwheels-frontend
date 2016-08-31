@@ -1,46 +1,46 @@
 <md-card class="card">
     <md-card-title>
-        <md-card-title-text layout="colum" layout-wrap class="list-your-car--title">
+        <md-card-title-text layout="colum" layout-wrap style="padding-bottom: 0px;" class="list-your-car--title">
             <h3 class="no-margin" style="font-size: 2rem" flex="100">
-            <span>Kenmerken auto</span>
+            <span>Autokenmerken</span>
             </h3>
         </md-card-title-text>
     </md-card-title>
-    <md-card-body class="card-body mywheels-form">
-      <p>Wil je onderstaande kenmerken van de auto controleren en waar nodig aanvullen?</p>
-        <form name="editResourceForm" ng-submit="save(resource)" class="mywheels-form">
+    <md-card-body class="card-body">
 
-            <div class="icon car">
-                <input type="text" id="alias" name="alias" ng-model="resource.alias" placeholder="{{ 'ALIAS' | translate }}" required>
+        <form name="editResourceForm" class="mywheels-form">
+            <p>{{ ('LIST_YOUR_CAR_CAR_INFO' | translate).split('&nbsp;').join(' ') }}</p>
+            <div class="icon label_icon">
+                <input type="text" id="alias" name="alias" ng-model="resource.alias" placeholder="{{ 'ALIAS' | translate }}">
                 <md-icon class="right-addon">info
                     <md-tooltip md-direction="top" class="multiline">
                         {{ 'INFO_RESOURCE_ALIAS' | translate }}
                     </md-tooltip>
                 </md-icon>
-                <div class="help-block" ng-show="editResourceForm.$submitted || editResourceForm.alias.$touched">
+                <div class="err-block" ng-show="editResourceForm.$submitted || editResourceForm.alias.$touched">
                     <span class="text-danger" ng-show="editResourceForm.alias.$error.required">{{ 'REQUIRED' | translate }}</span>
                 </div>
             </div>
             <div class="responsive">
                 <div class="icon car">
-                    <input type="text" id="brand" name="brand" ng-model="resource.brand" placeholder="{{ 'BRAND' | translate }}" ng-disabled="disabledFields.brand" required>
+                    <input type="text" id="brand" name="brand" ng-model="resource.brand" placeholder="{{ 'BRAND' | translate }}" ng-disabled="disabledFields.brand">
 
-                    <div class="help-block" ng-show="editResourceForm.$submitted || editResourceForm.brand.$touched">
+                    <div class="err-block" ng-show="editResourceForm.$submitted || editResourceForm.brand.$touched">
                         <span class="text-danger" ng-show="editResourceForm.brand.$error.required">{{ 'REQUIRED' | translate }}</span>
                     </div>
                 </div>
                 <div class="icon car">
-                    <input type="text" id="model" name="model" ng-model="resource.model" placeholder="{{ 'MODEL' | translate }}" ng-disabled="disabledFields.model" required>
+                    <input type="text" id="model" name="model" ng-model="resource.model" placeholder="{{ 'MODEL' | translate }}" ng-disabled="disabledFields.model">
 
-                    <div class="help-block" ng-show="editResourceForm.$submitted || editResourceForm.model.$touched">
+                    <div class="err-block" ng-show="editResourceForm.$submitted || editResourceForm.model.$touched">
                         <span class="text-danger" ng-show="editResourceForm.model.$error.required">{{ 'REQUIRED' | translate }}</span>
                     </div>
                 </div>
             </div>
             <div class="icon color">
-                <input type="text" id="color" name="color" ng-model="resource.color" placeholder="{{ 'COLOR' | translate }}" ng-disabled="disabledFields.color" required>
+                <input type="text" id="color" name="color" ng-model="resource.color" placeholder="{{ 'COLOR' | translate }}" ng-disabled="disabledFields.color" >
 
-                <div class="help-block" ng-show="editResourceForm.$submitted || editResourceForm.color.$touched">
+                <div class="err-block" ng-show="editResourceForm.$submitted || editResourceForm.color.$touched">
                     <span class="text-danger" ng-show="editResourceForm.color.$error.required">{{ 'REQUIRED' | translate }}</span>
                 </div>
             </div>
@@ -52,7 +52,7 @@
                     </select>
                 </div>
             </div>
-            <div class="help-block" ng-show="editResourceForm.$submitted || editResourceForm.numberOfSeats.$touched">
+            <div class="err-block" ng-show="editResourceForm.$submitted || editResourceForm.numberOfSeats.$touched">
                 <span class="text-danger" ng-show="editResourceForm.numberOfSeats.$error.required">{{ 'REQUIRED' | translate }}</span>
             </div>
 
@@ -74,7 +74,6 @@
                 </div>
             </div>
 
-
             <div class="form-group">
                 <label>{{ 'RESOURCE_PROPERTIES' | translate }}</label>
                 <div class="checkbox" ng-repeat="option in resourcePropertyOptions">
@@ -84,18 +83,15 @@
                     </label>
                 </div>
             </div>
-            <div class="icon edit">
-                <textarea name="advertisement" rows="8" cols="40" ng-model="resource.advertisement" placeholder="{{ 'ADVERTISEMENT' | translate }}" required></textarea>
 
-                <div class="help-block" ng-show="editResourceForm.$submitted || editResourceForm.color.$touched">
-                    <span class="text-danger" ng-show="editResourceForm.advertisement.$error.required">{{ 'REQUIRED' | translate }}</span>
-                </div>
+            <div class="icon edit">
+                <textarea name="advertisement" rows="8" cols="40" ng-model="resource.advertisement" placeholder="{{ 'ADVERTISEMENT' | translate }}"></textarea>
             </div>
 
             <!-- call to action buttons -->
             <div class="details--card--form__navigation-buttons">
                 <div></div>
-                <button type="submit" name="button" ng-click="save()" ng-disabled="!editResourceForm.$valid" ui-sref="owm.resource.create.location" class="mywheels-btn mywheels-btn-default btn--navigation__next">
+                <button type="submit" name="button" ng-click="save()" class="mywheels-btn mywheels-btn-default btn--navigation__next">
                     {{ 'NEXT' | translate }}
                     <md-icon class="text-white">navigate_next</md-icon>
                 </button>

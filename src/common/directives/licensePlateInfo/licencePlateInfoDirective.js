@@ -13,7 +13,7 @@ angular.module('licencePlateInfoDirective', [])
         if (show) {
           $scope.licencePlate.showError = true;
           $scope.licencePlate.data = false;
-          $scope.licencePlate.error = 'Als kenteken onbekend is: Helaas kunnen we geen auto met dit kenteken vinden. Wil je het nog een keer proberen?';
+          $scope.licencePlate.error = 'Helaas kunnen we geen auto met dit kenteken vinden. Wil je het nog een keer proberen?';
         } else {
           $scope.licencePlate.showError = false;
         }

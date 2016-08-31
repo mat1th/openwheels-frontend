@@ -1,6 +1,6 @@
 'use strict';
 angular.module('owm.resource.edit.location', ['geocoderDirective'])
-  .controller('ResourceEditLocationController', function ($q, $filter, $timeout, alertService, personService, resourceService, $scope, $state) {
+  .controller('ResourceEditLocationController', function ($q, $filter, $timeout, $log, alertService, personService, resourceService, $scope, $state) {
     
     $scope.ownerflow = $state.current.name === 'owm.resource.create.location' ? true : false;
     $scope.locationtext = null;
@@ -51,6 +51,7 @@ angular.module('owm.resource.edit.location', ['geocoderDirective'])
     };
 
     $scope.submit = function () {
+      alertService.closeAll();
       var newProps = {
         location: $scope.resource.location,
         city: $scope.resource.city,
@@ -58,40 +59,49 @@ angular.module('owm.resource.edit.location', ['geocoderDirective'])
         longitude: $scope.resource.longitude
       };
 
-      alertService.closeAll();
-      alertService.load();
-      resourceService.alter({
+      if ($scope.resource.location) {
+        alertService.closeAll();
+        alertService.load();
+        resourceService.alter({
           resource: $scope.resource.id,
           newProps: newProps
         })
         .then(function (resource) {
           if (!$scope.ownerflow) {
             alertService.addSaveSuccess();
+          } else {
+            $state.go('owm.resource.create.carPhotos');
           }
           angular.extend(masterResource, resource);
           $scope.reset();
-        })
-        .catch(function (err) {
+        }).catch(function (err) {
           if (err && err.level && err.message) {
             alertService.add(err.level, err.message, 5000);
           } else {
             alertService.addGenericError();
           }
-        })
-        .finally(function () {
+        }).finally(function () {
           alertService.loaded();
         });
-      if ($scope.ownerflow) {
-        setPersonLocation();
+
+        if ($scope.ownerflow) {
+          setPersonLocation();
+        }
+      } else {
+        alertService.add('danger', 'Vul een geldig adres in.', 5000);
+        alertService.loaded();
       }
     };
+
     var setPersonLocation = function () {
       personService.alter({
         person: $scope.me.id,
         newProps: {
           city: $scope.me.city,
           streetName: $scope.me.streetName,
-          streetNumber: $scope.me.streetNumber
+          streetNumber: $scope.me.streetNumber,
+          latitude: $scope.me.latitude,
+          longitude: $scope.me.longitude
         }
       });
     };
@@ -122,6 +132,8 @@ angular.module('owm.resource.edit.location', ['geocoderDirective'])
         $scope.me.city = address.city;
         $scope.me.streetName = address.route;
         $scope.me.streetNumber = address.streetNumber;
+        $scope.me.latitude = address.latitude;
+        $scope.me.longitude = address.longitude;
       }
       setMarker({
         lat: $scope.resource.latitude,
@@ -161,6 +173,8 @@ angular.module('owm.resource.edit.location', ['geocoderDirective'])
             $scope.me.city = address.city;
             $scope.me.streetName = address.route;
             $scope.me.streetNumber = address.streetNumber;
+            $scope.me.latitude = address.latitude;
+            $scope.me.longitude = address.longitude;
           }
           $scope.locationForm.$setDirty();
         });

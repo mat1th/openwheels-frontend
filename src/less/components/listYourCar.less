@@ -28,9 +28,16 @@
     background: #fff;
     margin: 0 auto;
 }
+.list-your-car--container--heading {
+    text-align: center;
+    color: #82b955;
+    font-size: 2em;
+    margin: 1.42em auto 0.5em; 
+}
 .list-your-car--advatage {
     order: 1;
     z-index: 1;
+    margin: 1em auto;
 }
 .list-your-car--licenceplate {
     button {
@@ -61,17 +68,23 @@
 }
 .list-your-car--calculate-your-price,
 .list-your-car--car-info-list {
-    border: 1px solid #000;
+    border: 1px solid #ccc;
     list-style: none;
-    margin: 0 0 1em;
+    min-height: 22em;
     border-radius: 0.21em;
     ul {
         padding-left: 0;
     }
+    h3 {
+        margin: 17.5px 0 5px 0;
+    }
+    h2 {
+
+    }
 }
 .list-your-car--calculate-your-price__your-price,
 .list-your-car--car-info-list--item {
-    border-bottom: 1px solid #000;
+    border-bottom: 1px solid #ccc;
 }
 .list-your-car--calculate-your-price__toggles,
 .list-your-car--calculate-your-price__your-price {
@@ -81,9 +94,18 @@
         font-size: 0.8em;
     }
     h2 {
-        font-size: 1.5em;
+        font-size: 3.5em;
         font-weight: 600;
+        color: rgba(0,0,0,0.87);
     }
+    .mywheels-btn-number {
+        text-align: center;
+    }
+    .mywheels-btn-number {
+        font-size: 20px;
+        width: 3.5em;
+    }
+
 }
 .list-your-car--car-info-list--item {
     padding: 1em;
@@ -116,11 +138,17 @@
     max-width: 100%;
     color: @mywheels-red;
 }
+.list-your-car--buttons {
+    margin: 0 auto;
+    .mywheels-btn-light {
+        margin-top: 0.8em;
+    }
+}
 @media (min-width: 768px) {
     .list-your-car--title {
-     max-width: 35em;
-    margin: 0 auto;
-    padding: 0 15px 0 15px;   
+        max-width: 35em;
+        margin: 0 auto;
+        padding: 15px 0 15px 0;
     }
     .list-your-car--container {
         flex-direction: row;

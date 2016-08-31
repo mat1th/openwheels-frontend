@@ -1,29 +1,31 @@
 <md-card class="card">
     <md-card-title>
-        <md-card-title-text layout="colum" layout-wrap class="list-your-car--title">
+        <md-card-title-text layout="colum" layout-wrap style="padding-bottom: 0px;" class="list-your-car--title">
             <h3 class="no-margin" style="font-size: 2rem" flex="100">
             <span ng-show="!$root.personSubmited">Persoonsgegevens</span>
             <span ng-show="$root.personSubmited">Klaar</span>
             </h3>
         </md-card-title-text>
     </md-card-title>
-    <md-card-body class="card-body mywheels-form">
-        <p ng-show="!$root.personSubmited">Voordat we je auto online kunnen zetten, leren we je graag beter kennen.</p>
-        <section ng-show="$root.personSubmited">
-            <p>Bekijk je auto zoals de huurders hem te zien krijgen.</p>
-            <button type="button" name="button" class="mywheels-btn mywheels-btn-default">Bekijk je advertentie</button>
+    <md-card-body class="card-body">
+        <div class="mywheels-form">
 
-            <div class="card-body">
-                {{ 'SOCIAL_SHARE_RESOURCE' | translateOrDefault }}
-                <br/>
-                <div share-buttons url="shareUrl" resource="resource"></div>
-            </div>
-            <a href="">Pas de beschikbaarheid aan</a>
-        </section>
+            <p ng-show="!$root.personSubmited">{{ ('LIST_YOUR_CAR_PERSON' | translate).split('&nbsp;').join(' ') }}</p>
+            
+            <section ng-show="$root.personSubmited">
+                <p>Bekijk je auto zoals de huurders hem te zien krijgen.</p>
+                <button type="button" name="button" class="mywheels-btn mywheels-btn-default" ui-sref="owm.resource.show({city: resource.city, resourceId: resource.id})">Bekijk voorbeeld</button>
 
-        <!-- HERE -->
-        <personal-data></personal-data>
+                <div class="card-body">
+                    {{ 'SOCIAL_SHARE_RESOURCE' | translateOrDefault }}
+                    <br/>
+                    <div share-buttons url="shareUrl" resource="resource"></div>
+                </div>
+            </section>
 
-        <!-- /call to action buttons -->
+            <!-- HERE -->
+            <personal-data resource="resource"></personal-data>
+
+        </div>
     </md-card-body>
 </md-card>

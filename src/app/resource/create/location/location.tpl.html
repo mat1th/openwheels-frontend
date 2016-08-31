@@ -1,15 +1,16 @@
 <md-card class="card">
     <md-card-title>
-        <md-card-title-text layout="colum" layout-wrap class="list-your-car--title">
+        <md-card-title-text layout="colum" layout-wrap style="padding-bottom: 0px;" class="list-your-car--title">
             <h3 class="no-margin" style="font-size: 2rem" flex="100">
             <span>Locatie auto</span>
             </h3>
         </md-card-title-text>
     </md-card-title>
-    <md-card-body class="card-body mywheels-form" >
-        <p>Waar staat de auto precies? We laten je huisnummer alleen aan huurders zien.</p>
+    <md-card-body class="card-body" >
+        <div class="mywheels-form">
+            <p>{{ ('LIST_YOUR_CAR_LOCATION' | translate).split('&nbsp;').join(' ') }}</p>
 
-        <div ng-include="'resource/edit/location/resource-edit-location.tpl.html'"></div>
-
+            <div ng-include="'resource/edit/location/resource-edit-location.tpl.html'"></div>
+        </div>
     </md-card-body>
 </md-card>

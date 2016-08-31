@@ -1,5 +1,5 @@
 <div ng-show="!$root.personSubmited">
-    <form class="mywheels-form details--profile--form" name="personalDataForm" ng-submit="subscribe(credentials, person, license_front)">
+    <form class="mywheels-form details--profile--form" name="personalDataForm">
 
         <!-- firstName -->
         <div id="firstName_group" class="icon user">
@@ -13,7 +13,7 @@
         <div class="responsive">
             <!-- prepostion -->
             <div id="prepostion_group" class="icon user smallfrom" flex="33">
-                <input type="text" name="preposition" id="prepostion" ng-model="person.preposition" placeholder="{{ 'PREPOSITION' | translate }}" required>
+                <input type="text" name="preposition" id="prepostion" ng-model="person.preposition" placeholder="{{ 'PREPOSITION' | translate }}">
             </div>
             <!-- /prepostion -->
 
@@ -54,9 +54,6 @@
                 <label for="female">{{ 'FEMALE' | translate }}</label>
             </div>
         </div>
-        <p class="err-block" ng-show="personalDataForm.$submitted || personalDataForm.genderText.$touched">
-            <span class="text-danger">{{ 'REQUIRED' | translate }}</span>
-        </p>
         <!-- /gender -->
 
         <!-- phone number -->
@@ -66,10 +63,11 @@
                 <span class="input-group-btn" ng-if="person.phoneNumbers.length > 1">
                   <button type="button" class="btn btn-default" ng-click="removePhone(p, $index)"><i class="fa fa-trash-o"></i></button>
           </span>
-                <input type="tel" class="form-control" id="number-{{ $index }}" ng-model="p.number">
-                <span class="input-group-addon">
-                  <input type="checkbox" name="confidential" ng-model="p.confidential" required> {{ 'CONFIDENTIAL' | translate }}
-          </span>
+                <input type="tel" class="form-control" id="number-{{ $index }}" ng-model="p.number" placeholder="06123456789" required>
+                <div class="checkbox input-group-addon">
+                  <input type="checkbox" name="confidential" id="confidential" ng-model="p.confidential">
+                  <label for="confidential">{{ 'CONFIDENTIAL' | translate }}</label>
+                </div>
             </div>
         </div>
         <!-- /phone number -->
@@ -115,8 +113,9 @@
         <!-- /city -->
 
         <!-- iban -->
+        <h3 ng-if="!ibanIsDefined">{{ 'PAY_OUT_DATA' | translate }}</h3>
         <div class="icon bank" ng-if="!ibanIsDefined" ng-show="ownerflow">
-            <input type="text" name="iban" id="iban" ng-model="person.iban" placeholder="{{ 'IBAN_NUMBER' | translate }}" required>
+            <input type="text" name="iban" id="iban" ng-model="account.iban" placeholder="{{ 'IBAN_NUMBER' | translate }}" required>
             <div class="err-block" ng-show="personalDataForm.$submitted || personalDataForm.iban.$touched">
                 <span class="text-danger" ng-show="personalDataForm.iban.$error.required">{{ 'REQUIRED' | translate }}</span>
             </div>
@@ -137,7 +136,7 @@
                 <md-icon>navigate_before</md-icon>
                 {{ 'PREVIOUS' | translate}}
             </button>
-            <button type="submit" name="button" ng-disabled="editResourceForm.$pristine" ng-click="submitPersonalDataForm()" class="mywheels-btn mywheels-btn-default btn--navigation__next" ui-sref="owm.resource.create.details">
+            <button type="button" class="mywheels-btn mywheels-btn-default btn--navigation__next" ng-click="submitPersonalDataForm()" ng-disabled="editResourceForm.$pristine" >
                 Publiceer auto
             </button>
         </div>
