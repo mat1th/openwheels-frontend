@@ -21,6 +21,9 @@ angular.module('licencePlateInfoDirective', [])
       $scope.resetlicencePlate = function () {
         $scope.licencePlate.data = false;
       };
+      $scope.removeError = function() {
+        $scope.licencePlate.showError = false;
+      };
       $scope.getLicencePlateInfo = function () {
         var re = new RegExp('-', 'g');
         var licencePlate = $scope.licencePlate.content.replace(re, '').toUpperCase();
