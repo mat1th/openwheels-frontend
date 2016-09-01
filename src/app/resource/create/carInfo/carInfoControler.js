@@ -146,6 +146,7 @@ angular.module('owm.resource.create.carInfo', [])
 
   $scope.save = function () {
     alertService.closeAll();
+    alertService.load();
     var newProps = $filter('returnDirtyItems')(angular.copy($scope.resource), $scope.editResourceForm, ['location', 'city', 'latitude', 'longitude']);
 
     var alias = $scope.resource.alias,

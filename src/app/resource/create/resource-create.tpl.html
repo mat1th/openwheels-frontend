@@ -2,7 +2,7 @@
     <section class="step" ui-sref="owm.resource.create.carInfo" data-section="1" title="Autokenmerken" ng-class="{'selected': pageNumber === 1 ? true : false, 'done': pageNumber > 1 ? true : false }"></section>
     <section class="step" ui-sref="owm.resource.create.location" data-section="2" title="Locatie" ng-class="{'selected': pageNumber === 2 ? true : false, 'done': pageNumber > 2 ? true : false}"></section>
     <section class="step" ui-sref="owm.resource.create.carPhotos" data-section="3" title="Foto's" ng-class="{'selected': pageNumber === 3 ? true : false, 'done': pageNumber > 3 ? true : false }"></section>
-    <section class="step last-step" ui-sref="owm.resource.create.details" data-section="4" title="Persoonsgegevens" ng-class="{'selected': pageNumber === 4 ? true : false, 'done': pageNumber > 4 ? true : false }"></section>
+    <section class="step last-step" ui-sref="owm.resource.create.details({personSubmitted: 'false'})" data-section="4" title="Persoonsgegevens" ng-class="{'selected': pageNumber === 4 ? true : false, 'done': pageNumber > 4 ? true : false }"></section>
 </div>
 
 <section class="container container-main">

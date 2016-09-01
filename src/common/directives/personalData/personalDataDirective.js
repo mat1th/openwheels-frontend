@@ -11,9 +11,8 @@ angular.module('personalDataDirective', [])
       resource: '=resource'
     },
     templateUrl: 'directives/personalData/personalData.tpl.html',
-    controller: function ($scope, $rootScope, $log, $state, $stateParams, $filter, personService, resourceService, $timeout, alertService, account2Service, accountService, dutchZipcodeService) {
+    controller: function ($scope, $rootScope, $log, $state, $location, $stateParams, $filter, personService, resourceService, $anchorScroll, $timeout, alertService, account2Service, accountService, dutchZipcodeService) {
       //person info
-      $log.debug('resource', $scope.resource);
       var masterPerson = null;
       var that;
       //set all vars
@@ -22,8 +21,9 @@ angular.module('personalDataDirective', [])
       $scope.person = null;
       $scope.submitPersonalDataForm = null;
       $scope.ownerflow = false;
-      $rootScope.personSubmited = false;
+      $rootScope.personSubmitted = false;
       $scope.ibanIsDefined = true;
+      $scope.personSubmitted = $stateParams.personSubmitted === 'true' ? true : false;
 
       $timeout(function () {
         $scope.personalDataForm.$setPristine();
@@ -87,68 +87,89 @@ angular.module('personalDataDirective', [])
           }
 
           // first check if all person data is filled in
-          if (firstName && surname && year && month && day && male) {
-            if (phoneNumbers[0].number) {
-              if (streetNumber && zipcode && city) {
-                // save persons info
-                personService.alter({
-                  person: $scope.person.id,
-                  newProps: newProps
-                }).then(function (buggyPersonWithoutPhoneNumbers) {
-                  that.initPerson($scope.person);
-                  $scope.next();
-                }).catch(function (err) {
-                  alertService.addError(err);
-                })
-                .finally(function () {
-                  alertService.loaded();
-                  // if person is owner and adding his resource, save IBAN
-                  if ($state.current.name === 'owm.resource.create.details' && $scope.account.iban) {
-                    accountService.alter({
-                      'id': $scope.account.id,
-                      'newProps': {
-                        'iban': $scope.account.iban
-                      }
-                    }).then(function(){
-                      // make resource available for renters
-                      resourceService.alter({
-                        'resource': $scope.resource.id,
-                        'newProps': {
-                          'isAvailableOthers': true,
-                          'isAvailableFriends': true
-                        }
-                      }).then(function(){
-                        // send owner to next page
-                        $rootScope.personSubmited = true;
-                      }).catch(function (err) {
-                        alertService.addError(err);
-                      })
-                      .finally(function () {
+          if (firstName && surname) {
+            if (year && month && day) {
+              if (phoneNumbers[0].number) {
+                if (streetNumber && zipcode && city) {
+                  // save persons info
+                  personService.alter({
+                    person: $scope.person.id,
+                    newProps: newProps
+                  }).then(function () {
+                    that.initPerson($scope.person);
+                    // if person is renter, send to next page
+                    $scope.next();
+                    // if person is owner, save IBAN if no IBAN is defined
+                    if ($state.current.name === 'owm.resource.create.details' && !$scope.ibanIsDefined) {
+                      if($scope.account.iban) {
+                        accountService.alter({
+                          'id': $scope.account.id,
+                          'newProps': {
+                            'iban': $scope.account.iban
+                          }
+                        }).then(function(){
+                          // make resource availble if IBAN is saved successfully
+                          makeResourceAvailable();
+                        }).catch(function (err) {
+                          alertService.addError(err);
+                        })
+                        .finally(function () {
+                          alertService.loaded();
+                        });
+                      } else {
+                        alertService.add('danger', 'Vul je IBAN-nummer in zodat we verhuuropbrengst kunnen uitbetalen.', 5000);
                         alertService.loaded();
-                      });
-                    }).catch(function (err) {
-                      alertService.addError(err);
-                    })
-                    .finally(function () {
-                      alertService.loaded();
-                    });
-                  } else if ($state.current.name === 'owm.resource.create.details') {
-                    alertService.add('danger', 'Vul je IBAN-nummer in zodat we verhuuropbrengst kunnen uitbetalen.', 5000);
+                      }
+                    // if person is owner and IBAN is already defined, make resource available
+                    } else if ($state.current.name === 'owm.resource.create.details') {
+                      makeResourceAvailable();
+                    }
+                  }).catch(function (err) {
+                    alertService.addError(err);
+                  })
+                  .finally(function () {
                     alertService.loaded();
-                  }
-                });
+                  });
+                } else {
+                  alertService.add('danger', 'Vul je postcode en huisnummer in zodat we je post kunnen sturen.', 5000);
+                  alertService.loaded();
+                }
               } else {
-                alertService.add('danger', 'Vul je adres in zodat we je post kunnen sturen.', 5000);
+                alertService.add('danger', 'Vul je telefoonnummmer in zodat we je kunnen bellen.', 5000);
                 alertService.loaded();
               }
             } else {
-              alertService.add('danger', 'Vul je telefoonnummmer in zodat we je kunnen bellen.', 5000);
+              alertService.add('danger', 'Vul je geboortedatum in zodat we weten of je auto mag rijden.', 5000);
               alertService.loaded();
             }
           } else {
-            alertService.add('danger', 'Voordat je de auto kunt huren, moet je je persoonsgegevens invullen.', 5000);
+            alertService.add('danger', 'Vul je voor- en achternaam in zodat we weten hoe we je mogen aanspreken.', 5000);
             alertService.loaded();
           }
+
+          var makeResourceAvailable = function () {
+            // make resource available for renters
+            resourceService.alter({
+              'resource': $scope.resource.id,
+              'newProps': {
+                'isAvailableOthers': true,
+                'isAvailableFriends': true
+              }
+            }).then(function(){
+              // send owner to next page
+              $log.debug($rootScope.personSubmitted);
+              $rootScope.personSubmitted = true;
+              $anchorScroll('scroll-to-top-anchor');
+              // add parameter to url
+              $location.search('personSubmitted', 'true');
+            }).catch(function (err) {
+              alertService.addError(err);
+            })
+            .finally(function () {
+              alertService.loaded();
+            });
+          };
+
         },
         initAccount: function (person) {
           if ($state.current.name === 'owm.resource.create.details') {

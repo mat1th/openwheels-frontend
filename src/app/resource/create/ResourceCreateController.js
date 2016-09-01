@@ -2,7 +2,7 @@
 
 angular.module('owm.resource.create', ['owm.resource.create.carInfo', 'owm.resource.create.location', 'owm.resource.create.carPhotos', 'owm.resource.create.details'])
 
-.controller('ResourceCreateController', function ($scope, $rootScope, $filter, $state, $log, $stateParams, $translate, resources, resourceService, authService, alertService, dialogService, me) {
+.controller('ResourceCreateController', function ($scope, $rootScope, $filter, $state, $log, $stateParams, $translate, resources, resourceService, authService, $anchorScroll, alertService, dialogService, me) {
 
   var resource = {
     fromUser: resources,

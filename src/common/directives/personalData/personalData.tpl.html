@@ -1,9 +1,10 @@
-<div ng-show="!$root.personSubmited">
+<div ng-show="!$root.personSubmitted && !personSubmitted">
     <form class="mywheels-form details--profile--form" name="personalDataForm">
 
         <!-- firstName -->
         <div id="firstName_group" class="icon user">
-            <input type="text" name="firstName" id="firstName" ng-model="person.firstName" placeholder="{{ 'FIRST_NAME' | translate }}" required>
+            <input type="text" name="firstName" id="firstName" ng-model="person.firstName" placeholder="{{ 'FIRST_NAME' | translate }}">
+
             <div class="err-block" ng-show="personalDataForm.$submitted || personalDataForm.firstName.$touched">
                 <span class="text-danger" ng-show="personalDataForm.firstName.$error.required">{{ 'REQUIRED' | translate }}</span>
             </div>
@@ -19,9 +20,9 @@
 
             <!-- surName -->
             <div id="surname_group" class="icon user" flex="77">
-                <input type="text" name="surname" id="surname" ng-model="person.surname" placeholder="{{ 'SURNAME' | translate }}" required>
-                <div class="err-block" ng-show="personalDataForm.$submitted || personalDataForm.surname.$touched">
-                    <span class="text-danger" ng-show="personalDataForm.surname.$error.required">{{ 'REQUIRED' | translate }}</span>
+                <input type="text" name="surname" id="surname" ng-model="person.surname" placeholder="{{ 'SURNAME' | translate }}">
+                <div class="err-block" ng-show="personalDataForm.$submitted && !person.surname">
+                    <span class="text-danger">{{ 'REQUIRED' | translate }}</span>
                 </div>
             </div>
             <!-- /surName -->
@@ -30,15 +31,16 @@
         <div class="autoDateInput">
             <h3>{{ 'DATE_OF_BIRTH' | translate }}</h3>
             <div id="date" class="icon date">
-                <input type="number" id="day" name="day" inputmode="numeric" pattern="[0-9]*" ng-model="date.day" placeholder="DD" maxlength="2" max="31" min="0" required>
-                <input type="number" id="month" name="month" inputmode="numeric" pattern="[0-9]*" ng-model="date.month" placeholder="MM" maxlength="2" max="12" min="0" required>
-                <input type="number" id="year" name="year" inputmode="numeric" pattern="[0-9]*" ng-model="date.year" placeholder="JJJJ" maxlength="4" max="2016" min="1900" required>
+                <input type="number" id="day" name="day" inputmode="numeric" pattern="[0-9]*" ng-model="date.day" placeholder="DD" maxlength="2" max="31" min="0">
+                <input type="number" id="month" name="month" inputmode="numeric" pattern="[0-9]*" ng-model="date.month" placeholder="MM" maxlength="2" max="12" min="0">
+                <input type="number" id="year" name="year" inputmode="numeric" pattern="[0-9]*" ng-model="date.year" placeholder="JJJJ" maxlength="4" max="2016" min="1900">
             </div>
-            <div class="err-block" ng-show="personalDataForm.$submitted || personalDataForm.dateOfBirth.$touched || personalDataForm.year.$error.maxlength || personalDataForm.year.$error.max">
-                <span class="text-danger" ng-show="personalDataForm.day.$error.required || personalDataForm.month.$error.required || personalDataForm.year.$error.required || personalDataForm.day.$error.maxlength || personalDataForm.month.$error.maxlength">{{ 'REQUIRED' | translate }}</span>
-                <span class="text-danger" ng-show="personalDataForm.day.$error.maxlength || personalDataForm.day.$error.required">De dag is ongeldig</span>
-                <span class="text-danger" ng-show="personalDataForm.month.$error.maxlength || personalDataForm.month.$error.required">De maand is ongeldig</span>
-                <span class="text-danger" ng-show="personalDataForm.year.$error.maxlength || personalDataForm.year.$error.required || personalDataForm.year.$error.max">Het jaar is ongeldig</span>
+
+            <div class="err-block" ng-show="!date.day || !date.month || !date.year || personalDataForm.day.$error || personalDataForm.month.$error || personalDataForm.year.$error">
+                <span class="text-danger" ng-show="personalDataForm.$submitted && (!date.day || !date.month || !date.year)">{{ 'REQUIRED' | translate }}</span>
+                <span class="text-danger" ng-show="personalDataForm.day.$error.maxlength || personalDataForm.day.$error.max">De dag is ongeldig</span>
+                <span class="text-danger" ng-show="personalDataForm.month.$error.maxlength || personalDataForm.month.$error.max">De maand is ongeldig</span>
+                <span class="text-danger" ng-show="personalDataForm.year.$error.maxlength || personalDataForm.year.$error.max">Het jaar is ongeldig</span>
             </div>
         </div>
         <!-- /dateOfBirth -->
@@ -62,8 +64,8 @@
             <div class="input-group">
                 <span class="input-group-btn" ng-if="person.phoneNumbers.length > 1">
                   <button type="button" class="btn btn-default" ng-click="removePhone(p, $index)"><i class="fa fa-trash-o"></i></button>
-          </span>
-                <input type="tel" class="form-control" id="number-{{ $index }}" ng-model="p.number" placeholder="06123456789" required>
+                </span>
+                <input type="tel" class="form-control" id="number-{{ $index }}" ng-model="p.number" placeholder="06123456789">
                 <div class="checkbox input-group-addon">
                   <input type="checkbox" name="confidential" id="confidential" ng-model="p.confidential">
                   <label for="confidential">{{ 'CONFIDENTIAL' | translate }}</label>
@@ -75,10 +77,11 @@
         <h3>{{ 'MY_PROFILE_ADDRESS' | translate }}</h3>
         <div class="responsive">
             <div id="zipcode_group" class="icon home field">
-                <input type="text" name="zipcode" id="zipcode" ng-model="person.zipcode" placeholder="{{ 'ZIPCODE' | translate }}" required ng-pattern="/^[1-9][0-9]{3} ?[A-Z,a-z]{2}$/">
+                <input type="text" name="zipcode" id="zipcode" ng-model="person.zipcode" placeholder="{{ 'ZIPCODE' | translate }}" ng-pattern="/^[1-9][0-9]{3} ?[A-Z,a-z]{2}$/">
                 <md-progress-circular class="md-hue-2 right-addon" md-diameter="20px" ng-if="zipcodeAutocompleting"></md-progress-circular>
-                <div class="err-block" ng-show="personalDataForm.$submitted || personalDataForm.zipcode.$touched">
-                    <span class="text-danger" ng-show="personalDataForm.zipcode.$error.required">{{ 'REQUIRED' | translate }}</span>
+
+                <div class="err-block" ng-show="personalDataForm.$submitted && !person.zipcode">
+                    <span class="text-danger" ng-show="!personalDataForm.zipcode.$error.pattern">{{ 'REQUIRED' | translate }}</span>
                     <span class="text-danger" ng-show="personalDataForm.zipcode.$error.pattern">Verkeerd formaat</span>
                 </div>
             </div>
@@ -86,28 +89,31 @@
 
             <!-- streetNumber -->
             <div id="streetNumber_group" class="icon home field">
-                <input type="text" name="streetNumber" id="streetNumber" ng-model="person.streetNumber" placeholder="{{ 'STREET_NUMBER' | translate }}" required>
+                <input type="text" name="streetNumber" id="streetNumber" ng-model="person.streetNumber" placeholder="{{ 'STREET_NUMBER' | translate }}">
                 <md-progress-circular class="md-hue-2 right-addon" md-diameter="20px" ng-if="zipcodeAutocompleting"></md-progress-circular>
-                <div class="err-block" ng-show="personalDataForm.$submitted || personalDataForm.streetNumber.$touched">
-                    <span class="text-danger" ng-show="personalDataForm.streetNumber.$error.required">{{ 'REQUIRED' | translate }}</span>
+
+                <div class="err-block" ng-show="personalDataForm.$submitted && !person.streetNumber">
+                    <span class="text-danger">{{ 'REQUIRED' | translate }}</span>
                 </div>
             </div>
             <!-- /streetNumber -->
         </div>
         <!-- streetName -->
         <div id="streetName_group" class="icon home field">
-            <input type="text" name="streetName" id="streetName" ng-model="person.streetName" placeholder="{{ 'STREET_NAME' | translate }} " required ng-readonly="person.country === 'Nederland'">
-            <div class="err-block" ng-show="personalDataForm.$submitted || personalDataForm.zipcode.$touched">
-                <span ng-show="!person.streetName || personalDataForm.zipcode.$error.pattern">{{ 'ENTER_ZIPCODE_STREET_NUMBER' | translate }}</span>
+            <input type="text" name="streetName" id="streetName" ng-model="person.streetName" placeholder="{{ 'STREET_NAME' | translate }} " ng-readonly="person.country === 'Nederland'">
+
+            <div class="err-block" ng-show="personalDataForm.$submitted && !person.streetName">
+                <span>{{ 'ENTER_ZIPCODE_STREET_NUMBER' | translate }}</span>
             </div>
         </div>
         <!-- /streetName -->
 
         <!-- city -->
         <div id="city_group" class="icon home field">
-            <input type="text" name="city" id="city" ng-model="person.city" placeholder="{{ 'CITY' | translate }} " required ng-readonly="person.country === 'Nederland'">
-            <div class="err-block" ng-show="personalDataForm.$submitted || personalDataForm.city.$touched">
-                <span ng-if="!person.city">{{ 'ENTER_ZIPCODE_STREET_NUMBER' | translate }}</span>
+            <input type="text" name="city" id="city" ng-model="person.city" placeholder="{{ 'CITY' | translate }} " ng-readonly="person.country === 'Nederland'">
+
+            <div class="err-block" ng-show="personalDataForm.$submitted && !person.city">
+                <span>{{ 'ENTER_ZIPCODE_STREET_NUMBER' | translate }}</span>
             </div>
         </div>
         <!-- /city -->
@@ -115,9 +121,10 @@
         <!-- iban -->
         <h3 ng-if="!ibanIsDefined">{{ 'PAY_OUT_DATA' | translate }}</h3>
         <div class="icon bank" ng-if="!ibanIsDefined" ng-show="ownerflow">
-            <input type="text" name="iban" id="iban" ng-model="account.iban" placeholder="{{ 'IBAN_NUMBER' | translate }}" required>
-            <div class="err-block" ng-show="personalDataForm.$submitted || personalDataForm.iban.$touched">
-                <span class="text-danger" ng-show="personalDataForm.iban.$error.required">{{ 'REQUIRED' | translate }}</span>
+            <input type="text" name="iban" id="iban" ng-model="account.iban" placeholder="{{ 'IBAN_NUMBER' | translate }}">
+
+            <div class="err-block" ng-show="personalDataForm.$submitted && !account.iban">
+                <span class="text-danger">{{ 'REQUIRED' | translate }}</span>
             </div>
         </div>
         <!-- /iban -->
@@ -125,7 +132,7 @@
         <div class="details--card--form__navigation-buttons" ng-if="!ownerflow" >
             <div></div>
             <!-- submit button -->
-            <button type="button" class="mywheels-btn mywheels-btn-default btn--navigation__next" ng-click="submitPersonalDataForm()" ng-disabled="personalDataForm.firstName.$error.required || personalDataForm.surname.$error.required || signupform.dateOfBirth.$error.required">
+            <button type="submit" class="mywheels-btn mywheels-btn-default btn--navigation__next" ng-click="submitPersonalDataForm()" ng-disabled="personalDataForm.firstName.$error.required || personalDataForm.surname.$error.required || signupform.dateOfBirth.$error.required">
                 {{ 'NEXT' | translate }}
                 <md-icon class="text-white">navigate_next</md-icon>
             </button>
@@ -136,7 +143,7 @@
                 <md-icon>navigate_before</md-icon>
                 {{ 'PREVIOUS' | translate}}
             </button>
-            <button type="button" class="mywheels-btn mywheels-btn-default btn--navigation__next" ng-click="submitPersonalDataForm()" ng-disabled="editResourceForm.$pristine" >
+            <button type="submit" class="mywheels-btn mywheels-btn-default btn--navigation__next" ng-click="submitPersonalDataForm()" ng-disabled="editResourceForm.$pristine" >
                 Publiceer auto
             </button>
         </div>

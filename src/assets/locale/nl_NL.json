@@ -569,7 +569,7 @@
     "INFO_RESOURCE_ADVERTISEMENT": "Zet hier een wervende tekst om huurders aan te trekken (zichtbaar voor iedereen)",
     "INFO_RESOURCE_USAGE_MANUAL": "Beschrijf hier zaken die van belang zijn bij het rijden in jouw auto. Bijvoorbeeld hoe je tankt of handigheidjes (alleen zichtbaar bij een reservering)",
     "INFO_RESOURCE_ROAD_ASSISTENCE": "Vul dit alleen in als je wilt dat mensen pechhulp inschakelen die NIET via de ritverzekering loopt",
-    "INFO_RESOURCE_ALIAS": "Kies een leuke bijnaam voor je auto. Je kunt bijvoorbeeld kiezen voor je voornaam +'s wheels. Eronder vermelden we het merk en het type, dat hoeft dus niet in de bijnaam",
+    "INFO_RESOURCE_ALIAS": "Kies een leuke bijnaam voor je auto. Bijvoorbeeld je voornaam +'s wheels.",
     "INFO_ACCOUNT_IBAN": "Neem contact op met support als je je IBAN nummer wilt wijzigen",
     "INFO_PROFILE_LICENSE_RESTRICT": "Omdat je persoonsgegevens zijn gecontroleerd aan de hand van je rijbewijs kun je deze niet zelf wijzigen. Neem contact op met support.",
     "INFO_BOOKING_CHANGE_REQUEST": "De huurder kan een verzoek doen om een bestaande reservering te verlengen of verkorten. Als de verhuurder dit verzoek accepteert gelden de gewijzigde tijden. Als de verhuurder de wijiging weigert dan blijven de oude tijden gelden",
@@ -682,5 +682,5 @@
     "DETAILS_PROFILE_BASIC_TEXT": "{{firstName}}, je eerste boeking is bijna gemaakt! We leren je graag nog wat beter kennen, wil je onderstaande gegevens aanvullen?",
     "DETAILS_PROFILE_SEARCH": "Bedankt voor het invullen van je gegevens. Tijd om je eerste boeking te maken! Je kunt kiezen uit een groot aantal auto's in de buurt. Auto's met het label Smartwheels open je met een OV-chipkaart of smartphone, auto’s zonder dit label open je met de sleutel. Spreek dan even met de verhuurder af wanneer je de sleutel ophaalt.",
     "COOKIES_ACCEPT": "Accepteer",
-    "COOKIES_TERMS": "Als je onze site gebruikt, plaatsen wij <a href=\"https://mywheels.nl/autodelen/veelgestelde-vragen/gebruik-van-cookies-op-mywheels/\">cookies</a>."
+    "COOKIES_TERMS": "MyWheels maakt gebruik van <a href=\"https://mywheels.nl/autodelen/veelgestelde-vragen/gebruik-van-cookies-op-mywheels/\">cookies</a>.<br/>"
 }

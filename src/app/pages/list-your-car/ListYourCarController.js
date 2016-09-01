@@ -56,7 +56,7 @@ angular.module('owm.pages.list-your-car', [])
         licencePlate: $scope.licencePlate.content,
         dayPrice: $scope.calculateYourPrice.dayPrice,
         numberOfDays: $scope.calculateYourPrice.numberOfDays,
-        submitted: false
+        personSubmitted: false
       });
     } else {
       $mdDialog.show({
