@@ -210,6 +210,7 @@ angular.module('owm.person.details', [])
         })
         .catch(function (err) {
           alertService.addError(err);
+          $scope.containsLicence = false;
           alertService.loaded();
           $scope.isBusy = false;
         })
