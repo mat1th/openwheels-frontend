@@ -20,11 +20,11 @@
                     {{ 'PREVIOUS' | translate}}
                 </button>
                 <div>
-                    <button rel="prev" type="button" class="mywheels-btn mywheels-btn-transparant btn--navigation__previous" md-ink-ripple="#ded8d8" ng-show="!resource.pictures.length" ng-show="$root.isWindowSizeSM" ui-sref="owm.resource.create.details">
-                        {{ 'LATER' | translate}}
-                        <md-icon>navigate_next</md-icon>
+                    <button type="submit" name="button" ng-click="submit()" class="mywheels-btn mywheels-btn-default btn--navigation__next" ng-show="!resource.pictures.length" ui-sref="owm.resource.create.details">
+                        {{ 'SKIP' | translate }}
+                        <md-icon class="text-white">navigate_next</md-icon>
                     </button>
-                    <button type="submit" name="button" ng-click="submit()" class="mywheels-btn mywheels-btn-default btn--navigation__next" ng-disabled="!resource.pictures.length" ui-sref="owm.resource.create.details">
+                    <button type="submit" name="button" ng-click="submit()" class="mywheels-btn mywheels-btn-default btn--navigation__next" ng-show="resource.pictures.length" ui-sref="owm.resource.create.details">
                         {{ 'NEXT' | translate }}
                         <md-icon class="text-white">navigate_next</md-icon>
                     </button>

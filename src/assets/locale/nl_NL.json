@@ -650,6 +650,7 @@
     "DECL_ADD": "Tankbonnen toevoegen",
     "DECL_DISTANCE": "Er is <strong>{{dist}} km</strong> gereden",
     "NEXT": "Volgende",
+    "SKIP": "Skip",
     "PREVIOUS": "Vorige",
     "GO": "Ga verder",
     "FILL_PERSON_INFO": "Vul profiel aan",
