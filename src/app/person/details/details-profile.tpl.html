@@ -10,11 +10,11 @@
         <div class="card-body details--card">
             <section resource-sidebar class="details--profile__sidebar" ng-if="isbooking"></section>
             <!-- HERE -->
-            <section>
+            <section class="details--card--form">
               <h2 class="card-title">{{ 'DETAILS_PROFILE_BASIC' | translate }}</h2>
               <p ng-if="isbooking" translate="DETAILS_PROFILE_BASIC_TEXT" translate-values="{firstName: person.firstName}"> </p>
               <h3>{{ 'MY_PROFILE_PERSONAL' | translate }}</h3>
-              <personal-data></personal-data>
+              <personal-data next="nextSection()"></personal-data> 
             </section>
         </div>
     </div>

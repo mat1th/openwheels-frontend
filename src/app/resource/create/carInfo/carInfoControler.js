@@ -3,29 +3,25 @@
 angular.module('owm.resource.create.carInfo', [])
 
 .controller('carInfoControler', function ($scope, $filter, $state, $log, $q, $stateParams, $translate, resources, resourceService, authService, alertService, dialogService, me) {
-  var resource = $scope.resource;
-  var masterResource = resource;
-  var masterResourceProperties = createResourceProperties(resource);
 
-  $scope.radiusOptions = [{
-    value: undefined,
-    label: ''
-  }, {
-    value: 1000,
-    label: '< 1 km'
-  }, {
-    value: 5000,
-    label: '< 5 km'
-  }, {
-    value: 10000,
-    label: '< 10 km'
-  }, {
-    value: 25000,
-    label: '< 25 km'
-  }, {
-    value: 50000,
-    label: '< 50 km'
-  }];
+  var resource;
+  var masterResource;
+  var masterResourceProperties;
+
+  if ($scope.resource.registrationPlate) {
+    resource = $scope.resource;
+    masterResource = resource;
+    masterResourceProperties = createResourceProperties(resource);
+  } else {
+    resource = {};
+    masterResource = {};
+    masterResourceProperties = {};
+    $scope.$on('resource_added', function(event, resource2) {
+      $scope.resource = resource2;
+      masterResource = resource2;
+      masterResourceProperties = createResourceProperties(resource2);
+    });
+  }
 
   $scope.minSeatOptions = [{
     value: undefined,
@@ -63,9 +59,6 @@ angular.module('owm.resource.create.carInfo', [])
   }];
 
   $scope.fuelTypeOptions = [{
-    value: undefined,
-    label: $translate.instant('FUEL_TYPE.ALL')
-  }, {
     value: 'benzine',
     label: $translate.instant('FUEL_TYPE.BENZINE')
   }, {
@@ -86,9 +79,6 @@ angular.module('owm.resource.create.carInfo', [])
   }];
 
   $scope.resourceTypeOptions = [{
-    value: undefined,
-    label: $translate.instant('RESOURCE_TYPE.ALL')
-  }, {
     value: 'car',
     label: $translate.instant('RESOURCE_TYPE.CAR')
   }, {
@@ -145,45 +135,69 @@ angular.module('owm.resource.create.carInfo', [])
       resourceType: false
     };
   }());
+
   $scope.cancel = function () {
     $scope.resource = angular.copy(masterResource);
     $scope.resourceProperties = angular.copy(masterResourceProperties);
+    $scope.$parent.resource = angular.copy(masterResource);
   };
 
   $scope.cancel();
 
   $scope.save = function () {
-    var newProps = $filter('returnDirtyItems')(angular.copy($scope.resource), $scope.editResourceForm, ['location', 'city', 'latitude', 'longitude']);
-    $log.debug(newProps);
+    alertService.closeAll();
     alertService.load();
-    resourceService.alter({
-        resource: resource.id,
-        newProps: newProps
-      })
-      .then(function (resource) {
-        if (!angular.equals($scope.resourceProperties, masterResourceProperties)) {
-          return saveResourceProperties().then(function () {
+    var newProps = $filter('returnDirtyItems')(angular.copy($scope.resource), $scope.editResourceForm, ['location', 'city', 'latitude', 'longitude']);
 
-            return resource;
-          });
+    var alias = $scope.resource.alias,
+      brand = $scope.resource.brand,
+      model = $scope.resource.model,
+      color = $scope.resource.color,
+      fuelType = $scope.resource.fuelType;
+
+    // check if every input field is filled in
+    if (brand && model) {
+      if (alias) {
+        if (color) {
+          if (fuelType) {
+            saveResourceProperties()
+            .then(function () {
+              alertService.load();
+              resourceService.alter({
+                  resource: $scope.resource.id,
+                  newProps: newProps
+                })
+                .then(function (resource) {
+                  masterResource = resource;
+                  masterResourceProperties = $scope.resourceProperties;
+                  $scope.cancel();
+                  $state.go('owm.resource.create.location');
+                })
+                .catch(function (err) {
+                  alertService.addError(err);
+                })
+                .finally(function () {
+                  alertService.loaded();
+                });
+            });
+          } else {
+            alertService.add('danger', 'Op welke brandstof rijdt jouw auto?', 5000);
+            alertService.loaded();
+          }
         } else {
-          return resource;
+          alertService.add('danger', 'Welke kleur heeft jouw auto?', 5000);
+          alertService.loaded();
         }
-      })
-      .then(function (resource) {
-        alertService.addSaveSuccess();
-        masterResource = resource;
-        masterResourceProperties = $scope.resourceProperties;
-        $scope.cancel();
-      })
-      .catch(function (err) {
-        alertService.addError(err);
-      })
-      .finally(function () {
+      } else {
+        alertService.add('danger', 'Kies een bijnaam voor jouw auto.', 5000);
         alertService.loaded();
-      });
-  };
+      }
+    } else {
+      alertService.add('danger', 'Vul het merk en type van jouw auto in', 5000);
+      alertService.loaded();
+    }
 
+  };
 
   function createResourceProperties(resource) {
     var resourceProperties = {};
@@ -198,14 +212,14 @@ angular.module('owm.resource.create.carInfo', [])
     angular.forEach($scope.resourceProperties, function (value, propertyName) {
       if (value === true && !masterResourceProperties[propertyName]) {
         pending.push(resourceService.addProperty({
-          resource: resource.id,
+          resource: $scope.resource.id,
           property: propertyName
         }));
       }
-      $log.debug(propertyName);
+      $log.debug('propertyName', propertyName);
       if (value === false && masterResourceProperties[propertyName]) {
         pending.push(resourceService.removeProperty({
-          resource: resource.id,
+          resource: $scope.resource.id,
           property: propertyName
         }));
       }

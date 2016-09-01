@@ -2,6 +2,25 @@
     margin-right: 0;
     margin-left: 0;
 }
+.mywheels-form .input-group-addon {
+    line-height: 1.42857143;
+    label {
+        margin: 0;    
+    }
+    label::before {
+        left: 10%;
+        top: 40%;
+    }
+    input[type=checkbox] {
+        left: 10%;
+        top: 40%;
+        margin: 5px;
+    }
+    input[type="checkbox"] + label::after, input[type="checkbox"] + label::before, input[type="radio"] + label::after, input[type="radio"] + label::before {
+        left: 10%;
+        top: 40%;
+    }
+}
 .mywheels-form h3 {
     margin: 1em 0 0;
 }
@@ -129,7 +148,7 @@
     }
     @media (min-width: 500px) {
         #day {
-            width: 20%;
+            width: 25%;
             margin-right: 0.5em;
         }
         #month {
@@ -137,7 +156,7 @@
             margin-right: 0.5em;
         }
         #year {
-            width: 60%;
+            width: 55%;
         }
     }
     display: flex;
@@ -332,6 +351,9 @@
 }
 .mywheels-form .car.icon:before {
     content: "directions_car";
+}
+.mywheels-form .label_icon.icon:before {
+    content: "label";
 }
 .mywheels-form .safety.icon:before {
     content: "security";
