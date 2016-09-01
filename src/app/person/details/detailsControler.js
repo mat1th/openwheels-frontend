@@ -192,21 +192,29 @@ angular.module('owm.person.details', [])
               version: 2
             }).then(function (person) {
               angular.extend(authService.user.identity, person);
+              $scope.nextSection();
+              alertService.loaded();
+              $scope.isBusy = false;
             })
             // silently fail
             .catch(function (err) {
               $log.debug('error', err);
+              alertService.loaded();
+              $scope.isBusy = false;
             })
             .finally(function () {
-
+              alertService.loaded();
+              $scope.isBusy = false;
             });
         })
         .catch(function (err) {
           alertService.addError(err);
+          alertService.loaded();
+          $scope.isBusy = false;
         })
         .finally(function () {
+          alertService.loaded();
           $scope.isBusy = false;
-          $scope.nextSection();
         });
     } else {
       $scope.nextSection();

@@ -20,7 +20,7 @@
 
             <!-- surName -->
             <div id="surname_group" class="icon user" flex="77">
-                <input type="text" name="surname" id="surname" ng-model="person.surname" placeholder="{{ 'SURNAME' | translate }}">
+                <input type="text" name="surname" id="surname" ng-model="person.surname">
                 <div class="err-block" ng-show="personalDataForm.$submitted && !person.surname">
                     <span class="text-danger">{{ 'REQUIRED' | translate }}</span>
                 </div>
@@ -65,7 +65,7 @@
                 <span class="input-group-btn" ng-if="person.phoneNumbers.length > 1">
                   <button type="button" class="btn btn-default" ng-click="removePhone(p, $index)"><i class="fa fa-trash-o"></i></button>
                 </span>
-                <input type="tel" class="form-control" id="number-{{ $index }}" ng-model="p.number" placeholder="06123456789">
+                <input type="tel" class="form-control" id="number-{{ $index }}" ng-model="p.number">
                 <div class="checkbox input-group-addon">
                   <input type="checkbox" name="confidential" id="confidential" ng-model="p.confidential">
                   <label for="confidential">{{ 'CONFIDENTIAL' | translate }}</label>
