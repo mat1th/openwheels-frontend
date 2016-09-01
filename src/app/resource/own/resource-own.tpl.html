@@ -60,17 +60,54 @@
             </div>
           </div>
 
-
         </li>
       </ul>
     </div>
   </div>
 </div>
 
-<div class="card">
+<div class="card" ng-if="features.ownerFlow">
   <div class="card-heading">
     <h2 class="card-title" ng-show="!resources.length">
-      Je hebt nog geen auto's
+      Je hebt nog geen auto toegevoegd
     </h2>
-    <button type="button" name="button" class="mywheels-btn mywheels-btn-default" ui-sref="owm.resource.create">Voeg een auto toe</button>
+    <br/>
+    <button type="button" name="button" class="mywheels-btn mywheels-btn-default" ui-sref="list-your-car">Voeg een auto toe</button>
+  </div>
+</div>
+
+<div class="card" ng-if="!features.ownerFlow">
+  <div class="card-heading">
+    <h2 class="card-title" ng-show="!resources.length">
+      {{ 'CREATE_RESOURCE_TITLE' | translate }}
+    </h2>
+
+    <h3 class="card-title" ng-show="resources.length">
+      <a href="" ng-init="isCreateCollapsed = !!(resources.length)" ng-click="isCreateCollapsed = !isCreateCollapsed">
+        <i class="fa fa-fw" ng-class="{ 'fa-chevron-right': isCreateCollapsed, 'fa-chevron-down': !isCreateCollapsed }">
+      </i>
+      {{ 'CREATE_RESOURCE_TITLE' | translate }}
+      </a>
+    </h3>
+  </div>
+
+  <div uib-collapse="isCreateCollapsed">
+    <div class="card-body">
+      <p>{{ 'CREATE_RESOURCE_ADVERTISEMENT1' | translate }}</p>
+
+      <form ng-submit="save(resource)" name="createResourceForm">
+        <div class="form-group">
+          <label for="registrationPlate">{{'REGISTRATION_PLATE' | translate}}</label>
+          <input class="form-control" type="text" id="registrationPlate" name="registrationPlate" ng-model="resource.registrationPlate" required />
+        </div>
+
+        <div class="form-group">
+          <button id="submitForm" type="submit" class="btn btn-primary" ng-disabled="createResourceForm.$pristine">{{ 'SUBMIT' | translate }}</button>
+        </div>
+      </form>
+
+      <p class="text-muted" ng-bind-html="'CREATE_RESOURCE_INFO_HTML' | translate"></p>
+    </div>
+  </div>
+
 </div>

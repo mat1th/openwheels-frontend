@@ -30,16 +30,53 @@
                 <span ng-if="!redemptionPending[booking.id]">{{ booking.booking_price.redemption | currency }}</span>
             </td>
         </tr>
+
+        <!-- EXTRA DRIVER -->
+        <tr ng-if="booking.contract_type === 60">
+            <td style="background: #eee; padding: 20px 20px 0 10px">
+                <div class="media">
+                    <div class="media-object pull-left">
+                        <input type="checkbox" ng-model="extraDrivers.check" ng-click="toggleExtraDrivers()" />
+                    </div>
+                    <div class="media-body" style="padding:0">
+                      <form class="mywheels-form" name="formExtraDriver" ng-submit="formExtraDriver.$valid && addExtraDriver()" novalidate>
+                        <b>Voeg extra bestuurders toe (&euro;1.25 p.p.)</b>
+                        <div ng-if="extraDrivers.check" class="input-group form-extra-drivers__first" uib-tooltip="Je kan niet meer dan drie extra bestuurders toevoegen" tooltip-enable="booking.drivers_count + extraDrivers.drivers.length === 3">
+                          <input ng-disabled="booking.drivers_count + extraDrivers.drivers.length >= 3" name="email" type="email" class="form-control" placeholder="Emailadres extra bestuurder" ng-model-options="{ debounce: 200 }" ng-focus="toggleExtraDrivers(true)" ng-blur="toggleExtraDrivers(false)" ng-model="extraDrivers.new">
+                          <span class="input-group-btn">
+                            <button type="submit" class="btn btn-default"><i class="fa fa-fw fa-plus"></i></button>
+                          </span>
+                        </div>
+                        <p ng-show="formExtraDriver.$submitted && formExtraDriver.email.$invalid && formExtraDriver.email.$touched" class="text-danger">Ongeldig emailadres</p>
+                        <ul class="list-unstyled" ng-if="extraDrivers.check">
+                          <li ng-if="booking.drivers_count">Je hebt al eerder {{booking.drivers_count}} extra bestuurder(s) toegevoegd <info-icon tooltip-placement="bottom" tooltip-html="'Uit privacy-overwegingen laten we geen persoongegevens zien. U kunt daarom niet zien wie u al heeft toegevoegd als bestuurder aan deze rit.'"></info-icon></li>
+                          <li ng-repeat="driver in extraDrivers.drivers">
+                            <span class="label label-primary label-bigger">{{driver}}
+                              <button type="button" class="btn btn-link text-white" ng-click="removeExtraDriver(driver)"><i class="fa fa-fw fa-times"></i></button>
+                            </span>
+                          </li>
+                        </ul>
+                      </form>
+                    </div>
+                </div>
+            </td>
+
+            <td class="text-right" style="background: #eee; padding: 20px 10px 25px 0">
+              <span>{{ extraDrivers.check ? (extraDrivers.price * (booking.drivers_count + extraDrivers.drivers.length)) : 0 | currency }}</span>
+            </td>
+        </tr>
+        <!-- //EXTRA DRIVER -->
+
         <tr>
             <td>
-                Geschatte kilometers
+              Geschatte kilometers
                 <info-icon tooltip-placement="bottom" tooltip-html="'Dit is een schatting van de kilometerkosten. Na afloop kun je teveel betaald rijtegoed terugvragen.'"></info-icon>
             </td>
             <td class="text-right">{{ booking.km_price | currency }}</td>
         </tr>
         <tr>
             <td><b>Totale huurprijs</b></td>
-            <td class="text-right"><b>{{ (booking.booking_price.total + booking.km_price) | currency }}</b></td>
+            <td class="text-right"><b>{{ ((extraDrivers.check ? (booking.drivers_count + extraDrivers.drivers.length) * extraDrivers.price : 0) + booking.booking_price.total + booking.km_price) | currency }}</b></td>
         </tr>
 
         <tr ng-if="booking.discount > 0">
@@ -48,7 +85,7 @@
         </tr>
         <tr ng-if="booking.discount > 0">
             <td><b>Totaal</b></td>
-            <td class="text-right"><b>{{ (booking.booking_price.total + booking.km_price - booking.discount) | currency }}</b></td>
+            <td class="text-right"><b>{{ ((extraDrivers.check ? (booking.drivers_count + extraDrivers.drivers.length) * extraDrivers.price : 0) + booking.booking_price.total + booking.km_price - booking.discount) | currency }}</b></td>
         </tr>
     </tbody>
 </table>

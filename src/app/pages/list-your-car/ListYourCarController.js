@@ -3,6 +3,16 @@ angular.module('owm.pages.list-your-car', [])
 
 .controller('listYourCarController', function ($scope, $state, $mdDialog, $log, $mdMedia) {
 
+  $scope.openboxes = {};
+
+  $scope.toggleBox = function (box) {
+    if (!$scope.openboxes[box]) {
+      $scope.openboxes[box] = true;
+    } else {
+      $scope.openboxes[box] = !$scope.openboxes[box];
+    }
+  };
+
   $scope.licencePlate = {
     content: '',
     data: false,
@@ -45,7 +55,8 @@ angular.module('owm.pages.list-your-car', [])
       $state.go('owm.resource.create.carInfo', { // should fill in the details
         licencePlate: $scope.licencePlate.content,
         dayPrice: $scope.calculateYourPrice.dayPrice,
-        numberOfDays: $scope.calculateYourPrice.numberOfDays
+        numberOfDays: $scope.calculateYourPrice.numberOfDays,
+        personSubmitted: false
       });
     } else {
       $mdDialog.show({
@@ -55,7 +66,7 @@ angular.module('owm.pages.list-your-car', [])
           calculateYourPrice: $scope.calculateYourPrice
         },
         fullscreen: $mdMedia('xs'),
-        templateUrl: 'pages/list-your-car/listYourCarDialog.tpl.html',
+        templateUrl: 'pages/list-your-car/list-your-car-dialog.tpl.html',
         controller: ['$scope', '$mdDialog', 'authService', 'calculateYourPrice', 'licencePlate', function ($scope, $mdDialog, authService, calculateYourPrice, licencePlate) {
           $scope.url = 'owm.resource.create.carInfo';
           $scope.calculateYourPrice = calculateYourPrice;
