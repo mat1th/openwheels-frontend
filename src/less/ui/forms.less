@@ -127,7 +127,7 @@
 .mywheels-form .icon input:first-child,
 .mywheels-form .icon select,
 .mywheels-form .icon textarea {
-    padding-left: 2.3em !important;
+    padding-left: 2.3em;
 }
 .mywheels-form .icon .right-addon {
     display: inline-block;
@@ -429,10 +429,34 @@
         flex-grow: 1;
     }
     .mywheels-form .responsive div.smallfrom {
-        flex-basis: 33%;
+        flex-basis: 35%;
         flex-grow: 0;
     }
     .mywheels-form .responsive div:first-child {
         margin-right: 1em;
+    }
+}
+
+// ie fixes
+@ie8: \0screen;
+@ie9-10: ~"screen and (min-width:0\0)";
+
+@media @ie8, @ie9-10 {
+    .mywheels-form .icon:before {
+        content: '' !important;
+    }
+    .mywheels-form .icon input:first-child, .mywheels-form .icon select, .mywheels-form .icon textarea {
+        padding-left: 0.5em !important;
+    }
+}
+
+// edge fix
+
+@supports (-ms-ime-align:auto) {
+    .mywheels-form .icon:before {
+        content: '' !important;
+    }
+    .mywheels-form .icon input:first-child, .mywheels-form .icon select, .mywheels-form .icon textarea {
+        padding-left: 0.5em !important;
     }
 }
