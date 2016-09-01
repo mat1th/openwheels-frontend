@@ -20,7 +20,7 @@
 
             <!-- surName -->
             <div id="surname_group" class="icon user" flex="77">
-                <input type="text" name="surname" id="surname" ng-model="person.surname">
+                <input type="text" name="surname" id="surname" ng-model="person.surname" placeholder="{{ 'SURNAME' | translate }}">
                 <div class="err-block" ng-show="personalDataForm.$submitted && !person.surname">
                     <span class="text-danger">{{ 'REQUIRED' | translate }}</span>
                 </div>
