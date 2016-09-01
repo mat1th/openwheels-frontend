@@ -163,7 +163,7 @@ angular.module('owm.person.details', [])
     $scope.$apply(function () {
       images.front = e.target.files[0];
       $scope.licenceFileName = e.target.files[0].name;
-      $scope.licenceImage = URL.createObjectURL(event.target.files[0]);
+      $scope.licenceImage = URL.createObjectURL(e.target.files[0]);
       $scope.containsLicence = true;
     });
   });
