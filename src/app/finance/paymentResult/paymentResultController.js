@@ -1,7 +1,7 @@
 'use strict';
 angular.module('owm.finance.paymentResult', [])
 
-.controller('PaymentResultController', function ($scope, $state, $window, appConfig, orderStatusId, account2Service, alertService, voucherService, me, paymentService, bookingService, chipcardService, linksService, API_DATE_FORMAT) {
+.controller('PaymentResultController', function ($scope, $state, $log, $window, appConfig, orderStatusId, account2Service, alertService, voucherService, me, paymentService, bookingService, chipcardService, linksService, API_DATE_FORMAT) {
 
   var afterPayment;
   $scope.isBusy = true;
@@ -84,6 +84,11 @@ angular.module('owm.finance.paymentResult', [])
               });
             } else if (elm.resource.locktype === 'meeting') {
               elm.link = linksService.bookingAgreementPdf(elm.id);
+            }
+            if ([282, 519038].indexOf(elm.resource.owner.id) >= 0 && elm.resource.boardcomputer !== null) {
+              elm.fuelCard = true;
+            } else {
+              elm.fuelCard = false;
             }
             data.push(elm);
           }

@@ -414,6 +414,7 @@ angular.module('owm.person.details', [])
       };
       $scope.requiredValue = bookingObject;
       $scope.booking = bookingObject.bookings[0];
+      $scope.$broadcast('booking_details_in', $scope.booking);
 
       return bookingObject;
     }).then(function () {
@@ -478,6 +479,12 @@ angular.module('owm.person.details', [])
   };
 
   /* EXTRA DRIVER FOR GO CONTRACT */
+  $scope.$on('booking_details_in', function(event, booking) {
+    if(booking.drivers_count) {
+      $scope.extraDrivers.check = true;
+    }
+  });
+
   $scope.toggleExtraDrivers = function(state) {
     if(state === true) {
       $scope.extraDrivers.check = true;
@@ -492,12 +499,14 @@ angular.module('owm.person.details', [])
   };
 
   $scope.addExtraDriver = function() {
-    alertService.closeAll();
-    alertService.load();
     if($scope.extraDrivers.new === '') {
       return;
     }
+
     if($scope.extraDrivers.drivers.indexOf($scope.extraDrivers.new) < 0) {
+      alertService.closeAll();
+      alertService.load();
+
       bookingService.addDriver({booking: $scope.booking.id, email: $scope.extraDrivers.new})
       .then(function(booking) {
         $scope.extraDrivers.drivers.push($scope.extraDrivers.new);
@@ -511,6 +520,7 @@ angular.module('owm.person.details', [])
       })
       .finally(function() {
         alertService.loaded();
+        $scope.formExtraDriver.$setPristine();
       });
     }
   };

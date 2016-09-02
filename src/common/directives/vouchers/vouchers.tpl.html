@@ -14,10 +14,10 @@
             <td style="background: #eee; padding: 20px 20px 25px 10px">
                 <div class="media">
                     <div class="media-object pull-left">
-                        <input type="checkbox" ng-disabled="redemptionPending[booking.id]" ng-model="booking.riskReduction" ng-click="toggleRedemption(booking)" />
+                        <input id="bookingRiskReduction" type="checkbox" ng-disabled="redemptionPending[booking.id]" ng-model="booking.riskReduction" ng-click="toggleRedemption(booking)" />
                     </div>
                     <div class="media-body" style="padding:0">
-                        <b>Eigen risico verlagen</b>
+                      <b><label class="mywheels-form__label mywheels-form__label--no-margin" for="bookingRiskReduction">Eigen risico verlagen</label></b>
                         <br/> Het eigen risico bij schade is in de meeste gevallen 250 euro. Voor slechts 3,50 euro per dag verlaag je het eigen risico met 250 euro en kun je onbezorgd op weg. <a href="https://mywheels.nl/autodelen/hoe-huren-werkt/verzekering/"
                             target="_blank">Lees meer</a>.
                             <p class="text-danger" ng-show="vouchureError.show">{{vouchureError.message}} <a ui-sref="contractchoice">{{'PERSON.CONTRACT.CHANGE_CONTRACT' | translate }}</a></p>
@@ -33,23 +33,23 @@
 
         <!-- EXTRA DRIVER -->
         <tr ng-if="booking.contract_type === 60">
-            <td style="background: #eee; padding: 20px 20px 0 10px">
+            <td style="background: #eee; padding: 20px 20px 20px 10px">
                 <div class="media">
                     <div class="media-object pull-left">
-                        <input type="checkbox" ng-model="extraDrivers.check" ng-click="toggleExtraDrivers()" />
+                        <input type="checkbox" ng-model="extraDrivers.check" ng-click="toggleExtraDrivers()" id="extraDriversCheck" />
                     </div>
                     <div class="media-body" style="padding:0">
                       <form class="mywheels-form" name="formExtraDriver" ng-submit="formExtraDriver.$valid && addExtraDriver()" novalidate>
-                        <b>Voeg extra bestuurders toe (&euro;1.25 p.p.)</b>
+                        <b><label class="label--no-margin" for="extraDriversCheck">Voeg extra bestuurders toe (&euro;1.25 p.p.)</label></b>
                         <div ng-if="extraDrivers.check" class="input-group form-extra-drivers__first" uib-tooltip="Je kan niet meer dan drie extra bestuurders toevoegen" tooltip-enable="booking.drivers_count + extraDrivers.drivers.length === 3">
-                          <input ng-disabled="booking.drivers_count + extraDrivers.drivers.length >= 3" name="email" type="email" class="form-control" placeholder="Emailadres extra bestuurder" ng-model-options="{ debounce: 200 }" ng-focus="toggleExtraDrivers(true)" ng-blur="toggleExtraDrivers(false)" ng-model="extraDrivers.new">
+                          <input ng-disabled="booking.drivers_count + extraDrivers.drivers.length >= 3" name="email" type="email" class="form-control" placeholder="Emailadres extra bestuurder" ng-focus="toggleExtraDrivers(true)" ng-blur="(extraDrivers.new && formExtraDriver.$valid) || toggleExtraDrivers(false)" ng-model="extraDrivers.new">
                           <span class="input-group-btn">
-                            <button type="submit" class="btn btn-default"><i class="fa fa-fw fa-plus"></i></button>
+                            <button type="submit" class="btn btn-default"><i class="fa fa-fw fa-user-plus"></i></button>
                           </span>
                         </div>
                         <p ng-show="formExtraDriver.$submitted && formExtraDriver.email.$invalid && formExtraDriver.email.$touched" class="text-danger">Ongeldig emailadres</p>
                         <ul class="list-unstyled" ng-if="extraDrivers.check">
-                          <li ng-if="booking.drivers_count">Je hebt al eerder {{booking.drivers_count}} extra bestuurder(s) toegevoegd <info-icon tooltip-placement="bottom" tooltip-html="'Uit privacy-overwegingen laten we geen persoongegevens zien. U kunt daarom niet zien wie u al heeft toegevoegd als bestuurder aan deze rit.'"></info-icon></li>
+                          <li ng-if="booking.drivers_count">Je hebt al eerder {{booking.drivers_count}} extra bestuurder(s) toegevoegd <info-icon tooltip-placement="bottom" tooltip-html="'Uit privacy-overwegingen laten we geen persoongegevens zien. Je kunt daarom niet zien wie je al hebt toegevoegd als bestuurder aan deze rit.'"></info-icon></li>
                           <li ng-repeat="driver in extraDrivers.drivers">
                             <span class="label label-primary label-bigger">{{driver}}
                               <button type="button" class="btn btn-link text-white" ng-click="removeExtraDriver(driver)"><i class="fa fa-fw fa-times"></i></button>

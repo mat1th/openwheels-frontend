@@ -628,7 +628,7 @@
     "PAYMENT_APROVED_PAYED_FUEL_KEY_NOT_APPROVED": "De auto staat aan de {{location}} in {{city}}. Spreek samen met de verhuurder af hoe je in het bezit komt van de sleutel. Vul de overeenkomst in bij de sleuteloverdracht.",
     "PAYMENT_APROVED_PAYED_FUEL_KEY_BUTTON": "Download overeenkomst",
     "PAYMENT_APROVED_PAYED_FUEL_KEY_WAIT": "Wacht eerst op goedkeuring door de verhuurder.",
-    "PAYMENT_APROVED_PAYED_FUEL_CARD": " Deze auto heeft een tankpas waarmee je kosteloos kunt tanken. Je vindt hem in het mapje in het dashboardkastje. De pincode van de tankpas is <strong>{{code}}</strong>.",
+    "PAYMENT_APROVED_PAYED_FUEL_CARD": " Deze auto heeft een tankpas waarmee je kosteloos kunt tanken. Je vindt hem in het mapje in het dashboardkastje. De pincode van de tankpas vind je in de bevestigingsmail.",
     "PAYMENT_APROVED_PAYED_FUEL_PRICE": "Je betaalt per gereden kilometer {{ price }} euro voor de brandstof. Je hoeft de auto niet af te tanken. Moet je tanken tijdens de rit? Upload dan een kopie/foto van de tankbon bij het doorgeven van de kilometerstanden.",
     "PAYMENT_APROVED_PAYED_LICENCE": "Voordat je kunt rijden, moet je rijbewijs nog goedgekeurd worden. Je kunt de auto pas ophalen als je van ons per mail bericht hebt ontvangen dat je rijbewijs is goedgekeurd. Mocht je vandaag al willen rijden, bel dan even naar  <a href=\"tel:0228-514824\">MyWheels</a> zodat we het op tijd in orde kunnen maken.",
     "PAYMENT_APROVED_NICE_TRIP": "We wensen je een prettige rit!",

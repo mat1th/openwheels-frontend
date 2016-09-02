@@ -24,11 +24,15 @@
 .mywheels-form h3 {
     margin: 1em 0 0;
 }
-.mywheels-form label {
+.mywheels-form label, .mywheels-form__label {
     // color: ;
     display: inline-block;
     margin: 0.8em 0 0;
     font-size: 1em;
+    cursor: pointer;
+}
+.mywheels-form label.label--no-margin, .mywheels-form__label--no-margin {
+    margin: 0;
 }
 .mywheels-form textarea {
     min-height: 5em;
