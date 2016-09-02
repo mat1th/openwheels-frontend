@@ -134,6 +134,7 @@ angular.module('rpcServices', [])
   this.calculatePrice = m('calculatePrice');
   this.getSent = m('getSent');
   this.getReceived = m('getReceived'); // status = paid | unpaid | both
+  this.getUngroupedForPerson = m('getUngroupedForPerson');
   this.calculateBookingPrice = m('calculateBookingPrice'); // status = paid | unpaid | both
   this.createSenderInvoiceGroup = m('createSenderInvoiceGroup');
 })

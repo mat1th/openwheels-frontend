@@ -16,10 +16,31 @@
   }
 };
 
-/* New finance pages. Needs cleanup, just a proto type */
-.table-subinvoice {
+/* General table style */
+.table-hover > tbody > tr:hover {
+  background-color: #ededed;
+}
+.table-hover tr.nohover:hover {
+  background-color: initial !important;
+}
+tr.clickable {
+  cursor: pointer;
+  outline: none;
+}
+.table-full-width {
+  width: 100%;
+}
+.table td.reset-cell {
+  padding: 0px;
+  border: 0px;
+}
+
+.table-finance > tbody, .table-finance > tbody + tbody {
+  border-top: 1px;
+}
+.table-finance-subtable {
   padding-bottom: 2em;
-  td.sub {
+  td.subitem {
     padding: 0.4em 2px 0.4em 2px;
     border: none;
   }
@@ -32,9 +53,13 @@
     padding-right: 8px;
   }
 }
-tr.lastrow > td
-{
-  padding-bottom: 2em !important;
+tr.lastrow > td {
+  padding-bottom: 1em !important;
+}
+tr.open {
+}
+tr.open > td:nth-child(2) {
+  font-weight: bold;
 }
 .neg {
   color: #C43D3D;
@@ -42,23 +67,18 @@ tr.lastrow > td
 .pos {
  color: green;
 }
-.table-hover > tbody > tr:hover {
-  background-color: #ededed;
-}
-.table-hover tr.nohover:hover {
-  background-color: initial !important;
-}
-tr.clickable {
-  cursor: pointer;
-  outline: none;
-}
-
-th.finance-col-1 {
+.table-finance-col-1 {
   width: 75%;
 }
-th.finance-col-2 {
+.table-finance-col-2 {
   width: 15%;
 }
-th.finance-col-3 {
+.table-finance-col-3 {
   width: 10%;
+}
+.table-no-margin-bottom {
+  margin-bottom: 0;
+}
+.table-finance-subtable.firstrow > td {
+  padding-top: 0.8em;
 }

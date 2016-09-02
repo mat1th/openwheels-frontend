@@ -20,80 +20,96 @@
       </div>
       <div uib-collapse="is3Collapsed">
         <div class="card-body">
-          <table class="table table-hover" ng-if="view == 'both' || view == 'owner'">
+         
+          <table class="table table-hover table-finance" ng-if="(view == 'both' || view == 'renter') && openInvoices.renter">
             <thead>
               <tr>
-                <th class="finance-col-1">Ritten in jouw auto's</th>
-                <th class="finance-col-2 text-right">Opbrengsten</th>
-                <th class="finance-col-3"> </th>
+                <th class="table-finance-col-1">Gemaakte ritten</th>
+                <th class="table-finance-col-2 text-right">Kosten</th>
+                <th class="table-finance-col-3"> </th>
               </tr>
             </thead>
-            <tbody>
-              <tr ng-click="open=!open" class="clickable" ng-repeat-start="invoice in openBookingInvoicesRenter">
-                <td>{{'Rit op ' + (invoice.booking.date | amDateFormat:'DD-MM-YYYY')  + ' door ' + invoice.booking.name }}</td>
-                <td class="text-right" ng-class="{'text-bold': open}">{{::invoice.total | currency}}</td>
+            <tbody ng-repeat="openInvoice in openInvoices.renter">
+              <tr ng-click="open=!open" class="clickable" ng-class="{'open': open}">
+                <td>{{'Rit op ' + (openInvoice.booking.beginBooking | amDateFormat:'DD-MM-YYYY')  + ' door ' + openInvoice.booking.person.firstName }}</td>
+                <td class="text-right">{{openInvoice.total | currency}}</td>
                 <td class="text-right">
                   <md-icon ng-if="!open">arrow_drop_down</md-icon>
                   <md-icon ng-if="open">arrow_drop_up</md-icon>
                 </td>
               </tr>
-              <tr class="table-subinvoice nohover" ng-show="open" ng-repeat="subinvoice in invoice.invoices" ng-repeat-end ng-class="{'lastrow': $last}">
-                <td ng-show="subinvoice.type != '_'" class="first sub">{{subinvoice.type}}</td>
-                <td ng-show="subinvoice.type != '_'" class="second sub text-right" ng-class="{'neg': subinvoice.amount < 0}">{{subinvoice.amount | currency }}</td>
-                <td ng-show="subinvoice.type != '_'" class="sub"></td>
-                <td ng-show="subinvoice.type == '_'" class="first sub " colspan="3">
-                  <a ui-sref="owm.booking.show({bookingId: invoice.booking.booking_id})">Bekijk ritdetails<i class="fa fa-fw fa-chevron-right"></i></a>
+              <tr ng-repeat="invoice in openInvoice.invoices" class="nohover" ng-show="open" ng-class="{lastrow: $last}">
+                <td colspan="3" class="reset-cell">
+                  <table class="table table-full-width table-no-margin-bottom">
+                    <tr class="table-finance-subtable" ng-repeat="invoiceLine in invoice.invoiceLines">
+                      <td class="table-finance-col-1 first subitem">{{invoiceLine.description}}</td>
+                      <td class="table-finance-col-2 second subitem text-right" ng-class="{'pos': (invoiceLine.total > 0 && invoice.sender.id === me.id) || (invoiceLine.total < 0 && invoice.recipient.id === me.id) }">{{invoice.recipient.id === me.id ? invoiceLine.total : -1 * invoiceLine.total| currency }}</td>
+                      <td class="table-finance-col-3 subitem" ></td>
+                    </tr>
+                  </table>
                 </td>
               </tr>
             </tbody>
           </table>
-          <table class="table table-hover" ng-if="view == 'both' || view == 'renter'">
+
+          <table class="table table-hover table-finance" ng-if="(view == 'both' || view == 'owner') && openInvoices.owner">
             <thead>
               <tr>
-                <th class="finance-col-1">Gemaakte ritten</th>
-                <th class="finance-col-2 text-right">Kosten</th>
-                <th class="finance-col-3"> </th>
+                <th class="table-finance-col-1">Ritten in jouw auto's</th>
+                <th class="table-finance-col-2 text-right">Opbrengsten</th>
+                <th class="table-finance-col-3"> </th>
               </tr>
             </thead>
-            <tbody>
-              <tr ng-click="open=!open" class="clickable" ng-repeat-start="invoice in openBookingInvoicesOwner">
-                <td>{{'Rit op ' + (invoice.booking.date | amDateFormat:'DD-MM-YYYY')  + ' door ' + invoice.booking.name }}</td>
-                <td class="text-right" ng-class="{'text-bold': open}">{{::invoice.total | currency}}</td>
+            <tbody ng-repeat="openInvoice in openInvoices.owner">
+              <tr ng-click="open=!open" class="clickable" ng-class="{'open': open}">
+                <td>{{'Rit op ' + (openInvoice.booking.beginBooking | amDateFormat:'DD-MM-YYYY')  + ' door ' + openInvoice.booking.person.firstName }}</td>
+                <td class="text-right">{{openInvoice.total | currency}}</td>
                 <td class="text-right">
                   <md-icon ng-if="!open">arrow_drop_down</md-icon>
                   <md-icon ng-if="open">arrow_drop_up</md-icon>
                 </td>
               </tr>
-              <tr class="table-subinvoice nohover" ng-show="open" ng-repeat="subinvoice in invoice.invoices" ng-repeat-end ng-class="{'lastrow': $last}">
-                <td ng-show="subinvoice.type != '_'" class="first sub">{{subinvoice.type}}</td>
-                <td ng-show="subinvoice.type != '_'" class="second sub text-right" ng-class="{'pos': subinvoice.amount < 0}">{{subinvoice.amount | currency }}</td>
-                <td ng-show="subinvoice.type != '_'" class="sub" ></td>
-                <td ng-show="subinvoice.type == '_'" class="first sub " colspan="3">
-                  <a ui-sref="owm.booking.show({bookingId: invoice.booking.booking_id})">Bekijk ritdetails<i class="fa fa-fw fa-chevron-right"></i></a>
+              <tr ng-repeat="invoice in openInvoice.invoices" class="nohover" ng-show="open" ng-class="{lastrow: $last}">
+                <td colspan="3" class="reset-cell">
+                  <table class="table-full-width">
+                    <tr class="table-finance-subtable" ng-repeat="invoiceLine in invoice.invoiceLines">
+                      <td class="table-finance-col-1 first subitem">{{invoiceLine.description}}</td>
+                      <td class="table-finance-col-2 second subitem text-right" ng-class="{'neg': (invoiceLine.total < 0 && invoice.sender.id === me.id) || (invoiceLine.total > 0 && invoice.recipient.id === me.id) }">{{invoice.recipient.id === me.id ? -1 * invoiceLine.total : invoiceLine.total| currency }}</td>
+                      <td class="table-finance-col-3 subitem" ></td>
+                    </tr>
+                  </table>
                 </td>
               </tr>
             </tbody>
           </table>
-          <table class="table table-hover">
+
+          <table class="table table-hover table-finance" ng-if="openInvoices.null">
             <thead>
               <tr>
-                <th class="finance-col-1">
+                <th class="table-finance-col-1">
                   {{view == 'both' ? 'Overige kosten en opbrensten' : (view == 'owner' ? 'Overige opbrensten' : 'Overige kosten')}}
                 </th>
-                <th class="text-right finance-col-2">
+                <th class="table-finance-col-2 text-right">
                   {{view == 'both' ? 'Bedrag' : (view == 'owner' ? 'Opbrensten' : 'Kosten')}}
                 </th>
-                <th class="finance-col-3"> </th>
+                <th class="table-finance-col-3"> </th>
               </tr>
             </thead>
-            <tbody>
-              <tr ng-repeat="otherInvoice in openOtherInvoices">
-                <td>{{::otherInvoice.desc}}</td>
-                <td class="text-right" ng-class="{'neg': view == 'owner' && otherInvoice.amount < 0, 'pos': view == 'renter' && otherInvoice.amount < 0}">{{::otherInvoice.amount | currency}}</td>
-                <td> <i class="fa fa-fw"></i></td>
+            <tbody ng-repeat="openInvoice in openInvoices.null">
+              <tr ng-repeat="invoice in openInvoice.invoices" class="nohover"  ng-class="{lastrow: $last}">
+                <td colspan="3" class="reset-cell">
+                  <table class="table table-full-width">
+                    <tr class="table-finance-subtable" ng-repeat="invoiceLine in invoice.invoiceLines">
+                      <td class="table-finance-col-1">{{invoiceLine.description}}</td>
+                      <td class="table-finance-col-2 text-right" ng-class="{'neg': (invoiceLine.total < 0 && invoice.sender.id === me.id) || (invoiceLine.total > 0 && invoice.recipient.id === me.id), 'pos': (invoiceLine.total > 0 && invoice.sender.id === me.id) || (invoiceLine.total < 0 && invoice.recipient.id === me.id) }">{{invoice.recipient.id === me.id ? -1 * invoiceLine.total : invoiceLine.total| currency }}</td>
+                      <td class="table-finance-col-3" ></td>
+                    </tr>
+                  </table>
+                </td>
               </tr>
             </tbody>
           </table>
+
           <div class="text-right">
             <button ng-if="(view == 'renter' && total >= 0) || (view == 'owner' && total < 0) || (view == 'both' && total >= 0)" type="button" class="btn btn-primary">
               Betaal {{::total | currency}}
@@ -102,6 +118,13 @@
               Laat {{::total | currency}} uitbetalen
             </button>
           </div>
+
+          <div ng-if="loaded && (view === 'both' && !openInvoices.null && !openInvoices.renter && !openInvoices.owner) || (view === 'renter' && !openInvoices.null && !openInvoices.renter) || (view === 'owner' && !openInvoices.null && !openInvoices.owner)">
+            <p>
+              Amet voluptas illum sed dicta dolorem perferendis aliquid iste porro. Obcaecati est repudiandae ea atque illum dolor saepe! Saepe labore adipisci voluptate voluptas nostrum sit facilis. Quisquam molestias earum odio.
+            </p>
+          </div>
+          
         </div>
       </div>
     </div><!-- /card -->
