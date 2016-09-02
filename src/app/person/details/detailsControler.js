@@ -414,6 +414,7 @@ angular.module('owm.person.details', [])
       };
       $scope.requiredValue = bookingObject;
       $scope.booking = bookingObject.bookings[0];
+      $scope.$broadcast('booking_details_in', $scope.booking);
 
       return bookingObject;
     }).then(function () {
@@ -478,6 +479,12 @@ angular.module('owm.person.details', [])
   };
 
   /* EXTRA DRIVER FOR GO CONTRACT */
+  $scope.$on('booking_details_in', function(event, booking) {
+    if(booking.drivers_count) {
+      $scope.extraDrivers.check = true;
+    }
+  });
+
   $scope.toggleExtraDrivers = function(state) {
     if(state === true) {
       $scope.extraDrivers.check = true;

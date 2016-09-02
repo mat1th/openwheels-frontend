@@ -33,7 +33,7 @@
 
         <!-- EXTRA DRIVER -->
         <tr ng-if="booking.contract_type === 60">
-            <td style="background: #eee; padding: 20px 20px 0 10px">
+            <td style="background: #eee; padding: 20px 20px 20px 10px">
                 <div class="media">
                     <div class="media-object pull-left">
                         <input type="checkbox" ng-model="extraDrivers.check" ng-click="toggleExtraDrivers()" id="extraDriversCheck" />
@@ -44,12 +44,12 @@
                         <div ng-if="extraDrivers.check" class="input-group form-extra-drivers__first" uib-tooltip="Je kan niet meer dan drie extra bestuurders toevoegen" tooltip-enable="booking.drivers_count + extraDrivers.drivers.length === 3">
                           <input ng-disabled="booking.drivers_count + extraDrivers.drivers.length >= 3" name="email" type="email" class="form-control" placeholder="Emailadres extra bestuurder" ng-focus="toggleExtraDrivers(true)" ng-blur="(extraDrivers.new && formExtraDriver.$valid) || toggleExtraDrivers(false)" ng-model="extraDrivers.new">
                           <span class="input-group-btn">
-                            <button type="submit" class="btn btn-default"><i class="fa fa-fw fa-plus"></i></button>
+                            <button type="submit" class="btn btn-default"><i class="fa fa-fw fa-user-plus"></i></button>
                           </span>
                         </div>
                         <p ng-show="formExtraDriver.$submitted && formExtraDriver.email.$invalid && formExtraDriver.email.$touched" class="text-danger">Ongeldig emailadres</p>
                         <ul class="list-unstyled" ng-if="extraDrivers.check">
-                          <li ng-if="booking.drivers_count">Je hebt al eerder {{booking.drivers_count}} extra bestuurder(s) toegevoegd <info-icon tooltip-placement="bottom" tooltip-html="'Uit privacy-overwegingen laten we geen persoongegevens zien. U kunt daarom niet zien wie u al heeft toegevoegd als bestuurder aan deze rit.'"></info-icon></li>
+                          <li ng-if="booking.drivers_count">Je hebt al eerder {{booking.drivers_count}} extra bestuurder(s) toegevoegd <info-icon tooltip-placement="bottom" tooltip-html="'Uit privacy-overwegingen laten we geen persoongegevens zien. Je kunt daarom niet zien wie je al hebt toegevoegd als bestuurder aan deze rit.'"></info-icon></li>
                           <li ng-repeat="driver in extraDrivers.drivers">
                             <span class="label label-primary label-bigger">{{driver}}
                               <button type="button" class="btn btn-link text-white" ng-click="removeExtraDriver(driver)"><i class="fa fa-fw fa-times"></i></button>
