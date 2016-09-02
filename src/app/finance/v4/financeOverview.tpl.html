@@ -31,7 +31,7 @@
             </thead>
             <tbody ng-repeat="openInvoice in openInvoices.renter">
               <tr ng-click="open=!open" class="clickable" ng-class="{'open': open}">
-                <td>{{'Rit op ' + (openInvoice.booking.beginBooking | amDateFormat:'DD-MM-YYYY')  + ' door ' + openInvoice.booking.person.firstName }}</td>
+                <td>{{'Rit op ' + (openInvoice.booking.beginBooking | amDateFormat:'DD-MM-YYYY')  + ' in ' + openInvoice.booking.resource.alias }}</td>
                 <td class="text-right">{{openInvoice.total | currency}}</td>
                 <td class="text-right">
                   <md-icon ng-if="!open">arrow_drop_down</md-icon>
@@ -84,7 +84,7 @@
           </table>
 
           <table class="table table-hover table-finance" ng-if="openInvoices.null">
-            <thead>
+            <thead class="no-border">
               <tr>
                 <th class="table-finance-col-1">
                   {{view == 'both' ? 'Overige kosten en opbrensten' : (view == 'owner' ? 'Overige opbrensten' : 'Overige kosten')}}
@@ -98,8 +98,8 @@
             <tbody ng-repeat="openInvoice in openInvoices.null">
               <tr ng-repeat="invoice in openInvoice.invoices" class="nohover"  ng-class="{lastrow: $last}">
                 <td colspan="3" class="reset-cell">
-                  <table class="table table-full-width">
-                    <tr class="table-finance-subtable" ng-repeat="invoiceLine in invoice.invoiceLines">
+                  <table class="table table-full-width table-no-margin-bottom">
+                    <tr class="" ng-repeat="invoiceLine in invoice.invoiceLines">
                       <td class="table-finance-col-1">{{invoiceLine.description}}</td>
                       <td class="table-finance-col-2 text-right" ng-class="{'neg': (invoiceLine.total < 0 && invoice.sender.id === me.id) || (invoiceLine.total > 0 && invoice.recipient.id === me.id), 'pos': (invoiceLine.total > 0 && invoice.sender.id === me.id) || (invoiceLine.total < 0 && invoice.recipient.id === me.id) }">{{invoice.recipient.id === me.id ? -1 * invoiceLine.total : invoiceLine.total| currency }}</td>
                       <td class="table-finance-col-3" ></td>
@@ -111,17 +111,17 @@
           </table>
 
           <div class="text-right">
-            <button ng-if="(view == 'renter' && total >= 0) || (view == 'owner' && total < 0) || (view == 'both' && total >= 0)" type="button" class="btn btn-primary">
-              Betaal {{::total | currency}}
+            <button ng-if="openInvoices.totals.hasToPay" type="button" class="btn btn-primary">
+              Betaal {{openInvoices.totals.grandTotalToPay | currency}}
             </button>
-            <button ng-if="(view == 'renter' && total < 0) || (view == 'owner' && total >= 0) || (view == 'both' && total < 0)" type="button" class="btn btn-primary">
-              Laat {{::total | currency}} uitbetalen
+            <button ng-if="openInvoices.totals.hasToReceive" type="button" class="btn btn-primary">
+              Laat {{openInvoices.totals.grandTotalToReceive | currency}} uitbetalen
             </button>
           </div>
 
           <div ng-if="loaded && (view === 'both' && !openInvoices.null && !openInvoices.renter && !openInvoices.owner) || (view === 'renter' && !openInvoices.null && !openInvoices.renter) || (view === 'owner' && !openInvoices.null && !openInvoices.owner)">
             <p>
-              Amet voluptas illum sed dicta dolorem perferendis aliquid iste porro. Obcaecati est repudiandae ea atque illum dolor saepe! Saepe labore adipisci voluptate voluptas nostrum sit facilis. Quisquam molestias earum odio.
+              Je hebt geen openstaande facturen. 
             </p>
           </div>
           
@@ -153,10 +153,10 @@
               </tr>
             </thead>
             <tbody>
-              <tr class="clickable" ng-repeat="invoiceGroup in payedGroupedInvoices">
+              <tr class="clickable" ng-repeat="invoiceGroup in groupedInvoices">
                 <td>{{invoiceGroup.id}}</td>
-                <td>{{invoiceGroup.due | amDateFormat:'DD-MM-YYYY'}}</td>
-                <td>{{statusToText(invoiceGroup.status)}} <span ng-if="invoiceGroup.status!=1" uib-tooltip="Dit bedrag kun je binnenkort op je rekening verwachten." class="text-muted"><i class="fa fa-info-circle"></i></span> </td>
+                <td>{{invoiceGroup.date | amDateFormat:'DD-MM-YYYY'}}</td>
+                <td>{{statusText(invoiceGroup.status)}} <span ng-if="statusTooltipEnable(invoiceGroup.status)" uib-tooltip="statusTooltipText(invoiceGroup.status)" class="text-muted"><i class="fa fa-info-circle"></i></span> </td>
                 <td class="text-right">{{invoiceGroup.total | currency}}</td>
                 <td class="text-right"><i title="Download pdf" class="fa fa-fw fa-file-pdf-o"></i></td>
               </tr>

@@ -34,10 +34,20 @@ tr.clickable {
   padding: 0px;
   border: 0px;
 }
+tbody.no-border > tr > td, thead.no-border > tr > th, tfooter.no-border > tr > td, tr.no-border > td {
+  border: none;
+}
 
 .table-finance > tbody, .table-finance > tbody + tbody {
   border-top: 1px;
 }
+
+.table-finance {
+  thead > tr > th {
+    font-size: 1.1em;
+  }
+}
+
 .table-finance-subtable {
   padding-bottom: 2em;
   td.subitem {
@@ -55,8 +65,6 @@ tr.clickable {
 }
 tr.lastrow > td {
   padding-bottom: 1em !important;
-}
-tr.open {
 }
 tr.open > td:nth-child(2) {
   font-weight: bold;
