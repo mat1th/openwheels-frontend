@@ -27,6 +27,12 @@
         <span>Help</span>
       </md-button>
 
+      <!-- add resource -->
+      <md-button hide-xs hide-sm ng-if="!user.isAuthenticated" ui-sref="list-your-car">
+        <md-icon>directions_car</md-icon>
+        <span>{{ 'LIST_YOUR_CAR' | translate }}</span>
+      </md-button>
+
       <!-- spinner -->
       <div ng-if="user.isPending">
         <i class="fa fa-spinner fa-spin text-muted"></i>

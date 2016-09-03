@@ -68,10 +68,12 @@
 
 <div class="card" ng-if="features.ownerFlow">
   <div class="card-heading">
-    <h2 class="card-title" ng-show="!resources.length">
-      Je hebt nog geen auto toegevoegd
-    </h2>
-    <br/>
+    <div ng-show="!resources.length">
+      <h2 class="card-title">
+        Je hebt nog geen auto toegevoegd
+      </h2>
+      <br/>
+    </div>
     <button type="button" name="button" class="mywheels-btn mywheels-btn-default" ui-sref="list-your-car">Voeg een auto toe</button>
   </div>
 </div>
