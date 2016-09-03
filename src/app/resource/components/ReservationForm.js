@@ -50,7 +50,6 @@ angular.module('owm.resource.reservationForm', [])
   $scope.setTimeframe = function (addDays) {
     var now = getStartOfThisQuarter();
     $scope.booking.beginRequested = now.add('days', addDays).format(API_DATE_FORMAT);
-    $scope.booking.endRequested = now.add('days', addDays).add('hours', 6).format(API_DATE_FORMAT);
   };
 
   function isToday(_moment) {
