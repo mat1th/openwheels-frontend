@@ -9,6 +9,7 @@ angular.module('owm.finance.v4', [])
   $scope.activeTab = {active: 0};
   $scope.perPage = 15;
 
+  // get ungrouped invoices
   invoice2Service.getUngroupedForPerson({person: me.id})
   .then(addExtraInvoiceInformation)
   .then(addGrantTotal)
@@ -17,21 +18,26 @@ angular.module('owm.finance.v4', [])
   .finally(function() { $scope.loaded = true; })
   ;
 
+  // get grouped invoices (invoice2Module)
   paymentService.getInvoiceGroups({person: me.id, max: 100})
   .then(addExtraInvoiceGroupInformation)
   .then(function(results) { $scope.groupedInvoices = results; })
   ;
 
+  // get credit
   voucherService.calculateRequiredCredit({person: me.id})
   .then(function(results) { $scope.requiredCredit = results; })
   ;
 
+  // get vouchers
   voucherService.search({person: me.id, minValue: 0.0})
   .then(function(vouchers) { $scope.vouchers = vouchers; })
   ;
 
+  // get grouped invoices (invoiceModule)
   invoiceService.paymentsForPerson({person: me.id})
   .then(addExtraInformationOldInvoices)
+  .then(function(results) { $scope.groupedInvoicesOld = results; })
   ;
 
   function log(invoices) {
@@ -39,11 +45,11 @@ angular.module('owm.finance.v4', [])
     return invoices;
   }
 
-  $scope.newPage = function(a) {
-  };
-
   function addExtraInformationOldInvoices(invoices) {
-
+    invoices = _.map(invoices, function(invoice) {
+      invoice.pdflink = linksService.invoiceGroupPdf_v1(invoice.id);
+    });
+    return invoices;
   }
 
   function status(invoice) {

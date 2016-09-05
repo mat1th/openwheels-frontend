@@ -158,7 +158,7 @@
       <div uib-collapse="!showMyInvoices">
         <div class="card-body">
 
-          <table class="table table-hover" ng-if="groupedInvoices && groupedInvoices.length > 0">
+          <table class="table table-hover" ng-if="(groupedInvoices && groupedInvoices.length > 0) || (groupedInvoicesOld && groupedInvoicesOld.length > 0)">
             <thead>
               <tr>
                 <th>#</th>
@@ -176,10 +176,17 @@
                 <td class="text-right">{{invoiceGroup.total < 0 ? -1 * invoiceGroup.total: invoiceGroup.total | currency}}</td>
                 <td class="text-right"><a ng-href="{{invoiceGroup.pdflink}}"><i title="Download pdf" class="fa fa-fw fa-file-pdf-o"></i></a></td>
               </tr>
+              <tr class="clickable" ng-repeat="invoiceGroup in groupedInvoicesOld">
+                <td>{{invoiceGroup.id}}</td>
+                <td>{{invoiceGroup.due | amDateFormat:'DD-MM-YYYY'}}</td>
+                <td>{{invoiceGroup.paid === invoiceGroup.total ? 'Betaald' : 'Nog te betalen'}}  </td>
+                <td class="text-right">{{invoiceGroup.total}}</td>
+                <td class="text-right"><a ng-href="{{invoiceGroup.pdflink}}"><i title="Download pdf" class="fa fa-fw fa-file-pdf-o"></i></a></td>
+              </tr>
             </tbody>
           </table>
 
-          <p ng-if="!groupedInvoices || groupedInvoices.length <= 0">
+          <p ng-if="(!groupedInvoices ||  groupedInvoices.length <= 0) && (!groupedInvoicesOld || groupedInvoicesOld.length <= 0)">
             Er zijn nog geen afgesloten facturen op jouw naam gevonden.
           </p>
 
