@@ -93,7 +93,6 @@ angular.module('openwheels', [
   'filters.bookingStatus',
   'filters.booking',
   'filters.translateOrDefault',
-  'filters.currency2',
 
   /* Components */
   'openwheels.analytics',
