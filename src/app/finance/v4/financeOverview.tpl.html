@@ -6,7 +6,7 @@
   </div>
 </div>
 
-<md-tabs md-selected="0" class="md-primary" md-dynamic-height >
+<md-tabs md-selected="activeTab.active" class="md-primary" md-dynamic-height >
   
   <md-tab label="Facturen">
     <div class="card">
@@ -32,7 +32,7 @@
             <tbody ng-repeat="openInvoice in openInvoices.renter">
               <tr ng-click="open=!open" class="clickable" ng-class="{'open': open}">
                 <td>{{'Rit op ' + (openInvoice.booking.beginBooking | amDateFormat:'DD-MM-YYYY')  + ' in ' + openInvoice.booking.resource.alias }}</td>
-                <td class="text-right">{{openInvoice.total | currency}}</td>
+                <td class="text-right">{{openInvoice.hasToPay ? openInvoice.totalToPay : -1 * openInvoice.totalToReceive | currency}}</td>
                 <td class="text-right">
                   <md-icon ng-if="!open">arrow_drop_down</md-icon>
                   <md-icon ng-if="open">arrow_drop_up</md-icon>
@@ -63,7 +63,7 @@
             <tbody ng-repeat="openInvoice in openInvoices.owner">
               <tr ng-click="open=!open" class="clickable" ng-class="{'open': open}">
                 <td>{{'Rit op ' + (openInvoice.booking.beginBooking | amDateFormat:'DD-MM-YYYY')  + ' door ' + openInvoice.booking.person.firstName }}</td>
-                <td class="text-right">{{openInvoice.total | currency}}</td>
+                <td class="text-right">{{openInvoice.hasToReceive ? openInvoice.totalToReceive : -1 * openInvoice.totalToPay | currency}}</td>
                 <td class="text-right">
                   <md-icon ng-if="!open">arrow_drop_down</md-icon>
                   <md-icon ng-if="open">arrow_drop_up</md-icon>
@@ -110,11 +110,27 @@
             </tbody>
           </table>
 
-          <div class="text-right">
-            <button ng-if="openInvoices.totals.hasToPay" type="button" class="btn btn-primary">
-              Betaal {{openInvoices.totals.grandTotalToPay | currency}}
+          <div ng-if="view === 'renter'" class="text-right">
+            <button ng-if="openInvoices.totals.hasToPay" ng-click="renterPay()" type="button" class="btn btn-primary">
+              Sluit factuur en betaal {{openInvoices.totals.grandTotalToPay | currency}}
             </button>
-            <button ng-if="openInvoices.totals.hasToReceive" type="button" class="btn btn-primary">
+            <button disabled ng-if="openInvoices.totals.hasToReceive" type="button" class="btn btn-primary">
+              Je opbrengsten zijn hoger dan je kosten, dus je hoeft nu niets te betalen
+            </button>
+          </div>
+          <div ng-if="view === 'owner'" class="text-right">
+            <button ng-if="openInvoices.totals.hasToPay" disabled type="button" class="btn btn-primary">
+              Je opbrengsten zijn negatief en kunnen dus niet worden uitgekeerd.
+            </button>
+            <button ng-if="openInvoices.totals.hasToReceive" ng-click="ownerPayout()" type="button" class="btn btn-primary">
+              Laat {{openInvoices.totals.grandTotalToReceive | currency}} uitbetalen
+            </button>
+          </div>
+          <div ng-if="view === 'both'" class="text-right">
+            <button ng-if="openInvoices.totals.hasToPay" ng-click="bothPay()" type="button" class="btn btn-primary">
+              Sluit factuur en betaal
+            </button>
+            <button ng-if="openInvoices.totals.hasToReceive" ng-click="bothPayout()" type="button" class="btn btn-primary">
               Laat {{openInvoices.totals.grandTotalToReceive | currency}} uitbetalen
             </button>
           </div>
@@ -142,7 +158,7 @@
       <div uib-collapse="!showMyInvoices">
         <div class="card-body">
 
-          <table class="table table-hover">
+          <table class="table table-hover" ng-if="groupedInvoices && groupedInvoices.length > 0">
             <thead>
               <tr>
                 <th>#</th>
@@ -156,19 +172,23 @@
               <tr class="clickable" ng-repeat="invoiceGroup in groupedInvoices">
                 <td>{{invoiceGroup.id}}</td>
                 <td>{{invoiceGroup.date | amDateFormat:'DD-MM-YYYY'}}</td>
-                <td>{{statusText(invoiceGroup.status)}} <span ng-if="statusTooltipEnable(invoiceGroup.status)" uib-tooltip="statusTooltipText(invoiceGroup.status)" class="text-muted"><i class="fa fa-info-circle"></i></span> </td>
-                <td class="text-right">{{invoiceGroup.total | currency}}</td>
-                <td class="text-right"><i title="Download pdf" class="fa fa-fw fa-file-pdf-o"></i></td>
+                <td>{{statusText(invoiceGroup.status)}} <span ng-if="statusTooltipEnable(invoiceGroup.status)" uib-tooltip="{{statusTooltipText(invoiceGroup.status)}}" class="text-muted"><i class="fa fa-info-circle"></i></span> </td>
+                <td class="text-right">{{invoiceGroup.total < 0 ? -1 * invoiceGroup.total: invoiceGroup.total | currency}}</td>
+                <td class="text-right"><a ng-href="{{invoiceGroup.pdflink}}"><i title="Download pdf" class="fa fa-fw fa-file-pdf-o"></i></a></td>
               </tr>
             </tbody>
           </table>
+
+          <p ng-if="!groupedInvoices || groupedInvoices.length <= 0">
+            Er zijn nog geen afgesloten facturen op jouw naam gevonden.
+          </p>
 
         </div>
       </div>
     </div><!--/card-->
   </md-tab>
 
-  <md-tab label="Rijtegoed">
+  <md-tab ng-if="view==='renter' || view==='both'" label="Rijtegoed">
     <div class="card">
       <div class="card-heading">
         <h3 class="card-title">
@@ -180,35 +200,47 @@
       </div>
       <div class="card-body" uib-collapse="isCollapsed2">
         <div style="float: left">
-          <md-button style="width: 100%" class="md-raised">Bijkopen</md-button><br>
-          <md-button style="width: 100%" class="md-raised md-primary">Uitbetalen</md-button>
+          <md-button ng-click="buyVoucher()" style="width: 100%" ng-class="{'md-primary': requiredCredit.voucher}" class="md-raised">Bijkopen</md-button><br>
+          <md-button style="width: 100%" ng-if="requiredCredit.voucher <= 0 && requiredCredit.credit > 0" class="md-raised">Uitbetalen</md-button>
         </div>
-        <span style="float: right;"><span style="color: #255a6f; font-size: 5em; text-align: right;">{{120.12|currency}}</span></span>
+        <span ng-if="requiredCredit.voucher > 0" style="float: right;">
+          <span style="display: block; color: #255a6f; font-size: 4em; text-align: right;" title="Nog te betalen"><small style="padding-right: 1em; font-size: 0.3em">nog te betalen</small>{{requiredCredit.voucher || credit|currency}}</span>
+        </span>
+        <span ng-if="requiredCredit.voucher <= 0" style="float: right;">
+          <span style="display: block; color: #255a6f; font-size: 4em; text-align: right;"><small style="padding-right: 1em; font-size: 0.3em">tegoed</small>{{requiredCredit.credit |currency}}</span>
+        </span>
         <span class="clearfix"></span>
-        <p style="margin-top: 16px;">
-          Elit quod nobis sit soluta facere ipsam amet. Necessitatibus non eaque aliquid tempore reiciendis! Explicabo repellendus quasi quo est nobis magnam consectetur quasi fugit pariatur. Voluptatum veniam labore numquam sint?
-        </p>
       </div>
     </div>
     <div class="card">
       <div class="card-heading">
         <h3 class="card-title">
-          <a href="" ng-click="isCollapsed = !isCollapsed">
+          <a href="" ng-click="isCollapsed = !isCollapsed" ng-init="isCollapsed=true">
             <i class="fa fa-fw" ng-class="{ 'fa-chevron-right': !isCollapsed, 'fa-chevron-down': isCollapsed }"></i>
             Aankoopgeschiedenis
           </a>
         </h3>
       </div>
       <div class="card-body" uib-collapse="!isCollapsed">
-        <table class="table table-condensed">
+        <table class="table table-condensed" ng-show="vouchers && vouchers.length > 0">
           <tbody>
-            <tr ng-class="{'text-muted': voucher.unused == 0}" ng-repeat="voucher in vouchers">
-              <td><strong>{{voucher.total | currency}}</strong></td>
-              <td>waarvan {{voucher.unused | currency}} resterend</td>
-              <td>gekocht op {{voucher.bought | amDateFormat:'DD-MM-YYYY'}}</td>
+            <tr ng-class="{'text-muted': voucher.value == 0}" ng-repeat="voucher in vouchers | limitTo:perPage:perPage*(currentPage-1)">
+              <td style="width: 20%"><strong>{{voucher.initialValue | currency}}</strong></td>
+              <td>waarvan {{voucher.value | currency}} resterend</td>
+              <td style="width: 40%">gekocht op {{voucher.paid | amDateFormat:'DD-MM-YYYY'}}</td>
+            </tr>
+          </tbody>
+          <tbody ng-hide="vouchers.length < perPage" style="border-top-width: 1px">
+            <tr>
+              <td colspan="3">
+                <ul uib-pagination items-per-page="perPage" ng-init="currentPage=1" direction-links="0" total-items="vouchers.length" ng-model="currentPage" ng-change="newPage(currentPage)"></ul>
+              </td>
             </tr>
           </tbody>
         </table>
+        <p ng-if="!vouchers || vouchers.length === 0">
+          Je hebt nog geen rijtegoed aangeschaft.
+        </p>
       </div>
     </div>
   </md-tab>
