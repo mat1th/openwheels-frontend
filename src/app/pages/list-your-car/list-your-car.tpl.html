@@ -1,41 +1,216 @@
-<div class="bg-primary inverted">
-  <div class="container section">
+<div class="list-your-car">
 
-    <button ui-sref="list-your-car-login" type="button" class="btn btn-warning pull-right">Voeg je auto toe</button>
+    <section class="list-your-car--heading">
+        <h1>{{ 'LIST_YOUR_CAR_TITLE' | translate }}</h1>
+    </section>
+    <div class="triangle--bar triangle--bar-white">
+        <!-- list-your-car container -->
+        <section ng-show="!licencePlate.data" class="list-your-car--container container-home">
+            <div class="">
+                <div license-plate-info class="list-your-car--licenceplate"> </div>
+            </div>
+            <div class="list-your-car--advatage">
+                <h2>{{ 'LIST_YOUR_CAR_ADVANTAGE_TITLE' | translate }}</h2>
+                <ul class="list-unstyled list-spaced list-normal">
+                    <li>
+                        <md-icon class="text-success list-margin">check</md-icon><span>{{'LIST_YOUR_CAR_ADVANTAGE_COSTS' | translate }}</span>
+                    </li>
+                    <li>
+                        <md-icon class="text-success list-margin">check</md-icon><span>{{ 'CREATE_ACCOUNT' | translate }}</span>
+                    </li>
+                    <li>
+                        <md-icon class="text-success list-margin">check</md-icon><span>{{ 'LIST_YOUR_CAR_ADVANTAGE_RISK' | translate }}</span>
+                    </li>
+                    <li>
+                        <md-icon class="text-success list-margin">check</md-icon><span>{{'LIST_YOUR_CAR_ADVANTAGE_NO_CLAIM' | translate }}</span>
+                    </li>
+                    <li>
+                        <md-icon class="text-success list-margin">check</md-icon><span>{{'LIST_YOUR_CAR_ADVANTAGE_COMMUNITY' | translate }}</span>
+                    </li>
+                </ul>
+            </div>
+        </section>
+        <!-- /list-your-car container -->
 
-    <h2>Een auto verhuren in 3 stappen</h2>
-
-    <div class="row">
-
-      <div class="col col-sm-4">
-        <img src="assets/img/step-pen.png" />
-        <h3><a ui-sref="owm.auth.signup" class="hover-underline">1. Word gratis lid</a></h3>
-        <p>
-        <a ui-sref="owm.auth.signup" class="underline">Word gratis lid</a> en vul je gegevens aan. Daarna kun je je auto verhuren.
-        </p>
-      </div>
-
-      <div class="col col-sm-4">
-        <img src="assets/img/step-eurosign.png" />
-        <h3>2. Voeg je auto toe en kies je prijs</h3>
-        <p>
-        Voeg je auto toe door het kenteken in te voeren. Geef informatie over je auto, dit maakt het aantrekkelijker om te huren. Bij MyWheels bepaal jij wat je gaat verdienen. Kies een prijs per uur en per kilometer en je vergoeding voor de benzine. Je auto is tijdens de verhuur altijd allrisk verzekerd.
-        </p>
-      </div>
-
-      <div class="col col-sm-4">
-        <img src="assets/img/step-shakinghands.png" />
-        <h3>3. Stem af met de huurder</h3>
-        <p>
-        Op je smartphone of per email krijg je een bericht als iemand jouw auto wil huren. Jij beslist of je de reserveringsaanvraag accepteert of niet.
-        </p>
-      </div>
+        <!-- list-your-car container -->
+        <h2 class="list-your-car--container--heading" ng-show="licencePlate.data" translate="LIST_YOUR_CAR_CONTAINER_TITLE" translate-values="{ brand: (licencePlate.data.merk | toTitleCase) || 'auto' }"></h2>
+        <section class="list-your-car--container container-home" ng-show="licencePlate.data">
+            <div class="list-your-car--car-info-list">
+                <ul>
+                    <li class="list-your-car--car-info-list--item">
+                        <div class="list-your-car-item__icon">
+                            <md-icon>directions_car</md-icon>
+                        </div>
+                        <div class="list-your-car-item__info">
+                            <h2>{{'BRAND' | translate}} / {{'MODEL' | translate}}</h2> <span>{{(licencePlate.data.merk | toTitleCase) || 'Onbekend' }} {{licencePlate.data.handelsbenaming | toTitleCase}}</span>
+                        </div>
+                    </li>
+                    <li class="list-your-car--car-info-list--item">
+                        <div class="list-your-car-item__icon">
+                            <md-icon>local_gas_station</md-icon>
+                        </div>
+                        <div class="list-your-car-item__info">
+                            <h2>{{'RESOURCE_REFUEL_BY_RENTER_LABEL' | translate}}</h2><span> {{licencePlate.data.brandstof || 'Onbekend' }}</span>
+                        </div>
+                    </li>
+                    <li class="list-your-car--car-info-list--item">
+                        <div class="list-your-car-item__icon">
+                            <md-icon>today</md-icon>
+                        </div>
+                        <div class="list-your-car-item__info">
+                            <h2>{{'TIME_OF_ORGIN' | translate}}</h2> <span>{{licencePlate.data.datum_eerste_toelating || 'Onbekend' }}</span>
+                        </div>
+                    </li>
+                    <li class="list-your-car--car-info-list--item">
+                        <div class="list-your-car-item__icon">
+                            <md-icon>color_lens</md-icon>
+                        </div>
+                        <div class="list-your-car-item__info">
+                            <h2>{{'COLOR' | translate }}</h2> <span>{{ (licencePlate.data.kleur| toTitleCase) || 'Onbekend' }}</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <span show-xs><br><br></span>
+            <div>
+                <div class="list-your-car--calculate-your-price">
+                    <div class="list-your-car--calculate-your-price__your-price">
+                        <h2>€ {{calculateYourPrice.total}} <sup>p/j*</sup></h2>
+                        <span>{{'LIST_YOUR_CAR_PRICE_INFO' | translate }}</span>
+                    </div>
+                    <form class="list-your-car--calculate-your-price__toggles" name="calculateYourPriceForm">
+                        <div>
+                            <h3>Prijs per dag</h3>
+                            <button class="mywheels-btn mywheels-btn-transparant" ng-click="changePrice($event, '-', 'dayPrice')" ng-disabled="calculateYourPriceForm.dayPrice.$modelValue === 0">
+                                <md-icon>remove</md-icon>
+                            </button>
+                            <input class="mywheels-btn-number" type="number" name="dayPrice" ng-model="calculateYourPrice.dayPrice" inputmode="numeric" pattern="[0-9]*" maxlength="3" max="150" step="1" min="0" required>
+                            <button class="mywheels-btn mywheels-btn-transparant" ng-click="changePrice($event, '+', 'dayPrice', 150)" ng-disabled="calculateYourPriceForm.dayPrice.$modelValue === 150">
+                                <md-icon>add</md-icon>
+                            </button>
+                        </div>
+                        <div>
+                            <h3>Dagen verhuur per maand</h3>
+                            <button class="mywheels-btn mywheels-btn-transparant" ng-click="changePrice($event, '-', 'numberOfDays')" ng-disabled="calculateYourPriceForm.numberOfDays.$modelValue === 0">
+                                <md-icon>remove</md-icon>
+                            </button>
+                            <input class="mywheels-btn-number" type="number" name="numberOfDays" ng-model="calculateYourPrice.numberOfDays" inputmode="numeric" pattern="[0-9]*" maxlength="2" max="31" min="0" step="1" required>
+                            <button class=" mywheels-btn mywheels-btn-transparant" ng-click="changePrice($event, '+', 'numberOfDays', 31)" ng-disabled="calculateYourPriceForm.numberOfDays.$modelValue === 31">
+                                <md-icon>add</md-icon>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+        <div layout="column" layout-align="center center" class="list-your-car--buttons layout-align-center-center layout-column">
+            <button type="button" name="button" class="mywheels-btn mywheels-btn-default mywheels-btn-big" ng-click="beginRentingOut()" ng-show="licencePlate.data" ng-disabled="!licencePlate.data">{{'LIST_YOUR_CAR_ACTION' | translate }}</button>
+            <button type="button" name="button" class="mywheels-btn mywheels-btn-light" ng-show="licencePlate.data" ng-click="resetlicencePlate()">{{'OTHER_REGISTRATION_PLATE' | translate }}</button>
+        </div>
+        <!-- /list-your-car container -->
     </div>
 
-    <div class="row">
-      <div class="col col-sm-12">
-        <a ng-href="{{ 'NAVBAR.LIST_YOUR_CAR_URL' | translate }}" class="btn btn-link">Lees de verhuurtips »</a>
-      </div>
+    <div class="intro-section">
+        <section class="intro-section__faq">
+            <div class="intro__page">
+                <h2 class="intro-section__faq__heading">{{'FAQ' | translate}}</h2>
+                <div class="intro-section__faq__boxes">
+                    <div class="intro-section__faq__boxes_divider">
+                        <div class="intro-section__faq__box">
+                            <md-card>
+                                <md-card-header ng-click="toggleBox(1)">
+                                    <md-card-header-text>
+                                        <span class="md-title">{{ 'FAQ_COSTS' | translate}}<md-icon class="pull-right">{{openboxes[1] ? 'expand_less' : 'expand_more'}}</md-icon></span>
+                                    </md-card-header-text>
+                                </md-card-header>
+                                <md-divider></md-divider>
+                                <md-card-content class="intro-section__faq__answer" ng-show="openboxes[1]">
+                                    {{ 'FAQ_COSTS_TEXT' | translate}}
+                                </md-card-content>
+                            </md-card>
+                        </div>
+
+                        <div class="intro-section__faq__box">
+                            <md-card>
+                                <md-card-header ng-click="toggleBox(2)">
+                                    <md-card-header-text>
+                                        <span class="md-title">  {{ 'FAQ_NO_CLAIM' | translate}}<md-icon class="pull-right">{{openboxes[2] ? 'expand_less' : 'expand_more'}}</md-icon></span>
+                                    </md-card-header-text>
+                                </md-card-header>
+                                <md-divider></md-divider>
+                                <md-card-content class="intro-section__faq__answer" ng-show="openboxes[2]">
+                                    {{ 'FAQ_NO_CLAIM_TEXT' | translate}}
+                                </md-card-content>
+                            </md-card>
+                        </div>
+
+                        <div class="intro-section__faq__box">
+                            <md-card>
+                                <md-card-header ng-click="toggleBox(3)">
+                                    <md-card-header-text>
+                                        <span class="md-title">  {{ 'FAQ_TRUST' | translate}}<md-icon class="pull-right">{{openboxes[3] ? 'expand_less' : 'expand_more'}}</md-icon></span>
+                                    </md-card-header-text>
+                                </md-card-header>
+                                <md-divider></md-divider>
+                                <md-card-content class="intro-section__faq__answer" ng-show="openboxes[3]">
+                                    {{ 'FAQ_TRUST_TEXT' | translate}}
+                                </md-card-content>
+                            </md-card>
+                        </div>
+
+                    </div>
+
+                    <div class="intro-section__faq__boxes_divider">
+                        <div class="intro-section__faq__box">
+                            <md-card>
+                                <md-card-header ng-click="toggleBox(4)">
+                                    <md-card-header-text>
+                                        <span class="md-title">  {{ 'FAQ_INSURANCE_OWNER' | translate}}<md-icon class="pull-right">{{openboxes[4] ? 'expand_less' : 'expand_more'}}</md-icon></span>
+                                    </md-card-header-text>
+                                </md-card-header>
+                                <md-divider></md-divider>
+                                <md-card-content ng-show="openboxes[4]">
+                                    {{ 'FAQ_INSURANCE_OWNER_TEXT' | translate}}
+                                </md-card-content>
+                            </md-card>
+                        </div>
+
+                        <div class="intro-section__faq__box">
+                            <md-card>
+                                <md-card-header ng-click="toggleBox(5)">
+                                    <md-card-header-text>
+                                        <span class="md-title">  {{ 'FAQ_FUEL' | translate}}<md-icon class="pull-right">{{openboxes[5] ? 'expand_less' : 'expand_more'}}</md-icon></span>
+                                    </md-card-header-text>
+                                </md-card-header>
+                                <md-divider></md-divider>
+                                <md-card-content ng-show="openboxes[5]">
+                                    {{ 'FAQ_FUEL_TEXT' | translate}}
+                                </md-card-content>
+                            </md-card>
+                        </div>
+
+                        <div class="intro-section__faq__box">
+                            <md-card>
+                                <md-card-header ng-click="toggleBox(6)">
+                                    <md-card-header-text>
+                                        <span class="md-title">  {{ 'FAQ_FRIENDS' | translate}}<md-icon class="pull-right">{{openboxes[6] ? 'expand_less' : 'expand_more'}}</md-icon></span>
+                                    </md-card-header-text>
+                                </md-card-header>
+                                <md-divider></md-divider>
+                                <md-card-content ng-show="openboxes[6]">
+                                    {{ 'FAQ_FRIENDS_TEXT' | translate}}
+                                </md-card-content>
+                            </md-card>
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="intro-section__faq__button">
+                    <a href="https://mywheels.nl/autodelen/" class="mywheels-btn mywheels-btn-default mywheels-btn-normal" md-ink-ripple="#4b702c">{{ 'FAQ_ALL' | translate }}</a>
+                </div>
+            </div>
+        </section>
     </div>
 
 </div>

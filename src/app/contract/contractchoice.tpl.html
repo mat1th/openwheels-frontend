@@ -3,7 +3,7 @@
     <section class="card-heading">
         <h2 class="card-title">Contract kiezen</h2>
         <br>
-        <p>Jouw huurverzoek is geaccepteerd door de verhuurder. Je kunt hieronder een contract kiezen om je rit te betalen. Bij <a href="https://mywheels.nl/autodelen/hoe-huren-werkt/tarieven-huren/">tarieven</a> vind je meer informatie. Door te kiezen voor MyWheels Member geef je ons toestemming om per SEPA incasso de ritkosten achteraf te incasseren.</p>
+        <p>Je kunt hieronder een contract kiezen om ritten te betalen. Bij <a href="https://mywheels.nl/autodelen/hoe-huren-werkt/tarieven-huren/">tarieven</a> vind je meer informatie. Door te kiezen voor MyWheels Member geef je ons toestemming om per SEPA incasso de ritkosten achteraf te incasseren.</p>
     </section>
     <section layout="row" layout-xs="column" class="card-body contract">
         <!-- first card -->
@@ -21,14 +21,14 @@
                     <li>Geen borg</li>
                 </ul>
             </section>
-            <md-button type="button" ng-if="hasGo" name="button" class="md-raised md-primary" ui-sref="owm.finance.vouchers">Kies dit contract</md-button>
-            <md-button type="button" ng-if="!hasGo" name="button" class="md-raised md-primary" ng-click="createGo()">Kies dit contract</md-button>
+            <button type="button" ng-if="hasGo" name="button" class="mywheels-btn mywheels-btn-default" ui-sref="owm.finance.vouchers">Kies dit contract</button>
+            <button type="button" ng-if="!hasGo" name="button" class="mywheels-btn mywheels-btn-default" ng-click="createGo()">Kies dit contract</button>
         </section>
         <!-- second card -->
         <section class="contract-choice">
             <h3>MyWheels Member</h3>
             <section>
-                <div class="pay">Betaal achteraf per SEPA incasso</div>
+                <div class="pay">Betaal achteraf per SEPA incasso*</div>
                 <ul>
                     <li>Eigen risico optioneel af te kopen <br><small>3,50 euro per dag</small></li>
                     <li>Annuleren binnen 24 uur: volledige ritkosten</li>
@@ -39,8 +39,11 @@
                     <li>250 euro borg</li>
                 </ul>
             </section>
-            <md-button type="button" ng-if="!hasMember" name="button" class="md-raised md-primary" ng-click="createMember()">Kies dit contract</md-button>
-            <md-button type="button" ng-if="hasMember" name="button" class="md-raised md-primary" ui-sref="owm.finance.vouchers">Kies dit contract</md-button>
+            <button type="button" ng-if="!hasMember" name="button" class="mywheels-btn mywheels-btn-default" ng-click="createMember()">Kies dit contract</button>
+            <button type="button" ng-if="hasMember" name="button" class="mywheels-btn mywheels-btn-default" ui-sref="owm.finance.vouchers">Kies dit contract</button>
         </section>
+    </section>
+    <section class="card-body">
+        *Bij ritten hoger dan 250 euro vragen we de rit vooraf te voldoen.
     </section>
 </div>

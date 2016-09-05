@@ -54,7 +54,7 @@
 
   <div class="checkbox" ng-if="contractOptions && booking.contract.type.id !== 60 && booking.contract.ownRiskWaiver === 'not'">
     <label for="riskReduction">
-        <input id="riskReduction" type="checkbox" ng-model="booking.riskReduction" />
+        <input ng-change="riskReductionChanged()" id="riskReduction" type="checkbox" ng-model="booking.riskReduction" />
         {{ 'DECREASE_OWN_RISK' | translate }}
         <info-icon tooltip-html="'DECREASE_OWN_RISK_INFO' | translate"></info-icon>
     </label>
@@ -88,5 +88,4 @@
       </a>
     </p>
   </div>
-
 </form>

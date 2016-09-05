@@ -1,30 +1,14 @@
 'use strict';
 
 angular.module('owm.resource.search', [
-  'owm.resource.search.list',
-  'owm.resource.search.map'
-])
-
-  .controller('ResourceSearchController', function (
-      $location,
-      $scope,
-      $state,
-      $stateParams,
-      $uibModal,
-      $filter,
-      $anchorScroll,
-      appConfig,
-      Geocoder,
-      alertService,
-      resourceService,
-      resourceQueryService,
-      user,
-      place
-  ) {
+    'owm.resource.search.list',
+    'owm.resource.search.map'
+  ])
+  .controller('ResourceSearchController', function ($location, $scope, $state, $stateParams, $uibModal, $filter, $anchorScroll, appConfig, Geocoder, alertService, resourceService, resourceQueryService, user, place) {
 
     var DEFAULT_LOCATION = {
       // Utrecht, The Netherlands
-      latitude : 52.091667,
+      latitude: 52.091667,
       longitude: 5.117778000000044
     };
 
@@ -53,24 +37,24 @@ angular.module('owm.resource.search', [
       },
       filters: {},
       options: {
-        'airconditioning'    : false,
-        'fietsendrager'      : false,
-        'winterbanden'       : false,
-        'kinderzitje'        : false,
-        'navigatie'          : false,
-        'trekhaak'           : false,
-        'automaat'           : false,
-        'mp3-aansluiting'    : false,
+        'airconditioning': false,
+        'fietsendrager': false,
+        'winterbanden': false,
+        'kinderzitje': false,
+        'navigatie': false,
+        'trekhaak': false,
+        'automaat': false,
+        'mp3-aansluiting': false,
         'rolstoelvriendelijk': false
       }
     };
 
     init();
 
-    function init () {
+    function init() {
       if (query.timeFrame) {
         $scope.booking.beginRequested = query.timeFrame.startDate;
-        $scope.booking.endRequested   = query.timeFrame.endDate;
+        $scope.booking.endRequested = query.timeFrame.endDate;
       }
 
       if (query.radius) {
@@ -103,41 +87,43 @@ angular.module('owm.resource.search', [
     }
 
     // get search result for page(s)
-    // if gotoStartPage is true the searchresults will be displayed once 
+    // if gotoStartPage is true the searchresults will be displayed once
     // the request is finished. The loader/spinner will be shown.
-    // If gotoStartPage is empty no GUI changes are made, this is useful when 
+    // If gotoStartPage is empty no GUI changes are made, this is useful when
     // we want to cache results in the background
-    function doSearch (isInitialSearch, startPage, numberOfPages, gotoStartPage) {
+    function doSearch(isInitialSearch, startPage, numberOfPages, gotoStartPage) {
       // ensure backward compatatibility, define default values for new params
-      if(startPage === undefined) {
+      if (startPage === undefined) {
         startPage = 1;
       }
-      if(numberOfPages === undefined) {
+      if (numberOfPages === undefined) {
         numberOfPages = 2;
       }
-      if(gotoStartPage === undefined) {
+      if (gotoStartPage === undefined) {
         gotoStartPage = true;
       }
 
       // are requested pages legal?
-      if(startPage > max_pages) {
+      if (startPage > max_pages) {
         startPage = max_pages;
       }
-      if(startPage+numberOfPages > max_pages) {
+      if (startPage + numberOfPages > max_pages) {
         numberOfPages = max_pages - startPage + 1;
       }
 
       // time frame
       resourceQueryService.setTimeFrame({
         startDate: $scope.booking.beginRequested,
-        endDate  : $scope.booking.endRequested
+        endDate: $scope.booking.endRequested
       });
 
       // radius
       resourceQueryService.setRadius($scope.filters.props.radius);
 
       // options
-      var optionsArray = Object.keys($scope.filters.options).filter(function(e) { return $scope.filters.options[e]; });
+      var optionsArray = Object.keys($scope.filters.options).filter(function (e) {
+        return $scope.filters.options[e];
+      });
       resourceQueryService.setOptions(optionsArray);
 
       // filters
@@ -149,11 +135,21 @@ angular.module('owm.resource.search', [
       // calculate offset
       params.maxresults = numberOfPages * results_per_page;
       params.offset = (startPage - 1) * results_per_page;
-      if (query.location)  { params.location  = query.location;  }
-      if (query.timeFrame) { params.timeFrame = query.timeFrame; }
-      if (query.radius)    { params.radius    = query.radius; }
-      if (query.options)   { params.options   = query.options; }
-      if (query.filters)   { params.filters   = query.filters; }
+      if (query.location) {
+        params.location = query.location;
+      }
+      if (query.timeFrame) {
+        params.timeFrame = query.timeFrame;
+      }
+      if (query.radius) {
+        params.radius = query.radius;
+      }
+      if (query.options) {
+        params.options = query.options;
+      }
+      if (query.filters) {
+        params.filters = query.filters;
+      }
       if (!params.location) {
         if (user.isAuthenticated) {
           params.person = user.identity.id;
@@ -165,47 +161,46 @@ angular.module('owm.resource.search', [
       // we only want to show spinner/loader when the user is waiting for
       // the results. This function is sometimes called to cache the next page,
       // in that case we do not want to show the spinner.
-      if(gotoStartPage) {
+      if (gotoStartPage) {
         // perform search
         alertService.load();
         $scope.searching = true;
       }
       return resourceService.searchV2(params).then(function (resources) {
-        // if there are less results than expected, the last page
-        // is not equal to the max_page. Calculate and update last_pag
-        if(resources.length < 1) {
-          $scope.last_page = startPage - 1;
-        }
-        else if(resources.length < numberOfPages * results_per_page) {
-          $scope.last_page = startPage + Math.ceil(resources.length / results_per_page) - 1;
-        }
+          // if there are less results than expected, the last page
+          // is not equal to the max_page. Calculate and update last_pag
+          if (resources.length < 1) {
+            $scope.last_page = startPage - 1;
+          } else if (resources.length < numberOfPages * results_per_page) {
+            $scope.last_page = startPage + Math.ceil(resources.length / results_per_page) - 1;
+          }
 
-        // cache results
-        for(var i = 0; i < numberOfPages; i++) {
-          $scope.pagedResults[startPage + i] = resources.slice((i) * results_per_page, (i+1) * results_per_page);
-        }
+          // cache results
+          for (var i = 0; i < numberOfPages; i++) {
+            $scope.pagedResults[startPage + i] = resources.slice((i) * results_per_page, (i + 1) * results_per_page);
+          }
 
-        // if needed, update UI
-        if(gotoStartPage) {
-          $scope.showPage(startPage);
-        }
-        return resources;
-      })
-      .catch(function (err) {
-        alertService.addError(err);
-      })
-      .finally(function () {
-        $scope.searching = false;
-        alertService.loaded();
-      });
+          // if needed, update UI
+          if (gotoStartPage) {
+            $scope.showPage(startPage);
+          }
+          return resources;
+        })
+        .catch(function (err) {
+          alertService.addError(err);
+        })
+        .finally(function () {
+          $scope.searching = false;
+          alertService.loaded();
+        });
     }
 
-    $scope.showPage = function(page) {
+    $scope.showPage = function (page) {
       // check page is legal value
-      if(page < 1) {
+      if (page < 1) {
         page = 1;
       }
-      if(page > max_pages) {
+      if (page > max_pages) {
         page = max_pages;
       }
 
@@ -214,12 +209,12 @@ angular.module('owm.resource.search', [
       resourceQueryService.setPage(page);
       updateUrl();
 
-      if(page > 1) {
+      if (page > 1) {
         $anchorScroll('topsearch');
       }
 
       // page can be cached or not
-      if($scope.pagedResults[page] !== undefined) { // Hooray, page is already in cache
+      if ($scope.pagedResults[page] !== undefined) { // Hooray, page is already in cache
         $scope.resources = $scope.pagedResults[page];
       } else { // Snap, page is not in cache, get it and show immediately
         doSearch(false, page, 2, true);
@@ -227,9 +222,11 @@ angular.module('owm.resource.search', [
 
       // if next page is not in cache, cache it
       var cachedPages = Object.keys($scope.pagedResults);
-      if(cachedPages.indexOf(page + 1) < 0) { // next page not in cache, cache it!
+      if (cachedPages.indexOf(page + 1) < 0) { // next page not in cache, cache it!
         // doSearch might block loop, so do it in background;
-        setTimeout(function() {doSearch(false, page + 1, 1, false);}, 0);
+        setTimeout(function () {
+          doSearch(false, page + 1, 1, false);
+        }, 0);
       }
     };
 
@@ -245,9 +242,9 @@ angular.module('owm.resource.search', [
           }
         }
       }).result.then(function (booking) {
-          $scope.booking = booking;
-          return doSearch();
-        });
+        $scope.booking = booking;
+        return doSearch();
+      });
     };
 
     $scope.removeTimeframe = function () {
@@ -262,7 +259,7 @@ angular.module('owm.resource.search', [
         templateUrl: 'resource/filter/resource-filter-modal.tpl.html',
         controller: 'ResourceFilterController',
         resolve: {
-          props: function ( ){
+          props: function () {
             return $scope.filters.props;
           },
           filters: function () {
@@ -273,11 +270,11 @@ angular.module('owm.resource.search', [
           }
         }
       }).result.then(function (selected) {
-          $scope.filters.props   = selected.props;
-          $scope.filters.filters = selected.filters;
-          $scope.filters.options = selected.options;
-          return doSearch();
-        });
+        $scope.filters.props = selected.props;
+        $scope.filters.filters = selected.filters;
+        $scope.filters.options = selected.options;
+        return doSearch();
+      });
     };
 
     $scope.sidebarFiltersChanged = function () {
@@ -297,7 +294,7 @@ angular.module('owm.resource.search', [
         return;
       }
       resourceQueryService.setLocation({
-        latitude : newVal.geometry.location.lat(),
+        latitude: newVal.geometry.location.lat(),
         longitude: newVal.geometry.location.lng()
       });
       resourceQueryService.setText(newVal.formatted_address);
@@ -310,14 +307,14 @@ angular.module('owm.resource.search', [
       return doSearch();
     };
 
-    function updateUrl () {
+    function updateUrl() {
       $location.search(resourceQueryService.createStateParams());
     }
 
-    $scope.toggleMap = function toggleMap(){
-      if(! $state.includes('^.map')){
+    $scope.toggleMap = function toggleMap() {
+      if (!$state.includes('^.map')) {
         $state.go('^.map').then(updateUrl);
-      }else{
+      } else {
         $state.go('^.list').then(updateUrl);
       }
     };

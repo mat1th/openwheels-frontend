@@ -1,4 +1,4 @@
-<div class="container" ng-class="{ 'container-transitional': containerTransitional, 'container-home': containerHome }">
+<div class="container" ng-class="{ 'container-transitional': containerTransitional, 'container-home': containerHome, 'intro__page': containerIntro }">
   <md-toolbar class="app-toolbar">
 
     <div class="md-toolbar-tools">
@@ -25,6 +25,12 @@
       <md-button hide-xs ng-if="user.isAuthenticated || isWindowSizeXS" href="{{ 'NAVBAR.HOW_IT_WORKS_URL' | translate }}">
         <md-icon>help_outline</md-icon>
         <span>Help</span>
+      </md-button>
+
+      <!-- add resource -->
+      <md-button hide-xs hide-sm ng-if="!user.isAuthenticated" ui-sref="list-your-car">
+        <md-icon>directions_car</md-icon>
+        <span>{{ 'LIST_YOUR_CAR' | translate }}</span>
       </md-button>
 
       <!-- spinner -->

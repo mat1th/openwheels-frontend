@@ -111,7 +111,7 @@ angular.module('owm.auth', [
           .finally(function () {
             alertService.loaded();
             $timeout(function () {
-              $state.go('owm.person.profile');
+              $state.go('home');
             });
           });
       }

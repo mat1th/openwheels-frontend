@@ -1,0 +1,52 @@
+<md-card class="card">
+    <md-card-title>
+        <md-card-title-text layout="colum" layout-wrap style="padding-bottom: 0px;" class="list-your-car--title">
+            <h3 class="no-margin" style="font-size: 2rem" flex="100" ng-show="!$root.personSubmitted && !personSubmitted">
+                <span>Persoonsgegevens</span>
+            </h3>
+            <h2 class="no-margin" flex="100" ng-show="$root.personSubmitted || personSubmitted">
+                <md-icon class="text-success">check</md-icon>
+                <span ng-show="$root.personSubmitted || personSubmitted">Jouw auto staat online!</span>
+            </h2>
+        </md-card-title-text>
+    </md-card-title>
+    <md-card-body class="card-body">
+        <div class="mywheels-form">
+
+            <p ng-show="!$root.personSubmitted && !personSubmitted">{{ ('LIST_YOUR_CAR_PERSON' | translate).split('&nbsp;').join(' ') }}</p>
+            
+            <section ng-show="$root.personSubmitted || personSubmitted">
+                <p>Hij is nu beschikbaar voor de duizenden gebruikers van MyWheels. Klik hieronder om te bekijken hoe zij jouw auto zien.</p>
+
+                <button type="button" name="button" class="mywheels-btn mywheels-btn-default" ui-sref="owm.resource.show({city: resource.city, resourceId: resource.id})">Bekijk voorbeeld</button>
+
+                <br/>
+
+                <h3>Je eerste verhuurverzoek</h3>
+                <p>Volg onderstaande stappen om een eerste verhuring succesvol te laten verlopen:</p>
+                <ol>
+                    <li>Accepteer het verzoek op MyWheels.nl en neem contact op om de sleuteloverdracht af te stemmen;</li>
+                    <li>Controleer aan de hand van het rijbewijs of huurder de auto zelf ophaalt;</li>
+                    <li>Per mail ontvang je een overeenkomst, noteer samen de begin kilometerstand en de aanwezige schade;</li>
+                    <li>Controleer na afloop of er nieuwe schade is en noteer de eind kilometerstand op de overeenkomst;</li>
+                    <li>Geef de gereden kilometerstanden door op MyWheels.nl om de rit af te sluiten.</li>
+                </ol>
+
+                <h3>Promoot je auto</h3>
+                <p ng-if="resource.pictures.length > 0">Wij sturen alle gebruikers in de buurt een mail om ze te laten weten dat jouw auto beschikbaar is. Op onze kosten krijgen zij 5 euro korting op een eerste rit in jouw auto.</p>
+
+                <p>Wil je jouw auto zelf promoten? Breng dan hieronder je vrienden op de hoogte dat hij beschikbaar is.<p>
+
+                <div class="card-body card-notice">
+                    Deel jouw auto op social media of download een flyer.
+                    <br/>
+                    <div share-buttons url="shareUrl" resource="resource"></div>
+                </div>
+
+            </section>
+
+            <personal-data resource="resource"></personal-data>
+
+        </div>
+    </md-card-body>
+</md-card>

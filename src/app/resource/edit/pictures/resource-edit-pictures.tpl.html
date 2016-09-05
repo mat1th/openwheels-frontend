@@ -1,8 +1,8 @@
 <div ng-controller="ResourceEditPicturesController">
 
-  <p>{{ 'RESOURCE_PICTURES_INTRO' | translate }}</p>
+  <p ng-if="!ownerflow">{{ 'RESOURCE_PICTURES_INTRO' | translate }}</p>
 
-  <form ng-show="photos.length < 3">
+  <form ng-show="photos.length < 4">
     <div class="form-group">
       <label>{{ 'RESOURCE_PICTURES_UPLOAD' | translate }}</label>
       <file-input on-change="addPicture"></file-input>
