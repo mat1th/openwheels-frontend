@@ -2,7 +2,7 @@
 
 angular.module('owm.resource.create', ['owm.resource.create.carInfo', 'owm.resource.create.location', 'owm.resource.create.carPhotos', 'owm.resource.create.details'])
 
-.controller('ResourceCreateController', function ($scope, $rootScope, $filter, $state, $log, $stateParams, $translate, resources, resourceService, authService, alertService, dialogService, me) {
+.controller('ResourceCreateController', function ($scope, $rootScope, $filter, $state, $log, $stateParams, $translate, resources, resourceService, authService, $anchorScroll, alertService, dialogService, me) {
 
   var resource = {
     fromUser: resources,
@@ -13,13 +13,15 @@ angular.module('owm.resource.create', ['owm.resource.create.carInfo', 'owm.resou
       $scope.isLicencePlate = $stateParams.licencePlate !== undefined ? true : false;
       $scope.resource = {};
       $scope.licenceAlreadyListed = false;
-      this.ceckCurrentRoute();
+      $scope.unknownLicence = false;
+      $scope.unknownError = false;
+      this.checkCurrentRoute();
       $rootScope.$on('$stateChangeSuccess', function () {
-        _this.ceckCurrentRoute();
+        _this.checkCurrentRoute();
       });
 
       if ($scope.isLicencePlate) { //check if the parammeter licencePlate is defined
-        if (this.checkLicence()) { //checks if the licenceplate is
+        if (this.checkLicence()) { //checks if the licenceplate is added by user
           var dayPrice = $stateParams.dayPrice || 25;
           resource.create($stateParams.licencePlate, dayPrice);
         } else {
@@ -33,22 +35,31 @@ angular.module('owm.resource.create', ['owm.resource.create.carInfo', 'owm.resou
       $scope.isBusy = true;
       resourceService.create({
         'owner': me.id,
-        'registrationPlate': licencePlate,
-        'otherProps': {
-          'isAvailableOthers': false,
-          'isAvailableFriends': false,
-          'refuelByRenter': true,
-          'kmFree': true,
-          'hourRate': '10',
-          'kilometerRate': dayPrice / 10
-        }
+        'registrationPlate': licencePlate
+      }).then(function (resource) {
+        return resourceService.alter({
+          'resource': resource.id,
+          'newProps': {
+            'isAvailableOthers': 'false',
+            'isAvailableFriends': 'false',
+            'refuelByRenter': true,
+            'dayRateTotal': dayPrice / 1,
+            'kmFree': true,
+            'hourRate': dayPrice / 10,
+            'kilometerRate': 0.10
+          }
+        });
       }).then(function (resource) {
         $scope.resource = resource;
-        // $log.debug(resource);
+        $scope.$broadcast('resource_added', resource);
         $scope.isBusy = false;
       }).catch(function (err) {
         if (err.message === 'Een auto met dit kenteken bestaat al') {
           $scope.licenceAlreadyListed = true;
+        } else if (err.message === 'Ongeldig kenteken') {
+          $scope.unknownLicence = true;
+        } else if (err.message) {
+          $scope.unknownError = true;
         }
         $scope.isBusy = false;
       });
@@ -56,11 +67,9 @@ angular.module('owm.resource.create', ['owm.resource.create.carInfo', 'owm.resou
     checkLicence: function () { //checks the lince if it is already added by the user
       var re = new RegExp('-', 'g');
       var plate = $stateParams.licencePlate.toLowerCase();
-      // $log.debug(this.fromUser);
-      // $log.debug(this.fromUser.length);
       return this.fromUser.every(function (elm, index) {
         if (elm.registrationPlate !== undefined && elm.registrationPlate !== null) {
-          if (elm.registrationPlate.replace(re, '').toLowerCase() === plate) {
+          if (elm.registrationPlate.replace(re, '').toLowerCase() === plate.replace(re, '').toLowerCase()) {
             $scope.resource = elm;
             $log.debug('same number!');
             return false;
@@ -72,7 +81,7 @@ angular.module('owm.resource.create', ['owm.resource.create.carInfo', 'owm.resou
         }
       });
     },
-    ceckCurrentRoute: function () {
+    checkCurrentRoute: function () {
       $scope.pageNumber = 1;
       if ($state.current.name === 'owm.resource.create.carInfo') {
         $scope.pageNumber = 1;

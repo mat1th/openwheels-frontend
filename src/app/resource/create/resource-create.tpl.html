@@ -1,26 +1,29 @@
 <div class="progress--steps">
-    <section class="step" ui-sref="owm.resource.create.carInfo"data-section="1" title="Auto gegevens" ng-class="{'selected': pageNumber === 1 ? true : false, 'done': pageNumber > 1 ? true : false }"></section>
-    <section class="step" ui-sref="owm.resource.create.location" data-section="2" title="Persoons gegevens" ng-class="{'selected': pageNumber === 2 ? true : false, 'done': pageNumber > 2 ? true : false}"></section>
-    <section class="step" ui-sref="owm.resource.create.carPhotos" data-section="3" title="{{isbooking !== true ? 'Auto zoeken' : 'Betalen'}}" ng-class="{'selected': pageNumber === 3 ? true : false, 'done': pageNumber > 3 ? true : false }"></section>
-    <section class="step last-step" ui-sref="owm.resource.create.details" data-section="4" title="{{isbooking !== true ? 'Auto zoeken' : 'Betalen'}}" ng-class="{'selected': pageNumber === 4 ? true : false, 'done': pageNumber > 4 ? true : false }"></section>
+    <section class="step" ui-sref="owm.resource.create.carInfo" data-section="1" title="Autokenmerken" ng-class="{'selected': pageNumber === 1 ? true : false, 'done': pageNumber > 1 ? true : false }"></section>
+    <section class="step" ui-sref="owm.resource.create.location" data-section="2" title="Locatie" ng-class="{'selected': pageNumber === 2 ? true : false, 'done': pageNumber > 2 ? true : false}"></section>
+    <section class="step" ui-sref="owm.resource.create.carPhotos" data-section="3" title="Foto's" ng-class="{'selected': pageNumber === 3 ? true : false, 'done': pageNumber > 3 ? true : false }"></section>
+    <section class="step last-step" ui-sref="owm.resource.create.details({personSubmitted: 'false'})" data-section="4" title="Persoonsgegevens" ng-class="{'selected': pageNumber === 4 ? true : false, 'done': pageNumber > 4 ? true : false }"></section>
 </div>
 
 <section class="container container-main">
+
     <!-- load the serveral pages here -->
-    <ui-view ng-if="!licenceAlreadyListed" />
+    <ui-view ng-if="!licenceAlreadyListed && !unknownLicence && !unknownError" />
     <!-- load the serveral pages here -->
     <!-- if the car is already in the database show this -->
-    <md-card ng-if="licenceAlreadyListed" class="card">
+    <md-card ng-if="licenceAlreadyListed || unknownLicence || unknownError" class="card">
         <md-card-title>
             <md-card-title-text layout="colum" layout-wrap>
                 <h3 class="no-margin" style="font-size: 2rem" flex="100">
-                    <span>Sorry, deze auto is al door iemand anders toegevoegd</span>
+                    <span ng-if="licenceAlreadyListed">Sorry, deze auto is al door iemand anders toegevoegd</span>
+                    <span ng-if="unknownLicence">Sorry, het kenteken kon helaas niet gevonden worden</span>
+                    <span ng-if="unknownError">Sorry, we konden de auto helaas niet toevoegen</span>
                 </h3>
             </md-card-title-text>
         </md-card-title>
         <md-card-body class="card-body">
-            <p>Je kan deze auto niet toevoegen. </p>
-            <button type="button" name="button" class="mywheels-btn mywheels-btn-default">Voeg een andere auto toe</button>
+            <p>Je kunt deze auto niet toevoegen.</p>
+            <button type="button" name="button" ui-sref="list-your-car" class="mywheels-btn mywheels-btn-default">Voeg een andere auto toe</button>
         </md-card-body>
     </md-card>
     <!-- /if the car is already in the database show this -->

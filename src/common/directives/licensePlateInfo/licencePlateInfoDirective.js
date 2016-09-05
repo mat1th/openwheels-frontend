@@ -13,13 +13,16 @@ angular.module('licencePlateInfoDirective', [])
         if (show) {
           $scope.licencePlate.showError = true;
           $scope.licencePlate.data = false;
-          $scope.licencePlate.error = 'Als kenteken onbekend is: Helaas kunnen we geen auto met dit kenteken vinden. Wil je het nog een keer proberen?';
+          $scope.licencePlate.error = 'Helaas kunnen we geen auto met dit kenteken vinden. Wil je het nog een keer proberen?';
         } else {
           $scope.licencePlate.showError = false;
         }
       }
       $scope.resetlicencePlate = function () {
         $scope.licencePlate.data = false;
+      };
+      $scope.removeError = function() {
+        $scope.licencePlate.showError = false;
       };
       $scope.getLicencePlateInfo = function () {
         var re = new RegExp('-', 'g');

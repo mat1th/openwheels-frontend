@@ -4,14 +4,13 @@
         <h1>{{ 'LIST_YOUR_CAR_TITLE' | translate }}</h1>
     </section>
     <div class="triangle--bar triangle--bar-white">
-        <button type="button" name="button" class="mywheels-btn mywheels-btn-light mywheels-btn-full-width " ng-show="licencePlate.data" ng-click="resetlicencePlate()">{{'OTHER_REGISTRATION_PLATE' | translate }}</button>
         <!-- list-your-car container -->
         <section ng-show="!licencePlate.data" class="list-your-car--container container-home">
             <div class="">
                 <div license-plate-info class="list-your-car--licenceplate"> </div>
             </div>
             <div class="list-your-car--advatage">
-                <h2>Waarom Mywheels?</h2>
+                <h2>{{ 'LIST_YOUR_CAR_ADVANTAGE_TITLE' | translate }}</h2>
                 <ul class="list-unstyled list-spaced list-normal">
                     <li>
                         <md-icon class="text-success list-margin">check</md-icon><span>{{'LIST_YOUR_CAR_ADVANTAGE_COSTS' | translate }}</span>
@@ -34,6 +33,7 @@
         <!-- /list-your-car container -->
 
         <!-- list-your-car container -->
+        <h2 class="list-your-car--container--heading" ng-show="licencePlate.data" translate="LIST_YOUR_CAR_CONTAINER_TITLE" translate-values="{ brand: (licencePlate.data.merk | toTitleCase) || 'auto' }"></h2>
         <section class="list-your-car--container container-home" ng-show="licencePlate.data">
             <div class="list-your-car--car-info-list">
                 <ul>
@@ -71,15 +71,16 @@
                     </li>
                 </ul>
             </div>
+            <span show-xs><br><br></span>
             <div>
                 <div class="list-your-car--calculate-your-price">
                     <div class="list-your-car--calculate-your-price__your-price">
-                        <h2>€ {{calculateYourPrice.total}} <sup>per/j*</sup></h2>
-                        <span>* Inclusief gemiddelde extra kilometerprijs</span>
+                        <h2>€ {{calculateYourPrice.total}} <sup>p/j*</sup></h2>
+                        <span>{{'LIST_YOUR_CAR_PRICE_INFO' | translate }}</span>
                     </div>
                     <form class="list-your-car--calculate-your-price__toggles" name="calculateYourPriceForm">
                         <div>
-                            <h3>Dagprijs</h3>
+                            <h3>Prijs per dag</h3>
                             <button class="mywheels-btn mywheels-btn-transparant" ng-click="changePrice($event, '-', 'dayPrice')" ng-disabled="calculateYourPriceForm.dayPrice.$modelValue === 0">
                                 <md-icon>remove</md-icon>
                             </button>
@@ -89,7 +90,7 @@
                             </button>
                         </div>
                         <div>
-                            <h3>Dagen per maand</h3>
+                            <h3>Dagen verhuur per maand</h3>
                             <button class="mywheels-btn mywheels-btn-transparant" ng-click="changePrice($event, '-', 'numberOfDays')" ng-disabled="calculateYourPriceForm.numberOfDays.$modelValue === 0">
                                 <md-icon>remove</md-icon>
                             </button>
@@ -100,14 +101,116 @@
                         </div>
                     </form>
                 </div>
-                <button type="button" name="button" class="mywheels-btn mywheels-btn-default mywheels-btn-full-width" ng-click="beginRentingOut()" ng-disabled="!licencePlate.data">Begin met verhuren</button>
             </div>
         </section>
+        <div layout="column" layout-align="center center" class="list-your-car--buttons layout-align-center-center layout-column">
+            <button type="button" name="button" class="mywheels-btn mywheels-btn-default mywheels-btn-big" ng-click="beginRentingOut()" ng-show="licencePlate.data" ng-disabled="!licencePlate.data">{{'LIST_YOUR_CAR_ACTION' | translate }}</button>
+            <button type="button" name="button" class="mywheels-btn mywheels-btn-light" ng-show="licencePlate.data" ng-click="resetlicencePlate()">{{'OTHER_REGISTRATION_PLATE' | translate }}</button>
+        </div>
         <!-- /list-your-car container -->
     </div>
 
+    <div class="intro-section">
+        <section class="intro-section__faq">
+            <div class="intro__page">
+                <h2 class="intro-section__faq__heading">{{'FAQ' | translate}}</h2>
+                <div class="intro-section__faq__boxes">
+                    <div class="intro-section__faq__boxes_divider">
+                        <div class="intro-section__faq__box">
+                            <md-card>
+                                <md-card-header ng-click="toggleBox(1)">
+                                    <md-card-header-text>
+                                        <span class="md-title">{{ 'FAQ_COSTS' | translate}}<md-icon class="pull-right">{{openboxes[1] ? 'expand_less' : 'expand_more'}}</md-icon></span>
+                                    </md-card-header-text>
+                                </md-card-header>
+                                <md-divider></md-divider>
+                                <md-card-content class="intro-section__faq__answer" ng-show="openboxes[1]">
+                                    {{ 'FAQ_COSTS_TEXT' | translate}}
+                                </md-card-content>
+                            </md-card>
+                        </div>
 
-    <section class="container-home">
-        <a ng-href="{{ 'NAVBAR.LIST_YOUR_CAR_URL' | translate }}" class="mywheels-btn-span">Lees de verhuurtips »</a>
-    </section>
+                        <div class="intro-section__faq__box">
+                            <md-card>
+                                <md-card-header ng-click="toggleBox(2)">
+                                    <md-card-header-text>
+                                        <span class="md-title">  {{ 'FAQ_NO_CLAIM' | translate}}<md-icon class="pull-right">{{openboxes[2] ? 'expand_less' : 'expand_more'}}</md-icon></span>
+                                    </md-card-header-text>
+                                </md-card-header>
+                                <md-divider></md-divider>
+                                <md-card-content class="intro-section__faq__answer" ng-show="openboxes[2]">
+                                    {{ 'FAQ_NO_CLAIM_TEXT' | translate}}
+                                </md-card-content>
+                            </md-card>
+                        </div>
+
+                        <div class="intro-section__faq__box">
+                            <md-card>
+                                <md-card-header ng-click="toggleBox(3)">
+                                    <md-card-header-text>
+                                        <span class="md-title">  {{ 'FAQ_TRUST' | translate}}<md-icon class="pull-right">{{openboxes[3] ? 'expand_less' : 'expand_more'}}</md-icon></span>
+                                    </md-card-header-text>
+                                </md-card-header>
+                                <md-divider></md-divider>
+                                <md-card-content class="intro-section__faq__answer" ng-show="openboxes[3]">
+                                    {{ 'FAQ_TRUST_TEXT' | translate}}
+                                </md-card-content>
+                            </md-card>
+                        </div>
+
+                    </div>
+
+                    <div class="intro-section__faq__boxes_divider">
+                        <div class="intro-section__faq__box">
+                            <md-card>
+                                <md-card-header ng-click="toggleBox(4)">
+                                    <md-card-header-text>
+                                        <span class="md-title">  {{ 'FAQ_INSURANCE_OWNER' | translate}}<md-icon class="pull-right">{{openboxes[4] ? 'expand_less' : 'expand_more'}}</md-icon></span>
+                                    </md-card-header-text>
+                                </md-card-header>
+                                <md-divider></md-divider>
+                                <md-card-content ng-show="openboxes[4]">
+                                    {{ 'FAQ_INSURANCE_OWNER_TEXT' | translate}}
+                                </md-card-content>
+                            </md-card>
+                        </div>
+
+                        <div class="intro-section__faq__box">
+                            <md-card>
+                                <md-card-header ng-click="toggleBox(5)">
+                                    <md-card-header-text>
+                                        <span class="md-title">  {{ 'FAQ_FUEL' | translate}}<md-icon class="pull-right">{{openboxes[5] ? 'expand_less' : 'expand_more'}}</md-icon></span>
+                                    </md-card-header-text>
+                                </md-card-header>
+                                <md-divider></md-divider>
+                                <md-card-content ng-show="openboxes[5]">
+                                    {{ 'FAQ_FUEL_TEXT' | translate}}
+                                </md-card-content>
+                            </md-card>
+                        </div>
+
+                        <div class="intro-section__faq__box">
+                            <md-card>
+                                <md-card-header ng-click="toggleBox(6)">
+                                    <md-card-header-text>
+                                        <span class="md-title">  {{ 'FAQ_FRIENDS' | translate}}<md-icon class="pull-right">{{openboxes[6] ? 'expand_less' : 'expand_more'}}</md-icon></span>
+                                    </md-card-header-text>
+                                </md-card-header>
+                                <md-divider></md-divider>
+                                <md-card-content ng-show="openboxes[6]">
+                                    {{ 'FAQ_FRIENDS_TEXT' | translate}}
+                                </md-card-content>
+                            </md-card>
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="intro-section__faq__button">
+                    <a href="https://mywheels.nl/autodelen/" class="mywheels-btn mywheels-btn-default mywheels-btn-normal" md-ink-ripple="#4b702c">{{ 'FAQ_ALL' | translate }}</a>
+                </div>
+            </div>
+        </section>
+    </div>
+
 </div>

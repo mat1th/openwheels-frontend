@@ -1,9 +1,9 @@
 <form method="post" name="licencePlateForm">
     <div class="licence-plate-nl">
-        <input type="text" autocomplete="on" name="licencePlate" ng-model="licencePlate.content">
+        <input type="text" autocomplete="on" name="licencePlate" ng-change="removeError()" ng-model="licencePlate.content">
     </div>
-    <div>
-        <span ng-if="licencePlate.showError" class="licence-plate-error">{{ licencePlate.error}}</span>
+    <div class="licence-plate-error">
+        <span ng-if="licencePlate.showError">{{ licencePlate.error.split('&nbsp;').join(' ') }}</span>
     </div>
     <button type="sumbit" name="button" class="mywheels-btn mywheels-btn-normal mywheels-btn-big mywheels-btn-full-width" ng-click="getLicencePlateInfo()" ng-disabled="licencePlateForm.licencePlate.$viewValue.length < 5">Berekenen</button>
 </form>

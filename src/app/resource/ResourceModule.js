@@ -170,7 +170,7 @@ angular.module('owm.resource', [
    * resource/create
    */
   $stateProvider.state('owm.resource.create', {
-    url: '/mijn-auto/create?licencePlate&dayPrice&numberOfDays',
+    url: '/mijn-auto/create?licencePlate&dayPrice&numberOfDays&personSubmitted=false',
     abstract: true,
     reloadOnSearch: false,
     views: {
@@ -205,7 +205,7 @@ angular.module('owm.resource', [
   });
 
   /**
-   * /mijn-auto/create?licencePlate=23sdwe&dayPrice=26&numberOfDays=5
+   * /mijn-auto/create?licencePlate=23sdwe&dayPrice=26&numberOfDays=5&personSubmitted=false
    */
 
   $stateProvider.state('owm.resource.create.carInfo', {
@@ -227,7 +227,7 @@ angular.module('owm.resource', [
   });
 
   /**
-   * /mijn-auto/create/phots?licencePlate=23sdwe&dayPrice=26&numberOfDays=5
+   * /mijn-auto/create/phots?licencePlate=23sdwe&dayPrice=26&numberOfDays=5&personSubmitted=false
    */
 
   $stateProvider.state('owm.resource.create.carPhotos', {
@@ -237,7 +237,7 @@ angular.module('owm.resource', [
     templateUrl: 'resource/create/carPhotos/car-photos.tpl.html'
   });
   /**
-   * /mijn-auto/create/details?licencePlate=23sdwe&dayPrice=26&numberOfDays=5
+   * /mijn-auto/create/details?licencePlate=23sdwe&dayPrice=26&numberOfDays=5&personSubmitted=false
    */
 
   $stateProvider.state('owm.resource.create.details', {

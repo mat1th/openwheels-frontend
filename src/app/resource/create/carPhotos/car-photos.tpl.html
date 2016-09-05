@@ -1,25 +1,37 @@
 <md-card class="card">
     <md-card-title>
-        <md-card-title-text layout="colum" layout-wrap>
+        <md-card-title-text layout="colum" layout-wrap style="padding-bottom: 0px;" class="list-your-car--title">
             <h3 class="no-margin" style="font-size: 2rem" flex="100">
             <span>Foto's auto</span>
             </h3>
         </md-card-title-text>
     </md-card-title>
-    <md-card-body class="card-body mywheels-form">
-      <p>Verhoog je kans op verhuur: auto’s met foto’s worden 700% vaker gehuurd! Voeg daarom vier liggende foto’s toe.</p>
-        <div ng-include="'resource/edit/pictures/resource-edit-pictures.tpl.html'"></div>
-        <!-- call to action buttons -->
-        <div class="details--card--form__navigation-buttons">
-            <button rel="prev" type="button" class="mywheels-btn mywheels-btn-transparant btn--navigation__previous"  md-ink-ripple="#ded8d8" ui-sref="owm.resource.create.location">
-                <md-icon>navigate_before</md-icon>
-                {{ 'PREVIOUS' | translate}}
-            </button>
-            <button type="submit" name="button" ng-disabled="editResourceForm.$pristine" ng-click="submit()" class="mywheels-btn mywheels-btn-default btn--navigation__next" ui-sref="owm.resource.create.details">
-                {{ 'NEXT' | translate }}
-                <md-icon class="text-white">navigate_next</md-icon>
-            </button>
+    <md-card-body class="card-body">
+        <div class=" mywheels-form">
+            
+            <p>{{ ('LIST_YOUR_CAR_PHOTOS' | translate).split('&nbsp;').join(' ') }}</p>
+
+            <div ng-include="'resource/edit/pictures/resource-edit-pictures.tpl.html'"></div>
+
+            <!-- call to action buttons -->
+            <div class="details--card--form__navigation-buttons">
+                <button rel="prev" type="button" class="mywheels-btn mywheels-btn-transparant btn--navigation__previous"  md-ink-ripple="#ded8d8" ui-sref="owm.resource.create.location">
+                    <md-icon>navigate_before</md-icon>
+                    {{ 'PREVIOUS' | translate}}
+                </button>
+                <div>
+                    <button type="submit" name="button" ng-click="submit()" class="mywheels-btn mywheels-btn-default btn--navigation__next" ng-show="!resource.pictures.length" ui-sref="owm.resource.create.details">
+                        {{ 'SKIP' | translate }}
+                        <md-icon class="text-white">navigate_next</md-icon>
+                    </button>
+                    <button type="submit" name="button" ng-click="submit()" class="mywheels-btn mywheels-btn-default btn--navigation__next" ng-show="resource.pictures.length" ui-sref="owm.resource.create.details">
+                        {{ 'NEXT' | translate }}
+                        <md-icon class="text-white">navigate_next</md-icon>
+                    </button>
+                </div>
+            </div>
+            <!-- /call to action buttons -->
+
         </div>
-        <!-- /call to action buttons -->
     </md-card-body>
 </md-card>
