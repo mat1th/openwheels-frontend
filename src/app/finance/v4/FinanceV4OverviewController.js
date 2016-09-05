@@ -23,10 +23,7 @@ angular.module('owm.finance.v4', [])
   ;
 
   voucherService.calculateRequiredCredit({person: me.id})
-  .then(log)
-  .then(function(results) {
-    $scope.requiredCredit = results;
-  })
+  .then(function(results) { $scope.requiredCredit = results; })
   ;
 
   voucherService.search({person: me.id, minValue: 0.0})
