@@ -26,12 +26,17 @@ angular.module('owm.booking.show', [])
   $scope.contract = contract;
 
   $scope.booking = booking;
+  $scope.bookingStarted = moment().isAfter(moment(booking.beginBooking));
   $scope.resource = booking.resource;
   $scope.showBookingForm = false;
   $scope.showPricePerHour = false;
   $scope.userInput = {
     acceptRejectRemark: ''
   };
+
+  if(booking.resource.refuelByRenter) {
+    $scope.contract.type.canHaveDeclaration = false;
+  }
 
   $scope.userPerspective = (function () {
     if (booking.person.id === me.id) {
@@ -472,7 +477,7 @@ angular.module('owm.booking.show', [])
     if (price.rent > 0) { s += 'Huur: ' + $filter('currency')(price.rent) + '<br/>'; }
     if (price.insurance > 0) { s += 'Verzekering: ' + $filter('currency')(price.insurance) + '<br/>'; }
     if (price.booking_fee > 0) { s += 'Boekingskosten: ' + $filter('currency')(price.booking_fee) + '<br/>'; }
-    if (price.redemption > 0) { s+='Afkoop eigen risico: ' + $filter('currency')(price.redemption) + '<br/>'; }
+    if (price.redemption > 0) { s+='Verlagen eigen risico: ' + $filter('currency')(price.redemption) + '<br/>'; }
     s += 'Totaal: ' + $filter('currency')(price.total);
     return s;
   };

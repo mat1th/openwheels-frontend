@@ -324,5 +324,4 @@ angular.module('owm.person.profile', [])
     });
   };
 
-})
-;
+});

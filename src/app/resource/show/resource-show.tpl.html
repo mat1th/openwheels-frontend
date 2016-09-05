@@ -47,8 +47,8 @@
                             <md-card-title ng-if="!isWindowSizeSM">
                                 <md-card-title-text layout="colum" layout-wrap>
                                     <h3 class="no-margin" style="font-size: 2rem" flex="100">
-                        <span>{{ resource.alias || ('RESOURCE_NO_NAME' | translate) }}</span>
-                        </h3>
+                    <span>{{ resource.alias || ('RESOURCE_NO_NAME' | translate) }}</span>
+                  </h3>
                                 </md-card-title-text>
                             </md-card-title>
                             <md-card-body class="ow-list-compact">
@@ -56,14 +56,13 @@
                                     <h3>{{ (resource.brand | toTitleCase) || ('UNKNOWN_BRAND' | translate) }}
                       <span ng-if="resource.model"> {{ resource.model }}</span>
                       <div ng-if="['smartphone', 'chipcard'].indexOf(resource.locktype) >= 0" class="tag tag-warning" style="margin-bottom: 8px"> {{ 'SMART_WHEELS_TIP' | translate }}
-                          <md-tooltip md-direction="bottom" class="multiline">
-                              {{ 'SMART_WHEELS_INFO' | translate }}
-                          </md-tooltip>
+                        <md-tooltip md-direction="bottom" class="multiline">
+                        {{ 'SMART_WHEELS_INFO' | translate }}
+                        </md-tooltip>
                       </div>
-                        </h3>
+                    </h3>
                                     <div ng-include="'resource/partials/resource-features.tpl.html'"></div>
                                 </div>
-
                             </md-card-body>
                         </div>
                     </div>
@@ -86,33 +85,25 @@
                 </div>
             </div>
 
+            <!-- resource sidebar smaller screens (not in sidebar) -->
             <div class="card" ng-if="!features.resourceSidebar || !isWindowSizeMD">
                 <div class="card-body">
-
                     <!-- price -->
                     <div ng-include="'resource/partials/resource-price.tpl.html'"></div>
 
                     <!-- booking form -->
                     <div class="text-center" ng-if="showBookingFormToggle">
                         <p>
-                            <button class="btn btn-success" ng-click="toggleBookingForm()">
+                            <button ng-if="!me" class="btn btn-success" ng-click="toggleBookingForm()">
+                                {{ 'CREATE_BOOKING' | translate }}
+                            </button>
+                            <button ng-if="me" class="btn btn-success" ng-click="toggleBookingForm()">
                                 {{ 'CREATE_BOOKING' | translate }}
                             </button>
                             <a class="btn btn-default" ui-sref="owm.resource.calendar({city: resource.city, resourceId: resource.id})">
                                 <i class="fa fa-calendar"></i> {{ 'CALENDAR_BUTTON' | translate }}
                             </a>
                         </p>
-                        <!-- <div class="text-center" ng-if="resource.response_accept !== null">
-              <p>
-                <small>
-                  <i class="text-success fa fa-fw fa-check"></i>
-                  {{ resource.owner.firstName }}
-                  {{ 'ACCEPTED_REQUESTS_PREFIX' | translate }}
-                  {{ resource.response_accept | percentage : 0 }}
-                  {{ 'ACCEPTED_REQUESTS_SUFFIX' | translate}}
-                </small>
-              </p>
-            </div> -->
                     </div>
                     <div id="createBookingContainer" uib-collapse="!showBookingForm">
                         <reservation-form person="me" resource="resource" booking="booking" show-price="false"></reservation-form>
@@ -129,8 +120,8 @@
 
                 </div>
             </div>
-            <!-- owner -->
 
+            <!-- owner -->
             <div class="card">
                 <div class="card-heading">
                     <h3 class="card-title">{{ 'OWNER' | translate }}</h3>
@@ -144,7 +135,7 @@
                             <div><span badge-list="resource.owner.badges"></span></div>
 
                             <button ng-if="me" type="button" class="btn btn-link" ng-click="openChatWith(resource.owner)">
-                                <i class="fa fa-comment fa-fw"></i> Stuur een bericht
+                                <i class="fa fa-comment fa-fw"></i> {{ 'SEND_MESSAGE' | translate }}
                             </button>
                         </div>
                     </div>
@@ -162,7 +153,6 @@
             </div>
 
             <!-- contact person -->
-
             <div class="card" ng-if="me && resource.contactPerson && (resource.contactPerson.id !== resource.owner.id)">
                 <div class="card-heading">
                     <h3 class="card-title">{{ 'CONTACT_PERSON' | translate }}</h3>
@@ -176,7 +166,7 @@
                             <div><span badge-list="resource.contactPerson.badges"></span></div>
 
                             <button ng-if="me" type="button" class="btn btn-link" ng-click="openChatWith(resource.contactPerson)">
-                                <i class="fa fa-comment fa-fw"></i> Stuur een bericht
+                                <i class="fa fa-comment fa-fw"></i> {{ 'SEND_MESSAGE' | translate }}
                             </button>
                         </div>
                     </div>
@@ -190,13 +180,12 @@
             </div>
 
             <!-- ratings -->
-
             <div class="card" ng-if="features.ratings">
                 <div class="card-heading">
                     <h3 class="card-title">
-            <span ng-bind="'RATINGS' | translate"></span>
-            &nbsp;<span ng-if="resource.ratings.length >= 1">({{ resource.ratings.length }})</span>
-          </h3>
+                  <span ng-bind="'RATINGS' | translate"></span>
+                  &nbsp;<span ng-if="resource.ratings.length >= 1">({{ resource.ratings.length }})</span>
+                </h3>
                 </div>
                 <div class="card-body">
                     <div ng-include="'resource/partials/resource-rating-summary.tpl.html'"></div>
@@ -208,7 +197,6 @@
             </div>
 
             <!-- location -->
-
             <div class="card">
                 <div class="card-heading">
                     <h3 class="card-title">{{ resource.location }} <small>{{ resource.city }}</small></h3>
@@ -230,6 +218,7 @@
         </div>
         <!-- /col -->
 
+        <!-- resource sidebar -->
         <div ng-if="features.resourceSidebar && isWindowSizeMD" class="col-md-4 hidden-xs hidden-sm">
             <div class="card">
                 <div class="card-heading">

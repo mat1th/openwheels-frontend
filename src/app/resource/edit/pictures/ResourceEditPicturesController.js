@@ -1,7 +1,8 @@
 'use strict';
 angular.module('owm.resource.edit.pictures', [])
-.controller('ResourceEditPicturesController', function ($q, $timeout, $filter, $scope, alertService, resourceService) {
+.controller('ResourceEditPicturesController', function ($q, $timeout, $filter, $scope, $state, alertService, resourceService) {
 
+  $scope.ownerflow = $state.current.name === 'owm.resource.create.carPhotos' ? true : false;
   var resource = $scope.$parent.resource;
 
   // scope exports
@@ -25,7 +26,7 @@ angular.module('owm.resource.edit.pictures', [])
   function initPhotos () {
     $scope.photos = createArray(resource.pictures);
     $scope.emptySlots = [];
-    for (var i=1; i <= (3 - $scope.photos.length); i++) {
+    for (var i=1; i <= (4 - $scope.photos.length); i++) {
       $scope.emptySlots.push(i);
     }
   }

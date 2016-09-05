@@ -28,7 +28,7 @@ angular.module('owm.finance', [
 
   $stateProvider
 
-  .state('owm.finance', {
+    .state('owm.finance', {
     abstract: true
   })
 
@@ -41,12 +41,14 @@ angular.module('owm.finance', [
     views: {
       'main@shell': {
         templateUrl: 'finance/v1/index.tpl.html',
-        controller : 'FinanceVersionWrapperController'
+        controller: 'FinanceVersionWrapperController'
       }
     },
     data: {
       access: {
-        deny:    { anonymous: true },
+        deny: {
+          anonymous: true
+        },
         feature: 'invoiceModuleV1'
       }
     },
@@ -66,12 +68,14 @@ angular.module('owm.finance', [
     views: {
       'main@shell': {
         templateUrl: 'finance/v2/index.tpl.html',
-        controller : 'FinanceVersionWrapperController'
+        controller: 'FinanceVersionWrapperController'
       }
     },
     data: {
       access: {
-        deny: { anonymous: true },
+        deny: {
+          anonymous: true
+        },
         feature: 'invoiceModuleV2'
       }
     },
@@ -91,12 +95,14 @@ angular.module('owm.finance', [
     views: {
       'main@shell': {
         templateUrl: 'finance/v3/index.tpl.html',
-        controller : 'FinanceVersionWrapperController'
+        controller: 'FinanceVersionWrapperController'
       }
     },
     data: {
       access: {
-        deny: { anonymous: true },
+        deny: {
+          anonymous: true
+        },
         feature: 'invoiceModuleV3'
       }
     },
@@ -121,7 +127,9 @@ angular.module('owm.finance', [
     },
     data: {
       access: {
-        deny: { anonymous: true }
+        deny: {
+          anonymous: true
+        }
       }
     },
     resolve: {
@@ -142,6 +150,9 @@ angular.module('owm.finance', [
     resolve: {
       orderStatusId: ['$stateParams', function ($stateParams) {
         return $stateParams.orderStatusId;
+      }],
+      me: ['authService', function (authService) {
+        return authService.me();
       }]
     }
   })
@@ -151,12 +162,14 @@ angular.module('owm.finance', [
     views: {
       'main@shell': {
         templateUrl: 'finance/vouchers/vouchers.tpl.html',
-        controller : 'VouchersController'
+        controller: 'VouchersController'
       }
     },
     data: {
       access: {
-        deny: { anonymous: true }
+        deny: {
+          anonymous: true
+        }
       }
     },
     resolve: {

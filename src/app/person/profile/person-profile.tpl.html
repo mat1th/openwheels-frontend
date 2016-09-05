@@ -215,7 +215,7 @@
 
         <div ng-if="person.preference !== 'renter'" class="form-group">
           {{ 'INFO_MY_PROFILE_CONTACT' | translate }}
-          <a ui-sref="owm.resource.create">{{ 'MY_RESOURCES' | translate }}</a>.
+          <a ui-sref="owm.resource.own">{{ 'MY_RESOURCES' | translate }}</a>.
         </div>
 
         <div ng-repeat="p in person.phoneNumbers">
@@ -338,7 +338,7 @@
         </div>
 
         <div class="form-group">
-          <label>Profielfoto</label>
+          <label>{{ 'PROFILE_PICTURE' | translate }}</label>
           <div class="media" style="margin-top:0">
             <a class="pull-left">
               <img class="media-object img-user-small" ng-if="!refreshProfileImage" person-profile-image="{ person: person, size: 'small', noCache: true }" />
@@ -411,7 +411,7 @@
 </div><!--/ card -->
 
 <!-- upload license -->
-<div id="license-upload" class="card" ng-show="person.status === 'new'">
+<div id="license-upload" class="card" ng-show="person.status === 'new' && person.preference !== 'owner'">
   <div class="card-heading">
     <h3 class="card-title">
       <a ui-sref="owm.person.license">
@@ -448,4 +448,3 @@
     </h3>
   </div>
 </div>
-

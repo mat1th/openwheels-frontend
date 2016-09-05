@@ -1,3 +1,6 @@
+.input-error {
+    border-color: #e65a37 !important;
+}
 .signup-header {
     display: inline-block;
     max-width: 100%;
@@ -35,15 +38,16 @@
 }
 label.sign-up-terms {
     font-weight: 300;
-    width: 90%;
+    width: 95%;
     display: block;
     margin: 0;
     height: 3em;
     top: 0;
-    left: 1.5em;
+    left: 0;
     position: absolute;
 }
 .signup-term {
+    margin-top: 0.8em;
     position: relative;
     display: block;
     height: 3em;
@@ -51,6 +55,9 @@ label.sign-up-terms {
         top: 0;
         position: absolute;
     }
+}
+.signup-term input[type="checkbox"] + label::after, .signup-term input[type="checkbox"] + label::before {
+    top: 15%;
 }
 .sign-up-form {
     margin: 1em;
@@ -80,6 +87,9 @@ label.sign-up-terms {
         list-style: none;
         margin: 0;
         padding: 0;
+        li{
+          float: none !important;
+        }
     }
     md-icon {
         color: #fff;
@@ -116,5 +126,30 @@ label.sign-up-terms {
     }
     .signup-card {
         margin-top: 15em;
+    }
+}
+.upload-profile-image {
+    display: flex;
+    flex-direction: column;
+    img {
+        flex-grow: 1;
+    }
+    .file-input {
+        display: block;
+        flex-grow: 1;
+    }
+}
+@media all and (min-width: 35em) {
+    .upload-profile-image {
+        display: flex;
+        flex-direction: row;
+        img {
+            flex-grow: 0;
+        }
+        .file-input {
+            display: block;
+            flex-grow: 1;
+            margin-left: 1em;
+        }
     }
 }
