@@ -17,6 +17,7 @@ angular.module('owm.finance.v2', [])
   $scope.invoiceGroups = null;
   $scope.invoiceGroupsUnpaid = null;
   $scope.sentInvoices = null;
+  $scope.allInvoiceGroups = false;
 
   // load data
   $scope.isLoading = true;
@@ -202,5 +203,31 @@ angular.module('owm.finance.v2', [])
     });
   }
 
-})
-;
+  $scope.loadAllInvoiceGroups = function () {
+    alertService.load($scope);
+    return paymentService.getInvoiceGroups({
+      person: me.id,
+      status: 'both',
+      max: 100
+    })
+    .then(function (result) {
+      $scope.invoiceGroups = result;
+      $scope.allInvoiceGroups = true;
+
+      var unpaid = [];
+      angular.forEach(result, function (invoiceGroup) {
+        if (!invoiceGroup.paid) {
+          unpaid.push(invoiceGroup);
+        }
+      });
+      $scope.invoiceGroupsUnpaid = unpaid;
+    })
+    .catch(function (err) {
+      alertService.addError(err);
+    })
+    .finally(function () {
+      alertService.loaded($scope);
+    });
+  };
+
+});
