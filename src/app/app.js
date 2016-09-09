@@ -54,6 +54,7 @@ angular.module('openwheels', [
   'owm.metaInfoService',
   'owm.meHelperService',
   'ng-optimizely',
+  'angular-google-analytics',
 
   /* Directives */
   'form.validation',
@@ -168,12 +169,6 @@ angular.module('openwheels', [
       googleTagManagerProvider.init(appConfig.gtmContainerId);
     }
   })
-  .config(function (appConfig, googleAnalyticsProvider) {
-    if (appConfig.ga_tracking_id) {
-      googleAnalyticsProvider.init(appConfig.ga_tracking_id);
-    }
-  })
-
 .config(function (appConfig, facebookProvider, twitterProvider) {
     // if (appConfig.features.facebook && appConfig.fbAppId) {
     //   facebookProvider.init(appConfig.fbAppId);
