@@ -2,7 +2,7 @@
 
 angular.module('owm.resource.create', ['owm.resource.create.carInfo', 'owm.resource.create.location', 'owm.resource.create.carPhotos', 'owm.resource.create.details'])
 
-.controller('ResourceCreateController', function ($scope, $rootScope, $filter, $state, $log, $stateParams, $translate, resources, resourceService, authService, $anchorScroll, alertService, dialogService, me) {
+.controller('ResourceCreateController', function ($scope, $rootScope, $filter, $state, $log, $stateParams, $translate, resources, resourceService, authService, $anchorScroll, alertService, dialogService, me, Analytics) {
 
   var resource = {
     fromUser: resources,
@@ -37,6 +37,7 @@ angular.module('owm.resource.create', ['owm.resource.create.carInfo', 'owm.resou
         'owner': me.id,
         'registrationPlate': licencePlate
       }).then(function (resource) {
+        Analytics.trackEvent('resource', 'resource_created', resource.id);
         return resourceService.alter({
           'resource': resource.id,
           'newProps': {
