@@ -22,6 +22,26 @@
         border: 2px solid rgba(23, 61, 80, 0.06);
     }
 
+    @media only screen and (min-width: 600px) {
+      .contract-choice--left {
+        border-right: none;
+      }
+    }
+
+    @media only screen and (min-width: 600px) {
+      .contract-choice--right {
+        border-left: none;
+      }
+    }
+
+    .contract-choice--middle {
+      width: 125%;
+      border: 2px solid hsl(93,42%,40%);
+      & > section {
+        font-size: 1.2em; 
+      }
+    }
+
     ul {
         width: 100%;
         list-style-type: none;
