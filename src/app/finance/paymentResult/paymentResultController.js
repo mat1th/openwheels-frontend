@@ -1,7 +1,7 @@
 'use strict';
 angular.module('owm.finance.paymentResult', [])
 
-.controller('PaymentResultController', function ($scope, $state, $log, $window, appConfig, orderStatusId, account2Service, alertService, voucherService, me, paymentService, bookingService, chipcardService, linksService, API_DATE_FORMAT) {
+.controller('PaymentResultController', function ($scope, $state, $log, $window, appConfig, orderStatusId, account2Service, alertService, voucherService, me, paymentService, bookingService, chipcardService, linksService, API_DATE_FORMAT, Analytics) {
 
   var afterPayment;
   $scope.isBusy = true;

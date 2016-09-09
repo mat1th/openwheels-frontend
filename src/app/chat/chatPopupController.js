@@ -2,7 +2,7 @@
 
 angular.module('owm.chat.controller', [])
 
-.controller('ChatPopupController', function ($timeout, $q, $filter, $scope, chatPopupService, messageService, alertService, popupTitle, me, personId, resourceId, bookingId) {
+.controller('ChatPopupController', function ($timeout, $q, $filter, $scope, chatPopupService, messageService, alertService, popupTitle, me, personId, resourceId, bookingId, Analytics) {
 
   var INITIAL_MESSAGE_COUNT        = 20;
   var OLDER_MESSAGES_COUNT         = 20;
@@ -116,6 +116,7 @@ angular.module('owm.chat.controller', [])
 
     messageService.sendMessageTo(params)
     .then(function () {
+      Analytics.trackEvent('discovery', 'send_message', resourceId);
       $scope.message = '';
       return getNewerMessages();
     })
