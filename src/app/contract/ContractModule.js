@@ -30,7 +30,7 @@ angular.module('owm.contract', [])
 
   $scope.hasMember = contracts.some(function (c) { return c.type.id ===  62; });
   $scope.hasGo     = contracts.some(function (c) { return c.type.id ===  60; });
-  $scope.hasPremium  = contracts.some(function (c) { return c.type.id ===  66; });
+  $scope.hasPremium  = contracts.some(function (c) { return c.type.id ===  63; });
 
   if(!$scope.hasMember && !$scope.hasGo && !$scope.hasPremium) {
     $state.go('owm.finance.deposit');
@@ -51,11 +51,11 @@ angular.module('owm.contract', [])
   $scope.createPremium = function () {
     alertService.load();
 
-    $log.log('requesting 66 contract');
+    $log.log('requesting 63 contract');
 
     depositService.requestContractAndPay({
         person: person.id,
-        contractType: 66,
+        contractType: 63,
         contract: contracts[0].id
       });
   };
