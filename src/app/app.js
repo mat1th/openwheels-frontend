@@ -210,9 +210,11 @@ angular.module('openwheels', [
     alertService.load();
   });
 
-  $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState) {
+  $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
     $state.previous = fromState;
 
+    $rootScope.previousState = fromState;
+    $rootScope.previousStateParams = fromParams;
     // hide spinner
     alertService.loaded();
 
