@@ -4,7 +4,7 @@ angular.module('owm.person.dashboard', [])
 
 .controller('PersonDashboardController', function ($q, $scope, $sce, $state, me, bookingList, rentalList, actions,
   authService, bookingService, alertService, boardcomputerService, actionService, resourceService, resourceQueryService, blogItems) {
-  if (me.status === 'new' && $scope.features.signupFlow) {
+  if (me.status === 'new' && $scope.features.signupFlow && me.preference !== 'owner') {
     $state.go('owm.person.intro');
   }
 

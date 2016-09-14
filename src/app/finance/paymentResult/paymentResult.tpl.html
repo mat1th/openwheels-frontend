@@ -105,9 +105,9 @@
                                     <md-icon class="text-success">local_gas_station</md-icon> <span>{{ 'DRIVE' | translate }}</span>
                                 </md-tab-label>
                                 <md-tab-body>
-                                    <p ng-if="booking.resource.fuelCardCode" translate="PAYMENT_APROVED_PAYED_FUEL_CARD" translate-values="{ code: booking.resource.fuelCardCode }"></p>
-                                    <p ng-if="booking.resource.refuelByRenter && !booking.resource.fuelCardCode" translate="PAYMENT_APROVED_PAYED_FUEL_RENTER" translate-values="{renter: booking.resource.owner.firstName}"></p>
-                                    <p ng-if="!booking.resource.refuelByRenter && !booking.resource.fuelCardCode" translate="PAYMENT_APROVED_PAYED_FUEL_PRICE" translate-values="{price: booking.resource.price.fuelPerKilometer}"></p>
+                                    <p ng-if="booking.fuelCard" translate="PAYMENT_APROVED_PAYED_FUEL_CARD"></p>
+                                    <p ng-if="booking.resource.refuelByRenter && !booking.fuelCard" translate="PAYMENT_APROVED_PAYED_FUEL_RENTER" translate-values="{renter: booking.resource.owner.firstName}"></p>
+                                    <p ng-if="!booking.resource.refuelByRenter && !booking.fuelCard" translate="PAYMENT_APROVED_PAYED_FUEL_PRICE" translate-values="{price: booking.resource.price.fuelPerKilometer}"></p>
                                 </md-tab-body>
                             </md-tab>
                         </md-tabs>

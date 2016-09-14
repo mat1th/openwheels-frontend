@@ -1,36 +1,33 @@
 <div ng-controller="ResourceEditLocationController">
 
-    <h3>{{ 'RESOURCE_LOCATION_INTRO' | translate }}</h3>
-
-    <ui-gmap-google-map center="map.center" control="map.control" zoom="map.zoom" draggable="true" dragging="map.dragging" bounds="map.bounds" events="map.events" options="map.options">
-        <!-- prefedined markers -->
-        <ui-gmap-marker coords="map.resourceMarker" idKey="1"></ui-gmap-marker>
-        <!-- marker for clicked position -->
-        <!-- can not put google.map.animations.BOUNCE , since it is not initiaized yet -->
-        <div ng-init="opts = {animation:1}">
-            <ui-gmap-marker coords="map.clickedMarker" idKey="1" options="opts" click="map.clickedMarker.onClicked"></ui-gmap-marker>
-        </div>
-    </ui-gmap-google-map>
-
-    <br/>
-
     <form name="locationForm" class="mywheels-form">
-        <div class="icon location">
-            <input class="form-control" ow-geocoder="{onDetails: newLocationSelectedDropdown}" placeholder="{{ 'RESOURCE_LOCATION_ADDRESS_LABEL' | translate }}" ng-model="locationtext" />
+        <div class="icon location resource-location-searchbar">
+            <input class="form-control" ow-geocoder="{onDetails: newLocationSelectedDropdown}" placeholder="{{ 'RESOURCE_LOCATION_ADDRESS_LABEL' | translate }}" ng-model="locationtext" required />
         </div>
 
-        <div class="form-group" ng-if="!renterflow">
+        <ui-gmap-google-map center="map.center" control="map.control" zoom="map.zoom" draggable="true" dragging="map.dragging" bounds="map.bounds" events="map.events" options="map.options">
+            <!-- prefedined markers -->
+            <ui-gmap-marker coords="map.resourceMarker" idKey="1"></ui-gmap-marker>
+            <!-- marker for clicked position -->
+            <!-- can not put google.map.animations.BOUNCE , since it is not initiaized yet -->
+            <div ng-init="opts = {animation:1}">
+                <ui-gmap-marker coords="map.clickedMarker" idKey="1" options="opts" click="map.clickedMarker.onClicked"></ui-gmap-marker>
+            </div>
+        </ui-gmap-google-map>
+
+        <div class="form-group" ng-if="!ownerflow">
+            <br><br>
             <button type="button" class="btn btn-default" ng-disabled="locationForm.$pristine" ng-click="reset()">{{ 'CANCEL' | translate }}</button>
             <button type="submit" class="btn btn-primary" ng-disabled="locationForm.$pristine" ng-click="submit()">{{ 'SUBMIT' | translate }}</button>
         </div>
 
         <!-- call to action buttons -->
-        <div class="details--card--form__navigation-buttons" ng-if="renterflow">
-            <button rel="prev" type="button" class="mywheels-btn mywheels-btn-transparant btn--navigation__previous" ng-click="reset()" md-ink-ripple="#ded8d8" ui-sref="owm.resource.create.location">
+        <div class="details--card--form__navigation-buttons" ng-if="ownerflow">
+            <button rel="prev" type="button" class="mywheels-btn mywheels-btn-transparant btn--navigation__previous" md-ink-ripple="#ded8d8" ui-sref="owm.resource.create.carInfo">
                 <md-icon>navigate_before</md-icon>
                 {{ 'PREVIOUS' | translate}}
             </button>
-            <button type="submit" name="button" ng-disabled="locationForm.$pristine" ng-click="submit()" class="mywheels-btn mywheels-btn-default btn--navigation__next" ui-sref="owm.resource.create.carPhotos">
+            <button type="submit" name="button" ng-disabled="!locationForm.$valid" ng-click="submit()" class="mywheels-btn mywheels-btn-default btn--navigation__next">
                 {{ 'NEXT' | translate }}
                 <md-icon class="text-white">navigate_next</md-icon>
             </button>

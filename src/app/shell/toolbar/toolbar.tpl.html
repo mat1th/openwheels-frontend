@@ -11,7 +11,7 @@
       <md-button hide-gt-xs class="md-icon-button" ng-click="openMenu()">
         <md-icon>menu</md-icon>
       </md-button>
-      <md-button hide-xs ng-click="openMenu()">
+      <md-button ga-track-event-if="true" hide-xs ng-click="openMenu()" ga-track-event="['video', 'play', 'django.mp4']" >
         <md-icon>menu</md-icon>
         <span>Menu</span>
       </md-button>
@@ -25,6 +25,12 @@
       <md-button hide-xs ng-if="user.isAuthenticated || isWindowSizeXS" href="{{ 'NAVBAR.HOW_IT_WORKS_URL' | translate }}">
         <md-icon>help_outline</md-icon>
         <span>Help</span>
+      </md-button>
+
+      <!-- add resource -->
+      <md-button hide-xs hide-sm ng-if="!user.isAuthenticated" ui-sref="list-your-car">
+        <md-icon>directions_car</md-icon>
+        <span>{{ 'LIST_YOUR_CAR' | translate }}</span>
       </md-button>
 
       <!-- spinner -->
