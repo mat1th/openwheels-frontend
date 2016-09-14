@@ -1,11 +1,12 @@
 'use strict';
 angular.module('owm.finance.paymentResult', [])
 
-.controller('PaymentResultController', function ($scope, $state, $window, appConfig, orderStatusId, account2Service, alertService, voucherService, me, paymentService, bookingService, chipcardService, linksService, API_DATE_FORMAT) {
+.controller('PaymentResultController', function ($scope, $state, $log, $window, appConfig, orderStatusId, account2Service, alertService, voucherService, me, paymentService, bookingService, chipcardService, linksService, API_DATE_FORMAT, Analytics) {
 
   var afterPayment;
   $scope.isBusy = true;
   $scope.isApproved = false;
+  $scope.accounts = [];
   $scope.name = '';
   $scope.person = '';
   $scope.fish = false;
@@ -73,7 +74,7 @@ angular.module('owm.finance.paymentResult', [])
         var data = [];
         bookings.forEach(function (elm) {
           if (me.numberOfBookings <= 1 || elm.approved === 'OK') { //only aproved ones in the list
-            if (elm.resource.locktype === 'chipcards') {
+            if (elm.resource.locktype === 'chipcard') {
               chipcardService.getFish({
                 person: me.id
               }).then(function (fish) {
@@ -83,6 +84,11 @@ angular.module('owm.finance.paymentResult', [])
               });
             } else if (elm.resource.locktype === 'meeting') {
               elm.link = linksService.bookingAgreementPdf(elm.id);
+            }
+            if ([282, 519038].indexOf(elm.resource.owner.id) >= 0 && elm.resource.boardcomputer !== null) {
+              elm.fuelCard = true;
+            } else {
+              elm.fuelCard = false;
             }
             data.push(elm);
           }
@@ -110,6 +116,7 @@ angular.module('owm.finance.paymentResult', [])
     sessionStorage.removeItem('afterPayment');
 
     account2Service.forMe({}).then(function (data) {
+      $scope.accounts = data;
       data.every(function (elm) {
         $scope.name = elm.lastName;
         $scope.person = elm.person;

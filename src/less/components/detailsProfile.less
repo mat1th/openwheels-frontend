@@ -98,6 +98,7 @@
     flex-direction: column;
 }
 .details--profile__sidebar {
+    max-width: 40em;
     flex-direction: row;
     display: flex;
     flex-wrap: wrap;
@@ -115,6 +116,7 @@
     h3 {
         // margin: 1em 0 0.3em;
         padding: 0;
+        overflow: hidden;
     }
     span {
         // display: inline-block;
@@ -123,12 +125,25 @@
         max-width: 40vw;
         overflow: hidden;
         white-space: nowrap;
+        width:100%;
     }
 }
-.details--profile__image img{
+.details--profile__image img {
     max-width: 100%;
     height: auto;
     width: 5em;
+}
+@media (max-width: 768px) {
+    .progress--steps {
+        .step {
+            padding-right: 2.5em;
+            display: inline-block;
+        }
+        .last-step {
+            padding: 0;
+            width: 2.5em;
+        }
+    }
 }
 @media (min-width: 768px) {
     .details--card {
@@ -171,7 +186,7 @@
         flex-grow: 1;
         min-width: 65%;
     }
-    .details--profile__image img{
+    .details--profile__image img {
         width: auto;
     }
 }
@@ -193,7 +208,7 @@
     justify-content: center;
     align-content: flex-start;
     align-items: center;
-    input {
+    input[type="radio"] {
         position: absolute;
         left: -100000px;
     }
@@ -204,6 +219,10 @@
     input[type="radio"]:focus + label {
         background: rgba(0, 0, 0, 0.12);
         color: #fff;
+    }
+    label::after,
+    label::before {
+        display: none !important;
     }
 }
 .gender--options__option {
@@ -249,4 +268,11 @@
 .btn--navigation__next,
 .btn--navigation__previous {
     margin: 0;
+}
+.form-extra-drivers__first {
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+.label-bigger {
+  font-size: 1em;
 }

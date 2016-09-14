@@ -2,7 +2,7 @@
 
 angular.module('owm.booking.administer', [])
 
-.controller('BookingAdministerController', function ($scope, $state, $translate, alertService, bookingService, booking, declarationService, $anchorScroll, $mdDialog, contract) {
+.controller('BookingAdministerController', function ($scope, $state, $translate, alertService, bookingService, booking, declarationService, $anchorScroll, $mdDialog, contract, Analytics) {
   $scope.booking  = booking;
   $scope.resource = booking.resource;
   $scope.trip     = angular.copy(booking.trip);
@@ -46,6 +46,7 @@ angular.module('owm.booking.administer', [])
 
       alertService.load();
       bookingService.setTrip(params).then(function (booking) {
+        Analytics.trackEvent('person', 'tripdate_entered', booking.id);
         alertService.add('success', $translate.instant('BOOKING.ADMINISTER.SAVE_SUCCESS'), 5000);
         if($scope.trip.odoEnd) {
           $scope.alreadyFilled = true;

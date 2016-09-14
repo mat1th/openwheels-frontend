@@ -1,9 +1,10 @@
 <div ng-if="result.success" ng-cloak ng-show="!isBusy">
+
     <!-- if not approved -->
-    <section ng-if="!isApproved" class="card" ng-cloak>
+    <section ng-if="!isApproved && accounts.length <= 1" class="card" ng-cloak>
         <div class="card-body">
             <h2 class="card-title">
-            <md-icon class="text-success">check</md-icon>
+            <md-icon class="text-danger">error</md-icon>
             {{ 'PAYMENT_NOT_APROVED_TITLE' | translate }}
           </h2>
             <p translate="PAYMENT_NOT_APROVED_BODY" translate-values="{name: name, surname: person.surname}"></p>
@@ -13,7 +14,20 @@
             </button>
 
             <p translate="PAYMENT_NOT_APROVED_FOOTER" translate-values="{lidnumber: person.id}" class="mywheels-btn-margin-top"> </p>
-            <!-- /repeat bookings -->
+        </div>
+    </section>
+    <!-- /if not approved -->
+
+    <!-- if not approved and more than 1 account -->
+    <section ng-if="!isApproved && accounts.length >= 2" class="card" ng-cloak>
+        <div class="card-body">
+            <h2 class="card-title">
+            <md-icon class="text-danger">error</md-icon>
+            {{ 'PAYMENT_NOT_APROVED_TITLE' | translate }}
+          </h2>
+            <p translate="PAYMENT_NOT_APROVED_SECOND_BODY" translate-values="{name: name, surname: person.surname}"></p>
+
+            <button ui-sref="owm.person.dashboard" class="btn btn-primary">{{ 'MY_DASHBOARD' | translate }}</button>
         </div>
     </section>
     <!-- /if not approved -->
@@ -91,9 +105,9 @@
                                     <md-icon class="text-success">local_gas_station</md-icon> <span>{{ 'DRIVE' | translate }}</span>
                                 </md-tab-label>
                                 <md-tab-body>
-                                    <p ng-if="booking.resource.fuelCardCode" translate="PAYMENT_APROVED_PAYED_FUEL_CARD" translate-values="{ code: booking.resource.fuelCardCode }"></p>
-                                    <p ng-if="booking.resource.refuelByRenter && !booking.resource.fuelCardCode" translate="PAYMENT_APROVED_PAYED_FUEL_RENTER" translate-values="{renter: booking.resource.owner.firstName}"></p>
-                                    <p ng-if="!booking.resource.refuelByRenter && !booking.resource.fuelCardCode" translate="PAYMENT_APROVED_PAYED_FUEL_PRICE" translate-values="{price: booking.resource.price.fuelPerKilometer}"></p>
+                                    <p ng-if="booking.fuelCard" translate="PAYMENT_APROVED_PAYED_FUEL_CARD"></p>
+                                    <p ng-if="booking.resource.refuelByRenter && !booking.fuelCard" translate="PAYMENT_APROVED_PAYED_FUEL_RENTER" translate-values="{renter: booking.resource.owner.firstName}"></p>
+                                    <p ng-if="!booking.resource.refuelByRenter && !booking.fuelCard" translate="PAYMENT_APROVED_PAYED_FUEL_PRICE" translate-values="{price: booking.resource.price.fuelPerKilometer}"></p>
                                 </md-tab-body>
                             </md-tab>
                         </md-tabs>
@@ -103,6 +117,7 @@
         </div>
     </div>
     <!-- /if  approved -->
+    
 </div>
 
 <section ng-if="!result.success" class="card" ng-cloak>

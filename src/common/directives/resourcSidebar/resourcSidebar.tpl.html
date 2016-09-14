@@ -5,7 +5,7 @@
       </div>
     <section class="">
         <h3 class="text-success">{{resource.alias}}</h3>
-        <span>{{resource.model}}</span>
+        <span>{{(resource.brand | toTitleCase) || ('UNKNOWN_BRAND' | translate)}} {{resource.model}}</span>
     </section>
     <md-divider></md-divider>
     <section ng-if="$root.isWindowSizeSM">
@@ -13,7 +13,7 @@
         <ul class="list-unstyled list-spaced list-responsive">
             <li>
                 <md-icon class="text-success list-margin">event_available</md-icon>
-                {{ resource.numberOfBookings | wasBookedTimes }}
+              <span>  {{ resource.numberOfBookings | wasBookedTimes }}</span>
             </li>
             <!-- lock type -->
             <li>

@@ -6,7 +6,7 @@ angular.module('owm.booking.show', [])
   $q, $timeout, $log, $scope, $location, $filter, $translate, $state, appConfig, API_DATE_FORMAT,
   bookingService, resourceService, invoice2Service, alertService, dialogService,
   authService, boardcomputerService, discountUsageService, chatPopupService, linksService,
-  booking, me, declarationService, $mdDialog, contract) {
+  booking, me, declarationService, $mdDialog, contract, Analytics) {
 
   /**
    * HACK
@@ -26,6 +26,7 @@ angular.module('owm.booking.show', [])
   $scope.contract = contract;
 
   $scope.booking = booking;
+  $scope.bookingStarted = moment().isAfter(moment(booking.beginBooking));
   $scope.resource = booking.resource;
   $scope.showBookingForm = false;
   $scope.showPricePerHour = false;
@@ -271,6 +272,7 @@ angular.module('owm.booking.show', [])
         id: booking.id
       })
       .then(function (booking) {
+        Analytics.trackEvent('booking', $scope.userPerspective === 'owner' ? 'cancelled_owner' : 'cancelled_renter', booking.id);
         $scope.booking = booking;
         $scope.showBookingForm = false;
         alertService.add('success', $filter('translate')('BOOKING_CANCELED'), 5000);
@@ -323,11 +325,13 @@ angular.module('owm.booking.show', [])
       var params = {
         booking: booking.id
       };
+
       if ($scope.userInput.acceptRejectRemark) {
         params.remark = $scope.userInput.acceptRejectRemark;
       }
       alertService.load();
       bookingService.acceptRequest(params).then(function (booking) {
+        Analytics.trackEvent('booking', 'accepted', booking.id, 4);
         $scope.booking = booking;
         initPermissions();
         alertService.add('success', $filter('translate')('BOOKING.ACCEPT.SUCCESS'), 5000);
@@ -355,6 +359,7 @@ angular.module('owm.booking.show', [])
       }
       alertService.load();
       bookingService.rejectRequest(params).then(function (booking) {
+        Analytics.trackEvent('booking', 'rejected', booking.id);
         $scope.booking = booking;
         initPermissions();
         alertService.add('success', $filter('translate')('BOOKING.REJECT.SUCCESS'), 5000);
@@ -476,7 +481,7 @@ angular.module('owm.booking.show', [])
     if (price.rent > 0) { s += 'Huur: ' + $filter('currency')(price.rent) + '<br/>'; }
     if (price.insurance > 0) { s += 'Verzekering: ' + $filter('currency')(price.insurance) + '<br/>'; }
     if (price.booking_fee > 0) { s += 'Boekingskosten: ' + $filter('currency')(price.booking_fee) + '<br/>'; }
-    if (price.redemption > 0) { s+='Afkoop eigen risico: ' + $filter('currency')(price.redemption) + '<br/>'; }
+    if (price.redemption > 0) { s+='Verlagen eigen risico: ' + $filter('currency')(price.redemption) + '<br/>'; }
     s += 'Totaal: ' + $filter('currency')(price.total);
     return s;
   };

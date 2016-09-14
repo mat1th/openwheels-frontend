@@ -99,6 +99,9 @@ angular.module('rpcServices', [])
     return api.createRpcMethod('booking.' + name);
   };
   this.alterRequest = m('alterRequest');
+  this.addDriver = m('addDriver');
+  this.removeDriver = m('removeDriver');
+  this.driversForBooking = m('driversForBooking');
   this.acceptRequest = m('acceptRequest');
   this.rejectRequest = m('rejectRequest');
   this.create = m('create');
@@ -125,6 +128,7 @@ angular.module('rpcServices', [])
   };
   this.get = m('get');
   this.allGroups = m('allGroups');
+  this.paymentsForPerson = m('paymentsForPerson');
 })
 
 .service('invoice2Service', function (api) {
@@ -134,8 +138,10 @@ angular.module('rpcServices', [])
   this.calculatePrice = m('calculatePrice');
   this.getSent = m('getSent');
   this.getReceived = m('getReceived'); // status = paid | unpaid | both
+  this.getUngroupedForPerson = m('getUngroupedForPerson');
   this.calculateBookingPrice = m('calculateBookingPrice'); // status = paid | unpaid | both
   this.createSenderInvoiceGroup = m('createSenderInvoiceGroup');
+  this.createRecipientInvoiceGroup = m('createRecipientInvoiceGroup');
 })
 
 .service('accountService', function (api) {

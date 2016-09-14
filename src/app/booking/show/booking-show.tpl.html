@@ -1,4 +1,8 @@
-
+<div class="card" ng-if="previousState.name == 'owm.finance.v4'">
+  <div class="card-body card-inverse">
+    <a ui-sref="owm.finance.v4"><i class="fa fa-fw fa-chevron-left"></i>Terug naar financieel overzicht</a>
+  </div>
+</div>
 <div class="card">
   <div class="card-heading">
 
@@ -417,7 +421,7 @@
 </div>
 
 <!-- declarations -->
-<div class="card" ng-if="contract.type.canHaveDeclaration && booking.approved==='OK'">
+<div class="card" ng-if="contract.type.canHaveDeclaration && booking.approved==='OK' && bookingStarted">
   <div class="card-heading">
     <h3 class="card-title">
       {{ 'DECLARATION_TITLE' | translate }}

@@ -1,6 +1,6 @@
 .intro__page {
     max-width: 90rem;
-    margin: 0 1em;
+    padding: 0 1em;
     width: 100%;
 }
 p.intro__page {
@@ -41,8 +41,21 @@ p.intro__page {
     border: 1em transparent solid;
     border-right-width: 0;
     border-left-width: 0;
-    border-bottom-color: @mywheels-green;
     content: '';
+}
+.triangle--bar.triangle--bar-green:after,
+.triangle--bar.triangle--bar-green:before {
+    border-bottom-color: @mywheels-green;
+}
+.triangle--bar-white {
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    padding-bottom:3em;
+}
+.triangle--bar.triangle--bar-white:after,
+.triangle--bar.triangle--bar-white:before {
+    border-bottom-color: #fff;
 }
 .triangle--bar:before {
     right: 50%;
@@ -168,6 +181,13 @@ p.intro__page {
         }
         .infobox:last-child {
             margin-right: 0;
+        }
+    }
+}
+@media (max-width: 768px) {
+    .intro-section__steps {
+        .infobox {
+            min-height: 11.5em;
         }
     }
 }

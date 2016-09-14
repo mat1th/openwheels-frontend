@@ -54,6 +54,7 @@ angular.module('openwheels', [
   'owm.metaInfoService',
   'owm.meHelperService',
   'ng-optimizely',
+  'angular-google-analytics',
 
   /* Directives */
   'form.validation',
@@ -61,6 +62,7 @@ angular.module('openwheels', [
   'pickadate',
   'timeframe',
   'datetimeDirective',
+  'licencePlateInfoDirective',
   'formGroupDirective',
   'bindingDirectives',
   'ratingThumbDirective',
@@ -77,6 +79,7 @@ angular.module('openwheels', [
   'geocoderDirective',
   'socialDirectives',
   'bindMetaDirective',
+  'personalDataDirective',
 
   /* Filters */
   'filters.util',
@@ -154,7 +157,7 @@ angular.module('openwheels', [
 
 .config(function (uiGmapGoogleMapApiProvider) {
   uiGmapGoogleMapApiProvider.configure({
-    key: 'AIzaSyAwytl2OG58LpFCTcIFN13gEBaSTh2aKF0',
+    key: 'AIzaSyC1QrtfmsYNsJAfx9OOl5QX0oNpMVo3fbw',
     v: '3.23.0',
     libraries: 'places',
     language: 'nl'
@@ -166,12 +169,6 @@ angular.module('openwheels', [
       googleTagManagerProvider.init(appConfig.gtmContainerId);
     }
   })
-  .config(function (appConfig, googleAnalyticsProvider) {
-    if (appConfig.ga_tracking_id) {
-      googleAnalyticsProvider.init(appConfig.ga_tracking_id);
-    }
-  })
-
 .config(function (appConfig, facebookProvider, twitterProvider) {
     // if (appConfig.features.facebook && appConfig.fbAppId) {
     //   facebookProvider.init(appConfig.fbAppId);
@@ -213,9 +210,11 @@ angular.module('openwheels', [
     alertService.load();
   });
 
-  $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState) {
+  $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
     $state.previous = fromState;
 
+    $rootScope.previousState = fromState;
+    $rootScope.previousStateParams = fromParams;
     // hide spinner
     alertService.loaded();
 
@@ -246,7 +245,7 @@ angular.module('openwheels', [
       $state.includes('member')
     );
     $rootScope.containerHome = (
-      ($state.includes('home'))
+      ($state.includes('home')) || ($state.$current.self.url === '/auto-verhuren')
     );
     $rootScope.containerIntro = (
       ($state.includes('owm.person.intro'))
@@ -306,6 +305,7 @@ angular.module('openwheels', [
         appId: config.app_id,
         appSecret: config.app_secret,
         appUrl: config.app_url,
+        appTokenRdw: config.app_token_rdw,
         serverUrl: config.server_url,
         authEndpoint: config.auth_endpoint,
         tokenEndpoint: config.token_endpoint,

@@ -39,7 +39,7 @@ angular.module('signupFormDirective', [])
       if (featuresService.get('hideSignupPreference')) {
         $scope.user.preference = 'both';
       } else {
-        if ($state.previous.name === 'owm.resource.create') {
+        if ($state.previous.name === 'owm.resource.own') {
           $scope.user.preference = 'owner';
         } else {
           $scope.user.preference = false;
@@ -58,6 +58,8 @@ angular.module('signupFormDirective', [])
         alertService.load();
         if ($scope.url === 'owm.person.details({pageNumber: \'1\'})') {
           $scope.user.preference = 'renter';
+        } else if ($scope.url === 'owm.resource.create.carInfo') {
+          $scope.user.preference = 'owner';
         }
 
         var email = $scope.auth.email,
@@ -78,7 +80,7 @@ angular.module('signupFormDirective', [])
                     var booking = $scope.booking;
                     var resource = $scope.resource;
                     $mdDialog.cancel();
-                    $state.go('owm.person.details', { // should register
+                    $state.go('owm.person.details', { // should fill in the details
                       pageNumber: '1',
                       city: resource.city ? resource.city : 'utrecht',
                       resourceId: resource.id,
@@ -88,27 +90,36 @@ angular.module('signupFormDirective', [])
                       remarkRequester: booking.remarkRequester,
                       riskReduction: booking.riskReduction
                     });
+                  } else if ($scope.url === 'owm.resource.create.carInfo') {
+                    var licencePlate = $scope.licencePlate;
+                    var calculateYourPrice = $scope.calculateYourPrice;
+                    $mdDialog.cancel();
+
+                    $state.go('owm.resource.create.carInfo', { // should fill in the details
+                      licencePlate: licencePlate.content,
+                      dayPrice: calculateYourPrice.dayPrice,
+                      numberOfDays: calculateYourPrice.numberOfDays
+                    });
                   } else {
                     $state.go($scope.url);
                   }
-
                 })
                 .catch(function (err) {
-                  alertService.add(err.level, err.message, 5000);
+                  alertService.add(err.level, err.message, 4000);
                 })
                 .finally(function () {
                   alertService.loaded();
                 });
             } else {
-              alertService.add('danger', 'Voordat je je kunt aanmelden, moet je de algemene voorwaarden accepteren.', 10000);
+              alertService.add('danger', $translate.instant('SIGNUP_AGREE_TO_TERMS_ALERT'), 4000);
               alertService.loaded();
             }
           } else {
-            alertService.add('danger', 'Kies huren of verhuren.', 10000);
+            alertService.add('danger', $translate.instant('SIGNUP_RENTER_OWNER_CHOICE_ALERT'), 4000);
             alertService.loaded();
           }
         } else {
-          alertService.add('danger', 'Vul alle velden in.', 10000);
+          alertService.add('danger', $translate.instant('SIGNUP_FILL_IN_FIELDS_ALERT'), 4000);
           alertService.loaded();
         }
       };
