@@ -34,12 +34,13 @@ angular.module('owm.finance.v4', [])
   .then(function(vouchers) { $scope.vouchers = vouchers; })
   ;
 
-  // get grouped invoices (invoiceModule)
+  // get grouped invoices (old invoiceModule)
   invoiceService.paymentsForPerson({person: me.id})
   .then(addExtraInformationOldInvoices)
   .then(function(results) { $scope.groupedInvoicesOld = results; })
   ;
 
+  // util function
   function log(invoices) {
     console.log(invoices);
     return invoices;
@@ -90,18 +91,10 @@ angular.module('owm.finance.v4', [])
   };
 
   $scope.statusTooltipEnable = function(status) {
-    if(status === 'USER_PAY') {
+    if(status === 'USER_PAY' || status === 'PROVIDER_PAY') {
       return true;
     }
-    if(status === 'USER_PAID') {
-      return false;
-    }
-    if(status === 'PROVIDER_PAY') {
-      return true;
-    }
-    if(status === 'PROVIDER_PAID') {
-      return false;
-    }
+    return false;
   };
 
   function addExtraInvoiceGroupInformation(invoices) {

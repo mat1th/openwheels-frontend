@@ -38,7 +38,7 @@
                   <md-icon ng-if="open">arrow_drop_up</md-icon>
                 </td>
               </tr>
-              <tr ng-repeat="invoice in openInvoice.invoices" class="nohover" ng-show="open" ng-class="{lastrow: $last}">
+              <tr ng-repeat="invoice in openInvoice.invoices" class="nohover" ng-show="open">
                 <td colspan="3" class="reset-cell">
                   <table class="table table-full-width table-no-margin-bottom">
                     <tr class="table-finance-subtable" ng-repeat="invoiceLine in invoice.invoiceLines">
@@ -49,6 +49,9 @@
                   </table>
                 </td>
               </tr>
+              <tr ng-show="open" class="nohover table-finance-subtable lastrow">
+                <td colspan="3" class="first subitem"><a ui-sref="owm.booking.show({bookingId: openInvoice.booking.id })">Bekijk alle ritdetails</a></td>
+              </tr>  
             </tbody>
           </table>
 
@@ -69,7 +72,7 @@
                   <md-icon ng-if="open">arrow_drop_up</md-icon>
                 </td>
               </tr>
-              <tr ng-repeat="invoice in openInvoice.invoices" class="nohover" ng-show="open" ng-class="{lastrow: $last}">
+              <tr ng-repeat="invoice in openInvoice.invoices" class="nohover" ng-show="open">
                 <td colspan="3" class="reset-cell">
                   <table class="table-full-width">
                     <tr class="table-finance-subtable" ng-repeat="invoiceLine in invoice.invoiceLines">
@@ -80,6 +83,9 @@
                   </table>
                 </td>
               </tr>
+              <tr ng-show="open" class="nohover table-finance-subtable lastrow">
+                <td colspan="3" class="first subitem"><a ui-sref="owm.booking.show({bookingId: openInvoice.booking.id })">Bekijk alle ritdetails</a></td>
+              </tr>  
             </tbody>
           </table>
 
@@ -173,7 +179,7 @@
                 <td>{{invoiceGroup.id}}</td>
                 <td>{{invoiceGroup.date | amDateFormat:'DD-MM-YYYY'}}</td>
                 <td>{{statusText(invoiceGroup.status)}} <span ng-if="statusTooltipEnable(invoiceGroup.status)" uib-tooltip="{{statusTooltipText(invoiceGroup.status)}}" class="text-muted"><i class="fa fa-info-circle"></i></span> </td>
-                <td class="text-right">{{invoiceGroup.total < 0 ? -1 * invoiceGroup.total: invoiceGroup.total | currency}}</td>
+                <td class="text-right">{{invoiceGroup.total < 0 ? -1 * invoiceGroup.total : invoiceGroup.total | currency}}</td>
                 <td class="text-right"><a ng-href="{{invoiceGroup.pdflink}}"><i title="Download pdf" class="fa fa-fw fa-file-pdf-o"></i></a></td>
               </tr>
               <tr class="clickable" ng-repeat="invoiceGroup in groupedInvoicesOld">
