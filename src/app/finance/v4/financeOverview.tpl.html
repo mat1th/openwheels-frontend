@@ -256,7 +256,7 @@
       <div class="card-body" uib-collapse="!isCollapsed">
         <table class="table table-condensed" ng-show="vouchers && vouchers.length > 0">
           <tbody>
-            <tr ng-class="{'text-muted': voucher.value == 0}" ng-repeat="voucher in vouchers | limitTo:vouchersPerPage:vouchersPerPage*(currentVoucherPage-1)">
+            <tr ng-class="{'text-muted': voucher.value < 0.001}" ng-repeat="voucher in vouchers | limitTo:vouchersPerPage:vouchersPerPage*(currentVoucherPage-1)">
               <td style="width: 20%"><strong>{{voucher.initialValue | currency}}</strong></td>
               <td>waarvan {{voucher.value | currency}} resterend</td>
               <td style="width: 40%">gekocht op {{voucher.paid | amDateFormat:'DD-MM-YYYY'}}</td>
