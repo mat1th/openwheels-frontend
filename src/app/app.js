@@ -54,6 +54,7 @@ angular.module('openwheels', [
   'owm.metaInfoService',
   'owm.meHelperService',
   'ng-optimizely',
+  'angular-google-analytics',
 
   /* Directives */
   'form.validation',
@@ -156,7 +157,7 @@ angular.module('openwheels', [
 
 .config(function (uiGmapGoogleMapApiProvider) {
   uiGmapGoogleMapApiProvider.configure({
-    key: 'AIzaSyAwytl2OG58LpFCTcIFN13gEBaSTh2aKF0',
+    key: 'AIzaSyC1QrtfmsYNsJAfx9OOl5QX0oNpMVo3fbw',
     v: '3.23.0',
     libraries: 'places',
     language: 'nl'
@@ -168,12 +169,6 @@ angular.module('openwheels', [
       googleTagManagerProvider.init(appConfig.gtmContainerId);
     }
   })
-  .config(function (appConfig, googleAnalyticsProvider) {
-    if (appConfig.ga_tracking_id) {
-      googleAnalyticsProvider.init(appConfig.ga_tracking_id);
-    }
-  })
-
 .config(function (appConfig, facebookProvider, twitterProvider) {
     // if (appConfig.features.facebook && appConfig.fbAppId) {
     //   facebookProvider.init(appConfig.fbAppId);

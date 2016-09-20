@@ -1,6 +1,6 @@
 'use strict';
 angular.module('owm.resource.edit.pictures', [])
-.controller('ResourceEditPicturesController', function ($q, $timeout, $filter, $scope, $state, alertService, resourceService) {
+.controller('ResourceEditPicturesController', function ($q, $timeout, $filter, $scope, $state, alertService, resourceService, Analytics) {
 
   $scope.ownerflow = $state.current.name === 'owm.resource.create.carPhotos' ? true : false;
   var resource = $scope.$parent.resource;
@@ -73,6 +73,7 @@ angular.module('owm.resource.edit.pictures', [])
       image: file
     })
     .then(function (something) {
+      Analytics.trackEvent('resource', 'picture_uploaded', resource.id);
       return reloadResource();
     })
     .catch(function (err) {

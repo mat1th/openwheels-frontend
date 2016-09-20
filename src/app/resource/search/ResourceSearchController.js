@@ -4,7 +4,7 @@ angular.module('owm.resource.search', [
     'owm.resource.search.list',
     'owm.resource.search.map'
   ])
-  .controller('ResourceSearchController', function ($location, $scope, $state, $stateParams, $uibModal, $filter, $anchorScroll, appConfig, Geocoder, alertService, resourceService, resourceQueryService, user, place) {
+  .controller('ResourceSearchController', function ($location, $scope, $state, $stateParams, $uibModal, $filter, $anchorScroll, appConfig, Geocoder, alertService, resourceService, resourceQueryService, user, place, Analytics) {
 
     var DEFAULT_LOCATION = {
       // Utrecht, The Netherlands
@@ -182,6 +182,7 @@ angular.module('owm.resource.search', [
 
           // if needed, update UI
           if (gotoStartPage) {
+            Analytics.trackEvent('discovery', 'search', user.isAuthenticated);
             $scope.showPage(startPage);
           }
           return resources;
@@ -270,6 +271,7 @@ angular.module('owm.resource.search', [
           }
         }
       }).result.then(function (selected) {
+        Analytics.trackEvent('discovery', 'filters_applied', user.isAuthenticated);
         $scope.filters.props = selected.props;
         $scope.filters.filters = selected.filters;
         $scope.filters.options = selected.options;
@@ -278,6 +280,7 @@ angular.module('owm.resource.search', [
     };
 
     $scope.sidebarFiltersChanged = function () {
+      Analytics.trackEvent('discovery', 'filters_applied', user.isAuthenticated);
       resetPaginationCache();
       doSearch();
     };

@@ -2,7 +2,7 @@
 angular.module('owm.person')
 
 .controller('PersonContractIndexController', function ($q, $filter, $uibModal, $translate, $scope,
-  authService, dialogService, alertService, personService, contractService, me) {
+  authService, dialogService, alertService, personService, contractService, me, Analytics) {
 
   $scope.busy = false;
   $scope.isLoadingContracts = true;
@@ -94,6 +94,7 @@ angular.module('owm.person')
         }
       })
       .then(function (saved) {
+        Analytics.trackEvent('person', 'contract_ended', contract.id);
         alertService.addSaveSuccess();
         angular.extend(contract, saved);
         angular.extend(original, saved);
