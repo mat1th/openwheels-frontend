@@ -66,7 +66,7 @@
             <div class="help-block" ng-show="form.odoEnd.$error.pattern"><span class="text-danger">{{ 'TRIP_KM_ONLY_WHOLE_NUM' | translate }}</span></div>
           </div>
         </div>
-        <div ng-if="trip.odoEnd && trip.odoBegin && trip.odoEnd.toString().length >= trip.odoBegin.toString().length" class="col col-sm-6">
+        <div ng-if="trip.odoEnd && trip.odoEnd.toString().length >= trip.odoBegin.toString().length" class="col col-sm-6">
           <p ng-class="{'text-danger': trip.odoEnd < trip.odoBegin, 'text-warning': trip.odoEnd - trip.odoBegin > 5000}" translate="DECL_DISTANCE" translate-values="{dist: trip.odoEnd - trip.odoBegin}"></p>
         </div>
       </div>
