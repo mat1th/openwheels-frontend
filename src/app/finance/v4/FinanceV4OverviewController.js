@@ -2,12 +2,13 @@
 
 angular.module('owm.finance.v4', [])
 
-.controller('FinanceV4OverviewController', function ($scope, me, $stateParams, invoice2Service, paymentService, voucherService, linksService, invoiceService, alertService, $state, $mdDialog) {
+.controller('FinanceV4OverviewController', function ($scope, me, $stateParams, invoice2Service, paymentService, voucherService, linksService, invoiceService, alertService, $state, $mdDialog, $q) {
   $scope.me = me;
-  $scope.loaded = false;
+  $scope.loaded = {ungrouped: false, grouped: false};
   $scope.view = me.preference || 'both';
   $scope.activeTab = {active: 0};
-  $scope.perPage = 15;
+  $scope.vouchersPerPage = 15;
+  $scope.groupedInvoicesPerPage = 15;
 
   // get ungrouped invoices
   invoice2Service.getUngroupedForPerson({person: me.id})
@@ -15,31 +16,50 @@ angular.module('owm.finance.v4', [])
   .then(addGrantTotal)
   .then(groupInvoicesByBookingRelation)
   .then(function(results) { $scope.openInvoices = results; })
-  .finally(function() { $scope.loaded = true; })
+  .finally(function() { $scope.loaded.ungrouped = true; })
   ;
 
   // get grouped invoices (invoice2Module)
-  paymentService.getInvoiceGroups({person: me.id, max: 100})
+  var newInvoices = paymentService.getInvoiceGroups({person: me.id, max: 100})
   .then(addExtraInvoiceGroupInformation)
-  .then(function(results) { $scope.groupedInvoices = results; })
+  .then(function(results) { $scope.groupedInvoices = results; return results;})
+  ;
+
+  // get grouped invoices (old invoiceModule)
+  var oldInvoices = invoiceService.paymentsForPerson({person: me.id})
+  .then(addExtraInformationOldInvoices)
+  .then(function(results) { $scope.groupedInvoicesOld = results; return results;})
   ;
 
   // get credit
-  voucherService.calculateRequiredCredit({person: me.id})
-  .then(function(results) { $scope.requiredCredit = results; })
+  var requiredCredit = voucherService.calculateRequiredCredit({person: me.id})
+  .then(function(results) { $scope.requiredCredit = results; return results;})
   ;
 
   // get vouchers
-  voucherService.search({person: me.id, minValue: 0.0})
-  .then(function(vouchers) { $scope.vouchers = vouchers; })
+  var vouchers = voucherService.search({person: me.id, minValue: 0.0})
+  .then(function(vouchers) { $scope.vouchers = vouchers; return vouchers;})
   ;
 
-  // get grouped invoices (invoiceModule)
-  invoiceService.paymentsForPerson({person: me.id})
-  .then(addExtraInformationOldInvoices)
-  .then(function(results) { $scope.groupedInvoicesOld = results; })
+
+  $q.all({newInvoices: newInvoices, oldInvoices: oldInvoices, requiredCredit: requiredCredit, vouchers: vouchers})
+  .then(function(results) {
+    var allInvoices = [];
+
+    _.forEach(results.newInvoices, function(newInvoice) {
+      allInvoices.push({type: 'new', invoice: newInvoice});
+    });
+    _.forEach(results.oldInvoices, function(oldInvoice) {
+      allInvoices.push({type: 'old', invoice: oldInvoice});
+    });
+    $scope.allGroupedInvoices = allInvoices;
+    return allInvoices;
+  })
+  .finally(function() { $scope.loaded.grouped = true; })
   ;
 
+
+  // util function
   function log(invoices) {
     console.log(invoices);
     return invoices;
@@ -48,6 +68,7 @@ angular.module('owm.finance.v4', [])
   function addExtraInformationOldInvoices(invoices) {
     invoices = _.map(invoices, function(invoice) {
       invoice.pdflink = linksService.invoiceGroupPdf_v1(invoice.id);
+      return invoice;
     });
     return invoices;
   }
@@ -90,18 +111,10 @@ angular.module('owm.finance.v4', [])
   };
 
   $scope.statusTooltipEnable = function(status) {
-    if(status === 'USER_PAY') {
+    if(status === 'USER_PAY' || status === 'PROVIDER_PAY') {
       return true;
     }
-    if(status === 'USER_PAID') {
-      return false;
-    }
-    if(status === 'PROVIDER_PAY') {
-      return true;
-    }
-    if(status === 'PROVIDER_PAID') {
-      return false;
-    }
+    return false;
   };
 
   function addExtraInvoiceGroupInformation(invoices) {
@@ -235,16 +248,6 @@ angular.module('owm.finance.v4', [])
   };
 
   $scope.buyVoucher = function() {
-//    $mdDialog.show({
-//      templateUrl: 'finance/v4/buyVoucherDialog.tpl.html',
-//      controller: function($mdDialog, $scope, requiredCredit) {
-//        $scope.requiredCredit = requiredCredit;
-//        $scope.cancel = function() {
-//          $mdDialog.hide();
-//        };
-//      },
-//      locals: {requiredCredit: $scope.requiredCredit},
-//    });
     $state.go('owm.finance.vouchers');
   };
 
