@@ -4,7 +4,7 @@ angular.module('owm.finance.v4', [])
 
 .controller('FinanceV4OverviewController', function ($scope, me, $stateParams, invoice2Service, paymentService, voucherService, linksService, invoiceService, alertService, $state, $mdDialog, $q) {
   $scope.me = me;
-  $scope.loaded = {done: false};
+  $scope.loaded = {ungrouped: false, grouped: false};
   $scope.view = me.preference || 'both';
   $scope.activeTab = {active: 0};
   $scope.vouchersPerPage = 15;
@@ -16,6 +16,7 @@ angular.module('owm.finance.v4', [])
   .then(addGrantTotal)
   .then(groupInvoicesByBookingRelation)
   .then(function(results) { $scope.openInvoices = results; })
+  .finally(function() { $scope.loaded.ungrouped = true; })
   ;
 
   // get grouped invoices (invoice2Module)
@@ -28,7 +29,6 @@ angular.module('owm.finance.v4', [])
   var oldInvoices = invoiceService.paymentsForPerson({person: me.id})
   .then(addExtraInformationOldInvoices)
   .then(function(results) { $scope.groupedInvoicesOld = results; return results;})
-  .then(log)
   ;
 
   // get credit
@@ -38,7 +38,6 @@ angular.module('owm.finance.v4', [])
 
   // get vouchers
   var vouchers = voucherService.search({person: me.id, minValue: 0.0})
-  .then(log)
   .then(function(vouchers) { $scope.vouchers = vouchers; return vouchers;})
   ;
 
@@ -56,7 +55,7 @@ angular.module('owm.finance.v4', [])
     $scope.allGroupedInvoices = allInvoices;
     return allInvoices;
   })
-  .finally(function() { $scope.loaded.done = true;})
+  .finally(function() { $scope.loaded.grouped = true; })
   ;
 
 
@@ -69,6 +68,7 @@ angular.module('owm.finance.v4', [])
   function addExtraInformationOldInvoices(invoices) {
     invoices = _.map(invoices, function(invoice) {
       invoice.pdflink = linksService.invoiceGroupPdf_v1(invoice.id);
+      return invoice;
     });
     return invoices;
   }

@@ -71,7 +71,7 @@
         {{ 'COSTS' | translate }}:
         <span>{{ price.total | currency }}</span>
         <info-icon tooltip-html="priceHtml(price)"></info-icon>
-        <span ng-if="booking.discountCode && !isLoggedIn" style="display: block; font-size: 0.8em;">De kortingscode wordt later verrekend.</span>
+        <span ng-if="booking.discountCode" style="display: block; font-size: 0.8em;">De kortingscode wordt later verrekend.</span>
         {{ 'RESOURCE_PRICE_DISCLAIMER' | translate }}
       </h4>
       <h4 ng-if="isPriceLoading || isAvailabilityLoading">

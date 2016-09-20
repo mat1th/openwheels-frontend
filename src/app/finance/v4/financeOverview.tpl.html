@@ -9,7 +9,7 @@
 <md-tabs md-selected="activeTab.active" class="md-primary" md-dynamic-height >
   
   <md-tab label="Facturen">
-    <div ng-if="!loaded.done" class="card">
+    <div class="card">
       <div class="card-heading">
         <h3 class="card-title">
           <a href="" ng-click="is3Collapsed = !is3Collapsed">
@@ -18,24 +18,14 @@
           </a>
         </h3>
       </div>
-      <div class="card-body">
+
+      <div ng-if="!loaded.ungrouped" class="card-body">
         <h4 style="text-align: center">
           <big><i class="fa fa-spinner fa-spin fa-fw"></i></big>
         </h4>
       </div>
-    </div>
 
-    <div ng-if="loaded.done" class="card">
-      <div class="card-heading">
-        <h3 class="card-title">
-          <a href="" ng-click="is3Collapsed = !is3Collapsed">
-            <i class="fa fa-fw" ng-class="{ 'fa-chevron-right': is3Collapsed, 'fa-chevron-down': !is3Collapsed }"></i>
-            {{view == 'both' ? 'Openstaande kosten en opbrengsten' : (view == 'owner' ? 'Te ontvangen verhuuropbrengsten' : 'Gemaakte kosten')}}
-          </a>
-        </h3>
-      </div>
-
-      <div uib-collapse="is3Collapsed">
+      <div ng-if="loaded.ungrouped" uib-collapse="is3Collapsed">
         <div class="card-body">
           <table class="table table-hover table-finance" ng-if="(view == 'both' || view == 'renter') && openInvoices.renter">
             <thead>
@@ -167,7 +157,7 @@
       </div>
     </div><!-- /card -->
 
-    <div class="card" ng-if="loaded.done" ng-init="showMyInvoices=true">
+    <div class="card" ng-init="showMyInvoices=true">
       <div class="card-heading">
         <h3 class="card-title">
           <a href="" ng-click="showMyInvoices = !showMyInvoices">
@@ -177,7 +167,13 @@
         </h3>
       </div>
 
-      <div uib-collapse="!showMyInvoices">
+      <div ng-if="!loaded.grouped" class="card-body">
+        <h4 style="text-align: center">
+          <big><i class="fa fa-spinner fa-spin fa-fw"></i></big>
+        </h4>
+      </div>
+
+      <div ng-if="loaded.grouped" uib-collapse="!showMyInvoices">
         <div class="card-body">
 
           <table class="table table-hover" ng-if="(groupedInvoices && groupedInvoices.length > 0) || (groupedInvoicesOld && groupedInvoicesOld.length > 0)">
@@ -201,8 +197,8 @@
               <tr ng-repeat-end ng-show="invoiceGroup.type == 'old'" class="clickable">
                 <td>{{invoiceGroup.invoice.id}}</td>
                 <td>{{invoiceGroup.invoice.due | amDateFormat:'DD-MM-YYYY'}}</td>
-                <td>{{invoiceGroup.invoice.paid === invoiceGroup.invoice.total ? 'Betaald' : 'Nog te betalen'}}  </td>
-                <td class="text-right">{{invoiceGroup.invoice.total | currency}}</td>
+                <td>{{invoiceGroup.invoice.paid < 0 ? 'Uitbetaald' : 'Betaald'}}  </td>
+                <td class="text-right">{{invoiceGroup.invoice.paid | currency}}</td>
                 <td class="text-right"><a target="_blank" ng-href="{{invoiceGroup.invoice.pdflink}}"><i title="Download pdf" class="fa fa-fw fa-file-pdf-o"></i></a></td>
               </tr>
             </tbody>
