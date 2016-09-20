@@ -9,7 +9,7 @@
 <md-tabs md-selected="activeTab.active" class="md-primary" md-dynamic-height >
   
   <md-tab label="Facturen">
-    <div class="card">
+    <div ng-if="!loaded.done" class="card">
       <div class="card-heading">
         <h3 class="card-title">
           <a href="" ng-click="is3Collapsed = !is3Collapsed">
@@ -18,9 +18,25 @@
           </a>
         </h3>
       </div>
+      <div class="card-body">
+        <h4 style="text-align: center">
+          <big><i class="fa fa-spinner fa-spin fa-fw"></i></big>
+        </h4>
+      </div>
+    </div>
+
+    <div ng-if="loaded.done" class="card">
+      <div class="card-heading">
+        <h3 class="card-title">
+          <a href="" ng-click="is3Collapsed = !is3Collapsed">
+            <i class="fa fa-fw" ng-class="{ 'fa-chevron-right': is3Collapsed, 'fa-chevron-down': !is3Collapsed }"></i>
+            {{view == 'both' ? 'Openstaande kosten en opbrengsten' : (view == 'owner' ? 'Te ontvangen verhuuropbrengsten' : 'Gemaakte kosten')}}
+          </a>
+        </h3>
+      </div>
+
       <div uib-collapse="is3Collapsed">
         <div class="card-body">
-         
           <table class="table table-hover table-finance" ng-if="(view == 'both' || view == 'renter') && openInvoices.renter">
             <thead>
               <tr>
@@ -141,7 +157,7 @@
             </button>
           </div>
 
-          <div ng-if="loaded && (view === 'both' && !openInvoices.null && !openInvoices.renter && !openInvoices.owner) || (view === 'renter' && !openInvoices.null && !openInvoices.renter) || (view === 'owner' && !openInvoices.null && !openInvoices.owner)">
+          <div ng-if="(view === 'both' && !openInvoices.null && !openInvoices.renter && !openInvoices.owner) || (view === 'renter' && !openInvoices.null && !openInvoices.renter) || (view === 'owner' && !openInvoices.null && !openInvoices.owner)">
             <p>
               Je hebt geen openstaande facturen. 
             </p>
@@ -151,7 +167,7 @@
       </div>
     </div><!-- /card -->
 
-    <div class="card" ng-init="showMyInvoices=true">
+    <div class="card" ng-if="loaded.done" ng-init="showMyInvoices=true">
       <div class="card-heading">
         <h3 class="card-title">
           <a href="" ng-click="showMyInvoices = !showMyInvoices">
@@ -175,19 +191,26 @@
               </tr>
             </thead>
             <tbody>
-              <tr class="clickable" ng-repeat="invoiceGroup in groupedInvoices">
-                <td>{{invoiceGroup.id}}</td>
-                <td>{{invoiceGroup.date | amDateFormat:'DD-MM-YYYY'}}</td>
-                <td>{{statusText(invoiceGroup.status)}} <span ng-if="statusTooltipEnable(invoiceGroup.status)" uib-tooltip="{{statusTooltipText(invoiceGroup.status)}}" class="text-muted"><i class="fa fa-info-circle"></i></span> </td>
-                <td class="text-right">{{invoiceGroup.total < 0 ? -1 * invoiceGroup.total : invoiceGroup.total | currency}}</td>
-                <td class="text-right"><a ng-href="{{invoiceGroup.pdflink}}"><i title="Download pdf" class="fa fa-fw fa-file-pdf-o"></i></a></td>
+              <tr class="clickable" ng-show="invoiceGroup.type == 'new'"  ng-repeat-start="invoiceGroup in allGroupedInvoices | limitTo:groupedInvoicesPerPage:groupedInvoicesPerPage*(currentInvoicePage-1)">
+                <td>{{invoiceGroup.invoice.id}}</td>
+                <td>{{invoiceGroup.invoice.date | amDateFormat:'DD-MM-YYYY'}}</td>
+                <td>{{statusText(invoiceGroup.invoice.status)}} <span ng-if="statusTooltipEnable(invoiceGroup.invoice.status)" uib-tooltip="{{statusTooltipText(invoiceGroup.invoice.status)}}" class="text-muted"><i class="fa fa-info-circle"></i></span> </td>
+                <td class="text-right">{{invoiceGroup.invoice.total < 0 ? -1 * invoiceGroup.invoice.total : invoiceGroup.invoice.total | currency}}</td>
+                <td class="text-right"><a target="_blank" ng-href="{{invoiceGroup.invoice.pdflink}}"><i title="Download pdf" class="fa fa-fw fa-file-pdf-o"></i></a></td>
               </tr>
-              <tr class="clickable" ng-repeat="invoiceGroup in groupedInvoicesOld">
-                <td>{{invoiceGroup.id}}</td>
-                <td>{{invoiceGroup.due | amDateFormat:'DD-MM-YYYY'}}</td>
-                <td>{{invoiceGroup.paid === invoiceGroup.total ? 'Betaald' : 'Nog te betalen'}}  </td>
-                <td class="text-right">{{invoiceGroup.total}}</td>
-                <td class="text-right"><a ng-href="{{invoiceGroup.pdflink}}"><i title="Download pdf" class="fa fa-fw fa-file-pdf-o"></i></a></td>
+              <tr ng-repeat-end ng-show="invoiceGroup.type == 'old'" class="clickable">
+                <td>{{invoiceGroup.invoice.id}}</td>
+                <td>{{invoiceGroup.invoice.due | amDateFormat:'DD-MM-YYYY'}}</td>
+                <td>{{invoiceGroup.invoice.paid === invoiceGroup.invoice.total ? 'Betaald' : 'Nog te betalen'}}  </td>
+                <td class="text-right">{{invoiceGroup.invoice.total | currency}}</td>
+                <td class="text-right"><a target="_blank" ng-href="{{invoiceGroup.invoice.pdflink}}"><i title="Download pdf" class="fa fa-fw fa-file-pdf-o"></i></a></td>
+              </tr>
+            </tbody>
+            <tbody ng-hide="allGroupedInvoices.length < groupedInvoicesPerPage" style="border-top-width: 1px">
+              <tr class="nohover">
+                <td colspan="5">
+                  <ul uib-pagination items-per-page="groupedInvoicesPerPage" ng-init="currentInvoicePage=1" direction-links="0" total-items="allGroupedInvoices.length" ng-model="currentInvoicePage"></ul>
+                </td>
               </tr>
             </tbody>
           </table>
@@ -237,16 +260,16 @@
       <div class="card-body" uib-collapse="!isCollapsed">
         <table class="table table-condensed" ng-show="vouchers && vouchers.length > 0">
           <tbody>
-            <tr ng-class="{'text-muted': voucher.value == 0}" ng-repeat="voucher in vouchers | limitTo:perPage:perPage*(currentPage-1)">
+            <tr ng-class="{'text-muted': voucher.value == 0}" ng-repeat="voucher in vouchers | limitTo:vouchersPerPage:vouchersPerPage*(currentVoucherPage-1)">
               <td style="width: 20%"><strong>{{voucher.initialValue | currency}}</strong></td>
               <td>waarvan {{voucher.value | currency}} resterend</td>
               <td style="width: 40%">gekocht op {{voucher.paid | amDateFormat:'DD-MM-YYYY'}}</td>
             </tr>
           </tbody>
-          <tbody ng-hide="vouchers.length < perPage" style="border-top-width: 1px">
+          <tbody ng-hide="vouchers.length < vouchersPerPage" style="border-top-width: 1px">
             <tr>
               <td colspan="3">
-                <ul uib-pagination items-per-page="perPage" ng-init="currentPage=1" direction-links="0" total-items="vouchers.length" ng-model="currentPage" ng-change="newPage(currentPage)"></ul>
+                <ul uib-pagination items-per-page="vouchersPerPage" ng-init="currentVoucherPage=1" direction-links="0" total-items="vouchers.length" ng-model="currentVoucherPage"></ul>
               </td>
             </tr>
           </tbody>

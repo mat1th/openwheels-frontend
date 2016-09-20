@@ -30,7 +30,7 @@ angular.module('owm.booking.administer', [])
   }
 
   function saveTrip() {
-    if($scope.trip.odoBegin && !$scope.alreadyFilled) {
+    if(!$scope.alreadyFilled) {
       var params = {
         booking : $scope.booking.id,
         odoBegin: $scope.trip.odoBegin
