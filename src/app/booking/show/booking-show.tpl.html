@@ -271,14 +271,14 @@
     <span>Deze rit is nog niet betaald. <a style="color: #832f2f" ui-sref="owm.finance.vouchers">Koop rijtegoed</a> om deze rit te betalen.</span>
   </div>
 </div>
-<div class="card" ng-if="userPerspective==='owner' && booking.ok">
+<div class="card" ng-if="userPerspective==='owner' && booking.ok && !bookingEnded">
   <div class="card-body card-inverse" style="background-color:#3bab78; color: white;">
     <span>Alles voor deze rit is geregeld, je kunt de auto meegeven aan de verhuurder.</span>
   </div>
 </div>
-<div class="card" ng-if="userPerspective==='owner' && !booking.ok">
+<div class="card" ng-if="userPerspective==='owner' && !booking.ok && !bookingEnded">
   <div class="card-body card-inverse" style="background-color:#c85f5f; color: white;">
-    <span>Nog niet alles voor deze rit is correct geregeld, geef de auto daarom nog niet mee aan de verhuurder.</span>
+    <span>Voor deze rit is nog niet alles in orde. Mogelijk moet de verhuurder nog betalen of andere gegevens doorgeven. Geef de auto daarom niet mee aan de verhuurder zolang deze meldig zichtbaar is.<span ng-if="allowAcceptReject"><br>Je kan de rit wel alvast accepteren of weigeren</span></span>
   </div>
 </div>
 

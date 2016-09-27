@@ -52,8 +52,16 @@ angular.module('owm.finance.v4', [])
     _.forEach(results.oldInvoices, function(oldInvoice) {
       allInvoices.push({type: 'old', invoice: oldInvoice});
     });
-    $scope.allGroupedInvoices = allInvoices;
-    return allInvoices;
+    $scope.allGroupedInvoices = _.sortBy(allInvoices, function(invoice) {
+      var a;
+      if(invoice.type === 'old') {
+        a = moment(invoice.invoice.due);
+      } else {
+        a = moment(invoice.invoice.date);
+      }
+      return a.format('X') * -1;
+    });
+    return $scope.allGroupedInvoices;
   })
   .finally(function() { $scope.loaded.grouped = true; })
   ;
