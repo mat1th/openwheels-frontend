@@ -113,6 +113,7 @@ angular.module('rpcServices', [])
   this.forResource = m('forResource');
   this.forOwner = m('forOwner');
   this.getBookingList = m('getBookingList');
+  this.clearDrivers= m('clearDrivers');
 })
 
 .service('boardcomputerService', function (api) {

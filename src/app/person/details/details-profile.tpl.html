@@ -108,7 +108,7 @@
                     {{ 'DETAILS_PROFILE_PAY_APPROVED' | translate }}
                 </p>
                 <p ng-if="booking.approved !== 'BUY_VOUCHER'" translate="DETAILS_PROFILE_PAY_NOT_APPROVED" translate-values="{firstName: booking.resource.owner.firstName }"></p>
-                <voucher data="{{ booking }}" toggleRedemption="toggleRedemption" vouchureError="vouchureError" ng-if="priceCalculated && isbooking"></voucher>
+                <voucher booking="booking" me="me" ng-if="bookingFound && isbooking"></voucher>
                 <div ng-if="!accountApproved">
                     <p class="mywheels-btn-margin-top">
                         <b>Let op:</b> om de betaling te kunnen verwerken, moet de tenaamstelling van de rekening overeenkomen met je accountnaam.
@@ -127,7 +127,7 @@
                             {{ 'FILL_PERSON_INFO' | translate }}
                             <md-icon>navigate_next</md-icon>
                         </button>
-                        <button rel="next" type="button" class="mywheels-btn mywheels-btn-default btn--navigation__next" ng-click="buyVoucher(booking.booking_price.total + booking.km_price - booking.discount)">
+                        <button rel="next" type="button" class="mywheels-btn mywheels-btn-default btn--navigation__next" ng-click="buyVoucher()">
                             {{ 'PAY' | translate}}
                             <md-icon class="text-white">navigate_next</md-icon>
                         </button>

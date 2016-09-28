@@ -63,7 +63,7 @@
                 </div>
             </div>
 
-            <voucher data="{{ booking }}" toggleRedemption="toggleRedemption" vouchureError="vouchureError" redemptionPending="redemptionPending"></voucher>
+            <voucher me="me" booking="booking" on-changed="bookingChanged(booking)"></voucher>
 
         </div>
         <!-- /body -->
