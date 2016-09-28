@@ -27,6 +27,7 @@ angular.module('owm.booking.show', [])
 
   $scope.booking = booking;
   $scope.bookingStarted = moment().isAfter(moment(booking.beginBooking));
+  $scope.bookingEnded = moment().isAfter(moment(booking.endBooking));
   $scope.resource = booking.resource;
   $scope.showBookingForm = false;
   $scope.showPricePerHour = false;

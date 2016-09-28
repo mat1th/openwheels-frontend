@@ -4,7 +4,9 @@ angular.module('owm.finance.vouchers', [])
 
 .controller('VouchersController', function ($window, $q, $state, $scope, account2Service, appConfig, alertService, voucherService,
   paymentService, bookingService, me, Analytics) {
+
   $scope.me = me;
+
   var cachedBookings = {};
   $scope.busy = true;
   $scope.requiredValue = null;
@@ -21,6 +23,21 @@ angular.module('owm.finance.vouchers', [])
 
   });
 
+  // when one of the bookings has been changed we need to fetch the new total we need to pay
+  // we make sure we don't update the bookings because it will glitch and is not nescessary
+  $scope.bookingChanged = function(booking) {
+    return voucherService.calculateRequiredCredit({
+        person: me.id
+      }).then(function (value) {
+        delete value.bookings;
+        _.extend($scope.requiredValue, value);
+        return $scope.requiredValue;
+      })
+      .catch(function (err) {
+        alertService.addError(err);
+      });
+  };
+
   alertService.load($scope);
   getRequiredValue().then(getBookings).finally(function () {
     alertService.loaded($scope);
@@ -36,9 +53,11 @@ angular.module('owm.finance.vouchers', [])
     }
 
   };
+
   $scope.toggleVoucherOptions = function (toggle) {
     $scope.showVoucherOptions = toggle;
   };
+
   $scope.buyVoucher = function (value) {
     Analytics.trackEvent('payment', 'started');
     if (!value || value < 0) {
@@ -69,41 +88,6 @@ angular.module('owm.finance.vouchers', [])
       });
   };
 
-  $scope.toggleRedemption = function (booking) {
-    alertService.closeAll();
-    alertService.load($scope);
-
-    /* checkbox is already checked, so new value is now: */
-    var newValue = booking.riskReduction;
-
-    $scope.redemptionPending[booking.id] = true;
-    bookingService.alter({
-        booking: booking.id,
-        newProps: {
-          riskReduction: newValue
-        }
-      })
-      .then(function () {
-        /* recalculate amounts */
-        return getRequiredValue();
-      })
-      .then(function (requiredValue) {
-        /* get bookings from cache */
-        return getBookings(requiredValue);
-      })
-      .then(function () {
-        booking.riskReduction = newValue;
-      })
-      .catch(function (err) {
-        /* revert */
-        booking.riskReduction = !!!booking.riskReduction;
-        alertService.addError(err);
-      })
-      .finally(function () {
-        alertService.loaded($scope);
-        $scope.redemptionPending[booking.id] = false;
-      });
-  };
 
   function getRequiredValue() {
     return voucherService.calculateRequiredCredit({
