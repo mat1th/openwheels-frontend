@@ -489,6 +489,18 @@ angular.module('owm.booking.show', [])
 
 
   // INVOICES
+  function injectInvoiceLines(res) {
+    var invoiceLinesSent, invoiceLinesReceived = [];
+    if(res.sent) {
+      invoiceLinesSent = _.map(_.flatten(_.pluck(res.sent, 'invoiceLines')), function(i) {i.type='sent'; return i; });
+    }
+    if(res.received) {
+      invoiceLinesReceived = _.map(_.flatten(_.pluck(res.received, 'invoiceLines')), function(i) {i.type='received'; return i; });
+    }
+    var invoiceLines = _.sortBy(_.union(invoiceLinesSent, invoiceLinesReceived), 'position');
+    $scope.invoiceLines = invoiceLines;
+    return invoiceLines;
+  }
 
   $scope.receivedInvoices = null;
   $scope.receivedInvoicesTotalAmount = 0;
@@ -497,18 +509,23 @@ angular.module('owm.booking.show', [])
   $scope.sentInvoicesTotalAmount = 0;
 
   if ($scope.userPerspective === 'renter') {
-    loadReceivedInvoices();
+    $q.all({received: loadReceivedInvoices()})
+    .then(injectInvoiceLines);
   }
 
   if ($scope.userPerspective === 'owner') {
-    loadSentInvoices();
-    loadReceivedInvoices();
+    $q.all({received: loadReceivedInvoices(), sent: loadSentInvoices()})
+    .then(injectInvoiceLines);
   }
 
   function loadReceivedInvoices () {
     var booking = $scope.booking;
-    invoice2Service.getReceived({ person: me.id, booking: booking.id }).then(function (invoices) {
+    return invoice2Service.getReceived({ person: me.id, booking: booking.id }).then(function (invoices) {
       $log.debug('got received invoices', invoices);
+
+      //var invoiceLines = _.sortBy(_.flatten(_.pluck(invoices, 'invoiceLines')), 'position');
+      //$log.debug('order received invoice lines', invoiceLines);
+
       $scope.receivedInvoices = invoices || [];
 
       var sum = 0;
@@ -523,13 +540,18 @@ angular.module('owm.booking.show', [])
         }
       });
       $scope.receivedInvoicesTotalAmount = hasError ? null : sum;
+      return invoices;
     });
   }
 
   function loadSentInvoices () {
     var booking = $scope.booking;
-    invoice2Service.getSent({ person: me.id, booking: booking.id }).then(function (invoices) {
+    return invoice2Service.getSent({ person: me.id, booking: booking.id }).then(function (invoices) {
       $log.debug('got sent invoices', invoices);
+
+      //var invoiceLines = _.sortBy(_.flatten(_.pluck(invoices, 'invoiceLines')), 'position');
+      //$log.debug('order invoice lines', invoiceLines);
+
       $scope.sentInvoices = invoices || [];
 
       var sum = 0;
@@ -544,6 +566,7 @@ angular.module('owm.booking.show', [])
         }
       });
       $scope.sentInvoicesTotalAmount = hasError ? null : sum;
+      return invoices;
     });
   }
 

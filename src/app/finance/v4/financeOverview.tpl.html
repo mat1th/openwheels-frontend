@@ -44,12 +44,12 @@
                   <md-icon ng-if="open">arrow_drop_up</md-icon>
                 </td>
               </tr>
-              <tr ng-repeat="invoice in openInvoice.invoices" class="nohover" ng-show="open">
+              <tr ng-repeat="invoiceLine in openInvoice.invoiceLines" class="nohover" ng-show="open">
                 <td colspan="3" class="reset-cell">
                   <table class="table table-full-width table-no-margin-bottom">
-                    <tr class="table-finance-subtable" ng-repeat="invoiceLine in invoice.invoiceLines">
+                    <tr class="table-finance-subtable">
                       <td class="table-finance-col-1 first subitem">{{invoiceLine.description}}</td>
-                      <td class="table-finance-col-2 second subitem text-right" ng-class="{'pos': (invoiceLine.total > 0 && invoice.sender.id === me.id) || (invoiceLine.total < 0 && invoice.recipient.id === me.id) }">{{invoice.recipient.id === me.id ? invoiceLine.total : -1 * invoiceLine.total| currency }}</td>
+                      <td class="table-finance-col-2 second subitem text-right" ng-class="{'pos': (invoiceLine.total > 0 && invoiceLine.type == 'sender') || (invoiceLine.total < 0 && invoiceLine.type == 'received') }">{{invoiceLine.type == 'received' ? invoiceLine.total : -1 * invoiceLine.total| currency }}</td>
                       <td class="table-finance-col-3 subitem" ></td>
                     </tr>
                   </table>
@@ -78,12 +78,12 @@
                   <md-icon ng-if="open">arrow_drop_up</md-icon>
                 </td>
               </tr>
-              <tr ng-repeat="invoice in openInvoice.invoices" class="nohover" ng-show="open">
+              <tr ng-repeat="invoiceLine in openInvoice.invoiceLines" class="nohover" ng-show="open">
                 <td colspan="3" class="reset-cell">
                   <table class="table-full-width">
-                    <tr class="table-finance-subtable" ng-repeat="invoiceLine in invoice.invoiceLines">
-                      <td class="table-finance-col-1 first subitem">{{invoiceLine.description}}</td>
-                      <td class="table-finance-col-2 second subitem text-right" ng-class="{'neg': (invoiceLine.total < 0 && invoice.sender.id === me.id) || (invoiceLine.total > 0 && invoice.recipient.id === me.id) }">{{invoice.recipient.id === me.id ? -1 * invoiceLine.total : invoiceLine.total| currency }}</td>
+                    <tr class="table-finance-subtable">
+                      <td class="table-finance-col-1 first subitem">{{invoiceLine.description}} </td>
+                      <td class="table-finance-col-2 second subitem text-right" ng-class="{'neg': (invoiceLine.total < 0 && invoiceLine.type == 'sent') || (invoiceLine.total > 0 && invoiceLine.type == 'received') }">{{invoiceLine.type == 'received' ? -1 * invoiceLine.total : invoiceLine.total| currency }}</td>
                       <td class="table-finance-col-3 subitem" ></td>
                     </tr>
                   </table>
@@ -202,7 +202,7 @@
                 <td class="text-right"><a target="_blank" ng-href="{{invoiceGroup.invoice.pdflink}}"><i title="Download pdf" class="fa fa-fw fa-file-pdf-o"></i></a></td>
               </tr>
             </tbody>
-            <tbody ng-hide="allGroupedInvoices.length < groupedInvoicesPerPage" style="border-top-width: 1px">
+            <tbody ng-hide="allGroupedInvoices.length <= groupedInvoicesPerPage" style="border-top-width: 1px">
               <tr class="nohover">
                 <td colspan="5">
                   <ul uib-pagination items-per-page="groupedInvoicesPerPage" ng-init="currentInvoicePage=1" direction-links="0" total-items="allGroupedInvoices.length" ng-model="currentInvoicePage"></ul>
@@ -262,7 +262,7 @@
               <td style="width: 40%">gekocht op {{voucher.paid | amDateFormat:'DD-MM-YYYY'}}</td>
             </tr>
           </tbody>
-          <tbody ng-hide="vouchers.length < vouchersPerPage" style="border-top-width: 1px">
+          <tbody ng-hide="vouchers.length <= vouchersPerPage" style="border-top-width: 1px">
             <tr>
               <td colspan="3">
                 <ul uib-pagination items-per-page="vouchersPerPage" ng-init="currentVoucherPage=1" direction-links="0" total-items="vouchers.length" ng-model="currentVoucherPage"></ul>

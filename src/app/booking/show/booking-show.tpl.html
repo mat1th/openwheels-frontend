@@ -381,9 +381,9 @@
           <th>Omschrijving</th>
           <th>Bedrag</th>
         </tr>
-        <tr ng-repeat="invoice in receivedInvoices">
-          <td>{{ invoice.description }}</td>
-          <td ng-class="{'text-neg': invoice.total < 0}">{{ invoice.total | currency }}</td>
+        <tr ng-repeat="invoiceline in invoiceLines">
+          <td>{{ invoiceline.description }}</td>
+          <td ng-class="{'text-pos': invoiceline.total < 0}">{{ invoiceline.total | currency }}</td>
         </tr>
         <tr>
           <td><b>Totaal te {{(receivedInvoicesTotalAmount > 0 ? 'betalen' : 'ontvangen')}}</b></td>
@@ -416,13 +416,10 @@
           <th>Omschrijving</th>
           <th>Bedrag</th>
         </tr>
-        <tr ng-repeat="invoice in sentInvoices">
-          <td>{{ invoice.description }}</td>
-          <td ng-class="{'text-neg': invoice.total < 0}">{{ invoice.total | currency }}</td>
-        </tr>
-        <tr ng-repeat="invoice in receivedInvoices">
-          <td>{{ invoice.description }}</td>
-          <td ng-class="{'text-neg': -invoice.total < 0}">{{ -invoice.total | currency }}</td>
+        <tr ng-repeat="invoiceline in invoiceLines">
+          <td>{{ invoiceline.description }}</td>
+          <td ng-if="invoiceline.type == 'sent'" ng-class="{'text-neg': invoiceline.total < 0}">{{ invoiceline.total | currency }}</td>
+          <td ng-if="invoiceline.type == 'received'" ng-class="{'text-neg': invoiceline.total > 0}">{{ -invoiceline.total | currency }}</td>
         </tr>
         <tr>
           <td><b>Totaal te {{(sentInvoicesTotalAmount - receivedInvoicesTotalAmount < 0 ? 'betalen' : 'ontvangen')}} </b></td>
