@@ -273,7 +273,8 @@
 </div>
 <div class="card" ng-if="userPerspective==='owner' && booking.ok && !bookingEnded">
   <div class="card-body card-inverse" style="background-color:#3bab78; color: white;">
-    <span>Alles voor deze rit is geregeld, je kunt de auto meegeven aan de verhuurder.</span>
+    <span ng-if="allowAcceptReject">Alles voor deze rit is geregeld, je kunt het huurverzoek accepteren en de auto meegeven aan de verhuurder.</span>
+    <span ng-if="!allowAcceptReject">Alles voor deze rit is geregeld, je kunt de auto meegeven aan de verhuurder.</span>
   </div>
 </div>
 <div class="card" ng-if="userPerspective==='owner' && !booking.ok && !bookingEnded">
