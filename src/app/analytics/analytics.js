@@ -32,6 +32,10 @@ angular.module('openwheels.analytics', [])
     .useDisplayFeatures(true)
     ;
   })
+  .run(function(Analytics) {
+    console.log('fdsa');
+    Analytics.pageView();
+  })
   ;
 /*
 LIST OF ALL EVENTS
