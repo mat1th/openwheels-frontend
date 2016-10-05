@@ -31,54 +31,32 @@
             <thead>
               <tr>
                 <th class="table-finance-col-1">Gemaakte ritten</th>
-                <th class="table-finance-col-2 text-right"></th>
-                <th class="table-finance-col-3 text-right"></th>
-                <th class="table-finance-col-4 text-right subitem">Kosten</th>
-                <th class="table-finance-col-5"></th>
+                <th class="table-finance-col-2 text-right" style="padding-right: 0;">Kosten</th>
+                <th class="table-finance-col-3"></th>
               </tr>
             </thead>
             <tbody ng-repeat="openInvoice in openInvoices.renter">
               <tr ng-click="open=!open" class="clickable" ng-class="{'open': open}">
-                <td colspan="3">{{'Rit op ' + (openInvoice.booking.beginBooking | amDateFormat:'DD-MM-YYYY')  + ' in ' + openInvoice.booking.resource.alias }}</td>
-                <td ng-if="!open" class="table-finance-col-4 text-right">{{openInvoice.hasToPay ? openInvoice.totalToPay : -1 * openInvoice.totalToReceive | currency}}</td>
-                <td ng-if="open" class="table-finance-col-4 text-right"></td>
-                <td class="table-finance-col-5 text-right">
+                <td>{{'Rit op ' + (openInvoice.booking.beginBooking | amDateFormat:'DD-MM-YYYY')  + ' in ' + openInvoice.booking.resource.alias }}</td>
+                <td style="padding-right: 0;" class="table-finance-col-2 text-right">{{openInvoice.hasToPay ? openInvoice.totalToPay : -1 * openInvoice.totalToReceive | currency}}</td>
+                <td class="table-finance-col-3 text-right">
                   <md-icon ng-if="!open">arrow_drop_down</md-icon>
                   <md-icon ng-if="open">arrow_drop_up</md-icon>
                 </td>
               </tr>
-              <tr class="nohover subheading" ng-show="open">
-                <td colspan="5" class="reset-cell">
-                  <table class="table table-full-width table-no-margin-bottom">
-                    <tr class="table-finance-subtable">
-                      <td class="table-finance-col-1 first subitem"><span>Omschrijving</span></td>
-                      <td class="table-finance-col-2 subitem number"><span>Aantal</span></td>
-                      <td class="table-finance-col-3 subitem number"><span>Prijs</span></td>
-                      <td class="table-finance-col-4 subitem number"><span>Tot.</span></td>
-                      <td class="table-finance-col-5 subitem number"><span>Btw</span></td>
-                    </tr>
-                  </table>
-                </td>
-              </tr>
               <tr ng-repeat="invoiceLine in openInvoice.invoiceLines" class="nohover" ng-show="open">
-                <td colspan="5" class="reset-cell">
+                <td colspan="3" class="reset-cell">
                   <table class="table table-full-width table-no-margin-bottom">
                     <tr class="table-finance-subtable">
                       <td class="table-finance-col-1 first subitem">{{invoiceLine.description}}</td>
-                      <td class="table-finance-col-2 subitem number">{{invoiceLine.quantity}}</td>
-                      <td class="table-finance-col-3 subitem number">{{invoiceLine.type == 'received' ? invoiceLine.price : -1 * invoiceLine.price| currency }}</td>
-                      <td class="table-finance-col-4 subitem number" ng-class="{'pos': (invoiceLine.total > 0 && invoiceLine.type == 'sender') || (invoiceLine.total < 0 && invoiceLine.type == 'received') }">{{invoiceLine.type == 'received' ? invoiceLine.total : -1 * invoiceLine.total| currency }}</td>
-                      <td class="table-finance-col-5 subitem number">{{invoiceLine.taxRate}}%</td>
+                      <td class="table-finance-col-2 subitem number" ng-class="{'pos': (invoiceLine.total > 0 && invoiceLine.type == 'sender') || (invoiceLine.total < 0 && invoiceLine.type == 'received') }">{{invoiceLine.type == 'received' ? invoiceLine.total : -1 * invoiceLine.total| currency }}</td>
+                      <td class="table-finance-col-3 subitem number"></td>
                     </tr>
                   </table>
                 </td>
               </tr>
               <tr ng-show="open" class="nohover table-finance-subtable lastrow">
-                <td class="table-finance-col-1 first subitem"><a ui-sref="owm.booking.show({bookingId: openInvoice.booking.id })">Bekijk alle ritdetails</a></td>
-                <td class="table-finance-col-2 subitem text-right"><strong>Totaal</strong></td>
-                <td class="table-finance-col-3 subitem"></td>
-                <td class="table-finance-col-4 subitem number"><strong>{{openInvoice.hasToPay ? openInvoice.totalToPay : -1 * openInvoice.totalToReceive | currency}}<strong></td>
-                <td class="table-finance-col-5 subitem"></td>
+                <td colspan="3" class="table-finance-col-1 first subitem"><a ui-sref="owm.booking.show({bookingId: openInvoice.booking.id })">Bekijk alle ritdetails</a></td>
               </tr>  
             </tbody>
           </table>
@@ -87,54 +65,32 @@
             <thead>
               <tr>
                 <th class="table-finance-col-1">Ritten in jouw auto's</th>
-                <th class="table-finance-col-2 text-right"></th>
-                <th class="table-finance-col-3 text-right"></th>
-                <th class="table-finance-col-4 text-right subitem">Opbrengsten</th>
-                <th class="table-finance-col-5"></th>
+                <th class="table-finance-col-2 text-right subitem">Opbrengsten</th>
+                <th class="table-finance-col-3"></th>
               </tr>
             </thead>
             <tbody ng-repeat="openInvoice in openInvoices.owner">
               <tr ng-click="open=!open" class="clickable" ng-class="{'open': open}">
-                <td colspan="3">{{'Rit op ' + (openInvoice.booking.beginBooking | amDateFormat:'DD-MM-YYYY')  + ' door ' + openInvoice.booking.person.firstName }}</td>
-                <td ng-if="!open" class="table-finance-col-4 text-right">{{openInvoice.hasToReceive ? openInvoice.totalToReceive : -1 * openInvoice.totalToPay | currency}}</td>
-                <td ng-if="open" class="table-finance-col-4 text-right"></td>
-                <td class="table-finance-col-5 text-right">
+                <td>{{'Rit op ' + (openInvoice.booking.beginBooking | amDateFormat:'DD-MM-YYYY')  + ' door ' + openInvoice.booking.person.firstName }}</td>
+                <td class="table-finance-col-2 text-right">{{openInvoice.hasToReceive ? openInvoice.totalToReceive : -1 * openInvoice.totalToPay | currency}}</td>
+                <td class="table-finance-col-3 text-right">
                   <md-icon ng-if="!open">arrow_drop_down</md-icon>
                   <md-icon ng-if="open">arrow_drop_up</md-icon>
                 </td>
               </tr>
-              <tr class="nohover subheading" ng-show="open">
-                <td colspan="5" class="reset-cell">
-                  <table class="table table-full-width table-no-margin-bottom">
-                    <tr class="table-finance-subtable">
-                      <td class="table-finance-col-1 first subitem"><span>Omschrijving</span></td>
-                      <td class="table-finance-col-2 subitem number"><span>Aantal</span></td>
-                      <td class="table-finance-col-3 subitem number"><span>Prijs</span></td>
-                      <td class="table-finance-col-4 subitem number"><span>Tot.</span></td>
-                      <td class="table-finance-col-5 subitem number"><span>Btw</span></td>
-                    </tr>
-                  </table>
-                </td>
-              </tr>
               <tr ng-repeat="invoiceLine in openInvoice.invoiceLines" class="nohover" ng-show="open">
-                <td colspan="5" class="reset-cell">
+                <td colspan="3" class="reset-cell">
                   <table class="table-full-width">
                     <tr class="table-finance-subtable">
                       <td class="table-finance-col-1 first subitem">{{invoiceLine.description}}</td>
-                      <td class="table-finance-col-2 subitem number">{{invoiceLine.quantity}}</td>
-                      <td class="table-finance-col-3 subitem number">{{invoiceLine.type == 'received' ? -1 * invoiceLine.price : invoiceLine.price| currency }}</td>
-                      <td class="table-finance-col-4 subitem number" ng-class="{'neg': (invoiceLine.total < 0 && invoiceLine.type == 'sent') || (invoiceLine.total > 0 && invoiceLine.type == 'received') }">{{invoiceLine.type == 'received' ? -1 * invoiceLine.total : invoiceLine.total| currency }}</td>
-                      <td class="table-finance-col-5 subitem number">{{invoiceLine.taxRate}}%</td>
+                      <td class="table-finance-col-2 subitem number" ng-class="{'neg': (invoiceLine.total < 0 && invoiceLine.type == 'sent') || (invoiceLine.total > 0 && invoiceLine.type == 'received') }">{{invoiceLine.type == 'received' ? -1 * invoiceLine.total : invoiceLine.total| currency }}</td>
+                      <td class="table-finance-col-3 subitem number"></td>
                     </tr>
                   </table>
                 </td>
               </tr>
               <tr ng-show="open" class="nohover table-finance-subtable lastrow">
-                <td class="table-finance-col-1 first subitem"><a ui-sref="owm.booking.show({bookingId: openInvoice.booking.id })">Bekijk alle ritdetails</a></td>
-                <td class="table-finance-col-2 subitem text-right"><strong>Totaal</strong></td>
-                <td class="table-finance-col-3 subitem"></td>
-                <td class="table-finance-col-4 subitem number"><strong>{{openInvoice.hasToPay ? openInvoice.totalToPay : -1 * openInvoice.totalToReceive | currency}}<strong></td>
-                <td class="table-finance-col-5 subitem"></td>
+                <td colspan="3" class="table-finance-col-1 first subitem"><a ui-sref="owm.booking.show({bookingId: openInvoice.booking.id })">Bekijk alle ritdetails</a></td>
               </tr>
             </tbody>
           </table>
@@ -242,7 +198,7 @@
                 <td>{{invoiceGroup.invoice.id}}</td>
                 <td>{{invoiceGroup.invoice.due | amDateFormat:'DD-MM-YYYY'}}</td>
                 <td>{{invoiceGroup.invoice.paid < 0 ? 'Uitbetaald' : 'Betaald'}}  </td>
-                <td class="text-right">{{invoiceGroup.invoice.paid | currency}}</td>
+                <td class="text-right">{{invoiceGroup.invoice.paid < 0 ? -invoiceGroup.invoice.paid : invoiceGroup.invoice.paid | currency}}</td>
                 <td class="text-right"><a target="_blank" ng-href="{{invoiceGroup.invoice.pdflink}}"><i title="Download pdf" class="fa fa-fw fa-file-pdf-o"></i></a></td>
               </tr>
             </tbody>
