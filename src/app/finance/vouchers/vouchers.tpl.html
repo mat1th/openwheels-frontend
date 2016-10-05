@@ -18,16 +18,17 @@
 </div>
 <div class="card" ng-if="!busy && requiredValue" ng-repeat="booking in requiredValue.bookings" ng-init="isOpen['_' + $index] = $index <= 1">
     <div class="card-heading">
-        <span class="pull-right" ng-if="booking.isOpen">
+      <span class="pull-right" ng-if="booking.isOpen">
         <md-icon ng-show="booking.statusValue" ng-class="{'text-success': booking.statusValue}">check</md-icon>
-        <b ng-class="{'text-success': booking.statusValue}">{{ (booking.booking_price.total + booking.km_price) | currency }}</b>
-    </span>
-        <h3 class="card-title">
-      <a ng-click="toggleBookingCards($index)">
-        <i class="fa fa-fw" ng-class="{ 'fa-chevron-right': !isOpen['_' + $index], 'fa-chevron-down': isOpen['_' + $index] }"></i>
-        Rit op {{ booking.beginBooking | amDateFormat:'DD-MM-YYYY' }}
-      </a>
-    </h3>
+        <b ng-class="{'text-success': booking.statusValue}" ng-if="booking.details.discount">{{ booking.details.extra_drivers_price + booking.details.booking_price.total + booking.details.km_price - booking.details.discount | currency }}</b>
+        <b ng-class="{'text-success': booking.statusValue}" ng-if="!booking.details.discount">{{ booking.details.extra_drivers_price + booking.details.booking_price.total + booking.details.km_price | currency }}</b>
+      </span>
+      <h3 class="card-title">
+        <a ng-click="toggleBookingCards($index)">
+          <i class="fa fa-fw" ng-class="{ 'fa-chevron-right': !isOpen['_' + $index], 'fa-chevron-down': isOpen['_' + $index] }"></i>
+          Rit op {{ booking.beginBooking | amDateFormat:'DD-MM-YYYY' }} 
+        </a>
+      </h3>
     </div>
 
     <div uib-collapse="booking.isOpen">

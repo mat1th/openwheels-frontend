@@ -57,6 +57,7 @@ angular.module('vouchersDirective', [])
           }
           booking.details = bookingObject;
           $scope.booking = booking;
+          $scope.booking.details.extra_drivers_price = $scope.extraDrivers.check ? ($scope.extraDrivers.drivers.length + $scope.booking.details.drivers_count) * $scope.extraDrivers.price : 0;
 
           return bookingObject;
         }).then(function () {
@@ -130,6 +131,8 @@ angular.module('vouchersDirective', [])
             })
             .then(function() {
               $scope.extraDrivers.check = false;
+              $scope.extraDrivers.drivers = [];
+              $scope.booking.details.extra_drivers_price = $scope.extraDrivers.check ? ($scope.extraDrivers.drivers.length + $scope.booking.details.drivers_count) * $scope.extraDrivers.price : 0;
               $scope.onChanged($scope.booking);
             })
             .catch(function(err) {
@@ -162,6 +165,7 @@ angular.module('vouchersDirective', [])
           bookingService.addDriver({booking: $scope.booking.id, email: $scope.extraDrivers.new})
           .then(function(booking) {
             $scope.extraDrivers.drivers.push($scope.extraDrivers.new);
+            $scope.booking.details.extra_drivers_price = $scope.extraDrivers.check ? ($scope.extraDrivers.drivers.length + $scope.booking.details.drivers_count) * $scope.extraDrivers.price : 0;
           })
           .catch(function(e) {
             alertService.addError(e);
@@ -185,6 +189,7 @@ angular.module('vouchersDirective', [])
           bookingService.removeDriver({booking: $scope.booking.id, email: $scope.extraDrivers.drivers[index]})
           .then(function(booking) {
             $scope.extraDrivers.drivers.splice(index, 1);
+            $scope.booking.details.extra_drivers_price = $scope.extraDrivers.check ? ($scope.extraDrivers.drivers.length + $scope.booking.details.drivers_count) * $scope.extraDrivers.price : 0;
           })
           .catch(function(e) {
             alertService.addError(e);

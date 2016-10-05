@@ -82,7 +82,7 @@
 
   <div class="text-center">
     <p>
-      <button class="btn btn-success" ga-track-event="['booking', 'create', user.isAuthenticated, resource.owner.id === 282 ? 11 : undefined]" ng-disabled="discountCodeValidation.busy || discountCodeValidation.error || !availability || availability.available=='no'"
+      <button class="btn btn-success" ga-track-event="['booking', 'create', user.isAuthenticated, resource.owner.id === 282 ? 11 : (!resource.isConfirmationRequiredOthers ? 4 : undefined), true]" ng-disabled="discountCodeValidation.busy || discountCodeValidation.error || !availability || availability.available=='no'"
         ng-click="createBooking(booking)">
         {{ 'CREATE_BOOKING' | translate }}
       </button>

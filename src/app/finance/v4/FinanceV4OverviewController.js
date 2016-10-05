@@ -30,6 +30,7 @@ angular.module('owm.finance.v4', [])
   .then(addExtraInformationOldInvoices)
   .then(function(results) { $scope.groupedInvoicesOld = results; return results;})
   ;
+  
 
   // get credit
   var requiredCredit = voucherService.calculateRequiredCredit({person: me.id})
@@ -160,6 +161,18 @@ angular.module('owm.finance.v4', [])
 
   function addExtraInvoiceInformation(invoices) {
     invoices = _.map(invoices, function(bookingInvoice) {
+
+      bookingInvoice.invoices = _.map(bookingInvoice.invoices, function(invoice) {
+        var type;
+        if(invoice.recipient.id === me.id) {
+          type = 'received';
+        } else {
+          type = 'sent';
+        }
+        invoice.type = type;
+        return invoice;
+      });
+
       var totals = _.reduce(bookingInvoice.invoices, function(memo, invoice) {
         if(invoice.recipient.id === me.id) {
           memo.totalToPay += invoice.total;
@@ -182,6 +195,17 @@ angular.module('owm.finance.v4', [])
 
       bookingInvoice.hasToPay = bookingInvoice.totalToPay > bookingInvoice.totalToReceive;
       bookingInvoice.hasToReceive = bookingInvoice.totalToReceive > bookingInvoice.totalToPay;
+
+      var res = _.groupBy(bookingInvoice.invoices, 'type');
+      var invoiceLinesSent, invoiceLinesReceived = [];
+      if(res.sent) {
+        invoiceLinesSent = _.map(_.flatten(_.pluck(res.sent, 'invoiceLines')), function(i) {i.type='sent'; return i; });
+      }
+      if(res.received) {
+        invoiceLinesReceived = _.map(_.flatten(_.pluck(res.received, 'invoiceLines')), function(i) {i.type='received'; return i; });
+      }
+      var invoiceLines = _.sortBy(_.union(invoiceLinesSent, invoiceLinesReceived), 'position');
+      bookingInvoice.invoiceLines = invoiceLines;
 
       return bookingInvoice;
     });
