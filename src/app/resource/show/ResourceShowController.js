@@ -10,8 +10,6 @@ angular.module('owm.resource.show', [])
   /**
    * Warning: 'me' will be null for anonymous users
    */
-  console.log(resource);
-
   $scope.booking = {};
   $scope.resource = resource;
   $scope.me = me;

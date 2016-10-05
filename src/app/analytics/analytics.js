@@ -125,16 +125,25 @@ RESOURCE - DONE
 
 PERSON - PARTLY DONE + PARTLY POSPONED
   + created
-    > postponed untill new flow has been finished
+    - label: person.id
+    - value:
+    - triggers
+      - signupFormDirective.js then afther oauthService.subscribe
 
   + edited
-    > postponed untill new flow has been finished
+    - label: person.id
+    - value:
+    - triggers
 
   + driverlicense_uploaded
-    > postponed untill new flow has been finished
+    - label: person.id
+    - value:
+    - triggers
 
   + profilepicture_uploaded
-    > postponed untill new flow has been finished
+    - label: person.id
+    - value:
+    - triggers
 
   + contract_ended
     - label: contract.id
