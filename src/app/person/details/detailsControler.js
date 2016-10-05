@@ -3,7 +3,7 @@
 angular.module('owm.person.details', [])
 
 
-.controller('DetailsProfileController', function ($scope, $filter, $timeout, $translate, $window, $log, $state, $stateParams, $mdDialog, discountService, contractService, account2Service, person, alertService, personService, authService, me, dutchZipcodeService, voucherService, $q, appConfig, paymentService, bookingService, invoice2Service, API_DATE_FORMAT, $anchorScroll) {
+.controller('DetailsProfileController', function ($scope, $filter, $timeout, $translate, $window, $log, $state, $stateParams, $mdDialog, discountService, contractService, account2Service, person, alertService, personService, authService, me, dutchZipcodeService, voucherService, $q, appConfig, paymentService, bookingService, invoice2Service, API_DATE_FORMAT, $anchorScroll, Analytics) {
   $scope.isBusy = false;
   $scope.me = me;
 
@@ -184,6 +184,7 @@ angular.module('owm.person.details', [])
           frontImage: images.front
         })
         .then(function () {
+          Analytics.trackEvent('person', 'driverlicense_uploaded', undefined, undefined, true);
           $scope.licenceUploaded = true;
           // reload user info (status may have changed as a result of uploading license)
           personService.me({

@@ -139,7 +139,7 @@ angular.module('owm.resource.edit.sharing_settings', [])
       $scope.editResourceForm.$setPristine();
 
       if(newProps.advertisement) {
-        Analytics.trackEvent('resource', 'info_edited', masterResource.id);
+        Analytics.trackEvent('resource', 'info_edited', masterResource.id, undefined, true);
       }
     })
     .catch(function (err) {

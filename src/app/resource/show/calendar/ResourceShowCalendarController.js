@@ -12,7 +12,7 @@ angular.module('owm.resource.show.calendar', [
     $scope.resource = resource;
     $scope.view = $stateParams.view || 'agendaWeek';
 
-    Analytics.trackEvent('discovery', 'show_calendar', resource.id);
+    Analytics.trackEvent('discovery', 'show_calendar', resource.id, undefined, true);
 
     function renderCalendar() {
       $scope.calendar.fullCalendar('render');
@@ -165,7 +165,7 @@ angular.module('owm.resource.show.calendar', [
                 otherProps: otherProps
               }).then(function(result) {
                   reload(result);
-                  Analytics.trackEvent('resource', 'calendar_edited', resource.id);
+                  Analytics.trackEvent('resource', 'calendar_edited', resource.id, undefined, true);
                   return;
                 });
             } else {
@@ -176,7 +176,7 @@ angular.module('owm.resource.show.calendar', [
                 },
                 resource: resource.id
               }).then(function (blocking) {
-                Analytics.trackEvent('resource', 'calendar_edited', resource.id);
+                Analytics.trackEvent('resource', 'calendar_edited', resource.id, undefined, true);
                 $scope.events.push(new BlockingEvent(blocking));
                 renderCalendar();
               });
