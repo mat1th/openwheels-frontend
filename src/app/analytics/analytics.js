@@ -42,7 +42,7 @@ LIST OF ALL EVENTS
 BOOKING - DONE
   + created
     - label: (boolean) isAuthenticated
-    - value: fixed number 11 iif owner 282, 4 iif isConfirmationRequiredOthers = true, else undefined
+    - value: fixed number 11 iif owner 282, 4 iif isConfirmationRequiredOthers = false, else undefined
     - triggers:
         - reservationForm.tpl click button
           * condition: button not disabled
