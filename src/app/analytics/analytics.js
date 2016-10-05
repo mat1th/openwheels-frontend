@@ -32,6 +32,9 @@ angular.module('openwheels.analytics', [])
     .useDisplayFeatures(true)
     ;
   })
+  .run(function(Analytics) {
+    Analytics.pageView();
+  })
   ;
 /*
 LIST OF ALL EVENTS
@@ -39,7 +42,7 @@ LIST OF ALL EVENTS
 BOOKING - DONE
   + created
     - label: (boolean) isAuthenticated
-    - value: fix number 11 iif owner 282
+    - value: fixed number 11 iif owner 282, 4 iif isConfirmationRequiredOthers = true, else undefined
     - triggers:
         - reservationForm.tpl click button
           * condition: button not disabled
@@ -120,18 +123,32 @@ RESOURCE - DONE
       - ResourceShowCalendarController then after calendarService.createBlock
 
 
-PERSON - PARTLY DONE + PARTLY POSPONED
+PERSON - DONE
   + created
-    > postponed untill new flow has been finished
+    - label: person.id
+    - value:
+    - triggers
+      - signupFormDirective.js then afther oauthService.subscribe
 
   + edited
-    > postponed untill new flow has been finished
+    - label: person.id
+    - value:
+    - triggers
+      - PersonDataDirective.js then after PersonService
+      - AboutMeController then after PersonService
 
   + driverlicense_uploaded
-    > postponed untill new flow has been finished
+    - label: person.id
+    - value:
+    - triggers
+      - PersonLicenceController then after PersonService
+      - DetailsController then after PersonService
 
   + profilepicture_uploaded
-    > postponed untill new flow has been finished
+    - label: person.id
+    - value:
+    - triggers
+      - AboutMeController then after PersonService
 
   + contract_ended
     - label: contract.id

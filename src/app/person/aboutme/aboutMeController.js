@@ -3,7 +3,7 @@
 angular.module('owm.person.aboutme', [])
 
 
-.controller('aboutMeController', function ($scope, $translate, $filter, $window, alertService, personService, person) {
+.controller('aboutMeController', function ($scope, $translate, $filter, $window, alertService, personService, person, Analytics) {
 
   var masterPerson = null;
   initPerson(person);
@@ -41,6 +41,7 @@ angular.module('owm.person.aboutme', [])
         newProps: newProps
       })
       .then(function (buggyPersonWithoutPhoneNumbers) {
+        Analytics.trackEvent('person', 'edited', person.id, undefined, true);
         alertService.addSaveSuccess();
         initPerson($scope.person);
       })
@@ -74,6 +75,7 @@ angular.module('owm.person.aboutme', [])
         image: file
       })
       .then(function (person) {
+        Analytics.trackEvent('person', 'profilepicture_uploaded', person.id, undefined, true);
         $scope.profileImageSuccess = true;
       })
       .catch(function (err) {

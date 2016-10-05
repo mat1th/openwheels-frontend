@@ -286,7 +286,6 @@ angular.module('owm.resource.reservationForm', [])
           if (!validation.busy || code !== $scope.booking.discountCode) {
             return;
           }
-          Analytics.trackEvent('booking', 'discount_applied');
           validation.success = result.applicable;
           validation.error = !validation.success;
         })
@@ -397,6 +396,7 @@ angular.module('owm.resource.reservationForm', [])
                 discount: booking.discountCode
               })
               .then(function (discountResponse) {
+                Analytics.trackEvent('booking', 'discount_applied', undefined, undefined, true);
                 $log.debug('successfully applied discount');
                 return response; // <-- the response from bookingService.create
               })
