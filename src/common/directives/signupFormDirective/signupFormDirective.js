@@ -76,7 +76,7 @@ angular.module('signupFormDirective', [])
                   password: password,
                   other: user
                 }).then(function (res) {
-                  Analytics.trackEvent('person', 'created', res.id);
+                  Analytics.trackEvent('person', 'created', res.id, undefined, true);
                   if ($scope.url === 'owm.person.details({pageNumber: \'1\'})') {
                     var booking = $scope.booking;
                     var resource = $scope.resource;

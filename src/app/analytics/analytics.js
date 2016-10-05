@@ -123,7 +123,7 @@ RESOURCE - DONE
       - ResourceShowCalendarController then after calendarService.createBlock
 
 
-PERSON - PARTLY DONE + PARTLY POSPONED
+PERSON - DONE
   + created
     - label: person.id
     - value:
@@ -134,16 +134,21 @@ PERSON - PARTLY DONE + PARTLY POSPONED
     - label: person.id
     - value:
     - triggers
+      - PersonDataDirective.js then after PersonService
+      - AboutMeController then after PersonService
 
   + driverlicense_uploaded
     - label: person.id
     - value:
     - triggers
+      - PersonLicenceController then after PersonService
+      - DetailsController then after PersonService
 
   + profilepicture_uploaded
     - label: person.id
     - value:
     - triggers
+      - AboutMeController then after PersonService
 
   + contract_ended
     - label: contract.id

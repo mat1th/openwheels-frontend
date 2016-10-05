@@ -37,7 +37,7 @@ angular.module('owm.resource.create', ['owm.resource.create.carInfo', 'owm.resou
         'owner': me.id,
         'registrationPlate': licencePlate
       }).then(function (resource) {
-        Analytics.trackEvent('resource', 'resource_created', resource.id, true);
+        Analytics.trackEvent('resource', 'resource_created', resource.id, undefined, true);
         return resourceService.alter({
           'resource': resource.id,
           'newProps': {

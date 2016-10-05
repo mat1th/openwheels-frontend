@@ -273,7 +273,7 @@ angular.module('owm.booking.show', [])
         id: booking.id
       })
       .then(function (booking) {
-        Analytics.trackEvent('booking', $scope.userPerspective === 'owner' ? 'cancelled_owner' : 'cancelled_renter', booking.id, true);
+        Analytics.trackEvent('booking', $scope.userPerspective === 'owner' ? 'cancelled_owner' : 'cancelled_renter', booking.id, undefined, true);
         $scope.booking = booking;
         $scope.showBookingForm = false;
         alertService.add('success', $filter('translate')('BOOKING_CANCELED'), 5000);
@@ -332,7 +332,7 @@ angular.module('owm.booking.show', [])
       }
       alertService.load();
       bookingService.acceptRequest(params).then(function (booking) {
-        Analytics.trackEvent('booking', 'accepted', booking.id, 4, true);
+        Analytics.trackEvent('booking', 'accepted', booking.id, 4, undefined, true);
         $scope.booking = booking;
         initPermissions();
         alertService.add('success', $filter('translate')('BOOKING.ACCEPT.SUCCESS'), 5000);
@@ -360,7 +360,7 @@ angular.module('owm.booking.show', [])
       }
       alertService.load();
       bookingService.rejectRequest(params).then(function (booking) {
-        Analytics.trackEvent('booking', 'rejected', booking.id, true);
+        Analytics.trackEvent('booking', 'rejected', booking.id, undefined, true);
         $scope.booking = booking;
         initPermissions();
         alertService.add('success', $filter('translate')('BOOKING.REJECT.SUCCESS'), 5000);
