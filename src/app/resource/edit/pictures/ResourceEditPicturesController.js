@@ -73,7 +73,7 @@ angular.module('owm.resource.edit.pictures', [])
       image: file
     })
     .then(function (something) {
-      Analytics.trackEvent('resource', 'picture_uploaded', resource.id);
+      Analytics.trackEvent('resource', 'picture_uploaded', resource.id, true);
       return reloadResource();
     })
     .catch(function (err) {

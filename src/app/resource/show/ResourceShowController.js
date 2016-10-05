@@ -6,7 +6,7 @@ angular.module('owm.resource.show', [])
   authService, resourceService, bookingService, invoice2Service, boardcomputerService, alertService, chatPopupService,
   ratingService, API_DATE_FORMAT, resource, me, resourceQueryService, featuresService, $stateParams, linksService, Analytics) {
 
-  Analytics.trackEvent('discovery', 'show_car', resource.id);
+  Analytics.trackEvent('discovery', 'show_car', resource.id, true);
   /**
    * Warning: 'me' will be null for anonymous users
    */

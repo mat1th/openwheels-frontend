@@ -59,7 +59,7 @@ angular.module('owm.finance.vouchers', [])
   };
 
   $scope.buyVoucher = function (value) {
-    Analytics.trackEvent('payment', 'started');
+    Analytics.trackEvent('payment', 'started', true);
     if (!value || value < 0) {
       return;
     }

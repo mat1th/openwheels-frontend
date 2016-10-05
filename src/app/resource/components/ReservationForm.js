@@ -396,7 +396,7 @@ angular.module('owm.resource.reservationForm', [])
                 discount: booking.discountCode
               })
               .then(function (discountResponse) {
-                Analytics.trackEvent('booking', 'discount_applied');
+                Analytics.trackEvent('booking', 'discount_applied', true);
                 $log.debug('successfully applied discount');
                 return response; // <-- the response from bookingService.create
               })

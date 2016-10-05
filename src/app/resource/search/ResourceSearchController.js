@@ -182,7 +182,7 @@ angular.module('owm.resource.search', [
 
           // if needed, update UI
           if (gotoStartPage) {
-            Analytics.trackEvent('discovery', 'search', user.isAuthenticated);
+            Analytics.trackEvent('discovery', 'search', user.isAuthenticated, true);
             $scope.showPage(startPage);
           }
           return resources;
@@ -271,7 +271,7 @@ angular.module('owm.resource.search', [
           }
         }
       }).result.then(function (selected) {
-        Analytics.trackEvent('discovery', 'filters_applied', user.isAuthenticated);
+        Analytics.trackEvent('discovery', 'filters_applied', user.isAuthenticated, true);
         $scope.filters.props = selected.props;
         $scope.filters.filters = selected.filters;
         $scope.filters.options = selected.options;
@@ -280,7 +280,7 @@ angular.module('owm.resource.search', [
     };
 
     $scope.sidebarFiltersChanged = function () {
-      Analytics.trackEvent('discovery', 'filters_applied', user.isAuthenticated);
+      Analytics.trackEvent('discovery', 'filters_applied', user.isAuthenticated, true);
       resetPaginationCache();
       doSearch();
     };

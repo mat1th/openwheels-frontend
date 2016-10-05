@@ -52,7 +52,7 @@ angular.module('owm.discount')
     })
     .then(function (discount) {
       $log.debug('discount created', discount);
-      Analytics.trackEvent('resource', 'discount_created', $scope.resource.id);
+      Analytics.trackEvent('resource', 'discount_created', $scope.resource.id, true);
       $scope.loadDiscounts();
     });
   };

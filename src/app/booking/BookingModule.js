@@ -72,7 +72,7 @@ angular.module('owm.booking', [
 
       var bookingId = $stateParams.bookingId;
       bookingService.acceptRequest({ booking: bookingId }).then(function (booking) {
-        Analytics.trackEvent('booking', 'accepted', bookingId, 4);
+        Analytics.trackEvent('booking', 'accepted', bookingId, 4, true);
         alertService.add('success', $filter('translate')('BOOKING.ACCEPT.SUCCESS'), 8000);
       })
       .catch(alertService.addError)
@@ -92,7 +92,7 @@ angular.module('owm.booking', [
 
       var bookingId = $stateParams.bookingId;
       bookingService.rejectRequest({ booking: bookingId }).then(function (booking) {
-        Analytics.trackEvent('booking', 'rejected', bookingId);
+        Analytics.trackEvent('booking', 'rejected', bookingId, true);
         alertService.add('success', $filter('translate')('BOOKING.REJECT.SUCCESS'), 8000);
       })
       .catch(alertService.addError)

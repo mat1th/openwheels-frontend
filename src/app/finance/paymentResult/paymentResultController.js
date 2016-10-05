@@ -109,9 +109,9 @@ angular.module('owm.finance.paymentResult', [])
 
   function init() {
     if($scope.result.success) {
-      Analytics.trackEvent('payment', 'success');
+      Analytics.trackEvent('payment', 'success', true);
     } else {
-      Analytics.trackEvent('payment', 'failed');
+      Analytics.trackEvent('payment', 'failed', true);
     }
 
     try {

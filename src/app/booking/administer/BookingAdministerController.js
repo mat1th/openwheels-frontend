@@ -46,7 +46,7 @@ angular.module('owm.booking.administer', [])
 
       alertService.load();
       bookingService.setTrip(params).then(function (booking) {
-        Analytics.trackEvent('booking', 'tripdata_entered', booking.id);
+        Analytics.trackEvent('booking', 'tripdata_entered', booking.id, true);
         alertService.add('success', $translate.instant('BOOKING.ADMINISTER.SAVE_SUCCESS'), 5000);
         if($scope.trip.odoEnd) {
           $scope.alreadyFilled = true;
