@@ -33,7 +33,6 @@ angular.module('openwheels.analytics', [])
     ;
   })
   .run(function(Analytics) {
-    console.log('fdsa');
     Analytics.pageView();
   })
   ;
@@ -43,7 +42,7 @@ LIST OF ALL EVENTS
 BOOKING - DONE
   + created
     - label: (boolean) isAuthenticated
-    - value: fix number 11 iif owner 282
+    - value: fixed number 11 iif owner 282, 4 iif isConfirmationRequiredOthers = true, else undefined
     - triggers:
         - reservationForm.tpl click button
           * condition: button not disabled

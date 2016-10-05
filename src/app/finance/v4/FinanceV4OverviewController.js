@@ -30,6 +30,7 @@ angular.module('owm.finance.v4', [])
   .then(addExtraInformationOldInvoices)
   .then(function(results) { $scope.groupedInvoicesOld = results; return results;})
   ;
+  
 
   // get credit
   var requiredCredit = voucherService.calculateRequiredCredit({person: me.id})

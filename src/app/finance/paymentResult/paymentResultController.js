@@ -108,6 +108,12 @@ angular.module('owm.finance.paymentResult', [])
   getBookings();
 
   function init() {
+    if($scope.result.success) {
+      Analytics.trackEvent('payment', 'success');
+    } else {
+      Analytics.trackEvent('payment', 'failed');
+    }
+
     try {
       $scope.afterPayment = afterPayment = JSON.parse(sessionStorage.getItem('afterPayment'));
     } catch (e) {
