@@ -2,7 +2,7 @@
 
 angular.module('owm.person.license', [])
 
-.controller('PersonLicenseController', function ($log, $http, $state, authService, personService, alertService, me, $scope) {
+.controller('PersonLicenseController', function ($log, $http, $state, authService, personService, alertService, me, $scope, Analytics) {
 
   var images = {
     front: null
@@ -31,6 +31,7 @@ angular.module('owm.person.license', [])
         frontImage: images.front
       })
       .then(function () {
+        Analytics.trackEvent('person', 'driverlicense_uploaded', undefined, undefined, true);
         alertService.add('success', 'Bedankt voor het uploaden van je rijbewijs', 5000);
 
         // reload user info (status may have changed as a result of uploading license)

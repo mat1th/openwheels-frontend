@@ -94,7 +94,7 @@ angular.module('owm.person')
         }
       })
       .then(function (saved) {
-        Analytics.trackEvent('person', 'contract_ended', contract.id);
+        Analytics.trackEvent('person', 'contract_ended', contract.id, undefined, true);
         alertService.addSaveSuccess();
         angular.extend(contract, saved);
         angular.extend(original, saved);
