@@ -380,25 +380,26 @@
       <table class="table">
         <tr>
           <th>Omschrijving</th>
-          <th class="text-right">Aantal</th>
-          <th class="text-right">Prijs</th>
+          <th class="text-right xs-collapse">Aantal</th>
+          <th class="text-right xs-collapse">Prijs</th>
           <th class="text-right">Totaal</th>
-          <th class="text-right">Btw</th>
+          <th class="text-right xs-collapse">Btw</th>
         </tr>
         <tr ng-repeat="invoiceline in invoiceLines">
           <td>{{ invoiceline.description }}</td>
-          <td class="number">{{ invoiceline.quantity }}</td>
-          <td class="number">{{ invoiceline.type == 'sent' ? -invoiceline.price : invoiceline.price | currency }}</td> 
+          <td class="number xs-collapse">{{ invoiceline.quantity }}</td>
+          <td class="number xs-collapse">{{ invoiceline.type == 'sent' ? -invoiceline.price : invoiceline.price | currency }}</td> 
           <td class="number" ng-class="{'text-pos': invoiceline.total < 0}">{{ invoiceline.total | currency }}</td>
-          <td class="number">{{ invoiceline.taxRate }}%</td>
+          <td class="number xs-collapse">{{ invoiceline.taxRate }}%</td>
         </tr>
         <tr>
-          <td colspan="3"><b>Totaal te {{(receivedInvoicesTotalAmount > 0 ? 'betalen' : 'ontvangen')}}</b></td>
+          <td colspan="1"><b>Totaal te {{(receivedInvoicesTotalAmount > 0 ? 'betalen' : 'ontvangen')}}</b></td>
+          <td colspan="2" class="xs-collapse"></td>
           <td class="text-right">
               <b>{{(receivedInvoicesTotalAmount < 0 ? -1 * receivedInvoicesTotalAmount : receivedInvoicesTotalAmount) | currency }}</b>
 <!--             &nbsp;<button type="button" class="btn btn-primary pull-right" ng-click="payInvoices()">Betalen</button> -->
           </td>
-          <td></td>
+          <td class="xs-collapse"></td>
         </tr>
       </table>
     </div>
@@ -422,25 +423,26 @@
       <table class="table">
         <tr>
           <th>Omschrijving</th>
-          <th class="text-right">Aantal</th>
-          <th class="text-right">Prijs</th>
+          <th class="text-right xs-collapse">Aantal</th>
+          <th class="text-right xs-collapse">Prijs</th>
           <th class="text-right">Totaal</th>
-          <th class="text-right">Btw</th>
+          <th class="text-right xs-collapse">Btw</th>
         </tr>
         <tr ng-repeat="invoiceline in invoiceLines">
           <td>{{ invoiceline.description }}</td>
-          <td class="number">{{ invoiceline.quantity }}</td>
-          <td class="number">{{ invoiceline.type == 'sent' ? invoiceline.price : -invoiceline.price | currency }}</td> 
+          <td class="number xs-collapse">{{ invoiceline.quantity }}</td>
+          <td class="number xs-collapse">{{ invoiceline.type == 'sent' ? invoiceline.price : -invoiceline.price | currency }}</td> 
           <td class="number" ng-if="invoiceline.type == 'sent'" ng-class="{'text-neg': invoiceline.total < 0}">{{ invoiceline.total | currency }}</td>
           <td class="number" ng-if="invoiceline.type == 'received'" ng-class="{'text-neg': invoiceline.total > 0}">{{ -invoiceline.total | currency }}</td>
-          <td class="number">{{ invoiceline.taxRate }}%</td>
+          <td class="number xs-collapse">{{ invoiceline.taxRate }}%</td>
         </tr>
         <tr>
-          <td colspan="3"><b>Totaal te {{(sentInvoicesTotalAmount - receivedInvoicesTotalAmount < 0 ? 'betalen' : 'ontvangen')}} </b></td>
+          <td colspan="1"><b>Totaal te {{(sentInvoicesTotalAmount - receivedInvoicesTotalAmount < 0 ? 'betalen' : 'ontvangen')}} </b></td>
+          <td colspan="2" class="xs-collapse"></td>
           <td class="text-right">
             <b>{{ (sentInvoicesTotalAmount - receivedInvoicesTotalAmount < 0 ? -1* (sentInvoicesTotalAmount - receivedInvoicesTotalAmount) : sentInvoicesTotalAmount - receivedInvoicesTotalAmount) | currency }}</b>
           </td>
-          <td></td>
+          <td class="xs-collapse"></td>
         </tr>
       </table>
     </div>
