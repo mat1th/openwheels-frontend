@@ -24,6 +24,12 @@ angular.module('owm.resource.reservationForm', [])
   // Check if this page is being called after login/singup in booking process
   handleAuthRedirect();
 
+  $scope.age = -1;
+  if(authService.user.isAuthenticated && authService.user.identity.dateOfBirth) {
+    var dob = moment(authService.user.identity.dateOfBirth);
+    $scope.age  = Math.abs(dob.diff(moment(), 'years'));
+  }
+
   $scope.features = $rootScope.features;
   $scope.user = authService.user;
 
@@ -101,6 +107,7 @@ angular.module('owm.resource.reservationForm', [])
   $scope.isPriceLoading = false;
   $scope.$watch('booking.beginRequested', onTimeFrameChange);
   $scope.$watch('booking.endRequested', onTimeFrameChange);
+  $scope.$watch('booking.riskReduction', loadPrice);
 
   var timer;
 
@@ -200,7 +207,8 @@ angular.module('owm.resource.reservationForm', [])
         timeFrame: {
           startDate: b.beginRequested,
           endDate: b.endRequested
-        }
+        },
+        includeRedemption: $scope.booking.riskReduction,
       };
       if (b.contract) {
         params.contract = b.contract.id;
@@ -241,16 +249,6 @@ angular.module('owm.resource.reservationForm', [])
     error: false
   };
 
-  $scope.riskReductionChanged = function () {
-    if ($scope.booking.riskReduction) {
-      $scope.price.redemption = 3.5;
-      $scope.price.total += 3.5;
-    } else {
-      $scope.price.redemption = 0;
-      $scope.price.total -= 3.5;
-    }
-  };
-
 
   $scope.validateDiscountCode = validateDiscountCode;
 
@@ -288,7 +286,6 @@ angular.module('owm.resource.reservationForm', [])
           if (!validation.busy || code !== $scope.booking.discountCode) {
             return;
           }
-          Analytics.trackEvent('booking', 'discount_applied');
           validation.success = result.applicable;
           validation.error = !validation.success;
         })
@@ -399,6 +396,7 @@ angular.module('owm.resource.reservationForm', [])
                 discount: booking.discountCode
               })
               .then(function (discountResponse) {
+                Analytics.trackEvent('booking', 'discount_applied', undefined, undefined, true);
                 $log.debug('successfully applied discount');
                 return response; // <-- the response from bookingService.create
               })

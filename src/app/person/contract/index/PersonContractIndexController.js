@@ -10,6 +10,12 @@ angular.module('owm.person')
   $scope.ownContractsCopy = [];
   $scope.otherContracts = [];
 
+  $scope.age = -1;
+  if(authService.user.isAuthenticated && authService.user.identity.dateOfBirth) {
+    var dob = moment(authService.user.identity.dateOfBirth);
+    $scope.age  = Math.abs(dob.diff(moment(), 'years'));
+  }
+
   loadContracts().finally(function () {
     $scope.isLoadingContracts = false;
   });
@@ -88,7 +94,7 @@ angular.module('owm.person')
         }
       })
       .then(function (saved) {
-        Analytics.trackEvent('person', 'contract_ended', contract.id);
+        Analytics.trackEvent('person', 'contract_ended', contract.id, undefined, true);
         alertService.addSaveSuccess();
         angular.extend(contract, saved);
         angular.extend(original, saved);

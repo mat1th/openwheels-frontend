@@ -1,4 +1,8 @@
-
+<div class="card" ng-if="previousState.name == 'owm.finance.v4'">
+  <div class="card-body card-inverse">
+    <a ui-sref="owm.finance.v4"><i class="fa fa-fw fa-chevron-left"></i>Terug naar financieel overzicht</a>
+  </div>
+</div>
 <div class="card">
   <div class="card-heading">
 
@@ -262,6 +266,23 @@
   </div>
 </div>
 
+<div class="card" ng-if="userPerspective==='renter' && booking.approved === 'BUY_VOUCHER'">
+  <div class="card-body card-inverse" style="background-color:#c85f5f; color: white;">
+    <span>Deze rit is nog niet betaald. <a style="color: #832f2f" ui-sref="owm.finance.vouchers">Koop rijtegoed</a> om deze rit te betalen.</span>
+  </div>
+</div>
+<div class="card" ng-if="userPerspective==='owner' && booking.ok && !bookingEnded">
+  <div class="card-body card-inverse" style="background-color:#3bab78; color: white;">
+    <span ng-if="allowAcceptReject">Alles voor deze rit is geregeld, je kunt het huurverzoek accepteren en de auto meegeven aan de verhuurder.</span>
+    <span ng-if="!allowAcceptReject">Alles voor deze rit is geregeld, je kunt de auto meegeven aan de verhuurder.</span>
+  </div>
+</div>
+<div class="card" ng-if="userPerspective==='owner' && !booking.ok && !bookingEnded">
+  <div class="card-body card-inverse" style="background-color:#c85f5f; color: white;">
+    <span>Voor deze rit is nog niet alles in orde. Mogelijk moet de verhuurder nog betalen of andere gegevens doorgeven. Geef de auto daarom niet mee aan de verhuurder zolang deze meldig zichtbaar is.<span ng-if="allowAcceptReject"><br>Je kan de rit wel alvast accepteren of weigeren</span></span>
+  </div>
+</div>
+
 <!-- renter -->
 <div class="card" ng-if="userPerspective==='owner'">
   <div class="card-heading">
@@ -359,18 +380,26 @@
       <table class="table">
         <tr>
           <th>Omschrijving</th>
-          <th>Bedrag</th>
+          <th class="text-right xs-collapse">Aantal</th>
+          <th class="text-right xs-collapse">Prijs</th>
+          <th class="text-right">Totaal</th>
+          <th class="text-right xs-collapse">Btw</th>
         </tr>
-        <tr ng-repeat="invoice in receivedInvoices">
-          <td>{{ invoice.description }}</td>
-          <td ng-class="{'text-neg': invoice.total < 0}">{{ invoice.total | currency }}</td>
+        <tr ng-repeat="invoiceline in invoiceLines">
+          <td>{{ invoiceline.description }}</td>
+          <td class="number xs-collapse">{{ invoiceline.quantity }}</td>
+          <td class="number xs-collapse">{{ invoiceline.type == 'sent' ? -invoiceline.price : invoiceline.price | currency }}</td> 
+          <td class="number" ng-class="{'text-pos': invoiceline.total < 0}">{{ invoiceline.total | currency }}</td>
+          <td class="number xs-collapse">{{ invoiceline.taxRate }}%</td>
         </tr>
         <tr>
-          <td><b>Totaal te {{(receivedInvoicesTotalAmount > 0 ? 'betalen' : 'ontvangen')}}</b></td>
-          <td>
+          <td colspan="1"><b>Totaal te {{(receivedInvoicesTotalAmount > 0 ? 'betalen' : 'ontvangen')}}</b></td>
+          <td colspan="2" class="xs-collapse"></td>
+          <td class="text-right">
               <b>{{(receivedInvoicesTotalAmount < 0 ? -1 * receivedInvoicesTotalAmount : receivedInvoicesTotalAmount) | currency }}</b>
 <!--             &nbsp;<button type="button" class="btn btn-primary pull-right" ng-click="payInvoices()">Betalen</button> -->
           </td>
+          <td class="xs-collapse"></td>
         </tr>
       </table>
     </div>
@@ -394,22 +423,26 @@
       <table class="table">
         <tr>
           <th>Omschrijving</th>
-          <th>Bedrag</th>
+          <th class="text-right xs-collapse">Aantal</th>
+          <th class="text-right xs-collapse">Prijs</th>
+          <th class="text-right">Totaal</th>
+          <th class="text-right xs-collapse">Btw</th>
         </tr>
-        <tr ng-repeat="invoice in sentInvoices">
-          <td>{{ invoice.description }}</td>
-          <td ng-class="{'text-neg': invoice.total < 0}">{{ invoice.total | currency }}</td>
-        </tr>
-        <tr ng-repeat="invoice in receivedInvoices">
-          <td>{{ invoice.description }}</td>
-          <td ng-class="{'text-neg': -invoice.total < 0}">{{ -invoice.total | currency }}</td>
+        <tr ng-repeat="invoiceline in invoiceLines">
+          <td>{{ invoiceline.description }}</td>
+          <td class="number xs-collapse">{{ invoiceline.quantity }}</td>
+          <td class="number xs-collapse">{{ invoiceline.type == 'sent' ? invoiceline.price : -invoiceline.price | currency }}</td> 
+          <td class="number" ng-if="invoiceline.type == 'sent'" ng-class="{'text-neg': invoiceline.total < 0}">{{ invoiceline.total | currency }}</td>
+          <td class="number" ng-if="invoiceline.type == 'received'" ng-class="{'text-neg': invoiceline.total > 0}">{{ -invoiceline.total | currency }}</td>
+          <td class="number xs-collapse">{{ invoiceline.taxRate }}%</td>
         </tr>
         <tr>
-          <td><b>Totaal te {{(sentInvoicesTotalAmount - receivedInvoicesTotalAmount < 0 ? 'betalen' : 'ontvangen')}} </b></td>
-          <td>
+          <td colspan="1"><b>Totaal te {{(sentInvoicesTotalAmount - receivedInvoicesTotalAmount < 0 ? 'betalen' : 'ontvangen')}} </b></td>
+          <td colspan="2" class="xs-collapse"></td>
+          <td class="text-right">
             <b>{{ (sentInvoicesTotalAmount - receivedInvoicesTotalAmount < 0 ? -1* (sentInvoicesTotalAmount - receivedInvoicesTotalAmount) : sentInvoicesTotalAmount - receivedInvoicesTotalAmount) | currency }}</b>
-<!--             &nbsp;<button type="button" class="btn btn-primary pull-right" ng-click="payInvoices()">Betalen</button> -->
           </td>
+          <td class="xs-collapse"></td>
         </tr>
       </table>
     </div>

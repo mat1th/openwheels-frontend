@@ -37,7 +37,9 @@
               <div class="radio">
                 <label>
                 <input type="radio" value="booking" ng-model="contract.ownRiskWaiver" />
-                  {{ 'CONTRACT.PROP.OWNRISKWAIVER.BOOKING.DESC' | translate }}<br/>
+                <span ng-if="!age || age === -1">{{ 'CONTRACT.PROP.OWNRISKWAIVER.BOOKING.DESC' | translate }}<br/></span>
+                <span ng-if="age < 25">{{ 'CONTRACT.PROP.OWNRISKWAIVER.BOOKING.DESC_UNDER25' | translate }}<br/></span>
+                <span ng-if="age >= 25">{{ 'CONTRACT.PROP.OWNRISKWAIVER.BOOKING.DESC_ABOVE25' | translate }}<br/></span>
                 </label>
               </div>
             </div>

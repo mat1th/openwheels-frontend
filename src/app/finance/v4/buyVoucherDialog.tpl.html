@@ -1,0 +1,45 @@
+<md-dialog flex-xl="25" flex-lg="35" flex-md="65" flex-sm="75" flex-xs="80" class="md-dialog-content">
+  <md-toolbar>
+    <div class="md-toolbar-tools">
+      <h2>Rijtegoed</h2>
+      <span flex></span>
+      <md-button class="md-icon-button" ng-click="cancel()">
+        <md-icon>close</md-icon>
+      </md-button>
+    </div>
+  </md-toolbar>
+
+  <md-dialog-content layout="column" class="md-padding">
+    <div layout="row">
+      <div flex>
+        <h3>Openstaande facturen</h3>
+      </div>
+      <div flex>{{requiredCredit.debt|currency}}</div>
+    </div>
+    <div layout="row">
+      <div flex>
+        <h3>Aanstaande ritten</h3>
+      </div>
+      <div flex>{{requiredCredit.sub_total|currency}}</div>
+    </div>
+    <div layout="row">
+      <div flex>
+        <h3>Af: huidige rijtegoed</h3>
+      </div>
+      <div flex>{{requiredCredit.credit|currency}}</div>
+    </div>
+    <div layout="row">
+      <div flex>
+        <h3>Totaal nog te voldoen</h3>
+      </div>
+      <div flex><strong>{{requiredCredit.voucher|currency}}</strong></div>
+    </div>
+  </md-dialog-content>
+
+  <md-dialog-actions>
+    <md-button ng-click="cancel()" class="md-primary">
+      Sluiten
+    </md-button>
+  </md-dialog-actions>
+
+</md-dialog>
