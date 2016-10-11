@@ -1,0 +1,38 @@
+<md-dialog aria-label="Mango (Fruit)">
+  <form ng-cloak>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Uitbetaling rijtegoed</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="cancel()">
+          <md-icon>close</md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+      <div class="md-dialog-content">
+        <h2>Selecteer de vouchers die je wilt laten uitbetalen</h2>
+        <form>
+          <div layout="column">
+            <div ng-repeat="voucher in vouchers" ng-if="voucher.value > 0.001 && !voucher.payoutRequest">
+              <md-checkbox ng-checked="exists(voucher.id, selectedVouchers)" ng-click="toggle(voucher.id, selectedVouchers)">
+              <strong>{{voucher.initialValue | currency}}</strong> waarvan {{voucher.value | currency}} resterend</td>
+              </md-checkbox>
+            </div>
+          </div>
+        </form>
+      </div>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row">
+      <span flex></span>
+      <md-button ng-click="cancel()" class="md-raised">
+       Annuleren
+      </md-button>
+      <md-button class="md-primary md-raised" ng-click="close()">
+        Betaal uit
+      </md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>
