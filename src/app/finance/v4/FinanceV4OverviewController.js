@@ -291,7 +291,7 @@ angular.module('owm.finance.v4', [])
   $scope.payoutDialog = function() {
     var dialog = {
       templateUrl: 'finance/v4/payoutDialog.tpl.html',
-      controller: function($scope, $mdDialog, vouchers) {
+      controller: ['$scope', '$mdDialog', 'vouchers', function($scope, $mdDialog, vouchers) {
         $scope.vouchers = vouchers;
         $scope.selectedVouchers = [];
 
@@ -318,7 +318,7 @@ angular.module('owm.finance.v4', [])
         $scope.exists = function (item, list) {
           return list.indexOf(item) > -1;
         };
-      },
+      }],
       locals: {
         vouchers: $scope.vouchers,
       },
