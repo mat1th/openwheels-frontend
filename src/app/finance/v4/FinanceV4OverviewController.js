@@ -67,11 +67,16 @@ angular.module('owm.finance.v4', [])
   .finally(function() { $scope.loaded.grouped = true; })
   ;
 
-
   // util function
-  function log(invoices) {
-    console.log(invoices);
-    return invoices;
+  function log(a) {
+    console.log(a);
+    return a;
+  }
+  function loglabel(label) {
+    return function(toLog) {
+      console.log(label, toLog);
+      return toLog;
+    };
   }
 
   function addExtraInformationOldInvoices(invoices) {
@@ -281,6 +286,65 @@ angular.module('owm.finance.v4', [])
 
   $scope.buyVoucher = function() {
     $state.go('owm.finance.vouchers');
+  };
+
+  $scope.payoutDialog = function() {
+    var dialog = {
+      templateUrl: 'finance/v4/payoutDialog.tpl.html',
+      controller: function($scope, $mdDialog, vouchers) {
+        $scope.vouchers = vouchers;
+        $scope.selectedVouchers = [];
+
+        $scope.cancel = function() {
+          $mdDialog.hide(false);
+        };
+        $scope.close = function(x) {
+          if($scope.selectedVouchers.length) {
+            $mdDialog.hide($scope.selectedVouchers);
+          } else {
+            $scope.cancel();
+          }
+        };
+
+        $scope.toggle = function (item, list) {
+          var idx = list.indexOf(item);
+          if (idx > -1) {
+            list.splice(idx, 1);
+          }
+          else {
+            list.push(item);
+          }
+        };
+        $scope.exists = function (item, list) {
+          return list.indexOf(item) > -1;
+        };
+      },
+      locals: {
+        vouchers: $scope.vouchers,
+      },
+    };
+
+    $mdDialog.show(dialog)
+    .then(function(vouchers) {
+      if(!vouchers) {
+        return;
+      }
+      var promises = [];
+      _.forEach(vouchers, function(voucher) {
+        promises.push(paymentService.payoutVoucher({voucher: voucher}));
+      });
+
+      return $q.all(promises)
+      .then(function(results) {
+        alertService.add('success', 'De aangevraagde uitbetalingen staan ingepland', 9000);
+        $state.reload();
+      });
+    })
+    .catch(function(err){
+      alertService.add('danger', err, 9000);
+    })
+    ;
+
   };
 
 });

@@ -202,7 +202,7 @@
                 <td class="text-right"><a target="_blank" ng-href="{{invoiceGroup.invoice.pdflink}}"><i title="Download pdf" class="fa fa-fw fa-file-pdf-o"></i></a></td>
               </tr>
             </tbody>
-            <tbody ng-hide="allGroupedInvoices.length <= groupedInvoicesPerPage" style="border-top-width: 1px">
+            <tbody ng-hide="!allGroupedInvoices || allGroupedInvoices.length <= groupedInvoicesPerPage" style="border-top-width: 1px">
               <tr class="nohover">
                 <td colspan="5">
                   <ul uib-pagination items-per-page="groupedInvoicesPerPage" ng-init="currentInvoicePage=1" direction-links="0" total-items="allGroupedInvoices.length" ng-model="currentInvoicePage"></ul>
@@ -220,7 +220,7 @@
     </div><!--/card-->
   </md-tab>
 
-  <md-tab ng-if="view==='renter' || view==='both'" label="Rijtegoed">
+  <md-tab label="Rijtegoed">
     <div class="card">
       <div class="card-heading">
         <h3 class="card-title">
@@ -233,7 +233,7 @@
       <div class="card-body" uib-collapse="isCollapsed2">
         <div style="float: left">
           <md-button ng-click="buyVoucher()" style="width: 100%" ng-class="{'md-primary': requiredCredit.voucher}" class="md-raised">Bijkopen</md-button><br>
-          <md-button style="width: 100%" ng-if="requiredCredit.voucher <= 0 && requiredCredit.credit > 0" class="md-raised">Uitbetalen</md-button>
+          <md-button ng-click="payoutDialog()" style="width: 100%" ng-if="requiredCredit.voucher <= 0 && requiredCredit.credit > 0" class="md-raised">Uitbetalen</md-button>
         </div>
         <span ng-if="requiredCredit.voucher > 0" style="float: right;">
           <span style="display: block; color: #255a6f; font-size: 4em; text-align: right;" title="Nog te betalen"><small style="padding-right: 1em; font-size: 0.3em">nog te betalen</small>{{requiredCredit.voucher || credit|currency}}</span>
@@ -259,7 +259,9 @@
             <tr ng-class="{'text-muted': voucher.value < 0.001}" ng-repeat="voucher in vouchers | limitTo:vouchersPerPage:vouchersPerPage*(currentVoucherPage-1)">
               <td style="width: 20%"><strong>{{voucher.initialValue | currency}}</strong></td>
               <td>waarvan {{voucher.value | currency}} resterend</td>
-              <td style="width: 40%">gekocht op {{voucher.paid | amDateFormat:'DD-MM-YYYY'}}</td>
+              <td ng-if="voucher.payoutRequest && voucher.payoutRequest.paid === null" style="width: 40%">uitbetaling aangevraagd op  {{voucher.payoutRequest.created | amDateFormat:'DD-MM-YYYY'}}</td>
+              <td ng-if="voucher.payoutRequest && voucher.payoutRequest.paid !== null" style="width: 40%">uitbetaald op  {{voucher.payoutRequest.paid | amDateFormat:'DD-MM-YYYY'}}</td>
+              <td ng-if="!voucher.payoutRequest" style="width: 40%">gekocht op {{voucher.paid | amDateFormat:'DD-MM-YYYY'}}</td>
             </tr>
           </tbody>
           <tbody ng-hide="vouchers.length <= vouchersPerPage" style="border-top-width: 1px">
