@@ -48,7 +48,12 @@
 <div id="current_rentals" class="card" ng-if="rentals.length > 0">
   <div class="card-heading">
     <h2 class="card-title">{{ 'CURRENT_RENTALS' | translate }}
-      <span class="pull-right"><small><a ui-sref="owm.trips">Bekijk verhuurgeschiedenis</a></small></span>
+      <span class="pull-right">
+        <small>
+          <a ng-if="me.provider.id !== 50" ui-sref="owm.trips">Bekijk verhuurgeschiedenis</a>
+          <a ng-if="me.provider.id === 50" ui-sref="owm.trips">Bekijk ritgeschiedenis</a>
+        </small>
+      </span>
     </h2>
   </div>
   <div class="card-body" id="resource-info">
