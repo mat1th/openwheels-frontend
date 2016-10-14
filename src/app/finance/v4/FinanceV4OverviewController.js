@@ -4,6 +4,8 @@ angular.module('owm.finance.v4', [])
 
 .controller('FinanceV4OverviewController', function ($scope, me, $stateParams, invoice2Service, paymentService, voucherService, linksService, invoiceService, alertService, $state, $mdDialog, $q) {
   $scope.me = me;
+  $scope.provider = me.provider.id;
+
   $scope.loaded = {ungrouped: false, grouped: false};
   $scope.view = me.preference || 'both';
   $scope.activeTab = {active: 0};
@@ -184,6 +186,9 @@ angular.module('owm.finance.v4', [])
 
       bookingInvoice.totalToPay = totals.totalToPay;
       bookingInvoice.totalToReceive = totals.totalToReceive;
+      bookingInvoice.pdf = linksService.tripDetailsPdf(bookingInvoice.booking.id);
+      console.log(bookingInvoice.pdf);
+      console.log(bookingInvoice);
 
       if(bookingInvoice.totalToPay > bookingInvoice.totalToReceive) {
         bookingInvoice.totalToPay -= bookingInvoice.totalToReceive;

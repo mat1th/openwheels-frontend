@@ -14,7 +14,8 @@
         <h3 class="card-title">
           <a href="" ng-click="is3Collapsed = !is3Collapsed">
             <i class="fa fa-fw" ng-class="{ 'fa-chevron-right': is3Collapsed, 'fa-chevron-down': !is3Collapsed }"></i>
-            {{view == 'both' ? 'Openstaande kosten en opbrengsten' : (view == 'owner' ? 'Te ontvangen verhuuropbrengsten' : 'Gemaakte kosten')}}
+            <span ng-if="me.provider.id !== 50">{{view == 'both' ? 'Openstaande kosten en opbrengsten' : (view == 'owner' ? 'Te ontvangen verhuuropbrengsten' : 'Gemaakte kosten')}}</span>
+            <span ng-if="me.provider.id === 50">Openstaande facturen</span>
           </a>
         </h3>
       </div>
@@ -56,7 +57,10 @@
                 </td>
               </tr>
               <tr ng-show="open" class="nohover table-finance-subtable lastrow">
-                <td colspan="3" class="table-finance-col-1 first subitem"><a ui-sref="owm.booking.show({bookingId: openInvoice.booking.id })">Bekijk alle ritdetails</a></td>
+                <td colspan="3" class="table-finance-col-1 first subitem">
+                  <a ng-if="provider !== 50" ui-sref="owm.booking.show({bookingId: openInvoice.booking.id })">Bekijk alle ritdetails</a>
+                  <a ng-if="provider === 50" target="_blank" ng-href="{{openInvoice.pdf}}">Bekijk alle ritdetails</a>
+                </td>
               </tr>  
             </tbody>
           </table>
@@ -122,29 +126,31 @@
             </tbody>
           </table>
 
-          <div ng-if="view === 'renter'" class="text-right">
-            <button ng-if="openInvoices.totals.hasToPay" ng-click="renterPay()" type="button" class="btn btn-primary">
-              Sluit factuur en betaal {{openInvoices.totals.grandTotalToPay | currency}}
-            </button>
-            <button disabled ng-if="openInvoices.totals.hasToReceive" type="button" class="btn btn-primary">
-              Je opbrengsten zijn hoger dan je kosten, dus je hoeft nu niets te betalen
-            </button>
-          </div>
-          <div ng-if="view === 'owner'" class="text-right">
-            <button ng-if="openInvoices.totals.hasToPay" disabled type="button" class="btn btn-primary">
-              Je opbrengsten zijn negatief en kunnen dus niet worden uitgekeerd.
-            </button>
-            <button ng-if="openInvoices.totals.hasToReceive" ng-click="ownerPayout()" type="button" class="btn btn-primary">
-              Laat {{openInvoices.totals.grandTotalToReceive | currency}} uitbetalen
-            </button>
-          </div>
-          <div ng-if="view === 'both'" class="text-right">
-            <button ng-if="openInvoices.totals.hasToPay" ng-click="bothPay()" type="button" class="btn btn-primary">
-              Sluit factuur en betaal
-            </button>
-            <button ng-if="openInvoices.totals.hasToReceive" ng-click="bothPayout()" type="button" class="btn btn-primary">
-              Laat {{openInvoices.totals.grandTotalToReceive | currency}} uitbetalen
-            </button>
+          <div ng-if="provider !== 50">
+            <div ng-if="view === 'renter'" class="text-right">
+              <button ng-if="openInvoices.totals.hasToPay" ng-click="renterPay()" type="button" class="btn btn-primary">
+                Sluit factuur en betaal {{openInvoices.totals.grandTotalToPay | currency}}
+              </button>
+              <button disabled ng-if="openInvoices.totals.hasToReceive" type="button" class="btn btn-primary">
+                Je opbrengsten zijn hoger dan je kosten, dus je hoeft nu niets te betalen
+              </button>
+            </div>
+            <div ng-if="view === 'owner'" class="text-right">
+              <button ng-if="openInvoices.totals.hasToPay" disabled type="button" class="btn btn-primary">
+                Je opbrengsten zijn negatief en kunnen dus niet worden uitgekeerd.
+              </button>
+              <button ng-if="openInvoices.totals.hasToReceive" ng-click="ownerPayout()" type="button" class="btn btn-primary">
+                Laat {{openInvoices.totals.grandTotalToReceive | currency}} uitbetalen
+              </button>
+            </div>
+            <div ng-if="view === 'both'" class="text-right">
+              <button ng-if="openInvoices.totals.hasToPay" ng-click="bothPay()" type="button" class="btn btn-primary">
+                Sluit factuur en betaal
+              </button>
+              <button ng-if="openInvoices.totals.hasToReceive" ng-click="bothPayout()" type="button" class="btn btn-primary">
+                Laat {{openInvoices.totals.grandTotalToReceive | currency}} uitbetalen
+              </button>
+            </div>
           </div>
 
           <div ng-if="(view === 'both' && !openInvoices.null && !openInvoices.renter && !openInvoices.owner) || (view === 'renter' && !openInvoices.null && !openInvoices.renter) || (view === 'owner' && !openInvoices.null && !openInvoices.owner)">
@@ -157,7 +163,7 @@
       </div>
     </div><!-- /card -->
 
-    <div class="card" ng-init="showMyInvoices=true">
+    <div class="card" ng-init="showMyInvoices=true" ng-if="provider !== 50">
       <div class="card-heading">
         <h3 class="card-title">
           <a href="" ng-click="showMyInvoices = !showMyInvoices">
@@ -220,7 +226,7 @@
     </div><!--/card-->
   </md-tab>
 
-  <md-tab ng-if="view==='renter' || view==='both'" label="Rijtegoed">
+  <md-tab ng-if="provider !== 50 && (view==='renter' || view==='both')"- label="Rijtegoed">
     <div class="card">
       <div class="card-heading">
         <h3 class="card-title">
