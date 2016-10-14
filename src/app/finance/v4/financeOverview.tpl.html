@@ -163,12 +163,13 @@
       </div>
     </div><!-- /card -->
 
-    <div class="card" ng-init="showMyInvoices=true" ng-if="provider !== 50">
+    <div class="card" ng-init="showMyInvoices=true">
       <div class="card-heading">
         <h3 class="card-title">
           <a href="" ng-click="showMyInvoices = !showMyInvoices">
             <i class="fa fa-fw" ng-class="{ 'fa-chevron-right': !showMyInvoices, 'fa-chevron-down': showMyInvoices }"></i>
-            {{view == 'both' ? 'Reeds afgesloten facturen' : (view == 'owner' ? 'Reeds ontvangen verhuuropbrengsten' : 'Reeds betaalde facturen')}}
+            <span ng-if="me.provider.id !== 50">{{view == 'both' ? 'Reeds afgesloten facturen' : (view == 'owner' ? 'Reeds ontvangen verhuuropbrengsten' : 'Reeds betaalde facturen')}}</span>
+            <span ng-if="me.provider.id === 50">Afgesloten facturen</span>
           </a>
         </h3>
       </div>
