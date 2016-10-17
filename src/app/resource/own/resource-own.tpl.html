@@ -35,6 +35,7 @@
                     <i class="fa fa-check"></i> {{ 'NOT_AVAILABLE_RESOURCE' | translate }}
                   </button>
                 </div>
+                <parkingpermit ng-if="features.parkingpermit" resource="resource"></parkingpermit>
               </div>
 
               <div class="resource__alias truncate" ui-sref="owm.resource.show({ resourceId: resource.id, city: resource.city })">

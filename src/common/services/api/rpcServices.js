@@ -92,6 +92,10 @@ angular.module('rpcServices', [])
   this.removeFavorite = m('removeFavorite');
   this.addProperty = m('addProperty');
   this.removeProperty = m('remProperty');
+  this.createParkingpermit = m('createParkingpermit');
+  this.alterParkingpermit = m('alterParkingpermit');
+  this.removeParkingpermit = m('removeParkingpermit');
+  this.getParkingpermits = m('getParkingpermits');
 })
 
 .service('bookingService', function (api) {

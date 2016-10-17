@@ -630,9 +630,10 @@ module.exports = function (grunt) {
 
   // copy local config files to the build dir
   grunt.registerTask('configure', function (/* optional */ targetDir) {
-    var dir = targetDir || grunt.config('build_dir') + '/branding/';
+    var dir = grunt.config(targetDir || 'build_dir') + '/branding/';
     var config = require('./config/config.js');
     var features = require('./config/features.js');
+    console.log(config, features, dir);
     grunt.file.write(dir + 'config.json', JSON.stringify(config, null, 2));
     grunt.file.write(dir + 'features.json', JSON.stringify(features, null, 2));
   });
