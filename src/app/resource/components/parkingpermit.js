@@ -7,8 +7,8 @@ angular.module('owm.resource.parkingpermit', ['alertService'])
     link: function (scope, elm, attributes) {
       elm.attr('ng-if', 'features.parkingpermit');
       $compile(elm)(scope, function (clone) {
-       elm.replaceWith(clone);
-     });
+        elm.replaceWith(clone);
+      });
     },
     scope: {
       resource: '=',
