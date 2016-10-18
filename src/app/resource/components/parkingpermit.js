@@ -1,9 +1,15 @@
 'use strict';
 
 angular.module('owm.resource.parkingpermit', ['alertService'])
-.directive('parkingpermit', function () {
+.directive('parkingpermit', function ($compile) {
   return {
     restrict: 'E',
+    link: function (scope, elm, attributes) {
+      elm.attr('ng-if', 'features.parkingpermit');
+      $compile(elm)(scope, function (clone) {
+       elm.replaceWith(clone);
+     });
+    },
     scope: {
       resource: '=',
     },
