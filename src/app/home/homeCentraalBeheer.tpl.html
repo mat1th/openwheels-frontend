@@ -1,0 +1,178 @@
+<div class="home">
+    <!-- SEARCHBAR -->
+    <div ng-if="!features.homeCarousel" class="hero inverted text-center">
+        <div class="hero-overlay"></div>
+        <section class="container homepage-baseline">
+            <h1 id="tagline" class="homepage-baseline-header fadeInDown animated">MyWheels & Centraal Beheer: Samen delen mogelijk maken</h1>
+        </section>
+        <section ng-if="features.homePage" class="homepage-searchbar" ng-include="'home/searchBar.tpl.html'"></section>
+    </div>
+    <!-- /SEARCHBAR -->
+
+    <div class="renter--actions" ng-if="features.homePage">
+        <!-- RENTER CALL TO ACTION -->
+        <div class="renter--action">
+            <section>
+                <h2>Verhuur je auto & krijg korting</h2>
+                <p>Met auto's in meer dan 500 plaatsen is er altijd een auto in de buurt, ook als je eigen auto verhuurt is. Daarom geven we je 10% korting op je eerste rit. Gebruik hiervoor de code: XXXXX. Gewoon, om zelf te gebruiken of weg te geven.</p>
+                <a type="button" name="button" class="mywheels-btn mywheels-btn-default mywheels-btn-margin-top mywheels-btn-big" href="/auto-huren?page=1" md-ink-ripple="#3a6d81">
+                    Zoek een Auto
+                </a>
+            </section>
+            <div class="renter--action--image renter--action--image--vw"></div>
+        </div>
+        <!-- /RENTER CALL TO ACTION -->
+
+        <!-- RENTER CALL TO ACTION -->
+        <div class="renter--action">
+            <section>
+                <h2>Veilig verhuren samen met Centraal Beheer</h2>
+                <p>Je auto aanbieden is gratis. We vragen een kleine vergoeding zodra deze is verhuurd. En je weet zeker dat je goed verzekerd bent, want dat regelen wij voor je. Vul je kenteken in, plaats een paar mooie foto's en je kunt beginnen. Zo verdien jij iets extra's aan je auto en kunnen jouw buren op pad.</p>
+                <button type="button" name="button" class="mywheels-btn mywheels-btn-default mywheels-btn-margin-top mywheels-btn-big" ui-sref="list-your-car" md-ink-ripple="#3a6d81">
+                    Meld je auto aan
+                </button>
+            </section>
+            <div class="renter--action--image renter--action--image-handshake"></div>
+        </div>
+        <!-- /RENTER CALL TO ACTION -->
+    </div>
+
+    <!-- FEATURED SLIDER -->
+    <div class="container-fluid slider" ng-if="features.featuredSlider">
+        <div class="slider--container container-home" layout="column" layout-align="center center">
+            <h2 class="slider--heading">{{'FEATURED_CARS_HEADING' | translate}}</h2>
+            <slick dots="false" prev-arrow=".slick--prev" next-arrow=".slick--next" ng-if="resources_slider" responsive="[{breakpoint: 1024, settings: { slidesToShow: 3, slidesToScroll: 3}}, {breakpoint: 768, settings: {slidesToShow: 2, slidesToScroll: 2 }}, {breakpoint: 450, settings: {slidesToShow: 1, slidesToScroll: 1 }}]"
+                slides-to-show="4" slides-to-scroll="4">
+                <div class="slider--slide" ng-repeat="resource in resources_slider">
+                    <md-card ng-click="gotoProfile(resource)">
+                        <div class="slider--slide--image">
+                            <ow-resource-picture alttext="{{::'Huur: ' + resource.alias}}" resource="resource" size="large"></ow-resource-picture>
+                            <span class="slider--slide--price">&euro;{{::resource.price.dayRateTotal}}</span>
+                        </div>
+                        <span title="{{::resource.alias}}" class="md-title slider--slide--alias">{{::resource.alias}}</span>
+                        <span class="md-subhead slider--slide--location">{{::resource.city ? resource.city : ' '}}</span>
+                    </md-card>
+                </div>
+            </slick>
+            <md-card>
+                <button type="button" class="slick--prev">
+                    <md-icon>keyboard_arrow_left</md-icon>
+                </button>
+            </md-card>
+            <md-card>
+                <button type="button" class="slick--next">
+                    <md-icon>keyboard_arrow_right</md-icon>
+                </button>
+            </md-card>
+        </div>
+    </div>
+    <!-- /FEATURED SLIDER -->
+    <div ng-if="features.homePage">
+        <!-- ADAVANTAGES -->
+        <div class="advantage-mywheels container-home">
+            <div class="col-md-12">
+                <h2 class="infoboxes--heading">Voordelen van MyWheels</h2>
+            </div>
+
+            <div class="infoboxes">
+                <div class="infobox">
+                    <div layout="row" layout-align="start center" layout-margin class="infobox--title">
+                        <md-icon class="infobox--title--icon">directions_car</md-icon>
+                        <h3 class="infobox--title--text">Voordelig autodelen</h3>
+                    </div>
+                    <p class="infobox--content">MyWheels is het voordeligste autodeelplatform van Nederland. Onze tarieven zijn zo laag omdat we een not-­for-profit­organisatie zijn. Wij vinden leefbare buurten belangrijker dan winstmaximalisatie. Vanwege onze idealen heeft MyWheels al
+                        meer dan 30.000 autodelers. Sluit je aan!</p>
+                    <a href="https://mywheels.nl/autodelen/community/onze-idealen/" class="infobox--link">Lees meer</a>
+                </div>
+                <div class="infobox">
+                    <div layout="row" layout-align="start center" layout-margin class="infobox--title">
+                        <md-icon class="infobox--title--icon">security</md-icon>
+                        <h3 class="infobox--title--text">Geen abonnementskosten of verplichte borg</h3>
+                    </div>
+                    <p class="infobox--content">Heb je af en toe een auto nodig? Dan kun je zonder borg direct huren via MyWheels Go. Maak je veel ritten? Dan is MyWheels Member iets voor jou. Je betaalt dan eenmalig een borg en profiteert van allerlei voordelen.</p>
+                    <a href="https://mywheels.nl/autodelen/hoe-huren-werkt/tarieven-huren/" class="infobox--link">Lees meer</a>
+                </div>
+                <div class="infobox">
+                    <div layout="row" layout-align="start center" layout-margin class="infobox--title">
+                        <md-icon class="infobox--title--icon">contact_phone</md-icon>
+                        <h3 class="infobox--title--text">All­risk verzekerd</h3>
+                    </div>
+                    <p class="infobox--content">Je bent via MyWheels altijd goed verzekerd bij Centraal Beheer Achmea. Wij regelen de verzekering voor de duur van de huur, waardoor je met een gerust hart op weg gaat. Ook heb je de mogelijkheid om je eigen risico helemaal af te kopen en
+                        dat is wel zo fijn.</p>
+                    <a href=" https://mywheels.nl/autodelen/hoe-huren-werkt/verzekering" class="infobox--link">Lees meer</a>
+                </div>
+
+                <div class="infobox">
+                    <div layout="row" layout-align="start center" layout-margin class="infobox--title">
+                        <md-icon class="infobox--title--icon">call_split</md-icon>
+                        <h3 class="infobox--title--text">Dag en nacht hulp bij pech</h3>
+                    </div>
+                    <p class="infobox--content">Gebeurt er iets onderweg? 24 uur per dag staat er iemand voor je klaar om je uit de brand te helpen. Een telefoontje is genoeg, en als de auto niet meer verder kan, regelt de verzekering vervangend vervoer.</p>
+                    <a href="https://mywheels.nl/autodelen/community/contact/" class="infobox--link">Lees meer</a>
+                </div>
+
+                <div class="infobox disabled">
+                    <div layout="row" layout-align="start center" layout-margin class="infobox--title">
+                        <md-icon class="infobox--title--icon">done</md-icon>
+                        <h3 class="infobox--title--text">Flexibele opties voor verhuurders</h3>
+                    </div>
+                    <p class="infobox--content">Eenmalig een vriendenprijsje instellen? Elke rit automatisch goedkeuren of liever zelf een rit beoordelen? Je auto delen met een besloten groep? Dat kan allemaal. Verhuren via MyWheels is flexibel en eenvoudig. Jij verhuurt je auto, MyWheels
+                        regelt de rest.</p>
+                </div>
+
+                <div class="infobox disabled">
+                    <div layout="row" layout-align="start center" layout-margin class="infobox--title">
+                        <md-icon class="infobox--title--icon">verified_user</md-icon>
+                        <h3 class="infobox--title--text">Veilig & Betrouwbaar</h3>
+                    </div>
+                    <p class="infobox--content">Om ervoor te zorgen dat huurder en verhuurder elkaar kunnen vertrouwen, voert MyWheels meerdere veiligheidscontroles uit. Zo creëren we een veilige community en kun jij met een gerust hart een auto huren of verhuren.</p>
+                </div>
+
+                <div class="infobox disabled">
+                    <div layout="row" layout-align="start center" layout-margin class="infobox--title">
+                        <md-icon class="infobox--title--icon">near_me</md-icon>
+                        <h3 class="infobox--title--text">Landelijk en lokaal</h3>
+                    </div>
+                    <p class="infobox--content">MyWheels is een landelijk opererend platform, met stevige lokale wortels in de plaatsen waar onze auto’s staan. Onze coördinatoren helpen je op weg en zijn onze ogen en oren in het land.</p>
+                </div>
+            </div>
+        </div>
+        <!-- /ADAVANTAGES -->
+
+        <div class="imageblock">
+            <div class="hero-overlay"></div>
+            <div class="imageblock--content">
+                <h3 class="imageblock--heading">Begin direct met huren</h3>
+                <button class="mywheels-btn mywheels-btn-error mywheels-btn-margin-top mywheels-btn-big" ui-sref="owm.auth.signup" md-ink-ripple="#9a3d26">{{ 'SIGNUP_SHORT' | translate }}</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-logo-row text-center" ng-if="features.homePage">
+        <div class="container-home">
+            <div class="row" style="max-width: 100vw; overflow: hidden;">
+                <div class="col-xs-6 col-md-3" hide-xs hide-sm>
+                    <h2 class="no-margin footer-logo-row-header">In de media</h2>
+                    <img src="assets/img/media/de_volkskrant_logo.png" />
+                    <img src="assets/img/media/nos_logo.png" />
+                </div>
+                <div class="col-xs-6 col-md-3" hide-xs hide-sm>
+                    <h2 class="no-margin footer-logo-row-header">&nbsp;</h2>
+                    <img src="assets/img/media/de_telegraaf_logo.png" />
+                    <img src="assets/img/media/financieel_dagblad_logo.png" />
+                </div>
+                <div class="col-xs-6 col-md-3">
+                    <h2 class="no-margin footer-logo-row-header">Partners</h2>
+                    <img src="assets/img/partners/centraal_beheer_achmea_logo.png" />
+                    <img src="assets/img/partners/green_deal_logo.png" />
+                </div>
+                <div class="col-xs-6 col-md-3">
+                    <h2 class="no-margin footer-logo-row-header">&nbsp;</h2>
+                    <img src="assets/img/partners/peugeot_assistance_logo.png" />
+                    <img src="assets/img/partners/sharenl_logo.png" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- close home -->
