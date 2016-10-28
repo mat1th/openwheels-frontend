@@ -4,21 +4,17 @@ angular.module('owm.resource.parkingpermit', ['alertService'])
 .directive('parkingpermit', function ($compile) {
   return {
     restrict: 'E',
-    link: function (scope, elm, attributes) {
-      elm.attr('ng-if', 'features.parkingpermit');
-      $compile(elm)(scope, function (clone) {
-        elm.replaceWith(clone);
-      });
-    },
     scope: {
       resource: '=',
+      resourceList: '='
     },
     templateUrl: 'resource/components/parkingpermit.tpl.html',
     controller: 'ParkingpermitController'
   };
 })
     
-.controller('ParkingpermitController', function($scope, $log, alertService, resourceService) {
+.controller('ParkingpermitController', function($scope, $log, alertService, resourceService, dialogService, $translate) {
+//  $log.log($scope.resourceList);
   var show = function (permits) {
     if(permits.length === 0) {
       $scope.create = true;
@@ -31,28 +27,53 @@ angular.module('owm.resource.parkingpermit', ['alertService'])
   };
   
   $scope.createParkingPermit = function () {
-    alertService.load($scope, 'success', 'vergunning aanvragen');
-    resourceService.createParkingpermit({resource: $scope.resource.id})
-    .then(function(permit) {
+    resourceService.getMembers({resource: $scope.resource.id})
+    .then(function (members) {
+      return dialogService.showModal({
+        templateUrl: 'resource/components/parking-create.tpl.html'
+      }, {resource: $scope.resource, members: members});
+    }).then(function () {
+      alertService.load($scope, 'success', 'vergunning aanvragen');
+      return resourceService.createParkingpermit({resource: $scope.resource.id});
+    }).then(function(permit) {
       $log.debug('vergunning aangevraagt', permit);
       alertService.loaded($scope);
       alertService.add($scope, 'success', 'Vergunning brief verzonden.');
       return [permit];
     }).then(show, function (error) {
+      if(error === 'cancel') {
+        return;
+      }
       alertService.loaded($scope);
       alertService.addError(error);
     });
   };
   
   $scope.updateParkingPermit = function (permit) {
-    alertService.load($scope, 'success', 'vergunning wijzigen');
-    resourceService.alterParkingpermit({parkingpermit: permit})
-    .then(function(permit) {
+    resourceService.getMembers({resource: $scope.resource.id})
+    .then(function (members) {
+      return dialogService.showModal({
+        templateUrl: 'resource/components/parking-edit.tpl.html'
+      }, {
+        resource: $scope.resource,
+        resourceList: $scope.resourceList,
+        members: members
+      });
+    }).then(function (resource_id) {
+      alertService.load($scope, 'success', 'vergunning wijzigen');
+      return resourceService.alterParkingpermit({
+        parkingpermit: permit,
+        resource: resource_id
+      });
+    }).then(function(permit) {
       $log.debug('vergunning aangevraagt', permit);
       alertService.loaded($scope);
       alertService.add($scope, 'success', 'Vergunning brief verzonden.');
       return [permit];
     }).then(show, function (error) {
+      if(error === 'cancel') {
+        return;
+      }
       alertService.loaded($scope);
       alertService.addError(error);
     });
