@@ -4,18 +4,23 @@
 </div>
 <div class="modal-body">
   <p>Wil je een extra vergunning aanvragen met de onderstaande gegevens?</P>
-  <select ng-model="modalOptions.resource" 
-          ng-options="item.alias for item in modalOptions.resourceList"
-          ></select>
-  <div>kenteken: {{modalOptions.resource.registrationplate}}</div>
+  
+  <div>kenteken: 
+    <select 
+        ng-model="modalOptions.resource" 
+        ng-options="item.registrationPlate + ' (' + item.alias + ')' for item in modalOptions.resourceList"
+    >
+        <option value="">-- nieuwe auto --</option>
+    </select>
+  </div>
   <div>
       {{modalOptions.resource.owner.firstName}} {{modalOptions.resource.owner.preposition}} {{modalOptions.resource.owner.surname}}, 
-      {{modalOptions.resource.owner.streetName}} {{modalOptions.resource.owner.streetnumber}}, 
+      {{modalOptions.resource.owner.streetName}} {{modalOptions.resource.owner.streetNumber}}, 
       {{modalOptions.resource.owner.zipcode}} {{modalOptions.resource.owner.city}}
   </div>
   <div ng-repeat="member in modalOptions.members">
       {{member.firstName}} {{member.preposition}} {{member.surname}}, 
-      {{member.streetName}} {{member.streetnumber}}, 
+      {{member.streetName}} {{member.streetNumber}}, 
       {{member.zipcode}} {{member.city}}
   </div>
   
