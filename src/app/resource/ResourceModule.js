@@ -2,6 +2,7 @@
 
 angular.module('owm.resource', [
   'owm.resource.create',
+  'owm.resource.replace',
   'owm.resource.own',
   'owm.resource.show',
   'owm.resource.show.calendar',
@@ -370,7 +371,40 @@ angular.module('owm.resource', [
       ]
     }
   });
-
+  
+  /**
+   * resource/:resourceId/replace
+   */
+  $stateProvider.state('owm.resource.replace', {
+    url: '/auto/:resourceId/vervang',
+    controller: 'ResourceReplaceController',
+    templateUrl: 'resource/replace/resource-replace.tpl.html',
+    data: {
+      access: {
+        deny: {
+          anonymous: true
+        }
+      }
+    },
+    resolve: {
+      me: ['authService', function (authService) {
+        return authService.me();
+      }],
+      resource: ['$stateParams', 'resourceService', function ($stateParams, resourceService) {
+        var resourceId = $stateParams.resourceId;
+        console.log(resourceId);
+        return resourceService.get({
+          id: resourceId
+        });
+      }],
+      members: ['$stateParams', 'resourceService', function ($stateParams, resourceService) {
+        return resourceService.getMembers({
+          resource: $stateParams.resourceId
+        });
+      }]
+    }
+  });
+  
   /**
    * resource/:resourceId/edit
    * @resolve {promise} resource

@@ -13,7 +13,7 @@ angular.module('owm.resource.parkingpermit', ['alertService'])
   };
 })
     
-.controller('ParkingpermitController', function($scope, $log, alertService, resourceService, dialogService, $translate) {
+.controller('ParkingpermitController', function($scope, $log, alertService, resourceService, dialogService, $state) {
 //  $log.log($scope.resourceList);
   var show = function (permits) {
     if(permits.length === 0) {
@@ -59,23 +59,30 @@ angular.module('owm.resource.parkingpermit', ['alertService'])
         resourceList: $scope.resourceList,
         members: members
       });
-    }).then(function (resource_id) {
+    }).then(function (resource) {
+      $log.log('resource', $scope.resource.id);
+      if(!resource) {
+        return $state.go('owm.resource.replace', {
+          resourceId: $scope.resource.id
+        });
+      }
+      
       alertService.load($scope, 'success', 'vergunning wijzigen');
       return resourceService.alterParkingpermit({
         parkingpermit: permit,
-        resource: resource_id
+        resource: resource.id
+      }).then(function(permit) {
+        $log.debug('vergunning aangevraagt', permit);
+        alertService.loaded($scope);
+        alertService.add($scope, 'success', 'Vergunning brief verzonden.');
+        return [permit];
+      }).then(show, function (error) {
+        if(error === 'cancel') {
+          return;
+        }
+        alertService.loaded($scope);
+        alertService.addError(error);
       });
-    }).then(function(permit) {
-      $log.debug('vergunning aangevraagt', permit);
-      alertService.loaded($scope);
-      alertService.add($scope, 'success', 'Vergunning brief verzonden.');
-      return [permit];
-    }).then(show, function (error) {
-      if(error === 'cancel') {
-        return;
-      }
-      alertService.loaded($scope);
-      alertService.addError(error);
     });
   };
 
