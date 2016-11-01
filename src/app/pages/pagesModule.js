@@ -28,6 +28,16 @@ angular.module('owm.pages', [
     }
   })
 
+  .state('home.centraalbeheer', {
+    url: 'centraalbeheer',
+    views: {
+      'main-full@shell': {
+        templateUrl: 'home/homeCentraalBeheer.tpl.html',
+        controller: 'HomeCentraalBeheerController'
+      }
+    },
+  })
+
   .state('owm.pages', {
     resolve: {
       user: ['authService', function (authService) {
