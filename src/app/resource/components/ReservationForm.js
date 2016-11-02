@@ -325,20 +325,28 @@ angular.module('owm.resource.reservationForm', [])
       $mdDialog.hide(answer);
     };
   }
-  $scope.createBooking = function (booking) {
+  $scope.loading = {createBooking: false};
 
+  $scope.createBooking = function (booking) {
+    $scope.loading.createBooking = true;
+
+    $scope.person = authService.user.identity;
     $rootScope.$watch(function isAuthenticated() {
-      $scope.person = authService.identity;
+      $scope.person = authService.user.identity;
     });
+
     if (!booking.beginRequested || !booking.endRequested) {
+      $scope.loading.createBooking = false;
       return alertService.add('danger', $filter('translate')('DATETIME_REQUIRED'), 5000);
     }
     if (!$scope.features.signupFlow && !$scope.person) { // not logged in
+      $scope.loading.createBooking = false;
       return $state.go('owm.auth.signup');
     } else if (!$scope.person) { // not logged in
 
       // Als je nog niet bent ingelogd is er
       // even een andere flow nodig
+      $scope.loading.createBooking = false;
       return $mdDialog.show({
         controller: ['$scope', '$mdDialog', 'authService', 'booking', 'resource', dialogController],
         templateUrl: 'resource/components/ReservationFormDialog.tpl.html',
@@ -350,8 +358,10 @@ angular.module('owm.resource.reservationForm', [])
         fullscreen: $mdMedia('xs')
       });
     } else if ($scope.person.status === 'new' && !$scope.features.signupFlow) {
+      $scope.loading.createBooking = false;
       return alertService.add('danger', 'Voordat je een auto kunt boeken, hebben we nog wat gegevens van je nodig.', 5000);
     } else if ($scope.person.status === 'new' && $scope.features.signupFlow) { // upload driver's license
+      $scope.loading.createBooking = false;
       return $state.go('owm.person.details', { // should register
         pageNumber: '1',
         city: $scope.resource.city ? $scope.resource.city : 'utrecht',
@@ -363,6 +373,7 @@ angular.module('owm.resource.reservationForm', [])
         riskReduction: booking.riskReduction
       });
     } else if (!booking.contract) { // should pay deposit to get a contract
+      $scope.loading.createBooking = false;
       return alertService.add('danger', 'Voordat je een auto kunt boeken, hebben we een borg van je nodig', 5000);
     } else {
       alertService.load();
@@ -420,7 +431,10 @@ angular.module('owm.resource.reservationForm', [])
           }
         })
         .catch(alertService.addError)
-        .finally(alertService.loaded);
+        .finally(function() {
+          $scope.loading.createBooking = false;
+          alertService.loaded();
+        });
     }
   };
 
