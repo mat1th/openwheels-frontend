@@ -347,7 +347,6 @@ angular.module('owm.finance.v4', [])
       alertService.add('danger', err, 9000);
     })
     ;
-
   };
 
 });
