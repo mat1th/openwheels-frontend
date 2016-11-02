@@ -273,13 +273,13 @@
 </div>
 <div class="card" ng-if="userPerspective==='owner' && booking.ok && !bookingEnded">
   <div class="card-body card-inverse" style="background-color:#3bab78; color: white;">
-    <span ng-if="allowAcceptReject">Alles voor deze rit is geregeld, je kunt het huurverzoek accepteren en de auto meegeven aan de verhuurder.</span>
-    <span ng-if="!allowAcceptReject">Alles voor deze rit is geregeld, je kunt de auto meegeven aan de verhuurder.</span>
+    <span ng-if="allowAcceptReject">Alles voor deze rit is geregeld, je kunt het huurverzoek accepteren en de auto meegeven aan de huurder.</span>
+    <span ng-if="!allowAcceptReject">Alles voor deze rit is geregeld, je kunt de auto meegeven aan de huurder.</span>
   </div>
 </div>
 <div class="card" ng-if="userPerspective==='owner' && !booking.ok && !bookingEnded">
   <div class="card-body card-inverse" style="background-color:#c85f5f; color: white;">
-    <span>Voor deze rit is nog niet alles in orde. Mogelijk moet de verhuurder nog betalen of andere gegevens doorgeven. Geef de auto daarom niet mee aan de verhuurder zolang deze meldig zichtbaar is.<span ng-if="allowAcceptReject"><br>Je kan de rit wel alvast accepteren of weigeren</span></span>
+    <span>Voor deze rit is nog niet alles in orde. Mogelijk moet de huurder nog betalen of andere gegevens doorgeven. Geef de auto daarom niet mee aan de huurder zolang deze meldig zichtbaar is.<span ng-if="allowAcceptReject"><br>Je kan de rit wel alvast accepteren of weigeren</span></span>
   </div>
 </div>
 
