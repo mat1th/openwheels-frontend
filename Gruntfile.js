@@ -563,6 +563,14 @@ module.exports = function (grunt) {
     'connect:livereload',
     'watch'
   ]);
+  // run local server
+  grunt.registerTask('docker', [
+    'build-common',
+    'less:build',
+    'configure',
+    'ngconstant:development',
+    'index:build'
+  ]);
 
   // run unit tests once
   grunt.registerTask('unit', ['karma:singleRun']);
