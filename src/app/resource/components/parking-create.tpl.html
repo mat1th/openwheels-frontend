@@ -1,0 +1,25 @@
+
+<div ng-show="modalOptions.headerText" class="modal-header">
+  <h4 class="modal-title">Extra vergunning aanvraag</h4>
+</div>
+<div class="modal-body">
+  <p>Wil je een extra vergunning aanvragen met de onderstaande gegevens?</P>
+  <div>kenteken: {{modalOptions.resource.registrationPlate}}</div>
+  <div>
+      {{modalOptions.resource.owner.firstName}} {{modalOptions.resource.owner.preposition}} {{modalOptions.resource.owner.surname}}, 
+      {{modalOptions.resource.owner.streetName}} {{modalOptions.resource.owner.streetNumber}}, 
+      {{modalOptions.resource.owner.zipcode}} {{modalOptions.resource.owner.city}}
+  </div>
+  <div ng-repeat="member in modalOptions.members">
+      {{member.firstName}} {{member.preposition}} {{member.surname}}, 
+      {{member.streetName}} {{member.streetNumber}}, 
+      {{member.zipcode}} {{member.city}}
+  </div>
+  
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-primary"
+          data-ng-click="modalOptions.ok();">{{modalOptions.actionButtonText}}</button>
+  <button type="button" class="btn btn-link"
+          data-ng-click="modalOptions.close()">{{modalOptions.closeButtonText}}</button>
+</div>

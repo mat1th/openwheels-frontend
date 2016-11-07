@@ -145,6 +145,12 @@ angular.module('owm.booking', [
     templateUrl: 'booking/administer/booking-administer.tpl.html',
     controller: 'BookingAdministerController'
   })
+  
+  .state('owm.booking.finalize', {
+    url: '/finalize',
+    templateUrl: 'booking/administer/booking-finalize.tpl.html',
+    controller: 'BookingFinalizeController'
+  })
   ;
 
 })

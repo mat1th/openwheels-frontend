@@ -92,6 +92,10 @@ angular.module('rpcServices', [])
   this.removeFavorite = m('removeFavorite');
   this.addProperty = m('addProperty');
   this.removeProperty = m('remProperty');
+  this.createParkingpermit = m('createParkingpermit');
+  this.alterParkingpermit = m('alterParkingpermit');
+  this.removeParkingpermit = m('removeParkingpermit');
+  this.getParkingpermits = m('getParkingpermits');
 })
 
 .service('bookingService', function (api) {
@@ -110,6 +114,7 @@ angular.module('rpcServices', [])
   this.stop = m('stop');
   this.cancel = m('cancel');
   this.setTrip = m('setTrip');
+  this.finishTrip = m('finishTrip');
   this.forResource = m('forResource');
   this.forOwner = m('forOwner');
   this.getBookingList = m('getBookingList');

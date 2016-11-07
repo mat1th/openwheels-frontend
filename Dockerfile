@@ -7,6 +7,8 @@ add bower.json /data/frontend/
 run npm install -g grunt-cli bower && npm install && bower install --allow-root
 
 add . /data/frontend/
-run grunt dist-dev configure:compile_dir
+run grunt docker
 
-volume /data/frontend/bin
+expose 35730 9000
+#CMD grunt server
+CMD grunt connect:livereload:keepalive
