@@ -28,10 +28,8 @@ angular.module('owm.finance.v4', [])
   ;
 
   // get grouped invoices (old invoiceModule)
-  var oldInvoices = invoiceService.allGroups({filter: {person: me.id}, limit: 10})
-  .then(function (paged){
-    return paged.result;
-  })
+  var oldInvoices = invoiceService.allGroups({filter: {person: me.id}, limit: 100})
+  .then(function (paged){ return paged.result; })
   .then(addExtraInformationOldInvoices)
   .then(function(results) { $scope.groupedInvoicesOld = results; return results;})
   ;
