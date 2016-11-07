@@ -38,7 +38,7 @@
        ng-if="features.discounts"
        ng-class="{'has-error': discountCodeValidation.submitted && discountCodeValidation.error}">
     <label >
-       {{ 'DISCOUNT' | translate }}  </label>
+      {{ 'DISCOUNT' | translate }} {{me}} </label>
       <i class="fa fa-check text-success" ng-if="booking.discountCode && !discountCodeValidation.busy && discountCodeValidation.success"></i>
       <i class="fa fa-spin fa-spinner" ng-if="discountCodeValidation.showSpinner"></i>
 
@@ -54,9 +54,11 @@
 
   <div class="checkbox" ng-if="contractOptions && booking.contract.type.id !== 60 && booking.contract.ownRiskWaiver === 'not'">
     <label for="riskReduction">
-        <input ng-change="riskReductionChanged()" id="riskReduction" type="checkbox" ng-model="booking.riskReduction" />
+        <input id="riskReduction" type="checkbox" ng-model="booking.riskReduction" />
         {{ 'DECREASE_OWN_RISK' | translate }}
-        <info-icon tooltip-html="'DECREASE_OWN_RISK_INFO' | translate"></info-icon>
+        <info-icon ng-if="!age || age === -1" tooltip-html="'DECREASE_OWN_RISK_INFO' | translate"></info-icon>
+        <info-icon ng-if="age >= 25" tooltip-html="'DECREASE_OWN_RISK_INFO_ABOVE25' | translate"></info-icon>
+        <info-icon ng-if="age > 0 && age < 25" tooltip-html="'DECREASE_OWN_RISK_INFO_UNDER25' | translate"></info-icon>
     </label>
   </div>
 
@@ -69,6 +71,7 @@
         {{ 'COSTS' | translate }}:
         <span>{{ price.total | currency }}</span>
         <info-icon tooltip-html="priceHtml(price)"></info-icon>
+        <span ng-if="booking.discountCode" style="display: block; font-size: 0.8em;">De kortingscode wordt later verrekend.</span>
         {{ 'RESOURCE_PRICE_DISCLAIMER' | translate }}
       </h4>
       <h4 ng-if="isPriceLoading || isAvailabilityLoading">
@@ -79,7 +82,7 @@
 
   <div class="text-center">
     <p>
-      <button class="btn btn-success" ga-track-event="['booking', 'create', user.isAuthenticated, resource.owner.id === 282 ? 11 : undefined]" ng-disabled="discountCodeValidation.busy || discountCodeValidation.error || !availability || availability.available=='no'"
+      <button class="btn btn-success" ga-track-event="['booking', 'create', user.isAuthenticated, resource.owner.id === 282 ? 11 : (!resource.isConfirmationRequiredOthers ? 4 : undefined), true]" ng-disabled="discountCodeValidation.busy || discountCodeValidation.error || !availability || availability.available=='no' || loading.createBooking"
         ng-click="createBooking(booking)">
         {{ 'CREATE_BOOKING' | translate }}
       </button>

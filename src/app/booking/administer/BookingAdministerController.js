@@ -30,7 +30,7 @@ angular.module('owm.booking.administer', [])
   }
 
   function saveTrip() {
-    if($scope.trip.odoBegin && !$scope.alreadyFilled) {
+    if(!$scope.alreadyFilled) {
       var params = {
         booking : $scope.booking.id,
         odoBegin: $scope.trip.odoBegin
@@ -46,7 +46,7 @@ angular.module('owm.booking.administer', [])
 
       alertService.load();
       bookingService.setTrip(params).then(function (booking) {
-        Analytics.trackEvent('person', 'tripdate_entered', booking.id);
+        Analytics.trackEvent('booking', 'tripdata_entered', booking.id, undefined, true);
         alertService.add('success', $translate.instant('BOOKING.ADMINISTER.SAVE_SUCCESS'), 5000);
         if($scope.trip.odoEnd) {
           $scope.alreadyFilled = true;

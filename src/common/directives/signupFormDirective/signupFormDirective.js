@@ -8,7 +8,7 @@ angular.module('signupFormDirective', [])
     replace: true,
     transclude: true,
     templateUrl: 'directives/signupFormDirective/signupFormDirective.tpl.html',
-    controller: function ($scope, $rootScope, $state, $stateParams, $translate, $q, authService, featuresService, alertService, personService, $mdDialog) {
+    controller: function ($scope, $rootScope, $state, $stateParams, $translate, $q, authService, featuresService, alertService, personService, $mdDialog, Analytics) {
       $scope.auth = {};
       $scope.user = {};
       $scope.me = {};
@@ -75,7 +75,8 @@ angular.module('signupFormDirective', [])
                   email: email.trim().toLowerCase(),
                   password: password,
                   other: user
-                }).then(function () {
+                }).then(function (res) {
+                  Analytics.trackEvent('person', 'created', res.id, undefined, true);
                   if ($scope.url === 'owm.person.details({pageNumber: \'1\'})') {
                     var booking = $scope.booking;
                     var resource = $scope.resource;

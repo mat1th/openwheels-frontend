@@ -3,8 +3,9 @@
 angular.module('owm.person.details', [])
 
 
-.controller('DetailsProfileController', function ($scope, $filter, $timeout, $translate, $window, $log, $state, $stateParams, $mdDialog, discountService, contractService, account2Service, person, alertService, personService, authService, me, dutchZipcodeService, voucherService, $q, appConfig, paymentService, bookingService, invoice2Service, API_DATE_FORMAT, $anchorScroll) {
+.controller('DetailsProfileController', function ($scope, $filter, $timeout, $translate, $window, $log, $state, $stateParams, $mdDialog, discountService, contractService, account2Service, person, alertService, personService, authService, me, dutchZipcodeService, voucherService, $q, appConfig, paymentService, bookingService, invoice2Service, API_DATE_FORMAT, $anchorScroll, Analytics) {
   $scope.isBusy = false;
+  $scope.me = me;
 
   //person info
   var masterPerson = null;
@@ -17,12 +18,7 @@ angular.module('owm.person.details', [])
   $scope.checkedLater = false;
   $scope.allowLicenseRelated = false;
   $scope.alerts = null;
-  $scope.extraDrivers = {price: 1.25, check: false, drivers: [], new: ''};
   $scope.accountApproved = false;
-  $scope.vouchureError = {
-    show: false,
-    message: ''
-  };
 
   var resourceId = $stateParams.resourceId,
     bookingId = $stateParams.bookingId,
@@ -54,7 +50,8 @@ angular.module('owm.person.details', [])
   //booking section
   var URL_DATE_TIME_FORMAT = 'YYMMDDHHmm';
   var cachedBookings = {};
-  $scope.priceCalculated = false;
+  $scope.priceCalculated = true;
+  $scope.bookingFound = false;
   $scope.booking = {};
   $scope.requiredValue = null;
   $scope.isAvailable = true;
@@ -187,6 +184,7 @@ angular.module('owm.person.details', [])
           frontImage: images.front
         })
         .then(function () {
+          Analytics.trackEvent('person', 'driverlicense_uploaded', undefined, undefined, true);
           $scope.licenceUploaded = true;
           // reload user info (status may have changed as a result of uploading license)
           personService.me({
@@ -252,22 +250,11 @@ angular.module('owm.person.details', [])
         var _booking;
         bookingService.get({
           booking: bookingId
-        }).then(function (value) {
-          _booking = value;
+        }).then(function (booking) {
           $scope.isAvailable = true;
-          return contractService.forBooking({booking: _booking.id});
-        })
-        .then(function(contract) {
-          _booking.contract = contract;
-          if(contract.type.id === 60) {
-            return bookingService.driversForBooking({booking: _booking.id});
-          } else {
-            return [];
-          }
-        })
-        .then(function(drivers) {
-          _booking.drivers = drivers;
-          getVoucherPrice(_booking);
+          alertService.loaded();
+          $scope.booking = booking;
+          $scope.bookingFound = true;
         });
       } else { //if there is no booking Id in the url
         if (discountCode !== undefined) { //check if there is a discount code
@@ -327,7 +314,6 @@ angular.module('owm.person.details', [])
       alertService.addError(err); //if there is something wrong show a err
     });
   }
-
 
   //check if the discount is applicable
   function verifyDiscountCode() {
@@ -392,193 +378,39 @@ angular.module('owm.person.details', [])
     $scope.createBookingFlow();
   }
 
-  function getVoucherPrice(booking) {
-    var drivers = booking.drivers.length;
-    var bookingObject = {};
-    return voucherService.calculateRequiredCreditForBooking({
-      booking: booking.id
-    }).then(function (value) {
-      bookingObject = {
-        bookings: [{
-          riskReduction: booking.riskReduction,
-          resource: booking.resource,
-          approved: booking.approved,
-          id: booking.id,
-          title: 'Rit op ',
-          booking_price: value.booking_price,
-          contract_type: booking.contract.type.id,
-          drivers_count: drivers,
-          km_price: value.km_price,
-          discount: value.discount
-        }]
-      };
-      $scope.requiredValue = bookingObject;
-      $scope.booking = bookingObject.bookings[0];
-      $scope.$broadcast('booking_details_in', $scope.booking);
-
-      return bookingObject;
-    }).then(function () {
-      $scope.priceCalculated = true;
-      alertService.loaded();
-      $scope.isBusy = false;
-    }).catch(function (err) {
-      alertService.addError(err);
-    });
-  }
-
-
-  $scope.redemptionPending = {}; /* by booking id */
-
-  $scope.toggleRedemption = function (booking) {
-    alertService.closeAll();
-    alertService.load($scope);
-
-    /* checkbox is already checked, so new value is now: */
-    var newValue = $scope.booking.riskReduction;
-    $scope.redemptionPending[booking.id] = true;
-
-    bookingService.alter({
-        booking: booking.id,
-        newProps: {
-          riskReduction: newValue
-        }
-      })
-      .then(function (value) {
-
-        /* recalculate amounts */
-        return getVoucherPrice(booking);
-      })
-      .then(function (requiredValue) {
-
-        /* get bookings from cache */
-        // return getBookings(requiredValue);
-      })
-      .then(function () {
-
-        $scope.vouchureError.show = false;
-        $scope.booking.riskReduction = newValue;
-      })
-      .catch(function (err) {
-        if (err.message === 'Bij je huidige gebruiksvorm is verlaging van het eigen risico verplicht.') {
-          $scope.vouchureError = {
-            show: true,
-            message: err.message
-          };
-        } else {
-          alertService.addError(err);
-        }
-        /* revert */
-        $scope.booking.riskReduction = !!!$scope.booking.riskReduction;
-
-      })
-      .finally(function () {
-        $scope.redemptionPending = {};
-        alertService.loaded($scope);
-        $scope.isBusy = false;
-      });
-  };
-
-  /* EXTRA DRIVER FOR GO CONTRACT */
-  $scope.$on('booking_details_in', function(event, booking) {
-    if(booking.drivers_count) {
-      $scope.extraDrivers.check = true;
-    }
-  });
-
-  $scope.toggleExtraDrivers = function(state) {
-    if(state === true) {
-      $scope.extraDrivers.check = true;
-    }
-    if(state === false) {
-      if($scope.extraDrivers.drivers.length === 0) {
-        $scope.extraDrivers.check = false;
-      } else {
-        $scope.extraDrivers.check = true;
-      }
-    }
-  };
-
-  $scope.addExtraDriver = function() {
-    if($scope.extraDrivers.new === '') {
-      return;
-    }
-
-    if($scope.extraDrivers.drivers.indexOf($scope.extraDrivers.new) < 0) {
-      alertService.closeAll();
-      alertService.load();
-
-      bookingService.addDriver({booking: $scope.booking.id, email: $scope.extraDrivers.new})
-      .then(function(booking) {
-        $scope.extraDrivers.drivers.push($scope.extraDrivers.new);
-        $scope.extraDrivers.new = '';
-        $scope.extraDrivers.check = true;
-      })
-      .catch(function(e) {
-        $scope.extraDrivers.new = '';
-        $scope.extraDrivers.check = true;
-        alertService.addError(e);
-      })
-      .finally(function() {
-        alertService.loaded();
-        $scope.formExtraDriver.$setPristine();
-      });
-    }
-  };
-
-  $scope.removeExtraDriver = function(driver) {
-    alertService.closeAll();
-    alertService.load();
-    var index = $scope.extraDrivers.drivers.indexOf(driver);
-    if(index >= 0) {
-      bookingService.removeDriver({booking: $scope.booking.id, email: $scope.extraDrivers.drivers[index]})
-      .then(function(booking) {
-        $scope.extraDrivers.drivers.splice(index, 1);
-      })
-      .catch(function(e) {
-        alertService.addError(e);
-      })
-      .finally(function() {
-        alertService.loaded();
-      });
-    }
-  };
-  /* //end//EXTRA DRIVER FOR GO CONTRACT */
-
   // to buy the vouchure
-  $scope.buyVoucher = function (value) {
-    if (!value || value < 0) {
-      return;
-    }
+  $scope.buyVoucher = function() {
     alertService.load($scope);
-    voucherService.createVoucher({
-        person: me.id,
-        value: value
-      })
-      .then(function (voucher) {
-        return paymentService.payVoucher({
-          voucher: voucher.id
-        });
-      })
-      .then(function (data) {
-        if (!data.url) {
-          throw new Error('Er is een fout opgetreden');
-        }
-        /* redirect to payment url */
-        redirect(data.url);
-      })
-      .catch(function (err) {
-        alertService.addError(err);
-      })
-      .finally(function () {
-        alertService.loaded($scope);
+    voucherService.calculateRequiredCreditForBooking({booking: $scope.booking.id})
+    .then(function(results) {
+      return voucherService.createVoucher({
+        person: $scope.me.id,
+        value: results.booking_price.total + results.km_price,
       });
+    })
+    .then(function (voucher) {
+      return paymentService.payVoucher({
+        voucher: voucher.id
+      });
+    })
+    .then(function (data) {
+      if (!data.url) {
+        throw new Error('Er is een fout opgetreden');
+      }
+      /* redirect to payment url */
+      redirect(data.url);
+    })
+    .catch(function (err) {
+      alertService.addError(err);
+    })
+    .finally(function () {
+      alertService.loaded($scope);
+    });
   };
   //redireceht to the pay service
   function redirect(url) {
     var redirectTo = appConfig.appUrl + $state.href('owm.finance.payment-result');
     $window.location.href = url + '?redirectTo=' + encodeURIComponent(redirectTo);
   }
-
-
 
 });

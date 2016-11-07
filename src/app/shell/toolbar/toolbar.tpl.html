@@ -11,7 +11,7 @@
       <md-button hide-gt-xs class="md-icon-button" ng-click="openMenu()">
         <md-icon>menu</md-icon>
       </md-button>
-      <md-button ga-track-event-if="true" hide-xs ng-click="openMenu()" ga-track-event="['video', 'play', 'django.mp4']" >
+      <md-button hide-xs ng-click="openMenu()">
         <md-icon>menu</md-icon>
         <span>Menu</span>
       </md-button>
@@ -19,10 +19,10 @@
       <span flex></span>
 
       <!-- help button -->
-      <md-button hide-gt-xs ng-if="user.isAuthenticated" class="md-icon-button" href="{{ 'NAVBAR.HOW_IT_WORKS_URL' | translate }}">
+      <md-button hide-gt-xs ng-if="user.isAuthenticated && !centralb" class="md-icon-button" href="{{ 'NAVBAR.HOW_IT_WORKS_URL' | translate }}">
         <md-icon>help_outline</md-icon>
       </md-button>
-      <md-button hide-xs ng-if="user.isAuthenticated || isWindowSizeXS" href="{{ 'NAVBAR.HOW_IT_WORKS_URL' | translate }}">
+      <md-button hide-xs ng-if="user.isAuthenticated  && !centralb" href="{{ 'NAVBAR.HOW_IT_WORKS_URL' | translate }}">
         <md-icon>help_outline</md-icon>
         <span>Help</span>
       </md-button>
@@ -45,7 +45,7 @@
       </md-button>
 
       <!-- login -->
-      <md-button ng-if="isWindowSizeSM && !user.isPending && !user.isAuthenticated" ng-click="login()">
+      <md-button ng-if="isWindowSizeSM && !user.isPending && !user.isAuthenticated && !centralb" ng-click="login()">
         <md-icon>person</md-icon>
         {{ 'LOGIN' | translate }}
       </md-button>

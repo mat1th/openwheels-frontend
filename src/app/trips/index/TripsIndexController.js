@@ -17,6 +17,7 @@ angular.module('owm.trips.index', [])
 
   // scope
   $scope.me = me;
+  $scope.provider = me.provider.id;
   $scope.years = (function () {
     var y = moment().year();
     return [y-2, y-1, y, y+1];

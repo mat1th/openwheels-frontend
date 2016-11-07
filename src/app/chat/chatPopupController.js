@@ -116,7 +116,7 @@ angular.module('owm.chat.controller', [])
 
     messageService.sendMessageTo(params)
     .then(function () {
-      Analytics.trackEvent('discovery', 'send_message', resourceId);
+      Analytics.trackEvent('discovery', 'send_message', resourceId, undefined, true);
       $scope.message = '';
       return getNewerMessages();
     })
