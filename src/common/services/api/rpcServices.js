@@ -114,6 +114,7 @@ angular.module('rpcServices', [])
   this.stop = m('stop');
   this.cancel = m('cancel');
   this.setTrip = m('setTrip');
+  this.finishTrip = m('finishTrip');
   this.forResource = m('forResource');
   this.forOwner = m('forOwner');
   this.getBookingList = m('getBookingList');
