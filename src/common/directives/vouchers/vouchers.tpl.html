@@ -76,7 +76,7 @@
         </tr>
         <tr>
             <td><b>Totale huurprijs</b></td>
-            <td class="text-right"><b>{{ ((extraDrivers.check ? (booking.details.drivers_count + extraDrivers.drivers.length) * extraDrivers.price : 0) + booking.details.booking_price.total + booking.details.km_price) | currency }}</b></td>
+            <td class="text-right"><b>{{ (booking.details.booking_price.total + booking.details.km_price) | currency }}</b></td>
         </tr>
 
         <tr ng-if="booking.details.discount > 0">
@@ -85,7 +85,7 @@
         </tr>
         <tr ng-if="booking.details.discount > 0">
             <td><b>Totaal</b></td>
-            <td class="text-right"><b>{{ ((extraDrivers.check ? (booking.details.drivers_count + extraDrivers.drivers.length) * extraDrivers.price : 0) + booking.details.booking_price.total + booking.details.km_price - booking.details.discount) | currency }}</b></td>
+            <td class="text-right"><b>{{ (booking.details.booking_price.total + booking.details.km_price - booking.details.discount) | currency }}</b></td>
         </tr>
     </tbody>
 </table>

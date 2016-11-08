@@ -192,7 +192,9 @@ angular.module('owm.finance.v4', [])
 
       bookingInvoice.totalToPay = totals.totalToPay;
       bookingInvoice.totalToReceive = totals.totalToReceive;
-      bookingInvoice.pdf = linksService.tripDetailsPdf(bookingInvoice.booking.id);
+      if(bookingInvoice.booking) {
+        bookingInvoice.pdf = linksService.tripDetailsPdf(bookingInvoice.booking.id);
+      }
 
       if(bookingInvoice.totalToPay > bookingInvoice.totalToReceive) {
         bookingInvoice.totalToPay -= bookingInvoice.totalToReceive;

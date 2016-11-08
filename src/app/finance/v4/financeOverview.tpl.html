@@ -203,7 +203,8 @@
               </tr>
               <tr ng-repeat-end ng-show="invoiceGroup.type == 'old'" class="clickable">
                 <td>{{invoiceGroup.invoice.id}}</td>
-                <td>{{invoiceGroup.invoice.due | amDateFormat:'DD-MM-YYYY'}}</td>
+                <td ng-if="invoiceGroup.invoice.due">{{invoiceGroup.invoice.due | amDateFormat:'DD-MM-YYYY'}}</td>
+                <td ng-if="!invoiceGroup.invoice.due">Concept</td>
                 <td>{{invoiceGroup.invoice.paid < 0 ? 'Uitbetaald' : 'Betaald'}}  </td>
                 <td class="text-right">{{invoiceGroup.invoice.paid < 0 ? -invoiceGroup.invoice.paid : invoiceGroup.invoice.paid | currency}}</td>
                 <td class="text-right"><a target="_blank" ng-href="{{invoiceGroup.invoice.pdflink}}"><i title="Download pdf" class="fa fa-fw fa-file-pdf-o"></i></a></td>
