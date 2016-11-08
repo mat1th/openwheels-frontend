@@ -70,6 +70,13 @@
             ng-click="cancelBooking(booking)">
             {{ 'CANCEL_BOOKING' | translate }}
           </button>
+          
+          
+          <a ng-if="allowFinalize"
+            class="btn btn-default"
+            ui-sref="owm.booking.finalize({booking: booking.id})">
+            {{ 'FINALIZE_BOOKING' | translate }}
+          </a>
 
         </div>
       </div>

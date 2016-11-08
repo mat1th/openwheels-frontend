@@ -34,6 +34,11 @@ angular.module('owm.booking.show', [])
   $scope.userInput = {
     acceptRejectRemark: ''
   };
+  $scope.allowFinalize = (function () {
+    console.log(booking.trip);
+    return (booking.trip.odoEnd - booking.trip.odoBegin > 0 && booking.trip.updatedBy.id !== me.id && !booking.trip.finalized);
+  } ());
+
 
   if(booking.resource.refuelByRenter) {
     $scope.contract.type.canHaveDeclaration = false;
@@ -96,7 +101,7 @@ angular.module('owm.booking.show', [])
         }
         return true;
       }());
-
+      
       $scope.allowBoardComputer = (function () {
         return (booking.status === 'accepted' &&
           booking.resource.locktypes.indexOf('smartphone') >= 0 &&

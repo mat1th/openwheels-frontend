@@ -91,6 +91,7 @@
     "RESOURCE_NOT_AVAILABLE_WARNING": "Deze auto is niet beschikbaar",
     "CANCEL_BOOKING": "Annuleer reservering",
     "STOP_BOOKING": "Beëindig rit nu",
+    "FINALIZE_BOOKING": "Akkoord kilometers",
     "BOOKING_STATUS_REQUESTED": "Aanvraag",
     "BOOKING_STATUS_CANCELED": "Geannuleerd",
     "BOOKING_STATUS_REJECTED": "Afgewezen",
