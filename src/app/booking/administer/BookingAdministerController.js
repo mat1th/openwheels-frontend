@@ -5,16 +5,15 @@ angular.module('owm.booking.administer', [])
 .controller('BookingFinalizeController', function ($scope, booking, alertService, bookingService, $state) {
   alertService.load($scope);
   bookingService.finishTrip({booking: booking.id}).then(function (booking) {
+    alertService.loaded($scope);
     alertService.add('success', 'De rit is afgerond', 4000);
     return $state.go('owm.booking.show', {
       booking: booking.id
-    });
+    }, {reload: true});
   }, function (error) {
-    console.log(error);
-    
     return $state.go('owm.booking.show', {
       booking: booking.id
-    });
+    }, {reload: true});
   });
 })
 
