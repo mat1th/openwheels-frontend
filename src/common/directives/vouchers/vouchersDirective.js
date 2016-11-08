@@ -133,6 +133,7 @@ angular.module('vouchersDirective', [])
             })
             .then(function() {
               $scope.extraDrivers.check = false;
+              $scope.booking.details.booking_price.total -= $scope.extraDrivers.drivers.length * $scope.extraDrivers.price;
               $scope.extraDrivers.drivers = [];
               $scope.booking.details.extra_drivers_price = $scope.extraDrivers.check ? ($scope.extraDrivers.drivers.length + $scope.booking.details.drivers_count) * $scope.extraDrivers.price : 0;
               $scope.onChanged($scope.booking);
@@ -167,6 +168,7 @@ angular.module('vouchersDirective', [])
           bookingService.addDriver({booking: $scope.booking.id, email: $scope.extraDrivers.new})
           .then(function(booking) {
             $scope.extraDrivers.drivers.push($scope.extraDrivers.new);
+            $scope.booking.details.booking_price.total += $scope.extraDrivers.price;
             $scope.booking.details.extra_drivers_price = $scope.extraDrivers.check ? ($scope.extraDrivers.drivers.length + $scope.booking.details.drivers_count) * $scope.extraDrivers.price : 0;
           })
           .catch(function(e) {
