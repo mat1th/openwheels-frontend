@@ -7,7 +7,7 @@
 </div>
 
 <md-tabs md-selected="activeTab.active" class="md-primary" md-dynamic-height >
-  
+
   <md-tab label="Facturen">
     <div class="card">
       <div class="card-heading">
@@ -15,7 +15,7 @@
           <a href="" ng-click="is3Collapsed = !is3Collapsed">
             <i class="fa fa-fw" ng-class="{ 'fa-chevron-right': is3Collapsed, 'fa-chevron-down': !is3Collapsed }"></i>
             <span ng-if="me.provider.id !== 50">{{view == 'both' ? 'Openstaande kosten en opbrengsten' : (view == 'owner' ? 'Te ontvangen verhuuropbrengsten' : 'Gemaakte kosten')}}</span>
-            <span ng-if="me.provider.id === 50">Openstaande facturen</span>
+            <span ng-if="me.provider.id === 50">Facturen in Opbouw</span>
           </a>
         </h3>
       </div>
@@ -61,7 +61,7 @@
                   <a ng-if="provider !== 50" ui-sref="owm.booking.show({bookingId: openInvoice.booking.id })">Bekijk alle ritdetails</a>
                   <a ng-if="provider === 50" target="_blank" ng-href="{{openInvoice.pdf}}">Bekijk alle ritdetails</a>
                 </td>
-              </tr>  
+              </tr>
             </tbody>
           </table>
 
@@ -155,10 +155,10 @@
 
           <div ng-if="(view === 'both' && !openInvoices.null && !openInvoices.renter && !openInvoices.owner) || (view === 'renter' && !openInvoices.null && !openInvoices.renter) || (view === 'owner' && !openInvoices.null && !openInvoices.owner)">
             <p>
-              Je hebt geen openstaande facturen. 
+              Je hebt geen openstaande facturen.
             </p>
           </div>
-          
+
         </div>
       </div>
     </div><!-- /card -->
@@ -169,7 +169,7 @@
           <a href="" ng-click="showMyInvoices = !showMyInvoices">
             <i class="fa fa-fw" ng-class="{ 'fa-chevron-right': !showMyInvoices, 'fa-chevron-down': showMyInvoices }"></i>
             <span ng-if="me.provider.id !== 50">{{view == 'both' ? 'Reeds afgesloten facturen' : (view == 'owner' ? 'Reeds ontvangen verhuuropbrengsten' : 'Reeds betaalde facturen')}}</span>
-            <span ng-if="me.provider.id === 50">Afgesloten facturen</span>
+            <span ng-if="me.provider.id === 50">Afgeronde Facturen</span>
           </a>
         </h3>
       </div>
@@ -188,7 +188,7 @@
               <tr>
                 <th>#</th>
                 <th>Datum</th>
-                <th>Status</th>
+                <th ng-if="provider !== 50" >Status</th>
                 <th class="text-right">Bedrag</th>
                 <th> </th>
               </tr>
@@ -197,13 +197,14 @@
               <tr class="clickable" ng-show="invoiceGroup.type == 'new'"  ng-repeat-start="invoiceGroup in allGroupedInvoices | limitTo:groupedInvoicesPerPage:groupedInvoicesPerPage*(currentInvoicePage-1)">
                 <td>{{invoiceGroup.invoice.id}}</td>
                 <td>{{invoiceGroup.invoice.date | amDateFormat:'DD-MM-YYYY'}}</td>
-                <td>{{statusText(invoiceGroup.invoice.status)}} <span ng-if="statusTooltipEnable(invoiceGroup.invoice.status)" uib-tooltip="{{statusTooltipText(invoiceGroup.invoice.status)}}" class="text-muted"><i class="fa fa-info-circle"></i></span> </td>
+                <td ng-if="provider !== 50">{{statusText(invoiceGroup.invoice.status)}} <span ng-if="statusTooltipEnable(invoiceGroup.invoice.status)" uib-tooltip="{{statusTooltipText(invoiceGroup.invoice.status)}}" class="text-muted"><i class="fa fa-info-circle"></i></span> </td>
                 <td class="text-right">{{invoiceGroup.invoice.total < 0 ? -1 * invoiceGroup.invoice.total : invoiceGroup.invoice.total | currency}}</td>
                 <td class="text-right"><a target="_blank" ng-href="{{invoiceGroup.invoice.pdflink}}"><i title="Download pdf" class="fa fa-fw fa-file-pdf-o"></i></a></td>
               </tr>
               <tr ng-repeat-end ng-show="invoiceGroup.type == 'old'" class="clickable">
                 <td>{{invoiceGroup.invoice.id}}</td>
-                <td>{{invoiceGroup.invoice.due | amDateFormat:'DD-MM-YYYY'}}</td>
+                <td ng-if="invoiceGroup.invoice.due">{{invoiceGroup.invoice.due | amDateFormat:'DD-MM-YYYY'}}</td>
+                <td ng-if="!invoiceGroup.invoice.due">Concept</td>
                 <td>{{invoiceGroup.invoice.paid < 0 ? 'Uitbetaald' : 'Betaald'}}  </td>
                 <td class="text-right">{{invoiceGroup.invoice.paid < 0 ? -invoiceGroup.invoice.paid : invoiceGroup.invoice.paid | currency}}</td>
                 <td class="text-right"><a target="_blank" ng-href="{{invoiceGroup.invoice.pdflink}}"><i title="Download pdf" class="fa fa-fw fa-file-pdf-o"></i></a></td>

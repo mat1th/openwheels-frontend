@@ -35,6 +35,7 @@ angular.module('owm.booking.show', [])
     acceptRejectRemark: ''
   };
   $scope.allowFinalize = (function () {
+    if(!booking.trip.updatedBy) { return false; }
     console.log(booking.trip);
     return (booking.trip.odoEnd - booking.trip.odoBegin > 0 && booking.trip.updatedBy.id !== me.id && !booking.trip.finalized);
   } ());
@@ -339,6 +340,7 @@ angular.module('owm.booking.show', [])
       bookingService.acceptRequest(params).then(function (booking) {
         Analytics.trackEvent('booking', 'accepted', booking.id, 4, undefined, true);
         $scope.booking = booking;
+        $state.reload();
         initPermissions();
         alertService.add('success', $filter('translate')('BOOKING.ACCEPT.SUCCESS'), 5000);
       })
