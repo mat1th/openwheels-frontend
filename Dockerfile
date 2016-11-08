@@ -10,5 +10,5 @@ add . /data/frontend/
 run grunt docker
 
 expose 35730 9000
-#CMD grunt server
-CMD grunt connect:livereload:keepalive
+CMD grunt server
+#CMD grunt connect:livereload:keepalive
