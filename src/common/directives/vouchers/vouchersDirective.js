@@ -11,7 +11,9 @@ angular.module('vouchersDirective', [])
       booking: '=',
       onChanged: '&',
     },
-    controller: function ($scope, voucherService, alertService, bookingService, paymentService, appConfig, $state, $window, contractService, $mdDialog) {
+    controller: function ($scope, voucherService, alertService, bookingService, $rootScope, paymentService, appConfig, $state, $window, contractService, $mdDialog) {
+      $scope.features = $rootScope.features;
+
       $scope.extraDrivers = {price: 1.25, check: false, drivers: [], new: ''};
       $scope.vouchureError = {
         show: false,
