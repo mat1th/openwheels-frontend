@@ -22,20 +22,19 @@ angular.module('openwheels.analytics', [])
     return angular.noop;
   }];
 })
-
-  .config(function(AnalyticsProvider, appConfig) {
-    AnalyticsProvider
-    .setAccount(appConfig.ga_tracking_id)
-    .trackUrlParams(true)
-    .ignoreFirstPageLoad(true)
-    .setPageEvent('$stateChangeSuccess')
-    .useDisplayFeatures(true)
-    ;
-  })
-  .run(function(Analytics) {
-    Analytics.pageView();
-  })
+.config(function(AnalyticsProvider, appConfig) {
+  AnalyticsProvider
+  .setAccount(appConfig.ga_tracking_id)
+  .trackUrlParams(true)
+  .ignoreFirstPageLoad(true)
+  .setPageEvent('$stateChangeSuccess')
+  .useDisplayFeatures(true)
   ;
+})
+.run(function(Analytics) {
+  //Analytics.pageView();
+})
+;
 /*
 LIST OF ALL EVENTS
 
