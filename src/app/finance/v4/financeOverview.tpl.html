@@ -197,16 +197,19 @@
               <tr class="clickable" ng-show="invoiceGroup.type == 'new'"  ng-repeat-start="invoiceGroup in allGroupedInvoices | limitTo:groupedInvoicesPerPage:groupedInvoicesPerPage*(currentInvoicePage-1)">
                 <td>{{invoiceGroup.invoice.id}}</td>
                 <td>{{invoiceGroup.invoice.date | amDateFormat:'DD-MM-YYYY'}}</td>
-                <td ng-if="provider !== 50">{{statusText(invoiceGroup.invoice.status)}} <span ng-if="statusTooltipEnable(invoiceGroup.invoice.status)" uib-tooltip="{{statusTooltipText(invoiceGroup.invoice.status)}}" class="text-muted"><i class="fa fa-info-circle"></i></span> </td>
+                <td ng-if="provider !== 50">{{statusText(invoiceGroup.invoice.status)}} <span ng-if="statusTooltipEnable(invoiceGroup.invoice.status)" uib-tooltip="{{statusTooltipText(invoiceGroup.invoice.status)}}" class="text-muted"><i class="fa fa-info-circle"></i></span></td>
+                <td ng-if="provider === 50"> </td>
                 <td class="text-right">{{invoiceGroup.invoice.total < 0 ? -1 * invoiceGroup.invoice.total : invoiceGroup.invoice.total | currency}}</td>
-                <td class="text-right"><a target="_blank" ng-href="{{invoiceGroup.invoice.pdflink}}"><i title="Download pdf" class="fa fa-fw fa-file-pdf-o"></i></a></td>
+                <td class="text-right"><a target="_blank" ng-if="invoiceGroup.invoice.status === 'USER_PAY'" class="btn btn-xs btn-info" ng-href="{{config.serverUrl}}/payments_vouchers/redirect/invoicegroup/{{invoiceGroup.invoice.id}}">Betaal</a> <a target="_blank" ng-href="{{invoiceGroup.invoice.pdflink}}"><i title="Download pdf" class="fa fa-fw fa-file-pdf-o"></i></a></td>
               </tr>
               <tr ng-repeat-end ng-show="invoiceGroup.type == 'old'" class="clickable">
                 <td>{{invoiceGroup.invoice.id}}</td>
                 <td ng-if="invoiceGroup.invoice.due">{{invoiceGroup.invoice.due | amDateFormat:'DD-MM-YYYY'}}</td>
                 <td ng-if="!invoiceGroup.invoice.due">Concept</td>
-                <td>{{invoiceGroup.invoice.paid < 0 ? 'Uitbetaald' : 'Betaald'}}  </td>
-                <td class="text-right">{{invoiceGroup.invoice.paid < 0 ? -invoiceGroup.invoice.paid : invoiceGroup.invoice.paid | currency}}</td>
+                <td ng-if="invoiceGroup.invoice.due">{{invoiceGroup.invoice.paid < 0 ? 'Uitbetaald' : 'Betaald'}}  </td>
+                <td ng-if="!invoiceGroup.invoice.due">In opbouw</td>
+                <td ng-if="invoiceGroup.invoice.due" class="text-right">{{invoiceGroup.invoice.paid < 0 ? -invoiceGroup.invoice.paid : invoiceGroup.invoice.paid | currency}}</td>
+                <td ng-if="!invoiceGroup.invoice.due" class="text-right">{{invoiceGroup.invoice.total | currency }}</td>
                 <td class="text-right"><a target="_blank" ng-href="{{invoiceGroup.invoice.pdflink}}"><i title="Download pdf" class="fa fa-fw fa-file-pdf-o"></i></a></td>
               </tr>
             </tbody>
