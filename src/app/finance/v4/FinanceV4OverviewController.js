@@ -60,12 +60,12 @@ angular.module('owm.finance.v4', [])
     $scope.allGroupedInvoices = _.sortBy(allInvoices, function(invoice) {
       var a;
       if(invoice.type === 'old') {
+        if(!invoice.invoice.due) {
+          return 0;
+        }
         a = moment(invoice.invoice.due);
       } else {
         a = moment(invoice.invoice.date);
-      }
-      if(!a.isValid()) {
-        return 99999999;
       }
       return a.format('X') * -1;
     });
