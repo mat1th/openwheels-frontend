@@ -65,7 +65,7 @@ angular.module('owm.finance.v4', [])
         a = moment(invoice.invoice.date);
       }
       if(!a.isValid()) {
-        return 0;
+        return 99999999;
       }
       return a.format('X') * -1;
     });

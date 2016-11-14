@@ -209,7 +209,7 @@
                 <td ng-if="invoiceGroup.invoice.due">{{invoiceGroup.invoice.paid < 0 ? 'Uitbetaald' : 'Betaald'}}  </td>
                 <td ng-if="!invoiceGroup.invoice.due">In opbouw</td>
                 <td ng-if="invoiceGroup.invoice.due" class="text-right">{{invoiceGroup.invoice.paid < 0 ? -invoiceGroup.invoice.paid : invoiceGroup.invoice.paid | currency}}</td>
-                <td ng-if="!invoiceGroup.invoice.due" class="text-right">{{invoiceGroup.invoice.total}}</td>
+                <td ng-if="!invoiceGroup.invoice.due" class="text-right">{{invoiceGroup.invoice.total | currency }}</td>
                 <td class="text-right"><a target="_blank" ng-href="{{invoiceGroup.invoice.pdflink}}"><i title="Download pdf" class="fa fa-fw fa-file-pdf-o"></i></a></td>
               </tr>
             </tbody>
