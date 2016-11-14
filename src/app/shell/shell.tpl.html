@@ -14,7 +14,7 @@
     <div ui-view="menu"></div>
 </md-sidenav>
 
-<md-content flex>
+<md-content flex class="overflow-fix">
 
     <div id="scroll-to-top-anchor"></div>
 
@@ -40,4 +40,17 @@
         <button ng-click="acceptCookie()" class="cookiebar--btn"><span>{{'COOKIES_ACCEPT' | translate}}</span><md-icon class="text-white">close</md-icon></button>
 
     </div>
+</div>
+
+<div hide-xs class="cta-footer" ng-if="showCTA === true">
+  <div class="relcon">
+    <div class="cta-footer__text">
+      <p>
+					Deel je auto met de buren <md-button style="box-shadow: 0 0 3.57rem 0 rgba(0, 0, 0, .1); font-size: 0.8em; " ng-click="gotoPage()" class="btn-green app--toolbar--button--text md-button md-ink-ripple btn-green btn-lg">Verhuur je auto</md-button>
+      </p>
+    </div>
+    <div class="cta-footer__close">
+      <span ng-click="closeCTA()" class="no-outline"><i title="Verberg melding" class="fa fa-fw fa-2x fa-close"></i></span>
+    </div>
+  </div>
 </div>
