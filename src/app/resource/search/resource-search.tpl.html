@@ -66,26 +66,28 @@
         <div ng-class="{ 'col-xs-12 col-md-8 col-lg-9' : features.filtersSidebar }" class="no-padding" id="topsearch">
 
             <div style="margin-bottom:15px">
-                <form class="resource-search">
-                    <div class="input-group">
+              <form class="resource-search">
+                <div class="input-group">
 
-                        <span ng-if="!features.filtersSidebar || !isWindowSizeMD" class="input-group-btn">
-              <button class="btn btn-default" type="button" ng-click="setFilters()">
-                <i class="fa fa-filter"></i> <span class="hidden-sm hidden-xs"> {{ 'FILTER' | translate }}</span>
-                        </button>
-                        </span>
+                  <span ng-if="!features.filtersSidebar || !isWindowSizeMD" class="input-group-btn">
+                    <button class="btn btn-default" type="button" ng-click="setFilters()">
+                      <i class="fa fa-filter"></i> <span class="hidden-sm hidden-xs"> {{ 'FILTER' | translate }}</span>
+                    </button>
+                  </span>
 
-                        <input type="text" ng-class="{clearbutton: searchText}" class="form-control" details="placeDetails" placeholder="{{ 'FIND_AVAILABLE_PLACEHOLDER' | translate }}" ow-geocoder="{ onDetails: doSearch }" ng-model="searchText">
-                        <span class="input-group-btn">
-                          <div ng-show="searchText" hide-gt-xs class="clearbutton__container" ng-click="searchText = null">
-                            <i class="fa fa-times"></i>
-                          </div>
-                          <button class="btn btn-default" type="button" ng-click="selectTimeframe()" title="Datum/tijd">
-                            <i class="fa fa-clock-o"></i> <span class="hidden-sm hidden-xs"> {{ 'DATE_TIME' | translate }}</span>
-                          </button>
-                        </span>
+                  <input type="text" ng-class="{clearbutton: searchText}" class="form-control" details="placeDetails" placeholder="{{ 'FIND_AVAILABLE_PLACEHOLDER' | translate }}" ow-geocoder="{ onDetails: doSearch }" ng-model="searchText">
+                  <span class="input-group-btn">
+                    <div ng-show="searchText" hide-gt-xs class="clearbutton__container" ng-click="searchText = null">
+                      <i class="fa fa-times"></i>
                     </div>
-                </form>
+                  </span>
+                  <span class="input-group-btn">
+                    <button class="btn btn-default" type="button" ng-click="selectTimeframe()" title="Datum/tijd">
+                      <i class="fa fa-clock-o"></i> <span class="hidden-sm hidden-xs"> {{ 'DATE_TIME' | translate }}</span>
+                    </button>
+                  </span>
+                </div>
+              </form>
             </div>
 
             <uib-alert type="info" close="removeTimeframe()" ng-if="booking.beginRequested && booking.endRequested">
