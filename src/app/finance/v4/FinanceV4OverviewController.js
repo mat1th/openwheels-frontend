@@ -61,13 +61,13 @@ angular.module('owm.finance.v4', [])
       var a;
       if(invoice.type === 'old') {
         if(!invoice.invoice.due) {
-          return 42;
+          return -Infinity;
         }
         a = moment(invoice.invoice.due);
       } else {
         a = moment(invoice.invoice.date);
       }
-      return (a.format('X') * -1) / 1000;
+      return a.format('X') * -1;
     });
     return $scope.allGroupedInvoices;
   })
