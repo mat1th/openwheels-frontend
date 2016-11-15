@@ -77,6 +77,7 @@ angular.module('openwheels', [
   'personDirectives',
   'passwordStrengthDirective',
   'geocoderDirective',
+  'geocoderDirectiveSearchbar',
   'socialDirectives',
   'bindMetaDirective',
   'personalDataDirective',
