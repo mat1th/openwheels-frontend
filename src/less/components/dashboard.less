@@ -5,7 +5,7 @@
         background-position: 50% 0;
         background-repeat: no-repeat;
         background-size: cover;
-        height: 160px;
+        height: 175px;
         padding: 0 10px;
         .container {
             height: 100%;
@@ -14,13 +14,16 @@
             .searchbar-container-dash {
                 z-index: 5;
                 position: absolute;
-                bottom: 30px;
+                bottom: 15px;
                 width: 100%;
                 margin-bottom: 4.5em;
                 .searchbar {
                     max-width: 500px;
                     margin: 0 auto;
                     opacity: 0.95;
+                    &--no-opacity {
+                      opacity: 1;
+                    }
                     .input-group {
                         input {
                             height: 42px;
