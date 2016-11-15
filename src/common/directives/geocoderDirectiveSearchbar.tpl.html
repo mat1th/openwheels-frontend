@@ -1,9 +1,16 @@
 <div class="input-group" style="box-shadow: 4px 6px 8px rgba(0,0,0, 0.35); padding-left:8px; padding-right:8px;">
-  <input type="text" ng-model="search.text" class="form-control" placeholder="Waar wil je huren?" style="font-weight: normal;" />
+  <div class="icon location searchbar">
+    <input type="text" ng-autocomplete options="options" details="placeDetails" ng-model="search.text" class="form-control" placeholder="Waar wil je huren?" style="font-weight: normal;" />
+  </div>
   <div class="input-group-btn" hide-xs>
-    <button type="button" class="btn btn-success" style="border-radius: 0px 4px 4px 0px;" ng-click="doSearch()">Zoek</button>
+    <button ng-if="!searcher.loading" type="button" class="btn btn-success" style="border-radius: 0px 4px 4px 0px;" ng-click="doSearch()">Zoek</button>
+    <button ng-if="searcher.loading" type="button" class="btn btn-success" style="border-radius: 0px 4px 4px 0px;"><i class="fa fa-fw fa-circle-o-notch fa-spin"></i></button>
   </div>
   <div class="input-group-btn" hide-gt-xs>
-    <button type="button" class="btn btn-success" style="width: 60px;" ng-click="doSearch()"><md-icon style="color: #fff;">search</md-icon></button>
+    <div ng-show="search.text" hide-gt-xs class="clearbutton__container" ng-click="search.text = null">
+      <i class="fa fa-times"></i>
+    </div>
+    <button ng-if="!searcher.loading" type="button" class="btn btn-success" style="width: 60px;" ng-click="doSearch()"><md-icon style="color: #fff;">search</md-icon></button>
+    <button ng-if="searcher.loading" type="button" class="btn btn-success" style="width: 60px;" ><i class="fa fa-fw fa-circle-o-notch fa-spin"></i></button>
   </div>
 </div>

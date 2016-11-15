@@ -83,7 +83,7 @@ angular.module('geocoder', ['ngStorage']).factory('Geocoder', function ($localSt
           d: d
         });
 
-        if (queue.length > 1) {
+        if (queue.length >= 1) {
           executeNext();
         }
       }
