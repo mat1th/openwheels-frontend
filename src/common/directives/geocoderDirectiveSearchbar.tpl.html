@@ -1,7 +1,10 @@
 <section class="homepage-searchbar"> 
-  <form class="mywheels-form searchbar searchbar--no-opacity" ng-submit="doSearch()">
+  <form class="mywheels-form searchbar searchbar--no-opacity">
     <div class="icon location searchbar searchbar--no-opacity">
       <input type="text" ng-autocomplete options="options" details="placeDetails" ng-model="search.text" class="form-control" placeholder="Waar wil je huren?" style="font-weight: normal;" />
+      <div ng-show="search.text" hide-gt-xs class="clearbutton__flex" ng-click="search.text = ''">
+        <i class="fa fa-times text-muted" ></i>
+      </div>
     </div>
     <div class="button md-ink-ripple" md-ink-ripple="#232521">
       <button ng-if="!searcher.loading" hide-xs type="button" class="btn btn-success" ng-click="doSearch()">Zoek een auto</button>

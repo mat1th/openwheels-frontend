@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('geocoderDirective', ['geocoder'])
+angular.module('geocoderDirectiveSearchbar', ['geocoder'])
 
 .directive('owGeocoderSearchbar', function ($filter, Geocoder, resourceQueryService, $state) {
   return {

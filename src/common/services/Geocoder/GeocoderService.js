@@ -21,7 +21,6 @@ angular.module('geocoder', ['ngStorage']).factory('Geocoder', function ($localSt
 
     var region = $filter('translateOrDefault')('SEARCH_COUNTRY', 'nl');
     var params = _.extend({address: task.address, region: region}, task.opt);
-    console.log(params);
     geocoder.geocode(params, function (result, status) {
       if (status === google.maps.GeocoderStatus.OK) {
         var geoLocations = [];
