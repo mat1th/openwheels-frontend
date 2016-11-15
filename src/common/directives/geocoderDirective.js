@@ -6,6 +6,7 @@ angular.module('geocoderDirective', [])
   return {
     restrict: 'A',
     link: function (scope, elm, attrs) {
+
       var options = scope.$eval(attrs.owGeocoder);
       var onDetailsCallback = options.onDetails || angular.noop;
 
