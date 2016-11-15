@@ -2,22 +2,43 @@
 
 angular.module('geocoderDirective', ['geocoder'])
 
-.directive('owGeocoderSearchbar', function ($compile, $filter) {
+.directive('owGeocoderSearchbar', function ($filter, Geocoder, resourceQueryService, $state) {
   return {
     restrict: 'E',
     templateUrl: 'directives/geocoderDirectiveSearchbar.tpl.html',
-    controller: function($scope, Geocoder, resourceQueryService, $state) {
-      $scope.search = {text: ''};
+    scope: {
+      'onNewPlace': '=',
+      'onClickTime': '=',
+      'onClickFilters': '=',
+    },
+    link: function($scope) {
+      $scope.search = {};
+      $scope.search.text = resourceQueryService.data.text;
+
       $scope.placeDetails = null;
-      $scope.searcher = {loading: false, error: false};
+      $scope.searcher = {loading: false};
+
+      $scope.showFilters = _.isFunction($scope.onClickFilters);
+      $scope.showTime = _.isFunction($scope.onClickTime);
+
+      $scope.doClickFilters = function() {
+        if(_.isFunction($scope.onClickFilters)) {
+          $scope.onClickFilters();
+        }
+      };
+
+      $scope.doClickTime = function() {
+        if(_.isFunction($scope.onClickTime)) {
+          $scope.onClickTime();
+        }
+      };
 
       $scope.doSearch = function() {
         if($scope.search.text === '') {
-          return;
+          return doCall(resourceQueryService.createStateParams());
         }
 
         $scope.searcher.loading = true;
-
         return Geocoder.latLngForAddress($scope.search.text)
         .then(function(res) {
           resourceQueryService.setText(res[0].address);
@@ -25,12 +46,23 @@ angular.module('geocoderDirective', ['geocoder'])
             latitude: res[0].latlng.latitude,
             longitude: res[0].latlng.longitude
           });
-          $state.go('owm.resource.search.list', resourceQueryService.createStateParams());
+          doCall(resourceQueryService.createStateParams());
         })
-        .catch(function(err) {
-          $scope.searcher.error = true;
-        });
+				.finally(function() {
+					$scope.searcher.loading = false;
+				})
+        ;
       };
+
+      function doCall(res) {
+        $scope.search.text = res.text;
+        return $state.go('owm.resource.search.list', res, {reload: true, inherit: false, notify: true})
+        .then(function() {
+          if(_.isFunction($scope.onNewPlace)) {
+            $scope.onNewPlace(res);
+          }
+        });
+      }
 
       $scope.$watch('placeDetails', function (newVal, oldVal) {
         if (!newVal || (newVal === oldVal)) {
@@ -43,7 +75,8 @@ angular.module('geocoderDirective', ['geocoder'])
             longitude: $scope.placeDetails.geometry.location.lng()
           });
         }
-        $state.go('owm.resource.search.list', resourceQueryService.createStateParams());
+        doCall(resourceQueryService.createStateParams());
+
       });
 
       $scope.options = {

@@ -1,13 +1,23 @@
 <section class="homepage-searchbar"> 
-  <form class="mywheels-form searchbar searchbar--no-opacity">
+  <form class="mywheels-form searchbar searchbar--no-opacity" ng-submit="doSearch()">
     <div class="icon location searchbar searchbar--no-opacity">
       <input type="text" ng-autocomplete options="options" details="placeDetails" ng-model="search.text" class="form-control" placeholder="Waar wil je huren?" style="font-weight: normal;" />
     </div>
     <div class="button md-ink-ripple" md-ink-ripple="#232521">
       <button ng-if="!searcher.loading" hide-xs type="button" class="btn btn-success" ng-click="doSearch()">Zoek een auto</button>
       <button ng-if="searcher.loading" hide-xs disabled type="button" class="btn btn-success"><i class="fa fa-fw fa-circle-o-notch fa-spin"></i></button>
-      <button ng-if="!searcher.loading" hide-gt-xs type="button" class="btn auto-width btn-success" ng-click="doSearch()"><md-icon class="text-white ng-isolate-scope material-icons">search</md-icon></button>
+      <button ng-if="!searcher.loading" hide-gt-xs type="button" class="btn auto-width btn-success" ng-click="doSearch()"><md-icon class="text-white">search</md-icon></button>
       <button ng-if="searcher.loading" hide-gt-xs disabled type="button" class="btn auto-width btn-success"><i class="fa fa-fw fa-circle-o-notch fa-spin"></i></button>
+    </div>
+    <div ng-if="showTime" class="button button--small md-ink-ripple" md-ink-ripple="#232521">
+      <button class="btn btn-default" type="button" ng-click="doClickTime()" title="Datum/tijd">
+        <md-icon>access_time</md-icon><span hide-xs> Datum</span>
+      </button>
+    </div>
+    <div ng-if="showFilters" class="button button--small md-ink-ripple" md-ink-ripple="#232521">
+      <button ng-clas="{active: filters.hasAny === true}" class="hidden-lg hidden-md btn btn-default" type="button" ng-click="doClickFilters()">
+        <md-icon>filter_list</md-icon><span hide-xs> Filter</span>
+      </button>
     </div>
   </form>
 </section>

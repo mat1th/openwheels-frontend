@@ -36,17 +36,26 @@
 }
 .homepage-searchbar-frontpage {
     background: rgba(0, 0, 0, 0.5);
+    padding: 2.5em 0;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    & form {
+      max-width: 50em;
+    }
 }
 .homepage-searchbar {
     width: 100%;
-    height: 10rem;
-    padding: 0.8em;
+    height: 5rem;
+    padding: 0;
     display: flex;
     form {
         z-index: 1000;
         // padding: 1em 1em;
         margin: auto;
-        padding: 1em;
+        padding: 0em;
         text-align: left;
         display: flex;
     }
@@ -67,6 +76,11 @@
     }
     .button {
         position: relative;
+
+        &--small {
+          margin-left: -2px;
+          min-width: initial;
+        }
     }
     .button button {
         max-height: 100%;
@@ -127,13 +141,10 @@
         height: 41rem;
     }
     .homepage-searchbar {
-        height: 14rem;
-        padding-top: 2.5em;
-        padding-bottom: 2.5em;
+				padding: 0;
     }
     .searchbar {
         width: 100%;
-        max-width: 50em;
     }
 }
 /* ---------------------- RENTER CALL TO ACTION  ------------------- */
