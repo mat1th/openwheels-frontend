@@ -46,7 +46,7 @@ angular.module('owm.resource.search', [
         'automaat': false,
         'mp3-aansluiting': false,
         'rolstoelvriendelijk': false
-      }
+      },
     };
 
     init();
@@ -275,6 +275,7 @@ angular.module('owm.resource.search', [
         $scope.filters.props = selected.props;
         $scope.filters.filters = selected.filters;
         $scope.filters.options = selected.options;
+
         return doSearch();
       });
     };
@@ -292,17 +293,9 @@ angular.module('owm.resource.search', [
       $scope.pagedResults = {};
     }
 
-    $scope.$watch('placeDetails', function (newVal, oldVal) {
-      if (!newVal || (newVal === oldVal)) {
-        return;
-      }
-      resourceQueryService.setLocation({
-        latitude: newVal.geometry.location.lat(),
-        longitude: newVal.geometry.location.lng()
-      });
-      resourceQueryService.setText(newVal.formatted_address);
-      return doSearch();
-    });
+    $scope.update = function(stateParams) {
+      doSearch();
+    };
 
     $scope.removeTimeframe = function () {
       $scope.booking.beginRequested = null;

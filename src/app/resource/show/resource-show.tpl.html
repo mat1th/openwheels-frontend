@@ -143,11 +143,43 @@
                 <div class="card-body">
                     <div ng-if="resource.advertisement">
                         <h5>{{ 'ABOUT_CAR' | translate}}</h5>
-                        <p>{{ resource.advertisement }}</p>
+                        <p style="white-space:pre-line">{{ resource.advertisement }}</p>
                     </div>
                     <div ng-if="resource.owner.about">
                         <h5>{{ 'ABOUT_ME' | translate }}</h5>
-                        <p>{{ resource.owner.about}}</p>
+                        <p style="white-space:pre-line">{{ resource.owner.about}}</p>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- smartwheels info -->
+            <div class="card" ng-if="['smartphone', 'chipcard'].indexOf(resource.locktype) >= 0">
+                <div class="card-heading">
+                    <h3 class="card-title">{{ 'SMARTWHEELS_TITLE' | translate }}</h3>
+                </div>
+                <div class="card-body">
+                    <div ng-if="['chipcard'].indexOf(resource.locktype) >= 0">
+                        <p translate="CHIPCARD_INFO" translate-values="{ brand: (resource.brand | toTitleCase) || 'auto' }"></p>
+                    </div>
+                    <div ng-if="['smartphone'].indexOf(resource.locktype) >= 0">
+                        <p translate="SMARTPHONE_INFO" translate-values="{ brand: (resource.brand | toTitleCase) || 'auto' }"></p>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- smartwheels info -->
+            <div class="card" ng-if="['smartphone', 'chipcard'].indexOf(resource.locktype) >= 0">
+                <div class="card-heading">
+                    <h3 class="card-title">{{ 'SMARTWHEELS_TITLE' | translate }}</h3>
+                </div>
+                <div class="card-body">
+                    <div ng-if="['chipcard'].indexOf(resource.locktype) >= 0">
+                        <p translate="CHIPCARD_INFO" translate-values="{ brand: (resource.brand | toTitleCase) || 'auto' }"></p>
+                    </div>
+                    <div ng-if="['smartphone'].indexOf(resource.locktype) >= 0">
+                        <p translate="SMARTPHONE_INFO" translate-values="{ brand: (resource.brand | toTitleCase) || 'auto' }"></p>
                     </div>
                 </div>
             </div>
