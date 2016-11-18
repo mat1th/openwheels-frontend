@@ -75,7 +75,7 @@
           <a ng-if="allowFinalize"
             class="btn btn-default"
             ui-sref="owm.booking.finalize({booking: booking.id})">
-            {{ 'FINALIZE_BOOKING' | translate }}
+            {{booking.trip.odoEnd - booking.trip.odoBegin}}km gereden {{ 'FINALIZE_BOOKING' | translate }}
           </a>
 
         </div>
