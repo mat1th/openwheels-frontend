@@ -1,3 +1,15 @@
+/* hack for zoom on input focus safari: http://stackoverflow.com/questions/2989263/disable-auto-zoom-in-input-text-tag-safari-on-iphone/16255670#16255670 */
+@media screen and (-webkit-min-device-pixel-ratio:0) { 
+  select:focus,
+  textarea:focus,
+  input:focus,
+  select,
+  textarea,
+  input {
+    font-size: 16px;
+  }
+}
+
 .mywheels-form .form-inline .form-group {
     margin-right: 0;
     margin-left: 0;
