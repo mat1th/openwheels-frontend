@@ -81,6 +81,7 @@ angular.module('openwheels', [
   'socialDirectives',
   'bindMetaDirective',
   'personalDataDirective',
+  'sameHeightDirective',
 
   /* Filters */
   'filters.util',
