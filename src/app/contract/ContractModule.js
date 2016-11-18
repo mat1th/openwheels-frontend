@@ -1,6 +1,5 @@
 'use strict';
 angular.module('owm.contract', [])
-
 .config(function($stateProvider) {
   $stateProvider.state('contractchoice', {
     url: '/contractkeuze',
@@ -27,12 +26,15 @@ angular.module('owm.contract', [])
   });
 })
 
-.controller('ContractChoiceController', function ($scope, $state, alertService, depositService, person, contracts, $log) {
+.controller('ContractChoiceController', function ($scope, $state, alertService, depositService, person, contracts, $log, $mdMedia) {
 
   $scope.hasMember = contracts.some(function (c) { return c.type.id ===  62; });
   $scope.hasGo     = contracts.some(function (c) { return c.type.id ===  60; });
+  $scope.hasPremium  = contracts.some(function (c) { return c.type.id ===  63; });
 
-  if(!$scope.hasMember && !$scope.hasGo) {
+  $scope.$mdMedia = $mdMedia;
+
+  if(!$scope.hasMember && !$scope.hasGo && !$scope.hasPremium) {
     $state.go('owm.finance.deposit');
   }
 
@@ -44,6 +46,18 @@ angular.module('owm.contract', [])
     depositService.requestContractAndPay({
         person: person.id,
         contractType: 62,
+        contract: contracts[0].id
+      });
+  };
+
+  $scope.createPremium = function () {
+    alertService.load();
+
+    $log.log('requesting 63 contract');
+
+    depositService.requestContractAndPay({
+        person: person.id,
+        contractType: 63,
         contract: contracts[0].id
       });
   };
@@ -61,4 +75,5 @@ angular.module('owm.contract', [])
       $state.go('owm.finance.vouchers');
     });
   };
-});
+})
+;
