@@ -14,12 +14,12 @@
     <div ui-view="menu"></div>
 </md-sidenav>
 
-<md-content flex class="overflow-fix">
+<div flex>
 
     <div id="scroll-to-top-anchor"></div>
 
     <div class="app-toolbar-row">
-        <div ui-view="toolbar" layout-fill></div>
+        <div ui-view="toolbar"></div>
     </div>
 
     <div class="min-content-height" style="z-index: 1">
@@ -32,7 +32,7 @@
 
     <div class="footer" ui-view="footer"></div>
 
-</md-content>
+</div>
 
 <div class="cookiebar">
     <div class="cookiebar--content" ng-if="$root.cookieBar !== 'false'">
