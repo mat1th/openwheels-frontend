@@ -26,11 +26,13 @@ angular.module('owm.contract', [])
   });
 })
 
-.controller('ContractChoiceController', function ($scope, $state, alertService, depositService, person, contracts, $log) {
+.controller('ContractChoiceController', function ($scope, $state, alertService, depositService, person, contracts, $log, $mdMedia) {
 
   $scope.hasMember = contracts.some(function (c) { return c.type.id ===  62; });
   $scope.hasGo     = contracts.some(function (c) { return c.type.id ===  60; });
   $scope.hasPremium  = contracts.some(function (c) { return c.type.id ===  63; });
+
+  $scope.$mdMedia = $mdMedia;
 
   if(!$scope.hasMember && !$scope.hasGo && !$scope.hasPremium) {
     $state.go('owm.finance.deposit');
