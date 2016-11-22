@@ -29,7 +29,7 @@ angular.module('ngAutocomplete', [])
 .config(['uiGmapGoogleMapApiProvider', function (uiGmapGoogleMapApiProvider) {
   'use strict';
   uiGmapGoogleMapApiProvider.configure({
-    v: '3.18',
+    v: '3.25',
     libraries: 'places'
   });
 }])
@@ -55,6 +55,8 @@ angular.module('ngAutocomplete', [])
         }, true);
         google.maps.event.addListener(scope.gPlace, 'place_changed', function () {
           var result = scope.gPlace.getPlace();
+          console.log('place_changed', result);
+          console.log('watchEnter', watchEnter);
           if (result !== undefined) {
             if (result.address_components !== undefined) {
               scope.$evalAsync(function () {

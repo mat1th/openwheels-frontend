@@ -1,8 +1,14 @@
 'use strict';
 
-angular.module('geocoderDirectiveSearchbar', ['geocoder'])
-
-.directive('owGeocoderSearchbar', function ($filter, Geocoder, resourceQueryService, $state) {
+angular.module('geocoderDirectiveSearchbar', ['geocoder', 'google.places'])
+ 
+.config(['uiGmapGoogleMapApiProvider', function (uiGmapGoogleMapApiProvider) {
+  uiGmapGoogleMapApiProvider.configure({
+    v: '3.25',
+    libraries: 'places'
+  });
+}])
+.directive('owGeocoderSearchbar', function ($filter, Geocoder, resourceQueryService, $state, uiGmapGoogleMapApi, $window) {
   return {
     restrict: 'E',
     templateUrl: 'directives/geocoderDirectiveSearchbar.tpl.html',
@@ -11,9 +17,14 @@ angular.module('geocoderDirectiveSearchbar', ['geocoder'])
       'onClickTime': '=',
       'onClickFilters': '=',
     },
-    link: function($scope) {
+    link: function($scope, element) {
+
       $scope.search = {};
       $scope.search.text = resourceQueryService.data.text;
+
+      $scope.$on('g-places-autocomplete:select', function(event, res) {
+        handleEvent(res);
+      });
 
       $scope.placeDetails = null;
       $scope.searcher = {loading: false};
@@ -64,25 +75,20 @@ angular.module('geocoderDirectiveSearchbar', ['geocoder'])
         });
       }
 
-      $scope.$watch('placeDetails', function (newVal, oldVal) {
-        if (!newVal || (newVal === oldVal)) {
-          return;
-        }
-        if ($scope.placeDetails) {
-          resourceQueryService.setText($scope.search.text);
+      function handleEvent(res) {
+        if(res) {
+          resourceQueryService.setText(res.formatted_address);
           resourceQueryService.setLocation({
-            latitude: $scope.placeDetails.geometry.location.lat(),
-            longitude: $scope.placeDetails.geometry.location.lng()
+            latitude: res.geometry.location.lat(),
+            longitude: res.geometry.location.lng()
           });
+          doCall(resourceQueryService.createStateParams());
         }
-        doCall(resourceQueryService.createStateParams());
-
-      });
+      }
 
       $scope.options = {
-        watchEnter: true,
-        country   : $filter('translateOrDefault')('SEARCH_COUNTRY', 'nl'),
-        types   : 'geocode',
+				componentRestrictions: { country: $filter('translateOrDefault')('SEARCH_COUNTRY', 'nl') },
+        types   : ['geocode'],
       };
 
     },
