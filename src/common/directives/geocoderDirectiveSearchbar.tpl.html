@@ -1,7 +1,7 @@
 <section class="homepage-searchbar"> 
   <form class="mywheels-form searchbar searchbar--no-opacity">
     <div class="icon location searchbar searchbar--no-opacity">
-      <input type="text" ng-autocomplete options="options" details="placeDetails" ng-model="search.text" class="form-control" placeholder="Waar wil je huren?" style="font-weight: normal;" />
+      <input type="text" g-places-autocomplete options="options" force-selection="true" ng-model="search.text" class="form-control" placeholder="Waar wil je huren?" style="font-weight: normal;" />
       <div ng-show="search.text" hide-gt-sm class="clearbutton__flex" ng-click="search.text = ''">
         <i class="fa fa-times text-muted" ></i>
       </div>
