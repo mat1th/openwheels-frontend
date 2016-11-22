@@ -22,6 +22,10 @@ angular.module('geocoderDirectiveSearchbar', ['geocoder', 'google.places'])
       $scope.search = {};
       $scope.search.text = resourceQueryService.data.text;
 
+      $scope.$on('g-places-autocomplete:select', function(event, res) {
+        handleEvent(res);
+      });
+
       $scope.placeDetails = null;
       $scope.searcher = {loading: false};
 
@@ -62,7 +66,6 @@ angular.module('geocoderDirectiveSearchbar', ['geocoder', 'google.places'])
       };
 
       function doCall(res) {
-        console.log('doCall');
         $scope.search.text = res.text;
         return $state.go('owm.resource.search.list', res, {reload: true, inherit: false, notify: true})
         .then(function() {
@@ -72,20 +75,16 @@ angular.module('geocoderDirectiveSearchbar', ['geocoder', 'google.places'])
         });
       }
 
-      $scope.$watch('placeDetails', function (newVal, oldVal) {
-        if (!newVal || (newVal === oldVal)) {
-          return;
-        }
-        if ($scope.placeDetails) {
-          resourceQueryService.setText($scope.search.text);
+      function handleEvent(res) {
+        if(res) {
+          resourceQueryService.setText(res.formatted_address);
           resourceQueryService.setLocation({
-            latitude: $scope.placeDetails.geometry.location.lat(),
-            longitude: $scope.placeDetails.geometry.location.lng()
+            latitude: res.geometry.location.lat(),
+            longitude: res.geometry.location.lng()
           });
           doCall(resourceQueryService.createStateParams());
         }
-
-      });
+      }
 
       $scope.options = {
 				componentRestrictions: { country: $filter('translateOrDefault')('SEARCH_COUNTRY', 'nl') },
