@@ -1,0 +1,10 @@
+{
+  "places_country": "nl",
+  "app_id": "1_4ufl98675y8088ko4k80wow4soo0g8cog8kwsssoo4k4ggc84k",
+  "app_secret": "56a8twexy6g4w0488okc48o40s44o0k4co448cg4ww84k4ws0c",
+  "app_url": "http://mywheels.local",
+  "server_url": "http://mywheels.local",
+  "auth_endpoint": "http://mywheels.local/oauth/v2/auth",
+  "token_endpoint": "http://mywheels.local/oauth/v2/token",
+  "ga_tracking_id": "UA-38724748-1"
+}

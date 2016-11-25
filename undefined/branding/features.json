@@ -1,0 +1,23 @@
+{
+  "features": {
+    "myWheelsFooter": true,
+    "homeCarousel": false,
+    "homePage": true,
+    "verhuurTussenscherm": true,
+    "serverSideSignup": true,
+    "payoutRequests": true,
+    "filtersSidebar": true,
+    "resourceSidebar": true,
+    "facebook": true,
+    "twitter": true,
+    "googlePlus": true,
+    "cityPages": true,
+    "bookingSignupWizard": true,
+    "livehelperchat": true,
+    "myContractsMenuItem": true,
+    "featuredSlider": true,
+    "discounts": true,
+    "signupFlow": true,
+    "extraDriverGo": true
+  }
+}

@@ -2,13 +2,7 @@
 
 angular.module('geocoderDirectiveSearchbar', ['geocoder', 'google.places'])
  
-.config(['uiGmapGoogleMapApiProvider', function (uiGmapGoogleMapApiProvider) {
-  uiGmapGoogleMapApiProvider.configure({
-    v: '3.25',
-    libraries: 'places'
-  });
-}])
-.directive('owGeocoderSearchbar', function ($filter, Geocoder, resourceQueryService, $state, uiGmapGoogleMapApi, $window) {
+.directive('owGeocoderSearchbar', function ($filter, Geocoder, resourceQueryService, $state) {
   return {
     restrict: 'E',
     templateUrl: 'directives/geocoderDirectiveSearchbar.tpl.html',
