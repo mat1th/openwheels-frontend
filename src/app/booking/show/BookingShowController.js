@@ -82,6 +82,8 @@ angular.module('owm.booking.show', [])
     $scope.allowBoardComputer = false;
     $scope.allowMap    = false;
     $scope.allowOvereenkomst = (booking.approved === null || booking.approved === 'OK') && booking.status === 'accepted';
+    $scope.allowDeclarations = contract.type.canHaveDeclaration && $scope.booking.approved === 'OK' && $scope.bookingStarted && !$scope.booking.resource.refuelByRenter && !booking.resource.fuelCardCar;
+    $scope.allowDeclarationsAdd = $scope.allowDeclarations && moment().isBefore(moment(booking.endBooking).add(5, 'days'));
 
     if ($scope.userPerspective === 'renter') {
 
