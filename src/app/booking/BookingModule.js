@@ -42,7 +42,7 @@ angular.module('owm.booking', [
           })
         .then(function(contract) {
           contract.type.canHaveDeclaration = false;
-          if(contract.type.id === 50 || contract.type.id === 60 || contract.type.id === 62) {
+          if(contract.type.id === 50 || contract.type.id === 60 || contract.type.id === 62 || contract.type.id === 63 || contract.type.id === 64) {
             contract.type.canHaveDeclaration = true;
           }
           return contract;
