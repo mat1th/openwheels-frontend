@@ -147,7 +147,7 @@ angular.module('google.places', [])
 										 }
 
 										 if ($scope.forceSelection) {
-											 //$scope.selected = ($scope.selected === -1) ? 0 : $scope.selected;
+											 $scope.selected = ($scope.selected === -1) ? 0 : $scope.selected;
 										 }
 
 										 $scope.$digest();
