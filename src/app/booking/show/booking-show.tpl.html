@@ -458,7 +458,7 @@
 </div>
 
 <!-- declarations -->
-<div class="card" ng-if="contract.type.canHaveDeclaration && booking.approved==='OK' && bookingStarted">
+<div class="card" ng-if="allowDeclarations">
   <div class="card-heading">
     <h3 class="card-title">
       {{ 'DECLARATION_TITLE' | translate }}
@@ -480,7 +480,7 @@
       <div class="row" ng-if="!booking.declarations || booking.declarations.length == 0">
         <div class="col-sm-12">{{ 'DECL_NO_DEC_SHOW' | translate }}</div>
       </div>
-      <div class="row" style="margin-top: 2em;">
+      <div class="row" style="margin-top: 2em;" ng-if="allowDeclarationsAdd">
         <div class="col-sm-12"><a class="btn btn-default" ui-sref="^.administer">{{ 'DECL_ADD' | translate }}</a></div>
       </div>
     </div>
