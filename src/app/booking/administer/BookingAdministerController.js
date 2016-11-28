@@ -27,7 +27,7 @@ angular.module('owm.booking.administer', [])
   $scope.declaration = {};
   $scope.contract = contract;
 
-  $scope.allowDeclarations = contract.type.canHaveDeclaration && $scope.booking.approved === 'OK' && $scope.bookingStarted && !$scope.booking.resource.refuelByRenter && !booking.resource.fuelCardCar;
+  $scope.allowDeclarations = contract.type.canHaveDeclaration && ($scope.booking.approved === 'OK' || $scope.booking.approved === null) && $scope.bookingStarted && !$scope.booking.resource.refuelByRenter && !booking.resource.fuelCardCar;
   $scope.allowDeclarationsAdd = $scope.allowDeclarations && moment().isBefore(moment(booking.endBooking).add(5, 'days'));
 
   if(booking.resource.refuelByRenter) {
