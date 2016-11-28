@@ -9,6 +9,7 @@ angular.module('owm.finance.v4', [])
 
   $scope.loaded = {ungrouped: false, grouped: false};
   $scope.view = me.preference || 'both';
+
   $scope.activeTab = {active: 0};
   $scope.vouchersPerPage = 15;
   $scope.groupedInvoicesPerPage = 15;
