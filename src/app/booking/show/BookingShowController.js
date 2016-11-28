@@ -20,9 +20,12 @@ angular.module('owm.booking.show', [])
   }
 
 
-  $scope.bookingRequest = angular.copy(booking);
-  $scope.bookingRequest.beginRequested = booking.beginRequested ? booking.beginRequested : booking.beginBooking;
-  $scope.bookingRequest.endRequested= booking.endRequested ? booking.endRequested : booking.endBooking;
+  function initBookingRequestScope(booking) {
+    $scope.bookingRequest = angular.copy(booking);
+    $scope.bookingRequest.beginRequested = booking.beginRequested ? booking.beginRequested : booking.beginBooking;
+    $scope.bookingRequest.endRequested= booking.endRequested ? booking.endRequested : booking.endBooking;
+  }
+  initBookingRequestScope(booking);
   $scope.contract = contract;
 
   $scope.booking = booking;
@@ -308,6 +311,7 @@ angular.module('owm.booking.show', [])
     .then(function (booking) {
       $scope.booking = booking;
       initPermissions();
+      initBookingRequestScope(booking);
       alertService.add('success', $filter('translate')('BOOKING_STOPPED'), 10000);
     })
     .catch(errorHandler)
@@ -386,6 +390,7 @@ angular.module('owm.booking.show', [])
     } else {
       alertService.addGenericError();
     }
+    initBookingRequestScope($scope.booking);
   }
 
 
