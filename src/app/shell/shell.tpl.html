@@ -14,7 +14,7 @@
     <div ui-view="menu"></div>
 </md-sidenav>
 
-<div flex>
+<div flex class="min-height-cross-device">
 
     <div id="scroll-to-top-anchor"></div>
 
@@ -29,16 +29,14 @@
             <div class="push"></div>
         </div>
     </div>
-
-    <div class="footer" ui-view="footer"></div>
-
 </div>
 
-<div class="cookiebar">
-    <div class="cookiebar--content" ng-if="$root.cookieBar !== 'false'">
+<div class="footer" ui-view="footer"></div>
+
+<div class="cookiebar" ng-if="$root.cookieBar !== 'false'">
+    <div class="cookiebar--content">
         <span translate="COOKIES_TERMS"></span>
         <button ng-click="acceptCookie()" class="cookiebar--btn"><span>{{'COOKIES_ACCEPT' | translate}}</span><md-icon class="text-white">close</md-icon></button>
-
     </div>
 </div>
 
