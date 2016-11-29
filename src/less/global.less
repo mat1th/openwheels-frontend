@@ -41,6 +41,19 @@ select,
 textarea {
     font-family: Arial;
 }
+.min-height-cross-device {
+  min-height: 75rem;
+}
+@media (min-width: 768px) {
+  .min-height-cross-device {
+    min-height: 99rem;
+  }
+}
+@media (min-width: 2000px) {
+  .min-height-cross-device {
+    min-height: 150rem;
+  }
+}
 .container-full {
     /* no padding */
 }
