@@ -15,8 +15,8 @@ html {
 .footer,
 .push {
     position: relative;
-    height: 309px;
     margin: 0;
+    height: 309px;
     width: 100%;
 }
 .footer {
@@ -40,6 +40,19 @@ input,
 select,
 textarea {
     font-family: Arial;
+}
+.min-height-cross-device {
+  min-height: 75rem;
+}
+@media (min-width: 768px) {
+  .min-height-cross-device {
+    min-height: 99rem;
+  }
+}
+@media (min-width: 2000px) {
+  .min-height-cross-device {
+    min-height: 150rem;
+  }
 }
 .container-full {
     /* no padding */

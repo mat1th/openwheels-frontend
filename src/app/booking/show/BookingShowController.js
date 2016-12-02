@@ -20,16 +20,20 @@ angular.module('owm.booking.show', [])
   }
 
 
-  $scope.bookingRequest = angular.copy(booking);
-  $scope.bookingRequest.beginRequested = booking.beginRequested ? booking.beginRequested : booking.beginBooking;
-  $scope.bookingRequest.endRequested= booking.endRequested ? booking.endRequested : booking.endBooking;
+  function initBookingRequestScope(booking) {
+    $scope.bookingRequest = angular.copy(booking);
+    $scope.bookingRequest.beginRequested = booking.beginRequested ? booking.beginRequested : booking.beginBooking;
+    $scope.bookingRequest.endRequested= booking.endRequested ? booking.endRequested : booking.endBooking;
+  }
+  initBookingRequestScope(booking);
   $scope.contract = contract;
 
   $scope.booking = booking;
   $scope.bookingStarted = moment().isAfter(moment(booking.beginBooking));
   $scope.bookingEnded = moment().isAfter(moment(booking.endBooking));
+  $scope.bookingEndedRealy = moment().isAfter(moment(booking.endBooking).add('1', 'hour'));
   $scope.resource = booking.resource;
-  $scope.showBookingForm = false;
+  $scope.showBookingForm = !$scope.bookingEndedRealy;
   $scope.showPricePerHour = false;
   $scope.userInput = {
     acceptRejectRemark: ''
@@ -82,7 +86,7 @@ angular.module('owm.booking.show', [])
     $scope.allowBoardComputer = false;
     $scope.allowMap    = false;
     $scope.allowOvereenkomst = (booking.approved === null || booking.approved === 'OK') && booking.status === 'accepted';
-    $scope.allowDeclarations = contract.type.canHaveDeclaration && $scope.booking.approved === 'OK' && $scope.bookingStarted && !$scope.booking.resource.refuelByRenter && !booking.resource.fuelCardCar;
+    $scope.allowDeclarations = contract.type.canHaveDeclaration && ($scope.booking.approved === 'OK' || $scope.booking.approved === null) && $scope.bookingStarted && !$scope.booking.resource.refuelByRenter && !booking.resource.fuelCardCar;
     $scope.allowDeclarationsAdd = $scope.allowDeclarations && moment().isBefore(moment(booking.endBooking).add(5, 'days'));
 
     if ($scope.userPerspective === 'renter') {
@@ -253,8 +257,6 @@ angular.module('owm.booking.show', [])
     })
     .then(function (booking) {
       $scope.booking = booking;
-      $scope.showBookingForm = false;
-      $state.reload();
       initPermissions();
       if (booking.beginRequested) {
         alertService.add('info', $filter('translate')('BOOKING_ALTER_REQUESTED'), 5000);
@@ -284,7 +286,6 @@ angular.module('owm.booking.show', [])
     .then(function (booking) {
       Analytics.trackEvent('booking', $scope.userPerspective === 'owner' ? 'cancelled_owner' : 'cancelled_renter', booking.id, undefined, true);
       $scope.booking = booking;
-      $scope.showBookingForm = false;
       alertService.add('success', $filter('translate')('BOOKING_CANCELED'), 5000);
       $state.go('owm.person.dashboard');
     })
@@ -309,8 +310,8 @@ angular.module('owm.booking.show', [])
     })
     .then(function (booking) {
       $scope.booking = booking;
-      $scope.showBookingForm = false;
       initPermissions();
+      initBookingRequestScope(booking);
       alertService.add('success', $filter('translate')('BOOKING_STOPPED'), 10000);
     })
     .catch(errorHandler)
@@ -389,6 +390,7 @@ angular.module('owm.booking.show', [])
     } else {
       alertService.addGenericError();
     }
+    initBookingRequestScope($scope.booking);
   }
 
 
