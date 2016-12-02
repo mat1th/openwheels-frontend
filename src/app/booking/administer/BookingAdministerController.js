@@ -19,11 +19,16 @@ angular.module('owm.booking.administer', [])
 
 .controller('BookingAdministerController', function ($scope, $state, $translate, alertService, bookingService, booking, declarationService, $anchorScroll, $mdDialog, contract, Analytics) {
   $scope.booking  = booking;
+  $scope.bookingStarted = moment().isAfter(moment(booking.beginBooking));
+  $scope.bookingEnded = moment().isAfter(moment(booking.endBooking));
   $scope.resource = booking.resource;
   $scope.trip     = angular.copy(booking.trip);
   $scope.maxDeclarations = 5;
   $scope.declaration = {};
   $scope.contract = contract;
+
+  $scope.allowDeclarations = contract.type.canHaveDeclaration && ($scope.booking.approved === 'OK' || $scope.booking.approved === null) && $scope.bookingStarted && !$scope.booking.resource.refuelByRenter && !booking.resource.fuelCardCar;
+  $scope.allowDeclarationsAdd = $scope.allowDeclarations && moment().isBefore(moment(booking.endBooking).add(5, 'days'));
 
   if(booking.resource.refuelByRenter) {
     $scope.contract.type.canHaveDeclaration = false;

@@ -335,6 +335,13 @@ angular.module('owm.resource.reservationForm', [])
       $scope.person = authService.user.identity;
     });
 
+    loadContractsOnce()
+    .then(function() {
+      createBookingDoCalls($scope.booking);
+    });
+  };
+
+  function createBookingDoCalls(booking) {
     if (!booking.beginRequested || !booking.endRequested) {
       $scope.loading.createBooking = false;
       return alertService.add('danger', $filter('translate')('DATETIME_REQUIRED'), 5000);
@@ -436,6 +443,6 @@ angular.module('owm.resource.reservationForm', [])
           alertService.loaded();
         });
     }
-  };
+  }
 
 });

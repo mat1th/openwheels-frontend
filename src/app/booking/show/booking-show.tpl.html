@@ -43,38 +43,33 @@
       <span>{{ booking.status | bookingStatus }}</span>
     </div>
 
-    <!-- accepted times -->
-    <div ng-if="hasAcceptedTimeframe(booking)">
+    <div>
       <div class="media">
         <div class="media-object auto-height pull-left">
-          <div class="booking__timeframe booking__timeframe--accepted">
+          <div ng-if="hasAcceptedTimeframe(booking)" class="booking__timeframe booking__timeframe--accepted">
             <datetime datetime="{{ booking.beginBooking }}"></datetime>
             <datetime datetime="{{ booking.endBooking }}"></datetime>
             <span class="tag tag-{{ booking.status }}">{{ booking.status | bookingStatus }}</span>
             <i booking-approval-icon="booking"></i>
           </div>
+          <div ng-if="hasRequestedTimeframe(booking) && !hasAcceptedTimeframe(booking)" class="booking__timeframe booking__timeframe--requested">
+            <datetime datetime="{{ booking.beginRequested }}"></datetime>
+            <datetime datetime="{{ booking.endRequested }}"></datetime>
+            <span ng-if="!hasAcceptedTimeframe(booking)" class="tag tag-{{ booking.status }}">{{ booking.status | bookingStatus }}</span>
+            <span ng-if="hasAcceptedTimeframe(booking)" class="tag tag-requested">{{ 'requested' | bookingStatus }}</span>
+          </div>
         </div>
         <div class="media-body no-padding">
+          <div ng-if="hasRequestedTimeframe(booking) && hasAcceptedTimeframe(booking)">
+            <div style="float: left;" class="booking__timeframe booking__timeframe--requested">
+              <datetime datetime="{{ booking.beginRequested }}"></datetime>
+              <datetime datetime="{{ booking.endRequested }}"></datetime>
+              <span ng-if="!hasAcceptedTimeframe(booking)" class="tag tag-{{ booking.status }}">{{ booking.status | bookingStatus }}</span>
+              <span ng-if="hasAcceptedTimeframe(booking)" class="tag tag-requested">{{ 'requested' | bookingStatus }}</span>
+            </div>
+          </div>
 
-          <!-- FORM TOGGLE -->
-          <button ng-if="allowEdit && !showBookingForm && !hasRequestedTimeframe(booking)"
-            type="button" class="btn btn-default"
-            scroll-to="bookingFormContainer"
-            ng-click="editBooking(bookingRequest)">
-            {{ 'EDIT_BOOKING' | translate }}
-          </button>
-
-          <!-- CANCEL -->
-          <button ng-if="allowCancel && !showBookingForm && !allowEdit && !hasRequestedTimeframe(booking)"
-            type="button" class="btn btn-default"
-            ng-click="cancelBooking(booking)">
-            {{ 'CANCEL_BOOKING' | translate }}
-          </button>
-          
-          
-          <a ng-if="allowFinalize"
-            class="btn btn-default"
-            ui-sref="owm.booking.finalize({booking: booking.id})">
+          <a ng-if="allowFinalize" class="btn btn-default" ui-sref="owm.booking.finalize({booking: booking.id})">
             {{ 'FINALIZE_BOOKING' | translate }}
           </a>
 
@@ -83,46 +78,6 @@
       <hr/>
     </div>
 
-    <!-- requested times -->
-    <div ng-if="hasRequestedTimeframe(booking)">
-      <div class="media">
-        <div class="media-object auto-height pull-left">
-          <div class="booking__timeframe booking__timeframe--requested">
-            <datetime datetime="{{ booking.beginRequested }}"></datetime>
-            <datetime datetime="{{ booking.endRequested }}"></datetime>
-            <span ng-if="!hasAcceptedTimeframe(booking)" class="tag tag-{{ booking.status }}">{{ booking.status | bookingStatus }}</span>
-            <span ng-if="hasAcceptedTimeframe(booking)" class="tag tag-requested">{{ 'requested' | bookingStatus }}</span>
-          </div>
-        </div>
-        <div class="media-body no-padding">
-
-          <!-- FORM TOGGLE -->
-          <button ng-if="allowEdit && !showBookingForm"
-            type="button" class="btn btn-default"
-            scroll-to="bookingFormContainer"
-            ng-click="editBooking(bookingRequest)">
-            {{ 'EDIT_BOOKING' | translate }}
-          </button>
-
-          <!-- CANCEL -->
-          <button ng-if="allowCancel && !showBookingForm && !allowEdit"
-            type="button" class="btn btn-default"
-            ng-click="cancelBooking(booking)">
-            {{ 'CANCEL_BOOKING' | translate }}
-          </button>
-
-          <!-- ACCEPT / REJECT -->
-          <div ng-if="allowAcceptReject">
-            <div class="form-group">
-              <label>{{ 'BOOKING.REMARK_AUTHORIZER_LABEL' | translate }}</label>
-              <textarea class="form-control" ng-model="userInput.acceptRejectRemark" />
-            </div>
-            <button type="button" class="btn btn-success" ng-click="acceptBooking(booking)">Accepteren</button>
-            <button type="button" class="btn btn-danger" ng-click="rejectBooking(booking)">Weigeren</button>
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
 </div>
 
@@ -132,12 +87,22 @@
     <div class="card-heading"><h2 class="card-title">Reservering wijzigen</h2></div>
     <div class="card-body">
 
+      <div class="resource__boardcomputer text-center" id="resource__boardcomputer" ng-if="allowBoardComputer">
+        <ul class="list-inline">
+          <li>
+            <button  ng-click="openDoor(resource)" class="btn btn-lg btn-default btn-success"><i class="fa fa-unlock fa-fw fa-lg"></i></button>
+          </li>
+          <li>
+            <button  ng-click="closeDoor(resource)" class="btn btn-lg btn-default btn-danger"><i class="fa fa-lock fa-fw fa-lg"></i></button>
+          </li>
+        </ul>
+      </div>
       <!-- price -->
-      <div class="branding_booking_resource_price" ng-include="'resource/partials/resource-price.tpl.html'"></div>
+      <div class="branding_booking_resource_price" ng-if="userPerspective === 'renter'" ng-include="'resource/partials/resource-price.tpl.html'"></div>
 
-      <div class="booking-form">
+      <div class="booking-form" >
         <form class="booking" timeframe begin="bookingRequest.beginRequested" end="bookingRequest.endRequested">
-          <div class="form-group">
+          <div class="form-group" ng-if="allowEdit">
             <label for="beginRequested">
               {{ 'DATE_START' | translate }}&nbsp;
               <button id="booking_now_button" type="button" class="btn btn-warning btn-xs" ng-click="setTimeframe(bookingRequest, 0)">{{ 'NOW' | translate }}</button>
@@ -152,7 +117,7 @@
             </div>
           </div>
 
-          <div class="form-group">
+          <div class="form-group" ng-if="allowEdit">
             <label for="endTrip">
               {{ 'DATE_END' | translate }}&nbsp;
               <button type="button" class="btn btn-default btn-xs" ng-click="extendBooking(bookingRequest, 1)">{{ 'PLUS_1_HOUR' | translate }}</button>
@@ -169,13 +134,13 @@
             </div>
           </div>
 
-          <div class="form-group">
+          <div class="form-group" ng-if="allowEdit">
             <label for="endTrip" ng-bind="'BOOKING.REMARK_REQUESTER_LABEL' | translate"></label>
             <textarea class="form-control" ng-model="bookingRequest.remarkRequester"></textarea>
           </div>
 
           <!-- disclaimer -->
-          <div class="alert alert-danger" ng-if="booking.approved==='OK'">
+          <div class="alert alert-danger" ng-if="booking.approved==='OK' && booking.bookingAlterationStrategy !== 'mywheels_member'">
             <i class="fa fa-exclamation-triangle text-danger"></i>&nbsp;
             <span ng-switch="booking.bookingAlterationStrategy">
               <span ng-switch-when="default">{{ 'BOOKING_ALTERATION_STRATEGY_DEFAULT' | translate }}</span>
@@ -185,7 +150,7 @@
           </div>
 
           <!-- availability & price -->
-          <div class="form-group" ng-if="price || isPriceLoading || availability || isAvailabilityLoading">
+          <div class="form-group" ng-if="(price || isPriceLoading || availability || isAvailabilityLoading) && userPerspective === 'renter' ">
             <div class="text-center">
               <h4 ng-if="availability.available==='no'"><i class="fa fa-times text-danger" ></i> Niet beschikbaar</h4>
               <h4 ng-if="availability.available==='yes'"><i class="fa fa-check text-success" ></i> Beschikbaar</h4>
@@ -217,41 +182,28 @@
                 {{ 'STOP_BOOKING' | translate }}
               </button>
 
-              <a target="_blank" ng-href="{{ $state.href('owm.resource.calendar', {city: resource.city, resourceId: resource.id}) }}" class="btn btn-default">
+              <a target="_blank" ng-href="{{ $state.href('owm.resource.calendar', {city: resource.city, resourceId: resource.id}) }}" class="btn btn-default" ng-if="userPerspective === 'renter'">
                 <i class="fa fa-calendar"></i> {{ 'CALENDAR_BUTTON' | translate }}
               </a>
-
             </p>
+
+            <div ng-if="allowAcceptReject">
+              <div class="form-group">
+                <label>{{ 'BOOKING.REMARK_AUTHORIZER_LABEL' | translate }}</label>
+                <textarea class="form-control" ng-model="userInput.acceptRejectRemark" />
+              </div>
+              <button type="button" class="btn btn-success" ng-click="acceptBooking(booking)">Accepteren</button>
+              <button type="button" class="btn btn-danger" ng-click="rejectBooking(booking)">Weigeren</button>
+            </div> 
+
           </div>
 
         </form>
-      </div>
-      <div class="text-center">
-        <p>
-          <a class="btn btn-link btn-sm" ng-click="showBookingForm = false">
-            <i class="fa fa-chevron-up"></i>
-          </a>
-        </p>
       </div>
     </div>
   </div>
 </div><!--/ FORM -->
 
-<!-- board computer -->
-<div class="card" ng-if="allowBoardComputer">
-  <div class="card-body">
-    <div id="resource__boardcomputer" class="text-center">
-      <ul class="list-inline">
-        <li>
-          <button  ng-click="openDoor(resource)" class="btn btn-lg btn-default btn-success"><i class="fa fa-unlock fa-fw fa-lg"></i></button>
-        </li>
-        <li>
-          <button  ng-click="closeDoor(resource)" class="btn btn-lg btn-default btn-danger"><i class="fa fa-lock fa-fw fa-lg"></i></button>
-        </li>
-      </ul>
-    </div>
-  </div>
-</div>
 
 <!-- remarks -->
 <div class="card" ng-if="booking.remarkRequester || booking.remarkAuthorizer">
@@ -458,7 +410,7 @@
 </div>
 
 <!-- declarations -->
-<div class="card" ng-if="contract.type.canHaveDeclaration && booking.approved==='OK' && bookingStarted">
+<div class="card" ng-if="allowDeclarations">
   <div class="card-heading">
     <h3 class="card-title">
       {{ 'DECLARATION_TITLE' | translate }}
@@ -480,7 +432,7 @@
       <div class="row" ng-if="!booking.declarations || booking.declarations.length == 0">
         <div class="col-sm-12">{{ 'DECL_NO_DEC_SHOW' | translate }}</div>
       </div>
-      <div class="row" style="margin-top: 2em;">
+      <div class="row" style="margin-top: 2em;" ng-if="allowDeclarationsAdd">
         <div class="col-sm-12"><a class="btn btn-default" ui-sref="^.administer">{{ 'DECL_ADD' | translate }}</a></div>
       </div>
     </div>

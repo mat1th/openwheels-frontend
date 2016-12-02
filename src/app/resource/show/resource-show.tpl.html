@@ -143,17 +143,15 @@
                 <div class="card-body">
                     <div ng-if="resource.advertisement">
                         <h5>{{ 'ABOUT_CAR' | translate}}</h5>
-                        <p>{{ resource.advertisement }}</p>
+                        <p style="white-space:pre-line">{{ resource.advertisement }}</p>
                     </div>
                     <div ng-if="resource.owner.about">
                         <h5>{{ 'ABOUT_ME' | translate }}</h5>
-                        <p>{{ resource.owner.about}}</p>
+                        <p style="white-space:pre-line">{{ resource.owner.about}}</p>
                     </div>
                 </div>
             </div>
-
-
-            <!-- smartwheels info -->
+            <!-- new smartwheels info -->
             <div class="card" ng-if="['smartphone', 'chipcard'].indexOf(resource.locktype) >= 0">
                 <div class="card-heading">
                     <h3 class="card-title">{{ 'SMARTWHEELS_TITLE' | translate }}</h3>
@@ -167,7 +165,6 @@
                     </div>
                 </div>
             </div>
-
             <!-- contact person -->
             <div class="card" ng-if="me && resource.contactPerson && (resource.contactPerson.id !== resource.owner.id)">
                 <div class="card-heading">

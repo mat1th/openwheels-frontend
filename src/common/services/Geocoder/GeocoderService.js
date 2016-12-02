@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('geocoder', ['ngStorage']).factory('Geocoder', function ($localStorage, $q, $timeout) {
+angular.module('geocoder', ['ngStorage']).factory('Geocoder', function ($localStorage, $q, $timeout, $filter) {
   var locations = $localStorage.locations ? JSON.parse($localStorage.locations) : {};
 
   var queue = [];
@@ -19,7 +19,9 @@ angular.module('geocoder', ['ngStorage']).factory('Geocoder', function ($localSt
     var task = queue[0],
       geocoder = new google.maps.Geocoder();
 
-    geocoder.geocode({ address : task.address }, function (result, status) {
+    var region = $filter('translateOrDefault')('SEARCH_COUNTRY', 'nl');
+    var params = _.extend({address: task.address, region: region}, task.opt);
+    geocoder.geocode(params, function (result, status) {
       if (status === google.maps.GeocoderStatus.OK) {
         var geoLocations = [];
         angular.forEach(result, function(value, key){
@@ -70,7 +72,7 @@ angular.module('geocoder', ['ngStorage']).factory('Geocoder', function ($localSt
   };
 
   return {
-    latLngForAddress : function (address) {
+    latLngForAddress : function (address, options) {
       var d = $q.defer();
 
       if (_.has(locations, address)) {
@@ -80,10 +82,11 @@ angular.module('geocoder', ['ngStorage']).factory('Geocoder', function ($localSt
       } else {
         queue.push({
           address: address,
-          d: d
+          d: d,
+          opt: options
         });
 
-        if (queue.length > 1) {
+        if (queue.length >= 1) {
           executeNext();
         }
       }
