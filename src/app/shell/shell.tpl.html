@@ -33,7 +33,7 @@
 
 <div class="footer" ui-view="footer"></div>
 
-<div class="cookiebar" ng-if="$root.cookieBar !== 'false'">
+<div class="cookiebar" ng-class="{'cookiebar--low': showCTA !== true}" ng-if="$root.cookieBar !== 'false'">
     <div class="cookiebar--content">
         <span translate="COOKIES_TERMS"></span>
         <button ng-click="acceptCookie()" class="cookiebar--btn"><span>{{'COOKIES_ACCEPT' | translate}}</span><md-icon class="text-white">close</md-icon></button>
