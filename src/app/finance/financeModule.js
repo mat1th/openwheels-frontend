@@ -64,7 +64,31 @@ angular.module('owm.finance', [
     resolve: {
       me: ['authService', function (authService) {
         return authService.authenticatedUser();
-      }]
+      }],
+      type: function() { return 65; }
+    }
+  })
+
+  .state('owm.finance.contributie', {
+    url: '/contributie',
+    views: {
+      'main@shell': {
+        templateUrl: 'finance/deposit/deelauto.tpl.html',
+        controller: 'DepositController'
+      }
+    },
+    data: {
+      access: {
+        deny: {
+          anonymous: true
+        }
+      }
+    },
+    resolve: {
+      me: ['authService', function (authService) {
+        return authService.authenticatedUser();
+      }],
+      type: function () { return 5; }
     }
   })
 
