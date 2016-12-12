@@ -106,7 +106,7 @@ angular.module('owm.discount')
       validFrom: validFrom,
       validUntil: validUntil
     }).then(function (discounts) {
-      $scope.discounts = discounts;
+      $scope.discounts = discounts.result;
     })
     .catch(function (err) {
       $log.debug('error loading discounts', err);

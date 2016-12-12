@@ -45,14 +45,15 @@ angular.module('owm.shell')
     $scope.closeMenu();
   };
 
-	$scope.showCTA = {show: false};
-
 	$scope.$on('$stateChangeSuccess', function() {
 		var a = initCTAValue();
 		$scope.showCTA = a;
 	});
 
   function initCTAValue() {
+    if(!$rootScope.features.verhuurBalk) {
+      return false;
+    }
 		if($state.current.name.indexOf('home') < 0) {
 			return false;
 		}
