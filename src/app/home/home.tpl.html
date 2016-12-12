@@ -6,7 +6,9 @@
             <h1 id="tagline" class="homepage-baseline-header fadeInDown animated">{{'TAGLINE_HOME' | translate}}</h1>
 
         </section>
-        <section ng-if="features.homePage" class="homepage-searchbar" ng-include="'home/searchBar.tpl.html'"></section>
+        <section ng-if="features.homePage" class="homepage-searchbar-frontpage">
+          <ow-geocoder-searchbar></ow-geocoder-searchbar>
+        </section>
     </div>
     <!-- /SEARCHBAR -->
 

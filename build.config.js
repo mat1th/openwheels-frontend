@@ -66,6 +66,7 @@ module.exports = {
       'vendor_custom/pwstrength-bootstrap/pwstrength-bootstrap-1.2.2.js',
       'vendor_custom/angular-input-match/angular-input-match-1.4.1.js',
       'vendor_custom/angular-track/dist/angular-ggaa.min.js',
+      'vendor_custom/angular-google-places-autocomplete/src/autocomplete.js',
     ],
     fonts: [
       'vendor/font-awesome/fonts/*'

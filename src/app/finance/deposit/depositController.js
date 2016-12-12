@@ -2,8 +2,8 @@
 
 angular.module('owm.finance.deposit', [])
 
-.controller('DepositController', function ($scope, alertService, depositService, me) {
-
+.controller('DepositController', function ($scope, alertService, depositService, me, type) {
+  $scope.month =  moment().month();
   $scope.data = { mandate: false };
   $scope.busy = false;
 
@@ -12,7 +12,7 @@ angular.module('owm.finance.deposit', [])
     alertService.load($scope);
     depositService.requestContractAndPay({
       person: me.id,
-      contractType: 65
+      contractType: type
     })
     .catch(function (err) {
       alertService.addError(err);

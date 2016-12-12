@@ -71,17 +71,23 @@
         </div>
       </div>
       <hr>
-      <div class="row" ng-if="contract.type.canHaveDeclaration">
+      <div class="row" ng-if="allowDeclarations">
         <div class="col-sm-12">
           <h2>{{ 'DECLARATION_TITLE' | translate }}</h2>
         </div>
-        <div class="col-sm-12">
+        <div class="col-sm-12" ng-if="!allowDeclarationsAdd">
+          <h4>Je kunt geen tankbonnen meer toevoegen</h4>
+          <p>
+            De termijn van 5 dagen is verstreken, je kunt daarom geen tankbonnen meer toevoegen.
+          </p>
+        </div>
+        <div class="col-sm-12" ng-if="allowDeclarationsAdd">
           <h4>{{ 'DECLARATION_HEADING_ADD' | translate }}</h4>
           <p ng-show="declarations.length >= maxDeclarations">
           {{ 'DECL_TOO_MANY_DECL' | translate}}
           </p>
         </div>
-        <div class="col col-sm-6" ng-show="declarations.length < maxDeclarations" ng-class="{'has-error': form.amount.$invalid}">
+        <div class="col col-sm-6" ng-if="allowDeclarationsAdd" ng-show="declarations.length < maxDeclarations" ng-class="{'has-error': form.amount.$invalid}">
           <div class="form-group">
             <label>{{ 'DECL_LABEL_AMOUNT' | translate }}</label>
             <div class="input-group">
@@ -92,7 +98,7 @@
             <p ng-if="form.amount.$error.max" class="help-block">{{ 'DECL_TOO_HIGH_AMOUNT' | translate }}</p>
           </div>
         </div>
-        <div class="col col-sm-6" ng-show="declarations.length < maxDeclarations">
+        <div class="col col-sm-6" ng-if="allowDeclarationsAdd" ng-show="declarations.length < maxDeclarations">
           <div class="form-group">
             <label>{{ 'DECL_LABEL_IMAGE' | translate }}</label>
             <div class="input-group">
@@ -106,7 +112,7 @@
           <button type="submit" class="btn btn-primary" ng-disabled="form.$pristine || form.$error.required" ng-bind="'SAVE' | translate"></button>
         </div>
       </div>
-      <div class="row declarations" ng-if="contract.type.canHaveDeclaration">
+      <div class="row declarations" ng-if="allowDeclarations">
         <div class="col-sm-12">
           <h4 class="declarations__heading">{{ 'DECL_ADDED_HEADING' | translate }}</h4>
           <p ng-if="!declarations || declarations.length == 0">{{ 'DECL_NO_DECL' | translate }}</p>

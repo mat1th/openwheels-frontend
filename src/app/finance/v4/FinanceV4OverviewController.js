@@ -2,12 +2,14 @@
 
 angular.module('owm.finance.v4', [])
 
-.controller('FinanceV4OverviewController', function ($scope, me, $stateParams, invoice2Service, paymentService, voucherService, linksService, invoiceService, alertService, $state, $mdDialog, $q) {
+.controller('FinanceV4OverviewController', function ($scope, me, $stateParams, invoice2Service, paymentService, voucherService, linksService, invoiceService, alertService, $state, $mdDialog, $q, appConfig) {
+  $scope.config = appConfig;
   $scope.me = me;
   $scope.provider = me.provider.id;
 
   $scope.loaded = {ungrouped: false, grouped: false};
   $scope.view = me.preference || 'both';
+
   $scope.activeTab = {active: 0};
   $scope.vouchersPerPage = 15;
   $scope.groupedInvoicesPerPage = 15;
@@ -59,6 +61,9 @@ angular.module('owm.finance.v4', [])
     $scope.allGroupedInvoices = _.sortBy(allInvoices, function(invoice) {
       var a;
       if(invoice.type === 'old') {
+        if(!invoice.invoice.due) {
+          return -Infinity;
+        }
         a = moment(invoice.invoice.due);
       } else {
         a = moment(invoice.invoice.date);
@@ -120,7 +125,7 @@ angular.module('owm.finance.v4', [])
 
   $scope.statusTooltipText = function(status) {
     if(status === 'USER_PAY') {
-      return 'Deze factuur is nog niet betaald. Verhoog je rijtegoed om de factuur te voldoen.';
+      return 'Deze factuur is nog niet betaald. Verhoog je rijtegoed om de factuur te voldoen of klik op betalen.';
     }
     if(status === 'PROVIDER_PAY') {
       return 'Deze factuur wordt binnenkort aan je uitbetaald.';
