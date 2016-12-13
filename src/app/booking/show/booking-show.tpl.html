@@ -52,7 +52,41 @@
             <span class="tag tag-{{ booking.status }}">{{ booking.status | bookingStatus }}</span>
             <i booking-approval-icon="booking"></i>
           </div>
-          <div ng-if="hasRequestedTimeframe(booking) && !hasAcceptedTimeframe(booking)" class="booking__timeframe booking__timeframe--requested">
+        </div>
+        <div class="media-body no-padding">
+
+          <!-- FORM TOGGLE -->
+          <button ng-if="allowEdit && !showBookingForm && !hasRequestedTimeframe(booking)"
+            type="button" class="btn btn-default"
+            scroll-to="bookingFormContainer"
+            ng-click="editBooking(bookingRequest)">
+            {{ 'EDIT_BOOKING' | translate }}
+          </button>
+
+          <!-- CANCEL -->
+          <button ng-if="allowCancel && !showBookingForm && !allowEdit && !hasRequestedTimeframe(booking)"
+            type="button" class="btn btn-default"
+            ng-click="cancelBooking(booking)">
+            {{ 'CANCEL_BOOKING' | translate }}
+          </button>
+          
+          
+          <a ng-if="allowFinalize"
+            class="btn btn-default"
+            ui-sref="owm.booking.finalize({booking: booking.id})">
+            {{booking.trip.odoEnd - booking.trip.odoBegin}}km gereden {{ 'FINALIZE_BOOKING' | translate }}
+          </a>
+
+        </div>
+      </div>
+      <hr/>
+    </div>
+
+    <!-- requested times -->
+    <div ng-if="hasRequestedTimeframe(booking)">
+      <div class="media">
+        <div class="media-object auto-height pull-left">
+          <div class="booking__timeframe booking__timeframe--requested">
             <datetime datetime="{{ booking.beginRequested }}"></datetime>
             <datetime datetime="{{ booking.endRequested }}"></datetime>
             <span ng-if="!hasAcceptedTimeframe(booking)" class="tag tag-{{ booking.status }}">{{ booking.status | bookingStatus }}</span>
