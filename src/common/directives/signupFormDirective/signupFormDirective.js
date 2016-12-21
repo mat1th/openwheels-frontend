@@ -8,12 +8,13 @@ angular.module('signupFormDirective', [])
     replace: true,
     transclude: true,
     templateUrl: 'directives/signupFormDirective/signupFormDirective.tpl.html',
-    controller: function ($scope, $rootScope, $state, $stateParams, $translate, $q, authService, featuresService, alertService, personService, $mdDialog, Analytics) {
+    controller: function ($scope, $rootScope, $state, $stateParams, $translate, $q, authService, featuresService, alertService, personService, $mdDialog, Analytics, appConfig) {
       $scope.auth = {};
       $scope.user = {};
       $scope.me = {};
       $scope.auth.terms = false;
       $scope.closeAlert = alertService.closeAlert;
+      $scope.config = appConfig;
 
       var initOptions = function () {
         $scope.preferenceOptions = [{
@@ -46,7 +47,9 @@ angular.module('signupFormDirective', [])
         }
       }
       $scope.login = function () {
-        $scope.cancel();
+        if($scope.cancel() !== undefined) {
+          $scope.cancel();
+        }
         authService.loginPopup().then(function () {
           if ($state.current.name === 'home' || $state.current.name === 'owm.auth.signup') {
             $state.go('owm.person.dashboard');

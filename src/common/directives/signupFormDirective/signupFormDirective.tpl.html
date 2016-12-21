@@ -1,5 +1,15 @@
 <form role="form" class="mywheels-form" ng-submit="signup()" name="signupform">
     <div class="mywheels-form-margin">
+        <div id="firstName_group" class="">
+          <a target="_self" ng-href="{{config.serverUrl}}/fb/redirect/t" class="btn btn-info" style="background: #3B5998; border-radius: 0; color: #fff; border-width: 1px; border-style: solid; border-color: #263961; width:100%"><i class="fa fa-fw fa-facebook"></i> Registreer met Facebook</a>
+        </div>
+        <br>
+        <span layout="row">
+          <hr flex/>
+          <span style="padding: 0 1em; font-size: 0.9em">of</span>
+          <hr flex/>
+        </span>
+
         <div id="firstName_group" class="icon user">
             <input type="text" autocomplete="off" name="firstName" id="firstName" ng-model="user.firstName" placeholder="{{ 'FIRST_NAME' | translate }}" required>
             <div class="help-block" ng-show="signupform.$submitted || signupform.firstName.$touched">
@@ -39,7 +49,7 @@
     <button type="button" name="button" class="mywheels-btn mywheels-btn-default mywheels-btn-form-margin" ng-click="signup()" md-ink-ripple="#3a6d81" ng-disabled="signupform.email.$error.required || signupform.firstName.$error.email || signupform.password.$error.required">
         {{ 'SIGNUP' | translate }}
     </button>
-    <div ng-if="url !== 'owm.person.dashboard'">
+    <div>
         <br>
         <md-divider></md-divider>
         <br>

@@ -11,10 +11,12 @@ angular.module('owm.finance')
     return contractService.requestContract(params)
     .then(function (contractRequest) {
       $log.debug(contractRequest);
+      // if already accept, no need for payment
       if(contractRequest.status === 'accept') {
-        return ;//contractRequest;
+        return 'accept';//contractRequest;
       }
-      // TODO(jdb): check contractRequest.status === 'new' before paying:
+
+      // we need to make a payment, redirect to url
       return paymentService.pay({
         person: personId
       }).then(function (paymentInfo) {
