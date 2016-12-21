@@ -47,7 +47,7 @@ angular.module('signupFormDirective', [])
         }
       }
       $scope.login = function () {
-        if($scope.cancel() !== undefined) {
+        if($scope.cancel !== undefined && typeof $scope.cancel === 'function') {
           $scope.cancel();
         }
         authService.loginPopup().then(function () {
