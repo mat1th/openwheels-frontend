@@ -43,7 +43,7 @@
       <span>{{ booking.status | bookingStatus }}</span>
     </div>
 
-    <div>
+    <div ng-if="!hasRequestedTimeframe(booking)">
       <div class="media">
         <div class="media-object auto-height pull-left">
           <div ng-if="hasAcceptedTimeframe(booking)" class="booking__timeframe booking__timeframe--accepted">
@@ -96,10 +96,10 @@
         <div class="media-body no-padding">
           <div ng-if="hasRequestedTimeframe(booking) && hasAcceptedTimeframe(booking)">
             <div style="float: left;" class="booking__timeframe booking__timeframe--requested">
-              <datetime datetime="{{ booking.beginRequested }}"></datetime>
-              <datetime datetime="{{ booking.endRequested }}"></datetime>
+              <datetime datetime="{{ booking.beginBooking }}"></datetime>
+              <datetime datetime="{{ booking.endBooking }}"></datetime>
               <span ng-if="!hasAcceptedTimeframe(booking)" class="tag tag-{{ booking.status }}">{{ booking.status | bookingStatus }}</span>
-              <span ng-if="hasAcceptedTimeframe(booking)" class="tag tag-requested">{{ 'requested' | bookingStatus }}</span>
+              <span ng-if="hasAcceptedTimeframe(booking)" class="tag tag-accepted">{{ 'accepted' | bookingStatus }}</span>
             </div>
           </div>
 

@@ -48,14 +48,16 @@ angular.module('owm.contract', [])
         contractType: 62,
         contract: contracts[0].id
       })
-      .then(function(res) {
-        if(res === 'accept') {
-          alertService.loaded();
-          alertService.add('success', 'Contractwissel is geslaagd', 9000);
-          $state.go('owm.person.dashboard');
-        }
-      });
+      .then(goToNextPage);
   };
+
+  function goToNextPage(res) {
+    if(res === 'accept') {
+      alertService.loaded();
+      alertService.add('success', 'Contractwissel is geslaagd', 9000);
+      $state.go('owm.person.dashboard');
+    }
+  }
 
   $scope.createPremium = function () {
     alertService.load();
@@ -66,7 +68,8 @@ angular.module('owm.contract', [])
         person: person.id,
         contractType: 63,
         contract: contracts[0].id
-      });
+      })
+      .then(goToNextPage);
   };
 
   $scope.createGo = function () {
