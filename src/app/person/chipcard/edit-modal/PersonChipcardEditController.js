@@ -17,7 +17,6 @@ angular.module('owm.person')
       id       : c.mifareUid,
       newProps : {
         description: c.description,
-        isOvfietsEnabled: c.isOvfietsEnabled
       }
     })
 
