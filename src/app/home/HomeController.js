@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owm.home', ['owm.resource', 'slick', 'owm.home.cb'])
+angular.module('owm.home', ['owm.resource', 'slick'])
 
 //Module in app/pages/pagesModule.js
 .controller('HomeController', function ($scope, $translate, resourceQueryService, $state, VERSION, resourceService) {
