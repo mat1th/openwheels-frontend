@@ -97,12 +97,12 @@
                 <md-card layout="row" layout-padding layout-align="center center">
                     <div class="backbutton">
                         <md-button ng-hide="page === 1" ng-click="showPage(page - 1)">
-                            <md-icon>arrow_back</md-icon>
+                            <md-icon>arrow_back</md-icon> <span hide-xs>{{ 'PREVIOUS' | translate }}</span>
                         </md-button>
                     </div>
                     <div flex-gt-xs="50" flex-xs="33" class="text-center">{{page}}</div>
                     <md-button ng-disabled="page == last_page" class="btn btn-link" ng-click="showPage(page + 1)">
-                        <md-icon>arrow_forward</md-icon>
+                        <span hide-xs>{{ 'NEXT' | translate }}</span> <md-icon>arrow_forward</md-icon>
                     </md-button>
                 </md-card>
                 <!-- /pagination -->
