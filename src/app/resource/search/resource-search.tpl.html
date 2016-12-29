@@ -80,7 +80,7 @@
             </div>
 
             <div ng-if="!searching && (resources.length >= 1)">
-                <div class="card">
+               <!-- <div class="card">
                     <div class="card-heading text-center">
                         <button type="button" class="btn btn-link" ng-click="toggleMap()" ng-if="!($state.includes('owm.resource.search.map') || $state.includes('owm.resource.place.map'))">
                             <i class="fa fa-map-marker"></i> {{ 'SHOW_ON_MAP' | translate }}
@@ -89,7 +89,7 @@
                             <i class="fa fa-th-list"></i> {{ 'SHOW_AS_LIST' | translate }}
                         </button>
                     </div>
-                </div>
+               </div>-->
 
                 <ui-view />
 
