@@ -10,7 +10,6 @@ angular.module('owm.finance')
 
     return contractService.requestContract(params)
     .then(function (contractRequest) {
-      console.log(contractRequest);
       $log.debug(contractRequest);
       // if already accept, no need for payment
       if(contractRequest.status === 'accept') {

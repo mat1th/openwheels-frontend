@@ -174,7 +174,7 @@
           </div>
 
           <!-- disclaimer -->
-          <div class="alert alert-danger" ng-if="booking.approved==='OK' && booking.bookingAlterationStrategy !== 'mywheels_member'">
+          <div class="alert alert-danger" ng-if="booking.approved==='OK' && booking.bookingAlterationStrategy !== 'mywheels_member' && booking.bookingAlterationStrategy !== 'mywheels_dim' && booking.bookingAlterationStrategy !== 'mywheels_premium'">
             <i class="fa fa-exclamation-triangle text-danger"></i>&nbsp;
             <span ng-switch="booking.bookingAlterationStrategy">
               <span ng-switch-when="default">{{ 'BOOKING_ALTERATION_STRATEGY_DEFAULT' | translate }}</span>
