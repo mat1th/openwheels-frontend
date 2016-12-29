@@ -277,9 +277,11 @@ angular.module('owm.booking.show', [])
         actionButtonText: $translate.instant('CONFIRM'),
         headerText: $translate.instant('CANCEL_BOOKING'),
         bodyText: $translate.instant('BOOKING.CANCEL.CONFIRM_TEXT'),
+        contract: contract,
+        booking: booking
       });
     };
-    if(booking.status === 'requested') {
+    if(booking.status === 'requested'){
       promise = function() { return $q.when(true); };
     }
 
