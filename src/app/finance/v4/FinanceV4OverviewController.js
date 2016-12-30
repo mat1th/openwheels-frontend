@@ -2,7 +2,7 @@
 
 angular.module('owm.finance.v4', [])
 
-.controller('FinanceV4OverviewController', function ($scope, me, $stateParams, invoice2Service, paymentService, voucherService, linksService, invoiceService, alertService, $state, $mdDialog, $q, appConfig) {
+.controller('FinanceV4OverviewController', function ($scope, me, $stateParams, invoice2Service, paymentService, voucherService, linksService, invoiceService, alertService, $state, $mdDialog, $q, appConfig, $window) {
   $scope.config = appConfig;
   $scope.me = me;
   $scope.provider = me.provider.id;
@@ -353,6 +353,22 @@ angular.module('owm.finance.v4', [])
     })
     .catch(function(err){
       alertService.add('danger', err, 9000);
+    })
+    ;
+  };
+
+  $scope.payInvoiceGroup = function(id) {
+    alertService.load();
+
+    paymentService.payInvoiceGroup({invoiceGroup: id})
+    .then(function(result) {
+      $window.location.href = result.url;
+    })
+    .catch(function(err) {
+      alertService.add('danger', err, 3000);
+    })
+    .finally(function() {
+      alertService.loaded();
     })
     ;
   };

@@ -34,8 +34,16 @@ angular.module('owm.contract', [])
 
   $scope.$mdMedia = $mdMedia;
 
-  if(!$scope.hasMember && !$scope.hasGo && !$scope.hasPremium) {
-    $state.go('owm.finance.deposit');
+  if(contracts.length === 0) {
+    depositService.requestContractAndPay({
+        person: person.id,
+        contractType: 60,
+        contract: null
+      })
+      .then(function(res) {
+        alertService.loaded();
+        alertService.add('success', 'Je hebt nu een GO contract', 9000);
+      });
   }
 
   $scope.createMember = function () {
@@ -47,8 +55,17 @@ angular.module('owm.contract', [])
         person: person.id,
         contractType: 62,
         contract: contracts[0].id
-      });
+      })
+      .then(goToNextPage);
   };
+
+  function goToNextPage(res) {
+    if(res === 'accept') {
+      alertService.loaded();
+      alertService.add('success', 'Contractwissel is geslaagd', 9000);
+      $state.go('owm.person.dashboard');
+    }
+  }
 
   $scope.createPremium = function () {
     alertService.load();
@@ -59,7 +76,8 @@ angular.module('owm.contract', [])
         person: person.id,
         contractType: 63,
         contract: contracts[0].id
-      });
+      })
+      .then(goToNextPage);
   };
 
   $scope.createGo = function () {
