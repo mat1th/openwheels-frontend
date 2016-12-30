@@ -104,7 +104,9 @@ angular.module('owm.discount')
     return discountService.search({
       resource: $scope.resource.id,
       validFrom: validFrom,
-      validUntil: validUntil
+      validUntil: validUntil,
+      setUser: false,
+      setProvider: false
     }).then(function (discounts) {
       $scope.discounts = discounts.result;
     })
