@@ -271,12 +271,21 @@ angular.module('owm.booking.show', [])
   };
 
   $scope.cancelBooking = function (booking) {
-    dialogService.showModal(null, {
-      closeButtonText: $translate.instant('CLOSE'),
-      actionButtonText: $translate.instant('CONFIRM'),
-      headerText: $translate.instant('CANCEL_BOOKING'),
-      bodyText: $translate.instant('BOOKING.CANCEL.CONFIRM_TEXT')
-    })
+    var promise = function() {
+      return dialogService.showModal({templateUrl: 'booking/show/dialog-cancel.tpl.html'}, {
+        closeButtonText: $translate.instant('CLOSE'),
+        actionButtonText: $translate.instant('CONFIRM'),
+        headerText: $translate.instant('CANCEL_BOOKING'),
+        bodyText: $translate.instant('BOOKING.CANCEL.CONFIRM_TEXT'),
+        contract: contract,
+        booking: booking
+      });
+    };
+    if(booking.status === 'requested'){
+      promise = function() { return $q.when(true); };
+    }
+
+    promise()
     .then(function () {
       alertService.load();
       return bookingService.cancel({
@@ -388,7 +397,7 @@ angular.module('owm.booking.show', [])
     if (err && err.level && err.message) {
       alertService.add(err.level, err.message, 5000);
     } else {
-      alertService.addGenericError();
+      //alertService.addGenericError();
     }
     initBookingRequestScope($scope.booking);
   }

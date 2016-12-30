@@ -225,7 +225,7 @@ angular.module('owm.resource.reservationForm', [])
   $scope.priceHtml = function (price) {
     var s = '';
     if (price.rent > 0) {
-      s += 'Huuur: ' + $filter('currency')(price.rent) + '<br/>';
+      s += 'Huur: ' + $filter('currency')(price.rent) + '<br/>';
     }
     if (price.insurance > 0) {
       s += 'Verzekering: ' + $filter('currency')(price.insurance) + '<br/>';

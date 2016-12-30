@@ -80,7 +80,7 @@
             </div>
 
             <div ng-if="!searching && (resources.length >= 1)">
-                <div class="card">
+               <!-- <div class="card">
                     <div class="card-heading text-center">
                         <button type="button" class="btn btn-link" ng-click="toggleMap()" ng-if="!($state.includes('owm.resource.search.map') || $state.includes('owm.resource.place.map'))">
                             <i class="fa fa-map-marker"></i> {{ 'SHOW_ON_MAP' | translate }}
@@ -89,7 +89,7 @@
                             <i class="fa fa-th-list"></i> {{ 'SHOW_AS_LIST' | translate }}
                         </button>
                     </div>
-                </div>
+               </div>-->
 
                 <ui-view />
 
@@ -97,12 +97,12 @@
                 <md-card layout="row" layout-padding layout-align="center center">
                     <div class="backbutton">
                         <md-button ng-hide="page === 1" ng-click="showPage(page - 1)">
-                            <md-icon>arrow_back</md-icon>
+                            <md-icon>arrow_back</md-icon> <span hide-xs>{{ 'PREVIOUS' | translate }}</span>
                         </md-button>
                     </div>
                     <div flex-gt-xs="50" flex-xs="33" class="text-center">{{page}}</div>
                     <md-button ng-disabled="page == last_page" class="btn btn-link" ng-click="showPage(page + 1)">
-                        <md-icon>arrow_forward</md-icon>
+                        <span hide-xs>{{ 'NEXT' | translate }}</span> <md-icon>arrow_forward</md-icon>
                     </md-button>
                 </md-card>
                 <!-- /pagination -->

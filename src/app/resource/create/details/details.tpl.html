@@ -1,5 +1,5 @@
 <md-card class="card">
-    <md-card-title>
+    <md-card-title class="card-max-width">
         <md-card-title-text layout="colum" layout-wrap style="padding-bottom: 0px;" class="list-your-car--title">
             <h3 class="no-margin" style="font-size: 2rem" flex="100" ng-show="!$root.personSubmitted && !personSubmitted">
                 <span>Persoonsgegevens</span>
@@ -10,7 +10,7 @@
             </h2>
         </md-card-title-text>
     </md-card-title>
-    <md-card-body class="card-body">
+    <md-card-body class="card-body card-max-width">
         <div class="mywheels-form">
 
             <p ng-show="!$root.personSubmitted && !personSubmitted">{{ ('LIST_YOUR_CAR_PERSON' | translate).split('&nbsp;').join(' ') }}</p>
