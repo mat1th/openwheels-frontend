@@ -1,6 +1,6 @@
 <form role="form" class="mywheels-form" ng-submit="signup()" name="signupform">
     <div class="mywheels-form-margin">
-        <div id="firstName_group" class="" ng-hide="true">
+        <div ng-hide="true" id="firstName_group" class="">
           <a target="_self" ng-href="{{config.serverUrl}}/fb/redirect/t" class="btn btn-info" style="background: #3B5998; border-radius: 0; color: #fff; border-width: 1px; border-style: solid; border-color: #263961; width:100%"><i class="fa fa-fw fa-facebook"></i> Registreer met Facebook</a>
         </div>
         <br>
@@ -53,6 +53,6 @@
         <br>
         <md-divider></md-divider>
         <br>
-        <p>Al een account bij MyWheels? <a ng-click="login()">Log in</a></p>
+        <p>{{ 'ALREADYSIGNUP' | translate }} <a ng-click="login()">Log in</a></p>
     </div>
 </form>
