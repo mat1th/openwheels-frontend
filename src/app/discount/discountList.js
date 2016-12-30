@@ -105,8 +105,7 @@ angular.module('owm.discount')
       resource: $scope.resource.id,
       validFrom: validFrom,
       validUntil: validUntil,
-      setUser: false,
-      setProvider: false
+      sender: $scope.me.id
     }).then(function (discounts) {
       $scope.discounts = discounts.result;
     })
