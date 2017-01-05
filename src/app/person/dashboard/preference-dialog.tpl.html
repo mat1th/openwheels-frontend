@@ -1,0 +1,26 @@
+<div ng-show="modalOptions.headerText" class="modal-header">
+  <h4 class="modal-title">Welkom bij MyWheels</h4>
+</div>
+<div class="modal-body">
+    <form class="mywheels-form details--profile--form no-margin" name="personalDataForm">
+    <p>
+      <strong>Welkom bij MyWheels {{modalOptions.me.firstName}},</strong>
+    </p>
+    <p>
+      Om je goed te kunnen helpen vragen we je hier onder aan te geven hoe je MyWheels wilt gebruiken.
+    </p>
+    <p>
+    <div id="preference_group" ng-if="!person.preference" class="icon car select">
+      <label for="preference">{{ 'USER_PREFERENCE_LABEL' | translate }}</label>
+      <div class="select-icon">
+        <select id="preference" name="preference" ng-model="modalOptions.preference" ng-options="o.value as o.label for o in modalOptions.preferenceOptions" required>
+        </select>
+      </div>
+    </div>
+    </form>
+  </p>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-primary" ng-disabled="!modalOptions.preference" ng-click="modalOptions.ok(modalOptions.preference);">Opslaan</button>
+</div>
+

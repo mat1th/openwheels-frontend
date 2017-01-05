@@ -220,6 +220,10 @@
         background: rgba(0, 0, 0, 0.12);
         color: #fff;
     }
+    input[type="radio"]:checked:focus + label {
+        background: darken(@mywheels-green, 12);
+        color: #fff;
+    }
     label::after,
     label::before {
         display: none !important;
