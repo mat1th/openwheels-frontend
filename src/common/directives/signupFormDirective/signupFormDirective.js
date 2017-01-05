@@ -8,13 +8,55 @@ angular.module('signupFormDirective', [])
     replace: true,
     transclude: true,
     templateUrl: 'directives/signupFormDirective/signupFormDirective.tpl.html',
-    controller: function ($scope, $rootScope, $state, $stateParams, $translate, $q, authService, featuresService, alertService, personService, $mdDialog, Analytics, appConfig) {
+    controller: function ($scope, $rootScope, $state, $stateParams, $translate, $q, authService, featuresService, alertService, personService, $mdDialog, Analytics, appConfig, $localStorage, $window) {
       $scope.auth = {};
       $scope.user = {};
       $scope.me = {};
       $scope.auth.terms = false;
       $scope.closeAlert = alertService.closeAlert;
-      $scope.config = appConfig;
+
+      $scope.facebookSignup = function() {
+        var booking = $scope.booking;
+        var resource = $scope.resource;
+        var data;
+        if(resource && booking) { // opgeroepen vanaf huur een auto page
+          data = { // should fill in the details
+            pageNumber: '1',
+            city: resource.city ? resource.city : 'utrecht',
+            resourceId: resource.id,
+            startDate: booking.beginRequested,
+            endDate: booking.endRequested,
+            discountCode: booking.discountCode,
+            remarkRequester: booking.remarkRequester,
+            riskReduction: booking.riskReduction,
+            preference: 'renter',
+            flow: 'booking'
+          };
+          $localStorage.booking_before_signup = data;
+        } else if ($state.current.name === 'list-your-car') { // opgeroepen vanuit verhuur je auto flow
+          data = { // should fill in the details
+            preference: 'owner',
+            flow: 'add_resource',
+            dayPrice: $scope.calculateYourPrice.dayPrice,
+            numberOfDays: $scope.calculateYourPrice.numberOfDays,
+            licencePlate: $scope.licencePlate.content,
+            personSubmitted: false,
+            brand: $scope.licencePlate.data.merk,
+            model: $scope.licencePlate.data.handelsbenaming,
+            color: $scope.licencePlate.data.kleur,
+          };
+          $localStorage.booking_before_signup = data;
+        } else {
+          data = { // should fill in the details
+            preference: undefined,
+            flow: undefined,
+          };
+          $localStorage.booking_before_signup = data;
+          // do nothing
+        }
+        var url = appConfig.serverUrl+'/fb/redirect/t';
+        $window.location.href = url;
+      };
 
       var initOptions = function () {
         $scope.preferenceOptions = [{

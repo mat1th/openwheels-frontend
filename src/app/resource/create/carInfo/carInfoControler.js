@@ -23,6 +23,16 @@ angular.module('owm.resource.create.carInfo', [])
     });
   }
 
+  if($stateParams.brand) {
+    resource.brand = $stateParams.brand;
+  }
+  if($stateParams.color) {
+    resource.color = $stateParams.color;
+  }
+  if($stateParams.model) {
+    resource.model = $stateParams.model;
+  }
+
   $scope.minSeatOptions = [{
     value: undefined,
     label: ''

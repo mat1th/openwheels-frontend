@@ -3,9 +3,65 @@
 angular.module('owm.person.dashboard', [])
 
 .controller('PersonDashboardController', function ($q, $scope, $sce, $state, me, bookingList, rentalList, actions,
-  authService, bookingService, alertService, boardcomputerService, actionService, resourceService, resourceQueryService, blogItems) {
-  if (me.status === 'new' && $scope.features.signupFlow && me.preference !== 'owner') {
-    $state.go('owm.person.intro');
+  authService, bookingService, alertService, boardcomputerService, actionService, resourceService, resourceQueryService, blogItems, $localStorage, personService, dialogService, $translate) {
+
+  // If booking_before_signup in local storage exists that means we have been redirected to this page after facebook signup
+  // decide where to go next and try to guess user preference. If we do not know what flow to redirect
+  // to, we present the user a modal and ask what he/she wants to do
+  //
+  // Else show normal dashboard/intro page
+  if($localStorage.booking_before_signup) {
+    var data = angular.copy($localStorage.booking_before_signup);
+    delete $localStorage.booking_before_signup;
+    if(data.flow === 'add_resource') {
+      setPreference('owner');
+      $state.go('owm.resource.create.carInfo', data);
+    } else if(data.flow === 'booking') {
+      setPreference('renter');
+      $state.go('owm.person.details', data);
+    } else {
+      showModal();
+    }
+  } else {
+    if(me.status === 'new' && !me.preference) {
+      showModal();
+    } else if(me.status === 'new' && me.preference !== 'owner') {
+      $state.go('owm.person.intro');
+    }
+  }
+
+  function setPreference(pref) {
+    if(!me.preference) {
+      personService.alter({person: me.id, newProps: {preference: pref}})
+      .then(function(res) {
+        me = res;
+      })
+      .catch(function(err) {
+      })
+      ;
+    }
+  }
+
+  function showModal() {
+    var initOptions = function () {
+      return [{
+        label: $translate.instant('USER_PREFERENCE_RENTER'),
+        value: 'renter'
+      }, {
+        label: $translate.instant('USER_PREFERENCE_OWNER'),
+        value: 'owner'
+      }, {
+        label: $translate.instant('USER_PREFERENCE_BOTH'),
+        value: 'both'
+      }];
+    };
+
+    initOptions = initOptions();
+    return dialogService.showModal({templateUrl: 'person/dashboard/preference-dialog.tpl.html'}, {
+      me: me,
+      preferenceOptions: initOptions,
+    })
+    .then(setPreference);
   }
 
   $scope.me = me;

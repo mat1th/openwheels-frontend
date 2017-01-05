@@ -211,7 +211,7 @@ angular.module('owm.resource', [
    */
 
   $stateProvider.state('owm.resource.create.carInfo', {
-    url: '',
+    url: '?brand&color&model',
     reloadOnSearch: false,
     controller: 'carInfoControler',
     templateUrl: 'resource/create/carInfo/car-info.tpl.html'

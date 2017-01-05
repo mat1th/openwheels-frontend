@@ -11,7 +11,7 @@ angular.module('personalDataDirective', [])
       resource: '=resource'
     },
     templateUrl: 'directives/personalData/personalData.tpl.html',
-    controller: function ($scope, $rootScope, $log, $state, $location, $stateParams, $filter, personService, resourceService, $anchorScroll, $timeout, alertService, account2Service, accountService, dutchZipcodeService, Analytics) {
+    controller: function ($scope, $rootScope, $log, $state, $location, $stateParams, $filter, personService, resourceService, $anchorScroll, $timeout, alertService, account2Service, accountService, dutchZipcodeService, Analytics, $translate, featuresService) {
       //person info
       var masterPerson = null;
       var that;
@@ -34,6 +34,24 @@ angular.module('personalDataDirective', [])
           $scope.ownerflow = $state.current.name === 'owm.resource.create.details' ? true : false;
           this.initPerson();
           that = this;
+
+          var initOptions = function () {
+            $scope.preferenceOptions = [{
+              label: $translate.instant('USER_PREFERENCE_RENTER'),
+              value: 'renter'
+            }, {
+              label: $translate.instant('USER_PREFERENCE_OWNER'),
+              value: 'owner'
+            }, {
+              label: $translate.instant('USER_PREFERENCE_BOTH'),
+              value: 'both'
+            }];
+          };
+
+          $scope.$on('$translateChangeSuccess', function () {
+            initOptions();
+          });
+          initOptions();
         },
         submitDataForm: function () {
           var _this = this;
