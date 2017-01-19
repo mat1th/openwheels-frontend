@@ -34,7 +34,7 @@ angular.module('owm.resource.parkingpermit', ['alertService'])
       }, {
         resource: $scope.resource,
         members: members,
-        cities: ['Den Haag', 'Rijswijk', 'Groningen', 'Haarlem', 'Leiden', 'Nijmegen', 'Utrecht', 'Test']
+        cities: ['Den Haag', 'Rijswijk', 'Groningen', 'Haarlem', 'Leiden', 'Nijmegen', 'Utrecht']
       });
     }).then(function () {
       alertService.load($scope, 'success', 'Parkeervergunning aanvragen');
