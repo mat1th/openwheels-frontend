@@ -31,7 +31,11 @@ angular.module('owm.resource.parkingpermit', ['alertService'])
     .then(function (members) {
       return dialogService.showModal({
         templateUrl: 'resource/components/parking-create.tpl.html'
-      }, {resource: $scope.resource, members: members});
+      }, {
+        resource: $scope.resource,
+        members: members,
+        cities: ['Den Haag', 'Rijswijk', 'Groningen', 'Haarlem', 'Leiden', 'Nijmegen', 'Utrecht']
+      });
     }).then(function () {
       alertService.load($scope, 'success', 'vergunning aanvragen');
       return resourceService.createParkingpermit({resource: $scope.resource.id});

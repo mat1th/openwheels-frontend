@@ -4,6 +4,7 @@
 </div>
 <div class="modal-body">
   <p>Wil je een extra vergunning aanvragen met de onderstaande gegevens?</P>
+  <div>gemeente: <select ng-model="city"><option ng-repeat="x in modalOptions.cities">{{x}}</option></select></div>
   <div>kenteken: {{modalOptions.resource.registrationPlate}}</div>
   <div>
       {{modalOptions.resource.owner.firstName}} {{modalOptions.resource.owner.preposition}} {{modalOptions.resource.owner.surname}}, 
