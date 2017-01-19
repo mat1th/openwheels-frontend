@@ -1,11 +1,11 @@
 
 <div ng-show="modalOptions.headerText" class="modal-header">
-  <h4 class="modal-title">Extra vergunning wijzigen</h4>
+  <h4 class="modal-title">Extra parkeervergunning wijzigen</h4>
 </div>
 <div class="modal-body">
-  <p>Wil je een extra vergunning aanvragen met de onderstaande gegevens?</P>
+  <p>Wil je een parkeervergunning aanvragen met de onderstaande gegevens?</P>
   
-  <div>kenteken: 
+  <div>Kenteken: 
     <select 
         ng-model="modalOptions.resource" 
         ng-options="item.registrationPlate + ' (' + item.alias + ')' for item in modalOptions.resourceList"
@@ -14,14 +14,15 @@
     </select>
   </div>
   <div>
+      Auto-eigenaar: 
       {{modalOptions.resource.owner.firstName}} {{modalOptions.resource.owner.preposition}} {{modalOptions.resource.owner.surname}}, 
       {{modalOptions.resource.owner.streetName}} {{modalOptions.resource.owner.streetNumber}}, 
       {{modalOptions.resource.owner.zipcode}} {{modalOptions.resource.owner.city}}
   </div>
   <div ng-repeat="member in modalOptions.members">
-      {{member.firstName}} {{member.preposition}} {{member.surname}}, 
-      {{member.streetName}} {{member.streetNumber}}, 
-      {{member.zipcode}} {{member.city}}
+      Auto-gebruiker: 
+      {{member.firstName}}, 
+      {{member.city}}
   </div>
   
 </div>
