@@ -13,7 +13,8 @@ angular.module('owm.resource', [
   'owm.resourceQueryService',
   'owm.resource.reservationForm',
   'owm.resource.favoriteIcon',
-  'owm.resource.parkingpermit'
+  'owm.resource.parkingpermit',
+  'owm.resource.insurance'
 ])
 
 .config(function ($stateProvider) {

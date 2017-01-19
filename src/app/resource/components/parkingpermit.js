@@ -37,12 +37,12 @@ angular.module('owm.resource.parkingpermit', ['alertService'])
         cities: ['Den Haag', 'Rijswijk', 'Groningen', 'Haarlem', 'Leiden', 'Nijmegen', 'Utrecht']
       });
     }).then(function () {
-      alertService.load($scope, 'success', 'vergunning aanvragen');
+      alertService.load($scope, 'success', 'Parkeervergunning aanvragen');
       return resourceService.createParkingpermit({resource: $scope.resource.id});
     }).then(function(permit) {
-      $log.debug('vergunning aangevraagt', permit);
+      $log.debug('Parkeervergunning aangevraagd', permit);
       alertService.loaded($scope);
-      alertService.add($scope, 'success', 'Vergunning brief verzonden.');
+      alertService.add($scope, 'success', 'Parkeervergunning brief verzonden.');
       return [permit];
     }).then(show, function (error) {
       if(error === 'cancel') {
@@ -71,14 +71,14 @@ angular.module('owm.resource.parkingpermit', ['alertService'])
         });
       }
       
-      alertService.load($scope, 'success', 'vergunning wijzigen');
+      alertService.load($scope, 'success', 'Parkeervergunning wijzigen');
       return resourceService.alterParkingpermit({
         parkingpermit: permit,
         resource: resource.id
       }).then(function(permit) {
-        $log.debug('vergunning aangevraagt', permit);
+        $log.debug('Parkeervergunning aangevraagd', permit);
         alertService.loaded($scope);
-        alertService.add($scope, 'success', 'Vergunning brief verzonden.');
+        alertService.add($scope, 'success', 'Parkeervergunning brief verzonden.');
         return [permit];
       }).then(show, function (error) {
         if(error === 'cancel') {
@@ -89,15 +89,14 @@ angular.module('owm.resource.parkingpermit', ['alertService'])
       });
     });
   };
-
-  
+ 
   $scope.removeParkingPermit = function (permit) {
     alertService.load($scope, 'success', 'vergunning verwijderen');
     resourceService.removeParkingpermit({parkingpermit: permit})
     .then(function(permit) {
-      $log.debug('vergunning opgezecht', permit);
+      $log.debug('Parkeervergunning opgezegd', permit);
       alertService.loaded($scope);
-      alertService.add($scope, 'success', 'Vergunning opzeg brief verzonden.');
+      alertService.add($scope, 'success', 'Parkeervergunning opzegbrief verzonden.');
       return [];
     }).then(show, function (error) {
       alertService.loaded($scope);

@@ -256,7 +256,7 @@
 
 <!-- PROFILE DATA  -->
 
-<div class="card" id="profile-data">
+<div class="card" id="profile-data" ng-show="person.provider.id !== 5">
   <div class="card-heading">
     <h3 class="card-title">
       <a href="" ng-init="profileIsCollapsed = true"
@@ -359,7 +359,7 @@
           <p class="help-block">{{ 'USER_ABOUT_ME_HELP_BLOCK' | translate }}</p>
         </div>
 
-<!--         <div class="form-group">
+        <!-- <div class="form-group">
           <label for="facebookUid">{{ 'FACEBOOK_UID' | translate }}</label>
           <input type="text" id="facebookUid" name="facebookUid" class="form-control" ng-model="person.facebookUid" null-if-empty>
         </div> -->
@@ -411,7 +411,7 @@
 </div><!--/ card -->
 
 <!-- upload license -->
-<div id="license-upload" class="card" ng-show="person.status === 'new' && person.preference !== 'owner'">
+<div id="license-upload" class="card" ng-show="person.status === 'new' && person.preference !== 'owner' && person.provider.id !== 5">
   <div class="card-heading">
     <h3 class="card-title">
       <a ui-sref="owm.person.license">
@@ -426,14 +426,20 @@
 <div class="card">
   <div class="card-heading">
     <h3 class="card-title">
-      <a ui-sref="owm.auth.changePassword">
-        {{ 'AUTH_CHANGE_PWD_PAGE_TITLE' | translate }}
-      </a>
+      <a ui-sref="owm.auth.changePassword">{{ 'AUTH_CHANGE_PWD_PAGE_TITLE' | translate }}</a>
     </h3>
   </div>
 </div>
 
-<div class="card" id="menu-item-contracts" ng-if="person.status != 'new'">
+<div class="card" ng-if="person.provider.id === 5">
+  <div class="card-heading">
+    <h3 class="card-title">
+      <a href="" ui-sref="owm.resource.own">{{ 'CREATE_RESOURCE_BUTTON' | translate }}</a>
+    </h3>
+  </div>
+</div>
+
+<div class="card" id="menu-item-contracts" ng-if="person.status !== 'new'">
   <div class="card-heading">
     <h3 class="card-title">
       <a href="" ui-sref="owm.person.contract">{{ 'MY_CONTRACTS' | translate }}</a>
@@ -441,7 +447,7 @@
   </div>
 </div>
 
-<div class="card" id="menu-item-chipcards" ng-if="person.status != 'new'">
+<div class="card" id="menu-item-chipcards" ng-if="person.status !== 'new' && person.provider.id !== 5">
   <div class="card-heading">
     <h3 class="card-title">
       <a href="" ui-sref="owm.person.chipcard">{{ 'MY_CHIPCARDS' | translate }}</a>
