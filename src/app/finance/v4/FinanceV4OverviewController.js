@@ -113,7 +113,7 @@ angular.module('owm.finance.v4', [])
       return 'Nog te betalen';
     }
     if(status === 'USER_PAID') {
-      return 'Betaling voldaan';
+      return 'Betaald';
     }
     if(status === 'PROVIDER_PAY') {
       return 'In behandeling';

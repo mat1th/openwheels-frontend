@@ -155,7 +155,7 @@
 
           <div ng-if="(view === 'both' && !openInvoices.null && !openInvoices.renter && !openInvoices.owner) || (view === 'renter' && !openInvoices.null && !openInvoices.renter) || (view === 'owner' && !openInvoices.null && !openInvoices.owner)">
             <p>
-              Je hebt geen openstaande facturen.
+              Je hebt geen facturen in opbouw.
             </p>
           </div>
 
@@ -231,7 +231,7 @@
     </div><!--/card-->
   </md-tab>
 
-  <md-tab ng-if="provider !== 50" label="Rijtegoed">
+  <md-tab id="financeOverviewVoucher" label="Rijtegoed">
     <div class="card">
       <div class="card-heading">
         <h3 class="card-title">
