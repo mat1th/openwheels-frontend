@@ -1,14 +1,14 @@
 <form role="form" class="mywheels-form" ng-submit="signup()" name="signupform">
     <div class="">
-        <div id="firstName_group" class="">
+        <div id="signupFormFacebook" class="">
           <button type="button" ng-click="facebookSignup()" class="btn btn-info" style="background: #3B5998; border-radius: 0; color: #fff; border-width: 1px; border-style: solid; border-color: #263961; width:100%"><i class="fa fa-fw fa-facebook"></i> Registreer met Facebook</button>
+            <br><br>
+            <span layout="row">
+              <hr flex/>
+              <span style="padding: 0 1em; font-size: 0.9em">of</span>
+              <hr flex/>
+            </span>
         </div>
-        <br>
-        <span layout="row">
-          <hr flex/>
-          <span style="padding: 0 1em; font-size: 0.9em">of</span>
-          <hr flex/>
-        </span>
 
         <div id="firstName_group" class="icon user">
             <input type="text" autocomplete="off" name="firstName" id="firstName" ng-model="user.firstName" placeholder="{{ 'FIRST_NAME' | translate }}" required>

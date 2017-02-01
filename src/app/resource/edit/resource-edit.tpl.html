@@ -1,6 +1,6 @@
 <div ng-if="hasPermission">
 
-  <md-card>
+  <md-card id="resourceEditHeader">
     <md-card-header class="blue-header">
       <md-card-header-text>
         <span class="md-title">
@@ -14,7 +14,7 @@
   </md-card>
 
   <!-- data -->
-  <md-card>
+  <md-card id="resourceEditData">
     <md-card-header>
       <md-card-header-text>
         <span class="md-title">
@@ -31,7 +31,7 @@
   </md-card>
 
   <!-- sharing settings -->
-  <md-card>
+  <md-card id="resourceEditSharingSettings">
     <md-card-header>
       <md-card-header-text>
         <span class="md-title">
@@ -49,7 +49,7 @@
 
   <!-- price -->
   <!-- NOTE: MAY BE HIDDEN IN BRANDING CSS (based on id=price) -->
-  <md-card id="price">
+  <md-card id="resourceEditPrice">
     <md-card-header>
       <md-card-header-text>
         <span class="md-title">
@@ -66,7 +66,7 @@
   </md-card>
 
   <!-- photos -->
-  <md-card ng-show="resource.provider.id !== 5">
+  <md-card id="resourceEditPhotos">
     <md-card-header>
       <md-card-header-text>
         <span class="md-title">
@@ -83,7 +83,7 @@
   </md-card>
 
   <!-- location -->
-  <md-card>
+  <md-card id="resourceEditLocation">
     <md-card-header>
       <md-card-header-text>
         <span class="md-title">
@@ -101,7 +101,7 @@
 
   <!-- members -->
   <!-- do not show card if the resource is not available for others and if resource provider is not 1 -->
-  <md-card ng-if="!hiddenCards.friends">
+  <md-card id="resourceEditFriends" ng-if="!hiddenCards.friends">
     <md-card-header>
       <md-card-header-text>
         <span class="md-title">
@@ -118,7 +118,7 @@
   </md-card>
 
   <!-- discounts -->
-  <md-card ng-if="features.discounts" ng-show="resource.provider.id !== 5">
+  <md-card id="resourceEditDiscounts" ng-if="features.discounts">
     <md-card-header>
       <md-card-header-text>
         <span class="md-title">
@@ -135,7 +135,7 @@
   </md-card>
 
   <!-- calendar -->
-  <md-card ng-show="resource.provider.id !== 5">
+  <md-card id="resourceEditCalendar">
     <md-card-header>
       <md-card-header-text>
         <span class="md-title">
