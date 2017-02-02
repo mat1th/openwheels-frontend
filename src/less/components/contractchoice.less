@@ -18,8 +18,29 @@
         max-width: 23em;
         width: 100%;
         margin: 1em auto;
-        // border: 2px solid @mywheels-green;
         border: 2px solid rgba(23, 61, 80, 0.06);
+    }
+
+    @media only screen and (min-width: 600px) {
+      .contract-choice--left {
+        border-right: none;
+      }
+      .contract-choice--right {
+        border-left: none;
+      }
+    }
+
+    .contract-choice--middle {
+      width: 125%;
+      border: 2px solid #e4e6e8;
+      & > section {
+        font-size: 1.2em; 
+      }
+      box-shadow: 0px 5px 30px 0px rgba(132, 132, 132, 0.26);
+
+      &--small {
+        width: 100%;
+      }
     }
 
     ul {

@@ -2,12 +2,17 @@
 
 angular.module('owm.finance.v4', [])
 
-.controller('FinanceV4OverviewController', function ($scope, me, $stateParams, invoice2Service, paymentService, voucherService, linksService, invoiceService, alertService, $state, $mdDialog) {
+.controller('FinanceV4OverviewController', function ($scope, me, $stateParams, invoice2Service, paymentService, voucherService, linksService, invoiceService, alertService, $state, $mdDialog, $q, appConfig, $window) {
+  $scope.config = appConfig;
   $scope.me = me;
-  $scope.loaded = false;
+  $scope.provider = me.provider.id;
+
+  $scope.loaded = {ungrouped: false, grouped: false};
   $scope.view = me.preference || 'both';
+
   $scope.activeTab = {active: 0};
-  $scope.perPage = 15;
+  $scope.vouchersPerPage = 15;
+  $scope.groupedInvoicesPerPage = 15;
 
   // get ungrouped invoices
   invoice2Service.getUngroupedForPerson({person: me.id})
@@ -15,39 +20,77 @@ angular.module('owm.finance.v4', [])
   .then(addGrantTotal)
   .then(groupInvoicesByBookingRelation)
   .then(function(results) { $scope.openInvoices = results; })
-  .finally(function() { $scope.loaded = true; })
+  .finally(function() { $scope.loaded.ungrouped = true; })
   ;
 
   // get grouped invoices (invoice2Module)
-  paymentService.getInvoiceGroups({person: me.id, max: 100})
+  var newInvoices = paymentService.getInvoiceGroups({person: me.id, max: 100})
   .then(addExtraInvoiceGroupInformation)
-  .then(function(results) { $scope.groupedInvoices = results; })
+  .then(function(results) { $scope.groupedInvoices = results; return results;})
   ;
 
+  // get grouped invoices (old invoiceModule)
+  var oldInvoices = invoiceService.allGroups({filter: {person: me.id}, limit: 100})
+  .then(function (paged){ return paged.result; })
+  .then(addExtraInformationOldInvoices)
+  .then(function(results) { $scope.groupedInvoicesOld = results; return results;})
+  ;
+  
+
   // get credit
-  voucherService.calculateRequiredCredit({person: me.id})
-  .then(function(results) { $scope.requiredCredit = results; })
+  var requiredCredit = voucherService.calculateRequiredCredit({person: me.id})
+  .then(function(results) { $scope.requiredCredit = results; return results;})
   ;
 
   // get vouchers
-  voucherService.search({person: me.id, minValue: 0.0})
-  .then(function(vouchers) { $scope.vouchers = vouchers; })
+  var vouchers = voucherService.search({person: me.id, minValue: 0.0})
+  .then(function(vouchers) { $scope.vouchers = vouchers; return vouchers;})
   ;
 
-  // get grouped invoices (invoiceModule)
-  invoiceService.paymentsForPerson({person: me.id})
-  .then(addExtraInformationOldInvoices)
-  .then(function(results) { $scope.groupedInvoicesOld = results; })
+
+  $q.all({newInvoices: newInvoices, oldInvoices: oldInvoices, requiredCredit: requiredCredit, vouchers: vouchers})
+  .then(function(results) {
+    var allInvoices = [];
+
+    _.forEach(results.newInvoices, function(newInvoice) {
+      allInvoices.push({type: 'new', invoice: newInvoice});
+    });
+    _.forEach(results.oldInvoices, function(oldInvoice) {
+      allInvoices.push({type: 'old', invoice: oldInvoice});
+    });
+    $scope.allGroupedInvoices = _.sortBy(allInvoices, function(invoice) {
+      var a;
+      if(invoice.type === 'old') {
+        if(!invoice.invoice.due) {
+          return -Infinity;
+        }
+        a = moment(invoice.invoice.due);
+      } else {
+        a = moment(invoice.invoice.date);
+      }
+      return a.format('X') * -1;
+    });
+    return $scope.allGroupedInvoices;
+  })
+  .finally(function() { $scope.loaded.grouped = true; })
   ;
 
-  function log(invoices) {
-    console.log(invoices);
-    return invoices;
+  // util function
+  function log(a) {
+    console.log(a);
+    return a;
+  }
+  function loglabel(label) {
+    return function(toLog) {
+      console.log(label, toLog);
+      return toLog;
+    };
   }
 
   function addExtraInformationOldInvoices(invoices) {
     invoices = _.map(invoices, function(invoice) {
       invoice.pdflink = linksService.invoiceGroupPdf_v1(invoice.id);
+      return invoice;
     });
     return invoices;
   }
@@ -70,7 +113,7 @@ angular.module('owm.finance.v4', [])
       return 'Nog te betalen';
     }
     if(status === 'USER_PAID') {
-      return 'Betaling voldaan';
+      return 'Betaald';
     }
     if(status === 'PROVIDER_PAY') {
       return 'In behandeling';
@@ -82,7 +125,7 @@ angular.module('owm.finance.v4', [])
 
   $scope.statusTooltipText = function(status) {
     if(status === 'USER_PAY') {
-      return 'Deze factuur is nog niet betaald. Verhoog je rijtegoed om de factuur te voldoen.';
+      return 'Deze factuur is nog niet betaald. Verhoog je rijtegoed om de factuur te voldoen of klik op betalen.';
     }
     if(status === 'PROVIDER_PAY') {
       return 'Deze factuur wordt binnenkort aan je uitbetaald.';
@@ -90,18 +133,10 @@ angular.module('owm.finance.v4', [])
   };
 
   $scope.statusTooltipEnable = function(status) {
-    if(status === 'USER_PAY') {
+    if(status === 'USER_PAY' || status === 'PROVIDER_PAY') {
       return true;
     }
-    if(status === 'USER_PAID') {
-      return false;
-    }
-    if(status === 'PROVIDER_PAY') {
-      return true;
-    }
-    if(status === 'PROVIDER_PAID') {
-      return false;
-    }
+    return false;
   };
 
   function addExtraInvoiceGroupInformation(invoices) {
@@ -139,6 +174,18 @@ angular.module('owm.finance.v4', [])
 
   function addExtraInvoiceInformation(invoices) {
     invoices = _.map(invoices, function(bookingInvoice) {
+
+      bookingInvoice.invoices = _.map(bookingInvoice.invoices, function(invoice) {
+        var type;
+        if(invoice.recipient.id === me.id) {
+          type = 'received';
+        } else {
+          type = 'sent';
+        }
+        invoice.type = type;
+        return invoice;
+      });
+
       var totals = _.reduce(bookingInvoice.invoices, function(memo, invoice) {
         if(invoice.recipient.id === me.id) {
           memo.totalToPay += invoice.total;
@@ -150,6 +197,9 @@ angular.module('owm.finance.v4', [])
 
       bookingInvoice.totalToPay = totals.totalToPay;
       bookingInvoice.totalToReceive = totals.totalToReceive;
+      if(bookingInvoice.booking) {
+        bookingInvoice.pdf = linksService.tripDetailsPdf(bookingInvoice.booking.id);
+      }
 
       if(bookingInvoice.totalToPay > bookingInvoice.totalToReceive) {
         bookingInvoice.totalToPay -= bookingInvoice.totalToReceive;
@@ -161,6 +211,17 @@ angular.module('owm.finance.v4', [])
 
       bookingInvoice.hasToPay = bookingInvoice.totalToPay > bookingInvoice.totalToReceive;
       bookingInvoice.hasToReceive = bookingInvoice.totalToReceive > bookingInvoice.totalToPay;
+
+      var res = _.groupBy(bookingInvoice.invoices, 'type');
+      var invoiceLinesSent, invoiceLinesReceived = [];
+      if(res.sent) {
+        invoiceLinesSent = _.map(_.flatten(_.pluck(res.sent, 'invoiceLines')), function(i) {i.type='sent'; return i; });
+      }
+      if(res.received) {
+        invoiceLinesReceived = _.map(_.flatten(_.pluck(res.received, 'invoiceLines')), function(i) {i.type='received'; return i; });
+      }
+      var invoiceLines = _.sortBy(_.union(invoiceLinesSent, invoiceLinesReceived), 'position');
+      bookingInvoice.invoiceLines = invoiceLines;
 
       return bookingInvoice;
     });
@@ -235,17 +296,81 @@ angular.module('owm.finance.v4', [])
   };
 
   $scope.buyVoucher = function() {
-//    $mdDialog.show({
-//      templateUrl: 'finance/v4/buyVoucherDialog.tpl.html',
-//      controller: function($mdDialog, $scope, requiredCredit) {
-//        $scope.requiredCredit = requiredCredit;
-//        $scope.cancel = function() {
-//          $mdDialog.hide();
-//        };
-//      },
-//      locals: {requiredCredit: $scope.requiredCredit},
-//    });
     $state.go('owm.finance.vouchers');
+  };
+
+  $scope.payoutDialog = function() {
+    var dialog = {
+      templateUrl: 'finance/v4/payoutDialog.tpl.html',
+      controller: ['$scope', '$mdDialog', 'vouchers', function($scope, $mdDialog, vouchers) {
+        $scope.vouchers = vouchers;
+        $scope.selectedVouchers = [];
+
+        $scope.cancel = function() {
+          $mdDialog.hide(false);
+        };
+        $scope.close = function(x) {
+          if($scope.selectedVouchers.length) {
+            $mdDialog.hide($scope.selectedVouchers);
+          } else {
+            $scope.cancel();
+          }
+        };
+
+        $scope.toggle = function (item, list) {
+          var idx = list.indexOf(item);
+          if (idx > -1) {
+            list.splice(idx, 1);
+          }
+          else {
+            list.push(item);
+          }
+        };
+        $scope.exists = function (item, list) {
+          return list.indexOf(item) > -1;
+        };
+      }],
+      locals: {
+        vouchers: $scope.vouchers,
+      },
+    };
+
+    $mdDialog.show(dialog)
+    .then(function(vouchers) {
+      if(!vouchers) {
+        return;
+      }
+      var promises = [];
+      _.forEach(vouchers, function(voucher) {
+        promises.push(paymentService.payoutVoucher({voucher: voucher}));
+      });
+
+      return $q.all(promises)
+      .then(function(results) {
+        alertService.add('success', 'De aangevraagde uitbetalingen staan ingepland', 9000);
+        $state.reload();
+      });
+    })
+    .catch(function(err){
+      alertService.add('danger', err, 9000);
+    })
+    ;
+  };
+
+  $scope.payInvoiceGroup = function(id) {
+    alertService.load();
+
+    paymentService.payInvoiceGroup({invoiceGroup: id})
+    .then(function(result) {
+      $window.location.href = result.url;
+    })
+    .catch(function(err) {
+      alertService.add('danger', err, 3000);
+    })
+    .finally(function() {
+      alertService.loaded();
+    })
+    ;
   };
 
 });

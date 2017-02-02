@@ -1,0 +1,34 @@
+
+<div ng-show="modalOptions.headerText" class="modal-header">
+  <h4 class="modal-title">Extra parkeervergunning wijzigen</h4>
+</div>
+<div class="modal-body">
+  <p>Wil je een parkeervergunning aanvragen met de onderstaande gegevens?</P>
+  
+  <div>Kenteken: 
+    <select 
+        ng-model="modalOptions.resource" 
+        ng-options="item.registrationPlate + ' (' + item.alias + ')' for item in modalOptions.resourceList"
+    >
+        <option value="">-- nieuwe auto --</option>
+    </select>
+  </div>
+  <div>
+      Auto-eigenaar: 
+      {{modalOptions.resource.owner.firstName}} {{modalOptions.resource.owner.preposition}} {{modalOptions.resource.owner.surname}}, 
+      {{modalOptions.resource.owner.streetName}} {{modalOptions.resource.owner.streetNumber}}, 
+      {{modalOptions.resource.owner.zipcode}} {{modalOptions.resource.owner.city}}
+  </div>
+  <div ng-repeat="member in modalOptions.members">
+      Auto-gebruiker: 
+      {{member.firstName}}, 
+      {{member.city}}
+  </div>
+  
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-primary"
+          data-ng-click="modalOptions.ok(modalOptions.resource);">{{modalOptions.actionButtonText}}</button>
+  <button type="button" class="btn btn-link"
+          data-ng-click="modalOptions.close()">{{modalOptions.closeButtonText}}</button>
+</div>

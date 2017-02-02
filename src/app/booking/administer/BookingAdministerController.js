@@ -2,13 +2,33 @@
 
 angular.module('owm.booking.administer', [])
 
+.controller('BookingFinalizeController', function ($scope, booking, alertService, bookingService, $state) {
+  alertService.load($scope);
+  bookingService.finishTrip({booking: booking.id}).then(function (booking) {
+    alertService.loaded($scope);
+    alertService.add('success', 'De rit is afgerond', 4000);
+    return $state.go('owm.booking.show', {
+      booking: booking.id
+    }, {reload: true});
+  }, function (error) {
+    return $state.go('owm.booking.show', {
+      booking: booking.id
+    }, {reload: true});
+  });
+})
+
 .controller('BookingAdministerController', function ($scope, $state, $translate, alertService, bookingService, booking, declarationService, $anchorScroll, $mdDialog, contract, Analytics) {
   $scope.booking  = booking;
+  $scope.bookingStarted = moment().isAfter(moment(booking.beginBooking));
+  $scope.bookingEnded = moment().isAfter(moment(booking.endBooking));
   $scope.resource = booking.resource;
   $scope.trip     = angular.copy(booking.trip);
   $scope.maxDeclarations = 5;
   $scope.declaration = {};
   $scope.contract = contract;
+
+  $scope.allowDeclarations = contract.type.canHaveDeclaration && ($scope.booking.approved === 'OK' || $scope.booking.approved === null) && $scope.bookingStarted && !$scope.booking.resource.refuelByRenter && !booking.resource.fuelCardCar;
+  $scope.allowDeclarationsAdd = $scope.allowDeclarations && moment().isBefore(moment(booking.endBooking).add(5, 'days'));
 
   if(booking.resource.refuelByRenter) {
     $scope.contract.type.canHaveDeclaration = false;
@@ -30,7 +50,7 @@ angular.module('owm.booking.administer', [])
   }
 
   function saveTrip() {
-    if($scope.trip.odoBegin && !$scope.alreadyFilled) {
+    if(!$scope.alreadyFilled) {
       var params = {
         booking : $scope.booking.id,
         odoBegin: $scope.trip.odoBegin
@@ -46,7 +66,7 @@ angular.module('owm.booking.administer', [])
 
       alertService.load();
       bookingService.setTrip(params).then(function (booking) {
-        Analytics.trackEvent('person', 'tripdate_entered', booking.id);
+        Analytics.trackEvent('booking', 'tripdata_entered', booking.id, undefined, true);
         alertService.add('success', $translate.instant('BOOKING.ADMINISTER.SAVE_SUCCESS'), 5000);
         if($scope.trip.odoEnd) {
           $scope.alreadyFilled = true;

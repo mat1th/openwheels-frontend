@@ -48,6 +48,17 @@ tbody.no-border > tr > td, thead.no-border > tr > th, tfooter.no-border > tr > t
   }
 }
 
+.neg {
+  color: #C43D3D;
+}
+.pos {
+ color: green;
+}
+.number {
+  text-align: right;
+  font-size: 0.9em;
+}
+
 .table-finance-subtable {
   padding-bottom: 2em;
   td.subitem {
@@ -63,30 +74,45 @@ tbody.no-border > tr > td, thead.no-border > tr > th, tfooter.no-border > tr > t
     padding-right: 8px;
   }
 }
+tr.lastrow {
+  width: 100%;
+}
 tr.lastrow > td {
+  padding-top: 1em !important;
   padding-bottom: 1em !important;
 }
 tr.open > td:nth-child(2) {
   font-weight: bold;
 }
-.neg {
-  color: #C43D3D;
-}
-.pos {
- color: green;
-}
 .table-finance-col-1 {
-  width: 75%;
+  width: 50%;
 }
+
 .table-finance-col-2 {
-  width: 15%;
+  width: 10%;
 }
+
 .table-finance-col-3 {
   width: 10%;
 }
+
+@media only screen and (max-width: 480px) {
+  .xs-collapse {
+    display: none !important;
+  }
+
+  .table-finance-subtable td.first {
+    padding-left: 0.5em;
+  }
+
+  .table-finance-col-1 {
+      width: 70%;
+  }
+}
+
 .table-no-margin-bottom {
   margin-bottom: 0;
 }
-.table-finance-subtable.firstrow > td {
-  padding-top: 0.8em;
+.subheading span {
+  font-size: 0.8em;
 }

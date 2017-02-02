@@ -9,28 +9,26 @@ angular.module('owm.shell')
   /**
    * Enable vouchers menu item if user has a MyWheels Go contract (type 60)
    */
-  if (featuresService.get('invoiceModuleV3')) {
-    $rootScope.$watch(function isAuthenticated () {
-      return authService.user.isAuthenticated;
-    },
-    function loginStatusChanged (authenticated) {
-      if (!authenticated) {
+  $rootScope.$watch(function isAuthenticated () {
+    return authService.user.isAuthenticated;
+  },
+  function loginStatusChanged (authenticated) {
+    if (!authenticated) {
+      $rootScope.vouchersEnabled = false;
+      return;
+    }
+    contractService.forDriver({ person: authService.user.identity.id }).then(function (contracts) {
+      if (!contracts.length) {
         $rootScope.vouchersEnabled = false;
-        return;
       }
-      contractService.forDriver({ person: authService.user.identity.id }).then(function (contracts) {
-        if (!contracts.length) {
-          $rootScope.vouchersEnabled = false;
+      contracts.some(function (contract) {
+        if ([60, 62, 63, 64].indexOf(contract.type.id) >= 0) {
+          $rootScope.vouchersEnabled = true;
+          return true;
         }
-        contracts.some(function (contract) {
-          if ([60, 62].indexOf(contract.type.id) >= 0) {
-            $rootScope.vouchersEnabled = true;
-            return true;
-          }
-        });
       });
-    }); // end $watch
-  }
+    });
+  }); // end $watch
 
   $scope.navigate = function (toState, toParams) {
     $scope.closeMenu();

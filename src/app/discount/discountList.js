@@ -52,7 +52,7 @@ angular.module('owm.discount')
     })
     .then(function (discount) {
       $log.debug('discount created', discount);
-      Analytics.trackEvent('resource', 'discount_created', $scope.resource.id);
+      Analytics.trackEvent('resource', 'discount_created', $scope.resource.id, undefined, true);
       $scope.loadDiscounts();
     });
   };
@@ -104,9 +104,10 @@ angular.module('owm.discount')
     return discountService.search({
       resource: $scope.resource.id,
       validFrom: validFrom,
-      validUntil: validUntil
+      validUntil: validUntil,
+      sender: $scope.me.id
     }).then(function (discounts) {
-      $scope.discounts = discounts;
+      $scope.discounts = discounts.result;
     })
     .catch(function (err) {
       $log.debug('error loading discounts', err);

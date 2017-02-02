@@ -8,6 +8,8 @@ angular.module('owm.shell')
 
   $scope.user = authService.user;
   $rootScope.cookieBar = $cookies.get('cookieBar');
+  $rootScope.ctaBar = $cookies.get('ctaBar');
+
   $scope.openMenu = function () {
     $mdSidenav(id).open();
   };
@@ -16,7 +18,10 @@ angular.module('owm.shell')
     $mdSidenav(id).close();
   };
   $scope.acceptCookie = function () {
-    $cookies.put('cookieBar', false);
+		// Find tomorrow's date.
+		var expires = moment().add(180, 'days').toDate();
+
+    $cookies.put('cookieBar', false, {expires: expires});
     $rootScope.cookieBar = 'false';
   };
 
@@ -38,6 +43,40 @@ angular.module('owm.shell')
 
   $scope.signup = function () {
     $scope.closeMenu();
+  };
+
+	$scope.$on('$stateChangeSuccess', function() {
+		var a = initCTAValue();
+		$scope.showCTA = a;
+	});
+
+  function initCTAValue() {
+    if(!$rootScope.features.verhuurBalk) {
+      return false;
+    }
+		if($state.current.name.indexOf('home') < 0) {
+			return false;
+		}
+		if(authService.user.isAuthenticated) {
+			return false;
+		}
+    var cta = $cookies.get('ctaBar');
+    if(cta === undefined) {
+      return true;
+    } else {
+      return cta;
+    }
+  }
+
+
+  $scope.closeCTA = function() {
+		var expires = moment().add(180, 'days').toDate();
+    $cookies.put('ctaBar', false, {expires: expires});
+    $scope.showCTA = false;
+  };
+
+  $scope.gotoPage = function() {
+    $state.go('list-your-car');
   };
 
 });

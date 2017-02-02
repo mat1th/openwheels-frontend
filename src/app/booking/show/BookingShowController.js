@@ -20,19 +20,29 @@ angular.module('owm.booking.show', [])
   }
 
 
-  $scope.bookingRequest = angular.copy(booking);
-  $scope.bookingRequest.beginRequested = booking.beginRequested ? booking.beginRequested : booking.beginBooking;
-  $scope.bookingRequest.endRequested= booking.endRequested ? booking.endRequested : booking.endBooking;
+  function initBookingRequestScope(booking) {
+    $scope.bookingRequest = angular.copy(booking);
+    $scope.bookingRequest.beginRequested = booking.beginRequested ? booking.beginRequested : booking.beginBooking;
+    $scope.bookingRequest.endRequested= booking.endRequested ? booking.endRequested : booking.endBooking;
+  }
+  initBookingRequestScope(booking);
   $scope.contract = contract;
 
   $scope.booking = booking;
   $scope.bookingStarted = moment().isAfter(moment(booking.beginBooking));
+  $scope.bookingEnded = moment().isAfter(moment(booking.endBooking));
+  $scope.bookingEndedRealy = moment().isAfter(moment(booking.endBooking).add('1', 'hour'));
   $scope.resource = booking.resource;
-  $scope.showBookingForm = false;
+  $scope.showBookingForm = !$scope.bookingEndedRealy;
   $scope.showPricePerHour = false;
   $scope.userInput = {
     acceptRejectRemark: ''
   };
+  $scope.allowFinalize = (function () {
+    if(!booking.trip.updatedBy) { return false; }
+    return (booking.trip.odoEnd - booking.trip.odoBegin > 0 && booking.trip.updatedBy.id !== me.id && !booking.trip.finalized);
+  } ());
+
 
   if(booking.resource.refuelByRenter) {
     $scope.contract.type.canHaveDeclaration = false;
@@ -76,6 +86,8 @@ angular.module('owm.booking.show', [])
     $scope.allowBoardComputer = false;
     $scope.allowMap    = false;
     $scope.allowOvereenkomst = (booking.approved === null || booking.approved === 'OK') && booking.status === 'accepted';
+    $scope.allowDeclarations = contract.type.canHaveDeclaration && ($scope.booking.approved === 'OK' || $scope.booking.approved === null) && $scope.bookingStarted && !$scope.booking.resource.refuelByRenter && !booking.resource.fuelCardCar;
+    $scope.allowDeclarationsAdd = $scope.allowDeclarations && moment().isBefore(moment(booking.endBooking).add(5, 'days'));
 
     if ($scope.userPerspective === 'renter') {
 
@@ -95,7 +107,7 @@ angular.module('owm.booking.show', [])
         }
         return true;
       }());
-
+      
       $scope.allowBoardComputer = (function () {
         return (booking.status === 'accepted' &&
           booking.resource.locktypes.indexOf('smartphone') >= 0 &&
@@ -245,7 +257,6 @@ angular.module('owm.booking.show', [])
     })
     .then(function (booking) {
       $scope.booking = booking;
-      $scope.showBookingForm = false;
       initPermissions();
       if (booking.beginRequested) {
         alertService.add('info', $filter('translate')('BOOKING_ALTER_REQUESTED'), 5000);
@@ -260,28 +271,36 @@ angular.module('owm.booking.show', [])
   };
 
   $scope.cancelBooking = function (booking) {
-    dialogService.showModal(null, {
-      closeButtonText: $translate.instant('CLOSE'),
-      actionButtonText: $translate.instant('CONFIRM'),
-      headerText: $translate.instant('CANCEL_BOOKING'),
-      bodyText: $translate.instant('BOOKING.CANCEL.CONFIRM_TEXT')
-    })
+    var promise = function() {
+      return dialogService.showModal({templateUrl: 'booking/show/dialog-cancel.tpl.html'}, {
+        closeButtonText: $translate.instant('CLOSE'),
+        actionButtonText: $translate.instant('CONFIRM'),
+        headerText: $translate.instant('CANCEL_BOOKING'),
+        bodyText: $translate.instant('BOOKING.CANCEL.CONFIRM_TEXT'),
+        contract: contract,
+        booking: booking
+      });
+    };
+    if(booking.status === 'requested'){
+      promise = function() { return $q.when(true); };
+    }
+
+    promise()
     .then(function () {
       alertService.load();
-      bookingService.cancel({
+      return bookingService.cancel({
         id: booking.id
-      })
-      .then(function (booking) {
-        Analytics.trackEvent('booking', $scope.userPerspective === 'owner' ? 'cancelled_owner' : 'cancelled_renter', booking.id);
-        $scope.booking = booking;
-        $scope.showBookingForm = false;
-        alertService.add('success', $filter('translate')('BOOKING_CANCELED'), 5000);
-        $state.go('owm.person.dashboard');
-      })
-      .catch(errorHandler)
-      .finally(function () {
-        alertService.loaded();
       });
+    })
+    .then(function (booking) {
+      Analytics.trackEvent('booking', $scope.userPerspective === 'owner' ? 'cancelled_owner' : 'cancelled_renter', booking.id, undefined, true);
+      $scope.booking = booking;
+      alertService.add('success', $filter('translate')('BOOKING_CANCELED'), 5000);
+      $state.go('owm.person.dashboard');
+    })
+    .catch(errorHandler)
+    .finally(function () {
+      alertService.loaded();
     });
   };
 
@@ -294,19 +313,19 @@ angular.module('owm.booking.show', [])
     })
     .then(function () {
       alertService.load();
-      bookingService.stop({
+      return bookingService.stop({
         booking: booking.id
-      })
-      .then(function (booking) {
-        $scope.booking = booking;
-        $scope.showBookingForm = false;
-        initPermissions();
-        alertService.add('success', $filter('translate')('BOOKING_STOPPED'), 10000);
-      })
-      .catch(errorHandler)
-      .finally(function () {
-        alertService.loaded();
       });
+    })
+    .then(function (booking) {
+      $scope.booking = booking;
+      initPermissions();
+      initBookingRequestScope(booking);
+      alertService.add('success', $filter('translate')('BOOKING_STOPPED'), 10000);
+    })
+    .catch(errorHandler)
+    .finally(function () {
+      alertService.loaded();
     });
   };
 
@@ -330,16 +349,18 @@ angular.module('owm.booking.show', [])
         params.remark = $scope.userInput.acceptRejectRemark;
       }
       alertService.load();
-      bookingService.acceptRequest(params).then(function (booking) {
-        Analytics.trackEvent('booking', 'accepted', booking.id, 4);
-        $scope.booking = booking;
-        initPermissions();
-        alertService.add('success', $filter('translate')('BOOKING.ACCEPT.SUCCESS'), 5000);
-      })
-      .catch(errorHandler)
-      .finally(function () {
-        alertService.loaded();
-      });
+      return bookingService.acceptRequest(params);
+    })
+    .then(function (booking) {
+      Analytics.trackEvent('booking', 'accepted', booking.id, 4, undefined, true);
+      $scope.booking = booking;
+      $state.reload();
+      initPermissions();
+      alertService.add('success', $filter('translate')('BOOKING.ACCEPT.SUCCESS'), 5000);
+    })
+    .catch(errorHandler)
+    .finally(function () {
+      alertService.loaded();
     });
   };
 
@@ -358,16 +379,17 @@ angular.module('owm.booking.show', [])
         params.remark = $scope.userInput.acceptRejectRemark;
       }
       alertService.load();
-      bookingService.rejectRequest(params).then(function (booking) {
-        Analytics.trackEvent('booking', 'rejected', booking.id);
-        $scope.booking = booking;
-        initPermissions();
-        alertService.add('success', $filter('translate')('BOOKING.REJECT.SUCCESS'), 5000);
-      })
-      .catch(errorHandler)
-      .finally(function () {
-        alertService.loaded();
-      });
+      return bookingService.rejectRequest(params);
+    })
+    .then(function (booking) {
+      Analytics.trackEvent('booking', 'rejected', booking.id, undefined, true);
+      $scope.booking = booking;
+      initPermissions();
+      alertService.add('success', $filter('translate')('BOOKING.REJECT.SUCCESS'), 5000);
+    })
+    .catch(errorHandler)
+    .finally(function () {
+      alertService.loaded();
     });
   };
 
@@ -375,8 +397,9 @@ angular.module('owm.booking.show', [])
     if (err && err.level && err.message) {
       alertService.add(err.level, err.message, 5000);
     } else {
-      alertService.addGenericError();
+      //alertService.addGenericError();
     }
+    initBookingRequestScope($scope.booking);
   }
 
 
@@ -488,6 +511,18 @@ angular.module('owm.booking.show', [])
 
 
   // INVOICES
+  function injectInvoiceLines(res) {
+    var invoiceLinesSent, invoiceLinesReceived = [];
+    if(res.sent) {
+      invoiceLinesSent = _.map(_.flatten(_.pluck(res.sent, 'invoiceLines')), function(i) {i.type='sent'; return i; });
+    }
+    if(res.received) {
+      invoiceLinesReceived = _.map(_.flatten(_.pluck(res.received, 'invoiceLines')), function(i) {i.type='received'; return i; });
+    }
+    var invoiceLines = _.sortBy(_.union(invoiceLinesSent, invoiceLinesReceived), 'position');
+    $scope.invoiceLines = invoiceLines;
+    return invoiceLines;
+  }
 
   $scope.receivedInvoices = null;
   $scope.receivedInvoicesTotalAmount = 0;
@@ -496,18 +531,23 @@ angular.module('owm.booking.show', [])
   $scope.sentInvoicesTotalAmount = 0;
 
   if ($scope.userPerspective === 'renter') {
-    loadReceivedInvoices();
+    $q.all({received: loadReceivedInvoices()})
+    .then(injectInvoiceLines);
   }
 
   if ($scope.userPerspective === 'owner') {
-    loadSentInvoices();
-    loadReceivedInvoices();
+    $q.all({received: loadReceivedInvoices(), sent: loadSentInvoices()})
+    .then(injectInvoiceLines);
   }
 
   function loadReceivedInvoices () {
     var booking = $scope.booking;
-    invoice2Service.getReceived({ person: me.id, booking: booking.id }).then(function (invoices) {
+    return invoice2Service.getReceived({ person: me.id, booking: booking.id }).then(function (invoices) {
       $log.debug('got received invoices', invoices);
+
+      //var invoiceLines = _.sortBy(_.flatten(_.pluck(invoices, 'invoiceLines')), 'position');
+      //$log.debug('order received invoice lines', invoiceLines);
+
       $scope.receivedInvoices = invoices || [];
 
       var sum = 0;
@@ -522,13 +562,18 @@ angular.module('owm.booking.show', [])
         }
       });
       $scope.receivedInvoicesTotalAmount = hasError ? null : sum;
+      return invoices;
     });
   }
 
   function loadSentInvoices () {
     var booking = $scope.booking;
-    invoice2Service.getSent({ person: me.id, booking: booking.id }).then(function (invoices) {
+    return invoice2Service.getSent({ person: me.id, booking: booking.id }).then(function (invoices) {
       $log.debug('got sent invoices', invoices);
+
+      //var invoiceLines = _.sortBy(_.flatten(_.pluck(invoices, 'invoiceLines')), 'position');
+      //$log.debug('order invoice lines', invoiceLines);
+
       $scope.sentInvoices = invoices || [];
 
       var sum = 0;
@@ -543,6 +588,7 @@ angular.module('owm.booking.show', [])
         }
       });
       $scope.sentInvoicesTotalAmount = hasError ? null : sum;
+      return invoices;
     });
   }
 

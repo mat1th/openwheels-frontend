@@ -7,22 +7,15 @@
 }
 .container-home {
     width: 100%;
-    // overflow: hidden;
-    max-width: 80em;
 }
 @media (min-width:996px) {
     .container-home {
         width: 100%;
-        max-width: 80rem;
-        padding-top: 1rem;
-        padding-left: 0.5rem;
-        padding-right: 0.5rem;
     }
 }
 @media (min-width:80em) {
     .container-home {
         width: 80em;
-        max-width: 80em;
         margin-left: auto;
         margin-right: auto;
     }
@@ -38,18 +31,28 @@
     margin: 0.5em auto auto;
     z-index: 1;
 }
+.homepage-searchbar-frontpage {
+    background: rgba(0, 0, 0, 0.5);
+    padding: 2.5em 1em;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    & form {
+      max-width: 50em;
+    }
+}
 .homepage-searchbar {
     width: 100%;
-    height: 10rem;
-    padding: 0.8em;
-    // max-height: 9rem;
-    background: rgba(0, 0, 0, 0.5);
+    height: 5rem;
+    padding: 0;
     display: flex;
     form {
         z-index: 1000;
         // padding: 1em 1em;
         margin: auto;
-        padding: 1em;
+        padding: 0em;
         text-align: left;
         display: flex;
     }
@@ -70,6 +73,11 @@
     }
     .button {
         position: relative;
+
+        &--small {
+          margin-left: -2px;
+          min-width: initial;
+        }
     }
     .button button {
         max-height: 100%;
@@ -108,7 +116,7 @@
         height: 100%;
     }
     button {
-        height: 100%;
+        height: 100% !important;
     }
     input {
         height: 100%;
@@ -130,12 +138,10 @@
         height: 41rem;
     }
     .homepage-searchbar {
-        height: 14rem;
-        padding: 2.5em;
+				padding: 0;
     }
     .searchbar {
         width: 100%;
-        max-width: 50em;
     }
 }
 /* ---------------------- RENTER CALL TO ACTION  ------------------- */
@@ -307,7 +313,7 @@
     border: 0.1625rem solid @mywheels-green;
     box-shadow: 0 0 3.57rem 0 rgba(0, 0, 0, .1);
 }
-@media (min-width:996px) {
+@media (min-width:500px) {
     .infoboxes {
         flex-direction: row;
         flex-wrap: wrap;
@@ -377,4 +383,42 @@
     font-size: 2em;
     margin: 0 1rem;
     z-index: 10;
+}
+/* cta-footer */
+.cta-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(95, 170, 200, 0.8);
+	color: white;
+  z-index: 50;
+	padding-top: 1em;
+	box-shadow: 0 0 3.57rem 0 rgba(0, 0, 0, .5);
+
+
+  &__text {
+
+		& > p {
+			text-align: center;
+			padding: 0em 3em;
+			font-size: 1.8em;
+			font-family: "OmnesMedium", Arial, Helvetica, sans-serif;
+		}
+  }
+
+	&__link {
+		color: #275D73;
+
+		&:hover {
+		}
+	}
+
+  &__close {
+    position: absolute;
+    right: 0;
+    top: 0;
+    margin-right: 1em;
+    margin-top: 1em;
+  }
 }

@@ -13,7 +13,11 @@ angular.module('owm.booking.rating', [])
   $scope.userPerspective = userPerspective;
 
   // rating defaults
-  $scope.rating.satisfaction = rating.satisfaction; // nullable boolean (see fix below)
+  if (rating.satisfaction === 0) {
+    $scope.rating.satisfaction = rating.satisfaction;
+  } else {
+    $scope.rating.satisfaction = rating.satisfaction || 1; // nullable boolean (see fix below)   
+  }
   $scope.rating.quality      = rating.quality || 0;
   $scope.rating.cleanliness  = rating.cleanliness || 0;
 

@@ -1,11 +1,16 @@
 <!-- display to owner -->
 
-<div class="media" ui-sref="owm.resource.show({ resourceId: resource.id, city: resource.city })">
-  <img class="media-object img-resource-small pull-left" ng-src="{{ resource.pictures[0] | resourceAvatar:'small' }}">
+<div class="media">
+  <img class="media-object img-resource-small pull-left" ng-src="{{ resource.pictures[0] | resourceAvatar:'small' }}" ui-sref="owm.resource.show({ resourceId: resource.id, city: resource.city })">
 
   <div class="media-body">
 
-    <div class="resource__alias truncate">
+    <div class="pull-right text-right" ng-show="resource.provider.id === 5">
+      <parkingpermit ng-if="features.parkingpermit" resource="resource"></parkingpermit><br />
+      <insurance resource="resource"></insurance>
+    </div>
+
+    <div class="resource__alias truncate" ui-sref="owm.resource.show({ resourceId: resource.id, city: resource.city })">
       {{ resource.alias }} {{ resource.registrationPlate | surroundWith : '(' : ')' }}
     </div>
 

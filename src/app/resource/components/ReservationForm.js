@@ -24,6 +24,12 @@ angular.module('owm.resource.reservationForm', [])
   // Check if this page is being called after login/singup in booking process
   handleAuthRedirect();
 
+  $scope.age = -1;
+  if(authService.user.isAuthenticated && authService.user.identity.dateOfBirth) {
+    var dob = moment(authService.user.identity.dateOfBirth);
+    $scope.age  = Math.abs(dob.diff(moment(), 'years'));
+  }
+
   $scope.features = $rootScope.features;
   $scope.user = authService.user;
 
@@ -101,6 +107,7 @@ angular.module('owm.resource.reservationForm', [])
   $scope.isPriceLoading = false;
   $scope.$watch('booking.beginRequested', onTimeFrameChange);
   $scope.$watch('booking.endRequested', onTimeFrameChange);
+  $scope.$watch('booking.riskReduction', loadPrice);
 
   var timer;
 
@@ -200,7 +207,8 @@ angular.module('owm.resource.reservationForm', [])
         timeFrame: {
           startDate: b.beginRequested,
           endDate: b.endRequested
-        }
+        },
+        includeRedemption: $scope.booking.riskReduction,
       };
       if (b.contract) {
         params.contract = b.contract.id;
@@ -217,7 +225,7 @@ angular.module('owm.resource.reservationForm', [])
   $scope.priceHtml = function (price) {
     var s = '';
     if (price.rent > 0) {
-      s += 'Huuur: ' + $filter('currency')(price.rent) + '<br/>';
+      s += 'Huur: ' + $filter('currency')(price.rent) + '<br/>';
     }
     if (price.insurance > 0) {
       s += 'Verzekering: ' + $filter('currency')(price.insurance) + '<br/>';
@@ -239,16 +247,6 @@ angular.module('owm.resource.reservationForm', [])
     showSpinner: false,
     success: false,
     error: false
-  };
-
-  $scope.riskReductionChanged = function () {
-    if ($scope.booking.riskReduction) {
-      $scope.price.redemption = 3.5;
-      $scope.price.total += 3.5;
-    } else {
-      $scope.price.redemption = 0;
-      $scope.price.total -= 3.5;
-    }
   };
 
 
@@ -288,7 +286,6 @@ angular.module('owm.resource.reservationForm', [])
           if (!validation.busy || code !== $scope.booking.discountCode) {
             return;
           }
-          Analytics.trackEvent('booking', 'discount_applied');
           validation.success = result.applicable;
           validation.error = !validation.success;
         })
@@ -328,20 +325,35 @@ angular.module('owm.resource.reservationForm', [])
       $mdDialog.hide(answer);
     };
   }
-  $scope.createBooking = function (booking) {
+  $scope.loading = {createBooking: false};
 
+  $scope.createBooking = function (booking) {
+    $scope.loading.createBooking = true;
+
+    $scope.person = authService.user.identity;
     $rootScope.$watch(function isAuthenticated() {
-      $scope.person = authService.identity;
+      $scope.person = authService.user.identity;
     });
+
+    loadContractsOnce()
+    .then(function() {
+      createBookingDoCalls($scope.booking);
+    });
+  };
+
+  function createBookingDoCalls(booking) {
     if (!booking.beginRequested || !booking.endRequested) {
+      $scope.loading.createBooking = false;
       return alertService.add('danger', $filter('translate')('DATETIME_REQUIRED'), 5000);
     }
     if (!$scope.features.signupFlow && !$scope.person) { // not logged in
+      $scope.loading.createBooking = false;
       return $state.go('owm.auth.signup');
     } else if (!$scope.person) { // not logged in
 
       // Als je nog niet bent ingelogd is er
       // even een andere flow nodig
+      $scope.loading.createBooking = false;
       return $mdDialog.show({
         controller: ['$scope', '$mdDialog', 'authService', 'booking', 'resource', dialogController],
         templateUrl: 'resource/components/ReservationFormDialog.tpl.html',
@@ -353,8 +365,10 @@ angular.module('owm.resource.reservationForm', [])
         fullscreen: $mdMedia('xs')
       });
     } else if ($scope.person.status === 'new' && !$scope.features.signupFlow) {
+      $scope.loading.createBooking = false;
       return alertService.add('danger', 'Voordat je een auto kunt boeken, hebben we nog wat gegevens van je nodig.', 5000);
     } else if ($scope.person.status === 'new' && $scope.features.signupFlow) { // upload driver's license
+      $scope.loading.createBooking = false;
       return $state.go('owm.person.details', { // should register
         pageNumber: '1',
         city: $scope.resource.city ? $scope.resource.city : 'utrecht',
@@ -366,6 +380,7 @@ angular.module('owm.resource.reservationForm', [])
         riskReduction: booking.riskReduction
       });
     } else if (!booking.contract) { // should pay deposit to get a contract
+      $scope.loading.createBooking = false;
       return alertService.add('danger', 'Voordat je een auto kunt boeken, hebben we een borg van je nodig', 5000);
     } else {
       alertService.load();
@@ -399,6 +414,7 @@ angular.module('owm.resource.reservationForm', [])
                 discount: booking.discountCode
               })
               .then(function (discountResponse) {
+                Analytics.trackEvent('booking', 'discount_applied', undefined, undefined, true);
                 $log.debug('successfully applied discount');
                 return response; // <-- the response from bookingService.create
               })
@@ -422,8 +438,11 @@ angular.module('owm.resource.reservationForm', [])
           }
         })
         .catch(alertService.addError)
-        .finally(alertService.loaded);
+        .finally(function() {
+          $scope.loading.createBooking = false;
+          alertService.loaded();
+        });
     }
-  };
+  }
 
 });

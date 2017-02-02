@@ -77,9 +77,11 @@ angular.module('openwheels', [
   'personDirectives',
   'passwordStrengthDirective',
   'geocoderDirective',
+  'geocoderDirectiveSearchbar',
   'socialDirectives',
   'bindMetaDirective',
   'personalDataDirective',
+  'sameHeightDirective',
 
   /* Filters */
   'filters.util',
@@ -135,12 +137,6 @@ angular.module('openwheels', [
   /**
    * Force server reload for these urls:
    */
-  $stateProvider.state('aanmelden', {
-    url: '/aanmelden',
-    onEnter: ['$window', function ($window) {
-      $window.location.reload();
-    }]
-  });
   $stateProvider.state('autodelen', {
     url: '/autodelen',
     onEnter: ['$window', function ($window) {
@@ -158,7 +154,7 @@ angular.module('openwheels', [
 .config(function (uiGmapGoogleMapApiProvider) {
   uiGmapGoogleMapApiProvider.configure({
     key: 'AIzaSyC1QrtfmsYNsJAfx9OOl5QX0oNpMVo3fbw',
-    v: '3.23.0',
+    v: '3.25.0',
     libraries: 'places',
     language: 'nl'
   });

@@ -2,6 +2,7 @@
 
 angular.module('owm.resource', [
   'owm.resource.create',
+  'owm.resource.replace',
   'owm.resource.own',
   'owm.resource.show',
   'owm.resource.show.calendar',
@@ -11,7 +12,9 @@ angular.module('owm.resource', [
   'owm.resource.filterDirective',
   'owm.resourceQueryService',
   'owm.resource.reservationForm',
-  'owm.resource.favoriteIcon'
+  'owm.resource.favoriteIcon',
+  'owm.resource.parkingpermit',
+  'owm.resource.insurance'
 ])
 
 .config(function ($stateProvider) {
@@ -209,7 +212,7 @@ angular.module('owm.resource', [
    */
 
   $stateProvider.state('owm.resource.create.carInfo', {
-    url: '',
+    url: '?brand&color&model',
     reloadOnSearch: false,
     controller: 'carInfoControler',
     templateUrl: 'resource/create/carInfo/car-info.tpl.html'
@@ -369,7 +372,40 @@ angular.module('owm.resource', [
       ]
     }
   });
-
+  
+  /**
+   * resource/:resourceId/replace
+   */
+  $stateProvider.state('owm.resource.replace', {
+    url: '/auto/:resourceId/vervang',
+    controller: 'ResourceReplaceController',
+    templateUrl: 'resource/replace/resource-replace.tpl.html',
+    data: {
+      access: {
+        deny: {
+          anonymous: true
+        }
+      }
+    },
+    resolve: {
+      me: ['authService', function (authService) {
+        return authService.me();
+      }],
+      resource: ['$stateParams', 'resourceService', function ($stateParams, resourceService) {
+        var resourceId = $stateParams.resourceId;
+        console.log(resourceId);
+        return resourceService.get({
+          id: resourceId
+        });
+      }],
+      members: ['$stateParams', 'resourceService', function ($stateParams, resourceService) {
+        return resourceService.getMembers({
+          resource: $stateParams.resourceId
+        });
+      }]
+    }
+  });
+  
   /**
    * resource/:resourceId/edit
    * @resolve {promise} resource

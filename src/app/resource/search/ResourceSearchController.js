@@ -46,7 +46,7 @@ angular.module('owm.resource.search', [
         'automaat': false,
         'mp3-aansluiting': false,
         'rolstoelvriendelijk': false
-      }
+      },
     };
 
     init();
@@ -182,7 +182,7 @@ angular.module('owm.resource.search', [
 
           // if needed, update UI
           if (gotoStartPage) {
-            Analytics.trackEvent('discovery', 'search', user.isAuthenticated);
+            Analytics.trackEvent('discovery', 'search', user.isAuthenticated, undefined, true);
             $scope.showPage(startPage);
           }
           return resources;
@@ -271,16 +271,17 @@ angular.module('owm.resource.search', [
           }
         }
       }).result.then(function (selected) {
-        Analytics.trackEvent('discovery', 'filters_applied', user.isAuthenticated);
+        Analytics.trackEvent('discovery', 'filters_applied', user.isAuthenticated, undefined, true);
         $scope.filters.props = selected.props;
         $scope.filters.filters = selected.filters;
         $scope.filters.options = selected.options;
+
         return doSearch();
       });
     };
 
     $scope.sidebarFiltersChanged = function () {
-      Analytics.trackEvent('discovery', 'filters_applied', user.isAuthenticated);
+      Analytics.trackEvent('discovery', 'filters_applied', user.isAuthenticated, undefined, true);
       resetPaginationCache();
       doSearch();
     };
@@ -292,17 +293,9 @@ angular.module('owm.resource.search', [
       $scope.pagedResults = {};
     }
 
-    $scope.$watch('placeDetails', function (newVal, oldVal) {
-      if (!newVal || (newVal === oldVal)) {
-        return;
-      }
-      resourceQueryService.setLocation({
-        latitude: newVal.geometry.location.lat(),
-        longitude: newVal.geometry.location.lng()
-      });
-      resourceQueryService.setText(newVal.formatted_address);
-      return doSearch();
-    });
+    $scope.update = function(stateParams) {
+      doSearch();
+    };
 
     $scope.removeTimeframe = function () {
       $scope.booking.beginRequested = null;

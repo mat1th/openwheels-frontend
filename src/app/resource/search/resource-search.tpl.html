@@ -65,27 +65,8 @@
 
         <div ng-class="{ 'col-xs-12 col-md-8 col-lg-9' : features.filtersSidebar }" class="no-padding" id="topsearch">
 
-            <div style="margin-bottom:15px">
-                <form class="resource-search">
-                    <div class="input-group">
-
-                        <span ng-if="!features.filtersSidebar || !isWindowSizeMD" class="input-group-btn">
-              <button class="btn btn-default" type="button" ng-click="setFilters()">
-                <i class="fa fa-filter"></i> <span class="hidden-sm hidden-xs"> {{ 'FILTER' | translate }}</span>
-                        </button>
-                        </span>
-
-                        <input type="text" ng-class="{clearbutton: searchText}" class="form-control" details="placeDetails" placeholder="{{ 'FIND_AVAILABLE_PLACEHOLDER' | translate }}" ow-geocoder="{ onDetails: doSearch }" ng-model="searchText">
-                        <span class="input-group-btn">
-                          <div ng-show="searchText" hide-gt-xs class="clearbutton__container" ng-click="searchText = null">
-                            <i class="fa fa-times"></i>
-                          </div>
-                          <button class="btn btn-default" type="button" ng-click="selectTimeframe()" title="Datum/tijd">
-                            <i class="fa fa-clock-o"></i> <span class="hidden-sm hidden-xs"> {{ 'DATE_TIME' | translate }}</span>
-                          </button>
-                        </span>
-                    </div>
-                </form>
+            <div style="margin-bottom:1em; margin-top: 1px;">
+              <ow-geocoder-searchbar on-new-place="update" on-click-time="selectTimeframe" on-click-filters="setFilters"></ow-geocoder-searchbar>
             </div>
 
             <uib-alert type="info" close="removeTimeframe()" ng-if="booking.beginRequested && booking.endRequested">
@@ -99,7 +80,7 @@
             </div>
 
             <div ng-if="!searching && (resources.length >= 1)">
-                <div class="card">
+               <!-- <div class="card">
                     <div class="card-heading text-center">
                         <button type="button" class="btn btn-link" ng-click="toggleMap()" ng-if="!($state.includes('owm.resource.search.map') || $state.includes('owm.resource.place.map'))">
                             <i class="fa fa-map-marker"></i> {{ 'SHOW_ON_MAP' | translate }}
@@ -108,7 +89,7 @@
                             <i class="fa fa-th-list"></i> {{ 'SHOW_AS_LIST' | translate }}
                         </button>
                     </div>
-                </div>
+               </div>-->
 
                 <ui-view />
 
@@ -116,12 +97,12 @@
                 <md-card layout="row" layout-padding layout-align="center center">
                     <div class="backbutton">
                         <md-button ng-hide="page === 1" ng-click="showPage(page - 1)">
-                            <md-icon>arrow_back</md-icon>
+                            <md-icon>arrow_back</md-icon> <span hide-xs>{{ 'PREVIOUS' | translate }}</span>
                         </md-button>
                     </div>
                     <div flex-gt-xs="50" flex-xs="33" class="text-center">{{page}}</div>
                     <md-button ng-disabled="page == last_page" class="btn btn-link" ng-click="showPage(page + 1)">
-                        <md-icon>arrow_forward</md-icon>
+                        <span hide-xs>{{ 'NEXT' | translate }}</span> <md-icon>arrow_forward</md-icon>
                     </md-button>
                 </md-card>
                 <!-- /pagination -->

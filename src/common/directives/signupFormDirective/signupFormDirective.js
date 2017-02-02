@@ -8,12 +8,55 @@ angular.module('signupFormDirective', [])
     replace: true,
     transclude: true,
     templateUrl: 'directives/signupFormDirective/signupFormDirective.tpl.html',
-    controller: function ($scope, $rootScope, $state, $stateParams, $translate, $q, authService, featuresService, alertService, personService, $mdDialog) {
+    controller: function ($scope, $rootScope, $state, $stateParams, $translate, $q, authService, featuresService, alertService, personService, $mdDialog, Analytics, appConfig, $localStorage, $window) {
       $scope.auth = {};
       $scope.user = {};
       $scope.me = {};
       $scope.auth.terms = false;
       $scope.closeAlert = alertService.closeAlert;
+
+      $scope.facebookSignup = function() {
+        var booking = $scope.booking;
+        var resource = $scope.resource;
+        var data;
+        if(resource && booking) { // opgeroepen vanaf huur een auto page
+          data = { // should fill in the details
+            pageNumber: '1',
+            city: resource.city ? resource.city : 'utrecht',
+            resourceId: resource.id,
+            startDate: booking.beginRequested,
+            endDate: booking.endRequested,
+            discountCode: booking.discountCode,
+            remarkRequester: booking.remarkRequester,
+            riskReduction: booking.riskReduction,
+            preference: 'renter',
+            flow: 'booking'
+          };
+          $localStorage.booking_before_signup = data;
+        } else if ($state.current.name === 'list-your-car') { // opgeroepen vanuit verhuur je auto flow
+          data = { // should fill in the details
+            preference: 'owner',
+            flow: 'add_resource',
+            dayPrice: $scope.calculateYourPrice.dayPrice,
+            numberOfDays: $scope.calculateYourPrice.numberOfDays,
+            licencePlate: $scope.licencePlate.content,
+            personSubmitted: false,
+            brand: $scope.licencePlate.data.merk,
+            model: $scope.licencePlate.data.handelsbenaming,
+            color: $scope.licencePlate.data.kleur,
+          };
+          $localStorage.booking_before_signup = data;
+        } else {
+          data = { // should fill in the details
+            preference: undefined,
+            flow: undefined,
+          };
+          $localStorage.booking_before_signup = data;
+          // do nothing
+        }
+        var url = appConfig.serverUrl+'/fb/redirect/t';
+        $window.location.href = url;
+      };
 
       var initOptions = function () {
         $scope.preferenceOptions = [{
@@ -46,7 +89,9 @@ angular.module('signupFormDirective', [])
         }
       }
       $scope.login = function () {
-        $scope.cancel();
+        if($scope.cancel !== undefined && typeof $scope.cancel === 'function') {
+          $scope.cancel();
+        }
         authService.loginPopup().then(function () {
           if ($state.current.name === 'home' || $state.current.name === 'owm.auth.signup') {
             $state.go('owm.person.dashboard');
@@ -75,7 +120,8 @@ angular.module('signupFormDirective', [])
                   email: email.trim().toLowerCase(),
                   password: password,
                   other: user
-                }).then(function () {
+                }).then(function (res) {
+                  Analytics.trackEvent('person', 'created', res.id, undefined, true);
                   if ($scope.url === 'owm.person.details({pageNumber: \'1\'})') {
                     var booking = $scope.booking;
                     var resource = $scope.resource;
